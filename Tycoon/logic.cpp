@@ -17,6 +17,10 @@ void PointCoord::set_coord(int x, int y)
 	x_coord = x;
 	y_coord = y;
 }
+bool PointCoord::operator == (PointCoord pc)
+{
+	return (x_coord == pc.x_coord && y_coord == pc.y_coord);
+}
 ///////////////Visitor Class///////////////
 PointCoord Visitor::getLoc()
 {
@@ -51,7 +55,7 @@ bool AllCurrentVisitors::LocationCheck(PointCoord pc)
 {
 	for (iter = AllVisitors.begin(); iter != AllVisitors.end(); iter++)
 	{
-		if (pc == *iter -> getLoc())
+		if (pc == (*iter) -> getLoc())
 		{
 			return 0;
 		}

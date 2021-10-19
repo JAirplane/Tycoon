@@ -1,6 +1,8 @@
+#pragma once
 #include <iostream>
 #include <vector>
 #include <map>
+#include "drawheader.h"
 using namespace std;
 struct PointCoord
 {
@@ -13,14 +15,7 @@ public:
 	int get_x();
 	int get_y();
 	void set_coord(int, int);
-};
-class WorldMap
-{
-private:
-	map< Construction*, int > WMConstructions;
-	map< Construction*, int >::iterator iter;
-public:
-	void addConst(Construction* cstrptr);
+	bool operator == (PointCoord);
 };
 /////////////Parent Class of all constructions/////////////
 class Construction
@@ -59,6 +54,14 @@ public:
 	static const int getRoadCost();
 };
 /////////////End of Constructions Classes/////////////
+class WorldMap
+{
+private:
+	map< Construction*, int > WMConstructions;
+	map< Construction*, int >::iterator iter;
+public:
+	void addConst(Construction * cstrptr);
+};
 /////////////Visitor Classes/////////////
 class Visitor
 {
