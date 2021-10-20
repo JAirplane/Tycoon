@@ -1,6 +1,5 @@
 #pragma once
 #include "logicheader.h"
-#include "drawheader.h"
 #include "msoftcon.h"
 #include <cstdlib>
 #include <iostream>

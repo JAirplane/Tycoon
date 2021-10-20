@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <list>
+#include "msoftcon.h"
 #include "drawheader.h"
 using namespace std;
 /////////////Point Coord Class/////////////
