@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <windows.h>
 #include "msoftcon.h"
@@ -53,4 +54,15 @@ void drawMap::drawWorld()
 void drawVisitor::drawVis()
 {
 
+}
+void drawConstruction::drawConst(PointCoord UR, PointCoord BL)
+{
+	set_cursor_pos(UR.get_x(), UR.get_y());
+	cout << "!";
+	set_cursor_pos(UR.get_x() - 1, UR.get_y());
+	cout << "!";
+	set_cursor_pos(UR.get_x(), UR.get_y() - 1);
+	cout << "!";
+	set_cursor_pos(BL.get_x(), BL.get_y());
+	cout << "!";
 }
