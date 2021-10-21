@@ -2,7 +2,6 @@
 #include "logicheader.h"
 #include "msoftcon.h"
 #include <cstdlib>
-#include <iostream>
 using namespace std;
 ///////////////PointCoord Struct///////////////
 int PointCoord::get_x() const
@@ -84,13 +83,18 @@ PointCoord Construction::getUpperRight()
 }
 PointCoord Construction::getBottomLeft()
 {
-	return PointCoord();
-}
-///////////////Ice Cream Shop Class///////////////
-PointCoord IceCreamShop::getBottomLeft()
-{
 	return BottomLeft;
 }
+void Construction::setBottomLeft(PointCoord pc)
+{
+	BottomLeft.set_coord(pc.get_x() - 1, pc.get_y() - 1);
+}
+void Construction::setUpperRight(PointCoord pc)
+{
+	UpperRight.set_coord(pc.get_x() - 1, pc.get_y() - 1);
+}
+///////////////Ice Cream Shop Class///////////////
+
 ///////////////WorldMap Class///////////////
 void WorldMap::SetCorners(int left_x, int right_x, int up_y, int bot_y)
 {
@@ -103,5 +107,25 @@ void WorldMap::CreateConstruction()
 {
 	Construction* CSTRptr = new IceCreamShop(PointCoord(Cptr->getCursorLocation()));
 	WMConstructions.push_back(CSTRptr);
-	//dCptr->drawConst(CSTRptr -> getUpperRight(), CSTRptr -> getBottomLeft());
+	PointCoord pc1 = CSTRptr->getUpperRight();
+	PointCoord pc2 = CSTRptr->getBottomLeft();
+	dCptr->drawConst(pc1.get_x(), pc1.get_y(), pc2.get_x(), pc2.get_y());
+}
+void WorldMap::Shift(int ShiftSide)
+{
+	switch (ShiftSide)
+	{
+	case 1:
+	{
+		for (iter = WMConstructions.begin(); iter != WMConstructions.end(); iter++)
+		{
+			PointCoord ur = (*iter)->getUpperRight();
+			PointCoord bl = (*iter)->getBottomLeft();
+			ur.set_coord(ur.get_x() - 1, ur.get_y());
+			bl.set_coord(ur.get_x() - 1, ur.get_y());
+			(*iter)->setBottomLeft(ur);
+			(*iter)->setUpperRight(bl);
+		}
+	}
+	}
 }

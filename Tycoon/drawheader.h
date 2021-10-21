@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
 #include "msoftcon.h"
-#include "logicheader.h"
 using namespace std;
 class drawMap
 {
@@ -21,5 +20,5 @@ public:
 class drawConstruction
 {
 public:
-	void drawConst(PointCoord, PointCoord);
+	void drawConst(int, int, int , int);
 };

@@ -21,8 +21,8 @@ public:
 	{}
 	PointCoord(COORD crd)
 	{
-		x_coord = static_cast<int>(crd.X);
-		y_coord = static_cast<int>(crd.Y);
+		x_coord = static_cast<int>(crd.X) + 1;
+		y_coord = static_cast<int>(crd.Y) + 1;
 	}
 	PointCoord(const PointCoord &pc)
 	{
@@ -42,6 +42,7 @@ private:
 public:
 	Cursor()
 	{
+		set_cursor_pos(1, 1);
 		CursorLocation.set_coord(1, 1);
 	}
 	PointCoord getCursorLocation();
@@ -51,19 +52,21 @@ class Construction
 {
 private:
 	PointCoord UpperRight;
+	PointCoord BottomLeft;
 	int StartCondition;
 public:
 	Construction(PointCoord ur) : UpperRight(ur), StartCondition(100)
 	{}
 	PointCoord getUpperRight();
-	virtual PointCoord getBottomLeft();
+	PointCoord getBottomLeft();
+	void setBottomLeft(PointCoord);
+	void setUpperRight(PointCoord);
 };
 /////////////Child Classes of Construction/////////////
 class IceCreamShop : public Construction
 {
 private:
-	PointCoord BottomLeft;
-	static const int ConstCost;
+	static const int ConstructionCost;
 	static const int DailyExpences;
 	int LastDayVisitors;
 	int LastDayProfit;
@@ -72,18 +75,16 @@ public:
 	{
 		PointCoord pc;
 		pc = getUpperRight();
-		BottomLeft.set_coord(pc.get_x() - 1, pc.get_y() - 1);
+		setBottomLeft(pc);
 		LastDayVisitors = 0;
 		LastDayProfit = 0;
 	}
 	static const int getIceCreamShopCreateCost();
-	virtual PointCoord getBottomLeft();
 };
 class Road : public Construction
 {
 private:
-	static const int ConstCost;
-	static const int DailyExpences;
+	static const int ConstructionCost;
 public:
 	Road(PointCoord _ur) : Construction(_ur)
 	{}
@@ -141,7 +142,12 @@ private:
 	drawMap* dMptr;
 	drawConstruction* dCptr;
 public:
+	WorldMap()
+	{
+		Cptr = new Cursor;
+	}
 	void SetCorners(int, int, int, int);
 	void CreateConstruction();
 	void addConst(Construction* cstrptr);
+	void Shift(int ShiftSide);
 };
