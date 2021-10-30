@@ -1,25 +1,29 @@
 #pragma once
 #include <iostream>
 #include "msoftcon.h"
-#include "logicheader.h"
 using namespace std;
-class drawMap
+class MapVisualisation
 {
 public:
 	void drawWorld();
 };
-class drawMenu
+class MenuVisualisation
 {
 public:
 	void drawRightSide();
 };
-class drawVisitor
+class VisitorVisualisation
 {
 public:
-	void drawVis();
+	void drawVisitor();
 };
-class drawConstruction
+class ConstructionVisualisation
 {
 public:
-	void drawConst(PointCoord, PointCoord);
+	void drawConstruction(int, int, int, int, const char);
+};
+class RoadVisualisation
+{
+public:
+	void drawRoad(int, int, const char);
 };
