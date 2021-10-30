@@ -24,43 +24,35 @@ bool PointCoord::operator == (PointCoord pc)
 ///////////////Visitor Class///////////////
 PointCoord Visitor::getLocation()
 {
-	return Location;
+	return GlobalObject::getUpperLeft();
 }
 void Visitor::VisitorMove(int x, int y)
 {
-	Location.set_coord(x, y);
+	GlobalObject::setUpperLeft(PointCoord(x, y));
+	GlobalObject::setBottomRight(PointCoord(x, y));
 }
-///////////////ManageVisitors Class///////////////
-bool ManageVisitors::VisitorLocationCheck(PointCoord pc)
+///////////////AllCurrentVisitors Class///////////////
+void AllVisitors::VisitorAppear()
 {
-	return ACV_ptr->LocationCheck(pc);
-}
-void ManageVisitors::VisitorAppear()
-{
-	int random_x = rand() % 5 + 1; //4 possible cells to appear
+	int random_x = rand() % 5 + 1; //5 possible cells to appear
 	const int const_y = 80; //80 is example, depends on entrance in a world map, but const
 	PointCoord StartVisitorPoint(random_x, const_y);
-	if (VisitorLocationCheck(StartVisitorPoint))
+	if (LocationCheck(StartVisitorPoint))
 	{
 		int food = 100;
 		int pee = 100;
-		Visitor* Vis_ptr = new Visitor(StartVisitorPoint, food, pee);
-		ACV_ptr->addVisitor(Vis_ptr);
-		VV_ptr->drawVisitor();
+		Visitor* V_ptr;
+		GlobalObject* Vis_ptr;
+		Vis_ptr = V_ptr = new Visitor(StartVisitorPoint, food, pee);
+		Visitors.push_back(V_ptr);
+		AllObjects_ptr->addObject(Vis_ptr);
+		Draw_ptr->drawVisitor();
 	}
 }
-void ManageVisitors::MoveAllVisitors()
+bool AllVisitors::LocationCheck(PointCoord pc)
 {
-
-}
-///////////////AllCurrentVisitors Class///////////////
-void AllCurrentVisitors::addVisitor(Visitor* v_ptr)
-{
-	AllVisitors.push_back(v_ptr);
-}
-bool AllCurrentVisitors::LocationCheck(PointCoord pc)
-{
-	for (iter = AllVisitors.begin(); iter != AllVisitors.end(); iter++)
+	vector< Visitor* >::iterator iter;
+	for (iter = Visitors.begin(); iter != Visitors.end(); iter++)
 	{
 		if (pc == (*iter)->getLocation())
 		{
@@ -104,24 +96,24 @@ void Cursor::CursorShift(ShiftDirection SD)
 	}
 	}
 }
-///////////////Construction Class///////////////
-PointCoord Construction::getUpperLeft()
+///////////////All Types of Objects Class///////////////
+PointCoord GlobalObject::getUpperLeft() const
 {
 	return UpperLeft;
 }
-PointCoord Construction::getBottomRight()
+PointCoord GlobalObject::getBottomRight()
 {
 	return BottomRight;
 }
-void Construction::setUpperLeft(PointCoord pc)
+void GlobalObject::setUpperLeft(PointCoord pc)
 {
 	UpperLeft.set_coord(pc.get_x(), pc.get_y());
 }
-void Construction::setBottomRight(PointCoord pc)
+void GlobalObject::setBottomRight(PointCoord pc)
 {
 	BottomRight.set_coord(pc.get_x(), pc.get_y());
 }
-const char Construction::getSymbol()
+const char GlobalObject::getSymbol()
 {
 	return 0;
 }
@@ -133,25 +125,28 @@ const char IceCreamShop::getSymbol()
 {
 	return drawConstructionSymbol;
 }
-///////////////All Constrations Class///////////////
-void AllConstructions::CreateConstruction(char ChoosenBuilding)
+/////////////Container of All Objects in the Game/////////////
+list< GlobalObject* >& AllObjects::getAllObjects()
 {
-	Construction* CSTR_ptr = new IceCreamShop(PointCoord(Cptr->getCursorConsoleLocation()));
-	WMConstructions.push_back(CSTR_ptr);
-	PointCoord pc1 = CSTR_ptr->getUpperLeft();
-	PointCoord pc2 = CSTR_ptr->getBottomRight();
-	CV_ptr->drawConstruction(pc1.get_x(), pc1.get_y(), pc2.get_x(), pc2.get_y(), CSTR_ptr->getSymbol());
+	return EveryObject;
 }
-list< Construction* >& AllConstructions::getAllConstructions()
+void AllObjects::addObject(GlobalObject* obj_ptr)
 {
-	return WMConstructions;
+	EveryObject.push_back(obj_ptr);
 }
-list< Construction* >::iterator& AllConstructions::getConstructionsIter()
+///////////////All Buildings Class///////////////
+void AllBuildings::CreateBuilding(char ChoosenBuilding)
 {
-	return iter;
+	GlobalObject* GO_ptr = new IceCreamShop(PointCoord(C_ptr->getCursorConsoleLocation()));
+	Buildings.push_back(GO_ptr);
+	PointCoord pc1 = GO_ptr->getUpperLeft();
+	PointCoord pc2 = GO_ptr->getBottomRight();
+	Draw_ptr -> drawBuilding(pc1.get_x(), pc1.get_y(), pc2.get_x(), pc2.get_y(), GO_ptr->getSymbol());
 }
-///////////////Manage Constructions Class///////////////
-
+list< GlobalObject* >& AllBuildings::getAllBuildings()
+{
+	return Buildings;
+}
 ///////////////Road Class///////////////
 const int Road::RoadCost = 50;
 const char Road::drawRoadSymbol = 'r';
@@ -165,11 +160,11 @@ const char Road::getRoadSymbol() const
 }
 PointCoord Road::getRoadLocation() const
 {
-	return RoadLocation;
+	return GlobalObject::getUpperLeft();
 }
 void Road::setRoadLocation(PointCoord loc)
 {
-	RoadLocation = loc;
+	GlobalObject::setUpperLeft(loc);
 }
 ///////////////AllRoads Class///////////////
 void addRoad(Road* R_ptr)
@@ -179,7 +174,7 @@ void addRoad(Road* R_ptr)
 ///////////////WorldMap Class///////////////
 void WorldMap::drawMapBorders()
 {
-	MV_ptr->drawWorld();
+	Draw_ptr -> drawWorld();
 }
 void WorldMap::GameProcess()
 {
@@ -188,20 +183,21 @@ void WorldMap::GameProcess()
 	drawMapBorders();
 	set_cursor_pos(5, 5);
 	C_ptr->setCursorConsoleLocation();
-	AC_ptr->CreateConstruction(ch);
+	Buildings_ptr->CreateBuilding(ch);
 	while (true)
 	{
-		SD = VM_ptr->CursorBordersCheck(Cptr);
-		Shift(SD, AC_ptr->getAllConstructions(), AC_ptr->getConstructionsIter());
-		drawAll(AC_ptr->getAllConstructions(), AC_ptr->getConstructionsIter());
+		SD = VM_ptr->CursorBordersCheck(C_ptr);
+		Shift(SD, AllObjects_ptr->getAllObjects());
+		drawAll(AllObjects_ptr->getAllObjects());
 	}
 }
-void WorldMap::Shift(ShiftDirection SD, list< Construction* >& WMConstructions, list< Construction* >::iterator& iter)
+void WorldMap::Shift(ShiftDirection SD, list< GlobalObject* >& allobjects)
 {
 	if (SD != ShiftDirection::Middle)
 	{
-		Cptr->CursorShift(SD);
-		for (iter = WMConstructions.begin(); iter != WMConstructions.end(); iter++)
+		C_ptr->CursorShift(SD);
+		list< GlobalObject* >::iterator iter;
+		for (iter = allobjects.begin(); iter != allobjects.end(); iter++)
 		{
 			PointCoord ul = (*iter)->getUpperLeft();
 			PointCoord br = (*iter)->getBottomRight();
@@ -237,13 +233,14 @@ void WorldMap::Shift(ShiftDirection SD, list< Construction* >& WMConstructions, 
 		}
 	}
 }
-void WorldMap::drawAll(list< Construction* >& WMConstructions, list< Construction* >::iterator& iter)
+void WorldMap::drawAll(list< GlobalObject* >& allobjects)
 {
-	for (iter = WMConstructions.begin(); iter != WMConstructions.end(); iter++)
+	list< GlobalObject* >::iterator iter;
+	for (iter = allobjects.begin(); iter != allobjects.end(); iter++)
 	{
 		PointCoord pc1 = (*iter)->getUpperLeft();
 		PointCoord pc2 = (*iter)->getBottomRight();
-		CV_ptr->drawConstruction(pc1.get_x(), pc1.get_y(), pc2.get_x(), pc2.get_y(), (*iter)->getSymbol());
+		Draw_ptr->drawBuilding(pc1.get_x(), pc1.get_y(), pc2.get_x(), pc2.get_y(), (*iter)->getSymbol());
 	}
 }
 ///////////////VisibleMap Class///////////////

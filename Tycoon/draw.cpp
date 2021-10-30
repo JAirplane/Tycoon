@@ -5,7 +5,7 @@
 #include "drawheader.h"
 using namespace std;
 ///////////////////drawMap Class///////////////////
-void MapVisualisation::drawWorld()
+void Visualisation::drawWorld()
 {
 	init_graphics();
 	set_color(cBLUE);
@@ -51,11 +51,11 @@ void MapVisualisation::drawWorld()
 	set_cursor_pos(1, 36);
 	set_color(cYELLOW);
 }
-void VisitorVisualisation::drawVisitor()
+void Visualisation::drawVisitor()
 {
 
 }
-void ConstructionVisualisation::drawConstruction(int right_x, int up_y, int left_x, int bot_y, const char ch)
+void Visualisation::drawBuilding(int right_x, int up_y, int left_x, int bot_y, const char ch)
 {
 	for (int j = up_y; j >= bot_y; j--)
 	{

@@ -62,25 +62,25 @@ public:
 	void CursorShift(ShiftDirection);
 };
 /////////////Parent Class of all constructions/////////////
-class Construction
+class GlobalObject
 {
 private:
 	PointCoord UpperLeft;
 	PointCoord BottomRight;
 	int StartCondition;
 public:
-	Construction(PointCoord ul) : UpperLeft(ul), StartCondition(100)
+	GlobalObject(PointCoord ul) : UpperLeft(ul), StartCondition(100)
 	{}
-	~Construction()
+	~GlobalObject()
 	{}
-	PointCoord getUpperLeft();
+	PointCoord getUpperLeft() const;
 	PointCoord getBottomRight();
 	void setUpperLeft(PointCoord);
 	void setBottomRight(PointCoord);
 	virtual const char getSymbol();
 };
 /////////////Child Classes of Construction/////////////
-class IceCreamShop : public Construction
+class IceCreamShop : public GlobalObject
 {
 private:
 	static const int ConstructionCost;
@@ -89,7 +89,7 @@ private:
 	int LastDayProfit;
 	static const char drawConstructionSymbol;
 public:
-	IceCreamShop(PointCoord _ur) : Construction(_ur)
+	IceCreamShop(PointCoord _ul) : GlobalObject(_ul)
 	{
 		PointCoord pc;
 		pc = getUpperLeft();
@@ -100,54 +100,14 @@ public:
 	static const int getIceCreamShopCreateCost();
 	virtual const char getSymbol();
 };
-/////////////End of Constructions Classes/////////////
-/////////////Container of Constructions and Management Classes/////////////
-class AllConstructions
+class Road : public GlobalObject
 {
 private:
-	list< Construction* > WMConstructions;
-	list< Construction* >::iterator iter;
-
-public:
-	AllConstructions()
-	{}
-	~AllConstructions()
-	{
-		for (iter = WMConstructions.begin(); iter != WMConstructions.end(); iter++)
-		{
-			delete (*iter);
-		}
-	}
-	void CreateConstruction(char);
-	list< Construction* >& getAllConstructions();
-	list< Construction* >::iterator& getConstructionsIter();
-};
-class ManageConstructions
-{
-private:
-	AllConstructions* AllC_ptr;
-	Cursor* C_ptr;
-	ConstructionVisualisation* CV_ptr;
-public:
-	ManageConstructions(Cursor* _C_ptr) : C_ptr(_C_ptr)
-	{
-		AllC_ptr = new AllConstructions();
-	}
-	~ManageConstructions()
-	{
-		delete AllC_ptr;
-	}
-};
-/////////////Road Classes/////////////
-class Road
-{
-private:
-	PointCoord RoadLocation;
 	static const int RoadCost;
 	static const char drawRoadSymbol;
 public:
-	Road(PointCoord rloc) : RoadLocation(rloc)
-	{ }
+	Road(PointCoord _ul) : GlobalObject(_ul)
+	{}
 	~Road()
 	{}
 	static const int getRoadCost();
@@ -155,51 +115,17 @@ public:
 	PointCoord getRoadLocation() const;
 	void setRoadLocation(PointCoord);
 };
-class AllCurrentRoads
+class Visitor : public GlobalObject
 {
 private:
-	vector<Road*> Roads;
-	vector<Road*>::iterator iter;
-public:
-	AllCurrentRoads()
-	{}
-	~AllCurrentRoads()
-	{
-		for (iter = Roads.begin(); iter != Roads.end(); iter++)
-		{
-			delete (*iter);
-		}
-	}
-	void addRoad(Road* R_ptr);
-};
-class ManageRoads
-{
-private:
-	AllCurrentRoads* ACR_ptr;
-	RoadVisualisation* RV_ptr;
-	Cursor* C_ptr;
-public:
-	ManageRoads(Cursor* _C_ptr)
-	{
-		C_ptr = _C_ptr;
-		ACR_ptr = new AllCurrentRoads();
-	}
-	~ManageRoads()
-	{
-		delete ACR_ptr;
-	}
-	void BuildRoad();
-};
-/////////////Visitor Classes/////////////
-class Visitor
-{
-private:
-	PointCoord Location;
 	int FoodCapacity;
 	int NeedToPee;
 public:
-	Visitor(PointCoord loc, int fc, int ntp) : Location(loc), FoodCapacity(fc), NeedToPee(ntp)
-	{}
+	Visitor(PointCoord _ul, int fc, int ntp) : GlobalObject(_ul)
+	{
+		FoodCapacity = fc;
+		NeedToPee = ntp;
+	}
 	~Visitor()
 	{}
 	PointCoord getLocation();
@@ -207,43 +133,106 @@ public:
 	void NeedsUp();
 	void ChooseDir();
 };
-class AllCurrentVisitors
+/////////////End of Constructions Classes/////////////
+/////////////Container of All Objects in the Game/////////////
+class AllObjects
 {
 private:
-	vector<Visitor*> AllVisitors;
-	vector<Visitor*>::iterator iter;
+	list< GlobalObject* > EveryObject;
+	Cursor* C_ptr;
 public:
-	AllCurrentVisitors()
-	{}
-	~AllCurrentVisitors()
+	AllObjects(Cursor* _C_ptr)
 	{
-		for (iter = AllVisitors.begin(); iter != AllVisitors.end(); iter++)
+		C_ptr = _C_ptr;
+	}
+	~AllObjects()
+	{
+		list< GlobalObject* >::iterator iter;
+		for (iter = EveryObject.begin(); iter != EveryObject.end(); iter++)
 		{
 			delete (*iter);
 		}
 	}
-	void addVisitor(Visitor* vptr);
-	bool LocationCheck(PointCoord);
+	void addObject(GlobalObject* obj_ptr);
+	void CreateConstruction(char);
+	list< GlobalObject* >& getAllObjects();
 };
-class ManageVisitors
+/////////////Container of All Types of Buildings Class/////////////
+class AllBuildings
 {
 private:
-	AllCurrentVisitors* ACV_ptr;
-	VisitorVisualisation* VV_ptr;
+	list< GlobalObject* > Buildings;
+	Cursor* C_ptr;
+	AllObjects* AllObjects_ptr;
+	Visualisation* Draw_ptr;
 public:
-	ManageVisitors(VisitorVisualisation* _VV_ptr)
+	AllBuildings(Cursor* _C_ptr, AllObjects* _AllObjects_ptr, Visualisation* _Draw_ptr)
 	{
-		ACV_ptr = new AllCurrentVisitors();
-		VV_ptr = _VV_ptr;
+		C_ptr = _C_ptr;
+		AllObjects_ptr = _AllObjects_ptr;
+		Draw_ptr = _Draw_ptr;
 	}
-	~ManageVisitors()
+	~AllBuildings()
 	{
-		delete ACV_ptr;
+		list< GlobalObject* >::iterator iter;
+		for (iter = Buildings.begin(); iter != Buildings.end(); iter++)
+		{
+			delete (*iter);
+		}
+	}
+	void CreateBuilding(char);
+	list< GlobalObject* >& getAllBuildings();
+};
+/////////////Road Container Class/////////////
+class AllRoads
+{
+private:
+	vector<Road*> Roads;
+	Cursor* C_ptr;
+	AllObjects* AllObjects_ptr;
+	Visualisation* Draw_ptr;
+public:
+	AllRoads(Cursor* _C_ptr, AllObjects* _AllObjects_ptr, Visualisation* _Draw_ptr)
+	{
+		C_ptr = _C_ptr;
+		AllObjects_ptr = _AllObjects_ptr;
+		Draw_ptr = _Draw_ptr;
+	}
+	~AllRoads()
+	{
+		vector<Road*>::iterator iter;
+		for (iter = Roads.begin(); iter != Roads.end(); iter++)
+		{
+			delete (*iter);
+		}
+	}
+	void addRoad(Road* R_ptr);
+};
+/////////////Visitor Container Class/////////////
+class AllVisitors
+{
+private:
+	vector<Visitor*> Visitors;
+	Cursor* C_ptr;
+	AllObjects* AllObjects_ptr;
+	Visualisation* Draw_ptr;
+public:
+	AllVisitors(Cursor* _C_ptr, AllObjects* _AllObjects_ptr, Visualisation* _Draw_ptr)
+	{
+		C_ptr = _C_ptr;
+		AllObjects_ptr = _AllObjects_ptr;
+		Draw_ptr = _Draw_ptr;
+	}
+	~AllVisitors()
+	{
+		vector<Visitor*>::iterator iter;
+		for (iter = Visitors.begin(); iter != Visitors.end(); iter++)
+		{
+			delete (*iter);
+		}
 	}
 	void VisitorAppear();
-	void VisitorDisappear();
-	bool VisitorLocationCheck(PointCoord);
-	void MoveAllVisitors();
+	bool LocationCheck(PointCoord);
 };
 /////////////Visible Map Class/////////////
 class VisibleMap
@@ -268,37 +257,33 @@ class WorldMap
 private:
 	VisibleMap* VM_ptr;
 	Cursor* C_ptr;
-	MapVisualisation* MV_ptr;
-	VisitorVisualisation* VV_ptr;
-	ConstructionVisualisation* CV_ptr;
-	ManageRoads* MR_ptr;
-	ManageVisitors* ManVis_ptr;
-	ManageConstructions* MC_ptr;
+	Visualisation* Draw_ptr;
+	AllObjects* AllObjects_ptr;
+	AllBuildings* Buildings_ptr;
+	AllRoads* Roads_ptr;
+	AllVisitors* Visitors_ptr;
 public:
 	WorldMap()
 	{
 		C_ptr = new Cursor();
 		VM_ptr = new VisibleMap();
-		VV_ptr = new VisitorVisualisation();
-		MV_ptr = new MapVisualisation();
-		CV_ptr = new ConstructionVisualisation();
-		ManVis_ptr = new ManageVisitors(VV_ptr);
-		MR_ptr = new ManageRoads(C_ptr);
-		MC_ptr = new ManageConstructions(C_ptr);
+		Draw_ptr = new Visualisation();
+		AllObjects_ptr = new AllObjects(C_ptr);
+		Buildings_ptr = new AllBuildings(C_ptr, AllObjects_ptr, Draw_ptr);
+		Roads_ptr = new AllRoads(C_ptr, AllObjects_ptr, Draw_ptr);
+		Visitors_ptr = new AllVisitors(C_ptr, AllObjects_ptr, Draw_ptr);
 	}
 	~WorldMap()
 	{
 		delete C_ptr;
 		delete VM_ptr;
-		delete VV_ptr;
-		delete MV_ptr;
-		delete CV_ptr;
-		delete ManVis_ptr;
-		delete MR_ptr;
-		delete MC_ptr;
+		delete Draw_ptr;
+		delete AllObjects_ptr;
+		delete Roads_ptr;
+		delete Visitors_ptr;
 	}
 	void drawMapBorders();
-	void Shift(ShiftDirection, list< Construction* >&, list< Construction* >::iterator&);
-	void drawAll(list< Construction* >&, list< Construction* >::iterator&);
+	void Shift(ShiftDirection, list< GlobalObject* >&);
+	void drawAll(list< GlobalObject* >&);
 	void GameProcess();
 };

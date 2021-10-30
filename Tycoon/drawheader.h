@@ -2,28 +2,12 @@
 #include <iostream>
 #include "msoftcon.h"
 using namespace std;
-class MapVisualisation
+class Visualisation
 {
 public:
 	void drawWorld();
-};
-class MenuVisualisation
-{
-public:
 	void drawRightSide();
-};
-class VisitorVisualisation
-{
-public:
 	void drawVisitor();
-};
-class ConstructionVisualisation
-{
-public:
-	void drawConstruction(int, int, int, int, const char);
-};
-class RoadVisualisation
-{
-public:
+	void drawBuilding(int, int, int, int, const char);
 	void drawRoad(int, int, const char);
 };
