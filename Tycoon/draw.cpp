@@ -2,7 +2,7 @@
 #include <iostream>
 #include <windows.h>
 #include "msoftcon.h"
-#include "drawheader.h"
+#include "logicheader.h"
 using namespace std;
 ///////////////////drawMap Class///////////////////
 void drawMap::drawWorld()
@@ -55,14 +55,14 @@ void drawVisitor::drawVis()
 {
 
 }
-void drawConstruction::drawConst(PointCoord UR, PointCoord BL)
+void drawConstruction::drawConst(int right_x, int up_y, int left_x, int bot_y)
 {
-	set_cursor_pos(UR.get_x(), UR.get_y());
+	set_cursor_pos(right_x, up_y);
 	cout << "!";
-	set_cursor_pos(UR.get_x() - 1, UR.get_y());
+	set_cursor_pos(left_x, up_y);
 	cout << "!";
-	set_cursor_pos(UR.get_x(), UR.get_y() - 1);
+	set_cursor_pos(right_x, bot_y);
 	cout << "!";
-	set_cursor_pos(BL.get_x(), BL.get_y());
+	set_cursor_pos(left_x, bot_y);
 	cout << "!";
 }
