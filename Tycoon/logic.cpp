@@ -136,7 +136,7 @@ const char IceCreamShop::getSymbol()
 ///////////////All Constrations Class///////////////
 void AllConstructions::CreateConstruction(char ChoosenBuilding)
 {
-	Construction* CSTR_ptr = new IceCreamShop(PointCoord(C_ptr->getCursorConsoleLocation()));
+	Construction* CSTR_ptr = new IceCreamShop(PointCoord(Cptr->getCursorConsoleLocation()));
 	WMConstructions.push_back(CSTR_ptr);
 	PointCoord pc1 = CSTR_ptr->getUpperLeft();
 	PointCoord pc2 = CSTR_ptr->getBottomRight();
@@ -177,16 +177,104 @@ void addRoad(Road* R_ptr)
 
 }
 ///////////////WorldMap Class///////////////
-void WorldMap::SetCorners(int left_x, int right_x, int up_y, int bot_y)
+void WorldMap::drawMapBorders()
 {
-	UpperLeft.set_coord(left_x, up_y);
-	UpperRight.set_coord(right_x, up_y);
-	BottomLeft.set_coord(left_x, bot_y);
-	BottomRight.set_coord(right_x, bot_y);
+	MV_ptr->drawWorld();
 }
-void WorldMap::CreateConstruction()
+void WorldMap::GameProcess()
 {
-	Construction* CSTRptr = new IceCreamShop(PointCoord(Cptr->getCursorLocation()));
-	WMConstructions.push_back(CSTRptr);
-	//dCptr->drawConst(CSTRptr -> getUpperRight(), CSTRptr -> getBottomLeft());
+	char ch = 'a';
+	ShiftDirection SD;
+	drawMapBorders();
+	set_cursor_pos(5, 5);
+	C_ptr->setCursorConsoleLocation();
+	AC_ptr->CreateConstruction(ch);
+	while (true)
+	{
+		SD = VM_ptr->CursorBordersCheck(Cptr);
+		Shift(SD, AC_ptr->getAllConstructions(), AC_ptr->getConstructionsIter());
+		drawAll(AC_ptr->getAllConstructions(), AC_ptr->getConstructionsIter());
+	}
+}
+void WorldMap::Shift(ShiftDirection SD, list< Construction* >& WMConstructions, list< Construction* >::iterator& iter)
+{
+	if (SD != ShiftDirection::Middle)
+	{
+		Cptr->CursorShift(SD);
+		for (iter = WMConstructions.begin(); iter != WMConstructions.end(); iter++)
+		{
+			PointCoord ul = (*iter)->getUpperLeft();
+			PointCoord br = (*iter)->getBottomRight();
+			switch (SD)
+			{
+			case ShiftDirection::Right:
+			{
+				ul.set_coord(ul.get_x() + 1, ul.get_y());
+				br.set_coord(br.get_x() + 1, br.get_y());
+				break;
+			}
+			case ShiftDirection::Down:
+			{
+				ul.set_coord(ul.get_x(), ul.get_y() - 1);
+				br.set_coord(br.get_x(), br.get_y() - 1);
+				break;
+			}
+			case ShiftDirection::Left:
+			{
+				ul.set_coord(ul.get_x() - 1, ul.get_y());
+				br.set_coord(br.get_x() - 1, br.get_y());
+				break;
+			}
+			case ShiftDirection::Up:
+			{
+				ul.set_coord(ul.get_x(), ul.get_y() + 1);
+				br.set_coord(br.get_x(), br.get_y() + 1);
+				break;
+			}
+			}
+			(*iter)->setBottomRight(br);
+			(*iter)->setUpperLeft(ul);
+		}
+	}
+}
+void WorldMap::drawAll(list< Construction* >& WMConstructions, list< Construction* >::iterator& iter)
+{
+	for (iter = WMConstructions.begin(); iter != WMConstructions.end(); iter++)
+	{
+		PointCoord pc1 = (*iter)->getUpperLeft();
+		PointCoord pc2 = (*iter)->getBottomRight();
+		CV_ptr->drawConstruction(pc1.get_x(), pc1.get_y(), pc2.get_x(), pc2.get_y(), (*iter)->getSymbol());
+	}
+}
+///////////////VisibleMap Class///////////////
+void VisibleMap::SetCorners(int left_x, int right_x, int up_y, int bot_y)
+{
+	UpperLeftCorner.set_coord(left_x, up_y);
+	BottomRightCorner.set_coord(right_x, bot_y);
+}
+ShiftDirection VisibleMap::CursorBordersCheck(Cursor* C_ptr)
+{
+	ShiftDirection SD;
+	if ((C_ptr->getCursorConsoleLocation()).get_x() == UpperLeftCorner.get_x())
+	{
+		SD = ShiftDirection::Right;
+		return SD;
+	}
+	if ((C_ptr->getCursorConsoleLocation()).get_y() == UpperLeftCorner.get_y())
+	{
+		SD = ShiftDirection::Down;
+		return SD;
+	}
+	if ((C_ptr->getCursorConsoleLocation()).get_x() == BottomRightCorner.get_x())
+	{
+		SD = ShiftDirection::Left;
+		return SD;
+	}
+	if ((C_ptr->getCursorConsoleLocation()).get_y() == BottomRightCorner.get_y())
+	{
+		SD = ShiftDirection::Up;
+		return SD;
+	}
+	SD = ShiftDirection::Middle;
+	return SD;
 }
