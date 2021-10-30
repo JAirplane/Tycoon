@@ -7,9 +7,12 @@
 using namespace std;
 int main()
 {
-	//drawMap dM;
-	//dM.drawWorld();
+	drawMap dM;
+	dM.drawWorld();
 	init_graphics();
-	//WorldMap WM;
-	//WM.CreateConstruction();
+	WorldMap WM;
+	set_cursor_pos(5, 5);
+	WM.CreateConstruction();
+	set_cursor_pos(1, 40);
+	return 0;
 }

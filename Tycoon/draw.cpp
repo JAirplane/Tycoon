@@ -2,7 +2,7 @@
 #include <iostream>
 #include <windows.h>
 #include "msoftcon.h"
-#include "logicheader.h"
+#include "drawheader.h"
 using namespace std;
 ///////////////////drawMap Class///////////////////
 void MapVisualisation::drawWorld()
