@@ -51,9 +51,16 @@ void Visualisation::drawWorld()
 	set_cursor_pos(1, 36);
 	set_color(cYELLOW);
 }
-void Visualisation::drawVisitor()
+void Visualisation::drawVisitor(int _x, int _y)
 {
-
+	char VisitorSymbol = 'a';
+	set_cursor_pos(_x, _y);
+	cout << VisitorSymbol;
+}
+void Visualisation::eraseVisitor(int _x, int _y)
+{
+	set_cursor_pos(_x, _y);
+	cout << ' ';
 }
 void Visualisation::drawBuilding(int right_x, int up_y, int left_x, int bot_y, const char ch)
 {
@@ -65,4 +72,25 @@ void Visualisation::drawBuilding(int right_x, int up_y, int left_x, int bot_y, c
 			cout << ch;
 		}
 	}
+}
+void Visualisation::eraseBuilding(int right_x, int up_y, int left_x, int bot_y)
+{
+	for (int j = up_y; j >= bot_y; j--)
+	{
+		for (int i = left_x; i <= right_x; i++)
+		{
+			set_cursor_pos(i, j);
+			cout << ' ';
+		}
+	}
+}
+void Visualisation::drawRoad(int _x, int _y, const char ch)
+{
+	set_cursor_pos(_x, _y);
+	cout << ch;
+}
+void Visualisation::eraseRoad(int _x, int _y)
+{
+	set_cursor_pos(_x, _y);
+	cout << ' ';
 }

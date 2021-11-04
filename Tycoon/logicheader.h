@@ -10,6 +10,31 @@ const int X_axis = 70;
 const int Y_axis = 35;
 ///////////////Enum ShiftDirection///////////////
 enum class ShiftDirection { Up, Right, Down, Left, Middle };
+///////////////Enum RoadMask///////////////
+enum class RoadMask {
+	NONE = 0,
+	LEFT = 1,
+	TOP = 2,
+	RIGHT = 4,
+	BOTTOM = 8,
+};
+///////////////All Possible Types of Mask///////////////
+const int none = int(RoadMask::NONE);
+const int leftside = int(RoadMask::LEFT);
+const int topside = int(RoadMask::TOP);
+const int rightside = int(RoadMask::RIGHT);
+const int bottomside = int(RoadMask::BOTTOM);
+const int vertical = int(RoadMask::BOTTOM) | int(RoadMask::TOP);
+const int horizontal = int(RoadMask::LEFT) | int(RoadMask::RIGHT);
+const int lefttop_angle = int(RoadMask::LEFT) | int(RoadMask::TOP);
+const int righttop_angle = int(RoadMask::RIGHT) | int(RoadMask::TOP);
+const int leftbottom_angle = int(RoadMask::LEFT) | int(RoadMask::BOTTOM);
+const int rightbottom_angle = int(RoadMask::RIGHT) | int(RoadMask::BOTTOM);
+const int right_T = int(RoadMask::RIGHT) | int(RoadMask::BOTTOM) | int(RoadMask::TOP);
+const int left_T = int(RoadMask::LEFT) | int(RoadMask::BOTTOM) | int(RoadMask::TOP);
+const int top_T = int(RoadMask::RIGHT) | int(RoadMask::LEFT) | int(RoadMask::TOP);
+const int bottom_T = int(RoadMask::RIGHT) | int(RoadMask::LEFT) | int(RoadMask::BOTTOM);
+const int cross = int(RoadMask::RIGHT) | int(RoadMask::LEFT) | int(RoadMask::BOTTOM) | int(RoadMask::TOP);
 /////////////Point Coord Class/////////////
 struct PointCoord
 {
@@ -103,17 +128,21 @@ public:
 class Road : public GlobalObject
 {
 private:
+	int RoadEnvironmentMask;
 	static const int RoadCost;
 	static const char drawRoadSymbol;
 public:
 	Road(PointCoord _ul) : GlobalObject(_ul)
-	{}
+	{
+		RoadEnvironmentMask = 0;
+	}
 	~Road()
 	{}
 	static const int getRoadCost();
 	const char getRoadSymbol() const;
 	PointCoord getRoadLocation() const;
 	void setRoadLocation(PointCoord);
+	int& get_set_RoadEnvironmentMask();
 };
 class Visitor : public GlobalObject
 {
@@ -187,7 +216,7 @@ public:
 class AllRoads
 {
 private:
-	vector<Road*> Roads;
+	list<Road*> Roads;
 	Cursor* C_ptr;
 	AllObjects* AllObjects_ptr;
 	Visualisation* Draw_ptr;
@@ -200,19 +229,22 @@ public:
 	}
 	~AllRoads()
 	{
-		vector<Road*>::iterator iter;
+		list<Road*>::iterator iter;
 		for (iter = Roads.begin(); iter != Roads.end(); iter++)
 		{
 			delete (*iter);
 		}
 	}
 	void addRoad(Road* R_ptr);
+	list<Road*>& getAllRoads();
+	int RoadEnvironment(PointCoord pc1);
+	char SetRoadSymbol(int mask) const;
 };
 /////////////Visitor Container Class/////////////
 class AllVisitors
 {
 private:
-	vector<Visitor*> Visitors;
+	list<Visitor*> Visitors;
 	Cursor* C_ptr;
 	AllObjects* AllObjects_ptr;
 	Visualisation* Draw_ptr;
@@ -225,7 +257,7 @@ public:
 	}
 	~AllVisitors()
 	{
-		vector<Visitor*>::iterator iter;
+		list<Visitor*>::iterator iter;
 		for (iter = Visitors.begin(); iter != Visitors.end(); iter++)
 		{
 			delete (*iter);
@@ -233,6 +265,7 @@ public:
 	}
 	void VisitorAppear();
 	bool LocationCheck(PointCoord);
+	list<Visitor*>& getAllVisitors();
 };
 /////////////Visible Map Class/////////////
 class VisibleMap
@@ -283,7 +316,9 @@ public:
 		delete Visitors_ptr;
 	}
 	void drawMapBorders();
-	void Shift(ShiftDirection, list< GlobalObject* >&);
-	void drawAll(list< GlobalObject* >&);
+	void Shift(ShiftDirection);
+	void drawAll();
+	void eraseAll();
 	void GameProcess();
+	void UserActions(int key);
 };

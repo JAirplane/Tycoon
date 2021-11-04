@@ -8,8 +8,6 @@ using namespace std;
 int main()
 {
 	Visualisation Draw;
-	Draw.drawWorld();
-	init_graphics();
 	WorldMap WM;
 	set_cursor_pos(5, 5);
 	WM.GameProcess();
