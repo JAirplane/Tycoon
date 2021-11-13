@@ -1,17 +1,19 @@
 #pragma once
 #include <cstdlib>
-#include "logicheader.h"
+#include "Map.h"
 using namespace std;
 ///////////////WorldMap Class///////////////
 void WorldMap::drawMapBorders()
 {
 	Draw_ptr->drawWorld();
+	Draw_ptr->drawMenu();
 }
 void WorldMap::GameProcess()
 {
 	char ch = 'a';
 	ShiftDirection SD;
 	drawMapBorders();
+	Draw_ptr->drawIceCreamIcon(78, 3, 73, 6);
 	set_cursor_pos(5, 5);
 	C_ptr->setCursorConsoleLocation();
 	Buildings_ptr->CreateBuilding(ch);
@@ -185,4 +187,9 @@ ShiftDirection VisibleMap::CursorBordersCheck(Cursor* C_ptr)
 	}
 	SD = ShiftDirection::Middle;
 	return SD;
+}
+/////////////Right Side Menu Class/////////////
+void SideMenu::drawIceCreamShopIcon(PointCoord UpperLeft, PointCoord BottomRight)
+{
+	Draw_ptr->drawIceCreamIcon(BottomRight.get_x(), UpperLeft.get_y(), UpperLeft.get_x(), BottomRight.get_x());
 }

@@ -18,7 +18,7 @@ void AllBuildings::CreateBuilding(char ChoosenBuilding)
 	AllObjects_ptr->getAllObjects().push_back(GO_ptr);
 	PointCoord pc1 = GO_ptr->getUpperLeft();
 	PointCoord pc2 = GO_ptr->getBottomRight();
-	Draw_ptr->drawBuilding(pc1.get_x(), pc1.get_y(), pc2.get_x(), pc2.get_y(), GO_ptr->getSymbol());
+	Draw_ptr->drawBuilding(pc2.get_x(), pc1.get_y(), pc1.get_x(), pc2.get_y(), GO_ptr->getSymbol());
 	C_ptr->setCursorConsoleLocation();
 }
 list< GlobalObject* >& AllBuildings::getAllBuildings()

@@ -21,6 +21,16 @@ public:
 	void SetCorners(int, int, int, int);
 	ShiftDirection CursorBordersCheck(Cursor*);
 };
+/////////////Right Side Menu Class/////////////
+class SideMenu
+{
+private:
+	Visualisation* Draw_ptr;
+public:
+	SideMenu(Visualisation* drawptr) : Draw_ptr(drawptr)
+	{}
+	void drawIceCreamShopIcon(PointCoord UpperLeft, PointCoord BottomRight);
+};
 /////////////World Map Class/////////////
 class WorldMap
 {
@@ -32,6 +42,7 @@ private:
 	AllBuildings* Buildings_ptr;
 	AllRoads* Roads_ptr;
 	AllVisitors* Visitors_ptr;
+	SideMenu* SideMenu_ptr;
 public:
 	WorldMap()
 	{
@@ -42,6 +53,7 @@ public:
 		Buildings_ptr = new AllBuildings(C_ptr, AllObjects_ptr, Draw_ptr);
 		Roads_ptr = new AllRoads(C_ptr, AllObjects_ptr, Draw_ptr);
 		Visitors_ptr = new AllVisitors(C_ptr, AllObjects_ptr, Draw_ptr);
+		SideMenu_ptr = new SideMenu(Draw_ptr);
 	}
 	~WorldMap()
 	{

@@ -9,12 +9,14 @@ public:
 	{
 		init_graphics();
 	}
+	void drawRectangle(int right_x, int up_y, int left_x, int bot_y);
 	void drawWorld();
-	void drawRightSide();
+	void drawMenu();
 	void drawVisitor(int _x, int _y);
 	void eraseVisitor(int _x, int _y);
 	void drawBuilding(int right_x, int up_y, int left_x, int bot_y, const char ch);
 	void eraseBuilding(int right_x, int up_y, int left_x, int bot_y);
 	void drawRoad(int _x, int _y, const char ch);
 	void eraseRoad(int _x, int _y);
+	void drawIceCreamIcon(int right_x, int up_y, int left_x, int bot_y, int Bcost, int dailyspend);
 };

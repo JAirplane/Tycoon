@@ -3,7 +3,7 @@
 #include <windows.h>
 #include "msoftcon.h"
 #include "drawheader.h"
-#include "logicheader.h"
+#include "Map.h"
 using namespace std;
 int main()
 {

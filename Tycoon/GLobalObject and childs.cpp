@@ -30,6 +30,14 @@ const char IceCreamShop::getSymbol()
 {
 	return drawConstructionSymbol;
 }
+const int IceCreamShop::getIceCreamShopCreateCost()
+{
+	return ConstructionCost;
+}
+const int IceCreamShop::getIceCreamShopDailyExpences()
+{
+	return DailyExpences;
+}
 ///////////////Visitor Class///////////////
 PointCoord Visitor::getLocation()
 {

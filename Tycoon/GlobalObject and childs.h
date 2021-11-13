@@ -34,11 +34,12 @@ public:
 	{
 		PointCoord pc;
 		pc = getUpperLeft();
-		setBottomRight(PointCoord(pc.get_x() - 1, pc.get_y() - 1));
+		setBottomRight(PointCoord(pc.get_x() + 1, pc.get_y() + 1));
 		LastDayVisitors = 0;
 		LastDayProfit = 0;
 	}
 	static const int getIceCreamShopCreateCost();
+	static const int getIceCreamShopDailyExpences();
 	virtual const char getSymbol();
 };
 /////////////One Pixel of Road/////////////
