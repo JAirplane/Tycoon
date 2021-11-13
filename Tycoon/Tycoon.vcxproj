@@ -141,13 +141,21 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\msoft\msoftcon.h" />
+    <ClInclude Include="Coord and constants.h" />
+    <ClInclude Include="CursorClass.h" />
     <ClInclude Include="drawheader.h" />
-    <ClInclude Include="logicheader.h" />
+    <ClInclude Include="GlobalObject and childs.h" />
+    <ClInclude Include="Map.h" />
+    <ClInclude Include="ObjectContainers.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\msoft\msoftcon.cpp" />
+    <ClCompile Include="Coord and constants.cpp" />
+    <ClCompile Include="CursorClass.cpp" />
     <ClCompile Include="draw.cpp" />
-    <ClCompile Include="logic.cpp" />
+    <ClCompile Include="GLobalObject and childs.cpp" />
+    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="ObjectContainers.cpp" />
     <ClCompile Include="run.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
