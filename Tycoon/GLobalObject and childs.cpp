@@ -38,6 +38,11 @@ const int IceCreamShop::getIceCreamShopDailyExpences()
 {
 	return DailyExpences;
 }
+/////////////Menu Icon of Ice Cream Shop/////////////
+string IceCreamShopIcon::getIceCreamDescription()
+{
+	return description;
+}
 ///////////////Visitor Class///////////////
 PointCoord Visitor::getLocation()
 {
@@ -50,14 +55,9 @@ void Visitor::VisitorMove(int x, int y)
 }
 ///////////////Road Class///////////////
 const int Road::RoadCost = 50;
-const char Road::drawRoadSymbol = 'r';
 const int Road::getRoadCost()
 {
 	return RoadCost;
-}
-const char Road::getRoadSymbol() const
-{
-	return drawRoadSymbol;
 }
 PointCoord Road::getRoadLocation() const
 {
@@ -67,7 +67,4 @@ void Road::setRoadLocation(PointCoord loc)
 {
 	GlobalObject::setUpperLeft(loc);
 }
-int& Road::get_set_RoadEnvironmentMask()
-{
-	return RoadEnvironmentMask;
-}
+/////////////Menu Road Icon/////////////

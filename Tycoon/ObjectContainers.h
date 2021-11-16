@@ -2,7 +2,6 @@
 using namespace std;
 #include <list>
 #include "CursorClass.h"
-#include "drawheader.h"
 /////////////Container of All Objects in the Game/////////////
 class AllObjects
 {

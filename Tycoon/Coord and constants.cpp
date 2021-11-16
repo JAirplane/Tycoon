@@ -14,6 +14,11 @@ void PointCoord::set_coord(int x, int y)
 	x_coord = x;
 	y_coord = y;
 }
+void PointCoord::set_coord(PointCoord pc)
+{
+	x_coord = pc.get_x();
+	y_coord = pc.get_y();
+}
 bool PointCoord::operator == (PointCoord pc)
 {
 	return (x_coord == pc.x_coord && y_coord == pc.y_coord);

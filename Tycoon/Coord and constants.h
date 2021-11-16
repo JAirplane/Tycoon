@@ -1,9 +1,9 @@
 #pragma once
 #include "msoftcon.h"
 using namespace std;
-///////////////Map Size///////////////
-const int X_axis = 70;
-const int Y_axis = 35;
+///////////////Addition to UpperLeft Get VisibleMap BottomRight Coords///////////////
+const int X_axis = 69;
+const int Y_axis = 34;
 ///////////////Enum ShiftDirection///////////////
 enum class ShiftDirection { Up, Right, Down, Left, Middle };
 ///////////////Enum RoadMask///////////////
@@ -59,6 +59,7 @@ public:
 	}
 	int get_x() const;
 	int get_y() const;
-	void set_coord(int, int);
+	void set_coord(int _x, int _y);
+	void set_coord(PointCoord pc);
 	bool operator == (PointCoord);
 };

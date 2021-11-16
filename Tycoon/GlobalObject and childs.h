@@ -1,6 +1,7 @@
 #pragma once
 using namespace std;
 #include "Coord and constants.h"
+#include "drawheader.h"
 /////////////Parent Class of all constructions/////////////
 class GlobalObject
 {
@@ -42,25 +43,44 @@ public:
 	static const int getIceCreamShopDailyExpences();
 	virtual const char getSymbol();
 };
+/////////////Menu Icon of Ice Cream Shop/////////////
+class IceCreamShopIcon : public IceCreamShop
+{
+private:
+	Visualisation* Draw_ptr;
+	string description;
+public:
+	IceCreamShopIcon(PointCoord _ul) : IceCreamShop(_ul)
+	{
+		description = "Ice Cream Shop! Everybody loves it!";
+	}
+	string getIceCreamDescription();
+};
 /////////////One Pixel of Road/////////////
 class Road : public GlobalObject
 {
 private:
-	int RoadEnvironmentMask;
 	static const int RoadCost;
-	static const char drawRoadSymbol;
 public:
 	Road(PointCoord _ul) : GlobalObject(_ul)
-	{
-		RoadEnvironmentMask = 0;
-	}
+	{}
 	~Road()
 	{}
-	static const int getRoadCost();
-	const char getRoadSymbol() const;
+	const int getRoadCost();
 	PointCoord getRoadLocation() const;
 	void setRoadLocation(PointCoord);
-	int& get_set_RoadEnvironmentMask();
+};
+/////////////Menu Road Icon/////////////
+class RoadIcon : public Road
+{
+private:
+	Visualisation* Draw_ptr;
+	string description;
+public:
+	RoadIcon(PointCoord _ul) : Road(_ul)
+	{
+		description = "Your visitors can walk roads only";
+	}
 };
 /////////////People are looking for some fun!/////////////
 class Visitor : public GlobalObject

@@ -3,19 +3,24 @@
 #include "Map.h"
 using namespace std;
 ///////////////WorldMap Class///////////////
-void WorldMap::drawMapBorders()
+void WorldMap::drawInitialGameCondition()
 {
-	Draw_ptr->drawWorld();
-	Draw_ptr->drawMenu();
+	Draw_ptr->drawPlayingField(VM_ptr->getUpperLeftCorner().get_x(), VM_ptr->getUpperLeftCorner().get_y(),
+		VM_ptr->getBottomRightCorner().get_x(), VM_ptr->getBottomRightCorner().get_y());
+	Draw_ptr->drawMenu_RightSide(VM_ptr->getBottomRightCorner().get_x() + 1, VM_ptr->getUpperLeftCorner().get_y(),
+		VM_ptr->getBottomRightCorner().get_x() + 25, VM_ptr->getBottomRightCorner().get_y());
+
+	Draw_ptr->drawIceIcon(drawIconUL_1.get_x(), drawIconUL_1.get_y(), SideMenu_ptr->getIceIcon()->getIceCreamShopCreateCost(),
+		SideMenu_ptr->getIceIcon()->getIceCreamShopDailyExpences(), SideMenu_ptr->getIceIcon()->getSymbol());
+	Draw_ptr->drawRoadIcon(drawIconUL_2.get_x(), drawIconUL_2.get_y(), SideMenu_ptr->getRoadIcon()->getRoadCost());
+	set_cursor_pos(5, 5);
+	C_ptr->setCursorConsoleLocation();
 }
 void WorldMap::GameProcess()
 {
 	char ch = 'a';
 	ShiftDirection SD;
-	drawMapBorders();
-	Draw_ptr->drawIceCreamIcon(78, 3, 73, 6);
-	set_cursor_pos(5, 5);
-	C_ptr->setCursorConsoleLocation();
+	drawInitialGameCondition();
 	Buildings_ptr->CreateBuilding(ch);
 	while (true)
 	{
@@ -43,7 +48,7 @@ void WorldMap::Shift(ShiftDirection SD)
 {
 	C_ptr->CursorShift(SD);
 	list< GlobalObject* >::iterator iter;
-	for (iter = (AllObjects_ptr -> getAllObjects()).begin(); iter != (AllObjects_ptr -> getAllObjects()).end(); iter++)
+	for (iter = (AllObjects_ptr->getAllObjects()).begin(); iter != (AllObjects_ptr->getAllObjects()).end(); iter++)
 	{
 		PointCoord ul = (*iter)->getUpperLeft();
 		PointCoord br = (*iter)->getBottomRight();
@@ -126,41 +131,44 @@ void WorldMap::eraseAll()
 }
 void WorldMap::UserActions(int key)
 {
-	switch (key)
+	if (C_ptr->getCursorConsoleLocation().get_x() < VM_ptr->getBottomRightCorner().get_x()) // do not work if SideMenu at the left side!
 	{
-		case 75:
+		switch (key)
 		{
-			set_cursor_pos(C_ptr->getCursorConsoleLocation().get_x() - 1, C_ptr->getCursorConsoleLocation().get_y());
-			C_ptr->setCursorConsoleLocation();
-			return;
-		}
-		case 72:
-		{
-			set_cursor_pos(C_ptr->getCursorConsoleLocation().get_x(), C_ptr->getCursorConsoleLocation().get_y() - 1);
-			C_ptr->setCursorConsoleLocation();
-			return;
-		}
-		case 77:
-		{
-			set_cursor_pos(C_ptr->getCursorConsoleLocation().get_x() + 1, C_ptr->getCursorConsoleLocation().get_y());
-			C_ptr->setCursorConsoleLocation();
-			return;
-		}
-		case 80:
-		{
-			set_cursor_pos(C_ptr->getCursorConsoleLocation().get_x(), C_ptr->getCursorConsoleLocation().get_y() + 1);
-			C_ptr->setCursorConsoleLocation();
-			return;
-		}
+		case 75: { C_ptr->CursorMovement(PointCoord(C_ptr->getCursorConsoleLocation().get_x() - 1, C_ptr->getCursorConsoleLocation().get_y())); return; }
+		case 72: { C_ptr->CursorMovement(PointCoord(C_ptr->getCursorConsoleLocation().get_x(), C_ptr->getCursorConsoleLocation().get_y() - 1)); return; }
+		case 77: { C_ptr->CursorMovement(PointCoord(C_ptr->getCursorConsoleLocation().get_x() + 1, C_ptr->getCursorConsoleLocation().get_y())); return; }
+		case 80: { C_ptr->CursorMovement(PointCoord(C_ptr->getCursorConsoleLocation().get_x(), C_ptr->getCursorConsoleLocation().get_y() + 1)); return; }
+		case 9: { C_ptr->CursorMovement(IceIconUL_init); return; }
 		default:
 			return;
+		}
+	}
+	else
+	{
+		switch (key)
+		{
+		case 72: { C_ptr->CursorMovement(PointCoord(C_ptr->getCursorConsoleLocation().get_x(), C_ptr->getCursorConsoleLocation().get_y() - 8)); return; }
+		case 80: { C_ptr->CursorMovement(PointCoord(C_ptr->getCursorConsoleLocation().get_x(), C_ptr->getCursorConsoleLocation().get_y() + 8)); return; }
+		case 9: { C_ptr->CursorMovement(PointCoord(VM_ptr->getBottomRightCorner().get_x() / 2, VM_ptr->getBottomRightCorner().get_y() / 2)); return; }
+		default:
+			return;
+		}
 	}
 }
 ///////////////VisibleMap Class///////////////
-void VisibleMap::SetCorners(int left_x, int right_x, int up_y, int bot_y)
+PointCoord VisibleMap::getUpperLeftCorner()
 {
-	UpperLeftCorner.set_coord(left_x, up_y);
-	BottomRightCorner.set_coord(right_x, bot_y);
+	return UpperLeftCorner;
+}
+PointCoord VisibleMap::getBottomRightCorner()
+{
+	return BottomRightCorner;
+}
+void VisibleMap::SetCorners(PointCoord UL, PointCoord BR)
+{
+	UpperLeftCorner.set_coord(UL);
+	BottomRightCorner.set_coord(BR);
 }
 ShiftDirection VisibleMap::CursorBordersCheck(Cursor* C_ptr)
 {
@@ -189,7 +197,16 @@ ShiftDirection VisibleMap::CursorBordersCheck(Cursor* C_ptr)
 	return SD;
 }
 /////////////Right Side Menu Class/////////////
-void SideMenu::drawIceCreamShopIcon(PointCoord UpperLeft, PointCoord BottomRight)
+void SideMenu::drawIceCreamShopIcon(PointCoord UpperLeft)
 {
-	Draw_ptr->drawIceCreamIcon(BottomRight.get_x(), UpperLeft.get_y(), UpperLeft.get_x(), BottomRight.get_x());
+	Draw_ptr->drawIceIcon(UpperLeft.get_x(), UpperLeft.get_y(), IceIcon_ptr->getIceCreamShopCreateCost(),
+							IceIcon_ptr->getIceCreamShopDailyExpences(), IceIcon_ptr->getSymbol());
+}
+IceCreamShop* SideMenu::getIceIcon()
+{
+	return IceIcon_ptr;
+}
+Road* SideMenu::getRoadIcon()
+{
+	return RoadIcon_ptr;
 }
