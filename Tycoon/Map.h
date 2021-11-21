@@ -2,14 +2,15 @@
 #include <iostream>
 #include <vector>
 #include <list>
+#include <conio.h>
+#include <cstdlib>
 #include "ObjectContainers.h"
 using namespace std;
-const PointCoord IceIconUL_init(83, 5);
-const PointCoord RoadIconUL_init(83, 12);
-const PointCoord drawIconUL_1(74, 3);
-const PointCoord drawIconUL_2(74, 10);
-const PointCoord drawIconUL_3(74, 17);
-const PointCoord drawIconUL_4(74, 24);
+enum class SideMenuStatus
+{
+	LEFT,
+	RIGHT,
+};
 /////////////Visible Map Class/////////////
 class VisibleMap
 {
@@ -24,8 +25,8 @@ public:
 	}
 	~VisibleMap()
 	{}
-	PointCoord getUpperLeftCorner();
-	PointCoord getBottomRightCorner();
+	PointCoord getUpperLeftCorner() const;
+	PointCoord getBottomRightCorner() const;
 	void SetCorners(PointCoord UL, PointCoord BR);
 	ShiftDirection CursorBordersCheck(Cursor*);
 };
@@ -33,23 +34,43 @@ public:
 class SideMenu
 {
 private:
+	PointCoord MenuUpperLeft;
+	PointCoord MenuBottomRight;
 	Visualisation* Draw_ptr;
-	IceCreamShopIcon* IceIcon_ptr;
-	RoadIcon* RoadIcon_ptr;
+	VisibleMap* VM_ptr;
+	vector<GlobalObject*> Icons;
+	SideMenuStatus CurrentStatus;
+	bool Hidden;
 public:
-	SideMenu(Visualisation* drawptr) : Draw_ptr(drawptr)
+	SideMenu(Visualisation* drawptr, VisibleMap* vmptr) : Draw_ptr(drawptr), VM_ptr(vmptr)
 	{
-		IceIcon_ptr = new IceCreamShopIcon(IceIconUL_init);
-		RoadIcon_ptr = new RoadIcon(RoadIconUL_init);
+		MenuUpperLeft = PointCoord(VM_ptr->getBottomRightCorner().get_x() + 1, VM_ptr->getUpperLeftCorner().get_y());
+		MenuBottomRight = PointCoord(VM_ptr->getBottomRightCorner().get_x() + 25, VM_ptr->getBottomRightCorner().get_y());
+		Hidden = 0;
+		int _x = (MenuBottomRight.get_x() - MenuUpperLeft.get_x()) / 2;
+		int _y = MenuUpperLeft.get_y() + 6;
+		CurrentStatus = SideMenuStatus::RIGHT;
+		GlobalObject* Ice_ptr = new IceCreamShopIcon(PointCoord(_x, _y));
+		Icons.push_back(Ice_ptr);
+		GlobalObject* Rd_ptr = new RoadIcon(PointCoord(_x, _y + 6));
+		Icons.push_back(Rd_ptr);
 	}
 	~SideMenu()
 	{
-		delete IceIcon_ptr;
-		delete RoadIcon_ptr;
+		vector<GlobalObject*>::iterator iter;
+		for (iter = Icons.begin(); iter != Icons.end(); iter++)
+		{
+			delete (*iter);
+		}
 	}
-	IceCreamShop* getIceIcon();
-	Road* getRoadIcon();
-	void drawIceCreamShopIcon(PointCoord UpperLeft);
+	void setMenuCoords(PointCoord UL, PointCoord BR);
+	PointCoord getMenuUpperLeft() const;
+	PointCoord getMenuBottomRight() const;
+	bool getHideMenuStatus() const;
+	void setHideMenuStatus(bool hideflag);
+	vector<GlobalObject*> getAllIcons();
+	SideMenuStatus getCurrentStatus();
+	ShiftDirection ChangeMenuStatus();
 };
 /////////////World Map Class/////////////
 class WorldMap
@@ -73,7 +94,7 @@ public:
 		Buildings_ptr = new AllBuildings(C_ptr, AllObjects_ptr, Draw_ptr);
 		Roads_ptr = new AllRoads(C_ptr, AllObjects_ptr, Draw_ptr);
 		Visitors_ptr = new AllVisitors(C_ptr, AllObjects_ptr, Draw_ptr);
-		SideMenu_ptr = new SideMenu(Draw_ptr);
+		SideMenu_ptr = new SideMenu(Draw_ptr, VM_ptr);
 	}
 	~WorldMap()
 	{
@@ -86,10 +107,16 @@ public:
 		delete Visitors_ptr;
 		delete SideMenu_ptr;
 	}
-	void drawInitialGameCondition();
-	void Shift(ShiftDirection);
-	void drawAll();
-	void eraseAll();
+	void DisplayPlayingField();
+	void DisplaySideMenuBorders();
+	void DisplayIcons();
+	void DisplaySideMenu();
+	void HideSideMenu();
+	void eraseScreen();
+	void Shift(ShiftDirection SD);
+	void Shift(ShiftDirection SD, int shiftvalue);
+	void DisplayAllObjects();
+	void eraseAllObjects();
 	void GameProcess();
 	void UserActions(int key);
 };

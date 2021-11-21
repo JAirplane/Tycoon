@@ -7,9 +7,9 @@
 using namespace std;
 int main()
 {
-	Visualisation Draw;
 	WorldMap WM;
-	set_cursor_pos(5, 5);
+	WM.DisplayPlayingField();
+	WM.DisplaySideMenu();
 	WM.GameProcess();
 	set_cursor_pos(1, 40);
 	return 0;

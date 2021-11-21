@@ -21,4 +21,5 @@ public:
 	void setCursorConsoleLocation();
 	void CursorMovement(PointCoord cursordestination);
 	void CursorShift(ShiftDirection);
+	void CursorShift(ShiftDirection SD, int shiftvalue);
 };

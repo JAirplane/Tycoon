@@ -15,21 +15,24 @@ public:
 	~GlobalObject()
 	{}
 	PointCoord getUpperLeft() const;
-	PointCoord getBottomRight();
+	PointCoord getBottomRight() const;
 	void setUpperLeft(PointCoord);
 	void setBottomRight(PointCoord);
-	virtual const char getSymbol();
+	virtual char getSymbol() const;
+	virtual int getConstructionCost() const;
+	virtual int getDailyExpences() const;
+	virtual string getDescription() const;
 };
 /////////////Child Classes of Construction/////////////
 /////////////Ice Cream Shop/////////////
 class IceCreamShop : public GlobalObject
 {
 private:
-	static const int ConstructionCost;
-	static const int DailyExpences;
+	static int ConstructionCost;
+	static int DailyExpences;
 	int LastDayVisitors;
 	int LastDayProfit;
-	static const char drawConstructionSymbol;
+	static char drawConstructionSymbol;
 public:
 	IceCreamShop(PointCoord _ul) : GlobalObject(_ul)
 	{
@@ -39,9 +42,9 @@ public:
 		LastDayVisitors = 0;
 		LastDayProfit = 0;
 	}
-	static const int getIceCreamShopCreateCost();
-	static const int getIceCreamShopDailyExpences();
-	virtual const char getSymbol();
+	virtual int getConstructionCost() const;
+	virtual int getDailyExpences() const;
+	virtual char getSymbol() const;
 };
 /////////////Menu Icon of Ice Cream Shop/////////////
 class IceCreamShopIcon : public IceCreamShop
@@ -54,19 +57,22 @@ public:
 	{
 		description = "Ice Cream Shop! Everybody loves it!";
 	}
-	string getIceCreamDescription();
+	virtual string getDescription();
 };
 /////////////One Pixel of Road/////////////
 class Road : public GlobalObject
 {
 private:
-	static const int RoadCost;
+	static int ConstructionCost;
+	static int DailyExpences;
 public:
 	Road(PointCoord _ul) : GlobalObject(_ul)
 	{}
 	~Road()
 	{}
-	const int getRoadCost();
+	virtual int getConstructionCost() const;
+	virtual int getDailyExpences() const;
+	virtual char getSymbol() const;
 	PointCoord getRoadLocation() const;
 	void setRoadLocation(PointCoord);
 };
@@ -81,6 +87,7 @@ public:
 	{
 		description = "Your visitors can walk roads only";
 	}
+	virtual string getDescription();
 };
 /////////////People are looking for some fun!/////////////
 class Visitor : public GlobalObject

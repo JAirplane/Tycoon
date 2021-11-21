@@ -10,19 +10,18 @@ class Visualisation
 {
 public:
 	Visualisation()
-	{ }
+	{
+		init_graphics();
+	}
 	void drawRectangle(int left_x, int up_y, int right_x, int bot_y);
+	void erasePixel(int _x, int _y);
 	void drawPlayingField(int left_x, int up_y, int right_x, int bot_y);
-	void drawMenu_RightSide(int Menu_left_x, int Menu_up_y, int Menu_right_x, int Menu_bot_y);
-	void drawMenu_LeftSide(int Menu_left_x, int Menu_up_y, int Menu_right_x, int Menu_bot_y);
-	void drawIceIcon(int left_x, int up_y, int Bcost, int dailyspend, const char symbol);
-	void drawIcon(int left_x, int up_y, int Bcost, int dailyspend, const char symbol);
-	void drawRoadIcon(int left_x, int up_y, int Rcost);
+	void drawMenuBorders(int Menu_left_x, int Menu_up_y, int Menu_right_x, int Menu_bot_y, color MenuBorders);
+	void drawIconBorders(int left_x, int up_y, int right_x, int bot_y, color IconBorders);
+	void drawIcon(int left_x, int up_y, int Bcost, int dailyspend, const char symbol, string description, color Icon);
 	void drawVisitor(int _x, int _y);
 	void eraseVisitor(int _x, int _y);
 	void drawBuilding(int left_x, int up_y, int right_x, int bot_y, const char ch);
 	void eraseBuilding(int left_x, int up_y, int right_x, int bot_y);
 	void drawRoad(int _x, int _y, const char ch);
-	void eraseRoad(int _x, int _y);
-
 };

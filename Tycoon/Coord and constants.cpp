@@ -1,6 +1,7 @@
 using namespace std;
 #include "Coord and constants.h"
 ///////////////PointCoord Struct///////////////
+//UChar32 ucharrrrrrrrrrrr = 'a';
 int PointCoord::get_x() const
 {
 	return x_coord;

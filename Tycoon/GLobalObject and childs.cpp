@@ -6,7 +6,7 @@ PointCoord GlobalObject::getUpperLeft() const
 {
 	return UpperLeft;
 }
-PointCoord GlobalObject::getBottomRight()
+PointCoord GlobalObject::getBottomRight() const
 {
 	return BottomRight;
 }
@@ -18,28 +18,41 @@ void GlobalObject::setBottomRight(PointCoord pc)
 {
 	BottomRight.set_coord(pc.get_x(), pc.get_y());
 }
-const char GlobalObject::getSymbol()
+char GlobalObject::getSymbol() const
 {
 	return 0;
 }
+int GlobalObject::getConstructionCost() const
+{
+	return 0;
+}
+int GlobalObject::getDailyExpences() const 
+{
+	return 0;
+}
+string GlobalObject::getDescription() const
+{
+	string empty("error");
+	return empty;
+}
 ///////////////Ice Cream Shop Class///////////////
-const int IceCreamShop::ConstructionCost = 250;
-const int IceCreamShop::DailyExpences = 20;
-const char IceCreamShop::drawConstructionSymbol = '!';
-const char IceCreamShop::getSymbol()
+int IceCreamShop::ConstructionCost = 250;
+int IceCreamShop::DailyExpences = 20;
+char IceCreamShop::drawConstructionSymbol = '!';
+char IceCreamShop::getSymbol() const
 {
 	return drawConstructionSymbol;
 }
-const int IceCreamShop::getIceCreamShopCreateCost()
+int IceCreamShop::getConstructionCost() const
 {
 	return ConstructionCost;
 }
-const int IceCreamShop::getIceCreamShopDailyExpences()
+int IceCreamShop::getDailyExpences() const
 {
 	return DailyExpences;
 }
 /////////////Menu Icon of Ice Cream Shop/////////////
-string IceCreamShopIcon::getIceCreamDescription()
+string IceCreamShopIcon::getDescription()
 {
 	return description;
 }
@@ -54,10 +67,20 @@ void Visitor::VisitorMove(int x, int y)
 	GlobalObject::setBottomRight(PointCoord(x, y));
 }
 ///////////////Road Class///////////////
-const int Road::RoadCost = 50;
-const int Road::getRoadCost()
+int Road::ConstructionCost = 50;
+int Road::DailyExpences = 0;
+int Road::getConstructionCost() const
 {
-	return RoadCost;
+	return ConstructionCost;
+}
+int Road::getDailyExpences() const
+{
+	return DailyExpences;
+}
+char Road::getSymbol() const
+{
+	char ch = '0';
+	return ch;
 }
 PointCoord Road::getRoadLocation() const
 {
@@ -68,3 +91,7 @@ void Road::setRoadLocation(PointCoord loc)
 	GlobalObject::setUpperLeft(loc);
 }
 /////////////Menu Road Icon/////////////
+string RoadIcon::getDescription()
+{
+	return description;
+}

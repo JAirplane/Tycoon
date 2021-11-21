@@ -88,7 +88,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Jefferson\source\msoft;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\Jefferson\source\repos\icu\icu4c\source\common;C:\Users\Jefferson\source\msoft;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -141,6 +141,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\msoft\msoftcon.h" />
+    <ClInclude Include="..\..\icu\icu4c\source\common\unicode\uchar.h" />
+    <ClInclude Include="..\..\icu\icu4c\source\common\unicode\utypes.h" />
     <ClInclude Include="Coord and constants.h" />
     <ClInclude Include="CursorClass.h" />
     <ClInclude Include="drawheader.h" />

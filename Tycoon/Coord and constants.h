@@ -1,4 +1,6 @@
 #pragma once
+//#include "unicode/uchar.h"
+#include "unicode/uchriter.h"
 #include "msoftcon.h"
 using namespace std;
 ///////////////Addition to UpperLeft Get VisibleMap BottomRight Coords///////////////
