@@ -89,15 +89,15 @@ void Visualisation::drawMenuBorders(int Menu_left_x, int Menu_up_y, int Menu_rig
 	set_color(MenuBorders);
 	drawRectangle(Menu_left_x, Menu_up_y, Menu_right_x, Menu_bot_y); //side menu borders
 }
-void Visualisation::drawIconBorders(int left_x, int up_y, int right_x, int bot_y, color IconBorders)
+void Visualisation::drawIconBorders(int left_x, int up_y, int right_x, int bot_y, color IconBorders) //external border
 {
 	set_color(IconBorders);
-	drawRectangle(left_x, up_y, right_x, up_y + 6); //external border
+	drawRectangle(left_x, up_y, right_x, bot_y);
 }
-void Visualisation::drawIcon(int left_x, int up_y, int cost, int dailyspend, const char symbol, string description, color Icon)
+void Visualisation::drawIcon(int left_x, int up_y, int cost, int dailyspend, const char symbol, string description, color Icon) //icon border
 {
 	set_color(cGREEN);
-	drawRectangle(left_x, up_y, left_x + 4, up_y + 4); //icon border
+	drawRectangle(left_x, up_y, left_x + 4, up_y + 4);
 	set_color(cDARK_GRAY);
 	if (dailyspend != 0)
 	{

@@ -11,6 +11,11 @@ enum class SideMenuStatus
 	LEFT,
 	RIGHT,
 };
+enum class IconsPosition
+{
+	UPPER,
+	LOWER,
+};
 /////////////Visible Map Class/////////////
 class VisibleMap
 {
@@ -68,9 +73,14 @@ public:
 	PointCoord getMenuBottomRight() const;
 	bool getHideMenuStatus() const;
 	void setHideMenuStatus(bool hideflag);
-	vector<GlobalObject*> getAllIcons();
 	SideMenuStatus getCurrentStatus();
 	ShiftDirection ChangeMenuStatus();
+	void ShowIcons();
+	void ShowMenuBorders();
+	PointCoord getNearestIconCoords(PointCoord currenticon, IconsPosition ip);
+	void IconsShift(IconsPosition ip);
+	void ChooseBuilding(PointCoord iconpos);
+	PointCoord MenuNavigation(PointCoord currenticon, IconsPosition ip);
 };
 /////////////World Map Class/////////////
 class WorldMap

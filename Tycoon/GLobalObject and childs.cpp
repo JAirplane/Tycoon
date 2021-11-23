@@ -26,7 +26,7 @@ int GlobalObject::getConstructionCost() const
 {
 	return 0;
 }
-int GlobalObject::getDailyExpences() const 
+int GlobalObject::getDailyExpences() const
 {
 	return 0;
 }
