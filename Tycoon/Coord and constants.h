@@ -3,6 +3,7 @@
 #include "unicode/uchriter.h"
 #include "msoftcon.h"
 using namespace std;
+int ucharrrrrrrrrrrr = 'a';
 ///////////////Addition to UpperLeft Get VisibleMap BottomRight Coords///////////////
 const int X_axis = 69;
 const int Y_axis = 34;

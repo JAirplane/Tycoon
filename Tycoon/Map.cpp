@@ -28,15 +28,15 @@ void WorldMap::DisplaySideMenu()
 }
 void WorldMap::HideSideMenu()
 {
-	int left_x = VM_ptr->getUpperLeftCorner().get_x();
-	int top_y = VM_ptr->getUpperLeftCorner().get_y();
-	int right_x = VM_ptr->getBottomRightCorner().get_x();
-	int bot_y = VM_ptr->getBottomRightCorner().get_y();
+	int left_x = SideMenu_ptr->getMenuUpperLeft().get_x();
+	int top_y = SideMenu_ptr->getMenuUpperLeft().get_y();
+	int right_x = SideMenu_ptr->getMenuBottomRight().get_x();
+	int bot_y = SideMenu_ptr->getMenuBottomRight().get_y();
 	if (SideMenu_ptr->getCurrentStatus() == SideMenuStatus::LEFT)
 	{
 		for (int j = top_y; j <= bot_y; j++)
 		{
-			for (int i = left_x - 25; i < left_x; i++)
+			for (int i = left_x; i < right_x; i++)
 			{
 				Draw_ptr->erasePixel(i, j);
 			}
@@ -46,7 +46,7 @@ void WorldMap::HideSideMenu()
 	{
 		for (int j = top_y; j <= bot_y; j++)
 		{
-			for (int i = right_x + 1; i <= right_x + 25; i++)
+			for (int i = left_x; i <= right_x; i++)
 			{
 				Draw_ptr->erasePixel(i, j);
 			}
@@ -212,15 +212,15 @@ void WorldMap::UserActions(int key)
 	{
 	case 104:	//'h' key hide or display SideMenu
 	{
-		if (SideMenu_ptr->getHideMenuStatus())
+		if (!SideMenu_ptr->getHideMenuStatus())
 		{
 			HideSideMenu();
-			SideMenu_ptr->setHideMenuStatus(0);
+			SideMenu_ptr->setHideMenuStatus(1);
 		}
 		else
 		{
 			DisplaySideMenu();
-			SideMenu_ptr->setHideMenuStatus(1);
+			SideMenu_ptr->setHideMenuStatus(0);
 		}
 		return;
 	}
@@ -234,7 +234,7 @@ void WorldMap::UserActions(int key)
 	}
 	}
 	if ((C_ptr->getCursorConsoleLocation().get_x() < VM_ptr->getBottomRightCorner().get_x() && MenuPosition == SideMenuStatus::RIGHT) ||
-		(C_ptr->getCursorConsoleLocation().get_x() > VM_ptr->getUpperLeftCorner().get_x() && MenuPosition == SideMenuStatus::LEFT))	//this condition checks if the cursor is in the playing field or in the menu
+		(C_ptr->getCursorConsoleLocation().get_x() > VM_ptr->getUpperLeftCorner().get_x() && MenuPosition == SideMenuStatus::LEFT))							//this condition checks if the cursor is in the playing field or in the menu
 	{
 		switch (key)
 		{
@@ -242,7 +242,13 @@ void WorldMap::UserActions(int key)
 		case 72: { C_ptr->CursorMovement(PointCoord(C_ptr->getCursorConsoleLocation().get_x(), C_ptr->getCursorConsoleLocation().get_y() - 1)); return; }	//up arrow 
 		case 77: { C_ptr->CursorMovement(PointCoord(C_ptr->getCursorConsoleLocation().get_x() + 1, C_ptr->getCursorConsoleLocation().get_y())); return; }	//right arrow 
 		case 80: { C_ptr->CursorMovement(PointCoord(C_ptr->getCursorConsoleLocation().get_x(), C_ptr->getCursorConsoleLocation().get_y() + 1)); return; }	//down arrow 
-		case 9: { C_ptr->CursorMovement(SideMenu_ptr->MenuNavigation((PointCoord(0, 0)), IconsPosition::LOWER)); return; } //tab key moves cursor from the playing field to the menu
+		case 9:																																				//tab key moves cursor from the playing field to the menu
+		{
+			PointCoord UpperVisibleIcon = SideMenu_ptr->getNearestIconCoords(PointCoord(0, 0), IconsPosition::LOWER);
+			C_ptr->CursorMovement(UpperVisibleIcon);
+			Draw_ptr->drawIconBorders(SideMenu_ptr->getMenuUpperLeft().get_x() + 2, UpperVisibleIcon.get_y() - 3, SideMenu_ptr->getMenuBottomRight().get_x() - 2, UpperVisibleIcon.get_y() + 2, color::cGREEN);
+			return; 
+		} 
 
 		default:
 			return;
@@ -327,7 +333,7 @@ void SideMenu::setHideMenuStatus(bool hideflag)
 {
 	Hidden = hideflag;
 }
-ShiftDirection SideMenu::ChangeMenuStatus()
+ShiftDirection SideMenu::ChangeMenuStatus()	//bad SideMenu coords set up, need to be rewrite
 {
 	vector<GlobalObject*>::iterator iter;
 	if (CurrentStatus == SideMenuStatus::LEFT)
@@ -337,10 +343,10 @@ ShiftDirection SideMenu::ChangeMenuStatus()
 		PointCoord BR(UL.get_x() + X_axis, UL.get_y() + Y_axis);
 		VM_ptr->SetCorners(UL, BR);
 		PointCoord MenuUL(VM_ptr->getBottomRightCorner().get_x() + 1, VM_ptr->getUpperLeftCorner().get_y());
-		PointCoord MenuBR(VM_ptr->getBottomRightCorner().get_x() + 25, VM_ptr->getBottomRightCorner().get_y());
+		PointCoord MenuBR(VM_ptr->getBottomRightCorner().get_x() + 45, VM_ptr->getBottomRightCorner().get_y());
 		setMenuCoords(MenuUL, MenuBR);
 		int _x = (getMenuBottomRight().get_x() - getMenuUpperLeft().get_x()) / 2;
-		int _y = getMenuUpperLeft().get_y() + 6;
+		int _y = getMenuUpperLeft().get_y() + 4;
 		for (iter = Icons.begin(); iter != Icons.end(); iter++)
 		{
 			(*iter)->setUpperLeft(PointCoord(_x, _y));
@@ -353,13 +359,13 @@ ShiftDirection SideMenu::ChangeMenuStatus()
 	{
 		CurrentStatus = SideMenuStatus::LEFT;
 		PointCoord MenuUL(1, 1);
-		PointCoord MenuBR(MenuUL.get_x() + 25, MenuUL.get_y() + Y_axis);
+		PointCoord MenuBR(MenuUL.get_x() + 45, MenuUL.get_y() + Y_axis);
 		setMenuCoords(MenuUL, MenuBR);
 		PointCoord UL(MenuBR.get_x() + 1, MenuUL.get_y());
 		PointCoord BR(UL.get_x() + X_axis, UL.get_y() + Y_axis);
 		VM_ptr->SetCorners(UL, BR);
 		int _x = (getMenuBottomRight().get_x() - getMenuUpperLeft().get_x()) / 2;
-		int _y = getMenuUpperLeft().get_y() + 6;
+		int _y = getMenuUpperLeft().get_y() + 4;
 		for (iter = Icons.begin(); iter != Icons.end(); iter++)
 		{
 			(*iter)->setUpperLeft(PointCoord(_x, _y));
@@ -371,46 +377,26 @@ ShiftDirection SideMenu::ChangeMenuStatus()
 }
 void SideMenu::ShowIcons()
 {
-	int left_x = VM_ptr->getUpperLeftCorner().get_x();
-	int top_y = VM_ptr->getUpperLeftCorner().get_y();
-	int right_x = VM_ptr->getBottomRightCorner().get_x();
-	int bot_y = VM_ptr->getBottomRightCorner().get_y();
+	int left_x = MenuUpperLeft.get_x();
+	int top_y = MenuUpperLeft.get_y();
+	int right_x = MenuBottomRight.get_x();
+	int bot_y = MenuBottomRight.get_y();
 	vector<GlobalObject*>::iterator iter;
-	if (CurrentStatus == SideMenuStatus::LEFT)
+	for (iter = Icons.begin(); iter != Icons.end(); iter++)
 	{
-		for (iter = Icons.begin(); iter != Icons.end(); iter++)
-		{
-			Draw_ptr->drawIconBorders(left_x - 23, top_y + 2, right_x - 2, top_y + 8, color::cYELLOW);
-			Draw_ptr->drawIcon(left_x - 22, top_y + 3, (*iter)->getConstructionCost(), (*iter)->getDailyExpences(),
-				(*iter)->getSymbol(), (*iter)->getDescription(), color::cGREEN);
-			top_y += 7;
-		}
-	}
-	if (CurrentStatus == SideMenuStatus::RIGHT)
-	{
-		for (iter = Icons.begin(); iter != Icons.end(); iter++)
-		{
-			Draw_ptr->drawIconBorders(right_x + 3, top_y + 2, right_x + 23, top_y + 8, color::cYELLOW);
-			Draw_ptr->drawIcon(right_x + 4, top_y + 3, (*iter)->getConstructionCost(), (*iter)->getDailyExpences(),
-				(*iter)->getSymbol(), (*iter)->getDescription(), color::cGREEN);
-			top_y += 7;
-		}
+		Draw_ptr->drawIconBorders(left_x + 2, top_y + 1, right_x - 2, top_y + 6, color::cYELLOW);
+		Draw_ptr->drawIcon(left_x + 3, top_y + 2, (*iter)->getConstructionCost(), (*iter)->getDailyExpences(),
+			(*iter)->getSymbol(), (*iter)->getDescription(), color::cGREEN);
+		top_y += 6;
 	}
 }
 void SideMenu::ShowMenuBorders()
 {
-	int left_x = VM_ptr->getUpperLeftCorner().get_x();
-	int top_y = VM_ptr->getUpperLeftCorner().get_y();
-	int right_x = VM_ptr->getBottomRightCorner().get_x();
-	int bot_y = VM_ptr->getBottomRightCorner().get_y();
-	if (CurrentStatus == SideMenuStatus::LEFT)
-	{
-		Draw_ptr->drawMenuBorders(left_x - 25, top_y, left_x - 1, bot_y, color::cBLUE);
-	}
-	if (CurrentStatus == SideMenuStatus::RIGHT)
-	{
-		Draw_ptr->drawMenuBorders(right_x + 1, top_y, right_x + 25, bot_y, color::cBLUE);
-	}
+	int left_x = MenuUpperLeft.get_x();
+	int top_y = MenuUpperLeft.get_y();
+	int right_x = MenuBottomRight.get_x();
+	int bot_y = MenuBottomRight.get_y();
+	Draw_ptr->drawMenuBorders(left_x, top_y, right_x, bot_y, color::cBLUE);
 }
 PointCoord SideMenu::getNearestIconCoords(PointCoord currenticon, IconsPosition ip) //this method returns next upper/lower Icon's coords after "currenticon" coord
 {
@@ -473,8 +459,8 @@ PointCoord SideMenu::MenuNavigation(PointCoord currenticon, IconsPosition ip)
 	{
 		if (nearest.get_y() > 0)
 		{
-			Draw_ptr->drawIconBorders(MenuUL.get_x() + 1, currenticon.get_y() + 2, MenuBR.get_x() - 1, currenticon.get_y() - 3, color::cYELLOW);
-			Draw_ptr->drawIconBorders(MenuUL.get_x() + 1, nearest.get_y() + 2, MenuBR.get_x() - 1, nearest.get_y() - 3, color::cGREEN);
+			Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, currenticon.get_y() - 3, MenuBR.get_x() - 2, currenticon.get_y() + 2, color::cYELLOW);
+			Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, nearest.get_y() - 3, MenuBR.get_x() - 2, nearest.get_y() + 2, color::cGREEN);
 			return nearest;
 		}
 		else
@@ -487,8 +473,8 @@ PointCoord SideMenu::MenuNavigation(PointCoord currenticon, IconsPosition ip)
 	{
 		if (nearest.get_y() < VM_ptr->getBottomRightCorner().get_y())
 		{
-			Draw_ptr->drawIconBorders(MenuUL.get_x() + 1, currenticon.get_y() + 2, MenuBR.get_x() - 1, currenticon.get_y() - 3, color::cYELLOW);
-			Draw_ptr->drawIconBorders(MenuUL.get_x() + 1, nearest.get_y() + 2, MenuBR.get_x() - 1, nearest.get_y() - 3, color::cGREEN);
+			Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, currenticon.get_y() - 3, MenuBR.get_x() - 2, currenticon.get_y() + 2, color::cYELLOW);
+			Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, nearest.get_y() - 3, MenuBR.get_x() - 2, nearest.get_y() + 2, color::cGREEN);
 			return nearest;
 		}
 		else

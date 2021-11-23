@@ -50,14 +50,15 @@ public:
 	SideMenu(Visualisation* drawptr, VisibleMap* vmptr) : Draw_ptr(drawptr), VM_ptr(vmptr)
 	{
 		MenuUpperLeft = PointCoord(VM_ptr->getBottomRightCorner().get_x() + 1, VM_ptr->getUpperLeftCorner().get_y());
-		MenuBottomRight = PointCoord(VM_ptr->getBottomRightCorner().get_x() + 25, VM_ptr->getBottomRightCorner().get_y());
+		MenuBottomRight = PointCoord(VM_ptr->getBottomRightCorner().get_x() + 45, VM_ptr->getBottomRightCorner().get_y());
 		Hidden = 0;
-		int _x = (MenuBottomRight.get_x() - MenuUpperLeft.get_x()) / 2;
-		int _y = MenuUpperLeft.get_y() + 6;
+		int _x = (MenuBottomRight.get_x() + MenuUpperLeft.get_x()) / 2;
+		int _y = MenuUpperLeft.get_y() + 4;
 		CurrentStatus = SideMenuStatus::RIGHT;
 		GlobalObject* Ice_ptr = new IceCreamShopIcon(PointCoord(_x, _y));
 		Icons.push_back(Ice_ptr);
-		GlobalObject* Rd_ptr = new RoadIcon(PointCoord(_x, _y + 6));
+		_y += 6;
+		GlobalObject* Rd_ptr = new RoadIcon(PointCoord(_x, _y));
 		Icons.push_back(Rd_ptr);
 	}
 	~SideMenu()

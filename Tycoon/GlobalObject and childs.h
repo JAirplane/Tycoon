@@ -57,7 +57,7 @@ public:
 	{
 		description = "Ice Cream Shop! Everybody loves it!";
 	}
-	virtual string getDescription();
+	string getDescription() const override;
 };
 /////////////One Pixel of Road/////////////
 class Road : public GlobalObject
@@ -87,7 +87,7 @@ public:
 	{
 		description = "Your visitors can walk roads only";
 	}
-	virtual string getDescription();
+	string getDescription() const override;
 };
 /////////////People are looking for some fun!/////////////
 class Visitor : public GlobalObject

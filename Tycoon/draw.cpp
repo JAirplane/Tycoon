@@ -97,7 +97,7 @@ void Visualisation::drawIconBorders(int left_x, int up_y, int right_x, int bot_y
 void Visualisation::drawIcon(int left_x, int up_y, int cost, int dailyspend, const char symbol, string description, color Icon) //icon border
 {
 	set_color(cGREEN);
-	drawRectangle(left_x, up_y, left_x + 4, up_y + 4);
+	drawRectangle(left_x, up_y, left_x + 3, up_y + 3);
 	set_color(cDARK_GRAY);
 	if (dailyspend != 0)
 	{
@@ -107,12 +107,12 @@ void Visualisation::drawIcon(int left_x, int up_y, int cost, int dailyspend, con
 	{
 		drawRoad(left_x + 1, up_y + 1, symbol);
 	}
-	set_cursor_pos(left_x + 3, up_y);
+	set_cursor_pos(left_x + 4, up_y);
 	set_color(cLIGHT_GRAY);
 	cout << description;
-	set_cursor_pos(left_x + 3, up_y + 1);
+	set_cursor_pos(left_x + 4, up_y + 1);
 	cout << "Construction Cost: " << cost;
-	set_cursor_pos(left_x + 3, up_y + 2);
+	set_cursor_pos(left_x + 4, up_y + 2);
 	if (dailyspend != 0)
 	{
 		cout << "Service will cost you " << dailyspend << " per day.";

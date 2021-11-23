@@ -52,7 +52,7 @@ int IceCreamShop::getDailyExpences() const
 	return DailyExpences;
 }
 /////////////Menu Icon of Ice Cream Shop/////////////
-string IceCreamShopIcon::getDescription()
+string IceCreamShopIcon::getDescription() const
 {
 	return description;
 }
@@ -91,7 +91,7 @@ void Road::setRoadLocation(PointCoord loc)
 	GlobalObject::setUpperLeft(loc);
 }
 /////////////Menu Road Icon/////////////
-string RoadIcon::getDescription()
+string RoadIcon::getDescription() const
 {
 	return description;
 }
