@@ -1,5 +1,6 @@
 #pragma once
 #include <conio.h>
+#include <typeinfo>
 #include "Map.h"
 using namespace std;
 ///////////////WorldMap Class///////////////
@@ -32,27 +33,15 @@ void WorldMap::HideSideMenu()
 	int top_y = SideMenu_ptr->getMenuUpperLeft().get_y();
 	int right_x = SideMenu_ptr->getMenuBottomRight().get_x();
 	int bot_y = SideMenu_ptr->getMenuBottomRight().get_y();
-	if (SideMenu_ptr->getCurrentStatus() == SideMenuStatus::LEFT)
+	for (int j = top_y; j <= bot_y; j++)
 	{
-		for (int j = top_y; j <= bot_y; j++)
+		for (int i = left_x; i <= right_x; i++)
 		{
-			for (int i = left_x; i < right_x; i++)
-			{
-				Draw_ptr->erasePixel(i, j);
-			}
+			Draw_ptr->erasePixel(i, j);
 		}
 	}
-	if (SideMenu_ptr->getCurrentStatus() == SideMenuStatus::RIGHT)
-	{
-		for (int j = top_y; j <= bot_y; j++)
-		{
-			for (int i = left_x; i <= right_x; i++)
-			{
-				Draw_ptr->erasePixel(i, j);
-			}
-		}
-	}
-	C_ptr->CursorMovement(PointCoord((left_x + right_x) / 2, (top_y + bot_y) / 2));
+	C_ptr->CursorMovement(PointCoord((VM_ptr->getUpperLeftCorner().get_x() + VM_ptr->getBottomRightCorner().get_x()) / 2,
+		(VM_ptr->getUpperLeftCorner().get_y() + VM_ptr->getBottomRightCorner().get_y()) / 2));
 }
 void WorldMap::eraseScreen()
 {
@@ -70,7 +59,6 @@ void WorldMap::GameProcess()
 {
 	char ch = 'a';
 	ShiftDirection SD;
-	Buildings_ptr->CreateBuilding(ch);
 	while (true)
 	{
 		SD = VM_ptr->CursorBordersCheck(C_ptr);
@@ -168,7 +156,7 @@ void WorldMap::DisplayAllObjects()
 		PointCoord BRBuilding = (*iter)->getBottomRight();
 		Draw_ptr->drawBuilding(ULBuilding.get_x(), ULBuilding.get_y(), BRBuilding.get_x(), BRBuilding.get_y(), (*iter)->getSymbol());
 	}
-	list< Road* >::iterator iter1;
+	list< GlobalObject* >::iterator iter1;
 	for (iter1 = (Roads_ptr->getAllRoads()).begin(); iter1 != (Roads_ptr->getAllRoads()).end(); iter1++)
 	{
 		PointCoord ULRoad = (*iter)->getUpperLeft();
@@ -192,7 +180,7 @@ void WorldMap::eraseAllObjects()
 		PointCoord BRBuilding = (*iter)->getBottomRight();
 		Draw_ptr->eraseBuilding(ULBuilding.get_x(), ULBuilding.get_y(), BRBuilding.get_x(), BRBuilding.get_y());
 	}
-	list< Road* >::iterator iter1;
+	list< GlobalObject* >::iterator iter1;
 	for (iter1 = (Roads_ptr->getAllRoads()).begin(); iter1 != (Roads_ptr->getAllRoads()).end(); iter1++)
 	{
 		PointCoord ULRoad = (*iter)->getUpperLeft();
@@ -204,6 +192,12 @@ void WorldMap::eraseAllObjects()
 		PointCoord ULVisitor = (*iter)->getUpperLeft();
 		Draw_ptr->erasePixel(ULVisitor.get_x(), ULVisitor.get_y());
 	}
+}
+void WorldMap::PreliminaryBuildingCreation(GlobalObject* go_ptr)
+{
+	GlobalObject* preliminary_ptr = go_ptr->CreateObject();
+	AllObjects_ptr->addObject(preliminary_ptr);
+	AllObjects_ptr->setLastElementFlag(1);
 }
 void WorldMap::UserActions(int key)
 {
@@ -247,9 +241,44 @@ void WorldMap::UserActions(int key)
 			PointCoord UpperVisibleIcon = SideMenu_ptr->getNearestIconCoords(PointCoord(0, 0), IconsPosition::LOWER);
 			C_ptr->CursorMovement(UpperVisibleIcon);
 			Draw_ptr->drawIconBorders(SideMenu_ptr->getMenuUpperLeft().get_x() + 2, UpperVisibleIcon.get_y() - 3, SideMenu_ptr->getMenuBottomRight().get_x() - 2, UpperVisibleIcon.get_y() + 2, color::cGREEN);
-			return; 
-		} 
-
+			return;
+		}
+		case 13:
+		{
+			if (AllObjects_ptr->getLastElementFlag())
+			{
+				GlobalObject* UnderConstruction_ptr = AllObjects_ptr->getPreliminaryElement();
+				AllObjects_ptr->setLastElementFlag(0);
+				BuildingType BT = AllObjects_ptr->DefinePointerType(UnderConstruction_ptr);
+				AllObjects_ptr->ErasePreliminaryElement();
+				switch (BT)
+				{
+					case BuildingType::Road:
+					{
+						GlobalObject* r_ptr = new Road(C_ptr->getCursorConsoleLocation());
+						AllObjects_ptr->addObject(r_ptr);
+						Roads_ptr->addRoad(r_ptr);
+						int roadmask = Roads_ptr->RoadEnvironment(r_ptr->getUpperLeft());
+						char roadsymbol = Roads_ptr->SetRoadSymbol(roadmask);
+						Draw_ptr->drawRoad(r_ptr->getUpperLeft().get_x(), r_ptr->getUpperLeft().get_y(), roadsymbol);
+						return;
+					}
+					case BuildingType::IceCreamShop:
+					{
+						GlobalObject* r_ptr = new IceCreamShop(C_ptr->getCursorConsoleLocation());
+						AllObjects_ptr->addObject(r_ptr);
+						Buildings_ptr->addBuilding(r_ptr);
+						Draw_ptr->drawBuilding(r_ptr->getUpperLeft().get_x(), r_ptr->getUpperLeft().get_y(),
+												r_ptr->getBottomRight().get_x(), r_ptr->getBottomRight().get_y(), r_ptr->getSymbol());
+						return;
+					}
+				}
+			}
+			else
+			{
+				return;
+			}
+		}
 		default:
 			return;
 		}
@@ -261,7 +290,12 @@ void WorldMap::UserActions(int key)
 		case 72: {C_ptr->CursorMovement(SideMenu_ptr->MenuNavigation(C_ptr->getCursorConsoleLocation(), IconsPosition::UPPER)); return;	}	//up arrow
 		case 80: { C_ptr->CursorMovement(SideMenu_ptr->MenuNavigation(C_ptr->getCursorConsoleLocation(), IconsPosition::LOWER)); return; }	//down arrow
 		case 9: { C_ptr->CursorMovement(PointCoord(VM_ptr->getBottomRightCorner().get_x() / 2, VM_ptr->getBottomRightCorner().get_y() / 2)); return; }	//tab key moves cursor to the center of playing field
-		case 13: { SideMenu_ptr->ChooseBuilding(C_ptr->getCursorConsoleLocation()); return; }
+		case 13:
+		{
+			PreliminaryBuildingCreation(SideMenu_ptr->ChooseBuilding(C_ptr->getCursorConsoleLocation()));
+			C_ptr->CursorMovement(PointCoord(VM_ptr->getBottomRightCorner().get_x() / 2, VM_ptr->getBottomRightCorner().get_y() / 2));
+			return;
+		}
 		default:
 			return;
 		}
@@ -333,47 +367,39 @@ void SideMenu::setHideMenuStatus(bool hideflag)
 {
 	Hidden = hideflag;
 }
-ShiftDirection SideMenu::ChangeMenuStatus()	//bad SideMenu coords set up, need to be rewrite
+ShiftDirection SideMenu::ChangeMenuStatus()
 {
 	vector<GlobalObject*>::iterator iter;
+	ShiftDirection SD;
+	PointCoord UL, BR, MenuUL, MenuBR;
 	if (CurrentStatus == SideMenuStatus::LEFT)
 	{
 		CurrentStatus = SideMenuStatus::RIGHT;
-		PointCoord UL(1, 1);
-		PointCoord BR(UL.get_x() + X_axis, UL.get_y() + Y_axis);
-		VM_ptr->SetCorners(UL, BR);
-		PointCoord MenuUL(VM_ptr->getBottomRightCorner().get_x() + 1, VM_ptr->getUpperLeftCorner().get_y());
-		PointCoord MenuBR(VM_ptr->getBottomRightCorner().get_x() + 45, VM_ptr->getBottomRightCorner().get_y());
-		setMenuCoords(MenuUL, MenuBR);
-		int _x = (getMenuBottomRight().get_x() - getMenuUpperLeft().get_x()) / 2;
-		int _y = getMenuUpperLeft().get_y() + 4;
-		for (iter = Icons.begin(); iter != Icons.end(); iter++)
-		{
-			(*iter)->setUpperLeft(PointCoord(_x, _y));
-			_y += 6;
-		}
-		ShiftDirection SD = ShiftDirection::Right;
-		return SD;
+		UL = PointCoord(1, 1);
+		BR = PointCoord(UL.get_x() + X_axis, UL.get_y() + Y_axis);
+		MenuUL = PointCoord(VM_ptr->getBottomRightCorner().get_x() + 1, VM_ptr->getUpperLeftCorner().get_y());
+		MenuBR = PointCoord(MenuUL.get_x() + Menu_X_axis, MenuUL.get_y() + Y_axis);
+		SD = ShiftDirection::Right;
 	}
-	if (CurrentStatus == SideMenuStatus::RIGHT)
+	else
 	{
 		CurrentStatus = SideMenuStatus::LEFT;
-		PointCoord MenuUL(1, 1);
-		PointCoord MenuBR(MenuUL.get_x() + 45, MenuUL.get_y() + Y_axis);
-		setMenuCoords(MenuUL, MenuBR);
-		PointCoord UL(MenuBR.get_x() + 1, MenuUL.get_y());
-		PointCoord BR(UL.get_x() + X_axis, UL.get_y() + Y_axis);
-		VM_ptr->SetCorners(UL, BR);
-		int _x = (getMenuBottomRight().get_x() - getMenuUpperLeft().get_x()) / 2;
-		int _y = getMenuUpperLeft().get_y() + 4;
-		for (iter = Icons.begin(); iter != Icons.end(); iter++)
-		{
-			(*iter)->setUpperLeft(PointCoord(_x, _y));
-			_y += 6;
-		}
-		ShiftDirection SD = ShiftDirection::Left;
-		return SD;
+		MenuUL = PointCoord(1, 1);
+		MenuBR = PointCoord(MenuUL.get_x() + Menu_X_axis, MenuUL.get_y() + Y_axis);
+		UL = PointCoord(MenuBR.get_x() + 1, MenuUL.get_y());
+		BR = PointCoord(UL.get_x() + X_axis, UL.get_y() + Y_axis);
+		SD = ShiftDirection::Left;
 	}
+	setMenuCoords(MenuUL, MenuBR);
+	VM_ptr->SetCorners(UL, BR);
+	int _x = (getMenuBottomRight().get_x() + getMenuUpperLeft().get_x()) / 2;
+	int _y = getMenuUpperLeft().get_y() + 4;
+	for (iter = Icons.begin(); iter != Icons.end(); iter++)
+	{
+		(*iter)->setUpperLeft(PointCoord(_x, _y));
+		_y += 6;
+	}
+	return SD;
 }
 void SideMenu::ShowIcons()
 {
@@ -455,20 +481,6 @@ PointCoord SideMenu::MenuNavigation(PointCoord currenticon, IconsPosition ip)
 	{
 		return currenticon;
 	}
-	else if (ip == IconsPosition::UPPER)
-	{
-		if (nearest.get_y() > 0)
-		{
-			Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, currenticon.get_y() - 3, MenuBR.get_x() - 2, currenticon.get_y() + 2, color::cYELLOW);
-			Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, nearest.get_y() - 3, MenuBR.get_x() - 2, nearest.get_y() + 2, color::cGREEN);
-			return nearest;
-		}
-		else
-		{
-			IconsShift(ip);
-			return currenticon;
-		}
-	}
 	else
 	{
 		if (nearest.get_y() < VM_ptr->getBottomRightCorner().get_y())
@@ -484,14 +496,14 @@ PointCoord SideMenu::MenuNavigation(PointCoord currenticon, IconsPosition ip)
 		}
 	}
 }
-void SideMenu::ChooseBuilding(PointCoord iconpos)
+GlobalObject* SideMenu::ChooseBuilding(PointCoord iconpos)
 {
 	vector<GlobalObject*>::iterator iter;
 	for (iter = Icons.begin(); iter != Icons.end(); iter++)
 	{
 		if (iconpos == (*iter)->getUpperLeft())
 		{
-
+			return (*iter);
 		}
 	}
 }

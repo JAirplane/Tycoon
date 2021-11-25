@@ -50,7 +50,7 @@ public:
 	SideMenu(Visualisation* drawptr, VisibleMap* vmptr) : Draw_ptr(drawptr), VM_ptr(vmptr)
 	{
 		MenuUpperLeft = PointCoord(VM_ptr->getBottomRightCorner().get_x() + 1, VM_ptr->getUpperLeftCorner().get_y());
-		MenuBottomRight = PointCoord(VM_ptr->getBottomRightCorner().get_x() + 45, VM_ptr->getBottomRightCorner().get_y());
+		MenuBottomRight = PointCoord(VM_ptr->getBottomRightCorner().get_x() + Menu_X_axis, VM_ptr->getBottomRightCorner().get_y());
 		Hidden = 0;
 		int _x = (MenuBottomRight.get_x() + MenuUpperLeft.get_x()) / 2;
 		int _y = MenuUpperLeft.get_y() + 4;
@@ -80,7 +80,7 @@ public:
 	void ShowMenuBorders();
 	PointCoord getNearestIconCoords(PointCoord currenticon, IconsPosition ip);
 	void IconsShift(IconsPosition ip);
-	void ChooseBuilding(PointCoord iconpos);
+	GlobalObject* ChooseBuilding(PointCoord iconpos);
 	PointCoord MenuNavigation(PointCoord currenticon, IconsPosition ip);
 };
 /////////////World Map Class/////////////
@@ -130,4 +130,5 @@ public:
 	void eraseAllObjects();
 	void GameProcess();
 	void UserActions(int key);
+	void PreliminaryBuildingCreation(GlobalObject* go_ptr);
 };

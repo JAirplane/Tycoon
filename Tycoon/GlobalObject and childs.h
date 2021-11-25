@@ -12,6 +12,10 @@ private:
 public:
 	GlobalObject(PointCoord ul) : UpperLeft(ul), StartCondition(100)
 	{}
+	GlobalObject() : StartCondition(100)
+	{
+		setUpperLeft(PointCoord(0, 0));
+	}
 	~GlobalObject()
 	{}
 	PointCoord getUpperLeft() const;
@@ -22,6 +26,8 @@ public:
 	virtual int getConstructionCost() const;
 	virtual int getDailyExpences() const;
 	virtual string getDescription() const;
+	virtual GlobalObject* CreateObject() = 0;
+	virtual PointCoord getRoadLocation() const = 0;
 };
 /////////////Child Classes of Construction/////////////
 /////////////Ice Cream Shop/////////////
@@ -42,9 +48,17 @@ public:
 		LastDayVisitors = 0;
 		LastDayProfit = 0;
 	}
-	virtual int getConstructionCost() const;
-	virtual int getDailyExpences() const;
-	virtual char getSymbol() const;
+	IceCreamShop() : GlobalObject()
+	{
+		setBottomRight(PointCoord(0, 0));
+		LastDayVisitors = 0;
+		LastDayProfit = 0;
+	}
+	GlobalObject* CreateObject() override;
+	int getConstructionCost() const override;
+	int getDailyExpences() const override;
+	char getSymbol() const override;
+	PointCoord getRoadLocation() const override;
 };
 /////////////Menu Icon of Ice Cream Shop/////////////
 class IceCreamShopIcon : public IceCreamShop
@@ -66,14 +80,18 @@ private:
 	static int ConstructionCost;
 	static int DailyExpences;
 public:
+	Road() : GlobalObject()
+	{
+	}
 	Road(PointCoord _ul) : GlobalObject(_ul)
 	{}
 	~Road()
 	{}
-	virtual int getConstructionCost() const;
-	virtual int getDailyExpences() const;
-	virtual char getSymbol() const;
-	PointCoord getRoadLocation() const;
+	GlobalObject* CreateObject() override;
+	int getConstructionCost() const override;
+	int getDailyExpences() const override;
+	char getSymbol() const override;
+	PointCoord getRoadLocation() const override;
 	void setRoadLocation(PointCoord);
 };
 /////////////Menu Road Icon/////////////
@@ -107,5 +125,7 @@ public:
 	void VisitorMove(int, int);
 	void NeedsUp();
 	void ChooseDir();
+	GlobalObject* CreateObject() override;
+	PointCoord getRoadLocation() const override;
 };
 /////////////End of Constructions Classes/////////////

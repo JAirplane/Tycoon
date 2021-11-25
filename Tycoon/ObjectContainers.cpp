@@ -10,20 +10,42 @@ void AllObjects::addObject(GlobalObject* obj_ptr)
 {
 	EveryObject.push_back(obj_ptr);
 }
-///////////////All Buildings Class///////////////
-void AllBuildings::CreateBuilding(char ChoosenBuilding)
+void AllObjects::setLastElementFlag(bool changer)
 {
-	GlobalObject* GO_ptr = new IceCreamShop(PointCoord(C_ptr->getCursorConsoleLocation()));
-	Buildings.push_back(GO_ptr);
-	AllObjects_ptr->getAllObjects().push_back(GO_ptr);
-	PointCoord pc1 = GO_ptr->getUpperLeft();
-	PointCoord pc2 = GO_ptr->getBottomRight();
-	Draw_ptr->drawBuilding(pc2.get_x(), pc1.get_y(), pc1.get_x(), pc2.get_y(), GO_ptr->getSymbol());
-	C_ptr->setCursorConsoleLocation();
+	LastElementIsPreliminary = changer;
 }
+bool AllObjects::getLastElementFlag()
+{
+	return LastElementIsPreliminary;
+}
+GlobalObject* AllObjects::getPreliminaryElement()
+{
+	return EveryObject.back();
+}
+void AllObjects::ErasePreliminaryElement()
+{
+	EveryObject.pop_back();
+}
+BuildingType AllObjects::DefinePointerType(GlobalObject* go_ptr)
+{
+	Road* Test_ptr;
+	if (Test_ptr = dynamic_cast<Road*>(go_ptr))
+	{
+		return BuildingType::Road;
+	}
+	else
+	{
+		return BuildingType::IceCreamShop;
+	}
+}
+///////////////All Buildings Class///////////////
 list< GlobalObject* >& AllBuildings::getAllBuildings()
 {
 	return Buildings;
+}
+void AllBuildings::addBuilding(GlobalObject* go_ptr)
+{
+	Buildings.push_back(go_ptr);
 }
 ///////////////AllVisitors Class///////////////
 void AllVisitors::VisitorAppear()
@@ -60,17 +82,17 @@ list<Visitor*>& AllVisitors::getAllVisitors()
 	return Visitors;
 }
 ///////////////AllRoads Class///////////////
-void addRoad(Road* R_ptr)
+void AllRoads::addRoad(GlobalObject* go_ptr)
 {
-
+	Roads.push_back(go_ptr);
 }
-list<Road*>& AllRoads::getAllRoads()
+list<GlobalObject*>& AllRoads::getAllRoads()
 {
 	return Roads;
 }
 int AllRoads::RoadEnvironment(PointCoord _pc)
 {
-	list< Road* >::iterator iter;
+	list< GlobalObject* >::iterator iter;
 	PointCoord LeftLocation(_pc.get_x() - 1, _pc.get_y());
 	PointCoord RightLocation(_pc.get_x() + 1, _pc.get_y());
 	PointCoord UpLocation(_pc.get_x(), _pc.get_y() + 1);

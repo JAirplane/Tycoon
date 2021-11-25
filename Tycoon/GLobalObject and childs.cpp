@@ -39,6 +39,11 @@ string GlobalObject::getDescription() const
 int IceCreamShop::ConstructionCost = 250;
 int IceCreamShop::DailyExpences = 20;
 char IceCreamShop::drawConstructionSymbol = '!';
+GlobalObject* IceCreamShop::CreateObject()
+{
+	GlobalObject* Obj_ptr = new IceCreamShop();
+	return Obj_ptr;
+}
 char IceCreamShop::getSymbol() const
 {
 	return drawConstructionSymbol;
@@ -50,6 +55,10 @@ int IceCreamShop::getConstructionCost() const
 int IceCreamShop::getDailyExpences() const
 {
 	return DailyExpences;
+}
+PointCoord IceCreamShop::getRoadLocation() const
+{
+	return PointCoord(0, 0);
 }
 /////////////Menu Icon of Ice Cream Shop/////////////
 string IceCreamShopIcon::getDescription() const
@@ -66,9 +75,23 @@ void Visitor::VisitorMove(int x, int y)
 	GlobalObject::setUpperLeft(PointCoord(x, y));
 	GlobalObject::setBottomRight(PointCoord(x, y));
 }
+PointCoord Visitor::getRoadLocation() const
+{
+	return PointCoord(0, 0);
+}
+GlobalObject* Visitor::CreateObject()
+{
+	GlobalObject* fake_ptr = nullptr;
+	return fake_ptr;
+}
 ///////////////Road Class///////////////
 int Road::ConstructionCost = 50;
 int Road::DailyExpences = 0;
+GlobalObject* Road::CreateObject()
+{
+	GlobalObject* Obj_ptr = new Road();
+	return Obj_ptr;
+}
 int Road::getConstructionCost() const
 {
 	return ConstructionCost;

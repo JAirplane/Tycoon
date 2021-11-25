@@ -3,10 +3,13 @@
 #include "unicode/uchriter.h"
 #include "msoftcon.h"
 using namespace std;
-int ucharrrrrrrrrrrr = 'a';
-///////////////Addition to UpperLeft Get VisibleMap BottomRight Coords///////////////
+//int ucharrrrrrrrrrrr = 'a';
+///////////////Addition to UpperLeft Coord to Get VisibleMap BottomRight Coords///////////////
 const int X_axis = 69;
 const int Y_axis = 34;
+///////////////Addition to UpperLeft Coord to Get SideMenu BottomRight Coords///////////////
+const int Menu_X_axis = 44;
+//no need to initialize Menu_Y_axis, it's the same value as Y_axis
 ///////////////Enum ShiftDirection///////////////
 enum class ShiftDirection { Up, Right, Down, Left, Middle };
 ///////////////Enum RoadMask///////////////

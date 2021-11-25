@@ -1,17 +1,25 @@
 #pragma once
 using namespace std;
 #include <list>
+#include <typeinfo>
 #include "CursorClass.h"
+enum class BuildingType
+{
+	Road,
+	IceCreamShop,
+};
 /////////////Container of All Objects in the Game/////////////
 class AllObjects
 {
 private:
 	list< GlobalObject* > EveryObject;
 	Cursor* C_ptr;
+	bool LastElementIsPreliminary;
 public:
 	AllObjects(Cursor* _C_ptr)
 	{
 		C_ptr = _C_ptr;
+		LastElementIsPreliminary = 0;
 	}
 	~AllObjects()
 	{
@@ -22,8 +30,12 @@ public:
 		}
 	}
 	void addObject(GlobalObject* obj_ptr);
-	void CreateConstruction(char);
 	list< GlobalObject* >& getAllObjects();
+	void setLastElementFlag(bool changer);
+	bool getLastElementFlag();
+	GlobalObject* getPreliminaryElement();
+	void ErasePreliminaryElement();
+	BuildingType DefinePointerType(GlobalObject* go_ptr);
 };
 /////////////Container of All Types of Buildings Class/////////////
 class AllBuildings
@@ -48,14 +60,14 @@ public:
 			delete (*iter);
 		}
 	}
-	void CreateBuilding(char);
+	void addBuilding(GlobalObject* go_ptr);
 	list< GlobalObject* >& getAllBuildings();
 };
 /////////////Road Container Class/////////////
 class AllRoads
 {
 private:
-	list<Road*> Roads;
+	list<GlobalObject*> Roads;
 	Cursor* C_ptr;
 	AllObjects* AllObjects_ptr;
 	Visualisation* Draw_ptr;
@@ -68,14 +80,14 @@ public:
 	}
 	~AllRoads()
 	{
-		list<Road*>::iterator iter;
+		list<GlobalObject*>::iterator iter;
 		for (iter = Roads.begin(); iter != Roads.end(); iter++)
 		{
 			delete (*iter);
 		}
 	}
-	void addRoad(Road* R_ptr);
-	list<Road*>& getAllRoads();
+	void addRoad(GlobalObject* r_ptr);
+	list<GlobalObject*>& getAllRoads();
 	int RoadEnvironment(PointCoord pc1);
 	char SetRoadSymbol(int mask) const;
 };
