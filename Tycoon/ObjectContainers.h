@@ -1,5 +1,4 @@
 #pragma once
-using namespace std;
 #include <list>
 #include <typeinfo>
 #include "CursorClass.h"

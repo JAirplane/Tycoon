@@ -1,5 +1,3 @@
-#pragma once
-using namespace std;
 #include "CursorClass.h"
 ///////////////Cursor Class///////////////
 PointCoord Cursor::getCursorConsoleLocation()

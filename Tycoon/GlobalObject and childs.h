@@ -1,5 +1,4 @@
 #pragma once
-using namespace std;
 #include "Coord and constants.h"
 #include "drawheader.h"
 /////////////Parent Class of all constructions/////////////

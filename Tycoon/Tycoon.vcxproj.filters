@@ -42,6 +42,12 @@
     <ClInclude Include="..\..\icu\icu4c\source\common\unicode\utypes.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="VisibleMap.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="SideMenu.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Map.cpp">
@@ -59,13 +65,19 @@
     <ClCompile Include="Coord and constants.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
-    <ClCompile Include="GLobalObject and childs.cpp">
+    <ClCompile Include="GlobalObject and childs.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
     <ClCompile Include="CursorClass.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
     <ClCompile Include="ObjectContainers.cpp">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
+    <ClCompile Include="VisibleMap.cpp">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
+    <ClCompile Include="SideMenu.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
   </ItemGroup>

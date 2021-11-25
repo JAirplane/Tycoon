@@ -1,5 +1,4 @@
 #pragma once
-using namespace std;
 #include "GlobalObject and childs.h"
 /////////////Cursor Class/////////////
 class Cursor

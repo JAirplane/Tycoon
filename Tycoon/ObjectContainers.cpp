@@ -1,5 +1,3 @@
-#pragma once
-using namespace std;
 #include "ObjectContainers.h"
 /////////////Container of All Objects in the Game/////////////
 list< GlobalObject* >& AllObjects::getAllObjects()

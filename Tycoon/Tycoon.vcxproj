@@ -149,16 +149,20 @@
     <ClInclude Include="GlobalObject and childs.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="ObjectContainers.h" />
+    <ClInclude Include="SideMenu.h" />
+    <ClInclude Include="VisibleMap.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\msoft\msoftcon.cpp" />
     <ClCompile Include="Coord and constants.cpp" />
     <ClCompile Include="CursorClass.cpp" />
     <ClCompile Include="draw.cpp" />
-    <ClCompile Include="GLobalObject and childs.cpp" />
+    <ClCompile Include="GlobalObject and childs.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="ObjectContainers.cpp" />
     <ClCompile Include="run.cpp" />
+    <ClCompile Include="SideMenu.cpp" />
+    <ClCompile Include="VisibleMap.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,5 +1,3 @@
-#pragma once
-using namespace std;
 #include "GlobalObject and childs.h"
 ///////////////Parent Class of All Objects///////////////
 PointCoord GlobalObject::getUpperLeft() const
