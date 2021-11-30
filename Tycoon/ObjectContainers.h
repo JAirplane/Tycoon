@@ -29,12 +29,14 @@ public:
 		}
 	}
 	void addObject(GlobalObject* obj_ptr);
+	void addBeforePreliminary(GlobalObject* obj_ptr);
 	list< GlobalObject* >& getAllObjects();
 	void setLastElementFlag(bool changer);
 	bool getLastElementFlag();
 	GlobalObject* getPreliminaryElement();
 	void ErasePreliminaryElement();
 	BuildingType DefinePointerType(GlobalObject* go_ptr);
+	bool IsPartOfExistingObject(PointCoord _pc);
 };
 /////////////Container of All Types of Buildings Class/////////////
 class AllBuildings
@@ -60,6 +62,9 @@ public:
 		}
 	}
 	void addBuilding(GlobalObject* go_ptr);
+	void DisplayBuildings();
+	void EraseBuildings();
+	void addBeforePreliminary(GlobalObject* obj_ptr);
 	list< GlobalObject* >& getAllBuildings();
 };
 /////////////Road Container Class/////////////
@@ -86,9 +91,14 @@ public:
 		}
 	}
 	void addRoad(GlobalObject* r_ptr);
+	void addBeforePreliminary(GlobalObject* obj_ptr);
 	list<GlobalObject*>& getAllRoads();
 	int RoadEnvironment(PointCoord pc1);
 	char SetRoadSymbol(int mask) const;
+	void DisplayRoads();
+	void EraseRoads();
+	void IsGraph_RoadsOnly();
+	void setChainStatus();
 };
 /////////////Visitor Container Class/////////////
 class AllVisitors
@@ -115,5 +125,7 @@ public:
 	}
 	void VisitorAppear();
 	bool LocationCheck(PointCoord);
+	void DisplayVisitors();
+	void EraseVisitors();
 	list<Visitor*>& getAllVisitors();
 };

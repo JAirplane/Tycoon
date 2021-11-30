@@ -33,13 +33,20 @@ string GlobalObject::getDescription() const
 	string empty("error");
 	return empty;
 }
+void GlobalObject::DefineGraphStatus(int mask)
+{}
+char GlobalObject::SetRoadSymbol(int mask) const
+{
+	char ch = '0';
+	return ch;
+}
 ///////////////Ice Cream Shop Class///////////////
 int IceCreamShop::ConstructionCost = 250;
 int IceCreamShop::DailyExpences = 20;
 char IceCreamShop::drawConstructionSymbol = '!';
-GlobalObject* IceCreamShop::CreateObject()
+GlobalObject* IceCreamShop::CreateObject(PointCoord _pc)
 {
-	GlobalObject* Obj_ptr = new IceCreamShop();
+	GlobalObject* Obj_ptr = new IceCreamShop(_pc);
 	return Obj_ptr;
 }
 char IceCreamShop::getSymbol() const
@@ -54,30 +61,18 @@ int IceCreamShop::getDailyExpences() const
 {
 	return DailyExpences;
 }
-PointCoord IceCreamShop::getRoadLocation() const
-{
-	return PointCoord(0, 0);
-}
 /////////////Menu Icon of Ice Cream Shop/////////////
 string IceCreamShopIcon::getDescription() const
 {
 	return description;
 }
 ///////////////Visitor Class///////////////
-PointCoord Visitor::getLocation()
-{
-	return GlobalObject::getUpperLeft();
-}
 void Visitor::VisitorMove(int x, int y)
 {
 	GlobalObject::setUpperLeft(PointCoord(x, y));
 	GlobalObject::setBottomRight(PointCoord(x, y));
 }
-PointCoord Visitor::getRoadLocation() const
-{
-	return PointCoord(0, 0);
-}
-GlobalObject* Visitor::CreateObject()
+GlobalObject* Visitor::CreateObject(PointCoord _pc)
 {
 	GlobalObject* fake_ptr = nullptr;
 	return fake_ptr;
@@ -85,9 +80,9 @@ GlobalObject* Visitor::CreateObject()
 ///////////////Road Class///////////////
 int Road::ConstructionCost = 50;
 int Road::DailyExpences = 0;
-GlobalObject* Road::CreateObject()
+GlobalObject* Road::CreateObject(PointCoord _pc)
 {
-	GlobalObject* Obj_ptr = new Road();
+	GlobalObject* Obj_ptr = new Road(_pc);
 	return Obj_ptr;
 }
 int Road::getConstructionCost() const
@@ -103,13 +98,62 @@ char Road::getSymbol() const
 	char ch = '0';
 	return ch;
 }
-PointCoord Road::getRoadLocation() const
+char Road::SetRoadSymbol(int mask) const
 {
-	return GlobalObject::getUpperLeft();
+	char RoadSymbol = 'a';
+	switch (mask)
+	{
+	case none: return RoadSymbol = '+';
+	case leftside: return RoadSymbol = '+';
+	case topside: return RoadSymbol = '+';
+	case rightside: return RoadSymbol = '+';
+	case bottomside: return RoadSymbol = '+';
+	case vertical: return RoadSymbol = '+';
+	case horizontal: return RoadSymbol = '+';
+	case lefttop_angle: return RoadSymbol = '+';
+	case righttop_angle: return RoadSymbol = '+';
+	case leftbottom_angle: return RoadSymbol = '+';
+	case rightbottom_angle: return RoadSymbol = '+';
+	case right_T: return RoadSymbol = '+';
+	case left_T: return RoadSymbol = '+';
+	case top_T: return RoadSymbol = '+';
+	case bottom_T: return RoadSymbol = '+';
+	case cross: return RoadSymbol = '+';
+	default: return RoadSymbol = '-';
+	}
 }
-void Road::setRoadLocation(PointCoord loc)
+bool Road::getGraphStatus() const
 {
-	GlobalObject::setUpperLeft(loc);
+	return GraphStatus;
+}
+void Road::setGraphStatus(bool status)
+{
+	GraphStatus = status;
+}
+void Road::DefineGraphStatus(int mask)
+{
+	setGraphStatus(0);
+	switch (mask)
+	{
+	case leftside: { setGraphStatus(1); return; }
+	case topside: { setGraphStatus(1); return; }
+	case rightside: { setGraphStatus(1); return; }
+	case bottomside: { setGraphStatus(1); return; }
+	case right_T: { setGraphStatus(1); return; }
+	case left_T: { setGraphStatus(1); return; }
+	case top_T: { setGraphStatus(1); return; }
+	case bottom_T: { setGraphStatus(1); return; }
+	case cross: { setGraphStatus(1); return; }
+	default: return;
+	}
+}
+bool Road::getRoadIsInChainStatus()
+{
+	return RoadIsInChain;
+}
+void Road::setRoadIsInChainStatus(bool chainflag)
+{
+	RoadIsInChain = chainflag;
 }
 /////////////Menu Road Icon/////////////
 string RoadIcon::getDescription() const

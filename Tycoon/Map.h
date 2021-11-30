@@ -48,6 +48,7 @@ public:
 	void GameProcess();
 	void UserActions(int key);
 	void PreliminaryBuildingCreation(GlobalObject* go_ptr);
+	PointCoord RoadConnection();	//returns PointCoord of Road Pixel, choosen as Graph
 	void H_Key();
 	void S_Key();
 	void Tab_Key_Playingfield();
