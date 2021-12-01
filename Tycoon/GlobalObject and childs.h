@@ -8,12 +8,16 @@ private:
 	PointCoord UpperLeft;
 	PointCoord BottomRight;
 	int StartCondition;
+	bool RoadConnection;
 public:
 	GlobalObject(PointCoord ul) : UpperLeft(ul), StartCondition(100)
-	{}
+	{
+		RoadConnection = false;
+	}
 	GlobalObject() : StartCondition(100)
 	{
 		setUpperLeft(PointCoord(0, 0));
+		RoadConnection = false;
 	}
 	~GlobalObject()
 	{}
@@ -21,12 +25,13 @@ public:
 	PointCoord getBottomRight() const;
 	void setUpperLeft(PointCoord);
 	void setBottomRight(PointCoord);
+	virtual void DefineGraphStatus(int mask);
 	virtual char getSymbol() const;
 	virtual int getConstructionCost() const;
 	virtual int getDailyExpences() const;
 	virtual string getDescription() const;
-	virtual GlobalObject* CreateObject() = 0;
-	virtual PointCoord getRoadLocation() const = 0;
+	virtual char SetRoadSymbol(int mask) const;
+	virtual GlobalObject* CreateObject(PointCoord _pc) = 0;
 };
 /////////////Child Classes of Construction/////////////
 /////////////Ice Cream Shop/////////////
@@ -53,11 +58,10 @@ public:
 		LastDayVisitors = 0;
 		LastDayProfit = 0;
 	}
-	GlobalObject* CreateObject() override;
+	GlobalObject* CreateObject(PointCoord _pc) override;
 	int getConstructionCost() const override;
 	int getDailyExpences() const override;
 	char getSymbol() const override;
-	PointCoord getRoadLocation() const override;
 };
 /////////////Menu Icon of Ice Cream Shop/////////////
 class IceCreamShopIcon : public IceCreamShop
@@ -78,20 +82,31 @@ class Road : public GlobalObject
 private:
 	static int ConstructionCost;
 	static int DailyExpences;
+	bool GraphStatus;
+	bool RoadIsInChain;
 public:
 	Road() : GlobalObject()
 	{
+		GraphStatus = false;
+		RoadIsInChain = false;
 	}
 	Road(PointCoord _ul) : GlobalObject(_ul)
-	{}
+	{
+		GraphStatus = false;
+		RoadIsInChain = false;
+	}
 	~Road()
 	{}
-	GlobalObject* CreateObject() override;
+	GlobalObject* CreateObject(PointCoord _pc) override;
 	int getConstructionCost() const override;
 	int getDailyExpences() const override;
 	char getSymbol() const override;
-	PointCoord getRoadLocation() const override;
-	void setRoadLocation(PointCoord);
+	char SetRoadSymbol(int mask) const override;
+	bool getGraphStatus() const;
+	void setGraphStatus(bool status);
+	void DefineGraphStatus(int mask) override;
+	bool getRoadIsInChainStatus();
+	void setRoadIsInChainStatus(bool chainflag);
 };
 /////////////Menu Road Icon/////////////
 class RoadIcon : public Road
@@ -120,11 +135,9 @@ public:
 	}
 	~Visitor()
 	{}
-	PointCoord getLocation();
 	void VisitorMove(int, int);
 	void NeedsUp();
 	void ChooseDir();
-	GlobalObject* CreateObject() override;
-	PointCoord getRoadLocation() const override;
+	GlobalObject* CreateObject(PointCoord _pc) override;
 };
 /////////////End of Constructions Classes/////////////

@@ -60,4 +60,5 @@ public:
 	void IconsShift(IconsPosition ip);
 	GlobalObject* ChooseBuilding(PointCoord iconpos);
 	PointCoord MenuNavigation(PointCoord currenticon, IconsPosition ip);
+	void EraseMenu();
 };

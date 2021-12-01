@@ -8,6 +8,12 @@ void AllObjects::addObject(GlobalObject* obj_ptr)
 {
 	EveryObject.push_back(obj_ptr);
 }
+void AllObjects::addBeforePreliminary(GlobalObject* obj_ptr)
+{
+	list<GlobalObject*>::iterator it = EveryObject.end();
+	--it;
+	EveryObject.insert(it, obj_ptr);
+}
 void AllObjects::setLastElementFlag(bool changer)
 {
 	LastElementIsPreliminary = changer;
@@ -36,14 +42,54 @@ BuildingType AllObjects::DefinePointerType(GlobalObject* go_ptr)
 		return BuildingType::IceCreamShop;
 	}
 }
-///////////////All Buildings Class///////////////
-list< GlobalObject* >& AllBuildings::getAllBuildings()
+bool AllObjects::IsPartOfExistingObject(PointCoord _pc)
 {
-	return Buildings;
+	list< GlobalObject* >::iterator iter;
+	for (iter = EveryObject.begin(); iter != EveryObject.end(); iter++)
+	{
+		PointCoord UL = (*iter)->getUpperLeft();
+		PointCoord BR = (*iter)->getBottomRight();
+		if (_pc.get_x() >= UL.get_x() && _pc.get_x() <= BR.get_x() && _pc.get_y() >= UL.get_y() && _pc.get_y() <= BR.get_y())
+		{
+			return true;
+		}
+	}
+	return false;
 }
+///////////////All Buildings Class///////////////
 void AllBuildings::addBuilding(GlobalObject* go_ptr)
 {
 	Buildings.push_back(go_ptr);
+}
+void AllBuildings::addBeforePreliminary(GlobalObject* obj_ptr)
+{
+	list<GlobalObject*>::iterator it = Buildings.end();
+	--it;
+	Buildings.insert(it, obj_ptr);
+}
+void AllBuildings::DisplayBuildings()
+{
+	list< GlobalObject* >::iterator iter;
+	for (iter = Buildings.begin(); iter != Buildings.end(); iter++)
+	{
+		PointCoord ULBuilding = (*iter)->getUpperLeft();
+		PointCoord BRBuilding = (*iter)->getBottomRight();
+		Draw_ptr->drawBuilding(ULBuilding.get_x(), ULBuilding.get_y(), BRBuilding.get_x(), BRBuilding.get_y(), (*iter)->getSymbol());
+	}
+}
+void AllBuildings::EraseBuildings()
+{
+	list< GlobalObject* >::iterator iter;
+	for (iter = Buildings.begin(); iter != Buildings.end(); iter++)
+	{
+		PointCoord ULBuilding = (*iter)->getUpperLeft();
+		PointCoord BRBuilding = (*iter)->getBottomRight();
+		Draw_ptr->eraseBuilding(ULBuilding.get_x(), ULBuilding.get_y(), BRBuilding.get_x(), BRBuilding.get_y());
+	}
+}
+list<GlobalObject*>& AllBuildings::getAllBuildings()
+{
+	return Buildings;
 }
 ///////////////AllVisitors Class///////////////
 void AllVisitors::VisitorAppear()
@@ -60,7 +106,7 @@ void AllVisitors::VisitorAppear()
 		Vis_ptr = V_ptr = new Visitor(StartVisitorPoint, food, pee);
 		Visitors.push_back(V_ptr);
 		AllObjects_ptr->addObject(Vis_ptr);
-		Draw_ptr->drawVisitor((V_ptr->getLocation()).get_x(), (V_ptr->getLocation()).get_y());
+		Draw_ptr->drawVisitor((V_ptr->getUpperLeft()).get_x(), (V_ptr->getUpperLeft()).get_y());
 	}
 }
 bool AllVisitors::LocationCheck(PointCoord pc)
@@ -68,7 +114,7 @@ bool AllVisitors::LocationCheck(PointCoord pc)
 	list< Visitor* >::iterator iter;
 	for (iter = Visitors.begin(); iter != Visitors.end(); iter++)
 	{
-		if (pc == (*iter)->getLocation())
+		if (pc == (*iter)->getUpperLeft())
 		{
 			return 0;
 		}
@@ -79,10 +125,34 @@ list<Visitor*>& AllVisitors::getAllVisitors()
 {
 	return Visitors;
 }
+void AllVisitors::DisplayVisitors()
+{
+	list< Visitor* >::iterator iter;
+	for (iter = Visitors.begin(); iter != Visitors.end(); iter++)
+	{
+		PointCoord ULVisitor = (*iter)->getUpperLeft();
+		Draw_ptr->drawVisitor(ULVisitor.get_x(), ULVisitor.get_y());
+	}
+}
+void AllVisitors::EraseVisitors()
+{
+	list< Visitor* >::iterator iter;
+	for (iter = Visitors.begin(); iter != Visitors.end(); iter++)
+	{
+		PointCoord ULVisitor = (*iter)->getUpperLeft();
+		Draw_ptr->erasePixel(ULVisitor.get_x(), ULVisitor.get_y());
+	}
+}
 ///////////////AllRoads Class///////////////
 void AllRoads::addRoad(GlobalObject* go_ptr)
 {
 	Roads.push_back(go_ptr);
+}
+void AllRoads::addBeforePreliminary(GlobalObject* obj_ptr)
+{
+	list<GlobalObject*>::iterator it = Roads.end();
+	--it;
+	Roads.insert(it, obj_ptr);
 }
 list<GlobalObject*>& AllRoads::getAllRoads()
 {
@@ -98,46 +168,55 @@ int AllRoads::RoadEnvironment(PointCoord _pc)
 	int RoadEnvironmentMask = 0;
 	for (iter = Roads.begin(); iter != Roads.end(); iter++)
 	{
-		if ((*iter)->getRoadLocation() == LeftLocation)
+		if ((*iter)->getUpperLeft() == LeftLocation)
 		{
 			RoadEnvironmentMask |= int(RoadMask::LEFT);
 		}
-		if ((*iter)->getRoadLocation() == RightLocation)
+		if ((*iter)->getUpperLeft() == RightLocation)
 		{
 			RoadEnvironmentMask |= int(RoadMask::RIGHT);
 		}
-		if ((*iter)->getRoadLocation() == UpLocation)
+		if ((*iter)->getUpperLeft() == UpLocation)
 		{
 			RoadEnvironmentMask |= int(RoadMask::TOP);
 		}
-		if ((*iter)->getRoadLocation() == DownLocation)
+		if ((*iter)->getUpperLeft() == DownLocation)
 		{
 			RoadEnvironmentMask |= int(RoadMask::BOTTOM);
 		}
 	}
 	return RoadEnvironmentMask;
 }
-char AllRoads::SetRoadSymbol(int mask) const
+void AllRoads::DisplayRoads()
 {
-	char RoadSymbol = 'a';
-	switch (mask)
+	list< GlobalObject* >::iterator iter;
+	for (iter = Roads.begin(); iter != Roads.end(); iter++)
 	{
-	case none: return RoadSymbol = '+';
-	case leftside: return RoadSymbol = '+';
-	case topside: return RoadSymbol = '+';
-	case rightside: return RoadSymbol = '+';
-	case bottomside: return RoadSymbol = '+';
-	case vertical: return RoadSymbol = '+';
-	case horizontal: return RoadSymbol = '+';
-	case lefttop_angle: return RoadSymbol = '+';
-	case righttop_angle: return RoadSymbol = '+';
-	case leftbottom_angle: return RoadSymbol = '+';
-	case rightbottom_angle: return RoadSymbol = '+';
-	case right_T: return RoadSymbol = '+';
-	case left_T: return RoadSymbol = '+';
-	case top_T: return RoadSymbol = '+';
-	case bottom_T: return RoadSymbol = '+';
-	case cross: return RoadSymbol = '+';
-	default: return RoadSymbol = '-';
+		PointCoord ULRoad = (*iter)->getUpperLeft();
+		int mask1 = RoadEnvironment(ULRoad);
+		char RoadSymbol = (*iter)->SetRoadSymbol(mask1);
+		Draw_ptr->drawRoad(ULRoad.get_x(), ULRoad.get_y(), RoadSymbol);
 	}
+}
+void AllRoads::EraseRoads()
+{
+	list< GlobalObject* >::iterator iter;
+	for (iter = Roads.begin(); iter != Roads.end(); iter++)
+	{
+		PointCoord ULRoad = (*iter)->getUpperLeft();
+		Draw_ptr->erasePixel(ULRoad.get_x(), ULRoad.get_y());
+	}
+}
+void AllRoads::IsGraph_RoadsOnly()
+{
+	list< GlobalObject* >::iterator iter;
+	for (iter = Roads.begin(); iter != Roads.end(); iter++)
+	{
+		int mask = RoadEnvironment((*iter)->getUpperLeft());
+		(*iter)->DefineGraphStatus(mask);
+	}
+}
+void AllRoads::setChainStatus()
+{
+	//////////////////////////////////
 }

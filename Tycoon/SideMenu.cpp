@@ -35,7 +35,7 @@ ShiftDirection SideMenu::ChangeMenuStatus()
 		CurrentStatus = SideMenuStatus::RIGHT;
 		UL = PointCoord(1, 1);
 		BR = PointCoord(UL.get_x() + X_axis, UL.get_y() + Y_axis);
-		MenuUL = PointCoord(VM_ptr->getBottomRightCorner().get_x() + 1, VM_ptr->getUpperLeftCorner().get_y());
+		MenuUL = PointCoord(BR.get_x() + 1, UL.get_y());
 		MenuBR = PointCoord(MenuUL.get_x() + Menu_X_axis, MenuUL.get_y() + Y_axis);
 		SD = ShiftDirection::Right;
 	}
@@ -162,6 +162,16 @@ GlobalObject* SideMenu::ChooseBuilding(PointCoord iconpos)
 		if (iconpos == (*iter)->getUpperLeft())
 		{
 			return (*iter);
+		}
+	}
+}
+void SideMenu::EraseMenu()
+{
+	for (int j = MenuUpperLeft.get_y(); j <= MenuBottomRight.get_y(); j++)
+	{
+		for (int i = MenuUpperLeft.get_x(); i <= MenuBottomRight.get_x(); i++)
+		{
+			Draw_ptr->erasePixel(i, j);
 		}
 	}
 }
