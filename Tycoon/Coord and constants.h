@@ -4,11 +4,32 @@
 #include "msoftcon.h"
 using namespace std;
 //int ucharrrrrrrrrrrr = 'a';
-///////////////Addition to UpperLeft Coord to Get VisibleMap BottomRight Coords///////////////
-const int X_axis = 69;
-const int Y_axis = 34;
-///////////////Addition to UpperLeft Coord to Get SideMenu BottomRight Coords///////////////
-const int Menu_X_axis = 45;
+///////////////Ice Cream Shop Initialisation Constants///////////////
+const int IceCreamShopHeight = 2;
+const int IceCreamShopWidth = 2;
+const int IceCreamShopCost = 250;
+const int IceCreamShopExpences = 20;
+const string IceCreamShopIconDescription = "Ice cream! Everybody loves it!";
+const char IceSymbol = '!';
+///////////////Icon Initialisation Constants, it has no size///////////////
+const int IconHeight = 0;
+const int IconWidth = 0;
+///////////////Road Initialisation Constants///////////////
+const int RoadHeight = 1;
+const int RoadWidth = 1;
+const int RoadCost = 250;
+const int RoadExpences = 20;
+const string RoadDescription = "Visitors can walk roads only";
+const char RoadSymbol = (char)187;
+///////////////Visitor Initialisation Constants///////////////
+const int VisitorHeight = 1;
+const int VisitorWidth = 1;
+///////////////VisibleMap UpperLeft Coord, height and width///////////////
+const PointCoord UL_Angle = PointCoord(1, 1);
+const int VisibleMapHeight = 70;
+const int VisibleMapWidth = 35;
+///////////////SideMenu Width Constant///////////////
+const int MenuWidth = 46;
 //no need to initialize Menu_Y_axis, it's the same value as Y_axis
 ///////////////Enum ShiftDirection///////////////
 enum class ShiftDirection { Up, Right, Down, Left, Middle };
@@ -19,6 +40,18 @@ enum class RoadMask {
 	TOP = 2,
 	RIGHT = 4,
 	BOTTOM = 8,
+};
+/////////////Current Position of Side Menu/////////////
+enum class SideMenuStatus
+{
+	LEFT,
+	RIGHT,
+};
+/////////////Icons Position higher or lower than current active icon or coord/////////////
+enum class IconsPosition
+{
+	UPPER,
+	LOWER,
 };
 ///////////////All Possible Types of Mask///////////////
 const int none = int(RoadMask::NONE);

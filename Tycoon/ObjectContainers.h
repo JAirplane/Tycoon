@@ -11,7 +11,7 @@ enum class BuildingType
 class AllObjects
 {
 private:
-	list< GlobalObject* > EveryObject;
+	list<GlobalObject*> EveryObject;
 	Cursor* C_ptr;
 	bool LastElementIsPreliminary;
 public:
@@ -22,7 +22,7 @@ public:
 	}
 	~AllObjects()
 	{
-		list< GlobalObject* >::iterator iter;
+		list<GlobalObject*>::iterator iter;
 		for (iter = EveryObject.begin(); iter != EveryObject.end(); iter++)
 		{
 			delete (*iter);
@@ -30,7 +30,7 @@ public:
 	}
 	void addObject(GlobalObject* obj_ptr);
 	void addBeforePreliminary(GlobalObject* obj_ptr);
-	list< GlobalObject* >& getAllObjects();
+	list<GlobalObject*>& getAllObjects();
 	void setLastElementFlag(bool changer);
 	bool getLastElementFlag();
 	GlobalObject* getPreliminaryElement();
@@ -42,7 +42,7 @@ public:
 class AllBuildings
 {
 private:
-	list< GlobalObject* > Buildings;
+	list<Building*> Buildings;
 	Cursor* C_ptr;
 	AllObjects* AllObjects_ptr;
 	Visualisation* Draw_ptr;
@@ -55,23 +55,23 @@ public:
 	}
 	~AllBuildings()
 	{
-		list< GlobalObject* >::iterator iter;
+		list<Building*>::iterator iter;
 		for (iter = Buildings.begin(); iter != Buildings.end(); iter++)
 		{
 			delete (*iter);
 		}
 	}
-	void addBuilding(GlobalObject* go_ptr);
+	void addBuilding(Building* go_ptr);
 	void DisplayBuildings();
 	void EraseBuildings();
-	void addBeforePreliminary(GlobalObject* obj_ptr);
-	list< GlobalObject* >& getAllBuildings();
+	void addBeforePreliminary(Building* obj_ptr);
+	list<Building*>& getAllBuildings();
 };
 /////////////Road Container Class/////////////
 class AllRoads
 {
 private:
-	list<GlobalObject*> Roads;
+	list<Road*> Roads;
 	Cursor* C_ptr;
 	AllObjects* AllObjects_ptr;
 	Visualisation* Draw_ptr;
@@ -84,15 +84,15 @@ public:
 	}
 	~AllRoads()
 	{
-		list<GlobalObject*>::iterator iter;
+		list<Road*>::iterator iter;
 		for (iter = Roads.begin(); iter != Roads.end(); iter++)
 		{
 			delete (*iter);
 		}
 	}
-	void addRoad(GlobalObject* r_ptr);
-	void addBeforePreliminary(GlobalObject* obj_ptr);
-	list<GlobalObject*>& getAllRoads();
+	void addRoad(Road* r_ptr);
+	void addBeforePreliminary(Road* obj_ptr);
+	list<Road*>& getAllRoads();
 	int RoadEnvironment(PointCoord pc1);
 	char SetRoadSymbol(int mask) const;
 	void DisplayRoads();

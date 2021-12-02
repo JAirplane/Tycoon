@@ -1,21 +1,15 @@
 #pragma once
 #include "ObjectContainers.h"
 /////////////Visible Map Class/////////////
-class VisibleMap
+class VisibleMap : public GlobalObject
 {
-private:
-	PointCoord UpperLeftCorner;
-	PointCoord BottomRightCorner;
 public:
-	VisibleMap()
+	VisibleMap(PointCoord _ul) : GlobalObject(_ul)
 	{
-		UpperLeftCorner.set_coord(1, 1);
-		BottomRightCorner.set_coord(UpperLeftCorner.get_x() + X_axis, UpperLeftCorner.get_y() + Y_axis);
+		setHeight(VisibleMapHeight);
+		setWidth(VisibleMapWidth);
 	}
 	~VisibleMap()
 	{}
-	PointCoord getUpperLeftCorner() const;
-	PointCoord getBottomRightCorner() const;
-	void SetCorners(PointCoord UL, PointCoord BR);
 	ShiftDirection CursorBordersCheck(Cursor*);
 };

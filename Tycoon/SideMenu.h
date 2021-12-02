@@ -1,58 +1,41 @@
 #pragma once
 #include "VisibleMap.h"
 #include <vector>
-/////////////Current Position of Side Menu/////////////
-enum class SideMenuStatus
-{
-	LEFT,
-	RIGHT,
-};
-/////////////Icons Position higher or lower than current active icon or coord/////////////
-enum class IconsPosition
-{
-	UPPER,
-	LOWER,
-};
 /////////////Side Menu Class/////////////
-class SideMenu
+class SideMenu : public GlobalObject
 {
 private:
-	PointCoord MenuUpperLeft;
-	PointCoord MenuBottomRight;
 	Visualisation* Draw_ptr;
 	VisibleMap* VM_ptr;
-	vector<GlobalObject*> Icons;
+	vector<Icon<T>*> Icons;
 	SideMenuStatus CurrentStatus;
 	bool Hidden;
 public:
-	SideMenu(Visualisation* drawptr, VisibleMap* vmptr) : Draw_ptr(drawptr), VM_ptr(vmptr)
+	SideMenu(Visualisation* drawptr, VisibleMap* vmptr, PointCoord _ul) : GlobalObject(_ul), Draw_ptr(drawptr), VM_ptr(vmptr)
 	{
-		MenuUpperLeft = PointCoord(VM_ptr->getBottomRightCorner().get_x() + 1, VM_ptr->getUpperLeftCorner().get_y());
-		MenuBottomRight = PointCoord(VM_ptr->getBottomRightCorner().get_x() + Menu_X_axis, VM_ptr->getBottomRightCorner().get_y());
+		setHeight(VisibleMapHeight);
+		setWidth(MenuWidth);
 		Hidden = 0;
-		int _x = (MenuBottomRight.get_x() + MenuUpperLeft.get_x()) / 2;
-		int _y = MenuUpperLeft.get_y() + 4;
 		CurrentStatus = SideMenuStatus::RIGHT;
-		GlobalObject* Ice_ptr = new IceCreamShopIcon(PointCoord(_x, _y));
-		Icons.push_back(Ice_ptr);
+		int _x = (getUpperLeft().get_x() * 2 + getWidth() - 1) / 2;
+		int _y = getUpperLeft().get_y() + 4;
+		Icon<T>* icecreamicon_ptr = new Icon(PointCoord(_x, _y), IceCreamShopIconDescription, IceCreamShopCost, IceCreamShopExpences, IceSymbol);
+		Icons.push_back(icecreamicon_ptr);
 		_y += 6;
-		GlobalObject* Rd_ptr = new RoadIcon(PointCoord(_x, _y));
-		Icons.push_back(Rd_ptr);
+		Icon<T>* road_ptr = new Icon(PointCoord(_x, _y), RoadDescription, RoadCost, RoadExpences, RoadSymbol);
+		Icons.push_back(road_ptr);
 	}
 	~SideMenu()
 	{
-		vector<GlobalObject*>::iterator iter;
+		vector<Icon<T>*>::iterator iter;
 		for (iter = Icons.begin(); iter != Icons.end(); iter++)
 		{
 			delete (*iter);
 		}
 	}
-	void setMenuCoords(PointCoord UL, PointCoord BR);
-	PointCoord getMenuUpperLeft() const;
-	PointCoord getMenuBottomRight() const;
 	bool getHideMenuStatus() const;
 	void setHideMenuStatus(bool hideflag);
-	SideMenuStatus getCurrentStatus();
+	SideMenuStatus getSideStatus();
 	ShiftDirection ChangeMenuStatus();
 	void ShowIcons();
 	void ShowMenuBorders();

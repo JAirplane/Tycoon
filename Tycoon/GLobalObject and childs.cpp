@@ -4,100 +4,64 @@ PointCoord GlobalObject::getUpperLeft() const
 {
 	return UpperLeft;
 }
-PointCoord GlobalObject::getBottomRight() const
-{
-	return BottomRight;
-}
 void GlobalObject::setUpperLeft(PointCoord pc)
 {
 	UpperLeft.set_coord(pc.get_x(), pc.get_y());
 }
-void GlobalObject::setBottomRight(PointCoord pc)
+unsigned int GlobalObject::getHeight() const
 {
-	BottomRight.set_coord(pc.get_x(), pc.get_y());
+	return Height;
 }
-char GlobalObject::getSymbol() const
+void GlobalObject::setHeight(const int _h)
 {
-	return 0;
+	Height = _h;
 }
-int GlobalObject::getConstructionCost() const
+unsigned int GlobalObject::getWidth() const
 {
-	return 0;
+	return Width;
 }
-int GlobalObject::getDailyExpences() const
+void GlobalObject::setWidth(const int _w)
 {
-	return 0;
+	Width = _w;
 }
-string GlobalObject::getDescription() const
+///////////////Construction Class: GlobalObject derived///////////////
+int Construction::getConstructionCost() const
 {
-	string empty("error");
-	return empty;
+	return ConstructionCost;
 }
-void GlobalObject::DefineGraphStatus(int mask)
-{}
-char GlobalObject::SetRoadSymbol(int mask) const
+void Construction::setConstructionCost(const int cost)
 {
-	char ch = '0';
-	return ch;
+	ConstructionCost = cost;
 }
-///////////////Ice Cream Shop Class///////////////
-int IceCreamShop::ConstructionCost = 250;
-int IceCreamShop::DailyExpences = 20;
-char IceCreamShop::drawConstructionSymbol = '!';
+///////////////Building Class: Construction derived///////////////
+unsigned int Building::getDailyExpences() const
+{
+	return DailyExpences;
+}
+void Building::setDailyExpences(const int _de)
+{
+	DailyExpences = _de;
+}
+char Building::getSymbol() const
+{
+	return DrawSymbol;
+}
+void Building::setSymbol(const char _s)
+{
+	DrawSymbol = _s;
+}
+///////////////Ice Cream Shop Class: Building derived///////////////
 GlobalObject* IceCreamShop::CreateObject(PointCoord _pc)
 {
 	GlobalObject* Obj_ptr = new IceCreamShop(_pc);
 	return Obj_ptr;
 }
-char IceCreamShop::getSymbol() const
-{
-	return drawConstructionSymbol;
-}
-int IceCreamShop::getConstructionCost() const
-{
-	return ConstructionCost;
-}
-int IceCreamShop::getDailyExpences() const
-{
-	return DailyExpences;
-}
-/////////////Menu Icon of Ice Cream Shop/////////////
-string IceCreamShopIcon::getDescription() const
-{
-	return description;
-}
-///////////////Visitor Class///////////////
-void Visitor::VisitorMove(int x, int y)
-{
-	GlobalObject::setUpperLeft(PointCoord(x, y));
-	GlobalObject::setBottomRight(PointCoord(x, y));
-}
-GlobalObject* Visitor::CreateObject(PointCoord _pc)
-{
-	GlobalObject* fake_ptr = nullptr;
-	return fake_ptr;
-}
-///////////////Road Class///////////////
-int Road::ConstructionCost = 50;
-int Road::DailyExpences = 0;
-GlobalObject* Road::CreateObject(PointCoord _pc)
-{
-	GlobalObject* Obj_ptr = new Road(_pc);
-	return Obj_ptr;
-}
-int Road::getConstructionCost() const
-{
-	return ConstructionCost;
-}
-int Road::getDailyExpences() const
-{
-	return DailyExpences;
-}
-char Road::getSymbol() const
-{
-	char ch = '0';
-	return ch;
-}
+///////////////Road Class: Construction derived///////////////
+//GlobalObject* Road::CreateObject(PointCoord _pc)
+//{
+//	GlobalObject* Obj_ptr = new Road(_pc);
+//	return Obj_ptr;
+//}
 char Road::SetRoadSymbol(int mask) const
 {
 	char RoadSymbol = 'a';
@@ -155,8 +119,13 @@ void Road::setRoadIsInChainStatus(bool chainflag)
 {
 	RoadIsInChain = chainflag;
 }
-/////////////Menu Road Icon/////////////
-string RoadIcon::getDescription() const
+///////////////Visitor Class///////////////
+void Visitor::VisitorMove(int x, int y)
 {
-	return description;
+	setUpperLeft(PointCoord(x, y));
 }
+//GlobalObject* Visitor::CreateObject(PointCoord _pc)
+//{
+//	GlobalObject* fake_ptr = nullptr;
+//	return fake_ptr;
+//}

@@ -311,14 +311,14 @@ void WorldMap::UserActions(int key)
 		{
 		case 72: {C_ptr->CursorMovement(SideMenu_ptr->MenuNavigation(C_ptr->getCursorConsoleLocation(), IconsPosition::UPPER)); return;	}				//up arrow
 		case 80: { C_ptr->CursorMovement(SideMenu_ptr->MenuNavigation(C_ptr->getCursorConsoleLocation(), IconsPosition::LOWER)); return; }				//down arrow
-		case 9: 
-			{
-				PointCoord MenuUL = SideMenu_ptr->getMenuUpperLeft();
-				PointCoord MenuBR = SideMenu_ptr->getMenuBottomRight();
-				Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, C_ptr->getCursorConsoleLocation().get_y() - 3, MenuBR.get_x() - 2, C_ptr->getCursorConsoleLocation().get_y() + 2, color::cYELLOW);
-				C_ptr->CursorMovement(PointCoord((VM_ptr->getBottomRightCorner().get_x() + VM_ptr->getUpperLeftCorner().get_x()) / 2, (VM_ptr->getBottomRightCorner().get_y() + VM_ptr->getUpperLeftCorner().get_y()) / 2));
-				return; 
-			}	//tab key moves cursor to the center of playing field
+		case 9:
+		{
+			PointCoord MenuUL = SideMenu_ptr->getMenuUpperLeft();
+			PointCoord MenuBR = SideMenu_ptr->getMenuBottomRight();
+			Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, C_ptr->getCursorConsoleLocation().get_y() - 3, MenuBR.get_x() - 2, C_ptr->getCursorConsoleLocation().get_y() + 2, color::cYELLOW);
+			C_ptr->CursorMovement(PointCoord((VM_ptr->getBottomRightCorner().get_x() + VM_ptr->getUpperLeftCorner().get_x()) / 2, (VM_ptr->getBottomRightCorner().get_y() + VM_ptr->getUpperLeftCorner().get_y()) / 2));
+			return;
+		}	//tab key moves cursor to the center of playing field
 		case 13: { Enter_Key_SideMenu(); return; }																										//enter key chooses building to create
 		default:
 			return;

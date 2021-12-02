@@ -1,19 +1,6 @@
 #include "SideMenu.h"
 /////////////Side Menu Class/////////////
-void SideMenu::setMenuCoords(PointCoord UL, PointCoord BR)
-{
-	MenuUpperLeft = UL;
-	MenuBottomRight = BR;
-}
-PointCoord SideMenu::getMenuUpperLeft() const
-{
-	return MenuUpperLeft;
-}
-PointCoord SideMenu::getMenuBottomRight() const
-{
-	return MenuBottomRight;
-}
-SideMenuStatus SideMenu::getCurrentStatus()
+SideMenuStatus SideMenu::getSideStatus()
 {
 	return CurrentStatus;
 }
@@ -27,31 +14,29 @@ void SideMenu::setHideMenuStatus(bool hideflag)
 }
 ShiftDirection SideMenu::ChangeMenuStatus()
 {
-	vector<GlobalObject*>::iterator iter;
+	vector<Icon<T>*>::iterator iter;
 	ShiftDirection SD;
-	PointCoord UL, BR, MenuUL, MenuBR;
+	PointCoord UL, MenuUL;
 	if (CurrentStatus == SideMenuStatus::LEFT)
 	{
 		CurrentStatus = SideMenuStatus::RIGHT;
-		UL = PointCoord(1, 1);
-		BR = PointCoord(UL.get_x() + X_axis, UL.get_y() + Y_axis);
-		MenuUL = PointCoord(BR.get_x() + 1, UL.get_y());
-		MenuBR = PointCoord(MenuUL.get_x() + Menu_X_axis, MenuUL.get_y() + Y_axis);
+		UL = UL_Angle;
+		unsigned int width = VM_ptr->getWidth();
+		MenuUL = PointCoord(UL.get_x() + width, UL.get_y());
 		SD = ShiftDirection::Right;
 	}
 	else
 	{
 		CurrentStatus = SideMenuStatus::LEFT;
-		MenuUL = PointCoord(1, 1);
-		MenuBR = PointCoord(MenuUL.get_x() + Menu_X_axis, MenuUL.get_y() + Y_axis);
-		UL = PointCoord(MenuBR.get_x() + 1, MenuUL.get_y());
-		BR = PointCoord(UL.get_x() + X_axis, UL.get_y() + Y_axis);
+		MenuUL = UL_Angle;
+		unsigned int menuwidth = getWidth();
+		UL = PointCoord(MenuUL.get_x() + menuwidth, MenuUL.get_y());
 		SD = ShiftDirection::Left;
 	}
-	setMenuCoords(MenuUL, MenuBR);
-	VM_ptr->SetCorners(UL, BR);
-	int _x = (getMenuBottomRight().get_x() + getMenuUpperLeft().get_x()) / 2;
-	int _y = getMenuUpperLeft().get_y() + 4;
+	VM_ptr->setUpperLeft(UL);
+	setUpperLeft(MenuUL);
+	int _x = (getUpperLeft().get_x() * 2 + getWidth() - 1) / 2;
+	int _y = getUpperLeft().get_y() + 4;
 	for (iter = Icons.begin(); iter != Icons.end(); iter++)
 	{
 		(*iter)->setUpperLeft(PointCoord(_x, _y));
@@ -61,30 +46,30 @@ ShiftDirection SideMenu::ChangeMenuStatus()
 }
 void SideMenu::ShowIcons()
 {
-	int left_x = MenuUpperLeft.get_x();
-	int top_y = MenuUpperLeft.get_y();
-	int right_x = MenuBottomRight.get_x();
-	int bot_y = MenuBottomRight.get_y();
-	vector<GlobalObject*>::iterator iter;
+	int left_x = getUpperLeft().get_x();
+	int top_y = getUpperLeft().get_y();
+	int right_x = getUpperLeft().get_x() + getWidth() - 1;
+	int bot_y = getUpperLeft().get_x() + getHeight() - 1;
+	vector<Icon<T>*>::iterator iter;
 	for (iter = Icons.begin(); iter != Icons.end(); iter++)
 	{
 		Draw_ptr->drawIconBorders(left_x + 2, top_y + 1, right_x - 2, top_y + 6, color::cYELLOW);
 		Draw_ptr->drawIcon(left_x + 3, top_y + 2, (*iter)->getConstructionCost(), (*iter)->getDailyExpences(),
-			(*iter)->getSymbol(), (*iter)->getDescription(), color::cGREEN);
+			(*iter)->getIconSymbol(), (*iter)->getDescription(), color::cGREEN);
 		top_y += 6;
 	}
 }
 void SideMenu::ShowMenuBorders()
 {
-	int left_x = MenuUpperLeft.get_x();
-	int top_y = MenuUpperLeft.get_y();
-	int right_x = MenuBottomRight.get_x();
-	int bot_y = MenuBottomRight.get_y();
+	int left_x = getUpperLeft().get_x();
+	int top_y = getUpperLeft().get_y();
+	int right_x = getUpperLeft().get_x() + MenuWidth - 1;
+	int bot_y = getUpperLeft().get_y() + VisibleMapHeight - 1;
 	Draw_ptr->drawMenuBorders(left_x, top_y, right_x, bot_y, color::cBLUE);
 }
 PointCoord SideMenu::getNearestIconCoords(PointCoord currenticon, IconsPosition ip) //this method returns next upper/lower Icon's coords after "currenticon" coord
 {
-	vector<GlobalObject*>::iterator iter;
+	vector<Icon<T>*>::iterator iter;
 	if (ip == IconsPosition::UPPER)
 	{
 		PointCoord nearest(currenticon.get_x(), currenticon.get_y() - 1000);
@@ -112,7 +97,7 @@ PointCoord SideMenu::getNearestIconCoords(PointCoord currenticon, IconsPosition 
 }
 void SideMenu::IconsShift(IconsPosition ip)
 {
-	vector<GlobalObject*>::iterator iter;
+	vector<Icon<T>*>::iterator iter;
 	if (ip == IconsPosition::UPPER)
 	{
 		for (iter = Icons.begin(); iter != Icons.end(); iter++)
@@ -133,18 +118,19 @@ void SideMenu::IconsShift(IconsPosition ip)
 PointCoord SideMenu::MenuNavigation(PointCoord currenticon, IconsPosition ip)
 {
 	PointCoord nearest = getNearestIconCoords(currenticon, ip);
-	PointCoord MenuUL = getMenuUpperLeft();
-	PointCoord MenuBR = getMenuBottomRight();
+	PointCoord MenuUL = getUpperLeft();
+	unsigned int menu_height = getHeight();
+	unsigned int menu_width = getWidth();
 	if (nearest.get_y() == currenticon.get_y() + 1000 || nearest.get_y() == currenticon.get_y() - 1000)
 	{
 		return currenticon;
 	}
 	else
 	{
-		if (nearest.get_y() < VM_ptr->getBottomRightCorner().get_y())
+		if (nearest.get_y() < VM_ptr->getUpperLeft().get_y() + VM_ptr->getHeight() - 1)
 		{
-			Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, currenticon.get_y() - 3, MenuBR.get_x() - 2, currenticon.get_y() + 2, color::cYELLOW);
-			Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, nearest.get_y() - 3, MenuBR.get_x() - 2, nearest.get_y() + 2, color::cGREEN);
+			Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, currenticon.get_y() - 3, MenuUL.get_x() + menu_width - 3, currenticon.get_y() + 2, color::cYELLOW);
+			Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, nearest.get_y() - 3, MenuUL.get_x() + menu_width - 3, nearest.get_y() + 2, color::cGREEN);
 			return nearest;
 		}
 		else
@@ -156,7 +142,7 @@ PointCoord SideMenu::MenuNavigation(PointCoord currenticon, IconsPosition ip)
 }
 GlobalObject* SideMenu::ChooseBuilding(PointCoord iconpos)
 {
-	vector<GlobalObject*>::iterator iter;
+	vector<Icon<T>*>::iterator iter;
 	for (iter = Icons.begin(); iter != Icons.end(); iter++)
 	{
 		if (iconpos == (*iter)->getUpperLeft())
