@@ -8,47 +8,98 @@ void GlobalObject::setUpperLeft(PointCoord pc)
 {
 	UpperLeft.set_coord(pc.get_x(), pc.get_y());
 }
-unsigned int GlobalObject::getHeight() const
+unsigned int GlobalObject::getHeightAddition() const
 {
-	return Height;
+	return HeightAddition;
 }
-void GlobalObject::setHeight(const int _h)
+void GlobalObject::setHeightAddition(const int _hadd)
 {
-	Height = _h;
+	HeightAddition = _hadd;
 }
-unsigned int GlobalObject::getWidth() const
+unsigned int GlobalObject::getWidthAddition() const
 {
-	return Width;
+	return WidthAddition;
 }
-void GlobalObject::setWidth(const int _w)
+void GlobalObject::setWidthAddition(const int _wadd)
 {
-	Width = _w;
+	WidthAddition = _wadd;
 }
-///////////////Construction Class: GlobalObject derived///////////////
-int Construction::getConstructionCost() const
+///////////////ConstructionManager Class: GlobalObject derived///////////////
+unsigned int ConstructionManager::getConstructionCost() const
 {
 	return ConstructionCost;
 }
-void Construction::setConstructionCost(const int cost)
+void ConstructionManager::setConstructionCost(const int _constructioncost)
 {
-	ConstructionCost = cost;
+	ConstructionCost = _constructioncost;
 }
-///////////////Building Class: Construction derived///////////////
-unsigned int Building::getDailyExpences() const
+unsigned int ConstructionManager::getDailyExpences() const
 {
 	return DailyExpences;
 }
-void Building::setDailyExpences(const int _de)
+void ConstructionManager::setDailyExpences(unsigned int _dailyexpences)
 {
-	DailyExpences = _de;
+	DailyExpences = _dailyexpences;
 }
-char Building::getSymbol() const
+char ConstructionManager::getConstructionSymbol()
 {
-	return DrawSymbol;
+	return ConstructionSymbol;
 }
-void Building::setSymbol(const char _s)
+void ConstructionManager::setConstructionSymbol(const char _constructionsymbol)
 {
-	DrawSymbol = _s;
+	ConstructionSymbol = _constructionsymbol;
+}
+string ConstructionManager::getDescription() const
+{
+	return Description;
+}
+void ConstructionManager::setDescription(string _desc)
+{
+	Description = _desc;
+}
+char ConstructionManager::getIconSymbol()
+{
+	return IconSymbol;
+}
+void ConstructionManager::setIconSymbol(const char symbol)
+{
+	IconSymbol = symbol;
+}
+Construction* ConstructionManager::CreateConstruction()
+{
+	PointCoord upperleft = C_ptr->getCursorConsoleLocation();
+	Construction* constr_ptr = new Construction(upperleft, this, ConstructionHeightAddition, ConstructionWidthAddition);
+	return constr_ptr;
+}
+///////////////Construction Class: GlobalObject derived///////////////
+ConstructionManager* Construction::getManager() const //no setter here
+{
+	return Manager_ptr;
+}
+///////////////Building Class: Construction derived///////////////
+PointCoord Building::getEntrance() const
+{
+	return Entrance;
+}
+void Building::setEntrance(PointCoord _entrance)
+{
+	Entrance = _entrance;
+}
+unsigned int Building::getVisitorsCount() const
+{
+	return LastDayVisitors;
+}
+void Building::setVisitorsCount(unsigned int _visitorscount)
+{
+	LastDayVisitors = _visitorscount;
+}
+int Building::getProfit() const
+{
+	return LastDayProfit;
+}
+void Building::setProfit(int _profit)
+{
+	LastDayProfit = _profit;
 }
 ///////////////Ice Cream Shop Class: Building derived///////////////
 GlobalObject* IceCreamShop::CreateObject(PointCoord _pc)

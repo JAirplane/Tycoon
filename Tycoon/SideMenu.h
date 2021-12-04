@@ -7,7 +7,7 @@ class SideMenu : public GlobalObject
 private:
 	Visualisation* Draw_ptr;
 	VisibleMap* VM_ptr;
-	vector<Icon<T>*> Icons;
+	vector<Construction*> Icons;
 	SideMenuStatus CurrentStatus;
 	bool Hidden;
 public:
@@ -19,10 +19,12 @@ public:
 		CurrentStatus = SideMenuStatus::RIGHT;
 		int _x = (getUpperLeft().get_x() * 2 + getWidth() - 1) / 2;
 		int _y = getUpperLeft().get_y() + 4;
-		Icon<T>* icecreamicon_ptr = new Icon(PointCoord(_x, _y), IceCreamShopIconDescription, IceCreamShopCost, IceCreamShopExpences, IceSymbol);
+		IceCreamShop* ics_ptr = nullptr;
+		Construction* icecreamicon_ptr = new Icon<IceCreamShop*>(PointCoord(_x, _y), ics_ptr, IceCreamShopIconDescription, IceCreamShopCost, IceCreamShopExpences, IceSymbol);
 		Icons.push_back(icecreamicon_ptr);
 		_y += 6;
-		Icon<T>* road_ptr = new Icon(PointCoord(_x, _y), RoadDescription, RoadCost, RoadExpences, RoadSymbol);
+		Road* r_ptr = nullptr;
+		Construction* road_ptr = new Icon<Road*>(PointCoord(_x, _y), r_ptr, RoadDescription, RoadCost, RoadExpences, RoadSymbol);
 		Icons.push_back(road_ptr);
 	}
 	~SideMenu()

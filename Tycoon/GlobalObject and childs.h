@@ -1,25 +1,24 @@
 #pragma once
-#include "Coord and constants.h"
+#include "CursorClass.h"
 #include "drawheader.h"
 /////////////Parent Class of All Objects/////////////
 class GlobalObject
 {
 private:
 	PointCoord UpperLeft;
-	unsigned int Height;
-	unsigned int Width;
-	bool RoadConnection;
+	unsigned int HeightAddition;
+	unsigned int WidthAddition;
 public:
-	GlobalObject(PointCoord ul) : UpperLeft(ul)
+	GlobalObject(PointCoord ul, unsigned int _heightadd = 0, unsigned int _widthadd = 0) : UpperLeft(ul), HeightAddition(_heightadd), WidthAddition(_widthadd)
 	{}
 	~GlobalObject()
 	{}
 	PointCoord getUpperLeft() const;
 	void setUpperLeft(PointCoord _pc);
-	unsigned int getHeight() const;
-	void setHeight(const int _h);
-	unsigned int getWidth() const;
-	void setWidth(const int _w);
+	unsigned int getHeightAddition() const;
+	void setHeightAddition(const int _ha);
+	unsigned int getWidthAddition() const;
+	void setWidthAddition(const int _wa);
 
 	//virtual void DefineGraphStatus(int mask);
 	//virtual string getDescription() const;
@@ -28,107 +27,80 @@ public:
 };
 /////////////Child Classes/////////////
 /////////////Parent Class of Every Construction Type/////////////
+class ConstructionManager;
 class Construction : public GlobalObject
 {
 private:
-	unsigned int ConstructionCost;
+	ConstructionManager* Manager_ptr;
 public:
-	Construction(PointCoord _ul) : GlobalObject(_ul)
-	{}
+	Construction(PointCoord _ul, ConstructionManager* _manager_ptr, unsigned int _heightadd = 0, unsigned int _widthadd = 0) : GlobalObject(_ul, _heightadd, _widthadd)
+	{
+		Manager_ptr = _manager_ptr;
+	}
 	~Construction()
 	{}
-	int getConstructionCost() const;
-	void setConstructionCost(const int cost);
+	ConstructionManager* getManager() const; //no setter here
 };
-/////////////Menu Icon/////////////
-template <typename T>
-class Icon : public Construction
+/////////////ConstructionManager has all information about Construction/////////////
+class ConstructionManager : public GlobalObject
 {
 private:
+	Cursor* C_ptr;
+	unsigned int ConstructionHeightAddition;
+	unsigned int ConstructionWidthAddition;
+	unsigned int ConstructionCost;
 	unsigned int DailyExpences;
-	string description;
+	char ConstructionSymbol;
+	string Description;
 	char IconSymbol;
-	T* construction_ptr;
 public:
-	Icon(PointCoord _ul, T* constr_ptr, string _desc, unsigned int _cost, unsigned int _de, char symb) : Construction(_ul);
-	~Icon();
+	ConstructionManager(PointCoord _upperleft, Cursor* _c_ptr, unsigned int _constructioncost, unsigned int _dailyexpences, 
+						string _description, char _iconsymbol, unsigned int _constructionheightadd = 0 , unsigned int _constructionwidthadd = 0, char _constructionsymbol = '*') : GlobalObject(_upperleft)
+	{
+		C_ptr = _c_ptr;
+		ConstructionHeightAddition = _constructionheightadd;
+		ConstructionWidthAddition = _constructionwidthadd;
+		ConstructionCost = _constructioncost;
+		DailyExpences = _dailyexpences;
+		ConstructionSymbol = _constructionsymbol;
+		Description = _description;
+		IconSymbol = _iconsymbol;
+	}
+	~ConstructionManager() {}
+	unsigned int getConstructionCost() const;
+	void setConstructionCost(const int cost);
+	unsigned int getDailyExpences() const;
+	void setDailyExpences(unsigned int exp);
 	string getDescription() const;
 	void setDescription(string _desc);
-	unsigned int getDailyExpences();
-	void setDailyExpences(unsigned int exp);
+	char getConstructionSymbol();
+	void setConstructionSymbol(const char _symb);
 	char getIconSymbol();
-	void setIconSymbol(const char symbol);
-	T* getIconsPointerType();
-	Icon* CreateIcon(PointCoord _ul, T* constr_ptr, string _desc, unsigned int _cost, unsigned int _de, char symbol);
+	void setIconSymbol(const char _symb);
+	Construction* CreateConstruction();
 };
-///////////////Icon Class: Construction derived///////////////
-template <typename T>
-Icon<T>::Icon(PointCoord _ul, T* constr_ptr, string _desc, unsigned int _cost, unsigned int _de, char symb) : Construction(_ul)
-{
-	setHeight(IconHeight);
-	setWidth(IconWidth);
-	setConstructionCost(_cost);
-	description = _desc;
-	DailyExpences = _de;
-	IconSymbol = symb;
-	construction_ptr = constr_ptr;
-}
-template <typename T>
-Icon<T>::~Icon() {}
-template <typename T>
-string Icon<T>::getDescription() const
-{
-	return description;
-}
-template <typename T>
-void Icon<T>::setDescription(string _desc)
-{
-	description = _desc;
-}
-template <typename T>
-unsigned int Icon<T>::getDailyExpences()
-{
-	return DailyExpences;
-}
-template <typename T>
-void Icon<T>::setDailyExpences(unsigned int exp)
-{
-	DailyExpences = exp;
-}
-template <typename T>
-char Icon<T>::getIconSymbol()
-{
-	return IconSymbol;
-}
-template <typename T>
-void Icon<T>::setIconSymbol(const char symbol)
-{
-	IconSymbol = symbol;
-}
-template <typename T>
-Icon<T>* Icon<T>::CreateIcon(PointCoord _ul, T* constr_ptr, string _desc, unsigned int _cost, unsigned int _de, char symbol)
-{
-	Icon<T>* i_ptr = new Icon(_ul, constr_ptr, _desc, _cost, _de, symbol);
-	return i_ptr;
-}
-template <typename T>
-T* getIconsPointerType()
-{
-	return construction_ptr;
-}
 /////////////Parent Class of Buildings/////////////
 class Building : public Construction
 {
 private:
-	char DrawSymbol;
-	unsigned int DailyExpences;
+	PointCoord Entrance;
+	unsigned int LastDayVisitors;
+	int LastDayProfit;
 public:
-	Building(PointCoord _ul) : Construction(_ul)
-	{}
-	unsigned int getDailyExpences() const;
-	void setDailyExpences(const int _de);
-	char getSymbol() const;
-	void setSymbol(const char _s);
+	Building(PointCoord _ul, PointCoord _entrance, ConstructionManager* _manager_ptr, unsigned int _heightadd = 0, unsigned int _widthadd = 0) : Construction(_ul, _manager_ptr, _heightadd, _widthadd)
+	{
+		Entrance = _entrance;
+		LastDayVisitors = 0;
+		LastDayProfit = 0;
+	}
+	~Building() {}
+	PointCoord getEntrance() const;
+	void setEntrance(PointCoord _entrance);
+	unsigned int getVisitorsCount() const;
+	void setVisitorsCount(unsigned int _visitorscount);
+	int getProfit() const;
+	void setProfit(int _profit);
+
 };
 /////////////One Pixel of Road/////////////
 class Road : public Construction
@@ -137,10 +109,8 @@ private:
 	bool GraphStatus;
 	bool RoadIsInChain;
 public:
-	Road(PointCoord _ul) : Construction(_ul)
+	Road(PointCoord _ul, ConstructionManager* _manager_ptr) : Construction(_ul, _manager_ptr)
 	{
-		setHeight(RoadHeight);
-		setWidth(RoadWidth);
 		GraphStatus = false;
 		RoadIsInChain = false;
 	}
@@ -158,8 +128,7 @@ public:
 class IceCreamShop : public Building
 {
 private:
-	unsigned int LastDayVisitors;
-	int LastDayProfit;
+	
 public:
 	IceCreamShop(PointCoord _ul) : Building(_ul)
 	{

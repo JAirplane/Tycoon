@@ -5,31 +5,30 @@
 using namespace std;
 //int ucharrrrrrrrrrrr = 'a';
 ///////////////Ice Cream Shop Initialisation Constants///////////////
-const int IceCreamShopHeight = 2;
-const int IceCreamShopWidth = 2;
+const int IceCreamShopHeightAdd = 1;
+const int IceCreamShopWidthAdd = 1;
 const int IceCreamShopCost = 250;
 const int IceCreamShopExpences = 20;
 const string IceCreamShopIconDescription = "Ice cream! Everybody loves it!";
 const char IceSymbol = '!';
 ///////////////Icon Initialisation Constants, it has no size///////////////
-const int IconHeight = 0;
-const int IconWidth = 0;
+const int MenuElementBordersHeight = 6;
 ///////////////Road Initialisation Constants///////////////
-const int RoadHeight = 1;
-const int RoadWidth = 1;
+const int RoadHeightAdd = 0;
+const int RoadWidthAdd = 0;
 const int RoadCost = 250;
 const int RoadExpences = 20;
 const string RoadDescription = "Visitors can walk roads only";
 const char RoadSymbol = (char)187;
 ///////////////Visitor Initialisation Constants///////////////
-const int VisitorHeight = 1;
-const int VisitorWidth = 1;
+const int VisitorHeightAdd = 0;
+const int VisitorWidthAdd = 0;
 ///////////////VisibleMap UpperLeft Coord, height and width///////////////
 const PointCoord UL_Angle = PointCoord(1, 1);
-const int VisibleMapHeight = 70;
-const int VisibleMapWidth = 35;
+const int VisibleMapHeightAdd = 69;
+const int VisibleMapWidthAdd = 34;
 ///////////////SideMenu Width Constant///////////////
-const int MenuWidth = 46;
+const int MenuWidthAdd = 45;
 //no need to initialize Menu_Y_axis, it's the same value as Y_axis
 ///////////////Enum ShiftDirection///////////////
 enum class ShiftDirection { Up, Right, Down, Left, Middle };

@@ -14,7 +14,7 @@ void SideMenu::setHideMenuStatus(bool hideflag)
 }
 ShiftDirection SideMenu::ChangeMenuStatus()
 {
-	vector<Icon<T>*>::iterator iter;
+	vector<Construction*>::iterator iter;
 	ShiftDirection SD;
 	PointCoord UL, MenuUL;
 	if (CurrentStatus == SideMenuStatus::LEFT)
@@ -50,12 +50,12 @@ void SideMenu::ShowIcons()
 	int top_y = getUpperLeft().get_y();
 	int right_x = getUpperLeft().get_x() + getWidth() - 1;
 	int bot_y = getUpperLeft().get_x() + getHeight() - 1;
-	vector<Icon<T>*>::iterator iter;
+	vector<Construction*>::iterator iter;
 	for (iter = Icons.begin(); iter != Icons.end(); iter++)
 	{
 		Draw_ptr->drawIconBorders(left_x + 2, top_y + 1, right_x - 2, top_y + 6, color::cYELLOW);
 		Draw_ptr->drawIcon(left_x + 3, top_y + 2, (*iter)->getConstructionCost(), (*iter)->getDailyExpences(),
-			(*iter)->getIconSymbol(), (*iter)->getDescription(), color::cGREEN);
+			(*iter)->getSymbol(), (*iter)->getDescription(), color::cGREEN);
 		top_y += 6;
 	}
 }
@@ -67,9 +67,9 @@ void SideMenu::ShowMenuBorders()
 	int bot_y = getUpperLeft().get_y() + VisibleMapHeight - 1;
 	Draw_ptr->drawMenuBorders(left_x, top_y, right_x, bot_y, color::cBLUE);
 }
-PointCoord SideMenu::getNearestIconCoords(PointCoord currenticon, IconsPosition ip) //this method returns next upper/lower Icon's coords after "currenticon" coord
+PointCoord SideMenu::getNearestIconCoords(PointCoord currenticon, IconsPosition ip) //this method returns next upper/lower Icon's coords before/after "currenticon" coord
 {
-	vector<Icon<T>*>::iterator iter;
+	vector<Construction*>::iterator iter;
 	if (ip == IconsPosition::UPPER)
 	{
 		PointCoord nearest(currenticon.get_x(), currenticon.get_y() - 1000);
@@ -97,12 +97,12 @@ PointCoord SideMenu::getNearestIconCoords(PointCoord currenticon, IconsPosition 
 }
 void SideMenu::IconsShift(IconsPosition ip)
 {
-	vector<Icon<T>*>::iterator iter;
+	vector<Construction*>::iterator iter;
 	if (ip == IconsPosition::UPPER)
 	{
 		for (iter = Icons.begin(); iter != Icons.end(); iter++)
 		{
-			PointCoord UL((*iter)->getUpperLeft().get_x(), (*iter)->getUpperLeft().get_y() - 6);
+			PointCoord UL((*iter)->getUpperLeft().get_x(), (*iter)->getUpperLeft().get_y() - IconBordersHeight);
 			(*iter)->setUpperLeft(UL);
 		}
 	}
@@ -110,7 +110,7 @@ void SideMenu::IconsShift(IconsPosition ip)
 	{
 		for (iter = Icons.begin(); iter != Icons.end(); iter++)
 		{
-			PointCoord UL((*iter)->getUpperLeft().get_x(), (*iter)->getUpperLeft().get_y() + 6);
+			PointCoord UL((*iter)->getUpperLeft().get_x(), (*iter)->getUpperLeft().get_y() + IconBordersHeight);
 			(*iter)->setUpperLeft(UL);
 		}
 	}
@@ -142,12 +142,12 @@ PointCoord SideMenu::MenuNavigation(PointCoord currenticon, IconsPosition ip)
 }
 GlobalObject* SideMenu::ChooseBuilding(PointCoord iconpos)
 {
-	vector<Icon<T>*>::iterator iter;
+	vector<Construction*>::iterator iter;
 	for (iter = Icons.begin(); iter != Icons.end(); iter++)
 	{
 		if (iconpos == (*iter)->getUpperLeft())
 		{
-			return (*iter);
+			return;
 		}
 	}
 }
