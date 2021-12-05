@@ -49,35 +49,52 @@ private:
 	unsigned int ConstructionHeightAddition;
 	unsigned int ConstructionWidthAddition;
 	unsigned int ConstructionCost;
-	unsigned int DailyExpences;
-	char ConstructionSymbol;
 	string Description;
 	char IconSymbol;
 public:
-	ConstructionManager(PointCoord _upperleft, Cursor* _c_ptr, unsigned int _constructioncost, unsigned int _dailyexpences, 
-						string _description, char _iconsymbol, unsigned int _constructionheightadd = 0 , unsigned int _constructionwidthadd = 0, char _constructionsymbol = '*') : GlobalObject(_upperleft)
+	ConstructionManager(PointCoord _upperleft, Cursor* _c_ptr, unsigned int _constructioncost,  string _description, char _iconsymbol,
+						unsigned int _constructionheightadd = 0, unsigned int _constructionwidthadd = 0) : GlobalObject(_upperleft)
 	{
 		C_ptr = _c_ptr;
 		ConstructionHeightAddition = _constructionheightadd;
 		ConstructionWidthAddition = _constructionwidthadd;
 		ConstructionCost = _constructioncost;
-		DailyExpences = _dailyexpences;
-		ConstructionSymbol = _constructionsymbol;
 		Description = _description;
 		IconSymbol = _iconsymbol;
 	}
 	~ConstructionManager() {}
 	unsigned int getConstructionCost() const;
 	void setConstructionCost(const int cost);
-	unsigned int getDailyExpences() const;
-	void setDailyExpences(unsigned int exp);
 	string getDescription() const;
 	void setDescription(string _desc);
-	char getConstructionSymbol();
-	void setConstructionSymbol(const char _symb);
 	char getIconSymbol();
 	void setIconSymbol(const char _symb);
-	Construction* CreateConstruction();
+	Building* CreateBuilding();
+};
+class BuildingManager : public ConstructionManager
+{
+private: 
+	PointCoord BuildingEntrance;
+	unsigned int DailyExpences;
+	char BuildingSymbol;
+public:
+	BuildingManager(PointCoord _upperleft, PointCoord _buildingentrance, Cursor* _c_ptr, unsigned int _constructioncost, string _description, char _iconsymbol, unsigned int _dailyexpences,
+		char _buildingsymbol, unsigned int _constructionheightadd = 0, unsigned int _constructionwidthadd = 0) :
+		ConstructionManager(_upperleft, _c_ptr, _constructioncost, _description, _iconsymbol, _constructionheightadd, _constructionwidthadd)
+	{
+		BuildingEntrance = _buildingentrance;
+		DailyExpences = _dailyexpences;
+		BuildingSymbol = _buildingsymbol;
+	}
+	char getBuildingSymbol();
+	void setBuildingSymbol(const char _symb);
+	unsigned int getDailyExpences() const;
+	void setDailyExpences(unsigned int exp);
+};
+class RoadManager : public ConstructionManager
+{
+public:
+	Road* CreateRoad();
 };
 /////////////Parent Class of Buildings/////////////
 class Building : public Construction
@@ -116,30 +133,12 @@ public:
 	}
 	~Road()
 	{}
-	//GlobalObject* CreateObject(PointCoord _pc) override;
 	char SetRoadSymbol(int mask) const;
 	bool getGraphStatus() const;
 	void setGraphStatus(bool status);
 	void DefineGraphStatus(int mask);
 	bool getRoadIsInChainStatus();
 	void setRoadIsInChainStatus(bool chainflag);
-};
-/////////////Ice Cream Shop/////////////
-class IceCreamShop : public Building
-{
-private:
-	
-public:
-	IceCreamShop(PointCoord _ul) : Building(_ul)
-	{
-		setHeight(IceCreamShopHeight);
-		setWidth(IceCreamShopWidth);
-		setConstructionCost(IceCreamShopCost);
-		setDailyExpences(IceCreamShopExpences);
-		LastDayVisitors = 0;
-		LastDayProfit = 0;
-	}
-	GlobalObject* CreateObject(PointCoord _pc);
 };
 /////////////People are looking for some fun!/////////////
 class Visitor : public GlobalObject
@@ -150,8 +149,6 @@ private:
 public:
 	Visitor(PointCoord _ul, int fc, int ntp) : GlobalObject(_ul)
 	{
-		setHeight(VisitorHeight);
-		setWidth(VisitorWidth);
 		FoodCapacity = fc;
 		NeedToPee = ntp;
 	}

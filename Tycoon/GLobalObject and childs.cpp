@@ -33,22 +33,7 @@ void ConstructionManager::setConstructionCost(const int _constructioncost)
 {
 	ConstructionCost = _constructioncost;
 }
-unsigned int ConstructionManager::getDailyExpences() const
-{
-	return DailyExpences;
-}
-void ConstructionManager::setDailyExpences(unsigned int _dailyexpences)
-{
-	DailyExpences = _dailyexpences;
-}
-char ConstructionManager::getConstructionSymbol()
-{
-	return ConstructionSymbol;
-}
-void ConstructionManager::setConstructionSymbol(const char _constructionsymbol)
-{
-	ConstructionSymbol = _constructionsymbol;
-}
+
 string ConstructionManager::getDescription() const
 {
 	return Description;
@@ -65,11 +50,28 @@ void ConstructionManager::setIconSymbol(const char symbol)
 {
 	IconSymbol = symbol;
 }
-Construction* ConstructionManager::CreateConstruction()
+Building* ConstructionManager::CreateBuilding()
 {
 	PointCoord upperleft = C_ptr->getCursorConsoleLocation();
-	Construction* constr_ptr = new Construction(upperleft, this, ConstructionHeightAddition, ConstructionWidthAddition);
+	Building* constr_ptr = new Building(upperleft, this, ConstructionHeightAddition, ConstructionWidthAddition);
 	return constr_ptr;
+}
+///////////////Building Manager Class: ConstructionManager derived///////////////
+unsigned int BuildingManager::getDailyExpences() const
+{
+	return DailyExpences;
+}
+void BuildingManager::setDailyExpences(unsigned int _dailyexpences)
+{
+	DailyExpences = _dailyexpences;
+}
+char BuildingManager::getBuildingSymbol()
+{
+	return BuildingSymbol;
+}
+void BuildingManager::setBuildingSymbol(const char _buildingsymbol)
+{
+	BuildingSymbol = _buildingsymbol;
 }
 ///////////////Construction Class: GlobalObject derived///////////////
 ConstructionManager* Construction::getManager() const //no setter here
@@ -100,12 +102,6 @@ int Building::getProfit() const
 void Building::setProfit(int _profit)
 {
 	LastDayProfit = _profit;
-}
-///////////////Ice Cream Shop Class: Building derived///////////////
-GlobalObject* IceCreamShop::CreateObject(PointCoord _pc)
-{
-	GlobalObject* Obj_ptr = new IceCreamShop(_pc);
-	return Obj_ptr;
 }
 ///////////////Road Class: Construction derived///////////////
 //GlobalObject* Road::CreateObject(PointCoord _pc)
