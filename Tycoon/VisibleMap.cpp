@@ -13,12 +13,12 @@ ShiftDirection VisibleMap::CursorBordersCheck(Cursor* C_ptr)
 		SD = ShiftDirection::Down;
 		return SD;
 	}
-	if ((C_ptr->getCursorConsoleLocation()).get_x() == (getUpperLeft().get_x() + VisibleMapWidth - 1))
+	if ((C_ptr->getCursorConsoleLocation()).get_x() == (getUpperLeft().get_x() + ConstructionOptions::getAllOptions()->getVisibleMapWidth()))
 	{
 		SD = ShiftDirection::Left;
 		return SD;
 	}
-	if ((C_ptr->getCursorConsoleLocation()).get_y() == (getUpperLeft().get_y() + VisibleMapHeight - 1))
+	if ((C_ptr->getCursorConsoleLocation()).get_y() == (getUpperLeft().get_y() + ConstructionOptions::getAllOptions()->getVisibleMapHeight()))
 	{
 		SD = ShiftDirection::Up;
 		return SD;

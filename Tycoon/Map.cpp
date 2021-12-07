@@ -2,19 +2,19 @@
 ///////////////WorldMap Class///////////////
 void WorldMap::DisplaySideMenuBorders()
 {
-	int left_x = VM_ptr->getUpperLeftCorner().get_x();
-	int top_y = VM_ptr->getUpperLeftCorner().get_y();
-	int right_x = VM_ptr->getBottomRightCorner().get_x();
-	int bot_y = VM_ptr->getBottomRightCorner().get_y();
+	int left_x = VM_ptr->getUpperLeft().get_x();
+	int top_y = VM_ptr->getUpperLeft().get_y();
+	int right_x = left_x + VM_ptr->getWidthAddition();
+	int bot_y = top_y + VM_ptr->getHeightAddition();
 	SideMenu_ptr->ShowMenuBorders();
 	C_ptr->CursorMovement(PointCoord((left_x + right_x) / 2, (top_y + bot_y) / 2));
 }
 void WorldMap::DisplayIcons()
 {
-	int left_x = VM_ptr->getUpperLeftCorner().get_x();
-	int top_y = VM_ptr->getUpperLeftCorner().get_y();
-	int right_x = VM_ptr->getBottomRightCorner().get_x();
-	int bot_y = VM_ptr->getBottomRightCorner().get_y();
+	int left_x = VM_ptr->getUpperLeft().get_x();
+	int top_y = VM_ptr->getUpperLeft().get_y();
+	int right_x = left_x + VM_ptr->getWidthAddition();
+	int bot_y = top_y + VM_ptr->getHeightAddition();
 	SideMenu_ptr->ShowIcons();
 	C_ptr->CursorMovement(PointCoord((left_x + right_x) / 2, (top_y + bot_y) / 2));
 }
@@ -26,8 +26,8 @@ void WorldMap::DisplaySideMenu()
 void WorldMap::HideSideMenu()
 {
 	SideMenu_ptr->EraseMenu();
-	C_ptr->CursorMovement(PointCoord((VM_ptr->getUpperLeftCorner().get_x() + VM_ptr->getBottomRightCorner().get_x()) / 2,
-		(VM_ptr->getUpperLeftCorner().get_y() + VM_ptr->getBottomRightCorner().get_y()) / 2));
+	C_ptr->CursorMovement(PointCoord((VM_ptr->getUpperLeft().get_x() + VM_ptr->getUpperLeft().get_x() + VM_ptr->getWidthAddition()) / 2,
+		(VM_ptr->getUpperLeft().get_y() + VM_ptr->getUpperLeft().get_y() + VM_ptr->getHeightAddition()) / 2));
 }
 void WorldMap::eraseScreen()
 {
@@ -35,10 +35,10 @@ void WorldMap::eraseScreen()
 }
 void WorldMap::DisplayPlayingField()
 {
-	int left_x = VM_ptr->getUpperLeftCorner().get_x();
-	int top_y = VM_ptr->getUpperLeftCorner().get_y();
-	int right_x = VM_ptr->getBottomRightCorner().get_x();
-	int bot_y = VM_ptr->getBottomRightCorner().get_y();
+	int left_x = VM_ptr->getUpperLeft().get_x();
+	int top_y = VM_ptr->getUpperLeft().get_y();
+	int right_x = left_x + VM_ptr->getWidthAddition();
+	int bot_y = top_y + VM_ptr->getHeightAddition();
 	Draw_ptr->drawPlayingField(left_x, top_y, right_x, bot_y);
 }
 void WorldMap::GameProcess()
@@ -70,66 +70,56 @@ void WorldMap::GameProcess()
 void WorldMap::Shift(ShiftDirection SD)
 {
 	C_ptr->CursorShift(SD);
-	list< GlobalObject* >::iterator iter;
+	list<GlobalObject*>::const_iterator iter;
 	for (iter = (AllObjects_ptr->getAllObjects()).begin(); iter != (AllObjects_ptr->getAllObjects()).end(); iter++)
 	{
 		PointCoord ul = (*iter)->getUpperLeft();
-		PointCoord br = (*iter)->getBottomRight();
 		switch (SD)
 		{
 		case ShiftDirection::Right:
 		{
 			ul.set_coord(ul.get_x() + 1, ul.get_y());
-			br.set_coord(br.get_x() + 1, br.get_y());
 			break;
 		}
 		case ShiftDirection::Down:
 		{
 			ul.set_coord(ul.get_x(), ul.get_y() + 1);
-			br.set_coord(br.get_x(), br.get_y() + 1);
 			break;
 		}
 		case ShiftDirection::Left:
 		{
 			ul.set_coord(ul.get_x() - 1, ul.get_y());
-			br.set_coord(br.get_x() - 1, br.get_y());
 			break;
 		}
 		case ShiftDirection::Up:
 		{
 			ul.set_coord(ul.get_x(), ul.get_y() - 1);
-			br.set_coord(br.get_x(), br.get_y() - 1);
 			break;
 		}
 		}
-		(*iter)->setBottomRight(br);
 		(*iter)->setUpperLeft(ul);
 	}
 }
 void WorldMap::Shift(ShiftDirection SD, int shiftvalue)
 {
 	C_ptr->CursorShift(SD, shiftvalue);
-	list< GlobalObject* >::iterator iter;
+	list< GlobalObject* >::const_iterator iter;
 	for (iter = (AllObjects_ptr->getAllObjects()).begin(); iter != (AllObjects_ptr->getAllObjects()).end(); iter++)
 	{
 		PointCoord ul = (*iter)->getUpperLeft();
-		PointCoord br = (*iter)->getBottomRight();
 		switch (SD)
 		{
 		case ShiftDirection::Right:
 		{
 			ul.set_coord(ul.get_x() + shiftvalue, ul.get_y());
-			br.set_coord(br.get_x() + shiftvalue, br.get_y());
 			break;
 		}
 		case ShiftDirection::Left:
 		{
 			ul.set_coord(ul.get_x() - shiftvalue, ul.get_y());
-			br.set_coord(br.get_x() - shiftvalue, br.get_y());
 			break;
 		}
 		}
-		(*iter)->setBottomRight(br);
 		(*iter)->setUpperLeft(ul);
 	}
 }
@@ -185,9 +175,8 @@ void WorldMap::eraseAllObjects()
 //
 //	}
 //}
-void WorldMap::PreliminaryBuildingCreation(GlobalObject* go_ptr)
+void WorldMap::PreliminaryBuildingCreation(GlobalObject* preliminary_ptr)
 {
-	GlobalObject* preliminary_ptr = go_ptr->CreateObject(C_ptr->getCursorConsoleLocation());
 	AllObjects_ptr->addObject(preliminary_ptr);
 	AllObjects_ptr->setLastElementFlag(1);
 }
@@ -207,7 +196,7 @@ void WorldMap::H_Key()
 }
 void WorldMap::S_Key()
 {
-	Shift(SideMenu_ptr->ChangeMenuStatus(), SideMenu_ptr->getMenuBottomRight().get_x() - SideMenu_ptr->getMenuUpperLeft().get_x());
+	Shift(SideMenu_ptr->ChangeMenuSide(), SideMenu_ptr->getUpperLeft().get_x() + SideMenu_ptr->getWidthAddition() - SideMenu_ptr->getUpperLeft().get_x());
 	eraseScreen();
 	DisplayPlayingField();
 	DisplaySideMenu();
@@ -217,8 +206,8 @@ void WorldMap::Tab_Key_Playingfield()
 {
 	if (AllObjects_ptr->getLastElementFlag())
 	{
-		PointCoord MenuUL = SideMenu_ptr->getMenuUpperLeft();
-		PointCoord MenuBR = SideMenu_ptr->getMenuBottomRight();
+		PointCoord MenuUL = SideMenu_ptr->getUpperLeft();
+		PointCoord MenuBR(SideMenu_ptr->getUpperLeft().get_x() + SideMenu_ptr->getWidthAddition(), SideMenu_ptr->getUpperLeft().get_y() + SideMenu_ptr->getHeightAddition());
 		AllObjects_ptr->setLastElementFlag(0);
 		GlobalObject* preliminary_ptr = AllObjects_ptr->getPreliminaryElement();
 		Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, preliminary_ptr->getUpperLeft().get_y() - 3, MenuBR.get_x() - 2, preliminary_ptr->getUpperLeft().get_y() + 2, color::cYELLOW);
@@ -226,7 +215,7 @@ void WorldMap::Tab_Key_Playingfield()
 	}
 	PointCoord UpperVisibleIcon = SideMenu_ptr->getNearestIconCoords(PointCoord(0, 0), IconsPosition::LOWER);
 	C_ptr->CursorMovement(UpperVisibleIcon);
-	Draw_ptr->drawIconBorders(SideMenu_ptr->getMenuUpperLeft().get_x() + 2, UpperVisibleIcon.get_y() - 3, SideMenu_ptr->getMenuBottomRight().get_x() - 2, UpperVisibleIcon.get_y() + 2, color::cGREEN);
+	Draw_ptr->drawIconBorders(SideMenu_ptr->getUpperLeft().get_x() + 2, UpperVisibleIcon.get_y() - 3, SideMenu_ptr->getUpperLeft().get_x() + SideMenu_ptr->getWidthAddition() - 2, UpperVisibleIcon.get_y() + 2, color::cGREEN);
 	return;
 }
 void WorldMap::Enter_Key_PlayingField()

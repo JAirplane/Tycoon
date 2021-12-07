@@ -25,6 +25,22 @@ void GlobalObject::setWidthAddition(const int _wadd)
 	WidthAddition = _wadd;
 }
 ///////////////ConstructionManager Class: GlobalObject derived///////////////
+unsigned int ConstructionManager::getConstructionHeightAdd() const
+{
+	return ConstructionHeightAddition;
+}
+void ConstructionManager::setConstructionHeightAdd(unsigned int _heightadd)
+{
+	ConstructionHeightAddition = _heightadd;
+}
+unsigned int ConstructionManager::getConstructionWidthAdd() const
+{
+	return ConstructionWidthAddition;
+}
+void ConstructionManager::setConstructionWidthAdd(unsigned int _widthadd)
+{
+	ConstructionWidthAddition = _widthadd;
+}
 unsigned int ConstructionManager::getConstructionCost() const
 {
 	return ConstructionCost;
@@ -50,13 +66,31 @@ void ConstructionManager::setIconSymbol(const char symbol)
 {
 	IconSymbol = symbol;
 }
-Building* ConstructionManager::CreateBuilding()
+Construction* ConstructionManager::CreateConstruction(PointCoord upperleft)
 {
-	PointCoord upperleft = C_ptr->getCursorConsoleLocation();
-	Building* constr_ptr = new Building(upperleft, this, ConstructionHeightAddition, ConstructionWidthAddition);
+	Construction* constr_ptr = new Construction(upperleft, this);
 	return constr_ptr;
 }
-///////////////Building Manager Class: ConstructionManager derived///////////////
+ConstructionManager* ConstructionManager::CreateManager(Cursor* _c_ptr, unsigned int _constructioncost, string _description, char _iconsymbol,
+	unsigned int _constructionheightadd = 0, unsigned int _constructionwidthadd = 0)
+{
+	PointCoord _upperleft(0, 0);
+	ConstructionManager* cm_ptr = new ConstructionManager(_upperleft, _c_ptr, _constructioncost, _description, _iconsymbol, _constructionheightadd, _constructionwidthadd);
+	return cm_ptr;
+}
+char ConstructionManager::getBuildingSymbol()
+{
+	return '0';
+}
+void ConstructionManager::setBuildingSymbol(const char _symb)
+	{}
+unsigned int ConstructionManager::getDailyExpences() const
+{
+	return 0;
+}
+void ConstructionManager::setDailyExpences(unsigned int exp)
+	{}
+///////////////Building Manager Class: Construction Manager derived///////////////
 unsigned int BuildingManager::getDailyExpences() const
 {
 	return DailyExpences;
@@ -73,11 +107,42 @@ void BuildingManager::setBuildingSymbol(const char _buildingsymbol)
 {
 	BuildingSymbol = _buildingsymbol;
 }
+Construction* BuildingManager::CreateConstruction(PointCoord upperleft)
+{
+	Construction* constr_ptr = new Building(upperleft, this);
+	return constr_ptr;
+}
+ConstructionManager* BuildingManager::CreateManager(Cursor* _c_ptr, unsigned int _constructioncost, string _description, char _iconsymbol, unsigned int _dailyexpences,
+	char _buildingsymbol, unsigned int _constructionheightadd = 0, unsigned int _constructionwidthadd = 0)
+{
+	PointCoord _upperleft(0, 0);
+	ConstructionManager* cm_ptr = new BuildingManager(_upperleft, _c_ptr, _constructioncost, _description, _iconsymbol, _dailyexpences, _buildingsymbol, _constructionheightadd, _constructionwidthadd);
+	return cm_ptr;
+}
+///////////////Road Manager Class: Construction Manager derived///////////////
+Construction* RoadManager::CreateConstruction(PointCoord upperleft)
+{
+	Construction* constr_ptr = new Road(upperleft, this);
+	return constr_ptr;
+}
+ConstructionManager* RoadManager::CreateManager(Cursor* _c_ptr, unsigned int _constructioncost, string _description, char _iconsymbol,
+	unsigned int _constructionheightadd = 0, unsigned int _constructionwidthadd = 0)
+{
+	PointCoord _upperleft(0, 0);
+	ConstructionManager* cm_ptr = new RoadManager(_upperleft, _c_ptr, _constructioncost, _description, _iconsymbol, _constructionheightadd, _constructionwidthadd);
+	return cm_ptr;
+}
 ///////////////Construction Class: GlobalObject derived///////////////
 ConstructionManager* Construction::getManager() const //no setter here
 {
 	return Manager_ptr;
 }
+char Construction::SetRoadSymbol(int mask) const
+{
+	return '0';
+}
+void Construction::DefineGraphStatus(int mask)
+	{}
 ///////////////Building Class: Construction derived///////////////
 PointCoord Building::getEntrance() const
 {
@@ -104,11 +169,6 @@ void Building::setProfit(int _profit)
 	LastDayProfit = _profit;
 }
 ///////////////Road Class: Construction derived///////////////
-//GlobalObject* Road::CreateObject(PointCoord _pc)
-//{
-//	GlobalObject* Obj_ptr = new Road(_pc);
-//	return Obj_ptr;
-//}
 char Road::SetRoadSymbol(int mask) const
 {
 	char RoadSymbol = 'a';

@@ -19,11 +19,6 @@ public:
 	void setHeightAddition(const int _ha);
 	unsigned int getWidthAddition() const;
 	void setWidthAddition(const int _wa);
-
-	//virtual void DefineGraphStatus(int mask);
-	//virtual string getDescription() const;
-	//virtual char SetRoadSymbol(int mask) const;
-	//virtual GlobalObject* CreateObject(PointCoord _pc) = 0;
 };
 /////////////Child Classes/////////////
 /////////////Parent Class of Every Construction Type/////////////
@@ -33,15 +28,20 @@ class Construction : public GlobalObject
 private:
 	ConstructionManager* Manager_ptr;
 public:
-	Construction(PointCoord _ul, ConstructionManager* _manager_ptr, unsigned int _heightadd = 0, unsigned int _widthadd = 0) : GlobalObject(_ul, _heightadd, _widthadd)
+	Construction(PointCoord _ul, ConstructionManager* _manager_ptr) : GlobalObject(_ul)
 	{
 		Manager_ptr = _manager_ptr;
+		setHeightAddition(Manager_ptr->getConstructionHeightAdd());
+		setWidthAddition(Manager_ptr->getConstructionWidthAdd());
 	}
 	~Construction()
 	{}
 	ConstructionManager* getManager() const; //no setter here
+	virtual char SetRoadSymbol(int mask) const;
+	virtual void DefineGraphStatus(int mask);
+
 };
-/////////////ConstructionManager has all information about Construction/////////////
+/////////////Construction Manager has all the information about Construction/////////////
 class ConstructionManager : public GlobalObject
 {
 private:
@@ -52,8 +52,8 @@ private:
 	string Description;
 	char IconSymbol;
 public:
-	ConstructionManager(PointCoord _upperleft, Cursor* _c_ptr, unsigned int _constructioncost,  string _description, char _iconsymbol,
-						unsigned int _constructionheightadd = 0, unsigned int _constructionwidthadd = 0) : GlobalObject(_upperleft)
+	ConstructionManager(PointCoord _upperleft, Cursor* _c_ptr, unsigned int _constructioncost, string _description, char _iconsymbol,
+		unsigned int _constructionheightadd = 0, unsigned int _constructionwidthadd = 0) : GlobalObject(_upperleft)
 	{
 		C_ptr = _c_ptr;
 		ConstructionHeightAddition = _constructionheightadd;
@@ -63,38 +63,57 @@ public:
 		IconSymbol = _iconsymbol;
 	}
 	~ConstructionManager() {}
+	virtual ConstructionManager* CreateManager(Cursor* _c_ptr, unsigned int _constructioncost, string _description, char _iconsymbol,
+	unsigned int _constructionheightadd = 0, unsigned int _constructionwidthadd = 0);
+	unsigned int getConstructionHeightAdd() const;
+	void setConstructionHeightAdd(unsigned int _heightadd);
+	unsigned int getConstructionWidthAdd() const;
+	void setConstructionWidthAdd(unsigned int _widthadd);
 	unsigned int getConstructionCost() const;
 	void setConstructionCost(const int cost);
 	string getDescription() const;
 	void setDescription(string _desc);
 	char getIconSymbol();
 	void setIconSymbol(const char _symb);
-	Building* CreateBuilding();
+	virtual Construction* CreateConstruction(PointCoord upperleft);
+	virtual char getBuildingSymbol();
+	virtual void setBuildingSymbol(const char _symb);
+	virtual unsigned int getDailyExpences() const;
+	virtual void setDailyExpences(unsigned int exp);
 };
+/////////////Building Manager has additional fields that are necessary for buildings/////////////
 class BuildingManager : public ConstructionManager
 {
-private: 
-	PointCoord BuildingEntrance;
+private:
 	unsigned int DailyExpences;
 	char BuildingSymbol;
 public:
-	BuildingManager(PointCoord _upperleft, PointCoord _buildingentrance, Cursor* _c_ptr, unsigned int _constructioncost, string _description, char _iconsymbol, unsigned int _dailyexpences,
+	BuildingManager(PointCoord _upperleft, Cursor* _c_ptr, unsigned int _constructioncost, string _description, char _iconsymbol, unsigned int _dailyexpences,
 		char _buildingsymbol, unsigned int _constructionheightadd = 0, unsigned int _constructionwidthadd = 0) :
 		ConstructionManager(_upperleft, _c_ptr, _constructioncost, _description, _iconsymbol, _constructionheightadd, _constructionwidthadd)
 	{
-		BuildingEntrance = _buildingentrance;
 		DailyExpences = _dailyexpences;
 		BuildingSymbol = _buildingsymbol;
 	}
-	char getBuildingSymbol();
+	ConstructionManager* CreateManager(Cursor* _c_ptr, unsigned int _constructioncost, string _description, char _iconsymbol, unsigned int _dailyexpences,
+		char _buildingsymbol, unsigned int _constructionheightadd = 0, unsigned int _constructionwidthadd = 0);
+	char getBuildingSymbol() override;
 	void setBuildingSymbol(const char _symb);
 	unsigned int getDailyExpences() const;
 	void setDailyExpences(unsigned int exp);
+	Construction* CreateConstruction(PointCoord upperleft) override;
 };
+///////////////Road Manager Class: Construction Manager derived///////////////
 class RoadManager : public ConstructionManager
 {
 public:
-	Road* CreateRoad();
+	RoadManager(PointCoord _upperleft, Cursor* _c_ptr, unsigned int _constructioncost, string _description, char _iconsymbol,
+		unsigned int _constructionheightadd = 0, unsigned int _constructionwidthadd = 0) :
+		ConstructionManager(_upperleft, _c_ptr, _constructioncost, _description, _iconsymbol, _constructionheightadd, _constructionwidthadd)
+	{}
+	Construction* CreateConstruction(PointCoord upperleft) override;
+	ConstructionManager* CreateManager(Cursor* _c_ptr, unsigned int _constructioncost, string _description, char _iconsymbol,
+		unsigned int _constructionheightadd = 0, unsigned int _constructionwidthadd = 0);
 };
 /////////////Parent Class of Buildings/////////////
 class Building : public Construction
@@ -104,11 +123,13 @@ private:
 	unsigned int LastDayVisitors;
 	int LastDayProfit;
 public:
-	Building(PointCoord _ul, PointCoord _entrance, ConstructionManager* _manager_ptr, unsigned int _heightadd = 0, unsigned int _widthadd = 0) : Construction(_ul, _manager_ptr, _heightadd, _widthadd)
+	Building(PointCoord _ul, ConstructionManager* _manager_ptr) : Construction(_ul, _manager_ptr)
 	{
-		Entrance = _entrance;
+		setHeightAddition(getManager()->getConstructionHeightAdd());
+		setWidthAddition(getManager()->getConstructionWidthAdd());
 		LastDayVisitors = 0;
 		LastDayProfit = 0;
+		Entrance = PointCoord((getUpperLeft().get_x() * 2 + getWidthAddition()) / 2, getUpperLeft().get_y() + getHeightAddition());
 	}
 	~Building() {}
 	PointCoord getEntrance() const;
@@ -117,7 +138,6 @@ public:
 	void setVisitorsCount(unsigned int _visitorscount);
 	int getProfit() const;
 	void setProfit(int _profit);
-
 };
 /////////////One Pixel of Road/////////////
 class Road : public Construction
@@ -128,12 +148,14 @@ private:
 public:
 	Road(PointCoord _ul, ConstructionManager* _manager_ptr) : Construction(_ul, _manager_ptr)
 	{
+		setHeightAddition(getManager()->getConstructionHeightAdd());
+		setWidthAddition(getManager()->getConstructionWidthAdd());
 		GraphStatus = false;
 		RoadIsInChain = false;
 	}
 	~Road()
 	{}
-	char SetRoadSymbol(int mask) const;
+	char SetRoadSymbol(int mask) const override;
 	bool getGraphStatus() const;
 	void setGraphStatus(bool status);
 	void DefineGraphStatus(int mask);

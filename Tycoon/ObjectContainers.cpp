@@ -1,6 +1,6 @@
 #include "ObjectContainers.h"
 /////////////Container of All Objects in the Game/////////////
-list< GlobalObject* >& AllObjects::getAllObjects()
+const list< GlobalObject* > AllObjects::getAllObjects()
 {
 	return EveryObject;
 }
@@ -8,11 +8,18 @@ void AllObjects::addObject(GlobalObject* obj_ptr)
 {
 	EveryObject.push_back(obj_ptr);
 }
-void AllObjects::addBeforePreliminary(GlobalObject* obj_ptr)
+void AllObjects::addObject(GlobalObject* obj_ptr, int _position)
 {
-	list<GlobalObject*>::iterator it = EveryObject.end();
-	--it;
-	EveryObject.insert(it, obj_ptr);
+	if (EveryObject.size() < _position)
+	{
+		EveryObject.push_back(obj_ptr);
+	}
+	else
+	{
+		list<GlobalObject*>::iterator it = EveryObject.begin();
+		it = next(it, _position - 1);
+		EveryObject.insert(it, obj_ptr);
+	}
 }
 void AllObjects::setLastElementFlag(bool changer)
 {
@@ -30,27 +37,15 @@ void AllObjects::ErasePreliminaryElement()
 {
 	EveryObject.pop_back();
 }
-BuildingType AllObjects::DefinePointerType(GlobalObject* go_ptr)
-{
-	Road* Test_ptr;
-	if (Test_ptr = dynamic_cast<Road*>(go_ptr))
-	{
-		return BuildingType::Road;
-	}
-	else
-	{
-		return BuildingType::IceCreamShop;
-	}
-}
 bool AllObjects::IsPartOfExistingObject(PointCoord _pc)
 {
 	list< GlobalObject* >::iterator iter;
 	for (iter = EveryObject.begin(); iter != EveryObject.end(); iter++)
 	{
 		PointCoord UL = (*iter)->getUpperLeft();
-		unsigned int height = (*iter)->getHeight();
-		unsigned int width = (*iter)->getWidth();
-		if (_pc.get_x() >= UL.get_x() && _pc.get_x() <= (UL.get_x() + width - 1) && _pc.get_y() >= UL.get_y() && _pc.get_y() <= (UL.get_y() + height - 1))
+		unsigned int heightadd = (*iter)->getHeightAddition();
+		unsigned int widthadd = (*iter)->getWidthAddition();
+		if (_pc.get_x() >= UL.get_x() && _pc.get_x() <= (UL.get_x() + widthadd) && _pc.get_y() >= UL.get_y() && _pc.get_y() <= (UL.get_y() + heightadd))
 		{
 			return true;
 		}
@@ -58,39 +53,33 @@ bool AllObjects::IsPartOfExistingObject(PointCoord _pc)
 	return false;
 }
 ///////////////All Buildings Class///////////////
-void AllBuildings::addBuilding(Building* go_ptr)
+void AllBuildings::addBuilding(Construction* go_ptr)
 {
 	Buildings.push_back(go_ptr);
 }
-void AllBuildings::addBeforePreliminary(Building* obj_ptr)
-{
-	list<Building*>::iterator it = Buildings.end();
-	--it;
-	Buildings.insert(it, obj_ptr);
-}
 void AllBuildings::DisplayBuildings()
 {
-	list<Building*>::iterator iter;
+	list<Construction*>::iterator iter;
 	for (iter = Buildings.begin(); iter != Buildings.end(); iter++)
 	{
 		PointCoord ULBuilding = (*iter)->getUpperLeft();
-		unsigned int height = (*iter)->getHeight();
-		unsigned int width = (*iter)->getWidth();
-		Draw_ptr->drawBuilding(ULBuilding.get_x(), ULBuilding.get_y(), ULBuilding.get_x() + width - 1, ULBuilding.get_y() + height - 1, (*iter)->getSymbol());
+		unsigned int heightadd = (*iter)->getHeightAddition();
+		unsigned int widthadd = (*iter)->getWidthAddition();
+		Draw_ptr->drawBuilding(ULBuilding.get_x(), ULBuilding.get_y(), ULBuilding.get_x() + widthadd, ULBuilding.get_y() + heightadd, (*iter)->getManager()->getBuildingSymbol());
 	}
 }
 void AllBuildings::EraseBuildings()
 {
-	list<Building*>::iterator iter;
+	list<Construction*>::iterator iter;
 	for (iter = Buildings.begin(); iter != Buildings.end(); iter++)
 	{
 		PointCoord ULBuilding = (*iter)->getUpperLeft();
-		unsigned int height = (*iter)->getHeight();
-		unsigned int width = (*iter)->getWidth();
-		Draw_ptr->eraseBuilding(ULBuilding.get_x(), ULBuilding.get_y(), ULBuilding.get_x() + width - 1, ULBuilding.get_y() + height - 1);
+		unsigned int heightadd = (*iter)->getHeightAddition();
+		unsigned int widthadd = (*iter)->getWidthAddition();
+		Draw_ptr->eraseBuilding(ULBuilding.get_x(), ULBuilding.get_y(), ULBuilding.get_x() + widthadd, ULBuilding.get_y() + heightadd);
 	}
 }
-list<Building*>& AllBuildings::getAllBuildings()
+const list<Construction*> AllBuildings::getAllBuildings()
 {
 	return Buildings;
 }
@@ -147,23 +136,17 @@ void AllVisitors::EraseVisitors()
 	}
 }
 ///////////////AllRoads Class///////////////
-void AllRoads::addRoad(Road* go_ptr)
+void AllRoads::addRoad(Construction* go_ptr)
 {
 	Roads.push_back(go_ptr);
 }
-void AllRoads::addBeforePreliminary(Road* obj_ptr)
-{
-	list<Road*>::iterator it = Roads.end();
-	--it;
-	Roads.insert(it, obj_ptr);
-}
-list<Road*>& AllRoads::getAllRoads()
+list<Construction*>& AllRoads::getAllRoads()
 {
 	return Roads;
 }
 int AllRoads::RoadEnvironment(PointCoord _pc)
 {
-	list<Road*>::iterator iter;
+	list<Construction*>::iterator iter;
 	PointCoord LeftLocation(_pc.get_x() - 1, _pc.get_y());
 	PointCoord RightLocation(_pc.get_x() + 1, _pc.get_y());
 	PointCoord UpLocation(_pc.get_x(), _pc.get_y() + 1);
@@ -192,7 +175,7 @@ int AllRoads::RoadEnvironment(PointCoord _pc)
 }
 void AllRoads::DisplayRoads()
 {
-	list<Road*>::iterator iter;
+	list<Construction*>::iterator iter;
 	for (iter = Roads.begin(); iter != Roads.end(); iter++)
 	{
 		PointCoord ULRoad = (*iter)->getUpperLeft();
@@ -203,7 +186,7 @@ void AllRoads::DisplayRoads()
 }
 void AllRoads::EraseRoads()
 {
-	list< Road* >::iterator iter;
+	list<Construction*>::iterator iter;
 	for (iter = Roads.begin(); iter != Roads.end(); iter++)
 	{
 		PointCoord ULRoad = (*iter)->getUpperLeft();
@@ -212,7 +195,7 @@ void AllRoads::EraseRoads()
 }
 void AllRoads::IsGraph_RoadsOnly()
 {
-	list<Road*>::iterator iter;
+	list<Construction*>::iterator iter;
 	for (iter = Roads.begin(); iter != Roads.end(); iter++)
 	{
 		int mask = RoadEnvironment((*iter)->getUpperLeft());

@@ -6,8 +6,8 @@ class VisibleMap : public GlobalObject
 public:
 	VisibleMap(PointCoord _ul) : GlobalObject(_ul)
 	{
-		setHeight(VisibleMapHeight);
-		setWidth(VisibleMapWidth);
+		setHeightAddition(ConstructionOptions::getAllOptions()->getVisibleMapHeight());
+		setWidthAddition(ConstructionOptions::getAllOptions()->getVisibleMapWidth());
 	}
 	~VisibleMap()
 	{}
