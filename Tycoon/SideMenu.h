@@ -1,64 +1,41 @@
 #pragma once
 #include "VisibleMap.h"
 #include <vector>
-/////////////Current Position of Side Menu/////////////
-enum class SideMenuStatus
-{
-	LEFT,
-	RIGHT,
-};
-/////////////Icons Position higher or lower than current active icon or coord/////////////
-enum class IconsPosition
-{
-	UPPER,
-	LOWER,
-};
-/////////////Side Menu Class/////////////
-class SideMenu
+class SideMenu : public GlobalObject
 {
 private:
-	PointCoord MenuUpperLeft;
-	PointCoord MenuBottomRight;
 	Visualisation* Draw_ptr;
 	VisibleMap* VM_ptr;
-	vector<GlobalObject*> Icons;
-	SideMenuStatus CurrentStatus;
+	Cursor* C_ptr;
+	vector<ConstructionManager*> Managers;
+	SideMenuStatus CurrentSide;
 	bool Hidden;
 public:
-	SideMenu(Visualisation* drawptr, VisibleMap* vmptr) : Draw_ptr(drawptr), VM_ptr(vmptr)
+	SideMenu(Visualisation* drawptr, VisibleMap* vmptr, Cursor* _c_ptr, PointCoord _ul) : GlobalObject(_ul), Draw_ptr(drawptr), VM_ptr(vmptr), C_ptr(_c_ptr)
 	{
-		MenuUpperLeft = PointCoord(VM_ptr->getBottomRightCorner().get_x() + 1, VM_ptr->getUpperLeftCorner().get_y());
-		MenuBottomRight = PointCoord(VM_ptr->getBottomRightCorner().get_x() + Menu_X_axis, VM_ptr->getBottomRightCorner().get_y());
+		setHeightAddition(ConstructionOptions::getAllOptions()->getMenuHeightAdd());
+		setWidthAddition(ConstructionOptions::getAllOptions()->getMenuWidthAdd());
 		Hidden = 0;
-		int _x = (MenuBottomRight.get_x() + MenuUpperLeft.get_x()) / 2;
-		int _y = MenuUpperLeft.get_y() + 4;
-		CurrentStatus = SideMenuStatus::RIGHT;
-		GlobalObject* Ice_ptr = new IceCreamShopIcon(PointCoord(_x, _y));
-		Icons.push_back(Ice_ptr);
-		_y += 6;
-		GlobalObject* Rd_ptr = new RoadIcon(PointCoord(_x, _y));
-		Icons.push_back(Rd_ptr);
+		CurrentSide = SideMenuStatus::RIGHT;
 	}
 	~SideMenu()
 	{
-		vector<GlobalObject*>::iterator iter;
-		for (iter = Icons.begin(); iter != Icons.end(); iter++)
+		vector<ConstructionManager*>::iterator iter;
+		for (iter = Managers.begin(); iter != Managers.end(); iter++)
 		{
 			delete (*iter);
 		}
 	}
-	void setMenuCoords(PointCoord UL, PointCoord BR);
-	PointCoord getMenuUpperLeft() const;
-	PointCoord getMenuBottomRight() const;
 	bool getHideMenuStatus() const;
 	void setHideMenuStatus(bool hideflag);
-	SideMenuStatus getCurrentStatus();
-	ShiftDirection ChangeMenuStatus();
+	SideMenuStatus getCurrentSide();
+	ShiftDirection ChangeMenuSide();
 	void ShowIcons();
 	void ShowMenuBorders();
 	PointCoord getNearestIconCoords(PointCoord currenticon, IconsPosition ip);
 	void IconsShift(IconsPosition ip);
-	GlobalObject* ChooseBuilding(PointCoord iconpos);
+	IngameObject* CreatePreliminaryObject(PointCoord iconpos);
 	PointCoord MenuNavigation(PointCoord currenticon, IconsPosition ip);
 	void EraseMenu();
+	void addManager(ConstructionManager* manager_ptr);
 };

@@ -1,5 +1,5 @@
 #pragma once
-#include "GlobalObject and childs.h"
+#include "Coord and constants.h"
 /////////////Cursor Class/////////////
 class Cursor
 {

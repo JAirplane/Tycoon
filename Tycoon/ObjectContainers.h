@@ -1,17 +1,12 @@
 #pragma once
 #include <list>
 #include <typeinfo>
-#include "CursorClass.h"
-enum class BuildingType
-{
-	Road,
-	IceCreamShop,
-};
+#include "GlobalObject and childs.h"
 /////////////Container of All Objects in the Game/////////////
 class AllObjects
 {
 private:
-	list< GlobalObject* > EveryObject;
+	list<IngameObject*> EveryObject;
 	Cursor* C_ptr;
 	bool LastElementIsPreliminary;
 public:
@@ -22,27 +17,26 @@ public:
 	}
 	~AllObjects()
 	{
-		list< GlobalObject* >::iterator iter;
+		list<IngameObject*>::iterator iter;
 		for (iter = EveryObject.begin(); iter != EveryObject.end(); iter++)
 		{
 			delete (*iter);
 		}
 	}
-	void addObject(GlobalObject* obj_ptr);
-	void addBeforePreliminary(GlobalObject* obj_ptr);
-	list< GlobalObject* >& getAllObjects();
+	list<IngameObject*>& getAllObjects();
+	void addObject(IngameObject* obj_ptr);
+	void addObject(IngameObject* obj_ptr, int _position);
 	void setLastElementFlag(bool changer);
 	bool getLastElementFlag();
-	GlobalObject* getPreliminaryElement();
+	IngameObject* getPreliminaryElement(); //it takes last element of EveryObject list
 	void ErasePreliminaryElement();
-	BuildingType DefinePointerType(GlobalObject* go_ptr);
 	bool IsPartOfExistingObject(PointCoord _pc);
 };
 /////////////Container of All Types of Buildings Class/////////////
 class AllBuildings
 {
 private:
-	list< GlobalObject* > Buildings;
+	list<Construction*> Buildings;
 	Cursor* C_ptr;
 	AllObjects* AllObjects_ptr;
 	Visualisation* Draw_ptr;
@@ -55,25 +49,24 @@ public:
 	}
 	~AllBuildings()
 	{
-		list< GlobalObject* >::iterator iter;
+		list<Construction*>::iterator iter;
 		for (iter = Buildings.begin(); iter != Buildings.end(); iter++)
 		{
 			delete (*iter);
 		}
 	}
-	void addBuilding(GlobalObject* go_ptr);
+	void addBuilding(Construction* go_ptr);
 	void DisplayBuildings();
 	void EraseBuildings();
-	void addBeforePreliminary(GlobalObject* obj_ptr);
-	list< GlobalObject* >& getAllBuildings();
+	const list<Construction*> getAllBuildings();
 };
 /////////////Road Container Class/////////////
 class AllRoads
 {
 private:
-	list<GlobalObject*> Roads;
-	Cursor* C_ptr;
+	list<Construction*> Roads;
 	AllObjects* AllObjects_ptr;
+	Cursor* C_ptr;
 	Visualisation* Draw_ptr;
 public:
 	AllRoads(Cursor* _C_ptr, AllObjects* _AllObjects_ptr, Visualisation* _Draw_ptr)
@@ -84,15 +77,14 @@ public:
 	}
 	~AllRoads()
 	{
-		list<GlobalObject*>::iterator iter;
+		list<Construction*>::iterator iter;
 		for (iter = Roads.begin(); iter != Roads.end(); iter++)
 		{
 			delete (*iter);
 		}
 	}
-	void addRoad(GlobalObject* r_ptr);
-	void addBeforePreliminary(GlobalObject* obj_ptr);
-	list<GlobalObject*>& getAllRoads();
+	void addRoad(Construction* r_ptr);
+	list<Construction*>& getAllRoads();
 	int RoadEnvironment(PointCoord pc1);
 	char SetRoadSymbol(int mask) const;
 	void DisplayRoads();

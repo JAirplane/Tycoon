@@ -4,12 +4,6 @@
 #include "msoftcon.h"
 using namespace std;
 //int ucharrrrrrrrrrrr = 'a';
-///////////////Addition to UpperLeft Coord to Get VisibleMap BottomRight Coords///////////////
-const int X_axis = 69;
-const int Y_axis = 34;
-///////////////Addition to UpperLeft Coord to Get SideMenu BottomRight Coords///////////////
-const int Menu_X_axis = 45;
-//no need to initialize Menu_Y_axis, it's the same value as Y_axis
 ///////////////Enum ShiftDirection///////////////
 enum class ShiftDirection { Up, Right, Down, Left, Middle };
 ///////////////Enum RoadMask///////////////
@@ -19,6 +13,18 @@ enum class RoadMask {
 	TOP = 2,
 	RIGHT = 4,
 	BOTTOM = 8,
+};
+/////////////Current Position of Side Menu/////////////
+enum class SideMenuStatus
+{
+	LEFT,
+	RIGHT,
+};
+/////////////Icons Position higher or lower than current active icon or coord/////////////
+enum class IconsPosition
+{
+	UPPER,
+	LOWER,
 };
 ///////////////All Possible Types of Mask///////////////
 const int none = int(RoadMask::NONE);
@@ -68,4 +74,47 @@ public:
 	void set_coord(int _x, int _y);
 	void set_coord(PointCoord pc);
 	bool operator == (PointCoord);
+};
+/////////////Construction Options Class : Singleton pattern/////////////
+class ConstructionOptions
+{
+protected:
+	ConstructionOptions() {}
+	~ConstructionOptions()
+	{
+		delete ConstructionParameters;
+	}
+	static ConstructionOptions* ConstructionParameters;
+public:
+	ConstructionOptions(ConstructionOptions& other) = delete;
+	void operator=(const ConstructionOptions&) = delete;
+	static ConstructionOptions* getAllOptions();
+	///////////////Height Addition Constants///////////////
+	virtual const int getIceCreamShopHeightAdd() const;
+	virtual const int getMenuElementBordersHeight() const; //height of 1 element of menu
+	virtual const int getRoadHeightAdd() const;
+	virtual const int getVisitorHeightAdd() const;
+	virtual const int getVisibleMapHeight() const;
+	virtual const int getMenuHeightAdd() const;
+	///////////////Width Addition Constants///////////////
+	virtual const int getIceCreamShopWidthAdd() const;
+	virtual const int getRoadWidthAdd() const;
+	virtual const int getVisitorWidthAdd() const;
+	virtual const int getVisibleMapWidth() const;
+	virtual const int getMenuWidthAdd() const;
+	///////////////Cost Initialisation Constants///////////////
+	virtual const int getIceCreamShopCost() const;
+	virtual const int getRoadCost() const;
+	///////////////Daily Expences Initialisation Constants///////////////
+	virtual const int getIceCreamShopExpences() const;
+	///////////////Description Initialisation Constants///////////////
+	virtual const string getIceCreamShopDescription() const;
+	virtual const string getRoadDescription() const;
+	///////////////Building Symbol Constants///////////////
+	virtual const char getIceCreamShopSymbol() const;
+	///////////////Initialisation Coord Constants///////////////
+	virtual const PointCoord getVisibleMapInitialCoordUL() const;
+	///////////////Building's Icon Symbol Constants///////////////
+	virtual const char getIceCreamShopIconSymbol() const;
+	virtual const char getRoadIconSymbol() const;
 };

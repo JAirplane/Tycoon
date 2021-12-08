@@ -16,13 +16,14 @@ public:
 	WorldMap()
 	{
 		C_ptr = new Cursor();
-		VM_ptr = new VisibleMap();
+		VM_ptr = new VisibleMap(ConstructionOptions::getAllOptions()->getVisibleMapInitialCoordUL());
 		Draw_ptr = new Visualisation();
 		AllObjects_ptr = new AllObjects(C_ptr);
 		Buildings_ptr = new AllBuildings(C_ptr, AllObjects_ptr, Draw_ptr);
 		Roads_ptr = new AllRoads(C_ptr, AllObjects_ptr, Draw_ptr);
 		Visitors_ptr = new AllVisitors(C_ptr, AllObjects_ptr, Draw_ptr);
-		SideMenu_ptr = new SideMenu(Draw_ptr, VM_ptr);
+		PointCoord SideMenuUL(VM_ptr->getUpperLeft().get_x() + VM_ptr->getWidthAddition() + 1, VM_ptr->getUpperLeft().get_y());
+		SideMenu_ptr = new SideMenu(Draw_ptr, VM_ptr, C_ptr, SideMenuUL);
 	}
 	~WorldMap()
 	{
@@ -47,7 +48,8 @@ public:
 	void eraseAllObjects();
 	void GameProcess();
 	void UserActions(int key);
-	void PreliminaryBuildingCreation(GlobalObject* go_ptr);
+	void PreliminaryBuildingAdd(IngameObject* go_ptr);
+	virtual void CreateManagers();
 	PointCoord RoadConnection();	//returns PointCoord of Road Pixel, choosen as Graph
 	void H_Key();
 	void S_Key();
