@@ -22,7 +22,7 @@ ShiftDirection SideMenu::ChangeMenuSide()
 		CurrentSide = SideMenuStatus::RIGHT;
 		UL = ConstructionOptions::getAllOptions()->getVisibleMapInitialCoordUL();
 		unsigned int widthadd = VM_ptr->getWidthAddition();
-		MenuUL = PointCoord(UL.get_x() + widthadd, UL.get_y());
+		MenuUL = PointCoord(UL.get_x() + widthadd + 1, UL.get_y());
 		SD = ShiftDirection::Right;
 	}
 	else
@@ -30,7 +30,7 @@ ShiftDirection SideMenu::ChangeMenuSide()
 		CurrentSide = SideMenuStatus::LEFT;
 		MenuUL = ConstructionOptions::getAllOptions()->getVisibleMapInitialCoordUL();
 		unsigned int menuwidthadd = getWidthAddition();
-		UL = PointCoord(MenuUL.get_x() + menuwidthadd, MenuUL.get_y());
+		UL = PointCoord(MenuUL.get_x() + menuwidthadd + 1, MenuUL.get_y());
 		SD = ShiftDirection::Left;
 	}
 	VM_ptr->setUpperLeft(UL);
@@ -129,8 +129,8 @@ PointCoord SideMenu::MenuNavigation(PointCoord currenticon, IconsPosition ip)
 	{
 		if (nearest.get_y() < VM_ptr->getUpperLeft().get_y() + VM_ptr->getHeightAddition())
 		{
-			Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, currenticon.get_y() - 3, MenuUL.get_x() + menu_width - 3, currenticon.get_y() + 2, color::cYELLOW);
-			Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, nearest.get_y() - 3, MenuUL.get_x() + menu_width - 3, nearest.get_y() + 2, color::cGREEN);
+			Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, currenticon.get_y() - 3, MenuUL.get_x() + menu_width - 2, currenticon.get_y() + 2, color::cYELLOW);
+			Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, nearest.get_y() - 3, MenuUL.get_x() + menu_width - 2, nearest.get_y() + 2, color::cGREEN);
 			return nearest;
 		}
 		else
@@ -140,7 +140,7 @@ PointCoord SideMenu::MenuNavigation(PointCoord currenticon, IconsPosition ip)
 		}
 	}
 }
-GlobalObject* SideMenu::ChooseBuilding(PointCoord iconpos)
+IngameObject* SideMenu::CreatePreliminaryObject(PointCoord iconpos)
 {
 	vector<ConstructionManager*>::iterator iter;
 	for (iter = Managers.begin(); iter != Managers.end(); iter++)
@@ -163,4 +163,8 @@ void SideMenu::EraseMenu()
 			Draw_ptr->erasePixel(i, j);
 		}
 	}
+}
+void SideMenu::addManager(ConstructionManager* manager_ptr)
+{
+	Managers.push_back(manager_ptr);
 }

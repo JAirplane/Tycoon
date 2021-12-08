@@ -8,6 +8,7 @@ using namespace std;
 int main()
 {
 	WorldMap WM;
+	WM.CreateManagers();
 	WM.DisplayPlayingField();
 	WM.DisplaySideMenu();
 	WM.GameProcess();

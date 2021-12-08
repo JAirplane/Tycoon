@@ -1,14 +1,14 @@
 #include "ObjectContainers.h"
 /////////////Container of All Objects in the Game/////////////
-const list< GlobalObject* > AllObjects::getAllObjects()
+list<IngameObject*>& AllObjects::getAllObjects()
 {
 	return EveryObject;
 }
-void AllObjects::addObject(GlobalObject* obj_ptr)
+void AllObjects::addObject(IngameObject* obj_ptr)
 {
 	EveryObject.push_back(obj_ptr);
 }
-void AllObjects::addObject(GlobalObject* obj_ptr, int _position)
+void AllObjects::addObject(IngameObject* obj_ptr, int _position)
 {
 	if (EveryObject.size() < _position)
 	{
@@ -16,7 +16,7 @@ void AllObjects::addObject(GlobalObject* obj_ptr, int _position)
 	}
 	else
 	{
-		list<GlobalObject*>::iterator it = EveryObject.begin();
+		list<IngameObject*>::iterator it = EveryObject.begin();
 		it = next(it, _position - 1);
 		EveryObject.insert(it, obj_ptr);
 	}
@@ -29,7 +29,7 @@ bool AllObjects::getLastElementFlag()
 {
 	return LastElementIsPreliminary;
 }
-GlobalObject* AllObjects::getPreliminaryElement()
+IngameObject* AllObjects::getPreliminaryElement()
 {
 	return EveryObject.back();
 }
@@ -39,7 +39,7 @@ void AllObjects::ErasePreliminaryElement()
 }
 bool AllObjects::IsPartOfExistingObject(PointCoord _pc)
 {
-	list< GlobalObject* >::iterator iter;
+	list< IngameObject* >::iterator iter;
 	for (iter = EveryObject.begin(); iter != EveryObject.end(); iter++)
 	{
 		PointCoord UL = (*iter)->getUpperLeft();
@@ -94,7 +94,7 @@ void AllVisitors::VisitorAppear()
 		int food = 100;
 		int pee = 100;
 		Visitor* V_ptr;
-		GlobalObject* Vis_ptr;
+		IngameObject* Vis_ptr;
 		Vis_ptr = V_ptr = new Visitor(StartVisitorPoint, food, pee);
 		Visitors.push_back(V_ptr);
 		AllObjects_ptr->addObject(Vis_ptr);

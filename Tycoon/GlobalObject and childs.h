@@ -21,26 +21,7 @@ public:
 	void setWidthAddition(const int _wa);
 };
 /////////////Child Classes/////////////
-/////////////Parent Class of Every Construction Type/////////////
-class ConstructionManager;
-class Construction : public GlobalObject
-{
-private:
-	ConstructionManager* Manager_ptr;
-public:
-	Construction(PointCoord _ul, ConstructionManager* _manager_ptr) : GlobalObject(_ul)
-	{
-		Manager_ptr = _manager_ptr;
-		setHeightAddition(Manager_ptr->getConstructionHeightAdd());
-		setWidthAddition(Manager_ptr->getConstructionWidthAdd());
-	}
-	~Construction()
-	{}
-	ConstructionManager* getManager() const; //no setter here
-	virtual char SetRoadSymbol(int mask) const;
-	virtual void DefineGraphStatus(int mask);
-
-};
+class Construction;
 /////////////Construction Manager has all the information about Construction/////////////
 class ConstructionManager : public GlobalObject
 {
@@ -53,7 +34,7 @@ private:
 	char IconSymbol;
 public:
 	ConstructionManager(PointCoord _upperleft, Cursor* _c_ptr, unsigned int _constructioncost, string _description, char _iconsymbol,
-		unsigned int _constructionheightadd = 0, unsigned int _constructionwidthadd = 0) : GlobalObject(_upperleft)
+							unsigned int _constructionheightadd = 0, unsigned int _constructionwidthadd = 0) : GlobalObject(_upperleft)
 	{
 		C_ptr = _c_ptr;
 		ConstructionHeightAddition = _constructionheightadd;
@@ -64,7 +45,7 @@ public:
 	}
 	~ConstructionManager() {}
 	virtual ConstructionManager* CreateManager(Cursor* _c_ptr, unsigned int _constructioncost, string _description, char _iconsymbol,
-	unsigned int _constructionheightadd = 0, unsigned int _constructionwidthadd = 0);
+												unsigned int _constructionheightadd = 0, unsigned int _constructionwidthadd = 0);
 	unsigned int getConstructionHeightAdd() const;
 	void setConstructionHeightAdd(unsigned int _heightadd);
 	unsigned int getConstructionWidthAdd() const;
@@ -80,6 +61,34 @@ public:
 	virtual void setBuildingSymbol(const char _symb);
 	virtual unsigned int getDailyExpences() const;
 	virtual void setDailyExpences(unsigned int exp);
+};
+/////////////Parent Class of Every Object in Game/////////////
+class IngameObject : public GlobalObject
+{
+public:
+	IngameObject(PointCoord ul, unsigned int _heightadd = 0, unsigned int _widthadd = 0) : GlobalObject(ul, _heightadd, _widthadd)
+	{}
+	virtual ConstructionManager* getManager() const;
+};
+/////////////Parent Class of Every Construction Type/////////////
+
+class Construction : public IngameObject
+{
+private:
+	ConstructionManager* Manager_ptr;
+public:
+	Construction(PointCoord _ul, ConstructionManager* _manager_ptr) : IngameObject(_ul)
+	{
+		Manager_ptr = _manager_ptr;
+		setHeightAddition(Manager_ptr->getConstructionHeightAdd());
+		setWidthAddition(Manager_ptr->getConstructionWidthAdd());
+	}
+	~Construction()
+	{}
+	ConstructionManager* getManager() const override; //no setter here
+	virtual char SetRoadSymbol(int mask) const;
+	virtual void DefineGraphStatus(int mask);
+
 };
 /////////////Building Manager has additional fields that are necessary for buildings/////////////
 class BuildingManager : public ConstructionManager
@@ -163,13 +172,13 @@ public:
 	void setRoadIsInChainStatus(bool chainflag);
 };
 /////////////People are looking for some fun!/////////////
-class Visitor : public GlobalObject
+class Visitor : public IngameObject
 {
 private:
 	int FoodCapacity;
 	int NeedToPee;
 public:
-	Visitor(PointCoord _ul, int fc, int ntp) : GlobalObject(_ul)
+	Visitor(PointCoord _ul, int fc, int ntp) : IngameObject(_ul)
 	{
 		FoodCapacity = fc;
 		NeedToPee = ntp;

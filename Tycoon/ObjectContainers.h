@@ -6,7 +6,7 @@
 class AllObjects
 {
 private:
-	list<GlobalObject*> EveryObject;
+	list<IngameObject*> EveryObject;
 	Cursor* C_ptr;
 	bool LastElementIsPreliminary;
 public:
@@ -17,18 +17,18 @@ public:
 	}
 	~AllObjects()
 	{
-		list<GlobalObject*>::iterator iter;
+		list<IngameObject*>::iterator iter;
 		for (iter = EveryObject.begin(); iter != EveryObject.end(); iter++)
 		{
 			delete (*iter);
 		}
 	}
-	const list<GlobalObject*> getAllObjects();
-	void addObject(GlobalObject* obj_ptr);
-	void addObject(GlobalObject* obj_ptr, int _position);
+	list<IngameObject*>& getAllObjects();
+	void addObject(IngameObject* obj_ptr);
+	void addObject(IngameObject* obj_ptr, int _position);
 	void setLastElementFlag(bool changer);
 	bool getLastElementFlag();
-	GlobalObject* getPreliminaryElement();
+	IngameObject* getPreliminaryElement(); //it takes last element of EveryObject list
 	void ErasePreliminaryElement();
 	bool IsPartOfExistingObject(PointCoord _pc);
 };

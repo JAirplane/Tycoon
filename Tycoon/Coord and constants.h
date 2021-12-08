@@ -97,7 +97,7 @@ public:
 	virtual const int getVisibleMapHeight() const;
 	virtual const int getMenuHeightAdd() const;
 	///////////////Width Addition Constants///////////////
-	virtual const int getIceCreamShopWIdthAdd() const;
+	virtual const int getIceCreamShopWidthAdd() const;
 	virtual const int getRoadWidthAdd() const;
 	virtual const int getVisitorWidthAdd() const;
 	virtual const int getVisibleMapWidth() const;
@@ -114,5 +114,7 @@ public:
 	virtual const char getIceCreamShopSymbol() const;
 	///////////////Initialisation Coord Constants///////////////
 	virtual const PointCoord getVisibleMapInitialCoordUL() const;
-
+	///////////////Building's Icon Symbol Constants///////////////
+	virtual const char getIceCreamShopIconSymbol() const;
+	virtual const char getRoadIconSymbol() const;
 };

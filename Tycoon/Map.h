@@ -48,7 +48,8 @@ public:
 	void eraseAllObjects();
 	void GameProcess();
 	void UserActions(int key);
-	void PreliminaryBuildingCreation(GlobalObject* go_ptr);
+	void PreliminaryBuildingAdd(IngameObject* go_ptr);
+	virtual void CreateManagers();
 	PointCoord RoadConnection();	//returns PointCoord of Road Pixel, choosen as Graph
 	void H_Key();
 	void S_Key();

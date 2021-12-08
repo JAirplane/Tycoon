@@ -24,6 +24,12 @@ void GlobalObject::setWidthAddition(const int _wadd)
 {
 	WidthAddition = _wadd;
 }
+/////////////Parent Class of Every Object in Game/////////////
+ConstructionManager* IngameObject::getManager() const
+{
+	ConstructionManager* cm_ptr = nullptr;
+	return cm_ptr;
+}
 ///////////////ConstructionManager Class: GlobalObject derived///////////////
 unsigned int ConstructionManager::getConstructionHeightAdd() const
 {
@@ -72,7 +78,7 @@ Construction* ConstructionManager::CreateConstruction(PointCoord upperleft)
 	return constr_ptr;
 }
 ConstructionManager* ConstructionManager::CreateManager(Cursor* _c_ptr, unsigned int _constructioncost, string _description, char _iconsymbol,
-	unsigned int _constructionheightadd = 0, unsigned int _constructionwidthadd = 0)
+	unsigned int _constructionheightadd, unsigned int _constructionwidthadd)
 {
 	PointCoord _upperleft(0, 0);
 	ConstructionManager* cm_ptr = new ConstructionManager(_upperleft, _c_ptr, _constructioncost, _description, _iconsymbol, _constructionheightadd, _constructionwidthadd);
@@ -83,13 +89,13 @@ char ConstructionManager::getBuildingSymbol()
 	return '0';
 }
 void ConstructionManager::setBuildingSymbol(const char _symb)
-	{}
+{}
 unsigned int ConstructionManager::getDailyExpences() const
 {
 	return 0;
 }
 void ConstructionManager::setDailyExpences(unsigned int exp)
-	{}
+{}
 ///////////////Building Manager Class: Construction Manager derived///////////////
 unsigned int BuildingManager::getDailyExpences() const
 {
@@ -113,7 +119,7 @@ Construction* BuildingManager::CreateConstruction(PointCoord upperleft)
 	return constr_ptr;
 }
 ConstructionManager* BuildingManager::CreateManager(Cursor* _c_ptr, unsigned int _constructioncost, string _description, char _iconsymbol, unsigned int _dailyexpences,
-	char _buildingsymbol, unsigned int _constructionheightadd = 0, unsigned int _constructionwidthadd = 0)
+	char _buildingsymbol, unsigned int _constructionheightadd, unsigned int _constructionwidthadd)
 {
 	PointCoord _upperleft(0, 0);
 	ConstructionManager* cm_ptr = new BuildingManager(_upperleft, _c_ptr, _constructioncost, _description, _iconsymbol, _dailyexpences, _buildingsymbol, _constructionheightadd, _constructionwidthadd);
@@ -126,7 +132,7 @@ Construction* RoadManager::CreateConstruction(PointCoord upperleft)
 	return constr_ptr;
 }
 ConstructionManager* RoadManager::CreateManager(Cursor* _c_ptr, unsigned int _constructioncost, string _description, char _iconsymbol,
-	unsigned int _constructionheightadd = 0, unsigned int _constructionwidthadd = 0)
+	unsigned int _constructionheightadd, unsigned int _constructionwidthadd)
 {
 	PointCoord _upperleft(0, 0);
 	ConstructionManager* cm_ptr = new RoadManager(_upperleft, _c_ptr, _constructioncost, _description, _iconsymbol, _constructionheightadd, _constructionwidthadd);
@@ -142,7 +148,7 @@ char Construction::SetRoadSymbol(int mask) const
 	return '0';
 }
 void Construction::DefineGraphStatus(int mask)
-	{}
+{}
 ///////////////Building Class: Construction derived///////////////
 PointCoord Building::getEntrance() const
 {

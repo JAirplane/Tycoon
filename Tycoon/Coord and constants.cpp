@@ -29,7 +29,7 @@ const int ConstructionOptions::getIceCreamShopHeightAdd() const
 {
 	return 1;
 }
-const int ConstructionOptions::getIceCreamShopWIdthAdd() const
+const int ConstructionOptions::getIceCreamShopWidthAdd() const
 {
 	return 1;
 }
@@ -87,16 +87,16 @@ const PointCoord ConstructionOptions::getVisibleMapInitialCoordUL() const
 }
 const int ConstructionOptions::getVisibleMapHeight() const
 {
-	return 69;
+	return 34;
 }
 const int ConstructionOptions::getVisibleMapWidth() const
 {
-	return 34;
+	return 69;
 }
 ///////////////SideMenu Width Constant///////////////
 const int ConstructionOptions::getMenuHeightAdd() const
 {
-	return 69;
+	return 34;
 }
 const int ConstructionOptions::getMenuWidthAdd() const
 {
@@ -107,4 +107,12 @@ ConstructionOptions* ConstructionOptions::ConstructionParameters = new Construct
 ConstructionOptions* ConstructionOptions::getAllOptions()
 {
 	return ConstructionParameters;
+}
+const char ConstructionOptions::getIceCreamShopIconSymbol() const
+{
+	return '!';
+}
+const char ConstructionOptions::getRoadIconSymbol() const
+{
+	return '+';
 }
