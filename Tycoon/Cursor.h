@@ -1,5 +1,5 @@
 #pragma once
-#include "Coord and constants.h"
+#include "ConstructionOptions.h"
 /////////////Cursor Class/////////////
 class Cursor
 {
@@ -19,6 +19,6 @@ public:
 	PointCoord getCursorConsoleLocation();
 	void setCursorConsoleLocation();
 	void CursorMovement(PointCoord cursordestination);
-	void CursorShift(ShiftDirection);
-	void CursorShift(ShiftDirection SD, int shiftvalue);
+	void CursorShift(Direction);
+	void CursorShift(Direction SD, int shiftvalue);
 };

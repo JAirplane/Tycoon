@@ -44,7 +44,7 @@ void WorldMap::DisplayPlayingField()
 void WorldMap::GameProcess()
 {
 	char ch = 'a';
-	ShiftDirection SD;
+	Direction SD;
 	while (true)
 	{
 		SD = VM_ptr->CursorBordersCheck(C_ptr);
@@ -58,7 +58,7 @@ void WorldMap::GameProcess()
 			//cout << key;
 			UserActions(key);
 		}
-		if (SD != ShiftDirection::Middle)
+		if (SD != Direction::None)
 		{
 			eraseAllObjects();
 			Shift(SD);
@@ -67,7 +67,7 @@ void WorldMap::GameProcess()
 		wait(100);
 	}
 }
-void WorldMap::Shift(ShiftDirection SD)
+void WorldMap::Shift(Direction SD)
 {
 	C_ptr->CursorShift(SD);
 	list<IngameObject*>::const_iterator iter;
@@ -76,22 +76,22 @@ void WorldMap::Shift(ShiftDirection SD)
 		PointCoord ul = (*iter)->getUpperLeft();
 		switch (SD)
 		{
-		case ShiftDirection::Right:
+		case Direction::Right:
 		{
 			ul.set_coord(ul.get_x() + 1, ul.get_y());
 			break;
 		}
-		case ShiftDirection::Down:
+		case Direction::Down:
 		{
 			ul.set_coord(ul.get_x(), ul.get_y() + 1);
 			break;
 		}
-		case ShiftDirection::Left:
+		case Direction::Left:
 		{
 			ul.set_coord(ul.get_x() - 1, ul.get_y());
 			break;
 		}
-		case ShiftDirection::Up:
+		case Direction::Up:
 		{
 			ul.set_coord(ul.get_x(), ul.get_y() - 1);
 			break;
@@ -100,7 +100,7 @@ void WorldMap::Shift(ShiftDirection SD)
 		(*iter)->setUpperLeft(ul);
 	}
 }
-void WorldMap::Shift(ShiftDirection SD, int shiftvalue)
+void WorldMap::Shift(Direction SD, int shiftvalue)
 {
 	C_ptr->CursorShift(SD, shiftvalue);
 	list<IngameObject*>::iterator iter;
@@ -109,12 +109,12 @@ void WorldMap::Shift(ShiftDirection SD, int shiftvalue)
 		PointCoord ul = (*iter)->getUpperLeft();
 		switch (SD)
 		{
-		case ShiftDirection::Right:
+		case Direction::Right:
 		{
 			ul.set_coord(ul.get_x() + shiftvalue, ul.get_y());
 			break;
 		}
-		case ShiftDirection::Left:
+		case Direction::Left:
 		{
 			ul.set_coord(ul.get_x() - shiftvalue, ul.get_y());
 			break;
@@ -135,46 +135,6 @@ void WorldMap::eraseAllObjects()
 	Roads_ptr->EraseRoads();
 	Visitors_ptr->EraseVisitors();
 }
-//PointCoord WorldMap::RoadConnection()	//returns PointCoord of Road Pixel, choosen as Graph
-//{
-//	list< GlobalObject* >::iterator iterBuildings;
-//	list< GlobalObject* >::iterator iterRoads;
-//	for (iterBuildings = Buildings_ptr->getAllBuildings().begin(); iterBuildings != Buildings_ptr->getAllBuildings().end(); iterBuildings++)
-//	{
-//		vector<PointCoord> PointsAround;
-//		PointCoord UL = (*iterBuildings)->getUpperLeft();
-//		PointCoord BR = (*iterBuildings)->getBottomRight();
-//		for (int x = UL.get_x(); x <= BR.get_x(); x++)
-//		{
-//			PointsAround.push_back(PointCoord(x, UL.get_y() - 1));
-//		}
-//		for (int x = UL.get_x(); x <= BR.get_x(); x++)
-//		{
-//			PointsAround.push_back(PointCoord(x, BR.get_y() + 1));
-//		}
-//		for (int y = UL.get_y(); y <= BR.get_y(); y++)
-//		{
-//			PointsAround.push_back(PointCoord(UL.get_x() - 1, y));
-//		}
-//		for (int y = UL.get_y(); y <= BR.get_y(); y++)
-//		{
-//			PointsAround.push_back(PointCoord(BR.get_x() + 1, y));
-//		}
-//		vector<PointCoord>::iterator iterCoord;
-//		vector<PointCoord> RoadsAround;
-//		for (iterRoads = Roads_ptr->getAllRoads().begin(); iterRoads != Roads_ptr->getAllRoads().end(); iterRoads++)
-//		{
-//			for (iterCoord = PointsAround.begin(); iterCoord != PointsAround.end(); iterCoord++)
-//			{
-//				if ((*iterCoord) == (*iterRoads)->getUpperLeft())
-//				{
-//					RoadsAround.push_back((*iterCoord));
-//				}
-//			}
-//		}
-//
-//	}
-//}
 void WorldMap::PreliminaryBuildingAdd(IngameObject* preliminary_ptr)
 {
 	AllObjects_ptr->addObject(preliminary_ptr);
@@ -193,6 +153,12 @@ void WorldMap::CreateManagers()
 		ConstructionOptions::getAllOptions()->getRoadIconSymbol());
 	SideMenu_ptr->addManager(icecreammanager_ptr);
 	SideMenu_ptr->addManager(roadmanager_ptr);
+}
+void WorldMap::BuildingConnectedToRoadCheck()
+{
+	vector<PointCoord> potentialroads = Buildings_ptr->getPotentialRoadCoords();
+	vector<PointCoord> connectedroads = Roads_ptr->RoadConnectedToEntranceCheck(potentialroads);
+	Buildings_ptr->setRoadConnectionStatus(connectedroads);
 }
 void WorldMap::H_Key()
 {
@@ -242,8 +208,8 @@ void WorldMap::Enter_Key_PlayingField()
 		if (Building* b_ptr = dynamic_cast<Building*>(realobject_ptr))
 		{
 			Buildings_ptr->addBuilding(realobject_ptr);
-			Draw_ptr->drawBuilding(realobject_ptr->getUpperLeft().get_x(), realobject_ptr->getUpperLeft().get_y(), realobject_ptr->getUpperLeft().get_x() + realobject_ptr->getWidthAddition(), 
-									realobject_ptr->getUpperLeft().get_y() + realobject_ptr->getHeightAddition(), realobject_ptr->getManager()->getBuildingSymbol());
+			Draw_ptr->drawBuilding(realobject_ptr->getUpperLeft().get_x(), realobject_ptr->getUpperLeft().get_y(), realobject_ptr->getUpperLeft().get_x() + realobject_ptr->getWidthAddition(),
+				realobject_ptr->getUpperLeft().get_y() + realobject_ptr->getHeightAddition(), realobject_ptr->getManager()->getBuildingSymbol());
 		}
 		if (Road* b_ptr = dynamic_cast<Road*>(realobject_ptr))
 		{
@@ -281,7 +247,7 @@ void WorldMap::Esc_Key_PlayingField()
 		AllObjects_ptr->ErasePreliminaryElement();
 		C_ptr->CursorMovement(PointCoord((VM_ptr->getUpperLeft().get_x() * 2 + VM_ptr->getWidthAddition()) / 2, (VM_ptr->getUpperLeft().get_y() * 2 + VM_ptr->getHeightAddition()) / 2));
 	}
-	
+
 }
 void WorldMap::UserActions(int key)
 {

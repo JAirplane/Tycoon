@@ -1,7 +1,9 @@
 #pragma once
 #include <list>
+#include <vector>
 #include <typeinfo>
-#include "GlobalObject and childs.h"
+#include "ManagersDerived.h"
+#include "drawheader.h"
 /////////////Container of All Objects in the Game/////////////
 class AllObjects
 {
@@ -38,13 +40,11 @@ class AllBuildings
 private:
 	list<Construction*> Buildings;
 	Cursor* C_ptr;
-	AllObjects* AllObjects_ptr;
 	Visualisation* Draw_ptr;
 public:
-	AllBuildings(Cursor* _C_ptr, AllObjects* _AllObjects_ptr, Visualisation* _Draw_ptr)
+	AllBuildings(Cursor* _C_ptr, Visualisation* _Draw_ptr)
 	{
 		C_ptr = _C_ptr;
-		AllObjects_ptr = _AllObjects_ptr;
 		Draw_ptr = _Draw_ptr;
 	}
 	~AllBuildings()
@@ -59,20 +59,20 @@ public:
 	void DisplayBuildings();
 	void EraseBuildings();
 	const list<Construction*> getAllBuildings();
+	vector<PointCoord> getPotentialRoadCoords(); //returns points that are near the entrances
+	void setRoadConnectionStatus(vector<PointCoord> connectedroads);
 };
 /////////////Road Container Class/////////////
 class AllRoads
 {
 private:
 	list<Construction*> Roads;
-	AllObjects* AllObjects_ptr;
 	Cursor* C_ptr;
 	Visualisation* Draw_ptr;
 public:
-	AllRoads(Cursor* _C_ptr, AllObjects* _AllObjects_ptr, Visualisation* _Draw_ptr)
+	AllRoads(Cursor* _C_ptr, Visualisation* _Draw_ptr)
 	{
 		C_ptr = _C_ptr;
-		AllObjects_ptr = _AllObjects_ptr;
 		Draw_ptr = _Draw_ptr;
 	}
 	~AllRoads()
@@ -90,6 +90,7 @@ public:
 	void DisplayRoads();
 	void EraseRoads();
 	void IsGraph_RoadsOnly();
+	vector<PointCoord> RoadConnectedToEntranceCheck(vector<PointCoord> possibleroads);
 	void setChainStatus();
 };
 /////////////Visitor Container Class/////////////

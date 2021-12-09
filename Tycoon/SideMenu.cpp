@@ -12,10 +12,10 @@ void SideMenu::setHideMenuStatus(bool hideflag)
 {
 	Hidden = hideflag;
 }
-ShiftDirection SideMenu::ChangeMenuSide()
+Direction SideMenu::ChangeMenuSide()
 {
 	vector<ConstructionManager*>::iterator iter;
-	ShiftDirection SD;
+	Direction SD;
 	PointCoord UL, MenuUL;
 	if (CurrentSide == SideMenuStatus::LEFT)
 	{
@@ -23,7 +23,7 @@ ShiftDirection SideMenu::ChangeMenuSide()
 		UL = ConstructionOptions::getAllOptions()->getVisibleMapInitialCoordUL();
 		unsigned int widthadd = VM_ptr->getWidthAddition();
 		MenuUL = PointCoord(UL.get_x() + widthadd + 1, UL.get_y());
-		SD = ShiftDirection::Right;
+		SD = Direction::Right;
 	}
 	else
 	{
@@ -31,7 +31,7 @@ ShiftDirection SideMenu::ChangeMenuSide()
 		MenuUL = ConstructionOptions::getAllOptions()->getVisibleMapInitialCoordUL();
 		unsigned int menuwidthadd = getWidthAddition();
 		UL = PointCoord(MenuUL.get_x() + menuwidthadd + 1, MenuUL.get_y());
-		SD = ShiftDirection::Left;
+		SD = Direction::Left;
 	}
 	VM_ptr->setUpperLeft(UL);
 	setUpperLeft(MenuUL);
@@ -40,7 +40,7 @@ ShiftDirection SideMenu::ChangeMenuSide()
 	for (iter = Managers.begin(); iter != Managers.end(); iter++)
 	{
 		(*iter)->setUpperLeft(PointCoord(_x, _y));
-		_y += 6;
+		_y += ConstructionOptions::getAllOptions()->getMenuElementBordersHeight();
 	}
 	return SD;
 }

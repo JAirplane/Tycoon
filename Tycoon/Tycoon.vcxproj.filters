@@ -24,16 +24,16 @@
     <ClInclude Include="..\..\..\msoft\msoftcon.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Coord and constants.h">
+    <ClInclude Include="Coord_and_constants.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalObject and childs.h">
+    <ClInclude Include="ManagersDerived.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="ObjectContainers.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="CursorClass.h">
+    <ClInclude Include="Cursor.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="..\..\icu\icu4c\source\common\unicode\uchar.h">
@@ -46,6 +46,15 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="SideMenu.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="ConstructionOptions.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalObject+IngameObject.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="IngameObjectDerived.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -62,13 +71,13 @@
     <ClCompile Include="run.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
-    <ClCompile Include="Coord and constants.cpp">
+    <ClCompile Include="Coord_and_constants.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
-    <ClCompile Include="GlobalObject and childs.cpp">
+    <ClCompile Include="ManagersDerived.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
-    <ClCompile Include="CursorClass.cpp">
+    <ClCompile Include="Cursor.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
     <ClCompile Include="ObjectContainers.cpp">
@@ -78,6 +87,18 @@
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
     <ClCompile Include="SideMenu.cpp">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstructionOptions.cpp">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
+    <ClCompile Include="GlobalObject+IngameObject.cpp">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstructionManager.cpp">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
+    <ClCompile Include="IngameObjectDerived.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
   </ItemGroup>

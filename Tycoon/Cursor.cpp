@@ -1,4 +1,4 @@
-#include "CursorClass.h"
+#include "Cursor.h"
 ///////////////Cursor Class///////////////
 PointCoord Cursor::getCursorConsoleLocation()
 {
@@ -13,29 +13,29 @@ void Cursor::CursorMovement(PointCoord cursordestination)
 	set_cursor_pos(cursordestination.get_x(), cursordestination.get_y());
 	setCursorConsoleLocation();
 }
-void Cursor::CursorShift(ShiftDirection SD)
+void Cursor::CursorShift(Direction SD)
 {
 	switch (SD)
 	{
-	case ShiftDirection::Right:
+	case Direction::Right:
 	{
 		Xshift -= 1;
 		CursorMovement(PointCoord(getCursorConsoleLocation().get_x() - 1, getCursorConsoleLocation().get_y()));
 		break;
 	}
-	case ShiftDirection::Down:
+	case Direction::Down:
 	{
 		Yshift -= 1;
 		CursorMovement(PointCoord(getCursorConsoleLocation().get_x(), getCursorConsoleLocation().get_y() + 1));
 		break;
 	}
-	case ShiftDirection::Left:
+	case Direction::Left:
 	{
 		Xshift += 1;
 		CursorMovement(PointCoord(getCursorConsoleLocation().get_x() + 1, getCursorConsoleLocation().get_y()));
 		break;
 	}
-	case ShiftDirection::Up:
+	case Direction::Up:
 	{
 		Yshift += 1;
 		CursorMovement(PointCoord(getCursorConsoleLocation().get_x(), getCursorConsoleLocation().get_y() - 1));
@@ -43,17 +43,17 @@ void Cursor::CursorShift(ShiftDirection SD)
 	}
 	}
 }
-void Cursor::CursorShift(ShiftDirection SD, int shiftvalue)
+void Cursor::CursorShift(Direction SD, int shiftvalue)
 {
 	switch (SD)
 	{
-	case ShiftDirection::Right:
+	case Direction::Right:
 	{
 		Xshift -= shiftvalue;
 		CursorMovement(PointCoord(getCursorConsoleLocation().get_x() - shiftvalue, getCursorConsoleLocation().get_y()));
 		return;
 	}
-	case ShiftDirection::Left:
+	case Direction::Left:
 	{
 		Xshift += shiftvalue;
 		CursorMovement(PointCoord(getCursorConsoleLocation().get_x() + shiftvalue, getCursorConsoleLocation().get_y()));

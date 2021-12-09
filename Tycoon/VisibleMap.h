@@ -11,5 +11,5 @@ public:
 	}
 	~VisibleMap()
 	{}
-	ShiftDirection CursorBordersCheck(Cursor*);
+	Direction CursorBordersCheck(Cursor*);
 };

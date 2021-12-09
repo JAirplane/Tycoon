@@ -143,10 +143,13 @@
     <ClInclude Include="..\..\..\msoft\msoftcon.h" />
     <ClInclude Include="..\..\icu\icu4c\source\common\unicode\uchar.h" />
     <ClInclude Include="..\..\icu\icu4c\source\common\unicode\utypes.h" />
-    <ClInclude Include="Coord and constants.h" />
-    <ClInclude Include="CursorClass.h" />
+    <ClInclude Include="ConstructionOptions.h" />
+    <ClInclude Include="Coord_and_constants.h" />
+    <ClInclude Include="Cursor.h" />
     <ClInclude Include="drawheader.h" />
-    <ClInclude Include="GlobalObject and childs.h" />
+    <ClInclude Include="ManagersDerived.h" />
+    <ClInclude Include="GlobalObject+IngameObject.h" />
+    <ClInclude Include="IngameObjectDerived.h" />
     <ClInclude Include="Map.h" />
     <ClInclude Include="ObjectContainers.h" />
     <ClInclude Include="SideMenu.h" />
@@ -154,10 +157,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\msoft\msoftcon.cpp" />
-    <ClCompile Include="Coord and constants.cpp" />
-    <ClCompile Include="CursorClass.cpp" />
+    <ClCompile Include="ConstructionManager.cpp" />
+    <ClCompile Include="ConstructionOptions.cpp" />
+    <ClCompile Include="Coord_and_constants.cpp" />
+    <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="draw.cpp" />
-    <ClCompile Include="GlobalObject and childs.cpp" />
+    <ClCompile Include="ManagersDerived.cpp" />
+    <ClCompile Include="GlobalObject+IngameObject.cpp" />
+    <ClCompile Include="IngameObjectDerived.cpp" />
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="ObjectContainers.cpp" />
     <ClCompile Include="run.cpp" />

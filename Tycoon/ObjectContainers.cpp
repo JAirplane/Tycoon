@@ -83,6 +83,50 @@ const list<Construction*> AllBuildings::getAllBuildings()
 {
 	return Buildings;
 }
+vector<PointCoord> AllBuildings::getPotentialRoadCoords()
+{
+	vector<PointCoord> PotentiallyRoad;
+	list<Construction*>::iterator iter;
+	for (iter = Buildings.begin(); iter != Buildings.end(); iter++)
+	{
+		PointCoord Entrance = (*iter)->getEntrance();
+		Direction ExitDir = (*iter)->getExitDirection();
+		switch (ExitDir)
+		{
+		case Direction::Up: {PotentiallyRoad.push_back(PointCoord(Entrance.get_x(), Entrance.get_y() - 1)); break; }
+		case Direction::Down: {PotentiallyRoad.push_back(PointCoord(Entrance.get_x(), Entrance.get_y() + 1)); break; }
+		case Direction::Right: {PotentiallyRoad.push_back(PointCoord(Entrance.get_x() + 1, Entrance.get_y())); break; }
+		case Direction::Left: {PotentiallyRoad.push_back(PointCoord(Entrance.get_x() - 1, Entrance.get_y())); break; }
+		}
+	}
+	return PotentiallyRoad;
+}
+void AllBuildings::setRoadConnectionStatus(vector<PointCoord> connectedroads)
+{
+	vector<PointCoord>::iterator pointiter;
+	list<Construction*>::iterator buildingiter;
+	for (pointiter = connectedroads.begin(); pointiter != connectedroads.end(); pointiter++)
+	{
+		buildingiter = Buildings.begin();
+		do
+		{
+			PointCoord connectedroad;
+			switch ((*buildingiter)->getExitDirection())
+			{
+			case Direction::Up: {connectedroad = PointCoord((*buildingiter)->getEntrance().get_x(), (*buildingiter)->getEntrance().get_y() - 1); break; }
+			case Direction::Down: {connectedroad = PointCoord((*buildingiter)->getEntrance().get_x(), (*buildingiter)->getEntrance().get_y() + 1); break; }
+			case Direction::Right: {connectedroad = PointCoord((*buildingiter)->getEntrance().get_x() + 1, (*buildingiter)->getEntrance().get_y()); break; }
+			case Direction::Left: {connectedroad = PointCoord((*buildingiter)->getEntrance().get_x() - 1, (*buildingiter)->getEntrance().get_y()); break; }
+			}
+			if (connectedroad == (*pointiter))
+			{
+				(*buildingiter)->setRoadConnectionStatus(1);
+				break;
+			}
+			++buildingiter;
+		} while (buildingiter != Buildings.end());
+	}
+}
 ///////////////AllVisitors Class///////////////
 void AllVisitors::VisitorAppear()
 {
@@ -201,6 +245,24 @@ void AllRoads::IsGraph_RoadsOnly()
 		int mask = RoadEnvironment((*iter)->getUpperLeft());
 		(*iter)->DefineGraphStatus(mask);
 	}
+}
+vector<PointCoord> AllRoads::RoadConnectedToEntranceCheck(vector<PointCoord> possibleroads)
+{
+	list<Construction*>::iterator roaditer;
+	vector<PointCoord>::iterator pointiter;
+	vector<PointCoord> RoadsNearBuildingEntrance;
+	for (roaditer = Roads.begin(); roaditer != Roads.end(); roaditer++)
+	{
+		for (pointiter = possibleroads.begin(); pointiter != possibleroads.end(); pointiter++)
+		{
+			if ((*roaditer)->getUpperLeft() == (*pointiter))
+			{
+				(*roaditer)->setGraphStatus(1);
+				RoadsNearBuildingEntrance.push_back((*roaditer)->getUpperLeft());
+			}
+		}
+	}
+	return RoadsNearBuildingEntrance;
 }
 void AllRoads::setChainStatus()
 {

@@ -1,5 +1,6 @@
 #pragma once
 #include "VisibleMap.h"
+
 #include <vector>
 class SideMenu : public GlobalObject
 {
@@ -29,7 +30,7 @@ public:
 	bool getHideMenuStatus() const;
 	void setHideMenuStatus(bool hideflag);
 	SideMenuStatus getCurrentSide();
-	ShiftDirection ChangeMenuSide();
+	Direction ChangeMenuSide();
 	void ShowIcons();
 	void ShowMenuBorders();
 	PointCoord getNearestIconCoords(PointCoord currenticon, IconsPosition ip);
