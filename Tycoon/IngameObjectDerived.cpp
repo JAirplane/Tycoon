@@ -66,26 +66,26 @@ void Building::setProfit(int _profit)
 ///////////////Road Class: Construction derived///////////////
 char Road::SetRoadSymbol(int mask) const
 {
-	char RoadSymbol = 'a';
+	icu::UnicodeString RoadSymbol;
 	switch (mask)
 	{
-	case none: return RoadSymbol = '+';
-	case leftside: return RoadSymbol = '+';
-	case topside: return RoadSymbol = '+';
-	case rightside: return RoadSymbol = '+';
-	case bottomside: return RoadSymbol = '+';
-	case vertical: return RoadSymbol = '+';
-	case horizontal: return RoadSymbol = '+';
-	case lefttop_angle: return RoadSymbol = '+';
-	case righttop_angle: return RoadSymbol = '+';
-	case leftbottom_angle: return RoadSymbol = '+';
-	case rightbottom_angle: return RoadSymbol = '+';
-	case right_T: return RoadSymbol = '+';
-	case left_T: return RoadSymbol = '+';
-	case top_T: return RoadSymbol = '+';
-	case bottom_T: return RoadSymbol = '+';
-	case cross: return RoadSymbol = '+';
-	default: return RoadSymbol = '-';
+	case none: return RoadSymbol((UChar32)9473);
+	case leftside: return RoadSymbol = (UChar32)9473;
+	case topside: return RoadSymbol = (UChar32)9475;
+	case rightside: return RoadSymbol = (UChar32)9473;
+	case bottomside: return RoadSymbol = (UChar32)9475;
+	case vertical: return RoadSymbol = (UChar32)9475;
+	case horizontal: return RoadSymbol = (UChar32)9473;
+	case lefttop_angle: return RoadSymbol = (UChar32)201;
+	case righttop_angle: return RoadSymbol = (UChar32)187;
+	case leftbottom_angle: return RoadSymbol = (UChar32)200;
+	case rightbottom_angle: return RoadSymbol = (UChar32)188;
+	case right_T: return RoadSymbol = (UChar32)'+';
+	case left_T: return RoadSymbol = (UChar32)'+';
+	case top_T: return RoadSymbol = (UChar32)'+';
+	case bottom_T: return RoadSymbol = (UChar32)'+';
+	case cross: return RoadSymbol = (UChar32)'+';
+	default: return RoadSymbol = (UChar32)'-';
 	}
 }
 bool Road::getGraphStatus() const

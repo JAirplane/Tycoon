@@ -35,6 +35,7 @@ void Visualisation::drawRectangle(int left_x, int up_y, int right_x, int bot_y)
 	cout << (char)200;
 	set_cursor_pos(left_x, up_y);
 	cout << (char)201;
+	set_color(cYELLOW);
 }
 void Visualisation::erasePixel(int _x, int _y)
 {
@@ -43,6 +44,7 @@ void Visualisation::erasePixel(int _x, int _y)
 }
 void Visualisation::drawPlayingField(int left_x, int up_y, int right_x, int bot_y)
 {
+	
 	set_color(cBLUE);
 	drawRectangle(left_x, up_y, right_x, bot_y);
 	for (int x = left_x + 32; x < right_x - 32; x++)
@@ -51,12 +53,14 @@ void Visualisation::drawPlayingField(int left_x, int up_y, int right_x, int bot_
 		set_color(cGREEN);
 		cout << (char)23;
 	}
+	set_color(cYELLOW);
 }
 void Visualisation::drawVisitor(int _x, int _y)
 {
 	char VisitorSymbol = 'a';
 	set_cursor_pos(_x, _y);
 	cout << VisitorSymbol;
+	set_color(cYELLOW);
 }
 void Visualisation::drawBuilding(int left_x, int up_y, int right_x, int bot_y, const char ch)
 {
@@ -68,6 +72,7 @@ void Visualisation::drawBuilding(int left_x, int up_y, int right_x, int bot_y, c
 			cout << ch;
 		}
 	}
+	set_color(cYELLOW);
 }
 void Visualisation::eraseBuilding(int left_x, int up_y, int right_x, int bot_y)
 {
@@ -83,16 +88,19 @@ void Visualisation::drawRoad(int _x, int _y, const char ch)
 {
 	set_cursor_pos(_x, _y);
 	cout << ch;
+	set_color(cYELLOW);
 }
 void Visualisation::drawMenuBorders(int Menu_left_x, int Menu_up_y, int Menu_right_x, int Menu_bot_y, color MenuBorders)
 {
 	set_color(MenuBorders);
 	drawRectangle(Menu_left_x, Menu_up_y, Menu_right_x, Menu_bot_y); //side menu borders
+	set_color(cYELLOW);
 }
 void Visualisation::drawIconBorders(int left_x, int up_y, int right_x, int bot_y, color IconBorders) //external border
 {
 	set_color(IconBorders);
 	drawRectangle(left_x, up_y, right_x, bot_y);
+	set_color(cYELLOW);
 }
 void Visualisation::drawIcon(int left_x, int up_y, int cost, int dailyspend, const char symbol, string description, color Icon) //icon border
 {
@@ -117,4 +125,5 @@ void Visualisation::drawIcon(int left_x, int up_y, int cost, int dailyspend, con
 	{
 		cout << "Service will cost you " << dailyspend << " per day.";
 	}
+	set_color(cYELLOW);
 }

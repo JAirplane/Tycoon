@@ -1,5 +1,6 @@
 #pragma once
 #include "unicode/uchar.h"
+#include "unicode/unistr.h"
 #include "msoftcon.h"
 using namespace std;
 ///////////////Enum ShiftDirection///////////////

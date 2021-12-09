@@ -23,7 +23,7 @@ Direction SideMenu::ChangeMenuSide()
 		UL = ConstructionOptions::getAllOptions()->getVisibleMapInitialCoordUL();
 		unsigned int widthadd = VM_ptr->getWidthAddition();
 		MenuUL = PointCoord(UL.get_x() + widthadd + 1, UL.get_y());
-		SD = Direction::Right;
+		SD = Direction::Left;
 	}
 	else
 	{
@@ -31,7 +31,7 @@ Direction SideMenu::ChangeMenuSide()
 		MenuUL = ConstructionOptions::getAllOptions()->getVisibleMapInitialCoordUL();
 		unsigned int menuwidthadd = getWidthAddition();
 		UL = PointCoord(MenuUL.get_x() + menuwidthadd + 1, MenuUL.get_y());
-		SD = Direction::Left;
+		SD = Direction::Right;
 	}
 	VM_ptr->setUpperLeft(UL);
 	setUpperLeft(MenuUL);

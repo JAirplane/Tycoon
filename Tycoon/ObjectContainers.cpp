@@ -67,6 +67,7 @@ void AllBuildings::DisplayBuildings()
 		unsigned int widthadd = (*iter)->getWidthAddition();
 		Draw_ptr->drawBuilding(ULBuilding.get_x(), ULBuilding.get_y(), ULBuilding.get_x() + widthadd, ULBuilding.get_y() + heightadd, (*iter)->getManager()->getBuildingSymbol());
 	}
+	C_ptr->setCursorConsoleLocation();
 }
 void AllBuildings::EraseBuildings()
 {
@@ -144,6 +145,7 @@ void AllVisitors::VisitorAppear()
 		AllObjects_ptr->addObject(Vis_ptr);
 		Draw_ptr->drawVisitor((V_ptr->getUpperLeft()).get_x(), (V_ptr->getUpperLeft()).get_y());
 	}
+	C_ptr->setCursorConsoleLocation();
 }
 bool AllVisitors::LocationCheck(PointCoord pc)
 {
@@ -169,6 +171,7 @@ void AllVisitors::DisplayVisitors()
 		PointCoord ULVisitor = (*iter)->getUpperLeft();
 		Draw_ptr->drawVisitor(ULVisitor.get_x(), ULVisitor.get_y());
 	}
+	C_ptr->setCursorConsoleLocation();
 }
 void AllVisitors::EraseVisitors()
 {
@@ -227,6 +230,7 @@ void AllRoads::DisplayRoads()
 		char RoadSymbol = (*iter)->SetRoadSymbol(mask1);
 		Draw_ptr->drawRoad(ULRoad.get_x(), ULRoad.get_y(), RoadSymbol);
 	}
+	C_ptr->setCursorConsoleLocation();
 }
 void AllRoads::EraseRoads()
 {

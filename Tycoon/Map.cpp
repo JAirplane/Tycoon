@@ -40,6 +40,7 @@ void WorldMap::DisplayPlayingField()
 	int right_x = left_x + VM_ptr->getWidthAddition();
 	int bot_y = top_y + VM_ptr->getHeightAddition();
 	Draw_ptr->drawPlayingField(left_x, top_y, right_x, bot_y);
+	C_ptr->setCursorConsoleLocation();
 }
 void WorldMap::GameProcess()
 {
@@ -102,7 +103,6 @@ void WorldMap::Shift(Direction SD)
 }
 void WorldMap::Shift(Direction SD, int shiftvalue)
 {
-	C_ptr->CursorShift(SD, shiftvalue);
 	list<IngameObject*>::iterator iter;
 	for (iter = (AllObjects_ptr->getAllObjects()).begin(); iter != (AllObjects_ptr->getAllObjects()).end(); iter++)
 	{
@@ -194,8 +194,8 @@ void WorldMap::Tab_Key_Playingfield()
 		AllObjects_ptr->ErasePreliminaryElement();
 	}
 	PointCoord UpperVisibleIcon = SideMenu_ptr->getNearestIconCoords(PointCoord(0, 0), IconsPosition::LOWER);
-	C_ptr->CursorMovement(UpperVisibleIcon);
 	Draw_ptr->drawIconBorders(SideMenu_ptr->getUpperLeft().get_x() + 2, UpperVisibleIcon.get_y() - 3, SideMenu_ptr->getUpperLeft().get_x() + SideMenu_ptr->getWidthAddition() - 2, UpperVisibleIcon.get_y() + 2, color::cGREEN);
+	C_ptr->CursorMovement(UpperVisibleIcon);
 	return;
 }
 void WorldMap::Enter_Key_PlayingField()
@@ -210,6 +210,7 @@ void WorldMap::Enter_Key_PlayingField()
 			Buildings_ptr->addBuilding(realobject_ptr);
 			Draw_ptr->drawBuilding(realobject_ptr->getUpperLeft().get_x(), realobject_ptr->getUpperLeft().get_y(), realobject_ptr->getUpperLeft().get_x() + realobject_ptr->getWidthAddition(),
 				realobject_ptr->getUpperLeft().get_y() + realobject_ptr->getHeightAddition(), realobject_ptr->getManager()->getBuildingSymbol());
+			C_ptr->setCursorConsoleLocation();
 		}
 		if (Road* b_ptr = dynamic_cast<Road*>(realobject_ptr))
 		{
@@ -217,6 +218,7 @@ void WorldMap::Enter_Key_PlayingField()
 			int roadmask = Roads_ptr->RoadEnvironment(realobject_ptr->getUpperLeft());
 			char roadsymbol = realobject_ptr->SetRoadSymbol(roadmask);
 			Draw_ptr->drawRoad(realobject_ptr->getUpperLeft().get_x(), realobject_ptr->getUpperLeft().get_y(), roadsymbol);
+			C_ptr->setCursorConsoleLocation();
 		}
 	}
 	return;
