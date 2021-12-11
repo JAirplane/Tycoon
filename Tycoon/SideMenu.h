@@ -39,4 +39,5 @@ public:
 	PointCoord MenuNavigation(PointCoord currenticon, IconsPosition ip);
 	void EraseMenu();
 	void addManager(ConstructionManager* manager_ptr);
+	ConstructionManager* getManager(ConstructionDescriptor* cd_ptr);
 };

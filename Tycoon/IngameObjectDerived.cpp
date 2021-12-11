@@ -1,8 +1,8 @@
 #include "IngameObjectDerived.h"
 ///////////////Construction Class: GlobalObject derived///////////////
-ConstructionManager* Construction::getManager() const //no setter here
+ConstructionDescriptor* Construction::getDescriptor() const //no setter here
 {
-	return Manager_ptr;
+	return Describe_ptr;
 }
 char Construction::SetRoadSymbol(int mask) const
 {
@@ -66,26 +66,25 @@ void Building::setProfit(int _profit)
 ///////////////Road Class: Construction derived///////////////
 char Road::SetRoadSymbol(int mask) const
 {
-	icu::UnicodeString RoadSymbol;
 	switch (mask)
 	{
-	case none: return RoadSymbol((UChar32)9473);
-	case leftside: return RoadSymbol = (UChar32)9473;
-	case topside: return RoadSymbol = (UChar32)9475;
-	case rightside: return RoadSymbol = (UChar32)9473;
-	case bottomside: return RoadSymbol = (UChar32)9475;
-	case vertical: return RoadSymbol = (UChar32)9475;
-	case horizontal: return RoadSymbol = (UChar32)9473;
-	case lefttop_angle: return RoadSymbol = (UChar32)201;
-	case righttop_angle: return RoadSymbol = (UChar32)187;
-	case leftbottom_angle: return RoadSymbol = (UChar32)200;
-	case rightbottom_angle: return RoadSymbol = (UChar32)188;
-	case right_T: return RoadSymbol = (UChar32)'+';
-	case left_T: return RoadSymbol = (UChar32)'+';
-	case top_T: return RoadSymbol = (UChar32)'+';
-	case bottom_T: return RoadSymbol = (UChar32)'+';
-	case cross: return RoadSymbol = (UChar32)'+';
-	default: return RoadSymbol = (UChar32)'-';
+	case none: return (char)186;
+	case leftside: return (char)205;
+	case topside: return (char)186;
+	case rightside: return (char)205;
+	case bottomside: return (char)186;
+	case vertical: return (char)186;
+	case horizontal: return (char)205;
+	case lefttop_angle: return (char)201;
+	case righttop_angle: return (char)187;
+	case leftbottom_angle: return (char)200;
+	case rightbottom_angle: return (char)188;
+	case right_T: return (char)204;
+	case left_T: return (char)185;
+	case top_T: return (char)202;
+	case bottom_T: return (char)203;
+	case cross: return (char)206;
+	default: return '0';
 	}
 }
 bool Road::getGraphStatus() const

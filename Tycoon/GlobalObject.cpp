@@ -1,4 +1,4 @@
-#include "GlobalObject+IngameObject.h"
+#include "GlobalObject.h"
 ///////////////Parent Class of All Objects///////////////
 PointCoord GlobalObject::getUpperLeft() const
 {
@@ -23,10 +23,4 @@ unsigned int GlobalObject::getWidthAddition() const
 void GlobalObject::setWidthAddition(const int _wadd)
 {
 	WidthAddition = _wadd;
-}
-/////////////Parent Class of Every Object in Game/////////////
-ConstructionManager* IngameObject::getManager() const
-{
-	ConstructionManager* cm_ptr = nullptr;
-	return cm_ptr;
 }

@@ -143,14 +143,16 @@ void WorldMap::PreliminaryBuildingAdd(IngameObject* preliminary_ptr)
 void WorldMap::CreateManagers()
 {
 	int x_coord = (SideMenu_ptr->getUpperLeft().get_x() * 2 + SideMenu_ptr->getWidthAddition()) / 2;
-	int y_coord = SideMenu_ptr->getUpperLeft().get_y() + 4;
+	int y_coord = SideMenu_ptr->getUpperLeft().get_y() + 1;
 	PointCoord FirstManagerUpperLeft(x_coord, y_coord);
-	ConstructionManager* icecreammanager_ptr = new BuildingManager(FirstManagerUpperLeft, C_ptr, ConstructionOptions::getAllOptions()->getIceCreamShopCost(), ConstructionOptions::getAllOptions()->getIceCreamShopDescription(),
-		ConstructionOptions::getAllOptions()->getIceCreamShopIconSymbol(), ConstructionOptions::getAllOptions()->getIceCreamShopExpences(), ConstructionOptions::getAllOptions()->getIceCreamShopSymbol(),
+	ConstructionDescriptor* BuildingDesc = new BuildingDescriptor(FirstManagerUpperLeft, ConstructionOptions::getAllOptions()->getIceCreamShopCost(), ConstructionOptions::getAllOptions()->getIceCreamShopDescription(),
+		ConstructionOptions::getAllOptions()->getIceCreamShopIconSymbol(), ConstructionOptions::getAllOptions()->getIceCreamShopSymbol(), ConstructionOptions::getAllOptions()->getIceCreamShopExpences(),
 		ConstructionOptions::getAllOptions()->getIceCreamShopHeightAdd(), ConstructionOptions::getAllOptions()->getIceCreamShopWidthAdd());
-	PointCoord ManagerUL(x_coord, y_coord + ConstructionOptions::getAllOptions()->getMenuElementBordersHeight());
-	ConstructionManager* roadmanager_ptr = new RoadManager(ManagerUL, C_ptr, ConstructionOptions::getAllOptions()->getRoadCost(), ConstructionOptions::getAllOptions()->getRoadDescription(),
+	ConstructionManager* icecreammanager_ptr = new BuildingManager(FirstManagerUpperLeft, C_ptr, BuildingDesc);
+	PointCoord NextManagerUL(x_coord, y_coord + ConstructionOptions::getAllOptions()->getMenuElementBordersHeight());
+	ConstructionDescriptor* RoadDesc = new ConstructionDescriptor(NextManagerUL, ConstructionOptions::getAllOptions()->getRoadCost(), ConstructionOptions::getAllOptions()->getRoadDescription(),
 		ConstructionOptions::getAllOptions()->getRoadIconSymbol());
+	ConstructionManager* roadmanager_ptr = new RoadManager(NextManagerUL, C_ptr, RoadDesc);
 	SideMenu_ptr->addManager(icecreammanager_ptr);
 	SideMenu_ptr->addManager(roadmanager_ptr);
 }
@@ -190,11 +192,13 @@ void WorldMap::Tab_Key_Playingfield()
 		PointCoord MenuBR(SideMenu_ptr->getUpperLeft().get_x() + SideMenu_ptr->getWidthAddition(), SideMenu_ptr->getUpperLeft().get_y() + SideMenu_ptr->getHeightAddition());
 		AllObjects_ptr->setLastElementFlag(0);
 		IngameObject* preliminary_ptr = AllObjects_ptr->getPreliminaryElement();
-		Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, preliminary_ptr->getManager()->getUpperLeft().get_y() - 3, MenuBR.get_x() - 2, preliminary_ptr->getManager()->getUpperLeft().get_y() + 2, color::cYELLOW);
+		Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, preliminary_ptr->getDescriptor()->getUpperLeft().get_y(), MenuBR.get_x() - 2, 
+			preliminary_ptr->getDescriptor()->getUpperLeft().get_y() + ConstructionOptions::getAllOptions()->getMenuElementBordersHeight() - 1, color::cYELLOW);
 		AllObjects_ptr->ErasePreliminaryElement();
 	}
 	PointCoord UpperVisibleIcon = SideMenu_ptr->getNearestIconCoords(PointCoord(0, 0), IconsPosition::LOWER);
-	Draw_ptr->drawIconBorders(SideMenu_ptr->getUpperLeft().get_x() + 2, UpperVisibleIcon.get_y() - 3, SideMenu_ptr->getUpperLeft().get_x() + SideMenu_ptr->getWidthAddition() - 2, UpperVisibleIcon.get_y() + 2, color::cGREEN);
+	Draw_ptr->drawIconBorders(SideMenu_ptr->getUpperLeft().get_x() + 2, UpperVisibleIcon.get_y(), SideMenu_ptr->getUpperLeft().get_x() + SideMenu_ptr->getWidthAddition() - 2, 
+		UpperVisibleIcon.get_y() + ConstructionOptions::getAllOptions()->getMenuElementBordersHeight() - 1, color::cGREEN);
 	C_ptr->CursorMovement(UpperVisibleIcon);
 	return;
 }
@@ -202,14 +206,15 @@ void WorldMap::Enter_Key_PlayingField()
 {
 	if (AllObjects_ptr->getLastElementFlag())
 	{
-		Construction* realobject_ptr = AllObjects_ptr->getPreliminaryElement()->getManager()->CreateConstruction(C_ptr->getCursorConsoleLocation());
+		ConstructionDescriptor* cd_ptr = AllObjects_ptr->getPreliminaryElement()->getDescriptor();
+		Construction* realobject_ptr = SideMenu_ptr->getManager(cd_ptr)->CreateConstruction(C_ptr->getCursorConsoleLocation());
 		int position = AllObjects_ptr->getAllObjects().size();
 		AllObjects_ptr->addObject(realobject_ptr, position);
 		if (Building* b_ptr = dynamic_cast<Building*>(realobject_ptr))
 		{
 			Buildings_ptr->addBuilding(realobject_ptr);
 			Draw_ptr->drawBuilding(realobject_ptr->getUpperLeft().get_x(), realobject_ptr->getUpperLeft().get_y(), realobject_ptr->getUpperLeft().get_x() + realobject_ptr->getWidthAddition(),
-				realobject_ptr->getUpperLeft().get_y() + realobject_ptr->getHeightAddition(), realobject_ptr->getManager()->getBuildingSymbol());
+				realobject_ptr->getUpperLeft().get_y() + realobject_ptr->getHeightAddition(), realobject_ptr->getDescriptor()->getBuildingSymbol());
 			C_ptr->setCursorConsoleLocation();
 		}
 		if (Road* b_ptr = dynamic_cast<Road*>(realobject_ptr))
@@ -228,7 +233,7 @@ void WorldMap::Enter_Key_SideMenu()
 	PointCoord MenuUL = SideMenu_ptr->getUpperLeft();
 	PointCoord MenuBR(SideMenu_ptr->getUpperLeft().get_x() + SideMenu_ptr->getWidthAddition(), SideMenu_ptr->getUpperLeft().get_y() + SideMenu_ptr->getHeightAddition());
 	PreliminaryBuildingAdd(SideMenu_ptr->CreatePreliminaryObject(C_ptr->getCursorConsoleLocation()));
-	Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, C_ptr->getCursorConsoleLocation().get_y() - 3, MenuBR.get_x() - 2, C_ptr->getCursorConsoleLocation().get_y() + 2, color::cRED);
+	Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, C_ptr->getCursorConsoleLocation().get_y(), MenuBR.get_x() - 2, C_ptr->getCursorConsoleLocation().get_y() + ConstructionOptions::getAllOptions()->getMenuElementBordersHeight() - 1, color::cRED);
 	C_ptr->CursorMovement(PointCoord((VM_ptr->getUpperLeft().get_x() * 2 + VM_ptr->getWidthAddition()) / 2, (VM_ptr->getUpperLeft().get_y() * 2 + VM_ptr->getHeightAddition()) / 2));
 	return;
 }
@@ -241,7 +246,7 @@ void WorldMap::Esc_Key_PlayingField()
 	else
 	{
 		int left_x = SideMenu_ptr->getUpperLeft().get_x() + 2;
-		int up_y = AllObjects_ptr->getPreliminaryElement()->getManager()->getUpperLeft().get_y() - 3;
+		int up_y = AllObjects_ptr->getPreliminaryElement()->getDescriptor()->getUpperLeft().get_y();
 		int right_x = SideMenu_ptr->getUpperLeft().get_x() + SideMenu_ptr->getWidthAddition() - 2;
 		int bot_y = up_y + ConstructionOptions::getAllOptions()->getMenuElementBordersHeight() - 1;
 		AllObjects_ptr->setLastElementFlag(0);

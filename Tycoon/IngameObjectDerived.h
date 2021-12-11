@@ -1,61 +1,20 @@
 #pragma once
-#include "GlobalObject+IngameObject.h"
-class Construction;
-/////////////Construction Manager has all the information about Construction/////////////
-class ConstructionManager : public GlobalObject
-{
-private:
-	Cursor* C_ptr;
-	unsigned int ConstructionHeightAddition;
-	unsigned int ConstructionWidthAddition;
-	unsigned int ConstructionCost;
-	string Description;
-	char IconSymbol;
-public:
-	ConstructionManager(PointCoord _upperleft, Cursor* _c_ptr, unsigned int _constructioncost, string _description, char _iconsymbol,
-		unsigned int _constructionheightadd = 0, unsigned int _constructionwidthadd = 0) : GlobalObject(_upperleft)
-	{
-		C_ptr = _c_ptr;
-		ConstructionHeightAddition = _constructionheightadd;
-		ConstructionWidthAddition = _constructionwidthadd;
-		ConstructionCost = _constructioncost;
-		Description = _description;
-		IconSymbol = _iconsymbol;
-	}
-	~ConstructionManager() {}
-	virtual ConstructionManager* CreateManager(Cursor* _c_ptr, unsigned int _constructioncost, string _description, char _iconsymbol,
-		unsigned int _constructionheightadd = 0, unsigned int _constructionwidthadd = 0);
-	unsigned int getConstructionHeightAdd() const;
-	void setConstructionHeightAdd(unsigned int _heightadd);
-	unsigned int getConstructionWidthAdd() const;
-	void setConstructionWidthAdd(unsigned int _widthadd);
-	unsigned int getConstructionCost() const;
-	void setConstructionCost(const int cost);
-	string getDescription() const;
-	void setDescription(string _desc);
-	char getIconSymbol();
-	void setIconSymbol(const char _symb);
-	virtual Construction* CreateConstruction(PointCoord upperleft);
-	virtual char getBuildingSymbol();
-	virtual void setBuildingSymbol(const char _symb);
-	virtual unsigned int getDailyExpences() const;
-	virtual void setDailyExpences(unsigned int exp);
-};
+#include "IngameObject.h"
 /////////////Parent Class of Every Construction Type/////////////
 class Construction : public IngameObject
 {
 private:
-	ConstructionManager* Manager_ptr;
+	ConstructionDescriptor* Describe_ptr;
 public:
-	Construction(PointCoord _ul, ConstructionManager* _manager_ptr) : IngameObject(_ul)
+	Construction(PointCoord _ul, ConstructionDescriptor* _describe_ptr) : IngameObject(_ul)
 	{
-		Manager_ptr = _manager_ptr;
-		setHeightAddition(Manager_ptr->getConstructionHeightAdd());
-		setWidthAddition(Manager_ptr->getConstructionWidthAdd());
+		Describe_ptr = _describe_ptr;
+		setHeightAddition(Describe_ptr->getConstructionHeightAdd());
+		setWidthAddition(Describe_ptr->getConstructionWidthAdd());
 	}
 	~Construction()
 	{}
-	ConstructionManager* getManager() const override; //no setter here
+	ConstructionDescriptor* getDescriptor() const override; //no setter here
 	virtual char SetRoadSymbol(int mask) const;
 	virtual void DefineGraphStatus(int mask);
 	virtual PointCoord getEntrance() const;
@@ -73,10 +32,10 @@ private:
 	unsigned int LastDayVisitors;
 	int LastDayProfit;
 public:
-	Building(PointCoord _ul, ConstructionManager* _manager_ptr) : Construction(_ul, _manager_ptr)
+	Building(PointCoord _ul, ConstructionDescriptor* _manager_ptr) : Construction(_ul, _manager_ptr)
 	{
-		setHeightAddition(getManager()->getConstructionHeightAdd());
-		setWidthAddition(getManager()->getConstructionWidthAdd());
+		setHeightAddition(getDescriptor()->getConstructionHeightAdd());
+		setWidthAddition(getDescriptor()->getConstructionWidthAdd());
 		ConnectedToRoad = 0;
 		LastDayVisitors = 0;
 		LastDayProfit = 0;
@@ -102,10 +61,10 @@ private:
 	bool GraphStatus;
 	bool RoadIsInChain;
 public:
-	Road(PointCoord _ul, ConstructionManager* _manager_ptr) : Construction(_ul, _manager_ptr)
+	Road(PointCoord _ul, ConstructionDescriptor* _manager_ptr) : Construction(_ul, _manager_ptr)
 	{
-		setHeightAddition(getManager()->getConstructionHeightAdd());
-		setWidthAddition(getManager()->getConstructionWidthAdd());
+		setHeightAddition(getDescriptor()->getConstructionHeightAdd());
+		setWidthAddition(getDescriptor()->getConstructionWidthAdd());
 		GraphStatus = false;
 		RoadIsInChain = false;
 	}

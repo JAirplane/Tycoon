@@ -65,7 +65,7 @@ void AllBuildings::DisplayBuildings()
 		PointCoord ULBuilding = (*iter)->getUpperLeft();
 		unsigned int heightadd = (*iter)->getHeightAddition();
 		unsigned int widthadd = (*iter)->getWidthAddition();
-		Draw_ptr->drawBuilding(ULBuilding.get_x(), ULBuilding.get_y(), ULBuilding.get_x() + widthadd, ULBuilding.get_y() + heightadd, (*iter)->getManager()->getBuildingSymbol());
+		Draw_ptr->drawBuilding(ULBuilding.get_x(), ULBuilding.get_y(), ULBuilding.get_x() + widthadd, ULBuilding.get_y() + heightadd, (*iter)->getDescriptor()->getBuildingSymbol());
 	}
 	C_ptr->setCursorConsoleLocation();
 }

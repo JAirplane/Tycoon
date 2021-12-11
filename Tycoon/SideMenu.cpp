@@ -36,7 +36,7 @@ Direction SideMenu::ChangeMenuSide()
 	VM_ptr->setUpperLeft(UL);
 	setUpperLeft(MenuUL);
 	int _x = (getUpperLeft().get_x() * 2 + getWidthAddition()) / 2;
-	int _y = getUpperLeft().get_y() + 4;
+	int _y = getUpperLeft().get_y() + 1;
 	for (iter = Managers.begin(); iter != Managers.end(); iter++)
 	{
 		(*iter)->setUpperLeft(PointCoord(_x, _y));
@@ -53,9 +53,9 @@ void SideMenu::ShowIcons()
 	vector<ConstructionManager*>::iterator iter;
 	for (iter = Managers.begin(); iter != Managers.end(); iter++)
 	{
-		Draw_ptr->drawIconBorders(left_x + 2, top_y + 1, right_x - 2, top_y + 6, color::cYELLOW);
-		Draw_ptr->drawIcon(left_x + 3, top_y + 2, (*iter)->getConstructionCost(), (*iter)->getDailyExpences(),
-			(*iter)->getBuildingSymbol(), (*iter)->getDescription(), color::cGREEN);
+		Draw_ptr->drawIconBorders(left_x + 2, top_y + 1, right_x - 2, top_y + ConstructionOptions::getAllOptions()->getMenuElementBordersHeight(), color::cYELLOW);
+		Draw_ptr->drawIcon(left_x + 3, top_y + 2, (*iter)->getDescriptor()->getConstructionCost(), (*iter)->getDescriptor()->getDailyExpences(),
+			(*iter)->getDescriptor()->getBuildingSymbol(), (*iter)->getDescriptor()->getDescription(), color::cGREEN);
 		top_y += ConstructionOptions::getAllOptions()->getMenuElementBordersHeight();
 	}
 }
@@ -129,8 +129,8 @@ PointCoord SideMenu::MenuNavigation(PointCoord currenticon, IconsPosition ip)
 	{
 		if (nearest.get_y() < VM_ptr->getUpperLeft().get_y() + VM_ptr->getHeightAddition())
 		{
-			Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, currenticon.get_y() - 3, MenuUL.get_x() + menu_width - 2, currenticon.get_y() + 2, color::cYELLOW);
-			Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, nearest.get_y() - 3, MenuUL.get_x() + menu_width - 2, nearest.get_y() + 2, color::cGREEN);
+			Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, currenticon.get_y(), MenuUL.get_x() + menu_width - 2, currenticon.get_y() + ConstructionOptions::getAllOptions()->getMenuElementBordersHeight() - 1, color::cYELLOW);
+			Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, nearest.get_y(), MenuUL.get_x() + menu_width - 2, nearest.get_y() + ConstructionOptions::getAllOptions()->getMenuElementBordersHeight() - 1, color::cGREEN);
 			return nearest;
 		}
 		else
@@ -167,4 +167,15 @@ void SideMenu::EraseMenu()
 void SideMenu::addManager(ConstructionManager* manager_ptr)
 {
 	Managers.push_back(manager_ptr);
+}
+ConstructionManager* SideMenu::getManager(ConstructionDescriptor* cd_ptr)
+{
+	vector<ConstructionManager*>::iterator iter;
+	for (iter = Managers.begin(); iter != Managers.end(); iter++)
+	{
+		if ((*iter)->getUpperLeft() == cd_ptr->getUpperLeft())
+		{
+			return (*iter);
+		}
+	}
 }
