@@ -22,6 +22,7 @@ void WorldMap::DisplaySideMenu()
 {
 	DisplaySideMenuBorders();
 	DisplayIcons();
+	Draw_ptr->drawCursorPixel(C_ptr->getCursorConsoleLocation().get_x(), C_ptr->getCursorConsoleLocation().get_y(), color::cYELLOW);
 }
 void WorldMap::HideSideMenu()
 {
@@ -39,7 +40,7 @@ void WorldMap::DisplayPlayingField()
 	int top_y = VM_ptr->getUpperLeft().get_y();
 	int right_x = left_x + VM_ptr->getWidthAddition();
 	int bot_y = top_y + VM_ptr->getHeightAddition();
-	Draw_ptr->drawPlayingField(left_x, top_y, right_x, bot_y);
+	Draw_ptr->drawRectangle(left_x, top_y, right_x, bot_y, color::cBLUE);
 	C_ptr->setCursorConsoleLocation();
 }
 void WorldMap::GameProcess()
@@ -186,19 +187,20 @@ void WorldMap::S_Key()
 }
 void WorldMap::Tab_Key_Playingfield()
 {
+	Draw_ptr->erasePixel(C_ptr->getCursorConsoleLocation().get_x(), C_ptr->getCursorConsoleLocation().get_y());
 	if (AllObjects_ptr->getLastElementFlag())
 	{
 		PointCoord MenuUL = SideMenu_ptr->getUpperLeft();
 		PointCoord MenuBR(SideMenu_ptr->getUpperLeft().get_x() + SideMenu_ptr->getWidthAddition(), SideMenu_ptr->getUpperLeft().get_y() + SideMenu_ptr->getHeightAddition());
 		AllObjects_ptr->setLastElementFlag(0);
 		IngameObject* preliminary_ptr = AllObjects_ptr->getPreliminaryElement();
-		Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, preliminary_ptr->getDescriptor()->getUpperLeft().get_y(), MenuBR.get_x() - 2, 
-			preliminary_ptr->getDescriptor()->getUpperLeft().get_y() + ConstructionOptions::getAllOptions()->getMenuElementBordersHeight() - 1, color::cYELLOW);
+		Draw_ptr->drawRectangle(MenuUL.get_x() + 2, preliminary_ptr->getDescriptor()->getUpperLeft().get_y(), MenuBR.get_x() - 2, 
+			preliminary_ptr->getDescriptor()->getUpperLeft().get_y() + ConstructionOptions::getAllOptions()->getMenuElementBordersHeight() - 1, color::cYELLOW);	//draw external menu icon bordres
 		AllObjects_ptr->ErasePreliminaryElement();
 	}
 	PointCoord UpperVisibleIcon = SideMenu_ptr->getNearestIconCoords(PointCoord(0, 0), IconsPosition::LOWER);
-	Draw_ptr->drawIconBorders(SideMenu_ptr->getUpperLeft().get_x() + 2, UpperVisibleIcon.get_y(), SideMenu_ptr->getUpperLeft().get_x() + SideMenu_ptr->getWidthAddition() - 2, 
-		UpperVisibleIcon.get_y() + ConstructionOptions::getAllOptions()->getMenuElementBordersHeight() - 1, color::cGREEN);
+	Draw_ptr->drawRectangle(SideMenu_ptr->getUpperLeft().get_x() + 2, UpperVisibleIcon.get_y(), SideMenu_ptr->getUpperLeft().get_x() + SideMenu_ptr->getWidthAddition() - 2, 
+		UpperVisibleIcon.get_y() + ConstructionOptions::getAllOptions()->getMenuElementBordersHeight() - 1, color::cGREEN);	//draw external menu icon bordres
 	C_ptr->CursorMovement(UpperVisibleIcon);
 	return;
 }
@@ -212,17 +214,15 @@ void WorldMap::Enter_Key_PlayingField()
 		AllObjects_ptr->addObject(realobject_ptr, position);
 		if (Building* b_ptr = dynamic_cast<Building*>(realobject_ptr))
 		{
-			Buildings_ptr->addBuilding(realobject_ptr);
-			Draw_ptr->drawBuilding(realobject_ptr->getUpperLeft().get_x(), realobject_ptr->getUpperLeft().get_y(), realobject_ptr->getUpperLeft().get_x() + realobject_ptr->getWidthAddition(),
-				realobject_ptr->getUpperLeft().get_y() + realobject_ptr->getHeightAddition(), realobject_ptr->getDescriptor()->getBuildingSymbol());
+			Buildings_ptr->addBuilding(b_ptr);
+			Draw_ptr->drawBuilding(b_ptr->getUpperLeft().get_x(), b_ptr->getUpperLeft().get_y(), b_ptr->getUpperLeft().get_x() + b_ptr->getWidthAddition(),
+				b_ptr->getUpperLeft().get_y() + b_ptr->getHeightAddition(), b_ptr->getDescriptor()->getBuildingSymbol(), color::cYELLOW, color::cDARK_CYAN);
 			C_ptr->setCursorConsoleLocation();
 		}
-		if (Road* b_ptr = dynamic_cast<Road*>(realobject_ptr))
+		if (Road* r_ptr = dynamic_cast<Road*>(realobject_ptr))
 		{
-			Roads_ptr->addRoad(realobject_ptr);
-			int roadmask = Roads_ptr->RoadEnvironment(realobject_ptr->getUpperLeft());
-			char roadsymbol = realobject_ptr->SetRoadSymbol(roadmask);
-			Draw_ptr->drawRoad(realobject_ptr->getUpperLeft().get_x(), realobject_ptr->getUpperLeft().get_y(), roadsymbol);
+			Roads_ptr->addRoad(r_ptr);
+			Roads_ptr->RedrawRoads(r_ptr);
 			C_ptr->setCursorConsoleLocation();
 		}
 	}
@@ -233,7 +233,7 @@ void WorldMap::Enter_Key_SideMenu()
 	PointCoord MenuUL = SideMenu_ptr->getUpperLeft();
 	PointCoord MenuBR(SideMenu_ptr->getUpperLeft().get_x() + SideMenu_ptr->getWidthAddition(), SideMenu_ptr->getUpperLeft().get_y() + SideMenu_ptr->getHeightAddition());
 	PreliminaryBuildingAdd(SideMenu_ptr->CreatePreliminaryObject(C_ptr->getCursorConsoleLocation()));
-	Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, C_ptr->getCursorConsoleLocation().get_y(), MenuBR.get_x() - 2, C_ptr->getCursorConsoleLocation().get_y() + ConstructionOptions::getAllOptions()->getMenuElementBordersHeight() - 1, color::cRED);
+	Draw_ptr->drawRectangle(MenuUL.get_x() + 2, C_ptr->getCursorConsoleLocation().get_y(), MenuBR.get_x() - 2, C_ptr->getCursorConsoleLocation().get_y() + ConstructionOptions::getAllOptions()->getMenuElementBordersHeight() - 1, color::cRED);
 	C_ptr->CursorMovement(PointCoord((VM_ptr->getUpperLeft().get_x() * 2 + VM_ptr->getWidthAddition()) / 2, (VM_ptr->getUpperLeft().get_y() * 2 + VM_ptr->getHeightAddition()) / 2));
 	return;
 }
@@ -250,7 +250,7 @@ void WorldMap::Esc_Key_PlayingField()
 		int right_x = SideMenu_ptr->getUpperLeft().get_x() + SideMenu_ptr->getWidthAddition() - 2;
 		int bot_y = up_y + ConstructionOptions::getAllOptions()->getMenuElementBordersHeight() - 1;
 		AllObjects_ptr->setLastElementFlag(0);
-		Draw_ptr->drawIconBorders(left_x, up_y, right_x, bot_y, color::cYELLOW);
+		Draw_ptr->drawRectangle(left_x, up_y, right_x, bot_y, color::cYELLOW);
 		AllObjects_ptr->ErasePreliminaryElement();
 		C_ptr->CursorMovement(PointCoord((VM_ptr->getUpperLeft().get_x() * 2 + VM_ptr->getWidthAddition()) / 2, (VM_ptr->getUpperLeft().get_y() * 2 + VM_ptr->getHeightAddition()) / 2));
 	}
@@ -266,10 +266,34 @@ void WorldMap::UserActions(int key)
 		{
 		case 104: { H_Key(); return; }	//'h' key hide or display SideMenu
 		case 115: { S_Key(); return; }	//'s' key change placement of menu from right to left and vice versa
-		case 75: { C_ptr->CursorMovement(PointCoord(C_ptr->getCursorConsoleLocation().get_x() - 1, C_ptr->getCursorConsoleLocation().get_y())); return; }	//left arrow 
-		case 72: { C_ptr->CursorMovement(PointCoord(C_ptr->getCursorConsoleLocation().get_x(), C_ptr->getCursorConsoleLocation().get_y() - 1)); return; }	//up arrow 
-		case 77: { C_ptr->CursorMovement(PointCoord(C_ptr->getCursorConsoleLocation().get_x() + 1, C_ptr->getCursorConsoleLocation().get_y())); return; }	//right arrow 
-		case 80: { C_ptr->CursorMovement(PointCoord(C_ptr->getCursorConsoleLocation().get_x(), C_ptr->getCursorConsoleLocation().get_y() + 1)); return; }	//down arrow 
+		case 75:
+		{
+			Draw_ptr->erasePixel(C_ptr->getCursorConsoleLocation().get_x(), C_ptr->getCursorConsoleLocation().get_y());
+			C_ptr->CursorMovement(PointCoord(C_ptr->getCursorConsoleLocation().get_x() - 1, C_ptr->getCursorConsoleLocation().get_y()));
+			Draw_ptr->drawCursorPixel(C_ptr->getCursorConsoleLocation().get_x(), C_ptr->getCursorConsoleLocation().get_y(), color::cYELLOW);
+			return;
+		}	//left arrow 
+		case 72:
+		{
+			Draw_ptr->erasePixel(C_ptr->getCursorConsoleLocation().get_x(), C_ptr->getCursorConsoleLocation().get_y());
+			C_ptr->CursorMovement(PointCoord(C_ptr->getCursorConsoleLocation().get_x(), C_ptr->getCursorConsoleLocation().get_y() - 1));
+			Draw_ptr->drawCursorPixel(C_ptr->getCursorConsoleLocation().get_x(), C_ptr->getCursorConsoleLocation().get_y(), color::cYELLOW);
+			return;
+		}	//up arrow 
+		case 77:
+		{
+			Draw_ptr->erasePixel(C_ptr->getCursorConsoleLocation().get_x(), C_ptr->getCursorConsoleLocation().get_y());
+			C_ptr->CursorMovement(PointCoord(C_ptr->getCursorConsoleLocation().get_x() + 1, C_ptr->getCursorConsoleLocation().get_y()));
+			Draw_ptr->drawCursorPixel(C_ptr->getCursorConsoleLocation().get_x(), C_ptr->getCursorConsoleLocation().get_y(), color::cYELLOW);
+			return;
+		}	//right arrow 
+		case 80:
+		{
+			Draw_ptr->erasePixel(C_ptr->getCursorConsoleLocation().get_x(), C_ptr->getCursorConsoleLocation().get_y());
+			C_ptr->CursorMovement(PointCoord(C_ptr->getCursorConsoleLocation().get_x(), C_ptr->getCursorConsoleLocation().get_y() + 1));
+			Draw_ptr->drawCursorPixel(C_ptr->getCursorConsoleLocation().get_x(), C_ptr->getCursorConsoleLocation().get_y(), color::cYELLOW);
+			return;
+		}	//down arrow 
 		case 9: { Tab_Key_Playingfield(); return; }																											//tab key moves cursor from the playing field to the upper visible icon from menu
 		case 13: { Enter_Key_PlayingField(); return; }																										//enter key builds construction, choosen from side menu
 		case 27: { Esc_Key_PlayingField(); return; }																										//esc prevents from keep build choosen construction (tab key too)
@@ -289,8 +313,10 @@ void WorldMap::UserActions(int key)
 		{
 			PointCoord MenuUL = SideMenu_ptr->getUpperLeft();
 			PointCoord MenuBR(SideMenu_ptr->getUpperLeft().get_x() + SideMenu_ptr->getWidthAddition(), SideMenu_ptr->getUpperLeft().get_y() + SideMenu_ptr->getHeightAddition());
-			Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, C_ptr->getCursorConsoleLocation().get_y() - 3, MenuBR.get_x() - 2, C_ptr->getCursorConsoleLocation().get_y() + 2, color::cYELLOW);
+			Draw_ptr->drawRectangle(MenuUL.get_x() + 2, C_ptr->getCursorConsoleLocation().get_y(), MenuBR.get_x() - 2, 
+				C_ptr->getCursorConsoleLocation().get_y() + ConstructionOptions::getAllOptions()->getMenuElementBordersHeight() - 1, color::cYELLOW);
 			C_ptr->CursorMovement(PointCoord((VM_ptr->getUpperLeft().get_x() * 2 + VM_ptr->getWidthAddition()) / 2, (VM_ptr->getUpperLeft().get_y() * 2 + VM_ptr->getHeightAddition()) / 2));
+			Draw_ptr->drawCursorPixel(C_ptr->getCursorConsoleLocation().get_x(), C_ptr->getCursorConsoleLocation().get_y(), color::cYELLOW);
 			return;
 		}	//tab key moves cursor to the center of playing field
 		case 13: { Enter_Key_SideMenu(); return; }																										//enter key chooses building to create

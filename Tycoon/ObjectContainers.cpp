@@ -53,25 +53,25 @@ bool AllObjects::IsPartOfExistingObject(PointCoord _pc)
 	return false;
 }
 ///////////////All Buildings Class///////////////
-void AllBuildings::addBuilding(Construction* go_ptr)
+void AllBuildings::addBuilding(Building* go_ptr)
 {
 	Buildings.push_back(go_ptr);
 }
 void AllBuildings::DisplayBuildings()
 {
-	list<Construction*>::iterator iter;
+	list<Building*>::iterator iter;
 	for (iter = Buildings.begin(); iter != Buildings.end(); iter++)
 	{
 		PointCoord ULBuilding = (*iter)->getUpperLeft();
 		unsigned int heightadd = (*iter)->getHeightAddition();
 		unsigned int widthadd = (*iter)->getWidthAddition();
-		Draw_ptr->drawBuilding(ULBuilding.get_x(), ULBuilding.get_y(), ULBuilding.get_x() + widthadd, ULBuilding.get_y() + heightadd, (*iter)->getDescriptor()->getBuildingSymbol());
+		Draw_ptr->drawBuilding(ULBuilding.get_x(), ULBuilding.get_y(), ULBuilding.get_x() + widthadd, ULBuilding.get_y() + heightadd, (*iter)->getDescriptor()->getBuildingSymbol(), color::cYELLOW, color::cLIGHT_GRAY);
 	}
 	C_ptr->setCursorConsoleLocation();
 }
 void AllBuildings::EraseBuildings()
 {
-	list<Construction*>::iterator iter;
+	list<Building*>::iterator iter;
 	for (iter = Buildings.begin(); iter != Buildings.end(); iter++)
 	{
 		PointCoord ULBuilding = (*iter)->getUpperLeft();
@@ -80,14 +80,14 @@ void AllBuildings::EraseBuildings()
 		Draw_ptr->eraseBuilding(ULBuilding.get_x(), ULBuilding.get_y(), ULBuilding.get_x() + widthadd, ULBuilding.get_y() + heightadd);
 	}
 }
-const list<Construction*> AllBuildings::getAllBuildings()
+const list<Building*> AllBuildings::getAllBuildings()
 {
 	return Buildings;
 }
 vector<PointCoord> AllBuildings::getPotentialRoadCoords()
 {
 	vector<PointCoord> PotentiallyRoad;
-	list<Construction*>::iterator iter;
+	list<Building*>::iterator iter;
 	for (iter = Buildings.begin(); iter != Buildings.end(); iter++)
 	{
 		PointCoord Entrance = (*iter)->getEntrance();
@@ -105,7 +105,7 @@ vector<PointCoord> AllBuildings::getPotentialRoadCoords()
 void AllBuildings::setRoadConnectionStatus(vector<PointCoord> connectedroads)
 {
 	vector<PointCoord>::iterator pointiter;
-	list<Construction*>::iterator buildingiter;
+	list<Building*>::iterator buildingiter;
 	for (pointiter = connectedroads.begin(); pointiter != connectedroads.end(); pointiter++)
 	{
 		buildingiter = Buildings.begin();
@@ -183,21 +183,21 @@ void AllVisitors::EraseVisitors()
 	}
 }
 ///////////////AllRoads Class///////////////
-void AllRoads::addRoad(Construction* go_ptr)
+void AllRoads::addRoad(Road* go_ptr)
 {
 	Roads.push_back(go_ptr);
 }
-list<Construction*>& AllRoads::getAllRoads()
+list<Road*>& AllRoads::getAllRoads()
 {
 	return Roads;
 }
 int AllRoads::RoadEnvironment(PointCoord _pc)
 {
-	list<Construction*>::iterator iter;
+	list<Road*>::iterator iter;
 	PointCoord LeftLocation(_pc.get_x() - 1, _pc.get_y());
 	PointCoord RightLocation(_pc.get_x() + 1, _pc.get_y());
-	PointCoord UpLocation(_pc.get_x(), _pc.get_y() + 1);
-	PointCoord DownLocation(_pc.get_x(), _pc.get_y() - 1);
+	PointCoord DownLocation(_pc.get_x(), _pc.get_y() + 1);
+	PointCoord UpLocation(_pc.get_x(), _pc.get_y() - 1);
 	int RoadEnvironmentMask = 0;
 	for (iter = Roads.begin(); iter != Roads.end(); iter++)
 	{
@@ -222,28 +222,48 @@ int AllRoads::RoadEnvironment(PointCoord _pc)
 }
 void AllRoads::DisplayRoads()
 {
-	list<Construction*>::iterator iter;
+	list<Road*>::iterator iter;
 	for (iter = Roads.begin(); iter != Roads.end(); iter++)
 	{
 		PointCoord ULRoad = (*iter)->getUpperLeft();
 		int mask1 = RoadEnvironment(ULRoad);
 		char RoadSymbol = (*iter)->SetRoadSymbol(mask1);
-		Draw_ptr->drawRoad(ULRoad.get_x(), ULRoad.get_y(), RoadSymbol);
+		Draw_ptr->drawRoad(ULRoad.get_x(), ULRoad.get_y(), RoadSymbol, color::cDARK_GREEN, color::cLIGHT_GRAY);
 	}
 	C_ptr->setCursorConsoleLocation();
 }
 void AllRoads::EraseRoads()
 {
-	list<Construction*>::iterator iter;
+	list<Road*>::iterator iter;
 	for (iter = Roads.begin(); iter != Roads.end(); iter++)
 	{
 		PointCoord ULRoad = (*iter)->getUpperLeft();
 		Draw_ptr->erasePixel(ULRoad.get_x(), ULRoad.get_y());
 	}
 }
+void AllRoads::RedrawRoads(Road* r_ptr)
+{
+	int roadmask = RoadEnvironment(r_ptr->getUpperLeft());
+	unsigned char roadsymbol = r_ptr->SetRoadSymbol(roadmask);
+	list<Road*>::iterator iter;
+	PointCoord LeftLocation(r_ptr->getUpperLeft().get_x() - 1, r_ptr->getUpperLeft().get_y());
+	PointCoord RightLocation(r_ptr->getUpperLeft().get_x() + 1, r_ptr->getUpperLeft().get_y());
+	PointCoord DownLocation(r_ptr->getUpperLeft().get_x(), r_ptr->getUpperLeft().get_y() + 1);
+	PointCoord UpLocation(r_ptr->getUpperLeft().get_x(), r_ptr->getUpperLeft().get_y() - 1);
+	for (iter = Roads.begin(); iter != Roads.end(); iter++)
+	{
+		if ((*iter)->getUpperLeft() == LeftLocation || (*iter)->getUpperLeft() == RightLocation || (*iter)->getUpperLeft() == DownLocation || (*iter)->getUpperLeft() == UpLocation)
+		{
+			int sideroadmask = RoadEnvironment((*iter)->getUpperLeft());
+			unsigned char sideroadsymbol = (*iter)->SetRoadSymbol(sideroadmask);
+			Draw_ptr->drawRoad((*iter)->getUpperLeft().get_x(), (*iter)->getUpperLeft().get_y(), sideroadsymbol, color::cGREEN);
+		}
+	}
+	Draw_ptr->drawRoad(r_ptr->getUpperLeft().get_x(), r_ptr->getUpperLeft().get_y(), roadsymbol, color::cGREEN);
+}
 void AllRoads::IsGraph_RoadsOnly()
 {
-	list<Construction*>::iterator iter;
+	list<Road*>::iterator iter;
 	for (iter = Roads.begin(); iter != Roads.end(); iter++)
 	{
 		int mask = RoadEnvironment((*iter)->getUpperLeft());
@@ -252,7 +272,7 @@ void AllRoads::IsGraph_RoadsOnly()
 }
 vector<PointCoord> AllRoads::RoadConnectedToEntranceCheck(vector<PointCoord> possibleroads)
 {
-	list<Construction*>::iterator roaditer;
+	list<Road*>::iterator roaditer;
 	vector<PointCoord>::iterator pointiter;
 	vector<PointCoord> RoadsNearBuildingEntrance;
 	for (roaditer = Roads.begin(); roaditer != Roads.end(); roaditer++)

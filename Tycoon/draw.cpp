@@ -5,8 +5,9 @@
 #include "drawheader.h"
 using namespace std;
 ///////////////////drawMap Class///////////////////
-void Visualisation::drawRectangle(int left_x, int up_y, int right_x, int bot_y)
+void Visualisation::drawRectangle(int left_x, int up_y, int right_x, int bot_y, color foreground, color background)
 {
+	set_color(foreground, background);
 	for (int y = up_y + 1; y < bot_y; y++)
 	{
 		set_cursor_pos(left_x, y);
@@ -39,21 +40,16 @@ void Visualisation::drawRectangle(int left_x, int up_y, int right_x, int bot_y)
 }
 void Visualisation::erasePixel(int _x, int _y)
 {
+	set_color(cBLACK);
 	set_cursor_pos(_x, _y);
 	cout << ' ';
 }
-void Visualisation::drawPlayingField(int left_x, int up_y, int right_x, int bot_y)
+void Visualisation::drawCursorPixel(int _x, int _y, color background)
 {
-	
-	set_color(cBLUE);
-	drawRectangle(left_x, up_y, right_x, bot_y);
-	for (int x = left_x + 32; x < right_x - 32; x++)
-	{
-		set_cursor_pos(x, bot_y);
-		set_color(cGREEN);
-		cout << (char)23;
-	}
-	set_color(cYELLOW);
+	set_cursor_pos(_x, _y);
+	set_color(cBLACK, background);
+	cout << ' ';
+	set_cursor_pos(_x, _y);
 }
 void Visualisation::drawVisitor(int _x, int _y)
 {
@@ -62,8 +58,9 @@ void Visualisation::drawVisitor(int _x, int _y)
 	cout << VisitorSymbol;
 	set_color(cYELLOW);
 }
-void Visualisation::drawBuilding(int left_x, int up_y, int right_x, int bot_y, const char ch)
+void Visualisation::drawBuilding(int left_x, int up_y, int right_x, int bot_y, const char ch, color foreground, color background)
 {
+	set_color(foreground, background);
 	for (int j = up_y; j <= bot_y; j++)
 	{
 		for (int i = left_x; i <= right_x; i++)
@@ -84,36 +81,23 @@ void Visualisation::eraseBuilding(int left_x, int up_y, int right_x, int bot_y)
 		}
 	}
 }
-void Visualisation::drawRoad(int _x, int _y, const char ch)
+void Visualisation::drawRoad(int _x, int _y, const char ch, color foreground, color background)
 {
+	set_color(foreground, background);
 	set_cursor_pos(_x, _y);
 	cout << ch;
 	set_color(cYELLOW);
 }
-void Visualisation::drawMenuBorders(int Menu_left_x, int Menu_up_y, int Menu_right_x, int Menu_bot_y, color MenuBorders)
+void Visualisation::drawIcon(int left_x, int up_y, int cost, int dailyspend, const char symbol, string description, color foreground, color background) //icon border
 {
-	set_color(MenuBorders);
-	drawRectangle(Menu_left_x, Menu_up_y, Menu_right_x, Menu_bot_y); //side menu borders
-	set_color(cYELLOW);
-}
-void Visualisation::drawIconBorders(int left_x, int up_y, int right_x, int bot_y, color IconBorders) //external border
-{
-	set_color(IconBorders);
-	drawRectangle(left_x, up_y, right_x, bot_y);
-	set_color(cYELLOW);
-}
-void Visualisation::drawIcon(int left_x, int up_y, int cost, int dailyspend, const char symbol, string description, color Icon) //icon border
-{
-	set_color(cGREEN);
-	drawRectangle(left_x, up_y, left_x + 3, up_y + 3);
-	set_color(cDARK_GRAY);
+	drawRectangle(left_x, up_y, left_x + 3, up_y + 3, foreground, background);
 	if (dailyspend != 0)
 	{
-		drawBuilding(left_x + 1, up_y + 1, left_x + 2, up_y + 2, symbol);
+		drawBuilding(left_x + 1, up_y + 1, left_x + 2, up_y + 2, symbol, cDARK_GRAY);
 	}
 	else
 	{
-		drawRoad(left_x + 1, up_y + 1, symbol);
+		drawRoad(left_x + 1, up_y + 1, symbol, cDARK_GRAY);
 	}
 	set_cursor_pos(left_x + 4, up_y);
 	set_color(cLIGHT_GRAY);

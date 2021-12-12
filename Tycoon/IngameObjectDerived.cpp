@@ -4,24 +4,6 @@ ConstructionDescriptor* Construction::getDescriptor() const //no setter here
 {
 	return Describe_ptr;
 }
-char Construction::SetRoadSymbol(int mask) const
-{
-	return '0';
-}
-void Construction::DefineGraphStatus(int mask)
-{}
-PointCoord Construction::getEntrance() const
-{
-	 return PointCoord();
-}
-Direction  Construction::getExitDirection() const
-{
-	return Direction::None;
-}
-void Construction::setGraphStatus(bool status)
-	{}
-void Construction::setRoadConnectionStatus(bool connected)
-	{}
 ///////////////Building Class: Construction derived///////////////
 PointCoord Building::getEntrance() const
 {
@@ -75,10 +57,10 @@ char Road::SetRoadSymbol(int mask) const
 	case bottomside: return (char)186;
 	case vertical: return (char)186;
 	case horizontal: return (char)205;
-	case lefttop_angle: return (char)201;
-	case righttop_angle: return (char)187;
-	case leftbottom_angle: return (char)200;
-	case rightbottom_angle: return (char)188;
+	case lefttop_angle: return (char)188;
+	case righttop_angle: return (char)200;
+	case leftbottom_angle: return (char)187;
+	case rightbottom_angle: return (char)201;
 	case right_T: return (char)204;
 	case left_T: return (char)185;
 	case top_T: return (char)202;

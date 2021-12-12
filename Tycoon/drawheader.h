@@ -13,14 +13,12 @@ public:
 	{
 		init_graphics();
 	}
-	void drawRectangle(int left_x, int up_y, int right_x, int bot_y);
+	void drawRectangle(int left_x, int up_y, int right_x, int bot_y, color foreground, color background = cBLACK);
+	void drawCursorPixel(int _x, int _y, color background = cBLACK);
 	void erasePixel(int _x, int _y);
-	void drawPlayingField(int left_x, int up_y, int right_x, int bot_y);
-	void drawMenuBorders(int Menu_left_x, int Menu_up_y, int Menu_right_x, int Menu_bot_y, color MenuBorders);
-	void drawIconBorders(int left_x, int up_y, int right_x, int bot_y, color IconBorders);
-	void drawIcon(int left_x, int up_y, int Bcost, int dailyspend, const char symbol, string description, color Icon);
+	void drawIcon(int left_x, int up_y, int Bcost, int dailyspend, const char symbol, string description, color foreground, color background = cBLACK);
 	void drawVisitor(int _x, int _y);
-	void drawBuilding(int left_x, int up_y, int right_x, int bot_y, const char ch);
+	void drawBuilding(int left_x, int up_y, int right_x, int bot_y, const char ch, color foreground, color background = cBLACK);
 	void eraseBuilding(int left_x, int up_y, int right_x, int bot_y);
-	void drawRoad(int _x, int _y, const char ch);
+	void drawRoad(int _x, int _y, const char ch, color foreground, color background = cBLACK);
 };

@@ -15,12 +15,6 @@ public:
 	~Construction()
 	{}
 	ConstructionDescriptor* getDescriptor() const override; //no setter here
-	virtual char SetRoadSymbol(int mask) const;
-	virtual void DefineGraphStatus(int mask);
-	virtual PointCoord getEntrance() const;
-	virtual Direction getExitDirection() const;
-	virtual void setGraphStatus(bool status);
-	virtual void setRoadConnectionStatus(bool connected);
 };
 /////////////Parent Class of Buildings/////////////
 class Building : public Construction
@@ -70,7 +64,7 @@ public:
 	}
 	~Road()
 	{}
-	char SetRoadSymbol(int mask) const override;
+	char SetRoadSymbol(int mask) const;
 	bool getGraphStatus() const;
 	void setGraphStatus(bool status);
 	void DefineGraphStatus(int mask);

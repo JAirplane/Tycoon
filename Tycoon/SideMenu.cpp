@@ -53,7 +53,7 @@ void SideMenu::ShowIcons()
 	vector<ConstructionManager*>::iterator iter;
 	for (iter = Managers.begin(); iter != Managers.end(); iter++)
 	{
-		Draw_ptr->drawIconBorders(left_x + 2, top_y + 1, right_x - 2, top_y + ConstructionOptions::getAllOptions()->getMenuElementBordersHeight(), color::cYELLOW);
+		Draw_ptr->drawRectangle(left_x + 2, top_y + 1, right_x - 2, top_y + ConstructionOptions::getAllOptions()->getMenuElementBordersHeight(), color::cYELLOW);
 		Draw_ptr->drawIcon(left_x + 3, top_y + 2, (*iter)->getDescriptor()->getConstructionCost(), (*iter)->getDescriptor()->getDailyExpences(),
 			(*iter)->getDescriptor()->getBuildingSymbol(), (*iter)->getDescriptor()->getDescription(), color::cGREEN);
 		top_y += ConstructionOptions::getAllOptions()->getMenuElementBordersHeight();
@@ -65,7 +65,7 @@ void SideMenu::ShowMenuBorders()
 	int top_y = getUpperLeft().get_y();
 	int right_x = getUpperLeft().get_x() + ConstructionOptions::getAllOptions()->getMenuWidthAdd();
 	int bot_y = getUpperLeft().get_y() + ConstructionOptions::getAllOptions()->getMenuHeightAdd();
-	Draw_ptr->drawMenuBorders(left_x, top_y, right_x, bot_y, color::cBLUE);
+	Draw_ptr->drawRectangle(left_x, top_y, right_x, bot_y, color::cBLUE);
 }
 PointCoord SideMenu::getNearestIconCoords(PointCoord currenticon, IconsPosition ip) //this method returns next upper/lower Icon's coords before/after "currenticon" coord
 {
@@ -129,8 +129,8 @@ PointCoord SideMenu::MenuNavigation(PointCoord currenticon, IconsPosition ip)
 	{
 		if (nearest.get_y() < VM_ptr->getUpperLeft().get_y() + VM_ptr->getHeightAddition())
 		{
-			Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, currenticon.get_y(), MenuUL.get_x() + menu_width - 2, currenticon.get_y() + ConstructionOptions::getAllOptions()->getMenuElementBordersHeight() - 1, color::cYELLOW);
-			Draw_ptr->drawIconBorders(MenuUL.get_x() + 2, nearest.get_y(), MenuUL.get_x() + menu_width - 2, nearest.get_y() + ConstructionOptions::getAllOptions()->getMenuElementBordersHeight() - 1, color::cGREEN);
+			Draw_ptr->drawRectangle(MenuUL.get_x() + 2, currenticon.get_y(), MenuUL.get_x() + menu_width - 2, currenticon.get_y() + ConstructionOptions::getAllOptions()->getMenuElementBordersHeight() - 1, color::cYELLOW);
+			Draw_ptr->drawRectangle(MenuUL.get_x() + 2, nearest.get_y(), MenuUL.get_x() + menu_width - 2, nearest.get_y() + ConstructionOptions::getAllOptions()->getMenuElementBordersHeight() - 1, color::cGREEN);
 			return nearest;
 		}
 		else

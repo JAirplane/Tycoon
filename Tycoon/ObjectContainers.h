@@ -38,7 +38,7 @@ public:
 class AllBuildings
 {
 private:
-	list<Construction*> Buildings;
+	list<Building*> Buildings;
 	Cursor* C_ptr;
 	Visualisation* Draw_ptr;
 public:
@@ -49,16 +49,16 @@ public:
 	}
 	~AllBuildings()
 	{
-		list<Construction*>::iterator iter;
+		list<Building*>::iterator iter;
 		for (iter = Buildings.begin(); iter != Buildings.end(); iter++)
 		{
 			delete (*iter);
 		}
 	}
-	void addBuilding(Construction* go_ptr);
+	void addBuilding(Building* go_ptr);
 	void DisplayBuildings();
 	void EraseBuildings();
-	const list<Construction*> getAllBuildings();
+	const list<Building*> getAllBuildings();
 	vector<PointCoord> getPotentialRoadCoords(); //returns points that are near the entrances
 	void setRoadConnectionStatus(vector<PointCoord> connectedroads);
 };
@@ -66,7 +66,7 @@ public:
 class AllRoads
 {
 private:
-	list<Construction*> Roads;
+	list<Road*> Roads;
 	Cursor* C_ptr;
 	Visualisation* Draw_ptr;
 public:
@@ -77,18 +77,18 @@ public:
 	}
 	~AllRoads()
 	{
-		list<Construction*>::iterator iter;
+		list<Road*>::iterator iter;
 		for (iter = Roads.begin(); iter != Roads.end(); iter++)
 		{
 			delete (*iter);
 		}
 	}
-	void addRoad(Construction* r_ptr);
-	list<Construction*>& getAllRoads();
+	void addRoad(Road* r_ptr);
+	list<Road*>& getAllRoads();
 	int RoadEnvironment(PointCoord pc1);
-	char SetRoadSymbol(int mask) const;
 	void DisplayRoads();
 	void EraseRoads();
+	void RedrawRoads(Road* r_ptr); //when new road tile added or removed redraw all neighbor roads
 	void IsGraph_RoadsOnly();
 	vector<PointCoord> RoadConnectedToEntranceCheck(vector<PointCoord> possibleroads);
 	void setChainStatus();
