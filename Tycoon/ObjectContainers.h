@@ -33,6 +33,7 @@ public:
 	IngameObject* getPreliminaryElement(); //it takes last element of EveryObject list
 	void ErasePreliminaryElement();
 	bool IsPartOfExistingObject(PointCoord _pc);
+	bool IsPartOfExistingObject(IngameObject* object_ptr);
 };
 /////////////Container of All Types of Buildings Class/////////////
 class AllBuildings

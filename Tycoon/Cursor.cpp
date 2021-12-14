@@ -20,26 +20,26 @@ void Cursor::CursorShift(Direction SD)
 	case Direction::Right:
 	{
 		Xshift -= 1;
-		CursorMovement(PointCoord(getCursorConsoleLocation().get_x() - 1, getCursorConsoleLocation().get_y()));
-		break;
+		CursorMovement(PointCoord(getCursorConsoleLocation().get_x() + 1, getCursorConsoleLocation().get_y()));
+		return;
 	}
 	case Direction::Down:
 	{
 		Yshift -= 1;
 		CursorMovement(PointCoord(getCursorConsoleLocation().get_x(), getCursorConsoleLocation().get_y() + 1));
-		break;
+		return;
 	}
 	case Direction::Left:
 	{
 		Xshift += 1;
-		CursorMovement(PointCoord(getCursorConsoleLocation().get_x() + 1, getCursorConsoleLocation().get_y()));
-		break;
+		CursorMovement(PointCoord(getCursorConsoleLocation().get_x() - 1, getCursorConsoleLocation().get_y()));
+		return;
 	}
 	case Direction::Up:
 	{
 		Yshift += 1;
 		CursorMovement(PointCoord(getCursorConsoleLocation().get_x(), getCursorConsoleLocation().get_y() - 1));
-		break;
+		return;
 	}
 	}
 }
@@ -60,4 +60,12 @@ void Cursor::CursorShift(Direction SD, int shiftvalue)
 		return;
 	}
 	}
+}
+bool Cursor::getIntersectionFlag() const
+{
+	return Intersection;
+}
+void Cursor::setIntersectionFlag(bool superposition)
+{
+	Intersection = superposition;
 }

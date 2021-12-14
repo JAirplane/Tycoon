@@ -58,7 +58,7 @@ void Visualisation::drawVisitor(int _x, int _y)
 	cout << VisitorSymbol;
 	set_color(cYELLOW);
 }
-void Visualisation::drawBuilding(int left_x, int up_y, int right_x, int bot_y, const char ch, color foreground, color background)
+void Visualisation::drawConstruction(int left_x, int up_y, int right_x, int bot_y, const char ch, color foreground, color background)
 {
 	set_color(foreground, background);
 	for (int j = up_y; j <= bot_y; j++)
@@ -71,7 +71,7 @@ void Visualisation::drawBuilding(int left_x, int up_y, int right_x, int bot_y, c
 	}
 	set_color(cYELLOW);
 }
-void Visualisation::eraseBuilding(int left_x, int up_y, int right_x, int bot_y)
+void Visualisation::eraseConstruction(int left_x, int up_y, int right_x, int bot_y)
 {
 	for (int j = up_y; j <= bot_y; j++)
 	{
@@ -81,24 +81,10 @@ void Visualisation::eraseBuilding(int left_x, int up_y, int right_x, int bot_y)
 		}
 	}
 }
-void Visualisation::drawRoad(int _x, int _y, const char ch, color foreground, color background)
-{
-	set_color(foreground, background);
-	set_cursor_pos(_x, _y);
-	cout << ch;
-	set_color(cYELLOW);
-}
 void Visualisation::drawIcon(int left_x, int up_y, int cost, int dailyspend, const char symbol, string description, color foreground, color background) //icon border
 {
-	drawRectangle(left_x, up_y, left_x + 3, up_y + 3, foreground, background);
-	if (dailyspend != 0)
-	{
-		drawBuilding(left_x + 1, up_y + 1, left_x + 2, up_y + 2, symbol, cDARK_GRAY);
-	}
-	else
-	{
-		drawRoad(left_x + 1, up_y + 1, symbol, cDARK_GRAY);
-	}
+	drawRectangle(left_x, up_y, left_x + 3, up_y + 3, cGREEN);
+	drawConstruction(left_x + 1, up_y + 1, left_x + 2, up_y + 2, symbol, foreground, background);
 	set_cursor_pos(left_x + 4, up_y);
 	set_color(cLIGHT_GRAY);
 	cout << description;

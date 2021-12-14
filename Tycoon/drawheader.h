@@ -18,7 +18,6 @@ public:
 	void erasePixel(int _x, int _y);
 	void drawIcon(int left_x, int up_y, int Bcost, int dailyspend, const char symbol, string description, color foreground, color background = cBLACK);
 	void drawVisitor(int _x, int _y);
-	void drawBuilding(int left_x, int up_y, int right_x, int bot_y, const char ch, color foreground, color background = cBLACK);
-	void eraseBuilding(int left_x, int up_y, int right_x, int bot_y);
-	void drawRoad(int _x, int _y, const char ch, color foreground, color background = cBLACK);
+	void drawConstruction(int left_x, int up_y, int right_x, int bot_y, const char ch, color foreground, color background = cBLACK);
+	void eraseConstruction(int left_x, int up_y, int right_x, int bot_y);
 };

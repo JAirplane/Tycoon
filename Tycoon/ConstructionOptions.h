@@ -43,4 +43,10 @@ public:
 	///////////////Building's Icon Symbol Constants///////////////
 	virtual const char getIceCreamShopIconSymbol() const;
 	virtual const char getRoadIconSymbol() const;
+	///////////////Color Construction Constants///////////////
+	virtual color getIceCreamShopForegroundColor() const;
+	virtual color getIceCreamShopBackgroundColor() const;
+	virtual color getRoadForegroundColor() const;
+	virtual color getRoadBackgroundColor() const;
+	virtual color getCursorBackgroundColor() const;
 };

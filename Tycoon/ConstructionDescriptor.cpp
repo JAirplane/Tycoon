@@ -48,9 +48,25 @@ void ConstructionDescriptor::setDailyExpences(unsigned int _dailyexpences)
 {
 	DailyExpences = _dailyexpences;
 }
+color ConstructionDescriptor::getForegroundColor()
+{
+	return Foreground;
+}
+void ConstructionDescriptor::setForegroundColor(color _somecolor)
+{
+	Foreground = _somecolor;
+}
+color ConstructionDescriptor::getBackgroundColor()
+{
+	return Background;
+}
+void ConstructionDescriptor::setBackgroundColor(color _somecolor)
+{
+	Background = _somecolor;
+}
 char ConstructionDescriptor::getBuildingSymbol()
 {
 	return '0';
 }
 void ConstructionDescriptor::setBuildingSymbol(const char _buildingsymbol)
-	{}
+{}

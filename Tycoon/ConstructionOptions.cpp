@@ -88,6 +88,27 @@ const char ConstructionOptions::getRoadIconSymbol() const
 {
 	return '+';
 }
+///////////////Color Construction Constants///////////////
+color ConstructionOptions::getIceCreamShopForegroundColor() const
+{
+	return color::cYELLOW;
+}
+color ConstructionOptions::getIceCreamShopBackgroundColor() const
+{
+	return color::cDARK_CYAN;
+}
+color ConstructionOptions::getRoadForegroundColor() const
+{
+	return color::cGREEN;
+}
+color ConstructionOptions::getRoadBackgroundColor() const
+{
+	return color::cDARK_GRAY;
+}
+color ConstructionOptions::getCursorBackgroundColor() const
+{
+	return color::cYELLOW;
+}
 ///////////////ConstructionOptions Initialisation and using///////////////
 ConstructionOptions* ConstructionOptions::getAllOptions()
 {

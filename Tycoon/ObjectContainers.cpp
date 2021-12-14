@@ -39,7 +39,7 @@ void AllObjects::ErasePreliminaryElement()
 }
 bool AllObjects::IsPartOfExistingObject(PointCoord _pc)
 {
-	list< IngameObject* >::iterator iter;
+	list<IngameObject*>::iterator iter;
 	for (iter = EveryObject.begin(); iter != EveryObject.end(); iter++)
 	{
 		PointCoord UL = (*iter)->getUpperLeft();
@@ -48,6 +48,38 @@ bool AllObjects::IsPartOfExistingObject(PointCoord _pc)
 		if (_pc.get_x() >= UL.get_x() && _pc.get_x() <= (UL.get_x() + widthadd) && _pc.get_y() >= UL.get_y() && _pc.get_y() <= (UL.get_y() + heightadd))
 		{
 			return true;
+		}
+	}
+	return false;
+}
+bool AllObjects::IsPartOfExistingObject(IngameObject* object_ptr)
+{
+	list<IngameObject*>::iterator iter;
+	int x_coord = object_ptr->getUpperLeft().get_x();
+	int y_coord = object_ptr->getUpperLeft().get_y();
+	int objectheightadd = object_ptr->getHeightAddition();
+	int objectwidthadd = object_ptr->getWidthAddition();
+	for (y_coord; y_coord <= object_ptr->getUpperLeft().get_y() + object_ptr->getHeightAddition(); y_coord++)
+	{
+		for (x_coord; x_coord <= object_ptr->getUpperLeft().get_x() + object_ptr->getWidthAddition(); x_coord++)
+		{
+			if (y_coord == object_ptr->getUpperLeft().get_y() || y_coord == object_ptr->getUpperLeft().get_y() + object_ptr->getHeightAddition(),
+				x_coord == object_ptr->getUpperLeft().get_x() || x_coord == object_ptr->getUpperLeft().get_x() + object_ptr->getWidthAddition())
+			{
+				for (iter = EveryObject.begin(); iter != EveryObject.end(); iter++)
+				{
+					if (object_ptr != (*iter))
+					{
+						PointCoord UL = (*iter)->getUpperLeft();
+						unsigned int heightadd = (*iter)->getHeightAddition();
+						unsigned int widthadd = (*iter)->getWidthAddition();
+						if (x_coord >= UL.get_x() && x_coord <= (UL.get_x() + widthadd) && y_coord >= UL.get_y() && y_coord <= (UL.get_y() + heightadd))
+						{
+							return true;
+						}
+					}
+				}
+			}
 		}
 	}
 	return false;
@@ -65,7 +97,7 @@ void AllBuildings::DisplayBuildings()
 		PointCoord ULBuilding = (*iter)->getUpperLeft();
 		unsigned int heightadd = (*iter)->getHeightAddition();
 		unsigned int widthadd = (*iter)->getWidthAddition();
-		Draw_ptr->drawBuilding(ULBuilding.get_x(), ULBuilding.get_y(), ULBuilding.get_x() + widthadd, ULBuilding.get_y() + heightadd, (*iter)->getDescriptor()->getBuildingSymbol(), color::cYELLOW, color::cLIGHT_GRAY);
+		Draw_ptr->drawConstruction(ULBuilding.get_x(), ULBuilding.get_y(), ULBuilding.get_x() + widthadd, ULBuilding.get_y() + heightadd, (*iter)->getDescriptor()->getBuildingSymbol(), color::cYELLOW, color::cLIGHT_GRAY);
 	}
 	C_ptr->setCursorConsoleLocation();
 }
@@ -77,7 +109,7 @@ void AllBuildings::EraseBuildings()
 		PointCoord ULBuilding = (*iter)->getUpperLeft();
 		unsigned int heightadd = (*iter)->getHeightAddition();
 		unsigned int widthadd = (*iter)->getWidthAddition();
-		Draw_ptr->eraseBuilding(ULBuilding.get_x(), ULBuilding.get_y(), ULBuilding.get_x() + widthadd, ULBuilding.get_y() + heightadd);
+		Draw_ptr->eraseConstruction(ULBuilding.get_x(), ULBuilding.get_y(), ULBuilding.get_x() + widthadd, ULBuilding.get_y() + heightadd);
 	}
 }
 const list<Building*> AllBuildings::getAllBuildings()
@@ -226,9 +258,11 @@ void AllRoads::DisplayRoads()
 	for (iter = Roads.begin(); iter != Roads.end(); iter++)
 	{
 		PointCoord ULRoad = (*iter)->getUpperLeft();
+		int heightadd = (*iter)->getHeightAddition();
+		int widthadd = (*iter)->getWidthAddition();
 		int mask1 = RoadEnvironment(ULRoad);
 		char RoadSymbol = (*iter)->SetRoadSymbol(mask1);
-		Draw_ptr->drawRoad(ULRoad.get_x(), ULRoad.get_y(), RoadSymbol, color::cDARK_GREEN, color::cLIGHT_GRAY);
+		Draw_ptr->drawConstruction(ULRoad.get_x(), ULRoad.get_y(), ULRoad.get_x() + widthadd, ULRoad.get_y() + heightadd, RoadSymbol, color::cDARK_GREEN, color::cLIGHT_GRAY);
 	}
 	C_ptr->setCursorConsoleLocation();
 }
@@ -256,10 +290,17 @@ void AllRoads::RedrawRoads(Road* r_ptr)
 		{
 			int sideroadmask = RoadEnvironment((*iter)->getUpperLeft());
 			unsigned char sideroadsymbol = (*iter)->SetRoadSymbol(sideroadmask);
-			Draw_ptr->drawRoad((*iter)->getUpperLeft().get_x(), (*iter)->getUpperLeft().get_y(), sideroadsymbol, color::cGREEN);
+			PointCoord UL = (*iter)->getUpperLeft();
+			int heightadd = (*iter)->getHeightAddition();
+			int widthadd = (*iter)->getWidthAddition();
+			Draw_ptr->drawConstruction(UL.get_x(), UL.get_y(), UL.get_x() + widthadd, UL.get_y() + heightadd, sideroadsymbol, (*iter)->getDescriptor()->getForegroundColor(), (*iter)->getDescriptor()->getBackgroundColor());
 		}
 	}
-	Draw_ptr->drawRoad(r_ptr->getUpperLeft().get_x(), r_ptr->getUpperLeft().get_y(), roadsymbol, color::cGREEN);
+	PointCoord CentralUL = r_ptr->getUpperLeft();
+	int centralroadheightadd = r_ptr->getHeightAddition();
+	int centralroadwidthadd = r_ptr->getWidthAddition();
+	Draw_ptr->drawConstruction(CentralUL.get_x(), CentralUL.get_y(), CentralUL.get_x() + centralroadwidthadd, CentralUL.get_y() + centralroadheightadd, roadsymbol, 
+		r_ptr->getDescriptor()->getForegroundColor(), r_ptr->getDescriptor()->getBackgroundColor());
 }
 void AllRoads::IsGraph_RoadsOnly()
 {

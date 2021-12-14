@@ -55,7 +55,11 @@ public:
 	void H_Key();
 	void S_Key();
 	void Tab_Key_Playingfield();
+	void Tab_Key_SideMenu();
 	void Enter_Key_PlayingField();
 	void Enter_Key_SideMenu();
 	void Esc_Key_PlayingField();
+	void Arrows_PlayingField(PointCoord cursordestination);
+	void UpArrow_SideMenu();
+	void DownArrow_SideMenu();
 };
