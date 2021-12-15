@@ -28,12 +28,13 @@ public:
 	list<IngameObject*>& getAllObjects();
 	void addObject(IngameObject* obj_ptr);
 	void addObject(IngameObject* obj_ptr, int _position);
+	bool IsEmpty();
 	void setLastElementFlag(bool changer);
 	bool getLastElementFlag();
 	IngameObject* getPreliminaryElement(); //it takes last element of EveryObject list
 	void ErasePreliminaryElement();
 	bool IsPartOfExistingObject(PointCoord _pc);
-	bool IsPartOfExistingObject(IngameObject* object_ptr);
+	bool IsPartOfExistingObject(IngameObject* object_ptr, int camera_left_x, int camera_right_x, int camera_top_y, int camera_bottom_y);
 };
 /////////////Container of All Types of Buildings Class/////////////
 class AllBuildings

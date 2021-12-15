@@ -109,6 +109,22 @@ color ConstructionOptions::getCursorBackgroundColor() const
 {
 	return color::cYELLOW;
 }
+color ConstructionOptions::getPlayingFieldColor() const
+{
+	return color::cBLUE;
+}
+color ConstructionOptions::getMenuBorderInactiveColor() const
+{
+	return color::cYELLOW;
+}
+color ConstructionOptions::getMenuBorderActiveColor() const
+{
+	return color::cGREEN;
+}
+color ConstructionOptions::getMenuBorderUnderConstructionColor() const
+{
+	return color::cRED;
+}
 ///////////////ConstructionOptions Initialisation and using///////////////
 ConstructionOptions* ConstructionOptions::getAllOptions()
 {

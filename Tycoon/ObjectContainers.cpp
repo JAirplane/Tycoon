@@ -21,6 +21,10 @@ void AllObjects::addObject(IngameObject* obj_ptr, int _position)
 		EveryObject.insert(it, obj_ptr);
 	}
 }
+bool AllObjects::IsEmpty()
+{
+	return EveryObject.empty();
+}
 void AllObjects::setLastElementFlag(bool changer)
 {
 	LastElementIsPreliminary = changer;
@@ -52,20 +56,20 @@ bool AllObjects::IsPartOfExistingObject(PointCoord _pc)
 	}
 	return false;
 }
-bool AllObjects::IsPartOfExistingObject(IngameObject* object_ptr)
+bool AllObjects::IsPartOfExistingObject(IngameObject* object_ptr, int camera_left_x, int camera_right_x, int camera_up_y, int camera_bottom_y)
 {
 	list<IngameObject*>::iterator iter;
 	int x_coord = object_ptr->getUpperLeft().get_x();
 	int y_coord = object_ptr->getUpperLeft().get_y();
 	int objectheightadd = object_ptr->getHeightAddition();
 	int objectwidthadd = object_ptr->getWidthAddition();
-	for (y_coord; y_coord <= object_ptr->getUpperLeft().get_y() + object_ptr->getHeightAddition(); y_coord++)
+	for (y_coord; y_coord <= object_ptr->getUpperLeft().get_y() + objectheightadd; y_coord++)
 	{
-		for (x_coord; x_coord <= object_ptr->getUpperLeft().get_x() + object_ptr->getWidthAddition(); x_coord++)
+		for (x_coord; x_coord <= object_ptr->getUpperLeft().get_x() + objectwidthadd; x_coord++)
 		{
-			if (y_coord == object_ptr->getUpperLeft().get_y() || y_coord == object_ptr->getUpperLeft().get_y() + object_ptr->getHeightAddition(),
-				x_coord == object_ptr->getUpperLeft().get_x() || x_coord == object_ptr->getUpperLeft().get_x() + object_ptr->getWidthAddition())
-			{
+			if (y_coord == object_ptr->getUpperLeft().get_y() || y_coord == object_ptr->getUpperLeft().get_y() + objectheightadd,
+				x_coord == object_ptr->getUpperLeft().get_x() || x_coord == object_ptr->getUpperLeft().get_x() + objectwidthadd)
+			{	
 				for (iter = EveryObject.begin(); iter != EveryObject.end(); iter++)
 				{
 					if (object_ptr != (*iter))
@@ -80,8 +84,14 @@ bool AllObjects::IsPartOfExistingObject(IngameObject* object_ptr)
 					}
 				}
 			}
+			if (y_coord == camera_up_y || y_coord == camera_bottom_y || x_coord == camera_left_x || x_coord == camera_right_x)
+			{
+				return true;
+			}
 		}
+		x_coord = object_ptr->getUpperLeft().get_x();
 	}
+	
 	return false;
 }
 ///////////////All Buildings Class///////////////
@@ -97,9 +107,10 @@ void AllBuildings::DisplayBuildings()
 		PointCoord ULBuilding = (*iter)->getUpperLeft();
 		unsigned int heightadd = (*iter)->getHeightAddition();
 		unsigned int widthadd = (*iter)->getWidthAddition();
-		Draw_ptr->drawConstruction(ULBuilding.get_x(), ULBuilding.get_y(), ULBuilding.get_x() + widthadd, ULBuilding.get_y() + heightadd, (*iter)->getDescriptor()->getBuildingSymbol(), color::cYELLOW, color::cLIGHT_GRAY);
+		Draw_ptr->drawConstruction(ULBuilding.get_x(), ULBuilding.get_y(), ULBuilding.get_x() + widthadd, ULBuilding.get_y() + heightadd, (*iter)->getDescriptor()->getBuildingSymbol(), 
+			(*iter)->getDescriptor()->getForegroundColor(), (*iter)->getDescriptor()->getBackgroundColor());
 	}
-	C_ptr->setCursorConsoleLocation();
+	C_ptr->CursorMovement(C_ptr->getCursorConsoleLocation());
 }
 void AllBuildings::EraseBuildings()
 {
@@ -203,7 +214,7 @@ void AllVisitors::DisplayVisitors()
 		PointCoord ULVisitor = (*iter)->getUpperLeft();
 		Draw_ptr->drawVisitor(ULVisitor.get_x(), ULVisitor.get_y());
 	}
-	C_ptr->setCursorConsoleLocation();
+	C_ptr->CursorMovement(C_ptr->getCursorConsoleLocation());
 }
 void AllVisitors::EraseVisitors()
 {
@@ -262,9 +273,9 @@ void AllRoads::DisplayRoads()
 		int widthadd = (*iter)->getWidthAddition();
 		int mask1 = RoadEnvironment(ULRoad);
 		char RoadSymbol = (*iter)->SetRoadSymbol(mask1);
-		Draw_ptr->drawConstruction(ULRoad.get_x(), ULRoad.get_y(), ULRoad.get_x() + widthadd, ULRoad.get_y() + heightadd, RoadSymbol, color::cDARK_GREEN, color::cLIGHT_GRAY);
+		Draw_ptr->drawConstruction(ULRoad.get_x(), ULRoad.get_y(), ULRoad.get_x() + widthadd, ULRoad.get_y() + heightadd, RoadSymbol, (*iter)->getDescriptor()->getForegroundColor(), (*iter)->getDescriptor()->getBackgroundColor());
 	}
-	C_ptr->setCursorConsoleLocation();
+	C_ptr->CursorMovement(C_ptr->getCursorConsoleLocation());
 }
 void AllRoads::EraseRoads()
 {

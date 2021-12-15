@@ -49,4 +49,8 @@ public:
 	virtual color getRoadForegroundColor() const;
 	virtual color getRoadBackgroundColor() const;
 	virtual color getCursorBackgroundColor() const;
+	virtual color getPlayingFieldColor() const;
+	virtual color getMenuBorderInactiveColor() const;
+	virtual color getMenuBorderActiveColor() const;
+	virtual color getMenuBorderUnderConstructionColor() const;
 };
