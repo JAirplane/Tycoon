@@ -154,10 +154,12 @@
     <ClInclude Include="ManagersDerived.h" />
     <ClInclude Include="GlobalObject.h" />
     <ClInclude Include="IngameObjectDerived.h" />
-    <ClInclude Include="Map.h" />
+    <ClInclude Include="GameManagement.h" />
     <ClInclude Include="ObjectContainers.h" />
-    <ClInclude Include="SideMenu.h" />
-    <ClInclude Include="VisibleMap.h" />
+    <ClInclude Include="PlayingField.h" />
+    <ClInclude Include="RoadGraph.h" />
+    <ClInclude Include="Menu.h" />
+    <ClInclude Include="Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\msoft\msoftcon.cpp" />
@@ -172,11 +174,12 @@
     <ClCompile Include="ManagersDerived.cpp" />
     <ClCompile Include="GlobalObject.cpp" />
     <ClCompile Include="IngameObjectDerived.cpp" />
-    <ClCompile Include="Map.cpp" />
+    <ClCompile Include="GameManagement.cpp" />
     <ClCompile Include="ObjectContainers.cpp" />
+    <ClCompile Include="PlayingField.cpp" />
     <ClCompile Include="run.cpp" />
-    <ClCompile Include="SideMenu.cpp" />
-    <ClCompile Include="VisibleMap.cpp" />
+    <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Camera.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

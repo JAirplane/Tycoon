@@ -8,49 +8,59 @@ protected:
 	ConstructionOptions() {}
 	~ConstructionOptions()
 	{
-		delete ConstructionParameters;
+		delete constructionParameters;
 	}
-	static ConstructionOptions* ConstructionParameters;
+	static ConstructionOptions* constructionParameters;
 public:
 	ConstructionOptions(ConstructionOptions& other) = delete;
 	void operator=(const ConstructionOptions&) = delete;
-	static ConstructionOptions* getAllOptions();
+	static ConstructionOptions* GetAllOptions();
 	///////////////Height Addition Constants///////////////
-	virtual const int getIceCreamShopHeightAdd() const;
-	virtual const int getMenuElementBordersHeight() const; //height of 1 element of menu
-	virtual const int getRoadHeightAdd() const;
-	virtual const int getVisitorHeightAdd() const;
-	virtual const int getVisibleMapHeight() const;
-	virtual const int getMenuHeightAdd() const;
+	virtual const int GetIceCreamShopHeightAdd() const;
+	virtual const int GetMenuElementBordersHeight() const; //height of 1 element of menu
+	virtual const int GetRoadHeightAdd() const;
+	virtual const int GetVisitorHeightAdd() const;
+	virtual const int GetCameraHeightAdd() const;
+	virtual const int GetMenuHeightAdd() const;
+	virtual const int GetPlayingFieldHeightAdd() const;
 	///////////////Width Addition Constants///////////////
-	virtual const int getIceCreamShopWidthAdd() const;
-	virtual const int getRoadWidthAdd() const;
-	virtual const int getVisitorWidthAdd() const;
-	virtual const int getVisibleMapWidth() const;
-	virtual const int getMenuWidthAdd() const;
+	virtual const int GetIceCreamShopWidthAdd() const;
+	virtual const int GetRoadWidthAdd() const;
+	virtual const int GetVisitorWidthAdd() const;
+	virtual const int GetCameraWidthAdd() const;
+	virtual const int GetMenuWidthAdd() const;
+	virtual const int GetPlayingFieldWidthAdd() const;
 	///////////////Cost Initialisation Constants///////////////
-	virtual const int getIceCreamShopCost() const;
-	virtual const int getRoadCost() const;
+	virtual const int GetIceCreamShopCost() const;
+	virtual const int GetRoadCost() const;
 	///////////////Daily Expences Initialisation Constants///////////////
-	virtual const int getIceCreamShopExpences() const;
+	virtual const int GetIceCreamShopExpences() const;
 	///////////////Description Initialisation Constants///////////////
-	virtual const string getIceCreamShopDescription() const;
-	virtual const string getRoadDescription() const;
+	virtual const string GetIceCreamShopDescription() const;
+	virtual const string GetRoadDescription() const;
 	///////////////Building Symbol Constants///////////////
-	virtual const char getIceCreamShopSymbol() const;
+	virtual const char GetIceCreamShopSymbol() const;
+	///////////////PlayingField Symbol Constants///////////////
+	virtual const char GetVerticalPlayingField() const;
+	virtual const char GetHorizontalPlayingField() const;
+	virtual const char GetUpperLeftPlayingField() const;
+	virtual const char GetUpperRightPlayingField() const;
+	virtual const char GetBottomLeftPlayingField() const;
+	virtual const char GetBottomRightPlayingField() const;
 	///////////////Initialisation Coord Constants///////////////
-	virtual const PointCoord getVisibleMapInitialCoordUL() const;
+	virtual const PointCoord GetCameraInitialUpperLeft() const;
+	const PointCoord GetPlayingFieldUpperLeft() const;
 	///////////////Building's Icon Symbol Constants///////////////
-	virtual const char getIceCreamShopIconSymbol() const;
-	virtual const char getRoadIconSymbol() const;
+	virtual const char GetIceCreamShopIconSymbol() const;
+	virtual const char GetRoadIconSymbol() const;
 	///////////////Color Construction Constants///////////////
-	virtual color getIceCreamShopForegroundColor() const;
-	virtual color getIceCreamShopBackgroundColor() const;
-	virtual color getRoadForegroundColor() const;
-	virtual color getRoadBackgroundColor() const;
-	virtual color getCursorBackgroundColor() const;
-	virtual color getPlayingFieldColor() const;
-	virtual color getMenuBorderInactiveColor() const;
-	virtual color getMenuBorderActiveColor() const;
-	virtual color getMenuBorderUnderConstructionColor() const;
+	virtual color GetIceCreamShopForegroundColor() const;
+	virtual color GetIceCreamShopBackgroundColor() const;
+	virtual color GetRoadForegroundColor() const;
+	virtual color GetRoadBackgroundColor() const;
+	virtual color GetCursorBackgroundColor() const;
+	virtual color GetPlayingFieldColor() const;
+	virtual color GetMenuBorderInactiveColor() const;
+	virtual color GetMenuBorderActiveColor() const;
+	virtual color GetMenuBorderUnderConstructionColor() const;
 };

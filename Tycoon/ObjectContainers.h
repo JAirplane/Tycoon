@@ -9,12 +9,12 @@ class AllObjects
 {
 private:
 	list<IngameObject*> EveryObject;
-	Cursor* C_ptr;
+	Cursor* cursor_ptr;
 	bool LastElementIsPreliminary;
 public:
-	AllObjects(Cursor* _C_ptr)
+	AllObjects(Cursor* _cursor_ptr)
 	{
-		C_ptr = _C_ptr;
+		cursor_ptr = _cursor_ptr;
 		LastElementIsPreliminary = 0;
 	}
 	~AllObjects()
@@ -28,39 +28,38 @@ public:
 	list<IngameObject*>& getAllObjects();
 	void addObject(IngameObject* obj_ptr);
 	void addObject(IngameObject* obj_ptr, int _position);
-	bool IsEmpty();
 	void setLastElementFlag(bool changer);
 	bool getLastElementFlag();
 	IngameObject* getPreliminaryElement(); //it takes last element of EveryObject list
 	void ErasePreliminaryElement();
 	bool IsPartOfExistingObject(PointCoord _pc);
 	bool IsPartOfExistingObject(IngameObject* object_ptr, int camera_left_x, int camera_right_x, int camera_top_y, int camera_bottom_y);
+	void EraseObjects();
 };
-/////////////Container of All Types of Buildings Class/////////////
-class AllBuildings
+/////////////Container of All Types of buildings Class/////////////
+class Allbuildings
 {
 private:
-	list<Building*> Buildings;
-	Cursor* C_ptr;
-	Visualisation* Draw_ptr;
+	list<Building*> buildings;
+	Cursor* cursor_ptr;
+	Visualisation* draw_ptr;
 public:
-	AllBuildings(Cursor* _C_ptr, Visualisation* _Draw_ptr)
+	Allbuildings(Cursor* _cursor_ptr, Visualisation* _draw_ptr)
 	{
-		C_ptr = _C_ptr;
-		Draw_ptr = _Draw_ptr;
+		cursor_ptr = _cursor_ptr;
+		draw_ptr = _draw_ptr;
 	}
-	~AllBuildings()
+	~Allbuildings()
 	{
 		list<Building*>::iterator iter;
-		for (iter = Buildings.begin(); iter != Buildings.end(); iter++)
+		for (iter = buildings.begin(); iter != buildings.end(); iter++)
 		{
 			delete (*iter);
 		}
 	}
-	void addBuilding(Building* go_ptr);
+	void AddBuilding(Building* go_ptr);
 	void DisplayBuildings();
-	void EraseBuildings();
-	const list<Building*> getAllBuildings();
+	const list<Building*> getAllbuildings();
 	vector<PointCoord> getPotentialRoadCoords(); //returns points that are near the entrances
 	void setRoadConnectionStatus(vector<PointCoord> connectedroads);
 };
@@ -69,13 +68,13 @@ class AllRoads
 {
 private:
 	list<Road*> Roads;
-	Cursor* C_ptr;
-	Visualisation* Draw_ptr;
+	Cursor* cursor_ptr;
+	Visualisation* draw_ptr;
 public:
-	AllRoads(Cursor* _C_ptr, Visualisation* _Draw_ptr)
+	AllRoads(Cursor* _cursor_ptr, Visualisation* _draw_ptr)
 	{
-		C_ptr = _C_ptr;
-		Draw_ptr = _Draw_ptr;
+		cursor_ptr = _cursor_ptr;
+		draw_ptr = _draw_ptr;
 	}
 	~AllRoads()
 	{
@@ -89,7 +88,6 @@ public:
 	list<Road*>& getAllRoads();
 	int RoadEnvironment(PointCoord pc1);
 	void DisplayRoads();
-	void EraseRoads();
 	void RedrawRoads(Road* r_ptr); //when new road tile added or removed redraw all neighbor roads
 	void IsGraph_RoadsOnly();
 	vector<PointCoord> RoadConnectedToEntranceCheck(vector<PointCoord> possibleroads);
@@ -100,15 +98,15 @@ class AllVisitors
 {
 private:
 	list<Visitor*> Visitors;
-	Cursor* C_ptr;
+	Cursor* cursor_ptr;
 	AllObjects* AllObjects_ptr;
-	Visualisation* Draw_ptr;
+	Visualisation* draw_ptr;
 public:
-	AllVisitors(Cursor* _C_ptr, AllObjects* _AllObjects_ptr, Visualisation* _Draw_ptr)
+	AllVisitors(Cursor* _cursor_ptr, AllObjects* _AllObjects_ptr, Visualisation* _draw_ptr)
 	{
-		C_ptr = _C_ptr;
+		cursor_ptr = _cursor_ptr;
 		AllObjects_ptr = _AllObjects_ptr;
-		Draw_ptr = _Draw_ptr;
+		draw_ptr = _draw_ptr;
 	}
 	~AllVisitors()
 	{
@@ -121,6 +119,5 @@ public:
 	void VisitorAppear();
 	bool LocationCheck(PointCoord);
 	void DisplayVisitors();
-	void EraseVisitors();
 	list<Visitor*>& getAllVisitors();
 };

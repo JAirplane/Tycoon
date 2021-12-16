@@ -4,18 +4,18 @@
 class GlobalObject
 {
 private:
-	PointCoord UpperLeft;
-	unsigned int HeightAddition;
-	unsigned int WidthAddition;
+	PointCoord upperLeft;
+	unsigned int heightAddition;
+	unsigned int widthAddition;
 public:
-	GlobalObject(PointCoord ul, unsigned int _heightadd = 0, unsigned int _widthadd = 0) : UpperLeft(ul), HeightAddition(_heightadd), WidthAddition(_widthadd)
+	GlobalObject(PointCoord ul, unsigned int heightadd = 0, unsigned int widthadd = 0) : upperLeft(ul), heightAddition(heightadd), widthAddition(widthadd)
 	{}
 	~GlobalObject()
 	{}
-	PointCoord getUpperLeft() const;
-	void setUpperLeft(PointCoord _pc);
-	unsigned int getHeightAddition() const;
-	void setHeightAddition(const int _ha);
-	unsigned int getWidthAddition() const;
-	void setWidthAddition(const int _wa);
+	PointCoord GetUpperLeft() const;
+	void SetUpperLeft(PointCoord _pc);
+	unsigned int GetHeightAddition() const;
+	void SetHeightAddition(const int _ha);
+	unsigned int GetWidthAddition() const;
+	void SetWidthAddition(const int _wa);
 };

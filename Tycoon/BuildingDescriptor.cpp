@@ -1,9 +1,9 @@
 #include "BuildingDescriptor.h"
-char BuildingDescriptor::getBuildingSymbol()
+char BuildingDescriptor::GetBuildingSymbol()
 {
-	return BuildingSymbol;
+	return buildingsymbol;
 }
-void BuildingDescriptor::setBuildingSymbol(const char _symb)
+void BuildingDescriptor::setbuildingsymbol(const char _symb)
 {
-	BuildingSymbol = _symb;
+	buildingsymbol = _symb;
 }

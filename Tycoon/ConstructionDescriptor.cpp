@@ -2,19 +2,19 @@
 /////////////ConstructionDescriptor Class contains all necessary data about Constructions/////////////
 unsigned int ConstructionDescriptor::getConstructionHeightAdd() const
 {
-	return ConstructionHeightAddition;
+	return ConstructionheightAddition;
 }
 void ConstructionDescriptor::setConstructionHeightAdd(unsigned int _heightadd)
 {
-	ConstructionHeightAddition = _heightadd;
+	ConstructionheightAddition = _heightadd;
 }
 unsigned int ConstructionDescriptor::getConstructionWidthAdd() const
 {
-	return ConstructionWidthAddition;
+	return ConstructionwidthAddition;
 }
 void ConstructionDescriptor::setConstructionWidthAdd(unsigned int _widthadd)
 {
-	ConstructionWidthAddition = _widthadd;
+	ConstructionwidthAddition = _widthadd;
 }
 unsigned int ConstructionDescriptor::getConstructionCost() const
 {
@@ -48,7 +48,7 @@ void ConstructionDescriptor::setDailyExpences(unsigned int _dailyexpences)
 {
 	DailyExpences = _dailyexpences;
 }
-color ConstructionDescriptor::getForegroundColor()
+color ConstructionDescriptor::GetForegroundColor()
 {
 	return Foreground;
 }
@@ -56,7 +56,7 @@ void ConstructionDescriptor::setForegroundColor(color _somecolor)
 {
 	Foreground = _somecolor;
 }
-color ConstructionDescriptor::getBackgroundColor()
+color ConstructionDescriptor::GetBackgroundColor()
 {
 	return Background;
 }
@@ -64,9 +64,9 @@ void ConstructionDescriptor::setBackgroundColor(color _somecolor)
 {
 	Background = _somecolor;
 }
-char ConstructionDescriptor::getBuildingSymbol()
+char ConstructionDescriptor::GetBuildingSymbol()
 {
 	return '0';
 }
-void ConstructionDescriptor::setBuildingSymbol(const char _buildingsymbol)
+void ConstructionDescriptor::setbuildingsymbol(const char _buildingsymbol)
 {}

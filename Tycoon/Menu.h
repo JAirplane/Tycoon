@@ -1,25 +1,24 @@
 #pragma once
-#include "VisibleMap.h"
-
+#include "Camera.h"
 #include <vector>
-class SideMenu : public GlobalObject
+class Menu : public GlobalObject
 {
 private:
-	Visualisation* Draw_ptr;
-	VisibleMap* VM_ptr;
-	Cursor* C_ptr;
+	Visualisation* draw_ptr;
+	Camera* camera_ptr;
+	Cursor* cursor_ptr;
 	vector<ConstructionManager*> Managers;
-	SideMenuStatus CurrentSide;
+	MenuStatus CurrentSide;
 	bool Hidden;
 public:
-	SideMenu(Visualisation* drawptr, VisibleMap* vmptr, Cursor* _c_ptr, PointCoord _ul) : GlobalObject(_ul), Draw_ptr(drawptr), VM_ptr(vmptr), C_ptr(_c_ptr)
+	Menu(Visualisation* drawptr, Camera* vmptr, Cursor* _cursor_ptr, PointCoord _ul) : GlobalObject(_ul), draw_ptr(drawptr), camera_ptr(vmptr), cursor_ptr(_cursor_ptr)
 	{
-		setHeightAddition(ConstructionOptions::getAllOptions()->getMenuHeightAdd());
-		setWidthAddition(ConstructionOptions::getAllOptions()->getMenuWidthAdd());
+		SetHeightAddition(ConstructionOptions::GetAllOptions()->GetMenuHeightAdd());
+		SetWidthAddition(ConstructionOptions::GetAllOptions()->GetMenuWidthAdd());
 		Hidden = 0;
-		CurrentSide = SideMenuStatus::RIGHT;
+		CurrentSide = MenuStatus::RIGHT;
 	}
-	~SideMenu()
+	~Menu()
 	{
 		vector<ConstructionManager*>::iterator iter;
 		for (iter = Managers.begin(); iter != Managers.end(); iter++)
@@ -29,7 +28,7 @@ public:
 	}
 	bool getHideMenuStatus() const;
 	void setHideMenuStatus(bool hideflag);
-	SideMenuStatus getCurrentSide();
+	MenuStatus getCurrentSide();
 	Direction ChangeMenuSide();
 	void ShowIcons();
 	void ShowMenuBorders();

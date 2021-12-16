@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Map.h">
+    <ClInclude Include="GameManagement.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="drawheader.h">
@@ -42,10 +42,10 @@
     <ClInclude Include="..\..\icu\icu4c\source\common\unicode\utypes.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
-    <ClInclude Include="VisibleMap.h">
+    <ClInclude Include="Camera.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="SideMenu.h">
+    <ClInclude Include="Menu.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="ConstructionOptions.h">
@@ -69,9 +69,15 @@
     <ClInclude Include="BuildingDescriptor.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="PlayingField.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="RoadGraph.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Map.cpp">
+    <ClCompile Include="GameManagement.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\msoft\msoftcon.cpp">
@@ -95,10 +101,10 @@
     <ClCompile Include="ObjectContainers.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
-    <ClCompile Include="VisibleMap.cpp">
+    <ClCompile Include="Camera.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
-    <ClCompile Include="SideMenu.cpp">
+    <ClCompile Include="Menu.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
     <ClCompile Include="ConstructionOptions.cpp">
@@ -120,6 +126,9 @@
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
     <ClCompile Include="BuildingDescriptor.cpp">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayingField.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
   </ItemGroup>

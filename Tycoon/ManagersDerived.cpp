@@ -1,13 +1,13 @@
 #include "ManagersDerived.h"
 ///////////////Building Manager Class: Construction Manager derived///////////////
-Construction* BuildingManager::CreateConstruction(PointCoord upperleft)
+Construction* BuildingManager::CreateConstruction(PointCoord upperLeft)
 {
-	Construction* constr_ptr = new Building(upperleft, getDescriptor());
+	Construction* constr_ptr = new Building(upperLeft, GetDescriptor());
 	return constr_ptr;
 }
 ///////////////Road Manager Class: Construction Manager derived///////////////
-Construction* RoadManager::CreateConstruction(PointCoord upperleft)
+Construction* RoadManager::CreateConstruction(PointCoord upperLeft)
 {
-	Construction* constr_ptr = new Road(upperleft, getDescriptor());
+	Construction* constr_ptr = new Road(upperLeft, GetDescriptor());
 	return constr_ptr;
 }

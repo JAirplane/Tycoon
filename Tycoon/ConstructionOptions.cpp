@@ -1,133 +1,170 @@
 #include "ConstructionOptions.h"
 /////////////Construction Options Class : Singleton patern/////////////
 ///////////////Height Addition Constants///////////////
-const int ConstructionOptions::getIceCreamShopHeightAdd() const
+const int ConstructionOptions::GetIceCreamShopHeightAdd() const
 {
 	return 1;
 }
-const int ConstructionOptions::getMenuElementBordersHeight() const
+const int ConstructionOptions::GetMenuElementBordersHeight() const
 {
 	return 6;
 }
-const int ConstructionOptions::getRoadHeightAdd() const
+const int ConstructionOptions::GetRoadHeightAdd() const
 {
 	return 0;
 }
-const int ConstructionOptions::getVisitorHeightAdd() const
+const int ConstructionOptions::GetVisitorHeightAdd() const
 {
 	return 0;
 }
-const int ConstructionOptions::getVisibleMapHeight() const
+const int ConstructionOptions::GetCameraHeightAdd() const
 {
 	return 34;
 }
-const int ConstructionOptions::getMenuHeightAdd() const
+const int ConstructionOptions::GetMenuHeightAdd() const
 {
 	return 34;
+}
+const int ConstructionOptions::GetPlayingFieldHeightAdd() const
+{
+	return 64;
 }
 ///////////////Width Addition Constants///////////////
-const int ConstructionOptions::getIceCreamShopWidthAdd() const
+const int ConstructionOptions::GetIceCreamShopWidthAdd() const
 {
 	return 1;
 }
-const int ConstructionOptions::getRoadWidthAdd() const
+const int ConstructionOptions::GetRoadWidthAdd() const
 {
 	return 0;
 }
-const int ConstructionOptions::getVisitorWidthAdd() const
+const int ConstructionOptions::GetVisitorWidthAdd() const
 {
 	return 0;
 }
-const int ConstructionOptions::getVisibleMapWidth() const
+const int ConstructionOptions::GetCameraWidthAdd() const
 {
 	return 69;
 }
-const int ConstructionOptions::getMenuWidthAdd() const
+const int ConstructionOptions::GetMenuWidthAdd() const
 {
 	return 45;
 }
+const int ConstructionOptions::GetPlayingFieldWidthAdd() const
+{
+	return 130;
+}
 ///////////////Cost Initialisation Constants///////////////
-const int ConstructionOptions::getIceCreamShopCost() const
+const int ConstructionOptions::GetIceCreamShopCost() const
 {
 	return 250;
 }
-const int ConstructionOptions::getRoadCost() const
+const int ConstructionOptions::GetRoadCost() const
 {
 	return 20;
 }
 ///////////////Daily Expences Initialisation Constants///////////////
-const int ConstructionOptions::getIceCreamShopExpences() const
+const int ConstructionOptions::GetIceCreamShopExpences() const
 {
 	return 20;
 }
 ///////////////Description Initialisation Constants///////////////
-const string ConstructionOptions::getIceCreamShopDescription() const
+const string ConstructionOptions::GetIceCreamShopDescription() const
 {
 	return "Ice cream! Everybody loves it!";
 }
-const string ConstructionOptions::getRoadDescription() const
+const string ConstructionOptions::GetRoadDescription() const
 {
 	return "Visitors can walk roads only";
 }
 ///////////////Building Symbol Constants///////////////
-const char ConstructionOptions::getIceCreamShopSymbol() const
+const char ConstructionOptions::GetIceCreamShopSymbol() const
 {
 	return '!';
 }
+///////////////PlayingField Symbol Constants///////////////
+const char ConstructionOptions::GetVerticalPlayingField() const
+{
+	return '\u+2503';
+}
+const char ConstructionOptions::GetHorizontalPlayingField() const
+{
+	return '\u+2501';
+}
+const char ConstructionOptions::GetUpperLeftPlayingField() const
+{
+	return '\u+250f';
+}
+const char ConstructionOptions::GetUpperRightPlayingField() const
+{
+	return '\u+2513';
+}
+const char ConstructionOptions::GetBottomLeftPlayingField() const
+{
+	return '\u+2517';
+}
+const char ConstructionOptions::GetBottomRightPlayingField() const
+{
+	return '\u+251b';
+}
 ///////////////Initialisation Coord Constants///////////////
-const PointCoord ConstructionOptions::getVisibleMapInitialCoordUL() const
+const PointCoord ConstructionOptions::GetCameraInitialUpperLeft() const
 {
 	return PointCoord(1, 1);
 }
+const PointCoord ConstructionOptions::GetPlayingFieldUpperLeft() const
+{
+	return PointCoord(-30, -30);
+}
 ///////////////Building's Icon Symbol Constants///////////////
-const char ConstructionOptions::getIceCreamShopIconSymbol() const
+const char ConstructionOptions::GetIceCreamShopIconSymbol() const
 {
 	return '!';
 }
-const char ConstructionOptions::getRoadIconSymbol() const
+const char ConstructionOptions::GetRoadIconSymbol() const
 {
 	return '+';
 }
 ///////////////Color Construction Constants///////////////
-color ConstructionOptions::getIceCreamShopForegroundColor() const
+color ConstructionOptions::GetIceCreamShopForegroundColor() const
 {
 	return color::cYELLOW;
 }
-color ConstructionOptions::getIceCreamShopBackgroundColor() const
+color ConstructionOptions::GetIceCreamShopBackgroundColor() const
 {
 	return color::cDARK_CYAN;
 }
-color ConstructionOptions::getRoadForegroundColor() const
+color ConstructionOptions::GetRoadForegroundColor() const
 {
 	return color::cGREEN;
 }
-color ConstructionOptions::getRoadBackgroundColor() const
+color ConstructionOptions::GetRoadBackgroundColor() const
 {
 	return color::cDARK_GRAY;
 }
-color ConstructionOptions::getCursorBackgroundColor() const
+color ConstructionOptions::GetCursorBackgroundColor() const
 {
 	return color::cYELLOW;
 }
-color ConstructionOptions::getPlayingFieldColor() const
+color ConstructionOptions::GetPlayingFieldColor() const
 {
 	return color::cBLUE;
 }
-color ConstructionOptions::getMenuBorderInactiveColor() const
+color ConstructionOptions::GetMenuBorderInactiveColor() const
 {
 	return color::cYELLOW;
 }
-color ConstructionOptions::getMenuBorderActiveColor() const
+color ConstructionOptions::GetMenuBorderActiveColor() const
 {
 	return color::cGREEN;
 }
-color ConstructionOptions::getMenuBorderUnderConstructionColor() const
+color ConstructionOptions::GetMenuBorderUnderConstructionColor() const
 {
 	return color::cRED;
 }
 ///////////////ConstructionOptions Initialisation and using///////////////
-ConstructionOptions* ConstructionOptions::getAllOptions()
+ConstructionOptions* ConstructionOptions::GetAllOptions()
 {
-	return ConstructionParameters;
+	return constructionParameters;
 }
-ConstructionOptions* ConstructionOptions::ConstructionParameters = new ConstructionOptions();
+ConstructionOptions* ConstructionOptions::constructionParameters = new ConstructionOptions();

@@ -9,14 +9,14 @@ public:
 	Construction(PointCoord _ul, ConstructionDescriptor* _describe_ptr) : IngameObject(_ul)
 	{
 		Describe_ptr = _describe_ptr;
-		setHeightAddition(Describe_ptr->getConstructionHeightAdd());
-		setWidthAddition(Describe_ptr->getConstructionWidthAdd());
+		SetHeightAddition(Describe_ptr->getConstructionHeightAdd());
+		SetWidthAddition(Describe_ptr->getConstructionWidthAdd());
 	}
 	~Construction()
 	{}
-	ConstructionDescriptor* getDescriptor() const override; //no setter here
+	ConstructionDescriptor* GetDescriptor() const override; //no setter here
 };
-/////////////Parent Class of Buildings/////////////
+/////////////Parent Class of buildings/////////////
 class Building : public Construction
 {
 private:
@@ -28,12 +28,12 @@ private:
 public:
 	Building(PointCoord _ul, ConstructionDescriptor* _manager_ptr) : Construction(_ul, _manager_ptr)
 	{
-		setHeightAddition(getDescriptor()->getConstructionHeightAdd());
-		setWidthAddition(getDescriptor()->getConstructionWidthAdd());
+		SetHeightAddition(GetDescriptor()->getConstructionHeightAdd());
+		SetWidthAddition(GetDescriptor()->getConstructionWidthAdd());
 		ConnectedToRoad = 0;
 		LastDayVisitors = 0;
 		LastDayProfit = 0;
-		Entrance = PointCoord((getUpperLeft().get_x() * 2 + getWidthAddition()) / 2, getUpperLeft().get_y() + getHeightAddition());
+		Entrance = PointCoord((GetUpperLeft().Get_x() * 2 + GetWidthAddition()) / 2, GetUpperLeft().Get_y() + GetHeightAddition());
 		ExitDir = Direction::Down;
 	}
 	~Building() {}
@@ -57,8 +57,8 @@ private:
 public:
 	Road(PointCoord _ul, ConstructionDescriptor* _manager_ptr) : Construction(_ul, _manager_ptr)
 	{
-		setHeightAddition(getDescriptor()->getConstructionHeightAdd());
-		setWidthAddition(getDescriptor()->getConstructionWidthAdd());
+		SetHeightAddition(GetDescriptor()->getConstructionHeightAdd());
+		SetWidthAddition(GetDescriptor()->getConstructionWidthAdd());
 		GraphStatus = false;
 		RoadIsInChain = false;
 	}

@@ -1,11 +1,10 @@
 #include "Coord_and_constants.h"
 ///////////////PointCoord Struct///////////////
-//UChar32 ucharrrrrrrrrrrr = 'a';
-int PointCoord::get_x() const
+int PointCoord::Get_x() const
 {
 	return x_coord;
 }
-int PointCoord::get_y() const
+int PointCoord::Get_y() const
 {
 	return y_coord;
 }
@@ -16,8 +15,8 @@ void PointCoord::set_coord(int x, int y)
 }
 void PointCoord::set_coord(PointCoord pc)
 {
-	x_coord = pc.get_x();
-	y_coord = pc.get_y();
+	x_coord = pc.Get_x();
+	y_coord = pc.Get_y();
 }
 bool PointCoord::operator == (PointCoord pc)
 {

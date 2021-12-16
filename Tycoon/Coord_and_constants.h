@@ -4,7 +4,7 @@
 #include "msoftcon.h"
 using namespace std;
 ///////////////Enum ShiftDirection///////////////
-enum class Direction { None, Up, Right, Down, Left};
+enum class Direction { None, Up, Right, Down, Left };
 ///////////////Enum RoadMask///////////////
 enum class RoadMask {
 	NONE = 0,
@@ -14,7 +14,7 @@ enum class RoadMask {
 	BOTTOM = 8,
 };
 /////////////Current Position of Side Menu/////////////
-enum class SideMenuStatus
+enum class MenuStatus
 {
 	LEFT,
 	RIGHT,
@@ -65,11 +65,11 @@ public:
 	}
 	PointCoord(const PointCoord& pc)
 	{
-		x_coord = pc.get_x();
-		y_coord = pc.get_y();
+		x_coord = pc.Get_x();
+		y_coord = pc.Get_y();
 	}
-	int get_x() const;
-	int get_y() const;
+	int Get_x() const;
+	int Get_y() const;
 	void set_coord(int _x, int _y);
 	void set_coord(PointCoord pc);
 	bool operator == (PointCoord);

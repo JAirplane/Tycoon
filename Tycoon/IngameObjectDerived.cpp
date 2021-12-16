@@ -1,6 +1,6 @@
 #include "IngameObjectDerived.h"
 ///////////////Construction Class: GlobalObject derived///////////////
-ConstructionDescriptor* Construction::getDescriptor() const //no setter here
+ConstructionDescriptor* Construction::GetDescriptor() const //no setter here
 {
 	return Describe_ptr;
 }
@@ -105,7 +105,7 @@ void Road::setRoadIsInChainStatus(bool chainflag)
 ///////////////Visitor Class///////////////
 void Visitor::VisitorMove(int x, int y)
 {
-	setUpperLeft(PointCoord(x, y));
+	SetUpperLeft(PointCoord(x, y));
 }
 //GlobalObject* Visitor::CreateObject(PointCoord _pc)
 //{

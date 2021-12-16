@@ -1,26 +1,26 @@
 #include "GlobalObject.h"
 ///////////////Parent Class of All Objects///////////////
-PointCoord GlobalObject::getUpperLeft() const
+PointCoord GlobalObject::GetUpperLeft() const
 {
-	return UpperLeft;
+	return upperLeft;
 }
-void GlobalObject::setUpperLeft(PointCoord pc)
+void GlobalObject::SetUpperLeft(PointCoord pc)
 {
-	UpperLeft.set_coord(pc.get_x(), pc.get_y());
+	upperLeft.set_coord(pc.Get_x(), pc.Get_y());
 }
-unsigned int GlobalObject::getHeightAddition() const
+unsigned int GlobalObject::GetHeightAddition() const
 {
-	return HeightAddition;
+	return heightAddition;
 }
-void GlobalObject::setHeightAddition(const int _hadd)
+void GlobalObject::SetHeightAddition(const int _hadd)
 {
-	HeightAddition = _hadd;
+	heightAddition = _hadd;
 }
-unsigned int GlobalObject::getWidthAddition() const
+unsigned int GlobalObject::GetWidthAddition() const
 {
-	return WidthAddition;
+	return widthAddition;
 }
-void GlobalObject::setWidthAddition(const int _wadd)
+void GlobalObject::SetWidthAddition(const int _wadd)
 {
-	WidthAddition = _wadd;
+	widthAddition = _wadd;
 }

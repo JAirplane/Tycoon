@@ -1,11 +1,11 @@
 #pragma once
-#include "GlobalObject.h"
+#include "PlayingField.h"
 /////////////ConstructionDescriptor Class contains all necessary data about Constructions/////////////
 class ConstructionDescriptor : public GlobalObject
 {
 private:
-	unsigned int ConstructionHeightAddition;
-	unsigned int ConstructionWidthAddition;
+	unsigned int ConstructionheightAddition;
+	unsigned int ConstructionwidthAddition;
 	unsigned int ConstructionCost;
 	unsigned int DailyExpences;
 	string Description;
@@ -13,12 +13,12 @@ private:
 	color Foreground;
 	color Background;
 public:
-	ConstructionDescriptor(PointCoord _upperleft, unsigned int _constructioncost, string _description, char _iconsymbol,
+	ConstructionDescriptor(PointCoord _upperLeft, unsigned int _constructioncost, string _description, char _iconsymbol,
 		color _foreground, color _background, unsigned int _dailyexpences = 0, unsigned int _constructionheightadd = 0,
-		unsigned int _constructionwidthadd = 0) : GlobalObject(_upperleft)
+		unsigned int _constructionwidthadd = 0) : GlobalObject(_upperLeft)
 	{
-		ConstructionHeightAddition = _constructionheightadd;
-		ConstructionWidthAddition = _constructionwidthadd;
+		ConstructionheightAddition = _constructionheightadd;
+		ConstructionwidthAddition = _constructionwidthadd;
 		ConstructionCost = _constructioncost;
 		DailyExpences = _dailyexpences;
 		Description = _description;
@@ -39,10 +39,10 @@ public:
 	void setIconSymbol(const char _symb);
 	unsigned int getDailyExpences() const;
 	void setDailyExpences(unsigned int exp);
-	color getForegroundColor();
+	color GetForegroundColor();
 	void setForegroundColor(color _somecolor);
-	color getBackgroundColor();
+	color GetBackgroundColor();
 	void setBackgroundColor(color _somecolor);
-	virtual char getBuildingSymbol();
-	virtual void setBuildingSymbol(const char _symb);
+	virtual char GetBuildingSymbol();
+	virtual void setbuildingsymbol(const char _symb);
 };

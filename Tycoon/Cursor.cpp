@@ -1,6 +1,6 @@
 #include "Cursor.h"
 ///////////////Cursor Class///////////////
-PointCoord Cursor::getCursorConsoleLocation()
+PointCoord Cursor::GetCursorConsoleLocation()
 {
 	return CursorConsoleLocation;
 }
@@ -10,7 +10,7 @@ void Cursor::setCursorConsoleLocation()
 }
 void Cursor::CursorMovement(PointCoord cursordestination)
 {
-	set_cursor_pos(cursordestination.get_x(), cursordestination.get_y());
+	set_cursor_pos(cursordestination.Get_x(), cursordestination.Get_y());
 	setCursorConsoleLocation();
 }
 void Cursor::CursorShift(Direction SD)
@@ -20,25 +20,25 @@ void Cursor::CursorShift(Direction SD)
 	case Direction::Right:
 	{
 		Xshift -= 1;
-		CursorMovement(PointCoord(getCursorConsoleLocation().get_x() + 1, getCursorConsoleLocation().get_y()));
+		CursorMovement(PointCoord(GetCursorConsoleLocation().Get_x() + 1, GetCursorConsoleLocation().Get_y()));
 		return;
 	}
 	case Direction::Down:
 	{
 		Yshift -= 1;
-		CursorMovement(PointCoord(getCursorConsoleLocation().get_x(), getCursorConsoleLocation().get_y() + 1));
+		CursorMovement(PointCoord(GetCursorConsoleLocation().Get_x(), GetCursorConsoleLocation().Get_y() + 1));
 		return;
 	}
 	case Direction::Left:
 	{
 		Xshift += 1;
-		CursorMovement(PointCoord(getCursorConsoleLocation().get_x() - 1, getCursorConsoleLocation().get_y()));
+		CursorMovement(PointCoord(GetCursorConsoleLocation().Get_x() - 1, GetCursorConsoleLocation().Get_y()));
 		return;
 	}
 	case Direction::Up:
 	{
 		Yshift += 1;
-		CursorMovement(PointCoord(getCursorConsoleLocation().get_x(), getCursorConsoleLocation().get_y() - 1));
+		CursorMovement(PointCoord(GetCursorConsoleLocation().Get_x(), GetCursorConsoleLocation().Get_y() - 1));
 		return;
 	}
 	}
@@ -50,22 +50,14 @@ void Cursor::CursorShift(Direction SD, int shiftvalue)
 	case Direction::Right:
 	{
 		Xshift -= shiftvalue;
-		CursorMovement(PointCoord(getCursorConsoleLocation().get_x() - shiftvalue, getCursorConsoleLocation().get_y()));
+		CursorMovement(PointCoord(GetCursorConsoleLocation().Get_x() - shiftvalue, GetCursorConsoleLocation().Get_y()));
 		return;
 	}
 	case Direction::Left:
 	{
 		Xshift += shiftvalue;
-		CursorMovement(PointCoord(getCursorConsoleLocation().get_x() + shiftvalue, getCursorConsoleLocation().get_y()));
+		CursorMovement(PointCoord(GetCursorConsoleLocation().Get_x() + shiftvalue, GetCursorConsoleLocation().Get_y()));
 		return;
 	}
 	}
-}
-bool Cursor::getIntersectionFlag() const
-{
-	return Intersection;
-}
-void Cursor::setIntersectionFlag(bool superposition)
-{
-	Intersection = superposition;
 }
