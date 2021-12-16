@@ -1,4 +1,4 @@
-#include "Map.h"
+#include "GameManagement.h"
 ///////////////GameManagement Class///////////////
 void GameManagement::DisplayMenuBorders()
 {
@@ -64,7 +64,8 @@ void GameManagement::GameProcess()
 		SD = camera_ptr->CursorBordersCheck(cursor_ptr);
 		if (SD != Direction::None)
 		{
-			AllObjects_ptr->EraseObjects();
+			AllObjects_ptr->EraseObjects(camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(), 
+				camera_ptr->GetUpperLeft().Get_y(), camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
 			Shift(SD);
 			DisplayAllObjects();
 		}
@@ -132,8 +133,12 @@ void GameManagement::Shift(Direction SD, int shiftvalue)
 }
 void GameManagement::DisplayAllObjects()
 {
-	buildings_ptr->Displaybuildings();
-	Roads_ptr->DisplayRoads();
+	int camera_left_x = camera_ptr->GetUpperLeft().Get_x();
+	int camera_top_y = camera_ptr->GetUpperLeft().Get_y();
+	int camera_right_x = camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition();
+	int camera_bottom_y = camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition();
+	buildings_ptr->DisplayBuildings(camera_left_x, camera_right_x, camera_top_y, camera_bottom_y);
+	Roads_ptr->DisplayRoads(camera_left_x, camera_right_x, camera_top_y, camera_bottom_y);
 	Visitors_ptr->DisplayVisitors();
 }
 void GameManagement::PreliminaryBuildingAdd(IngameObject* preliminary_ptr)
@@ -192,7 +197,12 @@ void GameManagement::Tab_Key_Playingfield()
 	int camera_right_x = camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition();
 	int camera_top_y = camera_ptr->GetUpperLeft().Get_y();
 	int camera_borrom_y = camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition();
-	if (!AllObjects_ptr->IsPartOfExistingObject(cursor_ptr->GetCursorConsoleLocation())
+	if (Menu_ptr->getHideMenuStatus())
+	{
+		DisplayMenu();
+		Menu_ptr->setHideMenuStatus(0);
+	}
+	if (!AllObjects_ptr->IsPartOfExistingObject(cursor_ptr->GetCursorConsoleLocation()))
 	{
 		draw_ptr->erasePixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y());
 	}
@@ -225,7 +235,7 @@ void GameManagement::Tab_Key_Menu()
 	draw_ptr->drawRectangle(Menu_left_x + 2, cursor_ptr->GetCursorConsoleLocation().Get_y(), Menu_right_x - 2,
 		cursor_ptr->GetCursorConsoleLocation().Get_y() + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight() - 1, ConstructionOptions::GetAllOptions()->GetMenuBorderInactiveColor());
 	cursor_ptr->CursorMovement(PointCoord((camera_ptr->GetUpperLeft().Get_x() * 2 + camera_ptr->GetWidthAddition()) / 2, (camera_ptr->GetUpperLeft().Get_y() * 2 + camera_ptr->GetHeightAddition()) / 2));
-	if (!AllObjects_ptr->IsPartOfExistingObject(cursor_ptr->GetCursorConsoleLocation())
+	if (!AllObjects_ptr->IsPartOfExistingObject(cursor_ptr->GetCursorConsoleLocation()))
 	{
 		draw_ptr->drawCursorPixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y(), ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor());
 			cursor_ptr->setCursorConsoleLocation();

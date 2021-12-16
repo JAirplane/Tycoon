@@ -41,16 +41,16 @@ public:
 	///////////////Building Symbol Constants///////////////
 	virtual const char GetIceCreamShopSymbol() const;
 	///////////////PlayingField Symbol Constants///////////////
-	virtual const char GetVerticalPlayingField() const;
-	virtual const char GetHorizontalPlayingField() const;
-	virtual const char GetUpperLeftPlayingField() const;
-	virtual const char GetUpperRightPlayingField() const;
-	virtual const char GetBottomLeftPlayingField() const;
-	virtual const char GetBottomRightPlayingField() const;
+	virtual const wchar_t GetVerticalPlayingField() const;
+	virtual const wchar_t GetHorizontalPlayingField() const;
+	virtual const wchar_t GetUpperLeftPlayingField() const;
+	virtual const wchar_t GetUpperRightPlayingField() const;
+	virtual const wchar_t GetBottomLeftPlayingField() const;
+	virtual const wchar_t GetBottomRightPlayingField() const;
 	///////////////Initialisation Coord Constants///////////////
 	virtual const PointCoord GetCameraInitialUpperLeft() const;
 	const PointCoord GetPlayingFieldUpperLeft() const;
-	///////////////Building's Icon Symbol Constants///////////////
+	///////////////COnstructions's Icon Symbol Constants///////////////
 	virtual const char GetIceCreamShopIconSymbol() const;
 	virtual const char GetRoadIconSymbol() const;
 	///////////////Color Construction Constants///////////////

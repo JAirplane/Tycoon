@@ -1,26 +1,26 @@
 #include "PlayingField.h"
 /////////////PlayingField Class/////////////
-char PlayingField::GetVerticalSymbol() const
+wchar_t PlayingField::GetVerticalSymbol() const
 {
 	return verticalBorderSymbol;
 }
-char PlayingField::GetHorizontalSymbol() const
+wchar_t PlayingField::GetHorizontalSymbol() const
 {
 	return horizontalBorderSymbol;
 }
-char PlayingField::GetUpperLeftSymbol() const
+wchar_t PlayingField::GetUpperLeftSymbol() const
 {
 	return upperLeftBorderSymbol;
 }
-char PlayingField::GetUpperRightSymbol() const
+wchar_t PlayingField::GetUpperRightSymbol() const
 {
 	return upperRightBorderSymbol;
 }
-char PlayingField::GetBottomLeftSymbol() const
+wchar_t PlayingField::GetBottomLeftSymbol() const
 {
 	return bottomLeftBorderSymbol;
 }
-char PlayingField::GetBottomRightSymbol() const
+wchar_t PlayingField::GetBottomRightSymbol() const
 {
 	return bottomRightBorderSymbol;
 }

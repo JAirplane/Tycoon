@@ -83,29 +83,29 @@ const char ConstructionOptions::GetIceCreamShopSymbol() const
 	return '!';
 }
 ///////////////PlayingField Symbol Constants///////////////
-const char ConstructionOptions::GetVerticalPlayingField() const
+const wchar_t ConstructionOptions::GetVerticalPlayingField() const
 {
-	return '\u+2503';
+	return '\u2503';
 }
-const char ConstructionOptions::GetHorizontalPlayingField() const
+const wchar_t ConstructionOptions::GetHorizontalPlayingField() const
 {
-	return '\u+2501';
+	return '\u2501';
 }
-const char ConstructionOptions::GetUpperLeftPlayingField() const
+const wchar_t ConstructionOptions::GetUpperLeftPlayingField() const
 {
-	return '\u+250f';
+	return '\u250f';
 }
-const char ConstructionOptions::GetUpperRightPlayingField() const
+const wchar_t ConstructionOptions::GetUpperRightPlayingField() const
 {
-	return '\u+2513';
+	return '\u2513';
 }
-const char ConstructionOptions::GetBottomLeftPlayingField() const
+const wchar_t ConstructionOptions::GetBottomLeftPlayingField() const
 {
-	return '\u+2517';
+	return '\u2517';
 }
-const char ConstructionOptions::GetBottomRightPlayingField() const
+const wchar_t ConstructionOptions::GetBottomRightPlayingField() const
 {
-	return '\u+251b';
+	return '\u251b';
 }
 ///////////////Initialisation Coord Constants///////////////
 const PointCoord ConstructionOptions::GetCameraInitialUpperLeft() const

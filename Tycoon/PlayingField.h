@@ -4,14 +4,14 @@
 class PlayingField : public GlobalObject
 {
 private:
-	char verticalBorderSymbol;
-	char horizontalBorderSymbol;
-	char upperLeftBorderSymbol;
-	char upperRightBorderSymbol;
-	char bottomLeftBorderSymbol;
-	char bottomRightBorderSymbol;
+	wchar_t verticalBorderSymbol;
+	wchar_t horizontalBorderSymbol;
+	wchar_t upperLeftBorderSymbol;
+	wchar_t upperRightBorderSymbol;
+	wchar_t bottomLeftBorderSymbol;
+	wchar_t bottomRightBorderSymbol;
 public:
-	PlayingField(PointCoord ul, unsigned int heightadd, unsigned int widthadd, char verticalsymbol, char horizontalsymbol, char ulsymbol, char ursymbol, char blsymbol, char brsymbol) :
+	PlayingField(PointCoord ul, unsigned int heightadd, unsigned int widthadd, wchar_t verticalsymbol, wchar_t horizontalsymbol, wchar_t ulsymbol, wchar_t ursymbol, wchar_t blsymbol, wchar_t brsymbol) :
 		GlobalObject(ul, heightadd, widthadd)
 	{
 		verticalBorderSymbol = verticalsymbol;
@@ -22,10 +22,10 @@ public:
 		bottomRightBorderSymbol = brsymbol;
 	}
 	~PlayingField() {}
-	char GetVerticalSymbol() const;
-	char GetHorizontalSymbol() const;
-	char GetUpperLeftSymbol() const;
-	char GetUpperRightSymbol() const;
-	char GetBottomLeftSymbol() const;
-	char GetBottomRightSymbol() const;
+	wchar_t GetVerticalSymbol() const;
+	wchar_t GetHorizontalSymbol() const;
+	wchar_t GetUpperLeftSymbol() const;
+	wchar_t GetUpperRightSymbol() const;
+	wchar_t GetBottomLeftSymbol() const;
+	wchar_t GetBottomRightSymbol() const;
 };

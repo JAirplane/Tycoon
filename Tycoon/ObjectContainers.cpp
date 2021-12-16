@@ -90,14 +90,10 @@ bool AllObjects::IsPartOfExistingObject(IngameObject* object_ptr, int camera_lef
 
 	return false;
 }
-void AllObjects::EraseObjects()
+void AllObjects::EraseObjects(int camera_left_x, int camera_right_x, int camera_top_y, int camera_bottom_y)
 {
 	list<IngameObject*>::iterator iter;
-	int camera_left_x = camera_ptr->GetUpperLeft().Get_x();
-	int camera_top_y = camera_ptr->GetUpperLeft().Get_y();
-	int camera_right_x = camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition();
-	int camera_bottom_y = camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition();
-	for (iter = EveryObject.begin; iter != EveryObject.end(); iter++)
+	for (iter = EveryObject.begin(); iter != EveryObject.end(); iter++)
 	{
 		int left_x = (*iter)->GetUpperLeft().Get_x();
 		int top_y = (*iter)->GetUpperLeft().Get_y();
@@ -130,13 +126,9 @@ void Allbuildings::AddBuilding(Building* go_ptr)
 {
 	buildings.push_back(go_ptr);
 }
-void Allbuildings::DisplayBuildings()
+void Allbuildings::DisplayBuildings(int camera_left_x, int camera_right_x, int camera_top_y, int camera_bottom_y)
 {
 	list<Building*>::iterator iter;
-	int camera_left_x = camera_ptr->GetUpperLeft().Get_x();
-	int camera_top_y = camera_ptr->GetUpperLeft().Get_y();
-	int camera_right_x = camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition();
-	int camera_bottom_y = camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition();
 	for (iter = buildings.begin(); iter != buildings.end(); iter++)
 	{
 		int left_x = (*iter)->GetUpperLeft().Get_x();
@@ -298,20 +290,16 @@ int AllRoads::RoadEnvironment(PointCoord _pc)
 	}
 	return RoadEnvironmentMask;
 }
-void AllRoads::DisplayRoads()
+void AllRoads::DisplayRoads(int camera_left_x, int camera_right_x, int camera_top_y, int camera_bottom_y)
 {
 	list<Road*>::iterator iter;
-	int camera_left_x = camera_ptr->GetUpperLeft().Get_x();
-	int camera_top_y = camera_ptr->GetUpperLeft().Get_y();
-	int camera_right_x = camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition();
-	int camera_bottom_y = camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition();
 	for (iter = Roads.begin(); iter != Roads.end(); iter++)
 	{
 		int left_x = (*iter)->GetUpperLeft().Get_x();
 		int top_y = (*iter)->GetUpperLeft().Get_y();
 		int right_x = (*iter)->GetUpperLeft().Get_x() + (*iter)->GetWidthAddition();
 		int bottom_y = (*iter)->GetUpperLeft().Get_y() + (*iter)->GetHeightAddition();
-		int mask1 = RoadEnvironment(ULRoad);
+		int mask1 = RoadEnvironment((*iter)->GetUpperLeft());
 		char RoadSymbol = (*iter)->SetRoadSymbol(mask1);
 		if (left_x <= camera_left_x && right_x > camera_left_x)
 		{

@@ -10,11 +10,13 @@ class AllObjects
 private:
 	list<IngameObject*> EveryObject;
 	Cursor* cursor_ptr;
+	Visualisation* draw_ptr;
 	bool LastElementIsPreliminary;
 public:
-	AllObjects(Cursor* _cursor_ptr)
+	AllObjects(Cursor* _cursor_ptr, Visualisation* _draw_ptr)
 	{
 		cursor_ptr = _cursor_ptr;
+		draw_ptr = _draw_ptr;
 		LastElementIsPreliminary = 0;
 	}
 	~AllObjects()
@@ -34,7 +36,7 @@ public:
 	void ErasePreliminaryElement();
 	bool IsPartOfExistingObject(PointCoord _pc);
 	bool IsPartOfExistingObject(IngameObject* object_ptr, int camera_left_x, int camera_right_x, int camera_top_y, int camera_bottom_y);
-	void EraseObjects();
+	void EraseObjects(int camera_left_x, int camera_right_x, int camera_top_y, int camera_bottom_y);
 };
 /////////////Container of All Types of buildings Class/////////////
 class Allbuildings
@@ -58,7 +60,7 @@ public:
 		}
 	}
 	void AddBuilding(Building* go_ptr);
-	void DisplayBuildings();
+	void DisplayBuildings(int camera_left_x, int camera_right_x, int camera_top_y, int camera_bottom_y);
 	const list<Building*> getAllbuildings();
 	vector<PointCoord> getPotentialRoadCoords(); //returns points that are near the entrances
 	void setRoadConnectionStatus(vector<PointCoord> connectedroads);
@@ -87,7 +89,7 @@ public:
 	void addRoad(Road* r_ptr);
 	list<Road*>& getAllRoads();
 	int RoadEnvironment(PointCoord pc1);
-	void DisplayRoads();
+	void DisplayRoads(int camera_left_x, int camera_right_x, int camera_top_y, int camera_bottom_y);
 	void RedrawRoads(Road* r_ptr); //when new road tile added or removed redraw all neighbor roads
 	void IsGraph_RoadsOnly();
 	vector<PointCoord> RoadConnectedToEntranceCheck(vector<PointCoord> possibleroads);

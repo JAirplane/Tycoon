@@ -3,15 +3,15 @@
 #include <windows.h>
 #include "msoftcon.h"
 #include "drawheader.h"
-#include "Map.h"
+#include "GameManagement.h"
 using namespace std;
 int main()
 {
-	WorldMap WM;
-	WM.CreateManagers();
-	WM.DisplayPlayingField();
-	WM.DisplaySideMenu();
-	WM.GameProcess();
+	GameManagement GameMaster;
+	GameMaster.CreateManagers();
+	GameMaster.DisplayPlayingField();
+	GameMaster.DisplayMenu();
+	GameMaster.GameProcess();
 	set_cursor_pos(1, 40);
 	return 0;
 }

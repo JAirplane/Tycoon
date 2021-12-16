@@ -55,7 +55,7 @@ void Menu::ShowIcons()
 	{
 		draw_ptr->drawRectangle(left_x + 2, top_y + 1, right_x - 2, top_y + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight(), color::cYELLOW);
 		draw_ptr->drawIcon(left_x + 3, top_y + 2, (*iter)->GetDescriptor()->getConstructionCost(), (*iter)->GetDescriptor()->getDailyExpences(),
-			(*iter)->GetDescriptor()->GetBuildingSymbol(), (*iter)->GetDescriptor()->getDescription(), color::cGREEN);
+			(*iter)->GetDescriptor()->getIconSymbol(), (*iter)->GetDescriptor()->getDescription(), color::cGREEN);
 		top_y += ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight();
 	}
 }

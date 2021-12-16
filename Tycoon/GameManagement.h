@@ -1,12 +1,12 @@
 #pragma once
 #include "Menu.h"
-
 /////////////World Map Class/////////////
 class GameManagement
 {
 private:
 	Camera* camera_ptr;
 	Cursor* cursor_ptr;
+	PlayingField* field_ptr;
 	Visualisation* draw_ptr;
 	AllObjects* AllObjects_ptr;
 	Allbuildings* buildings_ptr;
@@ -18,13 +18,13 @@ public:
 	{
 		cursor_ptr = new Cursor();
 		camera_ptr = new Camera(ConstructionOptions::GetAllOptions()->GetCameraInitialUpperLeft());
-		playingfield_ptr = new PlayingField(ConstructionOptions::GetAllOptions()->GetPlayingFieldUpperLeft(), ConstructionOptions::GetAllOptions()->GetPlayingFieldHeightAdd(),
+		field_ptr = new PlayingField(ConstructionOptions::GetAllOptions()->GetPlayingFieldUpperLeft(), ConstructionOptions::GetAllOptions()->GetPlayingFieldHeightAdd(),
 			ConstructionOptions::GetAllOptions()->GetPlayingFieldWidthAdd(), ConstructionOptions::GetAllOptions()->GetVerticalPlayingField(),
 			ConstructionOptions::GetAllOptions()->GetHorizontalPlayingField(), ConstructionOptions::GetAllOptions()->GetUpperLeftPlayingField(),
 			ConstructionOptions::GetAllOptions()->GetUpperRightPlayingField(), ConstructionOptions::GetAllOptions()->GetBottomLeftPlayingField(),
 			ConstructionOptions::GetAllOptions()->GetBottomRightPlayingField());
 		draw_ptr = new Visualisation();
-		AllObjects_ptr = new AllObjects(cursor_ptr);
+		AllObjects_ptr = new AllObjects(cursor_ptr, draw_ptr);
 		buildings_ptr = new Allbuildings(cursor_ptr, draw_ptr);
 		Roads_ptr = new AllRoads(cursor_ptr, draw_ptr);
 		Visitors_ptr = new AllVisitors(cursor_ptr, AllObjects_ptr, draw_ptr);

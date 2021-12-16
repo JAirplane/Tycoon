@@ -81,10 +81,10 @@ void Visualisation::EraseConstruction(int left_x, int up_y, int right_x, int bot
 		}
 	}
 }
-void Visualisation::drawIcon(int left_x, int up_y, int cost, int dailyspend, const char symbol, string description, color foreground, color background) //icon border
+void Visualisation::drawIcon(int left_x, int up_y, int cost, int dailyspend, const char iconsymbol, string description, color foreground, color background) //icon border
 {
 	drawRectangle(left_x, up_y, left_x + 3, up_y + 3, cGREEN);
-	DrawConstruction(left_x + 1, up_y + 1, left_x + 2, up_y + 2, symbol, foreground, background);
+	DrawConstruction(left_x + 1, up_y + 1, left_x + 2, up_y + 2, iconsymbol, foreground, background);
 	set_cursor_pos(left_x + 4, up_y);
 	set_color(cLIGHT_GRAY);
 	cout << description;
