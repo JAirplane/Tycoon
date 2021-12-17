@@ -11,15 +11,15 @@ private:
 	wchar_t bottomLeftBorderSymbol;
 	wchar_t bottomRightBorderSymbol;
 public:
-	PlayingField(PointCoord ul, unsigned int heightadd, unsigned int widthadd, wchar_t verticalsymbol, wchar_t horizontalsymbol, wchar_t ulsymbol, wchar_t ursymbol, wchar_t blsymbol, wchar_t brsymbol) :
-		GlobalObject(ul, heightadd, widthadd)
+	PlayingField(PointCoord upperLeft, unsigned int heightAdd, unsigned int widthAdd, wchar_t verticalSymbol, wchar_t horizontalSymbol,
+		wchar_t upperLeftSymbol, wchar_t upperRightSymbol, wchar_t bottomLeftSymbol, wchar_t bottomRightSymbol) : GlobalObject(upperLeft, heightAdd, widthAdd)
 	{
-		verticalBorderSymbol = verticalsymbol;
-		horizontalBorderSymbol = horizontalsymbol;
-		upperLeftBorderSymbol = ulsymbol;
-		upperRightBorderSymbol = ursymbol;
-		bottomLeftBorderSymbol = blsymbol;
-		bottomRightBorderSymbol = brsymbol;
+		verticalBorderSymbol = verticalSymbol;
+		horizontalBorderSymbol = horizontalSymbol;
+		upperLeftBorderSymbol = upperLeftSymbol;
+		upperRightBorderSymbol = upperRightSymbol;
+		bottomLeftBorderSymbol = bottomLeftSymbol;
+		bottomRightBorderSymbol = bottomRightSymbol;
 	}
 	~PlayingField() {}
 	wchar_t GetVerticalSymbol() const;

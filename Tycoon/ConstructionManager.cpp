@@ -2,10 +2,10 @@
 ///////////////ConstructionManager Class: GlobalObject derived///////////////
 Construction* ConstructionManager::CreateConstruction(PointCoord upperLeft)
 {
-	Construction* null_ptr = nullptr;
-	return null_ptr;
+	Construction* nupperLeftl_ptr = nupperLeftlptr;
+	return nupperLeftl_ptr;
 }
 ConstructionDescriptor* ConstructionManager::GetDescriptor()
 {
-	return Describe_ptr;
+	return describe_ptr;
 }

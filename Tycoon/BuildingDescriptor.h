@@ -1,17 +1,17 @@
 #pragma once
 #include "ConstructionDescriptor.h"
-class BuildingDescriptor : public ConstructionDescriptor
+class buildingDescriptor : public ConstructionDescriptor
 {
 private:
-	char buildingsymbol;
+	char buildingSymbol;
 public:
-	BuildingDescriptor(PointCoord _upperLeft, unsigned int _constructioncost, string _description, char _iconsymbol, color _foreground, color _background, char _buildingsymbol,
-		unsigned int _dailyexpences = 0, unsigned int _constructionheightadd = 0, unsigned int _constructionwidthadd = 0) :
-		ConstructionDescriptor(_upperLeft, _constructioncost, _description, _iconsymbol, _foreground, _background, _dailyexpences, _constructionheightadd, _constructionwidthadd)
+	buildingDescriptor(PointCoord upperLeft, unsigned int constructionCost, string description, char iconSymbol, color foreground, color background, char buildingSymbol,
+		unsigned int dailyExpences = 0, unsigned int constructionheightAdd = 0, unsigned int constructionwidthAdd = 0) :
+		ConstructionDescriptor(upperLeft, constructionCost, description, iconSymbol, foreground, background, dailyExpences, constructionheightAdd, constructionwidthAdd)
 	{
-		buildingsymbol = _buildingsymbol;
+		this->buildingSymbol = buildingSymbol;
 	}
-	~BuildingDescriptor() {}
+	~buildingDescriptor() {}
 	char GetBuildingSymbol() override;
-	void setbuildingsymbol(const char _symb);
+	void SetBuildingSymbol(const char _symb);
 };

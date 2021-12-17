@@ -4,12 +4,12 @@
 class Camera : public GlobalObject
 {
 public:
-	Camera(PointCoord _ul) : GlobalObject(_ul)
+	Camera(PointCoord upperLeft) : GlobalObject(upperLeft)
 	{
-		SetHeightAddition(ConstructionOptions::GetAllOptions()->GetCameraHeightAdd());
-		SetWidthAddition(ConstructionOptions::GetAllOptions()->GetCameraWidthAdd());
+		SetHeightAddition(ConstructionOptions::GetAllOptions()->GetCameraheightAdd());
+		SetWidthAddition(ConstructionOptions::GetAllOptions()->GetCamerawidthAdd());
 	}
 	~Camera()
 	{}
-	Direction CursorBordersCheck(Cursor*);
+	Direction CursorBordersCheck(Cursor* cursor_ptr);
 };

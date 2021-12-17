@@ -1,10 +1,10 @@
 #pragma once
-#include "BuildingDescriptor.h"
+#include "buildingDescriptor.h"
 /////////////Parent Class of Every Object in Game/////////////
 class IngameObject : public GlobalObject
 {
 public:
-	IngameObject(PointCoord ul, unsigned int _heightadd = 0, unsigned int _widthadd = 0) : GlobalObject(ul, _heightadd, _widthadd)
+	IngameObject(PointCoord upperLeft, unsigned int heightAdd = 0, unsigned int widthAdd = 0) : GlobalObject(upperLeft, heightAdd, widthAdd)
 	{}
 	virtual ConstructionDescriptor* GetDescriptor() const;
 };

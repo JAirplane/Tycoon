@@ -5,65 +5,65 @@
 #include "drawheader.h"
 using namespace std;
 ///////////////////drawMap Class///////////////////
-void Visualisation::drawRectangle(int left_x, int up_y, int right_x, int bot_y, color foreground, color background)
+void Visualisation::DrawRectangle(int leftX, int topY, int rightX, int bottomY, color foreground, color background)
 {
 	set_color(foreground, background);
-	for (int y = up_y + 1; y < bot_y; y++)
+	for (int y = topY + 1; y < bottomY; y++)
 	{
-		set_cursor_pos(left_x, y);
+		set_cursor_pos(leftX, y);
 		cout << (char)186 << "\n";
 	}
-	for (int y = up_y + 1; y < bot_y; y++)
+	for (int y = topY + 1; y < bottomY; y++)
 	{
-		set_cursor_pos(right_x, y);
+		set_cursor_pos(rightX, y);
 		cout << (char)186;
 	}
-	for (int x = left_x + 1; x < right_x; x++)
+	for (int x = leftX + 1; x < rightX; x++)
 	{
-		set_cursor_pos(x, up_y);
+		set_cursor_pos(x, topY);
 		cout << (char)205;
 	}
-	for (int x = left_x + 1; x < right_x; x++)
+	for (int x = leftX + 1; x < rightX; x++)
 	{
-		set_cursor_pos(x, bot_y);
+		set_cursor_pos(x, bottomY);
 		cout << (char)205;
 	}
-	set_cursor_pos(right_x, up_y);
+	set_cursor_pos(rightX, topY);
 	cout << (char)187;
-	set_cursor_pos(right_x, bot_y);
+	set_cursor_pos(rightX, bottomY);
 	cout << (char)188;
-	set_cursor_pos(left_x, bot_y);
+	set_cursor_pos(leftX, bottomY);
 	cout << (char)200;
-	set_cursor_pos(left_x, up_y);
+	set_cursor_pos(leftX, topY);
 	cout << (char)201;
 	set_color(cYELLOW);
 }
-void Visualisation::erasePixel(int _x, int _y)
+void Visualisation::ErasePixel(int x, int y)
 {
 	set_color(cBLACK);
-	set_cursor_pos(_x, _y);
+	set_cursor_pos(x, y);
 	cout << ' ';
 }
-void Visualisation::drawCursorPixel(int _x, int _y, color background)
+void Visualisation::DrawCursorPixel(int x, int y, color background)
 {
-	set_cursor_pos(_x, _y);
+	set_cursor_pos(x, y);
 	set_color(cBLACK, background);
 	cout << ' ';
-	set_cursor_pos(_x, _y);
+	set_cursor_pos(x, y);
 }
-void Visualisation::drawVisitor(int _x, int _y)
+void Visualisation::DrawVisitor(int x, int y)
 {
-	char VisitorSymbol = 'a';
-	set_cursor_pos(_x, _y);
-	cout << VisitorSymbol;
+	char visitorsymbol = 'a';
+	set_cursor_pos(x, y);
+	cout << visitorsymbol;
 	set_color(cYELLOW);
 }
-void Visualisation::DrawConstruction(int left_x, int up_y, int right_x, int bot_y, const char ch, color foreground, color background)
+void Visualisation::DrawConstruction(int leftX, int topY, int rightX, int bottomY, const char ch, color foreground, color background)
 {
 	set_color(foreground, background);
-	for (int j = up_y; j <= bot_y; j++)
+	for (int j = topY; j <= bottomY; j++)
 	{
-		for (int i = left_x; i <= right_x; i++)
+		for (int i = leftX; i <= rightX; i++)
 		{
 			set_cursor_pos(i, j);
 			cout << ch;
@@ -71,29 +71,29 @@ void Visualisation::DrawConstruction(int left_x, int up_y, int right_x, int bot_
 	}
 	set_color(cYELLOW);
 }
-void Visualisation::EraseConstruction(int left_x, int up_y, int right_x, int bot_y)
+void Visualisation::EraseConstruction(int leftX, int topY, int rightX, int bottomY)
 {
-	for (int j = up_y; j <= bot_y; j++)
+	for (int j = topY; j <= bottomY; j++)
 	{
-		for (int i = left_x; i <= right_x; i++)
+		for (int i = leftX; i <= rightX; i++)
 		{
-			erasePixel(i, j);
+			ErasePixel(i, j);
 		}
 	}
 }
-void Visualisation::drawIcon(int left_x, int up_y, int cost, int dailyspend, const char iconsymbol, string description, color foreground, color background) //icon border
+void Visualisation::DrawIcon(int leftX, int topY, int constructionCost, int dailySpend, const char iconSymbol, string description, color foreground, color background) //icon border
 {
-	drawRectangle(left_x, up_y, left_x + 3, up_y + 3, cGREEN);
-	DrawConstruction(left_x + 1, up_y + 1, left_x + 2, up_y + 2, iconsymbol, foreground, background);
-	set_cursor_pos(left_x + 4, up_y);
+	DrawRectangle(leftX, topY, leftX + 3, topY + 3, cGREEN);
+	DrawConstruction(leftX + 1, topY + 1, leftX + 2, topY + 2, iconSymbol, foreground, background);
+	set_cursor_pos(leftX + 4, topY);
 	set_color(cLIGHT_GRAY);
 	cout << description;
-	set_cursor_pos(left_x + 4, up_y + 1);
-	cout << "Construction Cost: " << cost;
-	set_cursor_pos(left_x + 4, up_y + 2);
-	if (dailyspend != 0)
+	set_cursor_pos(leftX + 4, topY + 1);
+	cout << "Construction Cost: " << constructionCost;
+	set_cursor_pos(leftX + 4, topY + 2);
+	if (dailySpend != 0)
 	{
-		cout << "Service will cost you " << dailyspend << " per day.";
+		cout << "Service will cost you " << dailySpend << " per day.";
 	}
 	set_color(cYELLOW);
 }

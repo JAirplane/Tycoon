@@ -1,7 +1,7 @@
 #include "ConstructionOptions.h"
 /////////////Construction Options Class : Singleton patern/////////////
 ///////////////Height Addition Constants///////////////
-const int ConstructionOptions::GetIceCreamShopHeightAdd() const
+const int ConstructionOptions::GetIceCreamShopheightAdd() const
 {
 	return 1;
 }
@@ -9,15 +9,15 @@ const int ConstructionOptions::GetMenuElementBordersHeight() const
 {
 	return 6;
 }
-const int ConstructionOptions::GetRoadHeightAdd() const
+const int ConstructionOptions::GetRoadheightAdd() const
 {
 	return 0;
 }
-const int ConstructionOptions::GetVisitorHeightAdd() const
+const int ConstructionOptions::GetVisitorheightAdd() const
 {
 	return 0;
 }
-const int ConstructionOptions::GetCameraHeightAdd() const
+const int ConstructionOptions::GetCameraheightAdd() const
 {
 	return 34;
 }
@@ -25,24 +25,24 @@ const int ConstructionOptions::GetMenuHeightAdd() const
 {
 	return 34;
 }
-const int ConstructionOptions::GetPlayingFieldHeightAdd() const
+const int ConstructionOptions::GetPlayingFieldheightAdd() const
 {
 	return 64;
 }
 ///////////////Width Addition Constants///////////////
-const int ConstructionOptions::GetIceCreamShopWidthAdd() const
+const int ConstructionOptions::GetIceCreamShopwidthAdd() const
 {
 	return 1;
 }
-const int ConstructionOptions::GetRoadWidthAdd() const
+const int ConstructionOptions::GetRoadwidthAdd() const
 {
 	return 0;
 }
-const int ConstructionOptions::GetVisitorWidthAdd() const
+const int ConstructionOptions::GetVisitorwidthAdd() const
 {
 	return 0;
 }
-const int ConstructionOptions::GetCameraWidthAdd() const
+const int ConstructionOptions::GetCamerawidthAdd() const
 {
 	return 69;
 }
@@ -50,12 +50,12 @@ const int ConstructionOptions::GetMenuWidthAdd() const
 {
 	return 45;
 }
-const int ConstructionOptions::GetPlayingFieldWidthAdd() const
+const int ConstructionOptions::GetPlayingFieldwidthAdd() const
 {
 	return 130;
 }
 ///////////////Cost Initialisation Constants///////////////
-const int ConstructionOptions::GetIceCreamShopCost() const
+const int ConstructionOptions::GetIceCreamShopointost() const
 {
 	return 250;
 }
@@ -75,7 +75,7 @@ const string ConstructionOptions::GetIceCreamShopDescription() const
 }
 const string ConstructionOptions::GetRoadDescription() const
 {
-	return "Visitors can walk roads only";
+	return "visitors can walk roads only";
 }
 ///////////////Building Symbol Constants///////////////
 const char ConstructionOptions::GetIceCreamShopSymbol() const

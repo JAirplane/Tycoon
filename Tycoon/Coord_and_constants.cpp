@@ -1,24 +1,25 @@
 #include "Coord_and_constants.h"
 ///////////////PointCoord Struct///////////////
+//UChar32 ucharrrrrrrrrrrr = 'a';
 int PointCoord::Get_x() const
 {
-	return x_coord;
+	return xCoord;
 }
 int PointCoord::Get_y() const
 {
-	return y_coord;
+	return yCoord;
 }
-void PointCoord::set_coord(int x, int y)
+void PointCoord::SetCoord(int x, int y)
 {
-	x_coord = x;
-	y_coord = y;
+	xCoord = x;
+	yCoord = y;
 }
-void PointCoord::set_coord(PointCoord pc)
+void PointCoord::SetCoord(PointCoord point)
 {
-	x_coord = pc.Get_x();
-	y_coord = pc.Get_y();
+	xCoord = point.Get_x();
+	yCoord = point.Get_y();
 }
-bool PointCoord::operator == (PointCoord pc)
+bool PointCoord::operator == (PointCoord point)
 {
-	return (x_coord == pc.x_coord && y_coord == pc.y_coord);
+	return (xCoord == point.xCoord && yCoord == point.yCoord);
 }

@@ -1,48 +1,48 @@
 #pragma once
-#include "PlayingField.h"
+#include "GlobalObject.h"
 /////////////ConstructionDescriptor Class contains all necessary data about Constructions/////////////
 class ConstructionDescriptor : public GlobalObject
 {
 private:
-	unsigned int ConstructionheightAddition;
-	unsigned int ConstructionwidthAddition;
-	unsigned int ConstructionCost;
-	unsigned int DailyExpences;
-	string Description;
-	char IconSymbol;
-	color Foreground;
-	color Background;
+	unsigned int constructionheightAddition;
+	unsigned int constructionwidthAddition;
+	unsigned int constructionCost;
+	unsigned int dailyExpences;
+	string description;
+	char iconSymbol;
+	color foreground;
+	color background;
 public:
-	ConstructionDescriptor(PointCoord _upperLeft, unsigned int _constructioncost, string _description, char _iconsymbol,
-		color _foreground, color _background, unsigned int _dailyexpences = 0, unsigned int _constructionheightadd = 0,
-		unsigned int _constructionwidthadd = 0) : GlobalObject(_upperLeft)
+	ConstructionDescriptor(PointCoord upperLeft, unsigned int constructionCost, string description, char iconSymbol,
+		color foreground, color background, unsigned int dailyExpences = 0, unsigned int constructionheightAddition = 0,
+		unsigned int constructionwidthAddition = 0) : GlobalObject(upperLeft)
 	{
-		ConstructionheightAddition = _constructionheightadd;
-		ConstructionwidthAddition = _constructionwidthadd;
-		ConstructionCost = _constructioncost;
-		DailyExpences = _dailyexpences;
-		Description = _description;
-		IconSymbol = _iconsymbol;
-		Foreground = _foreground;
-		Background = _background;
+		this->constructionheightAddition = constructionheightAddition;
+		this->constructionwidthAddition = constructionwidthAddition;
+		this->constructionCost = constructionCost;
+		this->dailyExpences = dailyExpences;
+		this->description = description;
+		this->iconSymbol = iconSymbol;
+		this->foreground = foreground;
+		this->background = background;
 	}
 	~ConstructionDescriptor() {}
-	unsigned int getConstructionHeightAdd() const;
-	void setConstructionHeightAdd(unsigned int _heightadd);
-	unsigned int getConstructionWidthAdd() const;
-	void setConstructionWidthAdd(unsigned int _widthadd);
-	unsigned int getConstructionCost() const;
-	void setConstructionCost(const int cost);
-	string getDescription() const;
-	void setDescription(string _desc);
-	char getIconSymbol();
-	void setIconSymbol(const char _symb);
-	unsigned int getDailyExpences() const;
-	void setDailyExpences(unsigned int exp);
+	unsigned int GetConstructionHeightAdd() const;
+	void SetConstructionheightAdd(unsigned int heightAddition);
+	unsigned int GetConstructionWidthAdd() const;
+	void SetConstructionwidthAdd(unsigned int widthAddition);
+	unsigned int GetConstructionCost() const;
+	void SetConstructionCost(const int constructionCost);
+	string GetDescription() const;
+	void SetDescription(string description);
+	char GetIconSymbol();
+	void SetIconSymbol(const char iconSymbol);
+	unsigned int GetDailyExpences() const;
+	void SetDailyExpences(unsigned int dailyExpences);
 	color GetForegroundColor();
-	void setForegroundColor(color _somecolor);
+	void SetForegroundColor(color foreground);
 	color GetBackgroundColor();
-	void setBackgroundColor(color _somecolor);
+	void SetBackgroundColor(color background);
 	virtual char GetBuildingSymbol();
-	virtual void setbuildingsymbol(const char _symb);
+	virtual void SetBuildingSymbol(const char buildingSymbol);
 };

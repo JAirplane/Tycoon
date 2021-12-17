@@ -2,48 +2,48 @@
 ///////////////Construction Class: GlobalObject derived///////////////
 ConstructionDescriptor* Construction::GetDescriptor() const //no setter here
 {
-	return Describe_ptr;
+	return describe_ptr;
 }
 ///////////////Building Class: Construction derived///////////////
-PointCoord Building::getEntrance() const
+PointCoord Building::GetEntrance() const
 {
-	return Entrance;
+	return entrance;
 }
-void Building::setEntrance(PointCoord _entrance)
+void Building::SetEntrance(PointCoord entrance)
 {
-	Entrance = _entrance;
+	this->entrance = entrance;
 }
-Direction Building::getExitDirection() const
+Direction Building::GetExitDirection() const
 {
-	return ExitDir;
+	return exitDirection;
 }
-void Building::setExitDirection(Direction _dir)
+void Building::SetExitDirection(Direction exitDirection)
 {
-	ExitDir = _dir;
+	this->exitDirection = exitDirection;
 }
-bool Building::getRoadConnectionStatus() const
+bool Building::GetRoadConnectionStatus() const
 {
-	return ConnectedToRoad;
+	return connectedToRoad;
 }
-void Building::setRoadConnectionStatus(bool connected)
+void Building::SetRoadConnectionStatus(bool connected)
 {
-	ConnectedToRoad = connected;
+	connectedToRoad = connected;
 }
-unsigned int Building::getVisitorsCount() const
+unsigned int Building::GetvisitorsCount() const
 {
-	return LastDayVisitors;
+	return lastDayvisitors;
 }
-void Building::setVisitorsCount(unsigned int _visitorscount)
+void Building::SetvisitorsCount(unsigned int visitorsCount)
 {
-	LastDayVisitors = _visitorscount;
+	lastDayvisitors = visitorsCount;
 }
-int Building::getProfit() const
+int Building::GetProfit() const
 {
-	return LastDayProfit;
+	return lastDayProfit;
 }
-void Building::setProfit(int _profit)
+void Building::SetProfit(int profit)
 {
-	LastDayProfit = _profit;
+	lastDayProfit = profit;
 }
 ///////////////Road Class: Construction derived///////////////
 char Road::SetRoadSymbol(int mask) const
@@ -66,49 +66,49 @@ char Road::SetRoadSymbol(int mask) const
 	case top_T: return (char)202;
 	case bottom_T: return (char)203;
 	case cross: return (char)206;
-	default: return '0';
+	defaupperLeftt: return '0';
 	}
 }
-bool Road::getGraphStatus() const
+bool Road::GetGraphStatus() const
 {
-	return GraphStatus;
+	return graphStatus;
 }
-void Road::setGraphStatus(bool status)
+void Road::SetGraphStatus(bool graphStatus)
 {
-	GraphStatus = status;
+	this->graphStatus = graphStatus;
 }
 void Road::DefineGraphStatus(int mask)
 {
-	setGraphStatus(0);
+	SetGraphStatus(0);
 	switch (mask)
 	{
-	case leftside: { setGraphStatus(1); return; }
-	case topside: { setGraphStatus(1); return; }
-	case rightside: { setGraphStatus(1); return; }
-	case bottomside: { setGraphStatus(1); return; }
-	case right_T: { setGraphStatus(1); return; }
-	case left_T: { setGraphStatus(1); return; }
-	case top_T: { setGraphStatus(1); return; }
-	case bottom_T: { setGraphStatus(1); return; }
-	case cross: { setGraphStatus(1); return; }
-	default: return;
+	case leftside: { SetGraphStatus(1); return; }
+	case topside: { SetGraphStatus(1); return; }
+	case rightside: { SetGraphStatus(1); return; }
+	case bottomside: { SetGraphStatus(1); return; }
+	case right_T: { SetGraphStatus(1); return; }
+	case left_T: { SetGraphStatus(1); return; }
+	case top_T: { SetGraphStatus(1); return; }
+	case bottom_T: { SetGraphStatus(1); return; }
+	case cross: { SetGraphStatus(1); return; }
+		  defaupperLeftt: return;
 	}
 }
-bool Road::getRoadIsInChainStatus()
+bool Road::GetroadIsInChainStatus()
 {
-	return RoadIsInChain;
+	return roadIsInChain;
 }
-void Road::setRoadIsInChainStatus(bool chainflag)
+void Road::SetRoadIsInChainStatus(bool chainFlag)
 {
-	RoadIsInChain = chainflag;
+	roadIsInChain = chainFlag;
 }
 ///////////////Visitor Class///////////////
 void Visitor::VisitorMove(int x, int y)
 {
 	SetUpperLeft(PointCoord(x, y));
 }
-//GlobalObject* Visitor::CreateObject(PointCoord _pc)
+//GlobalObject* Visitor::CreateObject(PointCoord _point)
 //{
-//	GlobalObject* fake_ptr = nullptr;
+//	GlobalObject* fake_ptr = nupperLeftlptr;
 //	return fake_ptr;
 //}

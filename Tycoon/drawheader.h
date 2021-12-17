@@ -2,10 +2,6 @@
 #include <iostream>
 #include "msoftcon.h"
 using namespace std;
-const int Menu_left_x = 71;
-const int Menu_up_y = 1;
-const int Menu_right_x = 95;
-const int Menu_bot_y = 35;
 class Visualisation
 {
 public:
@@ -13,11 +9,11 @@ public:
 	{
 		init_graphics();
 	}
-	void drawRectangle(int left_x, int up_y, int right_x, int bot_y, color foreground, color background = cBLACK);
-	void drawCursorPixel(int _x, int _y, color background = cBLACK);
-	void erasePixel(int _x, int _y);
-	void drawIcon(int left_x, int up_y, int Bcost, int dailyspend, const char symbol, string description, color foreground, color background = cBLACK);
-	void drawVisitor(int _x, int _y);
-	void DrawConstruction(int left_x, int up_y, int right_x, int bot_y, const char ch, color foreground, color background = cBLACK);
-	void EraseConstruction(int left_x, int up_y, int right_x, int bot_y);
+	void DrawRectangle(int leftX, int topY, int rightX, int bottomY, color foreground, color background = cBLACK);
+	void DrawCursorPixel(int x, int y, color background = cBLACK);
+	void ErasePixel(int x, int y);
+	void DrawIcon(int leftX, int topY, int constructionCost, int dailySpend, const char iconSymbol, string description, color foreground, color background = cBLACK);
+	void DrawVisitor(int _x, int _y);
+	void DrawConstruction(int leftX, int topY, int rightX, int bottomY, const char constructionSymbol, color foreground, color background = cBLACK);
+	void EraseConstruction(int leftX, int topY, int rightX, int bottomY);
 };

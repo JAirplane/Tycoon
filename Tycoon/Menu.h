@@ -7,36 +7,36 @@ private:
 	Visualisation* draw_ptr;
 	Camera* camera_ptr;
 	Cursor* cursor_ptr;
-	vector<ConstructionManager*> Managers;
-	MenuStatus CurrentSide;
-	bool Hidden;
+	vector<ConstructionManager*> managers;
+	MenuStatus currentSide;
+	bool hidden;
 public:
-	Menu(Visualisation* drawptr, Camera* vmptr, Cursor* _cursor_ptr, PointCoord _ul) : GlobalObject(_ul), draw_ptr(drawptr), camera_ptr(vmptr), cursor_ptr(_cursor_ptr)
+	Menu(Visualisation* drawptr, Camera* vmptr, Cursor* _cursor_ptr, PointCoord upperLeft) : GlobalObject(upperLeft), draw_ptr(drawptr), camera_ptr(vmptr), cursor_ptr(_cursor_ptr)
 	{
 		SetHeightAddition(ConstructionOptions::GetAllOptions()->GetMenuHeightAdd());
 		SetWidthAddition(ConstructionOptions::GetAllOptions()->GetMenuWidthAdd());
-		Hidden = 0;
-		CurrentSide = MenuStatus::RIGHT;
+		hidden = 0;
+		currentSide = MenuStatus::RIGHT;
 	}
 	~Menu()
 	{
 		vector<ConstructionManager*>::iterator iter;
-		for (iter = Managers.begin(); iter != Managers.end(); iter++)
+		for (iter = managers.begin(); iter != managers.end(); iter++)
 		{
 			delete (*iter);
 		}
 	}
-	bool getHideMenuStatus() const;
-	void setHideMenuStatus(bool hideflag);
-	MenuStatus getCurrentSide();
+	bool GetHideMenuStatus() const;
+	void SetHideMenuStatus(bool hideFlag);
+	MenuStatus GetCurrentSide();
 	Direction ChangeMenuSide();
 	void ShowIcons();
 	void ShowMenuBorders();
-	PointCoord getNearestIconCoords(PointCoord currenticon, IconsPosition ip);
+	PointCoord GetNearestIconCoords(PointCoord currentIcon, IconsPosition ip);
 	void IconsShift(IconsPosition ip);
-	IngameObject* CreatePreliminaryObject(PointCoord iconpos);
-	PointCoord MenuNavigation(PointCoord currenticon, IconsPosition ip);
+	IngameObject* CreatePreliminaryObject(PointCoord iconPosition);
+	PointCoord MenuNavigation(PointCoord currentIcon, IconsPosition ip);
 	void EraseMenu();
-	void addManager(ConstructionManager* manager_ptr);
-	ConstructionManager* getManager(ConstructionDescriptor* cd_ptr);
+	void AddManager(ConstructionManager* manager_ptr);
+	ConstructionManager* GetManager(ConstructionDescriptor* cd_ptr);
 };

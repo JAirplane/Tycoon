@@ -2,56 +2,56 @@
 #include <list>
 #include <vector>
 #include <typeinfo>
-#include "ManagersDerived.h"
+#include "managershiftDirectionerived.h"
 #include "drawheader.h"
 /////////////Container of All Objects in the Game/////////////
 class AllObjects
 {
 private:
-	list<IngameObject*> EveryObject;
+	list<IngameObject*> everyObject;
 	Cursor* cursor_ptr;
 	Visualisation* draw_ptr;
-	bool LastElementIsPreliminary;
+	bool lastElementIsPreliminary;
 public:
-	AllObjects(Cursor* _cursor_ptr, Visualisation* _draw_ptr)
+	AllObjects(Cursor* cursor_ptr, Visualisation* draw_ptr)
 	{
-		cursor_ptr = _cursor_ptr;
-		draw_ptr = _draw_ptr;
-		LastElementIsPreliminary = 0;
+		this->cursor_ptr = cursor_ptr;
+		this->draw_ptr = draw_ptr;
+		lastElementIsPreliminary = 0;
 	}
 	~AllObjects()
 	{
 		list<IngameObject*>::iterator iter;
-		for (iter = EveryObject.begin(); iter != EveryObject.end(); iter++)
+		for (iter = everyObject.begin(); iter != everyObject.end(); iter++)
 		{
 			delete (*iter);
 		}
 	}
-	list<IngameObject*>& getAllObjects();
-	void addObject(IngameObject* obj_ptr);
-	void addObject(IngameObject* obj_ptr, int _position);
-	void setLastElementFlag(bool changer);
-	bool getLastElementFlag();
-	IngameObject* getPreliminaryElement(); //it takes last element of EveryObject list
+	list<IngameObject*>& GetAllObjects();
+	void AddObject(IngameObject* obj_ptr);
+	void AddObject(IngameObject* obj_ptr, int position);
+	void SetLastElementFlag(bool changer);
+	bool GetLastElementFlag();
+	IngameObject* GetPreliminaryElement(); //it takes last element of everyObject list
 	void ErasePreliminaryElement();
-	bool IsPartOfExistingObject(PointCoord _pc);
-	bool IsPartOfExistingObject(IngameObject* object_ptr, int camera_left_x, int camera_right_x, int camera_top_y, int camera_bottom_y);
-	void EraseObjects(int camera_left_x, int camera_right_x, int camera_top_y, int camera_bottom_y);
+	bool IsPartOfExistingObject(PointCoord point);
+	bool IsPartOfExistingObject(IngameObject* object_ptr, int cameraLeftX, int cameraRightX, int cameraTopY, int cameraBottomY);
+	void EraseObjects(int cameraLeftX, int cameraRightX, int cameraTopY, int cameraBottomY);
 };
 /////////////Container of All Types of buildings Class/////////////
-class Allbuildings
+class AllBuildings
 {
 private:
 	list<Building*> buildings;
 	Cursor* cursor_ptr;
 	Visualisation* draw_ptr;
 public:
-	Allbuildings(Cursor* _cursor_ptr, Visualisation* _draw_ptr)
+	AllBuildings(Cursor* cursor_ptr, Visualisation* draw_ptr)
 	{
-		cursor_ptr = _cursor_ptr;
-		draw_ptr = _draw_ptr;
+		this->cursor_ptr = cursor_ptr;
+		this->draw_ptr = draw_ptr;
 	}
-	~Allbuildings()
+	~AllBuildings()
 	{
 		list<Building*>::iterator iter;
 		for (iter = buildings.begin(); iter != buildings.end(); iter++)
@@ -60,60 +60,60 @@ public:
 		}
 	}
 	void AddBuilding(Building* go_ptr);
-	void DisplayBuildings(int camera_left_x, int camera_right_x, int camera_top_y, int camera_bottom_y);
-	const list<Building*> getAllbuildings();
-	vector<PointCoord> getPotentialRoadCoords(); //returns points that are near the entrances
-	void setRoadConnectionStatus(vector<PointCoord> connectedroads);
+	void DisplayBuildings(int cameraLeftX, int cameraRightX, int cameraTopY, int cameraBottomY);
+	const list<Building*> GetAllBuildings();
+	vector<PointCoord> GetPotentialRoadCoords(); //returns points that are near the entrances
+	void SetRoadConnectionStatus(vector<PointCoord> connectedRoads);
 };
 /////////////Road Container Class/////////////
 class AllRoads
 {
 private:
-	list<Road*> Roads;
+	list<Road*> roads;
 	Cursor* cursor_ptr;
 	Visualisation* draw_ptr;
 public:
-	AllRoads(Cursor* _cursor_ptr, Visualisation* _draw_ptr)
+	AllRoads(Cursor* cursor_ptr, Visualisation* draw_ptr)
 	{
-		cursor_ptr = _cursor_ptr;
-		draw_ptr = _draw_ptr;
+		this->cursor_ptr = cursor_ptr;
+		this->draw_ptr = draw_ptr;
 	}
 	~AllRoads()
 	{
 		list<Road*>::iterator iter;
-		for (iter = Roads.begin(); iter != Roads.end(); iter++)
+		for (iter = roads.begin(); iter != roads.end(); iter++)
 		{
 			delete (*iter);
 		}
 	}
-	void addRoad(Road* r_ptr);
-	list<Road*>& getAllRoads();
-	int RoadEnvironment(PointCoord pc1);
-	void DisplayRoads(int camera_left_x, int camera_right_x, int camera_top_y, int camera_bottom_y);
-	void RedrawRoads(Road* r_ptr); //when new road tile added or removed redraw all neighbor roads
-	void IsGraph_RoadsOnly();
-	vector<PointCoord> RoadConnectedToEntranceCheck(vector<PointCoord> possibleroads);
-	void setChainStatus();
+	void AddRoad(Road* r_ptr);
+	list<Road*>& GetAllRoads();
+	int RoadEnvironment(PointCoord point);
+	void DisplayRoads(int cameraLeftX, int cameraRightX, int cameraTopY, int cameraBottomY);
+	void RedrawrRoads(Road* r_ptr); //when new road tile added or removed redraw all neighbor roads
+	void IsGraphRoadsOnly();
+	vector<PointCoord> RoadConnectedToEntranceCheck(vector<PointCoord> possibleRoads);
+	void SetChainStatus();
 };
 /////////////Visitor Container Class/////////////
 class AllVisitors
 {
 private:
-	list<Visitor*> Visitors;
+	list<Visitor*> visitors;
 	Cursor* cursor_ptr;
-	AllObjects* AllObjects_ptr;
+	AllObjects* allObjects_ptr;
 	Visualisation* draw_ptr;
 public:
-	AllVisitors(Cursor* _cursor_ptr, AllObjects* _AllObjects_ptr, Visualisation* _draw_ptr)
+	AllVisitors(Cursor* cursor_ptr, AllObjects* allObjects_ptr, Visualisation* draw_ptr)
 	{
-		cursor_ptr = _cursor_ptr;
-		AllObjects_ptr = _AllObjects_ptr;
-		draw_ptr = _draw_ptr;
+		this->cursor_ptr = cursor_ptr;
+		this->allObjects_ptr = allObjects_ptr;
+		this->draw_ptr = draw_ptr;
 	}
 	~AllVisitors()
 	{
 		list<Visitor*>::iterator iter;
-		for (iter = Visitors.begin(); iter != Visitors.end(); iter++)
+		for (iter = visitors.begin(); iter != visitors.end(); iter++)
 		{
 			delete (*iter);
 		}
@@ -121,5 +121,5 @@ public:
 	void VisitorAppear();
 	bool LocationCheck(PointCoord);
 	void DisplayVisitors();
-	list<Visitor*>& getAllVisitors();
+	list<Visitor*>& GetAllVisitors();
 };

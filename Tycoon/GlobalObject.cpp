@@ -4,23 +4,23 @@ PointCoord GlobalObject::GetUpperLeft() const
 {
 	return upperLeft;
 }
-void GlobalObject::SetUpperLeft(PointCoord pc)
+void GlobalObject::SetUpperLeft(PointCoord point)
 {
-	upperLeft.set_coord(pc.Get_x(), pc.Get_y());
+	upperLeft.SetCoord(point.Get_x(), point.Get_y());
 }
 unsigned int GlobalObject::GetHeightAddition() const
 {
 	return heightAddition;
 }
-void GlobalObject::SetHeightAddition(const int _hadd)
+void GlobalObject::SetHeightAddition(const int heightAdd)
 {
-	heightAddition = _hadd;
+	heightAddition = heightAdd;
 }
 unsigned int GlobalObject::GetWidthAddition() const
 {
 	return widthAddition;
 }
-void GlobalObject::SetWidthAddition(const int _wadd)
+void GlobalObject::SetWidthAddition(const int widthAdd)
 {
-	widthAddition = _wadd;
+	widthAddition = widthAdd;
 }

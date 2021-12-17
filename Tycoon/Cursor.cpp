@@ -2,61 +2,61 @@
 ///////////////Cursor Class///////////////
 PointCoord Cursor::GetCursorConsoleLocation()
 {
-	return CursorConsoleLocation;
+	return cursorConsoleLocation;
 }
-void Cursor::setCursorConsoleLocation()
+void Cursor::SetCursorConsoleLocation()
 {
-	CursorConsoleLocation = GetConsoleCursorPosition();
+	cursorConsoleLocation = GetConsoleCursorPosition();
 }
-void Cursor::CursorMovement(PointCoord cursordestination)
+void Cursor::CursorMovement(PointCoord cursorDestination)
 {
-	set_cursor_pos(cursordestination.Get_x(), cursordestination.Get_y());
-	setCursorConsoleLocation();
+	set_cursor_pos(cursorDestination.Get_x(), cursorDestination.Get_y());
+	SetCursorConsoleLocation();
 }
-void Cursor::CursorShift(Direction SD)
+void Cursor::CursorShift(Direction shiftDirection)
 {
-	switch (SD)
+	switch (shiftDirection)
 	{
 	case Direction::Right:
 	{
-		Xshift -= 1;
+		xShift -= 1;
 		CursorMovement(PointCoord(GetCursorConsoleLocation().Get_x() + 1, GetCursorConsoleLocation().Get_y()));
 		return;
 	}
 	case Direction::Down:
 	{
-		Yshift -= 1;
+		yShift -= 1;
 		CursorMovement(PointCoord(GetCursorConsoleLocation().Get_x(), GetCursorConsoleLocation().Get_y() + 1));
 		return;
 	}
 	case Direction::Left:
 	{
-		Xshift += 1;
+		xShift += 1;
 		CursorMovement(PointCoord(GetCursorConsoleLocation().Get_x() - 1, GetCursorConsoleLocation().Get_y()));
 		return;
 	}
 	case Direction::Up:
 	{
-		Yshift += 1;
+		yShift += 1;
 		CursorMovement(PointCoord(GetCursorConsoleLocation().Get_x(), GetCursorConsoleLocation().Get_y() - 1));
 		return;
 	}
 	}
 }
-void Cursor::CursorShift(Direction SD, int shiftvalue)
+void Cursor::CursorShift(Direction shiftDirection, int shiftValue)
 {
-	switch (SD)
+	switch (shiftDirection)
 	{
 	case Direction::Right:
 	{
-		Xshift -= shiftvalue;
-		CursorMovement(PointCoord(GetCursorConsoleLocation().Get_x() - shiftvalue, GetCursorConsoleLocation().Get_y()));
+		xShift -= shiftValue;
+		CursorMovement(PointCoord(GetCursorConsoleLocation().Get_x() - shiftValue, GetCursorConsoleLocation().Get_y()));
 		return;
 	}
 	case Direction::Left:
 	{
-		Xshift += shiftvalue;
-		CursorMovement(PointCoord(GetCursorConsoleLocation().Get_x() + shiftvalue, GetCursorConsoleLocation().Get_y()));
+		xShift += shiftValue;
+		CursorMovement(PointCoord(GetCursorConsoleLocation().Get_x() + shiftValue, GetCursorConsoleLocation().Get_y()));
 		return;
 	}
 	}

@@ -16,22 +16,22 @@ public:
 	void operator=(const ConstructionOptions&) = delete;
 	static ConstructionOptions* GetAllOptions();
 	///////////////Height Addition Constants///////////////
-	virtual const int GetIceCreamShopHeightAdd() const;
+	virtual const int GetIceCreamShopheightAdd() const;
 	virtual const int GetMenuElementBordersHeight() const; //height of 1 element of menu
-	virtual const int GetRoadHeightAdd() const;
-	virtual const int GetVisitorHeightAdd() const;
-	virtual const int GetCameraHeightAdd() const;
+	virtual const int GetRoadheightAdd() const;
+	virtual const int GetVisitorheightAdd() const;
+	virtual const int GetCameraheightAdd() const;
 	virtual const int GetMenuHeightAdd() const;
-	virtual const int GetPlayingFieldHeightAdd() const;
+	virtual const int GetPlayingFieldheightAdd() const;
 	///////////////Width Addition Constants///////////////
-	virtual const int GetIceCreamShopWidthAdd() const;
-	virtual const int GetRoadWidthAdd() const;
-	virtual const int GetVisitorWidthAdd() const;
-	virtual const int GetCameraWidthAdd() const;
+	virtual const int GetIceCreamShopwidthAdd() const;
+	virtual const int GetRoadwidthAdd() const;
+	virtual const int GetVisitorwidthAdd() const;
+	virtual const int GetCamerawidthAdd() const;
 	virtual const int GetMenuWidthAdd() const;
-	virtual const int GetPlayingFieldWidthAdd() const;
+	virtual const int GetPlayingFieldwidthAdd() const;
 	///////////////Cost Initialisation Constants///////////////
-	virtual const int GetIceCreamShopCost() const;
+	virtual const int GetIceCreamShopointost() const;
 	virtual const int GetRoadCost() const;
 	///////////////Daily Expences Initialisation Constants///////////////
 	virtual const int GetIceCreamShopExpences() const;

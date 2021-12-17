@@ -8,14 +8,14 @@ private:
 	unsigned int heightAddition;
 	unsigned int widthAddition;
 public:
-	GlobalObject(PointCoord ul, unsigned int heightadd = 0, unsigned int widthadd = 0) : upperLeft(ul), heightAddition(heightadd), widthAddition(widthadd)
+	GlobalObject(PointCoord upperLeft, unsigned int heightAdd = 0, unsigned int widthAdd = 0) : upperLeft(upperLeft), heightAddition(heightAdd), widthAddition(widthAdd)
 	{}
 	~GlobalObject()
 	{}
 	PointCoord GetUpperLeft() const;
-	void SetUpperLeft(PointCoord _pc);
+	void SetUpperLeft(PointCoord point);
 	unsigned int GetHeightAddition() const;
-	void SetHeightAddition(const int _ha);
+	void SetHeightAddition(const int heightAdd);
 	unsigned int GetWidthAddition() const;
-	void SetWidthAddition(const int _wa);
+	void SetWidthAddition(const int widthAdd);
 };

@@ -4,13 +4,13 @@
 class Construction : public IngameObject
 {
 private:
-	ConstructionDescriptor* Describe_ptr;
+	ConstructionDescriptor* describe_ptr;
 public:
-	Construction(PointCoord _ul, ConstructionDescriptor* _describe_ptr) : IngameObject(_ul)
+	Construction(PointCoord upperLeft, ConstructionDescriptor* describe_ptr) : IngameObject(upperLeft)
 	{
-		Describe_ptr = _describe_ptr;
-		SetHeightAddition(Describe_ptr->getConstructionHeightAdd());
-		SetWidthAddition(Describe_ptr->getConstructionWidthAdd());
+		this->describe_ptr = describe_ptr;
+		SetHeightAddition(describe_ptr->GetConstructionHeightAdd());
+		SetWidthAddition(describe_ptr->GetConstructionWidthAdd());
 	}
 	~Construction()
 	{}
@@ -20,72 +20,72 @@ public:
 class Building : public Construction
 {
 private:
-	PointCoord Entrance;
-	Direction ExitDir;
-	bool ConnectedToRoad;
-	unsigned int LastDayVisitors;
-	int LastDayProfit;
+	PointCoord entrance;
+	Direction exitDirection;
+	bool connectedToRoad;
+	unsigned int lastDayvisitors;
+	int lastDayProfit;
 public:
-	Building(PointCoord _ul, ConstructionDescriptor* _manager_ptr) : Construction(_ul, _manager_ptr)
+	Building(PointCoord upperLeft, ConstructionDescriptor* manager_ptr) : Construction(_upperLeft, manager_ptr)
 	{
-		SetHeightAddition(GetDescriptor()->getConstructionHeightAdd());
-		SetWidthAddition(GetDescriptor()->getConstructionWidthAdd());
-		ConnectedToRoad = 0;
-		LastDayVisitors = 0;
-		LastDayProfit = 0;
-		Entrance = PointCoord((GetUpperLeft().Get_x() * 2 + GetWidthAddition()) / 2, GetUpperLeft().Get_y() + GetHeightAddition());
-		ExitDir = Direction::Down;
+		SetHeightAddition(GetDescriptor()->GetConstructionHeightAdd());
+		SetWidthAddition(GetDescriptor()->GetConstructionWidthAdd());
+		connectedToRoad = 0;
+		lastDayvisitors = 0;
+		lastDayProfit = 0;
+		entrance = PointCoord((GetUpperLeft().Get_x() * 2 + GetWidthAddition()) / 2, GetUpperLeft().Get_y() + GetHeightAddition());
+		exitDirection = Direction::Down;
 	}
 	~Building() {}
-	PointCoord getEntrance() const;
-	void setEntrance(PointCoord _entrance);
-	Direction getExitDirection() const;
-	void setExitDirection(Direction _dir);
-	bool getRoadConnectionStatus() const;
-	void setRoadConnectionStatus(bool connected);
-	unsigned int getVisitorsCount() const;
-	void setVisitorsCount(unsigned int _visitorscount);
-	int getProfit() const;
-	void setProfit(int _profit);
+	PointCoord GetEntrance() const;
+	void SetEntrance(PointCoord entrance);
+	Direction GetExitDirection() const;
+	void SetExitDirection(Direction exitDirection);
+	bool GetRoadConnectionStatus() const;
+	void SetRoadConnectionStatus(bool connected);
+	unsigned int GetvisitorsCount() const;
+	void SetvisitorsCount(unsigned int visitorsCount);
+	int GetProfit() const;
+	void SetProfit(int profit);
 };
 /////////////One Pixel of Road/////////////
 class Road : public Construction
 {
 private:
-	bool GraphStatus;
-	bool RoadIsInChain;
+	bool graphStatus;
+	bool roadIsInChain;
 public:
-	Road(PointCoord _ul, ConstructionDescriptor* _manager_ptr) : Construction(_ul, _manager_ptr)
+	Road(PointCoord upperLeft, ConstructionDescriptor* manager_ptr) : Construction(upperLeft, manager_ptr)
 	{
-		SetHeightAddition(GetDescriptor()->getConstructionHeightAdd());
-		SetWidthAddition(GetDescriptor()->getConstructionWidthAdd());
-		GraphStatus = false;
-		RoadIsInChain = false;
+		SetHeightAddition(GetDescriptor()->GetConstructionHeightAdd());
+		SetWidthAddition(GetDescriptor()->GetConstructionWidthAdd());
+		graphStatus = false;
+		roadIsInChain = false;
 	}
 	~Road()
 	{}
 	char SetRoadSymbol(int mask) const;
-	bool getGraphStatus() const;
-	void setGraphStatus(bool status);
+	bool GetGraphStatus() const;
+	void SetGraphStatus(bool status);
 	void DefineGraphStatus(int mask);
-	bool getRoadIsInChainStatus();
-	void setRoadIsInChainStatus(bool chainflag);
+	bool GetroadIsInChainStatus();
+	void SetRoadIsInChainStatus(bool chainFlag);
 };
 /////////////People are looking for some fun!/////////////
 class Visitor : public IngameObject
 {
 private:
-	int FoodCapacity;
-	int NeedToPee;
+	int foodCapacity;
+	int needToPee;
 public:
-	Visitor(PointCoord _ul, int fc, int ntp) : IngameObject(_ul)
+	Visitor(PointCoord upperLeft, int foodCapacity, int needToPee) : IngameObject(upperLeft)
 	{
-		FoodCapacity = fc;
-		NeedToPee = ntp;
+		this->foodCapacity = foodCapacity;
+		this->needToPee = needToPee;
 	}
 	~Visitor()
 	{}
 	void VisitorMove(int _x, int _y);
-	//GlobalObject* CreateObject(PointCoord _pc) override;
+	//GlobalObject* CreateObject(PointCoord _point) override;
 };
 /////////////End of Constructions Classes/////////////

@@ -1,81 +1,81 @@
 #include "Menu.h"
 /////////////Side Menu Class/////////////
-MenuStatus Menu::getCurrentSide()
+MenuStatus Menu::GetCurrentSide()
 {
-	return CurrentSide;
+	return currentSide;
 }
-bool Menu::getHideMenuStatus() const
+bool Menu::GetHideMenuStatus() const
 {
-	return Hidden;
+	return hidden;
 }
-void Menu::setHideMenuStatus(bool hideflag)
+void Menu::SetHideMenuStatus(bool hideFlag)
 {
-	Hidden = hideflag;
+	hidden = hideFlag;
 }
 Direction Menu::ChangeMenuSide()
 {
 	vector<ConstructionManager*>::iterator iter;
-	Direction SD;
-	PointCoord UL, MenuUL;
-	if (CurrentSide == MenuStatus::LEFT)
+	Direction shiftDirection;
+	PointCoord upperLeft, menuUpperLeft;
+	if (currentSide == MenuStatus::LEFT)
 	{
-		CurrentSide = MenuStatus::RIGHT;
-		UL = ConstructionOptions::GetAllOptions()->GetCameraInitialUpperLeft();
-		unsigned int widthadd = camera_ptr->GetWidthAddition();
-		MenuUL = PointCoord(UL.Get_x() + widthadd + 1, UL.Get_y());
-		SD = Direction::Left;
+		currentSide = MenuStatus::RIGHT;
+		upperLeft = ConstructionOptions::GetAllOptions()->GetCameraInitialUpperLeft();
+		unsigned int widthAdd = camera_ptr->GetWidthAddition();
+		menuUpperLeft = PointCoord(upperLeft.Get_x() + widthAdd + 1, upperLeft.Get_y());
+		shiftDirection = Direction::Left;
 	}
 	else
 	{
-		CurrentSide = MenuStatus::LEFT;
-		MenuUL = ConstructionOptions::GetAllOptions()->GetCameraInitialUpperLeft();
-		unsigned int menuwidthadd = GetWidthAddition();
-		UL = PointCoord(MenuUL.Get_x() + menuwidthadd + 1, MenuUL.Get_y());
-		SD = Direction::Right;
+		currentSide = MenuStatus::LEFT;
+		menuUpperLeft = ConstructionOptions::GetAllOptions()->GetCameraInitialUpperLeft();
+		unsigned int menuWidthAdd = GetWidthAddition();
+		upperLeft = PointCoord(menuUpperLeft.Get_x() + menuWidthAdd + 1, menuUpperLeft.Get_y());
+		shiftDirection = Direction::Right;
 	}
-	camera_ptr->SetUpperLeft(UL);
-	SetUpperLeft(MenuUL);
+	camera_ptr->SetUpperLeft(upperLeft);
+	SetUpperLeft(menuUpperLeft);
 	int _x = (GetUpperLeft().Get_x() * 2 + GetWidthAddition()) / 2;
 	int _y = GetUpperLeft().Get_y() + 1;
-	for (iter = Managers.begin(); iter != Managers.end(); iter++)
+	for (iter = managers.begin(); iter != managers.end(); iter++)
 	{
 		(*iter)->SetUpperLeft(PointCoord(_x, _y));
 		_y += ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight();
 	}
-	return SD;
+	return shiftDirection;
 }
 void Menu::ShowIcons()
 {
-	int left_x = GetUpperLeft().Get_x();
-	int top_y = GetUpperLeft().Get_y();
-	int right_x = GetUpperLeft().Get_x() + GetWidthAddition();
-	int bot_y = GetUpperLeft().Get_x() + GetHeightAddition();
+	int leftX = GetUpperLeft().Get_x();
+	int topY = GetUpperLeft().Get_y();
+	int rightX = GetUpperLeft().Get_x() + GetWidthAddition();
+	int bottomY = GetUpperLeft().Get_x() + GetHeightAddition();
 	vector<ConstructionManager*>::iterator iter;
-	for (iter = Managers.begin(); iter != Managers.end(); iter++)
+	for (iter = managers.begin(); iter != managers.end(); iter++)
 	{
-		draw_ptr->drawRectangle(left_x + 2, top_y + 1, right_x - 2, top_y + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight(), color::cYELLOW);
-		draw_ptr->drawIcon(left_x + 3, top_y + 2, (*iter)->GetDescriptor()->getConstructionCost(), (*iter)->GetDescriptor()->getDailyExpences(),
-			(*iter)->GetDescriptor()->getIconSymbol(), (*iter)->GetDescriptor()->getDescription(), color::cGREEN);
-		top_y += ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight();
+		draw_ptr->DrawRectangle(leftX + 2, topY + 1, rightX - 2, topY + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight(), color::cYELLOW);
+		draw_ptr->DrawIcon(leftX + 3, topY + 2, (*iter)->GetDescriptor()->GetConstructionCost(), (*iter)->GetDescriptor()->GetDailyExpences(),
+			(*iter)->GetDescriptor()->GetIconSymbol(), (*iter)->GetDescriptor()->GetDescription(), color::cGREEN);
+		topY += ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight();
 	}
 }
 void Menu::ShowMenuBorders()
 {
-	int left_x = GetUpperLeft().Get_x();
-	int top_y = GetUpperLeft().Get_y();
-	int right_x = GetUpperLeft().Get_x() + ConstructionOptions::GetAllOptions()->GetMenuWidthAdd();
-	int bot_y = GetUpperLeft().Get_y() + ConstructionOptions::GetAllOptions()->GetMenuHeightAdd();
-	draw_ptr->drawRectangle(left_x, top_y, right_x, bot_y, color::cBLUE);
+	int leftX = GetUpperLeft().Get_x();
+	int topY = GetUpperLeft().Get_y();
+	int rightX = GetUpperLeft().Get_x() + ConstructionOptions::GetAllOptions()->GetMenuWidthAdd();
+	int bottomY = GetUpperLeft().Get_y() + ConstructionOptions::GetAllOptions()->GetMenuHeightAdd();
+	draw_ptr->DrawRectangle(leftX, topY, rightX, bottomY, color::cBLUE);
 }
-PointCoord Menu::getNearestIconCoords(PointCoord currenticon, IconsPosition ip) //this method returns next upper/lower Icon's coords before/after "currenticon" coord
+PointCoord Menu::GetNearestIconCoords(PointCoord currentIcon, IconsPosition ip) //this method returns next upper/lower Icon's coords before/after "currentIcon" coord
 {
 	vector<ConstructionManager*>::iterator iter;
 	if (ip == IconsPosition::UPPER)
 	{
-		PointCoord nearest(currenticon.Get_x(), currenticon.Get_y() - 1000);
-		for (iter = Managers.begin(); iter != Managers.end(); iter++)
+		PointCoord nearest(currentIcon.Get_x(), currentIcon.Get_y() - 1000);
+		for (iter = managers.begin(); iter != managers.end(); iter++)
 		{
-			if ((*iter)->GetUpperLeft().Get_y() < currenticon.Get_y() && (*iter)->GetUpperLeft().Get_y() > nearest.Get_y())
+			if ((*iter)->GetUpperLeft().Get_y() < currentIcon.Get_y() && (*iter)->GetUpperLeft().Get_y() > nearest.Get_y())
 			{
 				nearest = (*iter)->GetUpperLeft();
 			}
@@ -84,10 +84,10 @@ PointCoord Menu::getNearestIconCoords(PointCoord currenticon, IconsPosition ip) 
 	}
 	else
 	{
-		PointCoord nearest(currenticon.Get_x(), currenticon.Get_y() + 1000);
-		for (iter = Managers.begin(); iter != Managers.end(); iter++)
+		PointCoord nearest(currentIcon.Get_x(), currentIcon.Get_y() + 1000);
+		for (iter = managers.begin(); iter != managers.end(); iter++)
 		{
-			if ((*iter)->GetUpperLeft().Get_y() > currenticon.Get_y() && (*iter)->GetUpperLeft().Get_y() < nearest.Get_y())
+			if ((*iter)->GetUpperLeft().Get_y() > currentIcon.Get_y() && (*iter)->GetUpperLeft().Get_y() < nearest.Get_y())
 			{
 				nearest = (*iter)->GetUpperLeft();
 			}
@@ -100,56 +100,56 @@ void Menu::IconsShift(IconsPosition ip)
 	vector<ConstructionManager*>::iterator iter;
 	if (ip == IconsPosition::UPPER)
 	{
-		for (iter = Managers.begin(); iter != Managers.end(); iter++)
+		for (iter = managers.begin(); iter != managers.end(); iter++)
 		{
-			PointCoord UL((*iter)->GetUpperLeft().Get_x(), (*iter)->GetUpperLeft().Get_y() - ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight());
-			(*iter)->SetUpperLeft(UL);
+			PointCoord upperLeft((*iter)->GetUpperLeft().Get_x(), (*iter)->GetUpperLeft().Get_y() - ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight());
+			(*iter)->SetUpperLeft(upperLeft);
 		}
 	}
 	else
 	{
-		for (iter = Managers.begin(); iter != Managers.end(); iter++)
+		for (iter = managers.begin(); iter != managers.end(); iter++)
 		{
-			PointCoord UL((*iter)->GetUpperLeft().Get_x(), (*iter)->GetUpperLeft().Get_y() + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight());
-			(*iter)->SetUpperLeft(UL);
+			PointCoord upperLeft((*iter)->GetUpperLeft().Get_x(), (*iter)->GetUpperLeft().Get_y() + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight());
+			(*iter)->SetUpperLeft(upperLeft);
 		}
 	}
 }
-PointCoord Menu::MenuNavigation(PointCoord currenticon, IconsPosition ip)
+PointCoord Menu::MenuNavigation(PointCoord currentIcon, IconsPosition ip)
 {
-	PointCoord nearest = getNearestIconCoords(currenticon, ip);
-	PointCoord MenuUL = GetUpperLeft();
-	unsigned int menu_height = GetHeightAddition();
-	unsigned int menu_width = GetWidthAddition();
-	if (nearest.Get_y() == currenticon.Get_y() + 1000 || nearest.Get_y() == currenticon.Get_y() - 1000)
+	PointCoord nearest = GetNearestIconCoords(currentIcon, ip);
+	PointCoord menuUpperLeft = GetUpperLeft();
+	unsigned int menuHeight = GetHeightAddition();
+	unsigned int menuWidth = GetWidthAddition();
+	if (nearest.Get_y() == currentIcon.Get_y() + 1000 || nearest.Get_y() == currentIcon.Get_y() - 1000)
 	{
-		return currenticon;
+		return currentIcon;
 	}
 	else
 	{
 		if (nearest.Get_y() < camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition())
 		{
-			draw_ptr->drawRectangle(MenuUL.Get_x() + 2, currenticon.Get_y(), MenuUL.Get_x() + menu_width - 2, currenticon.Get_y() + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight() - 1, color::cYELLOW);
-			draw_ptr->drawRectangle(MenuUL.Get_x() + 2, nearest.Get_y(), MenuUL.Get_x() + menu_width - 2, nearest.Get_y() + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight() - 1, color::cGREEN);
+			draw_ptr->DrawRectangle(menuUpperLeft.Get_x() + 2, currentIcon.Get_y(), menuUpperLeft.Get_x() + menuWidth - 2, currentIcon.Get_y() + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight() - 1, color::cYELLOW);
+			draw_ptr->DrawRectangle(menuUpperLeft.Get_x() + 2, nearest.Get_y(), menuUpperLeft.Get_x() + menuWidth - 2, nearest.Get_y() + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight() - 1, color::cGREEN);
 			return nearest;
 		}
 		else
 		{
 			IconsShift(ip);
-			return currenticon;
+			return currentIcon;
 		}
 	}
 }
-IngameObject* Menu::CreatePreliminaryObject(PointCoord iconpos)
+IngameObject* Menu::CreatePreliminaryObject(PointCoord iconPosition)
 {
 	vector<ConstructionManager*>::iterator iter;
-	for (iter = Managers.begin(); iter != Managers.end(); iter++)
+	for (iter = managers.begin(); iter != managers.end(); iter++)
 	{
-		if (iconpos == (*iter)->GetUpperLeft())
+		if (iconPosition == (*iter)->GetUpperLeft())
 		{
-			int x_coord = (camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition()) / 2;
-			int y_coord = (camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition()) / 2;
-			Construction* preliminary_ptr = (*iter)->CreateConstruction(PointCoord(x_coord, y_coord));
+			int xCoord = (camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition()) / 2;
+			int yCoord = (camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition()) / 2;
+			Construction* preliminary_ptr = (*iter)->CreateConstruction(PointCoord(xCoord, yCoord));
 			return preliminary_ptr;
 		}
 	}
@@ -160,18 +160,18 @@ void Menu::EraseMenu()
 	{
 		for (int i = GetUpperLeft().Get_x(); i <= GetUpperLeft().Get_x() + GetWidthAddition(); i++)
 		{
-			draw_ptr->erasePixel(i, j);
+			draw_ptr->ErasePixel(i, j);
 		}
 	}
 }
-void Menu::addManager(ConstructionManager* manager_ptr)
+void Menu::AddManager(ConstructionManager* manager_ptr)
 {
-	Managers.push_back(manager_ptr);
+	managers.push_back(manager_ptr);
 }
-ConstructionManager* Menu::getManager(ConstructionDescriptor* cd_ptr)
+ConstructionManager* Menu::GetManager(ConstructionDescriptor* cd_ptr)
 {
 	vector<ConstructionManager*>::iterator iter;
-	for (iter = Managers.begin(); iter != Managers.end(); iter++)
+	for (iter = managers.begin(); iter != managers.end(); iter++)
 	{
 		if ((*iter)->GetUpperLeft() == cd_ptr->GetUpperLeft())
 		{

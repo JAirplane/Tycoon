@@ -1,72 +1,72 @@
 #include "ConstructionDescriptor.h"
 /////////////ConstructionDescriptor Class contains all necessary data about Constructions/////////////
-unsigned int ConstructionDescriptor::getConstructionHeightAdd() const
+unsigned int ConstructionDescriptor::GetConstructionHeightAdd() const
 {
-	return ConstructionheightAddition;
+	return constructionheightAddition;
 }
-void ConstructionDescriptor::setConstructionHeightAdd(unsigned int _heightadd)
+void ConstructionDescriptor::SetConstructionheightAdd(unsigned int heightAdd)
 {
-	ConstructionheightAddition = _heightadd;
+	constructionheightAddition = heightAdd;
 }
-unsigned int ConstructionDescriptor::getConstructionWidthAdd() const
+unsigned int ConstructionDescriptor::GetConstructionWidthAdd() const
 {
-	return ConstructionwidthAddition;
+	return constructionwidthAddition;
 }
-void ConstructionDescriptor::setConstructionWidthAdd(unsigned int _widthadd)
+void ConstructionDescriptor::SetConstructionwidthAdd(unsigned int widthAdd)
 {
-	ConstructionwidthAddition = _widthadd;
+	constructionwidthAddition = widthAdd;
 }
-unsigned int ConstructionDescriptor::getConstructionCost() const
+unsigned int ConstructionDescriptor::GetConstructionCost() const
 {
-	return ConstructionCost;
+	return constructionCost;
 }
-void ConstructionDescriptor::setConstructionCost(const int _constructioncost)
+void ConstructionDescriptor::SetConstructionCost(const int constructionCost)
 {
-	ConstructionCost = _constructioncost;
+	this->constructionCost = constructionCost;
 }
-string ConstructionDescriptor::getDescription() const
+string ConstructionDescriptor::GetDescription() const
 {
-	return Description;
+	return description;
 }
-void ConstructionDescriptor::setDescription(string _desc)
+void ConstructionDescriptor::SetDescription(string description)
 {
-	Description = _desc;
+	this->description = description;
 }
-char ConstructionDescriptor::getIconSymbol()
+char ConstructionDescriptor::GetIconSymbol()
 {
-	return IconSymbol;
+	return iconSymbol;
 }
-void ConstructionDescriptor::setIconSymbol(const char symbol)
+void ConstructionDescriptor::SetIconSymbol(const char iconSymbol)
 {
-	IconSymbol = symbol;
+	this->iconSymbol = iconSymbol;
 }
-unsigned int ConstructionDescriptor::getDailyExpences() const
+unsigned int ConstructionDescriptor::GetDailyExpences() const
 {
-	return DailyExpences;
+	return dailyExpences;
 }
-void ConstructionDescriptor::setDailyExpences(unsigned int _dailyexpences)
+void ConstructionDescriptor::SetDailyExpences(unsigned int dailyExpences)
 {
-	DailyExpences = _dailyexpences;
+	this->dailyExpences = dailyExpences;
 }
 color ConstructionDescriptor::GetForegroundColor()
 {
-	return Foreground;
+	return foreground;
 }
-void ConstructionDescriptor::setForegroundColor(color _somecolor)
+void ConstructionDescriptor::SetForegroundColor(color foreground)
 {
-	Foreground = _somecolor;
+	this->foreground = foreground;
 }
 color ConstructionDescriptor::GetBackgroundColor()
 {
-	return Background;
+	return background;
 }
-void ConstructionDescriptor::setBackgroundColor(color _somecolor)
+void ConstructionDescriptor::SetBackgroundColor(color background)
 {
-	Background = _somecolor;
+	this->background = background;
 }
 char ConstructionDescriptor::GetBuildingSymbol()
 {
 	return '0';
 }
-void ConstructionDescriptor::setbuildingsymbol(const char _buildingsymbol)
+void ConstructionDescriptor::SetBuildingSymbol(const char buildingSymbol)
 {}

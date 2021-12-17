@@ -5,8 +5,8 @@
 using namespace std;
 ///////////////Enum ShiftDirection///////////////
 enum class Direction { None, Up, Right, Down, Left };
-///////////////Enum RoadMask///////////////
-enum class RoadMask {
+///////////////Enum roadMask///////////////
+enum class roadMask {
 	NONE = 0,
 	LEFT = 1,
 	TOP = 2,
@@ -26,51 +26,51 @@ enum class IconsPosition
 	LOWER,
 };
 ///////////////All Possible Types of Mask///////////////
-const int none = int(RoadMask::NONE);
-const int leftside = int(RoadMask::LEFT);
-const int topside = int(RoadMask::TOP);
-const int rightside = int(RoadMask::RIGHT);
-const int bottomside = int(RoadMask::BOTTOM);
-const int vertical = int(RoadMask::BOTTOM) | int(RoadMask::TOP);
-const int horizontal = int(RoadMask::LEFT) | int(RoadMask::RIGHT);
-const int lefttop_angle = int(RoadMask::LEFT) | int(RoadMask::TOP);
-const int righttop_angle = int(RoadMask::RIGHT) | int(RoadMask::TOP);
-const int leftbottom_angle = int(RoadMask::LEFT) | int(RoadMask::BOTTOM);
-const int rightbottom_angle = int(RoadMask::RIGHT) | int(RoadMask::BOTTOM);
-const int right_T = int(RoadMask::RIGHT) | int(RoadMask::BOTTOM) | int(RoadMask::TOP);
-const int left_T = int(RoadMask::LEFT) | int(RoadMask::BOTTOM) | int(RoadMask::TOP);
-const int top_T = int(RoadMask::RIGHT) | int(RoadMask::LEFT) | int(RoadMask::TOP);
-const int bottom_T = int(RoadMask::RIGHT) | int(RoadMask::LEFT) | int(RoadMask::BOTTOM);
-const int cross = int(RoadMask::RIGHT) | int(RoadMask::LEFT) | int(RoadMask::BOTTOM) | int(RoadMask::TOP);
+const int none = int(roadMask::NONE);
+const int leftside = int(roadMask::LEFT);
+const int topside = int(roadMask::TOP);
+const int rightside = int(roadMask::RIGHT);
+const int bottomside = int(roadMask::BOTTOM);
+const int vertical = int(roadMask::BOTTOM) | int(roadMask::TOP);
+const int horizontal = int(roadMask::LEFT) | int(roadMask::RIGHT);
+const int lefttop_angle = int(roadMask::LEFT) | int(roadMask::TOP);
+const int righttop_angle = int(roadMask::RIGHT) | int(roadMask::TOP);
+const int leftbottom_angle = int(roadMask::LEFT) | int(roadMask::BOTTOM);
+const int rightbottom_angle = int(roadMask::RIGHT) | int(roadMask::BOTTOM);
+const int right_T = int(roadMask::RIGHT) | int(roadMask::BOTTOM) | int(roadMask::TOP);
+const int left_T = int(roadMask::LEFT) | int(roadMask::BOTTOM) | int(roadMask::TOP);
+const int top_T = int(roadMask::RIGHT) | int(roadMask::LEFT) | int(roadMask::TOP);
+const int bottom_T = int(roadMask::RIGHT) | int(roadMask::LEFT) | int(roadMask::BOTTOM);
+const int cross = int(roadMask::RIGHT) | int(roadMask::LEFT) | int(roadMask::BOTTOM) | int(roadMask::TOP);
 /////////////Point Coord Class/////////////
 struct PointCoord
 {
 private:
-	int x_coord;
-	int y_coord;
+	int xCoord;
+	int yCoord;
 public:
 	PointCoord()
 	{
-		x_coord = 1;
-		y_coord = 1;
+		xCoord = 1;
+		yCoord = 1;
 	}
 	~PointCoord()
 	{}
-	PointCoord(int x, int y) : x_coord(x), y_coord(y)
+	PointCoord(int x, int y) : xCoord(x), yCoord(y)
 	{}
 	PointCoord(COORD crd)
 	{
-		x_coord = static_cast<int>(crd.X) + 1;
-		y_coord = static_cast<int>(crd.Y) + 1;
+		xCoord = static_cast<int>(crd.X) + 1;
+		yCoord = static_cast<int>(crd.Y) + 1;
 	}
-	PointCoord(const PointCoord& pc)
+	PointCoord(const PointCoord& point)
 	{
-		x_coord = pc.Get_x();
-		y_coord = pc.Get_y();
+		xCoord = point.Get_x();
+		yCoord = point.Get_y();
 	}
 	int Get_x() const;
 	int Get_y() const;
-	void set_coord(int _x, int _y);
-	void set_coord(PointCoord pc);
-	bool operator == (PointCoord);
+	void SetCoord(int x, int y);
+	void SetCoord(PointCoord point);
+	bool operator == (PointCoord point);
 };

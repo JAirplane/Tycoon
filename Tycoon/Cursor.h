@@ -4,21 +4,21 @@
 class Cursor
 {
 private:
-	int Xshift;
-	int Yshift;
-	PointCoord CursorConsoleLocation; // location according to console coords (1, 1 is minimum)
+	int xShift;
+	int yShift;
+	PointCoord cursorConsoleLocation; // location according to console coords (1, 1 is minimum)
 public:
 	Cursor()
 	{
-		CursorConsoleLocation.set_coord(1, 1);
-		Xshift = 0;
-		Yshift = 0;
+		cursorConsoleLocation.SetCoord(1, 1);
+		xShift = 0;
+		yShift = 0;
 	}
 	~Cursor()
 	{}
 	PointCoord GetCursorConsoleLocation();
-	void setCursorConsoleLocation();
-	void CursorMovement(PointCoord cursordestination);
-	void CursorShift(Direction);
-	void CursorShift(Direction SD, int shiftvalue);
+	void SetCursorConsoleLocation();
+	void CursorMovement(PointCoord cursorDestination);
+	void CursorShift(Direction shiftDirection);
+	void CursorShift(Direction shiftDirection, int shiftValue);
 };

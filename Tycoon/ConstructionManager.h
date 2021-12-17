@@ -5,16 +5,16 @@ class ConstructionManager : public GlobalObject
 {
 private:
 	Cursor* cursor_ptr;
-	ConstructionDescriptor* Describe_ptr;
+	ConstructionDescriptor* describe_ptr;
 public:
-	ConstructionManager(PointCoord _upperLeft, Cursor* _cursor_ptr, ConstructionDescriptor* _describe_ptr) : GlobalObject(_upperLeft)
+	ConstructionManager(PointCoord upperLeft, Cursor* cursor_ptr, ConstructionDescriptor* describe_ptr) : GlobalObject(upperLeft)
 	{
-		cursor_ptr = _cursor_ptr;
-		Describe_ptr = _describe_ptr;
+		this->cursor_ptr = cursor_ptr;
+		this->describe_ptr = describe_ptr;
 	}
 	~ConstructionManager()
 	{
-		delete Describe_ptr;
+		delete describe_ptr;
 	}
 	virtual Construction* CreateConstruction(PointCoord upperLeft);
 	ConstructionDescriptor* GetDescriptor();

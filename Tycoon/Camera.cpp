@@ -2,27 +2,27 @@
 ///////////////Camera Class///////////////
 Direction Camera::CursorBordersCheck(Cursor* cursor_ptr)
 {
-	Direction SD;
+	Direction shiftDirection;
 	if ((cursor_ptr->GetCursorConsoleLocation()).Get_x() == GetUpperLeft().Get_x())
 	{
-		SD = Direction::Right;
-		return SD;
+		shiftDirection = Direction::Right;
+		return shiftDirection;
 	}
 	if ((cursor_ptr->GetCursorConsoleLocation()).Get_y() == GetUpperLeft().Get_y())
 	{
-		SD = Direction::Down;
-		return SD;
+		shiftDirection = Direction::Down;
+		return shiftDirection;
 	}
-	if ((cursor_ptr->GetCursorConsoleLocation()).Get_x() == (GetUpperLeft().Get_x() + ConstructionOptions::GetAllOptions()->GetCameraWidthAdd()))
+	if ((cursor_ptr->GetCursorConsoleLocation()).Get_x() == (GetUpperLeft().Get_x() + ConstructionOptions::GetAllOptions()->GetCamerawidthAdd()))
 	{
-		SD = Direction::Left;
-		return SD;
+		shiftDirection = Direction::Left;
+		return shiftDirection;
 	}
-	if ((cursor_ptr->GetCursorConsoleLocation()).Get_y() == (GetUpperLeft().Get_y() + ConstructionOptions::GetAllOptions()->GetCameraHeightAdd()))
+	if ((cursor_ptr->GetCursorConsoleLocation()).Get_y() == (GetUpperLeft().Get_y() + ConstructionOptions::GetAllOptions()->GetCameraheightAdd()))
 	{
-		SD = Direction::Up;
-		return SD;
+		shiftDirection = Direction::Up;
+		return shiftDirection;
 	}
-	SD = Direction::None;
-	return SD;
+	shiftDirection = Direction::None;
+	return shiftDirection;
 }
