@@ -1,6 +1,8 @@
 #pragma once
 #include <iostream>
 #include <windows.h>
+#include <fcntl.h>
+#include <io.h>
 #include "msoftcon.h"
 #include "drawheader.h"
 using namespace std;
@@ -53,12 +55,27 @@ void Visualisation::DrawCursorPixel(int x, int y, color background)
 }
 void Visualisation::DrawVisitor(int x, int y)
 {
-	char visitorsymbol = 'a';
+	char visitorSymbol = 'a';
 	set_cursor_pos(x, y);
-	cout << visitorsymbol;
+	cout << visitorSymbol;
 	set_color(cYELLOW);
 }
-void Visualisation::DrawConstruction(int leftX, int topY, int rightX, int bottomY, const char ch, color foreground, color background)
+void Visualisation::DrawConstruction(int leftX, int topY, int rightX, int bottomY, const wstring constructionSymbol, color foreground, color background)
+{
+	set_color(foreground, background);
+	_setmode(_fileno(stdout), _O_U16TEXT);
+	for (int j = topY; j <= bottomY; j++)
+	{
+		for (int i = leftX; i <= rightX; i++)
+		{
+			set_cursor_pos(i, j);
+			wcout << constructionSymbol;
+		}
+	}
+	set_color(cYELLOW);
+	_setmode(_fileno(stdout), _O_TEXT);
+}
+void Visualisation::DrawConstruction(int leftX, int topY, int rightX, int bottomY, const char constructionSymbol, color foreground, color background)
 {
 	set_color(foreground, background);
 	for (int j = topY; j <= bottomY; j++)
@@ -66,7 +83,7 @@ void Visualisation::DrawConstruction(int leftX, int topY, int rightX, int bottom
 		for (int i = leftX; i <= rightX; i++)
 		{
 			set_cursor_pos(i, j);
-			cout << ch;
+			cout << constructionSymbol;
 		}
 	}
 	set_color(cYELLOW);
@@ -81,7 +98,7 @@ void Visualisation::EraseConstruction(int leftX, int topY, int rightX, int botto
 		}
 	}
 }
-void Visualisation::DrawIcon(int leftX, int topY, int constructionCost, int dailySpend, const char iconSymbol, string description, color foreground, color background) //icon border
+void Visualisation::DrawIcon(int leftX, int topY, int constructionCost, int dailySpend, const wstring iconSymbol, string description, color foreground, color background) //icon border
 {
 	DrawRectangle(leftX, topY, leftX + 3, topY + 3, cGREEN);
 	DrawConstruction(leftX + 1, topY + 1, leftX + 2, topY + 2, iconSymbol, foreground, background);

@@ -78,34 +78,41 @@ const string ConstructionOptions::GetRoadDescription() const
 	return "visitors can walk roads only";
 }
 ///////////////Building Symbol Constants///////////////
-const char ConstructionOptions::GetIceCreamShopSymbol() const
+const wstring ConstructionOptions::GetIceCreamShopSymbol() const
 {
-	return '!';
+	wstring symbol = L"\u25D9";
+	return symbol;
 }
 ///////////////PlayingField Symbol Constants///////////////
-const wchar_t ConstructionOptions::GetVerticalPlayingField() const
+const wstring ConstructionOptions::GetVerticalPlayingField() const
 {
-	return '\u2503';
+	wstring symbol = L"\u2503";
+	return symbol;
 }
-const wchar_t ConstructionOptions::GetHorizontalPlayingField() const
+const wstring ConstructionOptions::GetHorizontalPlayingField() const
 {
-	return '\u2501';
+	wstring symbol = L"\u2501";
+	return symbol;
 }
-const wchar_t ConstructionOptions::GetUpperLeftPlayingField() const
+const wstring ConstructionOptions::GetUpperLeftPlayingField() const
 {
-	return '\u250f';
+	wstring symbol = L"\u250f";
+	return symbol;
 }
-const wchar_t ConstructionOptions::GetUpperRightPlayingField() const
+const wstring ConstructionOptions::GetUpperRightPlayingField() const
 {
-	return '\u2513';
+	wstring symbol = L"\u2513";
+	return symbol;
 }
-const wchar_t ConstructionOptions::GetBottomLeftPlayingField() const
+const wstring ConstructionOptions::GetBottomLeftPlayingField() const
 {
-	return '\u2517';
+	wstring symbol = L"\u2517";
+	return symbol;
 }
-const wchar_t ConstructionOptions::GetBottomRightPlayingField() const
+const wstring ConstructionOptions::GetBottomRightPlayingField() const
 {
-	return '\u251b';
+	wstring symbol = L"\u251b";
+	return symbol;
 }
 ///////////////Initialisation Coord Constants///////////////
 const PointCoord ConstructionOptions::GetCameraInitialUpperLeft() const
@@ -117,13 +124,15 @@ const PointCoord ConstructionOptions::GetPlayingFieldUpperLeft() const
 	return PointCoord(-30, -30);
 }
 ///////////////Building's Icon Symbol Constants///////////////
-const char ConstructionOptions::GetIceCreamShopIconSymbol() const
+const wstring ConstructionOptions::GetIceCreamShopIconSymbol() const
 {
-	return '!';
+	wstring symbol = L"\u25D9";
+	return symbol;
 }
-const char ConstructionOptions::GetRoadIconSymbol() const
+const wstring ConstructionOptions::GetRoadIconSymbol() const
 {
-	return '+';
+	wstring symbol = L"\u2016";
+	return symbol;
 }
 ///////////////Color Construction Constants///////////////
 color ConstructionOptions::GetIceCreamShopForegroundColor() const

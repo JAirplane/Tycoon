@@ -39,20 +39,20 @@ public:
 	virtual const string GetIceCreamShopDescription() const;
 	virtual const string GetRoadDescription() const;
 	///////////////Building Symbol Constants///////////////
-	virtual const char GetIceCreamShopSymbol() const;
+	virtual const wstring GetIceCreamShopSymbol() const;
 	///////////////PlayingField Symbol Constants///////////////
-	virtual const wchar_t GetVerticalPlayingField() const;
-	virtual const wchar_t GetHorizontalPlayingField() const;
-	virtual const wchar_t GetUpperLeftPlayingField() const;
-	virtual const wchar_t GetUpperRightPlayingField() const;
-	virtual const wchar_t GetBottomLeftPlayingField() const;
-	virtual const wchar_t GetBottomRightPlayingField() const;
+	virtual const wstring GetVerticalPlayingField() const;
+	virtual const wstring GetHorizontalPlayingField() const;
+	virtual const wstring GetUpperLeftPlayingField() const;
+	virtual const wstring GetUpperRightPlayingField() const;
+	virtual const wstring GetBottomLeftPlayingField() const;
+	virtual const wstring GetBottomRightPlayingField() const;
 	///////////////Initialisation Coord Constants///////////////
 	virtual const PointCoord GetCameraInitialUpperLeft() const;
 	const PointCoord GetPlayingFieldUpperLeft() const;
 	///////////////COnstructions's Icon Symbol Constants///////////////
-	virtual const char GetIceCreamShopIconSymbol() const;
-	virtual const char GetRoadIconSymbol() const;
+	virtual const wstring GetIceCreamShopIconSymbol() const;
+	virtual const wstring GetRoadIconSymbol() const;
 	///////////////Color Construction Constants///////////////
 	virtual color GetIceCreamShopForegroundColor() const;
 	virtual color GetIceCreamShopBackgroundColor() const;

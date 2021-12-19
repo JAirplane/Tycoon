@@ -153,7 +153,7 @@ void AllBuildings::DisplayBuildings(int cameraLeftX, int cameraRightX, int camer
 		}
 		if (leftX < cameraRightX && topY < cameraBottomY && rightX > cameraLeftX && bottomY > cameraTopY)
 		{
-			draw_ptr->DrawConstruction(leftX, topY, rightX, bottomY, (*iter)->GetDescriptor()->GetBuildingSymbol(),
+			draw_ptr->DrawConstruction(leftX, topY, rightX, bottomY, (*iter)->GetDescriptor()->GetConstructionSymbol(),
 				(*iter)->GetDescriptor()->GetForegroundColor(), (*iter)->GetDescriptor()->GetBackgroundColor());
 		}
 	}

@@ -9,11 +9,11 @@ private:
 	unsigned int constructionCost;
 	unsigned int dailyExpences;
 	string description;
-	char iconSymbol;
+	wstring iconSymbol;
 	color foreground;
 	color background;
 public:
-	ConstructionDescriptor(PointCoord upperLeft, unsigned int constructionCost, string description, char iconSymbol,
+	ConstructionDescriptor(PointCoord upperLeft, unsigned int constructionCost, string description, wstring iconSymbol,
 		color foreground, color background, unsigned int dailyExpences = 0, unsigned int constructionheightAddition = 0,
 		unsigned int constructionwidthAddition = 0) : GlobalObject(upperLeft)
 	{
@@ -28,21 +28,12 @@ public:
 	}
 	~ConstructionDescriptor() {}
 	unsigned int GetConstructionHeightAdd() const;
-	void SetConstructionheightAdd(unsigned int heightAddition);
 	unsigned int GetConstructionWidthAdd() const;
-	void SetConstructionwidthAdd(unsigned int widthAddition);
 	unsigned int GetConstructionCost() const;
-	void SetConstructionCost(const int constructionCost);
 	string GetDescription() const;
-	void SetDescription(string description);
-	char GetIconSymbol();
-	void SetIconSymbol(const char iconSymbol);
+	wstring GetIconSymbol();
 	unsigned int GetDailyExpences() const;
-	void SetDailyExpences(unsigned int dailyExpences);
 	color GetForegroundColor();
-	void SetForegroundColor(color foreground);
 	color GetBackgroundColor();
-	void SetBackgroundColor(color background);
-	virtual char GetBuildingSymbol();
-	virtual void SetBuildingSymbol(const char buildingSymbol);
+	virtual wstring GetConstructionSymbol();
 };
