@@ -55,7 +55,7 @@ public:
 	void UserActions(int key);
 	void PreliminaryBuildingAdd(IngameObject* go_ptr);
 	void BuildingconnectedToRoadCheck(); //sets true status to every building object that is connected to road and sets true "IsGraph" status to every connected road as well
-	virtual void Createmanagers();
+	virtual void CreateManagers();
 	void H_Key();
 	void S_Key();
 	void TabKey_Playingfield();

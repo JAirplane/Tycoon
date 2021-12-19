@@ -1,5 +1,5 @@
 #pragma once
-#include "GlobalObject.h"
+#include "PlayingField.h"
 /////////////ConstructionDescriptor Class contains all necessary data about Constructions/////////////
 class ConstructionDescriptor : public GlobalObject
 {

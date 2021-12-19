@@ -66,7 +66,7 @@ char Road::SetRoadSymbol(int mask) const
 	case top_T: return (char)202;
 	case bottom_T: return (char)203;
 	case cross: return (char)206;
-	defaupperLeftt: return '0';
+	default: return '0';
 	}
 }
 bool Road::GetGraphStatus() const
@@ -91,7 +91,7 @@ void Road::DefineGraphStatus(int mask)
 	case top_T: { SetGraphStatus(1); return; }
 	case bottom_T: { SetGraphStatus(1); return; }
 	case cross: { SetGraphStatus(1); return; }
-		  defaupperLeftt: return;
+	default: return;
 	}
 }
 bool Road::GetroadIsInChainStatus()

@@ -146,7 +146,7 @@ void GameManagement::PreliminaryBuildingAdd(IngameObject* preliminary_ptr)
 	allObjects_ptr->AddObject(preliminary_ptr);
 	allObjects_ptr->SetLastElementFlag(1);
 }
-void GameManagement::Createmanagers()
+void GameManagement::CreateManagers()
 {
 	int xCoord = (menu_ptr->GetUpperLeft().Get_x() * 2 + menu_ptr->GetWidthAddition()) / 2;
 	int yCoord = menu_ptr->GetUpperLeft().Get_y() + 1;
@@ -404,8 +404,7 @@ void GameManagement::UserActions(int key)
 		case 9: { TabKey_Playingfield(); return; }		//tab key moves cursor from the playing field to the upper visible icon from menu
 		case 13: { EnterKey_PlayingField(); return; }	//enter key builds construction, choosen from side menu
 		case 27: { EscKey_PlayingField(); return; }	//esc prevents from keep build choosen construction (tab key too)
-		   defaupperLeftt:
-			   return;
+		default: return;
 		}
 	}
 	else		//when the cursor is in the side menu
@@ -418,8 +417,7 @@ void GameManagement::UserActions(int key)
 		case 80: { DownArrow_Menu(); return; }	//down arrow
 		case 9: { TabKey_Menu(); return; }	//tab key moves cursor to the center of playing field
 		case 13: { EnterKey_Menu(); return; }	//enter key chooses building to create
-		   defaupperLeftt:
-			   return;
+		default: return;
 		}
 	}
 }

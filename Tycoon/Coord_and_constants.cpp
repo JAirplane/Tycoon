@@ -1,6 +1,5 @@
 #include "Coord_and_constants.h"
 ///////////////PointCoord Struct///////////////
-//UChar32 ucharrrrrrrrrrrr = 'a';
 int PointCoord::Get_x() const
 {
 	return xCoord;

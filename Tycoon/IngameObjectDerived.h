@@ -26,7 +26,7 @@ private:
 	unsigned int lastDayvisitors;
 	int lastDayProfit;
 public:
-	Building(PointCoord upperLeft, ConstructionDescriptor* manager_ptr) : Construction(_upperLeft, manager_ptr)
+	Building(PointCoord upperLeft, ConstructionDescriptor* manager_ptr) : Construction(upperLeft, manager_ptr)
 	{
 		SetHeightAddition(GetDescriptor()->GetConstructionHeightAdd());
 		SetWidthAddition(GetDescriptor()->GetConstructionWidthAdd());

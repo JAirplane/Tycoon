@@ -17,7 +17,7 @@ void AllObjects::AddObject(IngameObject* obj_ptr, int position)
 	else
 	{
 		list<IngameObject*>::iterator iter = everyObject.begin();
-		iter = next(iter, _position - 1);
+		iter = next(iter, position - 1);
 		everyObject.insert(iter, obj_ptr);
 	}
 }

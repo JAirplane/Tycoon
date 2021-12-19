@@ -1,5 +1,5 @@
 #pragma once
-#include "buildingDescriptor.h"
+#include "BuildingDescriptor.h"
 /////////////Parent Class of Every Object in Game/////////////
 class IngameObject : public GlobalObject
 {

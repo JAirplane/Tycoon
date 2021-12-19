@@ -2,7 +2,7 @@
 #include <list>
 #include <vector>
 #include <typeinfo>
-#include "managershiftDirectionerived.h"
+#include "ManagersDerived.h"
 #include "drawheader.h"
 /////////////Container of All Objects in the Game/////////////
 class AllObjects
