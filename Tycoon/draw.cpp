@@ -7,37 +7,40 @@
 #include "drawheader.h"
 using namespace std;
 ///////////////////drawMap Class///////////////////
-void Visualisation::DrawRectangle(int leftX, int topY, int rightX, int bottomY, color foreground, color background)
+void Visualisation::DrawRectangle(int leftX, int topY, int rightX, int bottomY, wstring vertical, wstring horizontal, wstring upperLeft,
+	wstring upperRight, wstring bottomLeft, wstring bottomRight, color foreground, color background)
 {
+	_setmode(_fileno(stdout), _O_U16TEXT);
 	set_color(foreground, background);
 	for (int y = topY + 1; y < bottomY; y++)
 	{
 		set_cursor_pos(leftX, y);
-		cout << (char)186 << "\n";
+		wcout << vertical;
 	}
 	for (int y = topY + 1; y < bottomY; y++)
 	{
 		set_cursor_pos(rightX, y);
-		cout << (char)186;
+		wcout << vertical;
 	}
 	for (int x = leftX + 1; x < rightX; x++)
 	{
 		set_cursor_pos(x, topY);
-		cout << (char)205;
+		wcout << horizontal;
 	}
 	for (int x = leftX + 1; x < rightX; x++)
 	{
 		set_cursor_pos(x, bottomY);
-		cout << (char)205;
+		wcout << horizontal;
 	}
 	set_cursor_pos(rightX, topY);
-	cout << (char)187;
+	wcout << upperRight;
 	set_cursor_pos(rightX, bottomY);
-	cout << (char)188;
+	wcout << bottomRight;
 	set_cursor_pos(leftX, bottomY);
-	cout << (char)200;
+	wcout << bottomLeft;
 	set_cursor_pos(leftX, topY);
-	cout << (char)201;
+	wcout << upperLeft;
+	_setmode(_fileno(stdout), _O_TEXT);
 	set_color(cYELLOW);
 }
 void Visualisation::ErasePixel(int x, int y)
@@ -60,7 +63,8 @@ void Visualisation::DrawVisitor(int x, int y)
 	cout << visitorSymbol;
 	set_color(cYELLOW);
 }
-void Visualisation::DrawConstruction(int leftX, int topY, int rightX, int bottomY, const wstring constructionSymbol, color foreground, color background)
+void Visualisation::DrawConstruction(int leftX, int topY, int rightX, int bottomY, const wstring constructionSymbol, color foreground, const wstring entranceSymbol = L"",
+	int entranceHeightAdd = -1, int entranceWidthAdd = -1, color background)
 {
 	set_color(foreground, background);
 	_setmode(_fileno(stdout), _O_U16TEXT);
@@ -71,6 +75,11 @@ void Visualisation::DrawConstruction(int leftX, int topY, int rightX, int bottom
 			set_cursor_pos(i, j);
 			wcout << constructionSymbol;
 		}
+	}
+	if (entranceHeightAdd != -1 && entranceWidthAdd != -1)
+	{
+		set_cursor_pos(leftX + entranceWidthAdd, topY + entranceHeightAdd);
+		wcout << entranceSymbol;
 	}
 	set_color(cYELLOW);
 	_setmode(_fileno(stdout), _O_TEXT);
@@ -98,9 +107,10 @@ void Visualisation::EraseConstruction(int leftX, int topY, int rightX, int botto
 		}
 	}
 }
-void Visualisation::DrawIcon(int leftX, int topY, int constructionCost, int dailySpend, const wstring iconSymbol, string description, color foreground, color background) //icon border
+void Visualisation::DrawIcon(int leftX, int topY, wstring vertical, wstring horizontal, wstring upperLeft, wstring upperRight, wstring bottomLeft,
+	wstring bottomRight, int constructionCost, int dailySpend, const wstring iconSymbol, string description, color foreground, color background) //icon border
 {
-	DrawRectangle(leftX, topY, leftX + 3, topY + 3, cGREEN);
+	DrawRectangle(leftX, topY, leftX + 3, topY + 3, vertical, horizontal, upperLeft, upperRight, bottomLeft, bottomRight, cGREEN);
 	DrawConstruction(leftX + 1, topY + 1, leftX + 2, topY + 2, iconSymbol, foreground, background);
 	set_cursor_pos(leftX + 4, topY);
 	set_color(cLIGHT_GRAY);

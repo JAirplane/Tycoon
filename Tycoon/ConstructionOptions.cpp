@@ -1,7 +1,7 @@
 #include "ConstructionOptions.h"
 /////////////Construction Options Class : Singleton patern/////////////
 ///////////////Height Addition Constants///////////////
-const int ConstructionOptions::GetIceCreamShopheightAdd() const
+const int ConstructionOptions::GetIceCreamShopHeightAdd() const
 {
 	return 1;
 }
@@ -9,15 +9,15 @@ const int ConstructionOptions::GetMenuElementBordersHeight() const
 {
 	return 6;
 }
-const int ConstructionOptions::GetRoadheightAdd() const
+const int ConstructionOptions::GetRoadHeightAdd() const
 {
 	return 0;
 }
-const int ConstructionOptions::GetVisitorheightAdd() const
+const int ConstructionOptions::GetVisitorHeightAdd() const
 {
 	return 0;
 }
-const int ConstructionOptions::GetCameraheightAdd() const
+const int ConstructionOptions::GetCameraHeightAdd() const
 {
 	return 34;
 }
@@ -25,24 +25,24 @@ const int ConstructionOptions::GetMenuHeightAdd() const
 {
 	return 34;
 }
-const int ConstructionOptions::GetPlayingFieldheightAdd() const
+const int ConstructionOptions::GetPlayingFieldHeightAdd() const
 {
 	return 64;
 }
 ///////////////Width Addition Constants///////////////
-const int ConstructionOptions::GetIceCreamShopwidthAdd() const
+const int ConstructionOptions::GetIceCreamShopWidthAdd() const
 {
 	return 1;
 }
-const int ConstructionOptions::GetRoadwidthAdd() const
+const int ConstructionOptions::GetRoadWidthAdd() const
 {
 	return 0;
 }
-const int ConstructionOptions::GetVisitorwidthAdd() const
+const int ConstructionOptions::GetVisitorWidthAdd() const
 {
 	return 0;
 }
-const int ConstructionOptions::GetCamerawidthAdd() const
+const int ConstructionOptions::GetCameraWidthAdd() const
 {
 	return 69;
 }
@@ -50,12 +50,12 @@ const int ConstructionOptions::GetMenuWidthAdd() const
 {
 	return 45;
 }
-const int ConstructionOptions::GetPlayingFieldwidthAdd() const
+const int ConstructionOptions::GetPlayingFieldWidthAdd() const
 {
 	return 130;
 }
 ///////////////Cost Initialisation Constants///////////////
-const int ConstructionOptions::GetIceCreamShopointost() const
+const int ConstructionOptions::GetIceCreamShopCost() const
 {
 	return 250;
 }
@@ -155,21 +155,129 @@ color ConstructionOptions::GetCursorBackgroundColor() const
 {
 	return color::cYELLOW;
 }
-color ConstructionOptions::GetPlayingFieldColor() const
+color ConstructionOptions::GetCameraColor() const
 {
 	return color::cBLUE;
 }
-color ConstructionOptions::GetMenuBorderInactiveColor() const
+color ConstructionOptions::GetMenuColor() const
 {
-	return color::cYELLOW;
+	return color::cBLUE;
 }
-color ConstructionOptions::GetMenuBorderActiveColor() const
+color ConstructionOptions::GetMenuIconColor() const
 {
 	return color::cGREEN;
 }
-color ConstructionOptions::GetMenuBorderUnderConstructionColor() const
+color ConstructionOptions::GetMenuItemInactiveColor() const
+{
+	return color::cYELLOW;
+}
+color ConstructionOptions::GetMenuItemActiveColor() const
+{
+	return color::cGREEN;
+}
+color ConstructionOptions::GetMenuItemUnderConstructionColor() const
 {
 	return color::cRED;
+}
+///////////////Menu Border Symbol Constants///////////////
+const wstring GetMenuVerticalSymbol() const
+{
+	return wstring(L"\u2551");
+}
+const wstring GetMenuHorizontalSymbol() const
+{
+	wstring(L"\u2550");
+}
+const wstring GetMenuUpperLeftSymbol() const
+{
+	return wstring(L"\u255D");
+}
+const wstring GetMenuUpperRightSymbol() const
+{
+	return wstring(L"\u255A");
+}
+const wstring GetMenuBottomLeftSymbol() const
+{
+	return wstring(L"\u2557");
+}
+const wstring GetMenuBottomRightSymbol() const
+{
+	return wstring(L"\u2554");
+}
+///////////////Camera Border Symbol Constants///////////////
+const wstring GetCameraVerticalSymbol() const
+{
+	return wstring(L"\u2551");
+}
+const wstring GetCameraHorizontalSymbol() const
+{
+	return wstring(L"\u2550");
+}
+const wstring GetCameraUpperLeftSymbol() const
+{
+	return wstring(L"\u255D");
+}
+const wstring GetCameraUpperRightSymbol() const
+{
+	return wstring(L"\u255A");
+}
+const wstring GetCameraBottomLeftSymbol() const
+{
+	return wstring(L"\u2557");
+}
+const wstring GetCameraBottomRightSymbol() const
+{
+	return wstring(L"\u2554");
+}
+///////////////Menu Item Border Symbol Constants///////////////
+const wstring GetMenuItemVerticalSymbol() const
+{
+	return wstring(L"\u2551");
+}
+const wstring GetMenuItemHorizontalSymbol() const
+{
+	return wstring(L"\u2550");
+}
+const wstring GetMenuItemUpperLeftSymbol() const
+{
+	return wstring(L"\u255D");
+}
+const wstring GetMenuItemUpperRightSymbol() const
+{
+	return wstring(L"\u255A");
+}
+const wstring GetMenuItemBottomLeftSymbol() const
+{
+	return wstring(L"\u2557");
+}
+const wstring GetMenuItemBottomRightSymbol() const
+{
+	return wstring(L"\u2554");
+}
+///////////////Menu Icon Border Symbol Constants///////////////
+const wstring GetMenuIconVerticalSymbol() const
+{
+	return wstring(L"\u2551");
+}
+const wstring GetMenuIconHorizontalSymbol() const
+{
+	return wstring(L"\u2550");
+}
+const wstring GetMenuIconUpperLeftSymbol() const
+{
+	return wstring(L"\u255D");
+}
+const wstring GetMenuIconUpperRightSymbol() const
+{
+	return wstring(L"\u255A");
+}
+const wstring GetMenuIconBottomLeftSymbol() const
+{
+	return wstring(L"\u2557");
+}
+const wstring GetMenuIconBottomRightSymbol() const
+{
+	return wstring(L"\u2554");
 }
 ///////////////ConstructionOptions Initialisation and using///////////////
 ConstructionOptions* ConstructionOptions::GetAllOptions()

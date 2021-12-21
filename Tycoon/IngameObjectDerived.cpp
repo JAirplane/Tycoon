@@ -4,22 +4,55 @@ ConstructionDescriptor* Construction::GetDescriptor() const //no setter here
 {
 	return describe_ptr;
 }
-///////////////Building Class: Construction derived///////////////
-PointCoord Building::GetEntrance() const
+int Construction::GetEntranceHeightAdd() const
 {
-	return entrance;
+	return -1;
 }
-void Building::SetEntrance(PointCoord entrance)
+int Construction::GetEntranceWidthAdd() const
 {
-	this->entrance = entrance;
+	return -1;
+}
+Direction Construction::GetExitDirection() const
+{
+	return Direction::None;
+}
+wstring Construction::GetEntranceSymbol(Direction out) const
+{
+	return wstring(L"");
+}
+///////////////Building Class: Construction derived///////////////
+int Building::GetEntranceHeightAdd() const
+{
+	return entranceHeightAdd;
+}
+void Building::SetEntranceHeightAdd(int heightAdd)
+{
+	entranceHeightAdd = heightAdd;
+}
+int Building::GetEntranceWidthAdd() const
+{
+	return entranceWidthAdd;
+}
+void Building::SetEntranceWidthAdd(int widthAdd)
+{
+	entranceWidthAdd = widthAdd;
 }
 Direction Building::GetExitDirection() const
 {
 	return exitDirection;
 }
-void Building::SetExitDirection(Direction exitDirection)
+void Building::SetExitDirection(Direction exit)
 {
-	this->exitDirection = exitDirection;
+	exitDirection = exit;
+}
+wstring Building::GetEntranceSymbol(Direction out) const
+{
+	switch (out) :
+	case Direction::Up: {return wstring(L"\u2191"); }
+	case Direction::Right: {return wstring(L"\u2192"); }
+	case Direction::Down: {return wstring(L"\u2193"); }
+	case Direction::Left: {return wstring(L"\u2190"); }
+	case Direction::None: {return; }
 }
 bool Building::GetRoadConnectionStatus() const
 {
@@ -29,11 +62,11 @@ void Building::SetRoadConnectionStatus(bool connected)
 {
 	connectedToRoad = connected;
 }
-unsigned int Building::GetvisitorsCount() const
+unsigned int Building::GetVisitorsCount() const
 {
 	return lastDayvisitors;
 }
-void Building::SetvisitorsCount(unsigned int visitorsCount)
+void Building::SetVisitorsCount(unsigned int visitorsCount)
 {
 	lastDayvisitors = visitorsCount;
 }
@@ -46,26 +79,26 @@ void Building::SetProfit(int profit)
 	lastDayProfit = profit;
 }
 ///////////////Road Class: Construction derived///////////////
-char Road::SetRoadSymbol(int mask) const
+wstring Road::SetRoadSymbol(int mask) const
 {
 	switch (mask)
 	{
-	case none: return (char)186;
-	case leftside: return (char)205;
-	case topside: return (char)186;
-	case rightside: return (char)205;
-	case bottomside: return (char)186;
-	case vertical: return (char)186;
-	case horizontal: return (char)205;
-	case lefttop_angle: return (char)188;
-	case righttop_angle: return (char)200;
-	case leftbottom_angle: return (char)187;
-	case rightbottom_angle: return (char)201;
-	case right_T: return (char)204;
-	case left_T: return (char)185;
-	case top_T: return (char)202;
-	case bottom_T: return (char)203;
-	case cross: return (char)206;
+	case none: return wstring(L"\u2551");
+	case leftside: return wstring(L"\u2550");
+	case topside: return wstring(L"\u2551");
+	case rightside: return wstring(L"\u2550");
+	case bottomside: return wstring(L"\u2551");
+	case vertical: return wstring(L"\u2551");
+	case horizontal: return wstring(L"\u2550");
+	case lefttop_angle: return wstring(L"\u2554");
+	case righttop_angle: return wstring(L"\u2557");
+	case leftbottom_angle: return wstring(L"\u255A");
+	case rightbottom_angle: return wstring(L"\u255D");
+	case right_T: return wstring(L"\u2560");
+	case left_T: return wstring(L"\u2563");
+	case top_T: return wstring(L"\u2569");
+	case bottom_T: return wstring(L"\u2566");
+	case cross: return wstring(L"\u256C");
 	default: return '0';
 	}
 }

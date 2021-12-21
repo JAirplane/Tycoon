@@ -33,6 +33,7 @@ public:
 	void SetLastElementFlag(bool changer);
 	bool GetLastElementFlag();
 	IngameObject* GetPreliminaryElement(); //it takes last element of everyObject list
+	void AddPreliminaryElement(Construction* c_ptr);
 	void ErasePreliminaryElement();
 	bool IsPartOfExistingObject(PointCoord point);
 	bool IsPartOfExistingObject(IngameObject* object_ptr, int cameraLeftX, int cameraRightX, int cameraTopY, int cameraBottomY);
@@ -90,7 +91,7 @@ public:
 	list<Road*>& GetAllRoads();
 	int RoadEnvironment(PointCoord point);
 	void DisplayRoads(int cameraLeftX, int cameraRightX, int cameraTopY, int cameraBottomY);
-	void RedrawrRoads(Road* r_ptr); //when new road tile added or removed redraw all neighbor roads
+	void RedrawNeibourRoads(Road* r_ptr); //when new road tile added or removed redraw all neighbor roads
 	void IsGraphRoadsOnly();
 	vector<PointCoord> RoadConnectedToEntranceCheck(vector<PointCoord> possibleRoads);
 	void SetChainStatus();

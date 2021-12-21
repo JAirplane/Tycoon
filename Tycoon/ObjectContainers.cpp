@@ -33,6 +33,10 @@ IngameObject* AllObjects::GetPreliminaryElement()
 {
 	return everyObject.back();
 }
+void AddPreliminaryElement(Construction* c_ptr)
+{
+	everyObject.push_back(c_ptr);
+}
 void AllObjects::ErasePreliminaryElement()
 {
 	everyObject.pop_back();
@@ -324,32 +328,28 @@ void AllRoads::DisplayRoads(int cameraLeftX, int cameraRightX, int cameraTopY, i
 	}
 	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }
-void AllRoads::RedrawrRoads(Road* r_ptr)
+wstring AllRoads::DrawRoad(PointCoord roadUpperLeft)
 {
-	int roadMask = RoadEnvironment(r_ptr->GetUpperLeft());
-	unsigned char roadSymbol = r_ptr->SetRoadSymbol(roadMask);
+	Road* empty = nullptr;
+	int roadMask = RoadEnvironment(roadUpperLeft);
+	wstring roadSymbol = empty->SetRoadSymbol(roadMask);
+	return roadSymbol;
+}
+void AllRoads::RedrawNeibourRoads(PointCoord roadUpperLeft)
+{
 	list<Road*>::iterator iter;
-	PointCoord leftLocation(r_ptr->GetUpperLeft().Get_x() - 1, r_ptr->GetUpperLeft().Get_y());
-	PointCoord rightLocation(r_ptr->GetUpperLeft().Get_x() + 1, r_ptr->GetUpperLeft().Get_y());
-	PointCoord downLocation(r_ptr->GetUpperLeft().Get_x(), r_ptr->GetUpperLeft().Get_y() + 1);
-	PointCoord upLocation(r_ptr->GetUpperLeft().Get_x(), r_ptr->GetUpperLeft().Get_y() - 1);
+	PointCoord leftLocation(roadUpperLeft.Get_x() - 1, roadUpperLeft.Get_y());
+	PointCoord rightLocation(roadUpperLeft.Get_x() + 1, roadUpperLeft.Get_y());
+	PointCoord downLocation(roadUpperLeft.Get_x(), roadUpperLeft.Get_y() + 1);
+	PointCoord topLocation(roadUpperLeft.Get_x(), roadUpperLeft.Get_y() - 1);
 	for (iter = roads.begin(); iter != roads.end(); iter++)
 	{
-		if ((*iter)->GetUpperLeft() == leftLocation || (*iter)->GetUpperLeft() == rightLocation || (*iter)->GetUpperLeft() == downLocation || (*iter)->GetUpperLeft() == upLocation)
+		if ((*iter)->GetUpperLeft() == leftLocation || (*iter)->GetUpperLeft() == rightLocation || (*iter)->GetUpperLeft() == downLocation || (*iter)->GetUpperLeft() == topLocation)
 		{
-			int sideRoadMask = RoadEnvironment((*iter)->GetUpperLeft());
-			unsigned char sideRoadSymbol = (*iter)->SetRoadSymbol(sideRoadMask);
-			PointCoord upperLeft = (*iter)->GetUpperLeft();
-			int heightAdd = (*iter)->GetHeightAddition();
-			int widthAdd = (*iter)->GetWidthAddition();
-			draw_ptr->DrawConstruction(upperLeft.Get_x(), upperLeft.Get_y(), upperLeft.Get_x() + widthAdd, upperLeft.Get_y() + heightAdd, sideRoadSymbol, (*iter)->GetDescriptor()->GetForegroundColor(), (*iter)->GetDescriptor()->GetBackgroundColor());
+			draw_ptr->DrawConstruction(upperLeft.Get_x(), upperLeft.Get_y(), upperLeft.Get_x() + roadWidthAdd, upperLeft.Get_y() + roadHeightAdd, DrawRoad((*iter)->GetUpperLeft()),
+				r_ptr->GetDescriptor()->GetForegroundColor(), r_ptr->GetDescriptor()->GetBackgroundColor());
 		}
 	}
-	PointCoord centralUpperLeft = r_ptr->GetUpperLeft();
-	int centralRoadHeightAdd = r_ptr->GetHeightAddition();
-	int centralRoadWidthAdd = r_ptr->GetWidthAddition();
-	draw_ptr->DrawConstruction(centralUpperLeft.Get_x(), centralUpperLeft.Get_y(), centralUpperLeft.Get_x() + centralRoadWidthAdd, centralUpperLeft.Get_y() + centralRoadHeightAdd, roadSymbol,
-		r_ptr->GetDescriptor()->GetForegroundColor(), r_ptr->GetDescriptor()->GetBackgroundColor());
 }
 void AllRoads::IsGraphRoadsOnly()
 {

@@ -30,11 +30,11 @@ public:
 	void SetHideMenuStatus(bool hideFlag);
 	MenuStatus GetCurrentSide();
 	Direction ChangeMenuSide();
-	void ShowIcons();
+	void ShowMenuItems();
 	void ShowMenuBorders();
 	PointCoord GetNearestIconCoords(PointCoord currentIcon, IconsPosition ip);
 	void IconsShift(IconsPosition ip);
-	IngameObject* CreatePreliminaryObject(PointCoord iconPosition);
+	Construction* CreatePreliminaryObject(PointCoord iconPosition);
 	PointCoord MenuNavigation(PointCoord currentIcon, IconsPosition ip);
 	void EraseMenu();
 	void AddManager(ConstructionManager* manager_ptr);

@@ -15,36 +15,45 @@ public:
 	~Construction()
 	{}
 	ConstructionDescriptor* GetDescriptor() const override; //no setter here
+	virtual int GetEntranceHeightAdd() const;
+	virtual int GetEntranceWidthAdd() const;
+	virtual Direction GetExitDirection() const;
+	virtual wstring GetEntranceSymbol(Direction out) const;
 };
 /////////////Parent Class of buildings/////////////
 class Building : public Construction
 {
 private:
-	PointCoord entrance;
+	int entranceHeightAdd;
+	int entranceWidthAdd;
 	Direction exitDirection;
 	bool connectedToRoad;
-	unsigned int lastDayvisitors;
+	unsigned int lastDayVisitors;
 	int lastDayProfit;
 public:
 	Building(PointCoord upperLeft, ConstructionDescriptor* manager_ptr) : Construction(upperLeft, manager_ptr)
 	{
-		SetHeightAddition(GetDescriptor()->GetConstructionHeightAdd());
-		SetWidthAddition(GetDescriptor()->GetConstructionWidthAdd());
+		SetHeightAddition(manager_ptr->GetConstructionHeightAdd());
+		SetWidthAddition(manager_ptr->GetConstructionWidthAdd());
+		this->entranceHeightAdd = manager_ptr->GetConstructionHeightAdd();
+		this->entranceWidthAdd = manager_ptr->GetConstructionWidthAdd() / 2;
 		connectedToRoad = 0;
-		lastDayvisitors = 0;
+		lastDayVisitors = 0;
 		lastDayProfit = 0;
-		entrance = PointCoord((GetUpperLeft().Get_x() * 2 + GetWidthAddition()) / 2, GetUpperLeft().Get_y() + GetHeightAddition());
 		exitDirection = Direction::Down;
 	}
 	~Building() {}
-	PointCoord GetEntrance() const;
-	void SetEntrance(PointCoord entrance);
+	int GetEntranceHeightAdd() const;
+	void SetEntranceHeightAdd(int heightAdd);
+	int GetEntranceWidthAdd() const;
+	void SetEntranceWidthAdd(int widthAdd);
 	Direction GetExitDirection() const;
-	void SetExitDirection(Direction exitDirection);
+	void SetExitDirection(Direction exit);
+	wstring GetEntranceSymbol(Direction out) const;
 	bool GetRoadConnectionStatus() const;
 	void SetRoadConnectionStatus(bool connected);
-	unsigned int GetvisitorsCount() const;
-	void SetvisitorsCount(unsigned int visitorsCount);
+	unsigned int GetVisitorsCount() const;
+	void SetVisitorsCount(unsigned int visitorsCount);
 	int GetProfit() const;
 	void SetProfit(int profit);
 };
@@ -62,9 +71,8 @@ public:
 		graphStatus = false;
 		roadIsInChain = false;
 	}
-	~Road()
-	{}
-	char SetRoadSymbol(int mask) const;
+	~Road() {}
+	wstring SetRoadSymbol(int mask) const;
 	bool GetGraphStatus() const;
 	void SetGraphStatus(bool status);
 	void DefineGraphStatus(int mask);

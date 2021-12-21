@@ -3,11 +3,13 @@
 /////////////Visible Map Class/////////////
 class Camera : public GlobalObject
 {
+private:
+
 public:
-	Camera(PointCoord upperLeft) : GlobalObject(upperLeft)
+	Camera(PointCoord upperLeft, int heightAdd, int widthAdd) : GlobalObject(upperLeft, heightAdd, widthAdd)
 	{
-		SetHeightAddition(ConstructionOptions::GetAllOptions()->GetCameraheightAdd());
-		SetWidthAddition(ConstructionOptions::GetAllOptions()->GetCamerawidthAdd());
+		SetHeightAddition(ConstructionOptions::GetAllOptions()->GetCameraHeightAdd());
+		SetWidthAddition(ConstructionOptions::GetAllOptions()->GetCameraWidthAdd());
 	}
 	~Camera()
 	{}

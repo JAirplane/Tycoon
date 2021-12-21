@@ -1,5 +1,5 @@
 #include "buildingDescriptor.h"
-wstring buildingDescriptor::GetConstructionSymbol()
+wstring BuildingDescriptor::GetConstructionSymbol()
 {
 	return buildingSymbol;
 }

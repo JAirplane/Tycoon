@@ -1,6 +1,6 @@
 #pragma once
 #include "Menu.h"
-/////////////World Map Class/////////////
+/////////////Game Management Class/////////////
 class GameManagement
 {
 private:
@@ -18,11 +18,12 @@ public:
 	{
 		cursor_ptr = new Cursor();
 		camera_ptr = new Camera(ConstructionOptions::GetAllOptions()->GetCameraInitialUpperLeft());
-		field_ptr = new PlayingField(ConstructionOptions::GetAllOptions()->GetPlayingFieldUpperLeft(), ConstructionOptions::GetAllOptions()->GetPlayingFieldheightAdd(),
-			ConstructionOptions::GetAllOptions()->GetPlayingFieldwidthAdd(), ConstructionOptions::GetAllOptions()->GetVerticalPlayingField(),
+		RectangleSymbols* rs_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetVerticalPlayingField(),
 			ConstructionOptions::GetAllOptions()->GetHorizontalPlayingField(), ConstructionOptions::GetAllOptions()->GetUpperLeftPlayingField(),
 			ConstructionOptions::GetAllOptions()->GetUpperRightPlayingField(), ConstructionOptions::GetAllOptions()->GetBottomLeftPlayingField(),
 			ConstructionOptions::GetAllOptions()->GetBottomRightPlayingField());
+		field_ptr = new PlayingField(ConstructionOptions::GetAllOptions()->GetPlayingFieldUpperLeft(), ConstructionOptions::GetAllOptions()->GetCameraHeightAdd(),
+			ConstructionOptions::GetAllOptions()->GetPlayingFieldWidthAdd(), rs_ptr);
 		draw_ptr = new Visualisation();
 		allObjects_ptr = new AllObjects(cursor_ptr, draw_ptr);
 		buildings_ptr = new AllBuildings(cursor_ptr, draw_ptr);
@@ -42,7 +43,7 @@ public:
 		delete visitors_ptr;
 		delete menu_ptr;
 	}
-	void DisplayPlayingField();
+	void DisplayCamera();
 	void DisplayMenuBorders();
 	void DisplayIcons();
 	void DisplayMenu();
@@ -53,8 +54,7 @@ public:
 	void DisplayAllObjects();
 	void GameProcess();
 	void UserActions(int key);
-	void PreliminaryBuildingAdd(IngameObject* go_ptr);
-	void BuildingconnectedToRoadCheck(); //sets true status to every building object that is connected to road and sets true "IsGraph" status to every connected road as well
+	void BuildingConnectedToRoadCheck(); //sets true status to every building object that is connected to road and sets true "IsGraph" status to every connected road as well
 	virtual void CreateManagers();
 	void H_Key();
 	void S_Key();

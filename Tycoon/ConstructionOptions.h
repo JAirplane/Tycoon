@@ -16,22 +16,22 @@ public:
 	void operator=(const ConstructionOptions&) = delete;
 	static ConstructionOptions* GetAllOptions();
 	///////////////Height Addition Constants///////////////
-	virtual const int GetIceCreamShopheightAdd() const;
+	virtual const int GetIceCreamShopHeightAdd() const;
 	virtual const int GetMenuElementBordersHeight() const; //height of 1 element of menu
-	virtual const int GetRoadheightAdd() const;
-	virtual const int GetVisitorheightAdd() const;
-	virtual const int GetCameraheightAdd() const;
+	virtual const int GetRoadHeightAdd() const;
+	virtual const int GetVisitorHeightAdd() const;
+	virtual const int GetCameraHeightAdd() const;
 	virtual const int GetMenuHeightAdd() const;
-	virtual const int GetPlayingFieldheightAdd() const;
+	virtual const int GetCameraHeightAdd() const;
 	///////////////Width Addition Constants///////////////
-	virtual const int GetIceCreamShopwidthAdd() const;
-	virtual const int GetRoadwidthAdd() const;
-	virtual const int GetVisitorwidthAdd() const;
-	virtual const int GetCamerawidthAdd() const;
+	virtual const int GetIceCreamShopWidthAdd() const;
+	virtual const int GetRoadWidthAdd() const;
+	virtual const int GetVisitorWidthAdd() const;
+	virtual const int GetCameraWidthAdd() const;
 	virtual const int GetMenuWidthAdd() const;
-	virtual const int GetPlayingFieldwidthAdd() const;
+	virtual const int GetPlayingFieldWidthAdd() const;
 	///////////////Cost Initialisation Constants///////////////
-	virtual const int GetIceCreamShopointost() const;
+	virtual const int GetIceCreamShopCost() const;
 	virtual const int GetRoadCost() const;
 	///////////////Daily Expences Initialisation Constants///////////////
 	virtual const int GetIceCreamShopExpences() const;
@@ -50,7 +50,7 @@ public:
 	///////////////Initialisation Coord Constants///////////////
 	virtual const PointCoord GetCameraInitialUpperLeft() const;
 	const PointCoord GetPlayingFieldUpperLeft() const;
-	///////////////COnstructions's Icon Symbol Constants///////////////
+	///////////////Constructions's Icon Symbol Constants///////////////
 	virtual const wstring GetIceCreamShopIconSymbol() const;
 	virtual const wstring GetRoadIconSymbol() const;
 	///////////////Color Construction Constants///////////////
@@ -59,8 +59,38 @@ public:
 	virtual color GetRoadForegroundColor() const;
 	virtual color GetRoadBackgroundColor() const;
 	virtual color GetCursorBackgroundColor() const;
-	virtual color GetPlayingFieldColor() const;
-	virtual color GetMenuBorderInactiveColor() const;
-	virtual color GetMenuBorderActiveColor() const;
-	virtual color GetMenuBorderUnderConstructionColor() const;
+	virtual color GetCameraColor() const;
+	virtual color GetMenuColor() const;
+	virtual color GetMenuIconColor() const;
+	virtual color GetMenuItemInactiveColor() const;
+	virtual color GetMenuItemActiveColor() const;
+	virtual color GetMenuItemUnderConstructionColor() const;
+	///////////////Menu Border Symbol Constants///////////////
+	virtual const wstring GetMenuVerticalSymbol() const;
+	virtual const wstring GetMenuHorizontalSymbol() const;
+	virtual const wstring GetMenuUpperLeftSymbol() const;
+	virtual const wstring GetMenuUpperRightSymbol() const;
+	virtual const wstring GetMenuBottomLeftSymbol() const;
+	virtual const wstring GetMenuBottomRightSymbol() const;
+	///////////////Camera Border Symbol Constants///////////////
+	virtual const wstring GetCameraVerticalSymbol() const;
+	virtual const wstring GetCameraHorizontalSymbol() const;
+	virtual const wstring GetCameraUpperLeftSymbol() const;
+	virtual const wstring GetCameraUpperRightSymbol() const;
+	virtual const wstring GetCameraBottomLeftSymbol() const;
+	virtual const wstring GetCameraBottomRightSymbol() const;
+	///////////////Menu Item Border Symbol Constants///////////////
+	virtual const wstring GetCameraVerticalSymbol() const;
+	virtual const wstring GetCameraHorizontalSymbol() const;
+	virtual const wstring GetCameraUpperLeftSymbol() const;
+	virtual const wstring GetCameraUpperRightSymbol() const;
+	virtual const wstring GetCameraBottomLeftSymbol() const;
+	virtual const wstring GetCameraBottomRightSymbol() const;
+	///////////////Menu Icon Border Symbol Constants///////////////
+	virtual const wstring GetCameraVerticalSymbol() const;
+	virtual const wstring GetCameraHorizontalSymbol() const;
+	virtual const wstring GetCameraUpperLeftSymbol() const;
+	virtual const wstring GetCameraUpperRightSymbol() const;
+	virtual const wstring GetCameraBottomLeftSymbol() const;
+	virtual const wstring GetCameraBottomRightSymbol() const;
 };
