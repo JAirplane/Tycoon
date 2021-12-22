@@ -53,6 +53,7 @@ public:
 	virtual color GetRoadBackgroundColor() const;
 	virtual color GetCursorBackgroundColor() const;
 	virtual color GetCameraColor() const;
+	virtual color GetPlayingFieldColor() const;
 	virtual color GetMenuColor() const;
 	virtual color GetMenuIconColor() const;
 	virtual color GetMenuItemInactiveColor() const;

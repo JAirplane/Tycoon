@@ -159,6 +159,10 @@ color ConstructionOptions::GetCameraColor() const
 {
 	return color::cBLUE;
 }
+color ConstructionOptions::GetPlayingFieldColor() const
+{
+	return color::cBLUE;
+}
 color ConstructionOptions::GetMenuColor() const
 {
 	return color::cBLUE;

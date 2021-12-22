@@ -7,14 +7,15 @@ private:
 	Cursor* cursor_ptr;
 	ConstructionDescriptor* describe_ptr;
 public:
-	ConstructionManager(PointCoord upperLeft, Cursor* cursor_ptr, ConstructionDescriptor* describe_ptr) : GlobalObject(upperLeft)
+	ConstructionManager(PointCoord upperLeft, Cursor* c_ptr, ConstructionDescriptor* descriptor_ptr) : GlobalObject(upperLeft)
 	{
-		this->cursor_ptr = cursor_ptr;
-		this->describe_ptr = describe_ptr;
+		cursor_ptr = c_ptr;
+		describe_ptr = descriptor_ptr;
 	}
 	~ConstructionManager()
 	{
 		delete describe_ptr;
+		delete borderSymbols_ptr;
 	}
 	virtual Construction* CreateConstruction(PointCoord upperLeft);
 	ConstructionDescriptor* GetDescriptor();

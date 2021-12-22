@@ -108,11 +108,11 @@ void Visualisation::EraseConstruction(int leftX, int topY, int rightX, int botto
 	}
 }
 void Visualisation::DrawIcon(int leftX, int topY, wstring vertical, wstring horizontal, wstring upperLeft, wstring upperRight, wstring bottomLeft,
-	wstring bottomRight, int constructionCost, int dailySpend, const wstring iconSymbol, string description, color foreground, const wstring entranceSymbol,
-	int entranceHeightAdd, int entranceWidthAdd, color background) //icon border
+	wstring bottomRight, int constructionCost, int dailySpend, const wstring iconSymbol, string description, color foregroundIcon, color backgroundIcon,
+	color foregroundBorder, color backgroundBorder) //icon border
 {
-	DrawRectangle(leftX, topY, leftX + 3, topY + 3, vertical, horizontal, upperLeft, upperRight, bottomLeft, bottomRight, cGREEN);
-	DrawConstruction(leftX + 1, topY + 1, leftX + 2, topY + 2, iconSymbol, foreground, entranceSymbol, entranceHeightAdd, entranceWidthAdd, background);
+	DrawRectangle(leftX, topY, leftX + 3, topY + 3, vertical, horizontal, upperLeft, upperRight, bottomLeft, bottomRight, foregroundBorder, backgroundBorder);
+	DrawConstruction(leftX + 1, topY + 1, leftX + 2, topY + 2, iconSymbol, foregroundIcon, backgroundIcon);
 	set_cursor_pos(leftX + 4, topY);
 	set_color(cLIGHT_GRAY);
 	cout << description;

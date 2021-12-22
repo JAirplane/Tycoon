@@ -1,27 +1,9 @@
 #include "GameManagement.h"
 ///////////////GameManagement Class///////////////
-void GameManagement::DisplayMenuBorders()
-{
-	int leftX = camera_ptr->GetUpperLeft().Get_x();
-	int topY = camera_ptr->GetUpperLeft().Get_y();
-	int rightX = leftX + camera_ptr->GetWidthAddition();
-	int bottomY = topY + camera_ptr->GetHeightAddition();
-	menu_ptr->ShowMenuBorders();
-	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
-}
-void GameManagement::DisplayIcons()
-{
-	int leftX = camera_ptr->GetUpperLeft().Get_x();
-	int topY = camera_ptr->GetUpperLeft().Get_y();
-	int rightX = leftX + camera_ptr->GetWidthAddition();
-	int bottomY = topY + camera_ptr->GetHeightAddition();
-	menu_ptr->ShowMenuItems();
-	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
-}
 void GameManagement::DisplayMenu()
 {
-	DisplayMenuBorders();
-	DisplayIcons();
+	menu_ptr->ShowMenuBorders();
+	menu_ptr->ShowMenuItems();
 	color cursorBackgroundColor = ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor();
 	draw_ptr->DrawCursorPixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y(), cursorBackgroundColor);
 }
@@ -41,10 +23,9 @@ void GameManagement::DisplayCamera()
 	int topY = camera_ptr->GetUpperLeft().Get_y();
 	int rightX = leftX + camera_ptr->GetWidthAddition();
 	int bottomY = topY + camera_ptr->GetHeightAddition();
-	color foreground = ConstructionOptions::GetAllOptions()->GetCameraColor();
-	draw_ptr->DrawRectangle(leftX, topY, rightX, bottomY, ConstructionOptions::GetAllOptions()->GetCameraVerticalSymbol(), ConstructionOptions::GetAllOptions()->GetCameraHorizontalSymbol(),
-		ConstructionOptions::GetAllOptions()->GetCameraUpperLeftSymbol(), ConstructionOptions::GetAllOptions()->GetCameraUpperRightSymbol(),
-		ConstructionOptions::GetAllOptions()->GetCameraBottomLeftSymbol(), ConstructionOptions::GetAllOptions()->GetCameraBottomRightSymbol(), foreground);
+	draw_ptr->DrawRectangle(leftX, topY, rightX, bottomY, camera_ptr->GetBorderSymbols()->GetVerticalSymbol(), camera_ptr->GetBorderSymbols()->GetHorizontalSymbol(),
+		camera_ptr->GetBorderSymbols()->GetUpperLeftSymbol(), camera_ptr->GetBorderSymbols()->GetUpperRightSymbol(),
+		camera_ptr->GetBorderSymbols()->GetBottomLeftSymbol(), camera_ptr->GetBorderSymbols()->GetBottomRightSymbol(), camera_ptr->GetBorderSymbols()->GetForegroundColor());
 	cursor_ptr->CursorMovement(PointCoord((leftX + rightX) / 2, (topY + bottomY) / 2));
 }
 void GameManagement::GameProcess()

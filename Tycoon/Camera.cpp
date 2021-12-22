@@ -26,3 +26,7 @@ Direction Camera::CursorBordersCheck(Cursor* cursor_ptr)
 	shiftDirection = Direction::None;
 	return shiftDirection;
 }
+RectangleSymbols* Camera::GetBorderSymbols() const
+{
+	return borderSymbols_ptr;
+}

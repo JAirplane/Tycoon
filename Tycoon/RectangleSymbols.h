@@ -10,8 +10,11 @@ private:
 	wstring upperRightBorderSymbol;
 	wstring bottomLeftBorderSymbol;
 	wstring bottomRightBorderSymbol;
+	color foreground;
+	color background;
 public:
-	RectangleSymbols(wstring verticalSymbol, wstring horizontalSymbol, wstring upperLeftSymbol, wstring upperRightSymbol, wstring bottomLeftSymbol, wstring bottomRightSymbol)
+	RectangleSymbols(wstring verticalSymbol, wstring horizontalSymbol, wstring upperLeftSymbol, wstring upperRightSymbol,
+		wstring bottomLeftSymbol, wstring bottomRightSymbol, color foreground = cBLACK, color background = cBLACK)
 	{
 		verticalBorderSymbol = verticalSymbol;
 		horizontalBorderSymbol = horizontalSymbol;
@@ -19,6 +22,8 @@ public:
 		upperRightBorderSymbol = upperRightSymbol;
 		bottomLeftBorderSymbol = bottomLeftSymbol;
 		bottomRightBorderSymbol = bottomRightSymbol;
+		this->foreground = foreground;
+		this->background = background;
 	}
 	~RectangleSymbols() {}
 	wstring GetVerticalSymbol() const;
@@ -27,4 +32,8 @@ public:
 	wstring GetUpperRightSymbol() const;
 	wstring GetBottomLeftSymbol() const;
 	wstring GetBottomRightSymbol() const;
+	color GetForegroundColor() const;
+	void SetForegroundColor(color foreground);
+	color GetBackgroundColor() const;
+	void SetBackgroundColor(color background);
 };
