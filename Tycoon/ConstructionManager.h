@@ -15,7 +15,6 @@ public:
 	~ConstructionManager()
 	{
 		delete describe_ptr;
-		delete borderSymbols_ptr;
 	}
 	virtual Construction* CreateConstruction(PointCoord upperLeft);
 	ConstructionDescriptor* GetDescriptor();

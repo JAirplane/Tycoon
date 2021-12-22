@@ -1,14 +1,14 @@
 #include "ConstructionDescriptor.h"
 /////////////ConstructionDescriptor Class contains all necessary data about Constructions/////////////
-unsigned int ConstructionDescriptor::GetConstructionHeightAdd() const
+int ConstructionDescriptor::GetConstructionHeightAdd() const
 {
-	return constructionheightAddition;
+	return constructionHeightAddition;
 }
-unsigned int ConstructionDescriptor::GetConstructionWidthAdd() const
+int ConstructionDescriptor::GetConstructionWidthAdd() const
 {
-	return constructionwidthAddition;
+	return constructionWidthAddition;
 }
-unsigned int ConstructionDescriptor::GetConstructionCost() const
+int ConstructionDescriptor::GetConstructionCost() const
 {
 	return constructionCost;
 }
@@ -20,7 +20,7 @@ wstring ConstructionDescriptor::GetIconSymbol()
 {
 	return iconSymbol;
 }
-unsigned int ConstructionDescriptor::GetDailyExpences() const
+int ConstructionDescriptor::GetDailyExpences() const
 {
 	return dailyExpences;
 }
@@ -36,4 +36,12 @@ wstring ConstructionDescriptor::GetConstructionSymbol()
 {
 	wstring empty = L"0";
 	return empty;
+}
+PointCoord ConstructionDescriptor::GetManagerLocation() const
+{
+	return ManagerLocation;
+}
+void ConstructionDescriptor::SetManagerLocation(PointCoord mLocation)
+{
+	ManagerLocation = mLocation;
 }

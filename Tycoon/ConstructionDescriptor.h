@@ -4,19 +4,20 @@
 class ConstructionDescriptor
 {
 private:
-	unsigned int constructionHeightAddition;
-	unsigned int constructionWidthAddition;
-	unsigned int constructionCost;
-	unsigned int dailyExpences;
+	int constructionHeightAddition;
+	int constructionWidthAddition;
+	int constructionCost;
+	int dailyExpences;
 	string description;
 	wstring iconSymbol;
 	color foreground;
 	color background;
+	PointCoord ManagerLocation;
 public:
-	ConstructionDescriptor(unsigned int constructionCost, string description, wstring iconSymbol,
-		color foreground, color background, unsigned int dailyExpences = 0, unsigned int constructionHeightAddition = 0,
-		unsigned int constructionWidthAddition = 0)
+	ConstructionDescriptor(PointCoord ManagerLocation, int constructionCost, string description, wstring iconSymbol,
+		color foreground, color background, int dailyExpences = 0, int constructionHeightAddition = 0, int constructionWidthAddition = 0)
 	{
+		this->ManagerLocation = ManagerLocation;
 		this->constructionHeightAddition = constructionHeightAddition;
 		this->constructionWidthAddition = constructionWidthAddition;
 		this->constructionCost = constructionCost;
@@ -27,13 +28,15 @@ public:
 		this->background = background;
 	}
 	~ConstructionDescriptor() {}
-	unsigned int GetConstructionHeightAdd() const;
-	unsigned int GetConstructionWidthAdd() const;
-	unsigned int GetConstructionCost() const;
+	int GetConstructionHeightAdd() const;
+	int GetConstructionWidthAdd() const;
+	int GetConstructionCost() const;
 	string GetDescription() const;
 	wstring GetIconSymbol();
-	unsigned int GetDailyExpences() const;
+	int GetDailyExpences() const;
 	color GetForegroundColor();
 	color GetBackgroundColor();
 	virtual wstring GetConstructionSymbol();
+	PointCoord GetManagerLocation() const;
+	void SetManagerLocation(PointCoord mLocation);
 };

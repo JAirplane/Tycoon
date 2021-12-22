@@ -73,7 +73,7 @@ void Menu::ShowMenuBorders()
 	int bottomY = GetUpperLeft().Get_y() + ConstructionOptions::GetAllOptions()->GetMenuHeightAdd();
 	draw_ptr->DrawRectangle(leftX, topY, rightX, bottomY, menuBorderSymbols_ptr->GetVerticalSymbol(), menuBorderSymbols_ptr->GetHorizontalSymbol(),
 		menuBorderSymbols_ptr->GetUpperLeftSymbol(), menuBorderSymbols_ptr->GetUpperRightSymbol(), menuBorderSymbols_ptr->GetBottomLeftSymbol(),
-		menuBorderSymbols_ptr->GetBottomRightSymbol(), menuBorderSymbols_ptr->GetMenuColor());
+		menuBorderSymbols_ptr->GetBottomRightSymbol(), menuBorderSymbols_ptr->GetForegroundColor());
 	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }
 PointCoord Menu::GetNearestIconCoords(PointCoord currentIcon, IconsPosition ip) //this method returns next upper/lower Icon's coords before/after "currentIcon" coord
@@ -139,15 +139,12 @@ PointCoord Menu::MenuNavigation(PointCoord currentIcon, IconsPosition ip)
 		if (nearest.Get_y() < camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition())
 		{
 			draw_ptr->DrawRectangle(menuUpperLeft.Get_x() + 2, currentIcon.Get_y(), menuUpperLeft.Get_x() + menuWidth - 2, currentIcon.Get_y() + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight() - 1,
-				ConstructionOptions::GetAllOptions()->GetMenuItemVerticalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuItemHorizontalSymbol(),
-				ConstructionOptions::GetAllOptions()->GetMenuItemUpperLeftSymbol(), ConstructionOptions::GetAllOptions()->GetMenuItemUpperRightSymbol(),
-				ConstructionOptions::GetAllOptions()->GetMenuItemBottomLeftSymbol(), ConstructionOptions::GetAllOptions()->GetMenuItemBottomRightSymbol(),
+				itemBorderSymbols_ptr->GetVerticalSymbol(), itemBorderSymbols_ptr->GetHorizontalSymbol(), itemBorderSymbols_ptr->GetUpperLeftSymbol(), itemBorderSymbols_ptr->GetUpperRightSymbol(),
+				itemBorderSymbols_ptr->GetBottomLeftSymbol(), itemBorderSymbols_ptr->GetBottomRightSymbol(),
 				ConstructionOptions::GetAllOptions()->GetMenuItemInactiveColor());
 			draw_ptr->DrawRectangle(menuUpperLeft.Get_x() + 2, nearest.Get_y(), menuUpperLeft.Get_x() + menuWidth - 2, nearest.Get_y() + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight() - 1,
-				ConstructionOptions::GetAllOptions()->GetMenuItemVerticalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuItemHorizontalSymbol(),
-				ConstructionOptions::GetAllOptions()->GetMenuItemUpperLeftSymbol(), ConstructionOptions::GetAllOptions()->GetMenuItemUpperRightSymbol(),
-				ConstructionOptions::GetAllOptions()->GetMenuItemBottomLeftSymbol(), ConstructionOptions::GetAllOptions()->GetMenuItemBottomRightSymbol(),
-				ConstructionOptions::GetAllOptions()->GetMenuItemActiveColor());
+				itemBorderSymbols_ptr->GetVerticalSymbol(), itemBorderSymbols_ptr->GetHorizontalSymbol(), itemBorderSymbols_ptr->GetUpperLeftSymbol(), itemBorderSymbols_ptr->GetUpperRightSymbol(),
+				itemBorderSymbols_ptr->GetBottomLeftSymbol(), itemBorderSymbols_ptr->GetBottomRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuItemActiveColor());
 			return nearest;
 		}
 		else
@@ -157,9 +154,9 @@ PointCoord Menu::MenuNavigation(PointCoord currentIcon, IconsPosition ip)
 		}
 	}
 }
-Construction* Menu::CreatePreliminaryObject(PointCoord iconPosition)
+Construction* Menu::CreatePreliminaryObject(PointCoord iconPosition) const
 {
-	vector<ConstructionManager*>::iterator iter;
+	vector<ConstructionManager*>::const_iterator iter;
 	for (iter = managers.begin(); iter != managers.end(); iter++)
 	{
 		if (iconPosition == (*iter)->GetUpperLeft())
@@ -187,10 +184,10 @@ void Menu::AddManager(ConstructionManager* manager_ptr)
 }
 ConstructionManager* Menu::GetManager(ConstructionDescriptor* cd_ptr) const
 {
-	vector<ConstructionManager*>::iterator iter;
+	vector<ConstructionManager*>::const_iterator iter;
 	for (iter = managers.begin(); iter != managers.end(); iter++)
 	{
-		if ((*iter)->GetUpperLeft() == cd_ptr->GetUpperLeft())
+		if ((*iter)->GetUpperLeft() == cd_ptr->GetManagerLocation())
 		{
 			return (*iter);
 		}

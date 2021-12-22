@@ -84,7 +84,7 @@ void Visualisation::DrawConstruction(int leftX, int topY, int rightX, int bottom
 	set_color(cYELLOW);
 	_setmode(_fileno(stdout), _O_TEXT);
 }
-void Visualisation::DrawConstruction(int leftX, int topY, int rightX, int bottomY, const char constructionSymbol, color foreground, color background)
+void Visualisation::DrawConstruction(int leftX, int topY, int rightX, int bottomY, const wstring constructionSymbol, color foreground, color background)
 {
 	set_color(foreground, background);
 	for (int j = topY; j <= bottomY; j++)

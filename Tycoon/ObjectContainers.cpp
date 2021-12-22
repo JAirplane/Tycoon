@@ -158,7 +158,7 @@ void AllBuildings::DisplayBuildings(int cameraLeftX, int cameraRightX, int camer
 		if (leftX < cameraRightX && topY < cameraBottomY && rightX > cameraLeftX && bottomY > cameraTopY)
 		{
 			draw_ptr->DrawConstruction(leftX, topY, rightX, bottomY, (*iter)->GetDescriptor()->GetConstructionSymbol(),
-				(*iter)->GetDescriptor()->GetForegroundColor(), (*iter)->GetDescriptor()->GetBackgroundColor());
+				(*iter)->GetDescriptor()->GetForegroundColor(), (*iter)->GetEntranceSymbol(), (*iter)->GetEntranceHeightAdd(), (*iter)->GetEntranceWidthAdd(), (*iter)->GetDescriptor()->GetBackgroundColor());
 		}
 	}
 	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
@@ -303,7 +303,7 @@ void AllRoads::DisplayRoads(int cameraLeftX, int cameraRightX, int cameraTopY, i
 		int rightX = (*iter)->GetUpperLeft().Get_x() + (*iter)->GetWidthAddition();
 		int bottomY = (*iter)->GetUpperLeft().Get_y() + (*iter)->GetHeightAddition();
 		int mask1 = RoadEnvironment((*iter)->GetUpperLeft());
-		char roadSymbol = (*iter)->SetRoadSymbol(mask1);
+		wstring roadSymbol = (*iter)->SetRoadSymbol(mask1);
 		if (leftX <= cameraLeftX && rightX > cameraLeftX)
 		{
 			leftX = cameraLeftX + 1;

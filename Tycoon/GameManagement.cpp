@@ -129,15 +129,14 @@ void GameManagement::CreateManagers()
 	int xCoord = (menu_ptr->GetUpperLeft().Get_x() * 2 + menu_ptr->GetWidthAddition()) / 2;
 	int yCoord = menu_ptr->GetUpperLeft().Get_y() + 1;
 	PointCoord firstManagerUpperLeft(xCoord, yCoord);
-	ConstructionDescriptor* iceCreamDesc = new buildingDescriptor(firstManagerUpperLeft, ConstructionOptions::GetAllOptions()->GetIceCreamShopCost(), ConstructionOptions::GetAllOptions()->GetIceCreamShopDescription(),
+	ConstructionDescriptor* iceCreamDesc = new BuildingDescriptor(firstManagerUpperLeft, ConstructionOptions::GetAllOptions()->GetIceCreamShopCost(), ConstructionOptions::GetAllOptions()->GetIceCreamShopDescription(),
 		ConstructionOptions::GetAllOptions()->GetIceCreamShopIconSymbol(), ConstructionOptions::GetAllOptions()->GetIceCreamShopForegroundColor(), ConstructionOptions::GetAllOptions()->GetIceCreamShopBackgroundColor(),
-		ConstructionOptions::GetAllOptions()->GetIceCreamShopSymbol(), ConstructionOptions::GetAllOptions()->GetIceCreamShopEntranceHeightAdd(),
-		ConstructionOptions::GetAllOptions()->GetIceCreamShopEntranceWidthAdd(), ConstructionOptions::GetAllOptions()->GetIceCreamShopExpences(),
+		ConstructionOptions::GetAllOptions()->GetIceCreamShopSymbol(), ConstructionOptions::GetAllOptions()->GetIceCreamShopExpences(),
 		ConstructionOptions::GetAllOptions()->GetIceCreamShopHeightAdd(), ConstructionOptions::GetAllOptions()->GetIceCreamShopWidthAdd());
 	ConstructionManager* iceCreamManager_ptr = new BuildingManager(firstManagerUpperLeft, cursor_ptr, iceCreamDesc);
 	PointCoord nextManagerUpperLeft(xCoord, yCoord + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight());
 	ConstructionDescriptor* roadDesc = new RoadDescriptor(nextManagerUpperLeft, ConstructionOptions::GetAllOptions()->GetRoadCost(), ConstructionOptions::GetAllOptions()->GetRoadDescription(),
-		roads_ptr, ConstructionOptions::GetAllOptions()->GetRoadForegroundColor(), ConstructionOptions::GetAllOptions()->GetRoadBackgroundColor());
+		ConstructionOptions::GetAllOptions()->GetRoadIconSymbol(), ConstructionOptions::GetAllOptions()->GetRoadForegroundColor(), ConstructionOptions::GetAllOptions()->GetRoadBackgroundColor());
 	ConstructionManager* roadManager_ptr = new RoadManager(nextManagerUpperLeft, cursor_ptr, roadDesc);
 	menu_ptr->AddManager(iceCreamManager_ptr);
 	menu_ptr->AddManager(roadManager_ptr);
@@ -196,8 +195,8 @@ void GameManagement::TabKey_Playingfield()
 				preliminary_ptr->GetUpperLeft().Get_x() + preliminary_ptr->GetHeightAddition(),
 				preliminary_ptr->GetUpperLeft().Get_y() + preliminary_ptr->GetWidthAddition());
 		}
-		draw_ptr->DrawRectangle(leftX + 2, preliminary_ptr->GetDescriptor()->GetUpperLeft().Get_y(), rightX - 2,
-			preliminary_ptr->GetDescriptor()->GetUpperLeft().Get_y() + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight() - 1,
+		draw_ptr->DrawRectangle(leftX + 2, preliminary_ptr->GetDescriptor()->GetManagerLocation().Get_y(), rightX - 2,
+			preliminary_ptr->GetDescriptor()->GetManagerLocation().Get_y() + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight() - 1,
 			ConstructionOptions::GetAllOptions()->GetMenuItemVerticalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuItemHorizontalSymbol(),
 			ConstructionOptions::GetAllOptions()->GetMenuItemUpperLeftSymbol(), ConstructionOptions::GetAllOptions()->GetMenuItemUpperRightSymbol(),
 			ConstructionOptions::GetAllOptions()->GetMenuItemBottomLeftSymbol(), ConstructionOptions::GetAllOptions()->GetMenuItemBottomRightSymbol(),

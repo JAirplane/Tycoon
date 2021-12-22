@@ -49,7 +49,7 @@ public:
 	void SetEntranceWidthAdd(int widthAdd);
 	Direction GetExitDirection() const;
 	void SetExitDirection(Direction exit);
-	wstring GetEntranceSymbol(Direction out) const;
+	wstring GetEntranceSymbol() const;
 	bool GetRoadConnectionStatus() const;
 	void SetRoadConnectionStatus(bool connected);
 	unsigned int GetVisitorsCount() const;

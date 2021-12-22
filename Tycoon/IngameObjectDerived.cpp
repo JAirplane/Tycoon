@@ -45,14 +45,16 @@ void Building::SetExitDirection(Direction exit)
 {
 	exitDirection = exit;
 }
-wstring Building::GetEntranceSymbol(Direction out) const
+wstring Building::GetEntranceSymbol() const
 {
-	switch (out) :
+	switch(exitDirection)
+	{
 	case Direction::Up: {return wstring(L"\u2191"); }
 	case Direction::Right: {return wstring(L"\u2192"); }
 	case Direction::Down: {return wstring(L"\u2193"); }
 	case Direction::Left: {return wstring(L"\u2190"); }
 	case Direction::None: {return; }
+	}
 }
 bool Building::GetRoadConnectionStatus() const
 {
@@ -64,11 +66,11 @@ void Building::SetRoadConnectionStatus(bool connected)
 }
 unsigned int Building::GetVisitorsCount() const
 {
-	return lastDayvisitors;
+	return lastDayVisitors;
 }
 void Building::SetVisitorsCount(unsigned int visitorsCount)
 {
-	lastDayvisitors = visitorsCount;
+	lastDayVisitors = visitorsCount;
 }
 int Building::GetProfit() const
 {
@@ -99,7 +101,6 @@ wstring Road::SetRoadSymbol(int mask) const
 	case top_T: return wstring(L"\u2569");
 	case bottom_T: return wstring(L"\u2566");
 	case cross: return wstring(L"\u256C");
-	default: return '0';
 	}
 }
 bool Road::GetGraphStatus() const
