@@ -7,14 +7,16 @@ private:
 	Visualisation* draw_ptr;
 	Camera* camera_ptr;
 	Cursor* cursor_ptr;
+	RectangleSymbols* borderSymbols_ptr;
 	vector<ConstructionManager*> managers;
 	MenuStatus currentSide;
 	bool hidden;
 public:
-	Menu(Visualisation* drawptr, Camera* vmptr, Cursor* _cursor_ptr, PointCoord upperLeft) : GlobalObject(upperLeft), draw_ptr(drawptr), camera_ptr(vmptr), cursor_ptr(_cursor_ptr)
+	Menu(Visualisation* drawptr, Camera* vmptr, Cursor* _cursor_ptr, PointCoord upperLeft, RectangleSymbols* borderSymbols_ptr, int heightAdd, int widthAdd) : 
+		GlobalObject(upperLeft, heightAdd, widthAdd), draw_ptr(drawptr), camera_ptr(vmptr), cursor_ptr(_cursor_ptr)
 	{
-		SetHeightAddition(ConstructionOptions::GetAllOptions()->GetMenuHeightAdd());
-		SetWidthAddition(ConstructionOptions::GetAllOptions()->GetMenuWidthAdd());
+
+		this->borderSymbols_ptr = borderSymbols_ptr;
 		hidden = 0;
 		currentSide = MenuStatus::RIGHT;
 	}

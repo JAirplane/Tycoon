@@ -1,11 +1,11 @@
 #pragma once
-#include "PlayingField.h"
+#include "Cursor.h"
 /////////////ConstructionDescriptor Class contains all necessary data about Constructions/////////////
-class ConstructionDescriptor : public GlobalObject
+class ConstructionDescriptor
 {
 private:
-	unsigned int constructionheightAddition;
-	unsigned int constructionwidthAddition;
+	unsigned int constructionHeightAddition;
+	unsigned int constructionWidthAddition;
 	unsigned int constructionCost;
 	unsigned int dailyExpences;
 	string description;
@@ -13,12 +13,12 @@ private:
 	color foreground;
 	color background;
 public:
-	ConstructionDescriptor(PointCoord upperLeft, unsigned int constructionCost, string description, wstring iconSymbol,
-		color foreground, color background, unsigned int dailyExpences = 0, unsigned int constructionheightAddition = 0,
-		unsigned int constructionwidthAddition = 0) : GlobalObject(upperLeft)
+	ConstructionDescriptor(unsigned int constructionCost, string description, wstring iconSymbol,
+		color foreground, color background, unsigned int dailyExpences = 0, unsigned int constructionHeightAddition = 0,
+		unsigned int constructionWidthAddition = 0)
 	{
-		this->constructionheightAddition = constructionheightAddition;
-		this->constructionwidthAddition = constructionwidthAddition;
+		this->constructionHeightAddition = constructionHeightAddition;
+		this->constructionWidthAddition = constructionWidthAddition;
 		this->constructionCost = constructionCost;
 		this->dailyExpences = dailyExpences;
 		this->description = description;

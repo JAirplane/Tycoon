@@ -1,5 +1,5 @@
 #pragma once
-#include "GlobalObject.h"
+#include "ConstructionOptions.h"
 /////////////Symbols to Draw Rectangle Class/////////////
 class RectangleSymbols
 {
@@ -27,4 +27,4 @@ public:
 	wstring GetUpperRightSymbol() const;
 	wstring GetBottomLeftSymbol() const;
 	wstring GetBottomRightSymbol() const;
-}
+};

@@ -9,7 +9,7 @@ int main()
 {
 	GameManagement GameMaster;
 	GameMaster.CreateManagers();
-	GameMaster.DisplayPlayingField();
+	GameMaster.DisplayCamera();
 	GameMaster.DisplayMenu();
 	GameMaster.GameProcess();
 	set_cursor_pos(1, 40);

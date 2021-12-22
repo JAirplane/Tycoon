@@ -1,5 +1,5 @@
 #pragma once
-#include "RoadDescriptor.h"
+#include "GlobalObject.h"
 /////////////Parent Class of Every Object in Game/////////////
 class IngameObject : public GlobalObject
 {

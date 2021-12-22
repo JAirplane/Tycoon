@@ -22,7 +22,7 @@ public:
 	virtual const int GetVisitorHeightAdd() const;
 	virtual const int GetCameraHeightAdd() const;
 	virtual const int GetMenuHeightAdd() const;
-	virtual const int GetCameraHeightAdd() const;
+	virtual const int GetPlayingFieldHeightAdd() const;
 	///////////////Width Addition Constants///////////////
 	virtual const int GetIceCreamShopWidthAdd() const;
 	virtual const int GetRoadWidthAdd() const;
@@ -40,13 +40,6 @@ public:
 	virtual const string GetRoadDescription() const;
 	///////////////Building Symbol Constants///////////////
 	virtual const wstring GetIceCreamShopSymbol() const;
-	///////////////PlayingField Symbol Constants///////////////
-	virtual const wstring GetVerticalPlayingField() const;
-	virtual const wstring GetHorizontalPlayingField() const;
-	virtual const wstring GetUpperLeftPlayingField() const;
-	virtual const wstring GetUpperRightPlayingField() const;
-	virtual const wstring GetBottomLeftPlayingField() const;
-	virtual const wstring GetBottomRightPlayingField() const;
 	///////////////Initialisation Coord Constants///////////////
 	virtual const PointCoord GetCameraInitialUpperLeft() const;
 	const PointCoord GetPlayingFieldUpperLeft() const;
@@ -65,6 +58,13 @@ public:
 	virtual color GetMenuItemInactiveColor() const;
 	virtual color GetMenuItemActiveColor() const;
 	virtual color GetMenuItemUnderConstructionColor() const;
+	///////////////PlayingField Symbol Constants///////////////
+	virtual const wstring GetVerticalPlayingField() const;
+	virtual const wstring GetHorizontalPlayingField() const;
+	virtual const wstring GetUpperLeftPlayingField() const;
+	virtual const wstring GetUpperRightPlayingField() const;
+	virtual const wstring GetBottomLeftPlayingField() const;
+	virtual const wstring GetBottomRightPlayingField() const;
 	///////////////Menu Border Symbol Constants///////////////
 	virtual const wstring GetMenuVerticalSymbol() const;
 	virtual const wstring GetMenuHorizontalSymbol() const;
@@ -80,17 +80,17 @@ public:
 	virtual const wstring GetCameraBottomLeftSymbol() const;
 	virtual const wstring GetCameraBottomRightSymbol() const;
 	///////////////Menu Item Border Symbol Constants///////////////
-	virtual const wstring GetCameraVerticalSymbol() const;
-	virtual const wstring GetCameraHorizontalSymbol() const;
-	virtual const wstring GetCameraUpperLeftSymbol() const;
-	virtual const wstring GetCameraUpperRightSymbol() const;
-	virtual const wstring GetCameraBottomLeftSymbol() const;
-	virtual const wstring GetCameraBottomRightSymbol() const;
+	virtual const wstring GetMenuItemVerticalSymbol() const;
+	virtual const wstring GetMenuItemHorizontalSymbol() const;
+	virtual const wstring GetMenuItemUpperLeftSymbol() const;
+	virtual const wstring GetMenuItemUpperRightSymbol() const;
+	virtual const wstring GetMenuItemBottomLeftSymbol() const;
+	virtual const wstring GetMenuItemBottomRightSymbol() const;
 	///////////////Menu Icon Border Symbol Constants///////////////
-	virtual const wstring GetCameraVerticalSymbol() const;
-	virtual const wstring GetCameraHorizontalSymbol() const;
-	virtual const wstring GetCameraUpperLeftSymbol() const;
-	virtual const wstring GetCameraUpperRightSymbol() const;
-	virtual const wstring GetCameraBottomLeftSymbol() const;
-	virtual const wstring GetCameraBottomRightSymbol() const;
+	virtual const wstring GetMenuIconVerticalSymbol() const;
+	virtual const wstring GetMenuIconHorizontalSymbol() const;
+	virtual const wstring GetMenuIconUpperLeftSymbol() const;
+	virtual const wstring GetMenuIconUpperRightSymbol() const;
+	virtual const wstring GetMenuIconBottomLeftSymbol() const;
+	virtual const wstring GetMenuIconBottomRightSymbol() const;
 };

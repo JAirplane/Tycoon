@@ -33,9 +33,10 @@ IngameObject* AllObjects::GetPreliminaryElement()
 {
 	return everyObject.back();
 }
-void AddPreliminaryElement(Construction* c_ptr)
+void AllObjects::AddPreliminaryElement(Construction* c_ptr)
 {
 	everyObject.push_back(c_ptr);
+	lastElementIsPreliminary = true;
 }
 void AllObjects::ErasePreliminaryElement()
 {
@@ -91,7 +92,6 @@ bool AllObjects::IsPartOfExistingObject(IngameObject* object_ptr, int cameraLeft
 		}
 		xCoord = object_ptr->GetUpperLeft().Get_x();
 	}
-
 	return false;
 }
 void AllObjects::EraseObjects(int cameraLeftX, int cameraRightX, int cameraTopY, int cameraBottomY)
@@ -173,14 +173,13 @@ vector<PointCoord> AllBuildings::GetPotentialRoadCoords()
 	list<Building*>::iterator iter;
 	for (iter = buildings.begin(); iter != buildings.end(); iter++)
 	{
-		PointCoord entrance = (*iter)->GetEntrance();
 		Direction exitDirection = (*iter)->GetExitDirection();
 		switch (exitDirection)
 		{
-		case Direction::Up: {potentiallyRoad.push_back(PointCoord(entrance.Get_x(), entrance.Get_y() - 1)); break; }
-		case Direction::Down: {potentiallyRoad.push_back(PointCoord(entrance.Get_x(), entrance.Get_y() + 1)); break; }
-		case Direction::Right: {potentiallyRoad.push_back(PointCoord(entrance.Get_x() + 1, entrance.Get_y())); break; }
-		case Direction::Left: {potentiallyRoad.push_back(PointCoord(entrance.Get_x() - 1, entrance.Get_y())); break; }
+		case Direction::Up: {potentiallyRoad.push_back(PointCoord((*iter)->GetEntranceWidthAdd(), (*iter)->GetEntranceHeightAdd() - 1)); break; }
+		case Direction::Down: {potentiallyRoad.push_back(PointCoord((*iter)->GetEntranceWidthAdd(), (*iter)->GetEntranceHeightAdd() + 1)); break; }
+		case Direction::Right: {potentiallyRoad.push_back(PointCoord((*iter)->GetEntranceWidthAdd() + 1, (*iter)->GetEntranceHeightAdd())); break; }
+		case Direction::Left: {potentiallyRoad.push_back(PointCoord((*iter)->GetEntranceWidthAdd() - 1, (*iter)->GetEntranceHeightAdd())); break; }
 		}
 	}
 	return potentiallyRoad;
@@ -197,10 +196,10 @@ void AllBuildings::SetRoadConnectionStatus(vector<PointCoord> connectedRoads)
 			PointCoord connectedRoad;
 			switch ((*buildingIter)->GetExitDirection())
 			{
-			case Direction::Up: {connectedRoad = PointCoord((*buildingIter)->GetEntrance().Get_x(), (*buildingIter)->GetEntrance().Get_y() - 1); break; }
-			case Direction::Down: {connectedRoad = PointCoord((*buildingIter)->GetEntrance().Get_x(), (*buildingIter)->GetEntrance().Get_y() + 1); break; }
-			case Direction::Right: {connectedRoad = PointCoord((*buildingIter)->GetEntrance().Get_x() + 1, (*buildingIter)->GetEntrance().Get_y()); break; }
-			case Direction::Left: {connectedRoad = PointCoord((*buildingIter)->GetEntrance().Get_x() - 1, (*buildingIter)->GetEntrance().Get_y()); break; }
+			case Direction::Up: {connectedRoad = PointCoord((*buildingIter)->GetEntranceWidthAdd(), (*buildingIter)->GetEntranceHeightAdd() - 1); break; }
+			case Direction::Down: {connectedRoad = PointCoord((*buildingIter)->GetEntranceWidthAdd(), (*buildingIter)->GetEntranceHeightAdd() + 1); break; }
+			case Direction::Right: {connectedRoad = PointCoord((*buildingIter)->GetEntranceWidthAdd() + 1, (*buildingIter)->GetEntranceHeightAdd()); break; }
+			case Direction::Left: {connectedRoad = PointCoord((*buildingIter)->GetEntranceWidthAdd() - 1, (*buildingIter)->GetEntranceHeightAdd()); break; }
 			}
 			if (connectedRoad == (*pointIter))
 			{

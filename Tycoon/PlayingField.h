@@ -1,5 +1,5 @@
 #pragma once
-#include "RectangleSymbols.h"
+#include "IngameObjectDerived.h"
 /////////////PlayingField Class/////////////
 class PlayingField : public GlobalObject
 {

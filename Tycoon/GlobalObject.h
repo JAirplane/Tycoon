@@ -1,5 +1,5 @@
 #pragma once
-#include "Cursor.h"
+#include "ConstructionDescriptor.h"
 /////////////Parent Class of All Objects/////////////
 class GlobalObject
 {

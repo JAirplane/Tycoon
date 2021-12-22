@@ -17,20 +17,28 @@ public:
 	GameManagement()
 	{
 		cursor_ptr = new Cursor();
-		camera_ptr = new Camera(ConstructionOptions::GetAllOptions()->GetCameraInitialUpperLeft());
-		RectangleSymbols* rs_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetVerticalPlayingField(),
+		RectangleSymbols* cameraSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetCameraVerticalSymbol(),
+			ConstructionOptions::GetAllOptions()->GetCameraHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetCameraUpperLeftSymbol(),
+			ConstructionOptions::GetAllOptions()->GetCameraUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetCameraBottomLeftSymbol(),
+			ConstructionOptions::GetAllOptions()->GetCameraBottomRightSymbol());
+		camera_ptr = new Camera(ConstructionOptions::GetAllOptions()->GetCameraInitialUpperLeft(), ConstructionOptions::GetAllOptions()->GetCameraHeightAdd(), ConstructionOptions::GetAllOptions()->GetCameraWidthAdd(), cameraSymbols_ptr);
+		RectangleSymbols* playingFieldSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetVerticalPlayingField(),
 			ConstructionOptions::GetAllOptions()->GetHorizontalPlayingField(), ConstructionOptions::GetAllOptions()->GetUpperLeftPlayingField(),
 			ConstructionOptions::GetAllOptions()->GetUpperRightPlayingField(), ConstructionOptions::GetAllOptions()->GetBottomLeftPlayingField(),
 			ConstructionOptions::GetAllOptions()->GetBottomRightPlayingField());
 		field_ptr = new PlayingField(ConstructionOptions::GetAllOptions()->GetPlayingFieldUpperLeft(), ConstructionOptions::GetAllOptions()->GetCameraHeightAdd(),
-			ConstructionOptions::GetAllOptions()->GetPlayingFieldWidthAdd(), rs_ptr);
+			ConstructionOptions::GetAllOptions()->GetPlayingFieldWidthAdd(), playingFieldSymbols_ptr);
 		draw_ptr = new Visualisation();
 		allObjects_ptr = new AllObjects(cursor_ptr, draw_ptr);
 		buildings_ptr = new AllBuildings(cursor_ptr, draw_ptr);
 		roads_ptr = new AllRoads(cursor_ptr, draw_ptr);
 		visitors_ptr = new AllVisitors(cursor_ptr, allObjects_ptr, draw_ptr);
 		PointCoord menuUpperLeft(camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition() + 1, camera_ptr->GetUpperLeft().Get_y());
-		menu_ptr = new Menu(draw_ptr, camera_ptr, cursor_ptr, menuUpperLeft);
+		RectangleSymbols* menuSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMenuVerticalSymbol(),
+			ConstructionOptions::GetAllOptions()->GetMenuHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuUpperLeftSymbol(),
+			ConstructionOptions::GetAllOptions()->GetMenuUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuBottomLeftSymbol(),
+			ConstructionOptions::GetAllOptions()->GetMenuBottomRightSymbol());
+		menu_ptr = new Menu(draw_ptr, camera_ptr, cursor_ptr, menuUpperLeft, menuSymbols_ptr, ConstructionOptions::GetAllOptions()->GetMenuHeightAdd(), ConstructionOptions::GetAllOptions()->GetMenuWidthAdd());
 	}
 	~GameManagement()
 	{

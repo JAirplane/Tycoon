@@ -6,9 +6,9 @@ class Construction : public IngameObject
 private:
 	ConstructionDescriptor* describe_ptr;
 public:
-	Construction(PointCoord upperLeft, ConstructionDescriptor* describe_ptr) : IngameObject(upperLeft)
+	Construction(PointCoord upperLeft, ConstructionDescriptor* description_ptr) : IngameObject(upperLeft)
 	{
-		this->describe_ptr = describe_ptr;
+		describe_ptr = description_ptr;
 		SetHeightAddition(describe_ptr->GetConstructionHeightAdd());
 		SetWidthAddition(describe_ptr->GetConstructionWidthAdd());
 	}

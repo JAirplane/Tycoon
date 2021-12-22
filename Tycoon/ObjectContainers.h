@@ -13,10 +13,10 @@ private:
 	Visualisation* draw_ptr;
 	bool lastElementIsPreliminary;
 public:
-	AllObjects(Cursor* cursor_ptr, Visualisation* draw_ptr)
+	AllObjects(Cursor* c_ptr, Visualisation* paint_ptr)
 	{
-		this->cursor_ptr = cursor_ptr;
-		this->draw_ptr = draw_ptr;
+		cursor_ptr = c_ptr;
+		draw_ptr = paint_ptr;
 		lastElementIsPreliminary = 0;
 	}
 	~AllObjects()
@@ -47,10 +47,10 @@ private:
 	Cursor* cursor_ptr;
 	Visualisation* draw_ptr;
 public:
-	AllBuildings(Cursor* cursor_ptr, Visualisation* draw_ptr)
+	AllBuildings(Cursor* c_ptr, Visualisation* paint_ptr)
 	{
-		this->cursor_ptr = cursor_ptr;
-		this->draw_ptr = draw_ptr;
+		cursor_ptr = c_ptr;
+		draw_ptr = paint_ptr;
 	}
 	~AllBuildings()
 	{
@@ -74,10 +74,10 @@ private:
 	Cursor* cursor_ptr;
 	Visualisation* draw_ptr;
 public:
-	AllRoads(Cursor* cursor_ptr, Visualisation* draw_ptr)
+	AllRoads(Cursor* c_ptr, Visualisation* paint_ptr)
 	{
-		this->cursor_ptr = cursor_ptr;
-		this->draw_ptr = draw_ptr;
+		cursor_ptr = c_ptr;
+		draw_ptr = paint_ptr;
 	}
 	~AllRoads()
 	{
@@ -105,11 +105,11 @@ private:
 	AllObjects* allObjects_ptr;
 	Visualisation* draw_ptr;
 public:
-	AllVisitors(Cursor* cursor_ptr, AllObjects* allObjects_ptr, Visualisation* draw_ptr)
+	AllVisitors(Cursor* c_ptr, AllObjects* container_ptr, Visualisation* paint_ptr)
 	{
-		this->cursor_ptr = cursor_ptr;
-		this->allObjects_ptr = allObjects_ptr;
-		this->draw_ptr = draw_ptr;
+		cursor_ptr = c_ptr;
+		allObjects_ptr = container_ptr;
+		draw_ptr = paint_ptr;
 	}
 	~AllVisitors()
 	{

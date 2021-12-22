@@ -4,14 +4,15 @@
 class Camera : public GlobalObject
 {
 private:
-
+	RectangleSymbols* borderSymbols_ptr;
 public:
-	Camera(PointCoord upperLeft, int heightAdd, int widthAdd) : GlobalObject(upperLeft, heightAdd, widthAdd)
+	Camera(PointCoord upperLeft, int heightAdd, int widthAdd, RectangleSymbols* borderSymbols_ptr) : GlobalObject(upperLeft, heightAdd, widthAdd)
 	{
-		SetHeightAddition(ConstructionOptions::GetAllOptions()->GetCameraHeightAdd());
-		SetWidthAddition(ConstructionOptions::GetAllOptions()->GetCameraWidthAdd());
+		this->borderSymbols_ptr = borderSymbols_ptr;
 	}
 	~Camera()
-	{}
+	{
+		delete borderSymbols_ptr;
+	}
 	Direction CursorBordersCheck(Cursor* cursor_ptr);
 };

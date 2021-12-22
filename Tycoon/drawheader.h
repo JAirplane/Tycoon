@@ -14,7 +14,8 @@ public:
 	void DrawCursorPixel(int x, int y, color background = cBLACK);
 	void ErasePixel(int x, int y);
 	void DrawIcon(int leftX, int topY, wstring vertical, wstring horizontal, wstring upperLeft, wstring upperRight, wstring bottomLeft,
-		wstring bottomRight, int constructionCost, int dailySpend, const wstring iconSymbol, string description, color foreground, color background = cBLACK);
+		wstring bottomRight, int constructionCost, int dailySpend, const wstring iconSymbol, string description, color foreground, const wstring entranceSymbol = L"",
+		int entranceHeightAdd = -1, int entranceWidthAdd = -1, color background = cBLACK);
 	void DrawVisitor(int _x, int _y);
 	void DrawConstruction(int leftX, int topY, int rightX, int bottomY, const wstring constructionSymbol, color foreground, const wstring entranceSymbol = L"",
 		int entranceHeightAdd = -1, int entranceWidthAdd = -1, color background = cBLACK);

@@ -1,5 +1,5 @@
 #pragma once
-#include "IngameObjectDerived.h"
+#include "PlayingField.h"
 /////////////Construction Manager has all the information about Construction/////////////
 class ConstructionManager : public GlobalObject
 {

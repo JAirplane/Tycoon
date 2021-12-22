@@ -143,11 +143,6 @@ void GameManagement::DisplayAllObjects()
 	roads_ptr->DisplayRoads(cameraLeftX, cameraRightX, cameraTopY, cameraBottomY);
 	visitors_ptr->DisplayVisitors();
 }
-void GameManagement::PreliminaryConstructionAdd(IngameObject* preliminary_ptr)
-{
-	allObjects_ptr->AddObject(preliminary_ptr);
-	allObjects_ptr->SetLastElementFlag(1);
-}
 void GameManagement::CreateManagers()
 {
 	int xCoord = (menu_ptr->GetUpperLeft().Get_x() * 2 + menu_ptr->GetWidthAddition()) / 2;
