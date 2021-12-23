@@ -35,6 +35,10 @@ IngameObject* AllObjects::GetPreliminaryElement()
 	{
 		return everyObject.back();
 	}
+	else
+	{
+		return nullptr;
+	}
 }
 void AllObjects::AddPreliminaryElement(Construction* preliminary_ptr)
 {
@@ -55,8 +59,8 @@ bool AllObjects::IsPartOfExistingObject(PointCoord point) const
 	for (iter = everyObject.begin(); iter != everyObject.end(); iter++)
 	{
 		PointCoord upperLeft = (*iter)->GetUpperLeft();
-		unsigned int heightAdd = (*iter)->GetHeightAddition();
-		unsigned int widthAdd = (*iter)->GetWidthAddition();
+		int heightAdd = (*iter)->GetHeightAddition();
+		int widthAdd = (*iter)->GetWidthAddition();
 		if (point.Get_x() >= upperLeft.Get_x() && point.Get_x() <= (upperLeft.Get_x() + widthAdd) && point.Get_y() >= upperLeft.Get_y() && point.Get_y() <= (upperLeft.Get_y() + heightAdd))
 		{
 			return true;
@@ -83,8 +87,8 @@ bool AllObjects::IsPartOfExistingObject(IngameObject* object_ptr, int cameraLeft
 					if (object_ptr != (*iter))
 					{
 						PointCoord upperLeft = (*iter)->GetUpperLeft();
-						unsigned int heightAdd = (*iter)->GetHeightAddition();
-						unsigned int widthAdd = (*iter)->GetWidthAddition();
+						int heightAdd = (*iter)->GetHeightAddition();
+						int widthAdd = (*iter)->GetWidthAddition();
 						if (xCoord >= upperLeft.Get_x() && xCoord <= (upperLeft.Get_x() + widthAdd) && yCoord >= upperLeft.Get_y() && yCoord <= (upperLeft.Get_y() + heightAdd))
 						{
 							return true;
@@ -164,8 +168,7 @@ void AllBuildings::DisplayBuildings(int cameraLeftX, int cameraRightX, int camer
 		}
 		if (leftX < cameraRightX && topY < cameraBottomY && rightX > cameraLeftX && bottomY > cameraTopY)
 		{
-			draw_ptr->DrawConstruction(leftX, topY, rightX, bottomY, (*iter)->GetDescriptor()->GetConstructionSymbol(),
-				(*iter)->GetDescriptor()->GetForegroundColor(), (*iter)->GetEntranceSymbol(), (*iter)->GetEntranceHeightAdd(), (*iter)->GetEntranceWidthAdd(), (*iter)->GetDescriptor()->GetBackgroundColor());
+			(*iter)->DrawObject();
 		}
 	}
 	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
@@ -229,7 +232,7 @@ void AllVisitors::VisitorAppear()
 		int pee = 100;
 		Visitor* visitor_ptr;
 		IngameObject* vis_ptr;
-		vis_ptr = visitor_ptr = new Visitor(startVisitorPoint, food, pee);
+		vis_ptr = visitor_ptr = new Visitor(startVisitorPoint, food, pee, draw_ptr);
 		visitors.push_back(visitor_ptr);
 		allObjects_ptr->AddObject(vis_ptr);
 		draw_ptr->DrawVisitor((visitor_ptr->GetUpperLeft()).Get_x(), (visitor_ptr->GetUpperLeft()).Get_y());
@@ -346,8 +349,7 @@ void AllRoads::RedrawNeibourRoads(PointCoord roadUpperLeft)
 		if ((*iter)->GetUpperLeft() == leftLocation || (*iter)->GetUpperLeft() == rightLocation || (*iter)->GetUpperLeft() == downLocation || (*iter)->GetUpperLeft() == topLocation)
 		{
 			int mask = RoadEnvironment((*iter)->GetUpperLeft());
-			draw_ptr->DrawConstruction(upperLeft.Get_x(), upperLeft.Get_y(), upperLeft.Get_x() + roadWidthAdd, upperLeft.Get_y() + roadHeightAdd, (*iter)->GetDescriptor()->GetConstructionSymbol(mask)),
-				r_ptr->GetDescriptor()->GetForegroundColor(), r_ptr->GetDescriptor()->GetBackgroundColor());
+			(*iter)->DrawObject(mask);
 		}
 	}
 }

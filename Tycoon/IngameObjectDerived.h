@@ -50,7 +50,7 @@ public:
 	void SetEntranceWidthAdd(int widthAdd);
 	Direction GetExitDirection() const;
 	void SetExitDirection(Direction exit);
-	wstring GetEntranceSymbol() const;
+	wstring GetEntranceSymbol(Direction exit) const;
 	bool GetRoadConnectionStatus() const;
 	void SetRoadConnectionStatus(bool connected);
 	unsigned int GetVisitorsCount() const;
@@ -96,6 +96,7 @@ public:
 	~Visitor()
 	{}
 	void VisitorMove(int _x, int _y);
+	void DrawObject(int mask = 0) const override;
 	//GlobalObject* CreateObject(PointCoord _point) override;
 };
 /////////////End of Constructions Classes/////////////

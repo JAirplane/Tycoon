@@ -1,12 +1,13 @@
 #pragma once
 #include "GlobalObject.h"
+#include "drawheader.h"
 /////////////Parent Class of Every Object in Game/////////////
 class IngameObject : public GlobalObject
 {
 private:
 	Visualisation* draw_ptr;
 public:
-	IngameObject(PointCoord upperLeft, unsigned int heightAdd = 0, unsigned int widthAdd = 0, Visualisation* paint_ptr) : GlobalObject(upperLeft, heightAdd, widthAdd)
+	IngameObject(PointCoord upperLeft, Visualisation* paint_ptr, int heightAdd = 0, int widthAdd = 0) : GlobalObject(upperLeft, heightAdd, widthAdd)
 	{
 		draw_ptr = paint_ptr;
 	}

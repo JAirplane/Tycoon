@@ -305,13 +305,14 @@ void GameManagement::EscKey_PlayingField()
 	else
 	{
 		int leftX = menu_ptr->GetUpperLeft().Get_x() + 2;
-		int topY = allObjects_ptr->GetPreliminaryElement()->GetDescriptor()->GetUpperLeft().Get_y();
+		int topY = allObjects_ptr->GetPreliminaryElement()->GetDescriptor()->GetManagerLocation().Get_y();
 		int rightX = menu_ptr->GetUpperLeft().Get_x() + menu_ptr->GetWidthAddition() - 2;
 		int bottomY = topY + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight() - 1;
 		draw_ptr->DrawRectangle(leftX, topY, rightX, bottomY, menu_ptr->GetItemSymbols()->GetVerticalSymbol(), menu_ptr->GetItemSymbols()->GetHorizontalSymbol(),
 			menu_ptr->GetItemSymbols()->GetUpperLeftSymbol(), menu_ptr->GetItemSymbols()->GetUpperRightSymbol(), menu_ptr->GetItemSymbols()->GetBottomLeftSymbol(),
 			menu_ptr->GetItemSymbols()->GetBottomRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuItemInactiveColor());
-		if (!allObjects_ptr->IsPartOfExistingObject(cursor_ptr->GetCursorConsoleLocation()))
+		if (!allObjects_ptr->IsPartOfExistingObject(allObjects_ptr->GetPreliminaryElement(), camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(), 
+			camera_ptr->GetUpperLeft().Get_y(), camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition()))
 		{
 			draw_ptr->EraseConstruction(allObjects_ptr->GetPreliminaryElement()->GetUpperLeft().Get_x(), allObjects_ptr->GetPreliminaryElement()->GetUpperLeft().Get_y(),
 				allObjects_ptr->GetPreliminaryElement()->GetUpperLeft().Get_x() + allObjects_ptr->GetPreliminaryElement()->GetWidthAddition(),
@@ -332,26 +333,30 @@ void GameManagement::EscKey_PlayingField()
 }
 void GameManagement::Arrows_PlayingField(PointCoord cursorDestination)
 {
+	int cameraLeftX = camera_ptr->GetUpperLeft().Get_x();
+	int cameraRightX = camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition();
+	int cameraTopY = camera_ptr->GetUpperLeft().Get_y();
+	int cameraBottomY = camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition();
+	int mask = 0;
 	if (allObjects_ptr->GetLastElementFlag())
 	{
 		IngameObject* io_ptr = allObjects_ptr->GetPreliminaryElement();
-		int cameraLeftX = camera_ptr->GetUpperLeft().Get_x();
-		int cameraRightX = camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition();
-		int cameraTopY = camera_ptr->GetUpperLeft().Get_y();
-		int cameraBottomY = camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition();
 		if (!allObjects_ptr->IsPartOfExistingObject(io_ptr, cameraLeftX, cameraRightX, cameraTopY, cameraBottomY))
 		{
 			draw_ptr->EraseConstruction(io_ptr->GetUpperLeft().Get_x(), io_ptr->GetUpperLeft().Get_y(), io_ptr->GetUpperLeft().Get_x() + io_ptr->GetWidthAddition(),
 				io_ptr->GetUpperLeft().Get_y() + io_ptr->GetHeightAddition());
-			io_ptr->SetUpperLeft(cursorDestination);
-			allObjects_ptr->RedrawNeibourRoads(C_ptr->GetCursorConsoleLocation());
+			roads_ptr->RedrawNeibourRoads(cursor_ptr->GetCursorConsoleLocation());
 		}
 		cursor_ptr->CursorMovement(cursorDestination);
+		io_ptr->SetUpperLeft(cursorDestination);
 		if (!allObjects_ptr->IsPartOfExistingObject(io_ptr, cameraLeftX, cameraRightX, cameraTopY, cameraBottomY))
 		{
-			draw_ptr->DrawConstruction(io_ptr->GetUpperLeft().Get_x(), io_ptr->GetUpperLeft().Get_y(), io_ptr->GetUpperLeft().Get_x() + io_ptr->GetWidthAddition(),
-				io_ptr->GetUpperLeft().Get_y() + io_ptr->GetHeightAddition(), io_ptr->GetDescriptor()->GetConstructionSymbol(), io_ptr->GetDescriptor()->GetForegroundColor(),
-				io_ptr->GetDescriptor()->GetBackgroundColor());
+			if (Road* real_ptr = dynamic_cast<Road*>(io_ptr))
+			{
+				mask = roads_ptr->RoadEnvironment(real_ptr->GetUpperLeft());
+				roads_ptr->RedrawNeibourRoads(real_ptr->GetUpperLeft());
+			}
+			io_ptr->DrawObject(mask);
 			cursor_ptr->CursorMovement(io_ptr->GetUpperLeft());
 		}
 	}

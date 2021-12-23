@@ -12,5 +12,5 @@ ConstructionDescriptor* ConstructionManager::GetDescriptor()
 void ConstructionManager::SetUpperLeft(PointCoord point)
 {
 	GlobalObject::SetUpperLeft(point);
-	describe_ptr->SetUpperLeft(point);
+	describe_ptr->SetManagerLocation(point);
 }

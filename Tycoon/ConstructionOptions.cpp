@@ -190,23 +190,23 @@ const wstring ConstructionOptions::GetMenuVerticalSymbol() const
 }
 const wstring ConstructionOptions::GetMenuHorizontalSymbol() const
 {
-	wstring(L"\u2550");
+	return wstring(L"\u2550");
 }
 const wstring ConstructionOptions::GetMenuUpperLeftSymbol() const
 {
-	return wstring(L"\u255D");
+	return wstring(L"\u2554");
 }
 const wstring ConstructionOptions::GetMenuUpperRightSymbol() const
 {
-	return wstring(L"\u255A");
+	return wstring(L"\u2557"); 
 }
 const wstring ConstructionOptions::GetMenuBottomLeftSymbol() const
 {
-	return wstring(L"\u2557");
+	return wstring(L"\u255A");
 }
 const wstring ConstructionOptions::GetMenuBottomRightSymbol() const
 {
-	return wstring(L"\u2554");
+	return wstring(L"\u255D");
 }
 ///////////////Camera Border Symbol Constants///////////////
 const wstring ConstructionOptions::GetCameraVerticalSymbol() const
@@ -219,19 +219,19 @@ const wstring ConstructionOptions::GetCameraHorizontalSymbol() const
 }
 const wstring ConstructionOptions::GetCameraUpperLeftSymbol() const
 {
-	return wstring(L"\u255D");
+	return wstring(L"\u2554");
 }
 const wstring ConstructionOptions::GetCameraUpperRightSymbol() const
 {
-	return wstring(L"\u255A");
+	return wstring(L"\u2557");
 }
 const wstring ConstructionOptions::GetCameraBottomLeftSymbol() const
 {
-	return wstring(L"\u2557");
+	return wstring(L"\u255A");
 }
 const wstring ConstructionOptions::GetCameraBottomRightSymbol() const
 {
-	return wstring(L"\u2554");
+	return wstring(L"\u255D");
 }
 ///////////////Menu Item Border Symbol Constants///////////////
 const wstring ConstructionOptions::GetMenuItemVerticalSymbol() const
@@ -244,19 +244,19 @@ const wstring ConstructionOptions::GetMenuItemHorizontalSymbol() const
 }
 const wstring ConstructionOptions::GetMenuItemUpperLeftSymbol() const
 {
-	return wstring(L"\u255D");
+	return wstring(L"\u2554");
 }
 const wstring ConstructionOptions::GetMenuItemUpperRightSymbol() const
 {
-	return wstring(L"\u255A");
+	return wstring(L"\u2557");
 }
 const wstring ConstructionOptions::GetMenuItemBottomLeftSymbol() const
 {
-	return wstring(L"\u2557");
+	return wstring(L"\u255A");
 }
 const wstring ConstructionOptions::GetMenuItemBottomRightSymbol() const
 {
-	return wstring(L"\u2554");
+	 return wstring(L"\u255D");
 }
 ///////////////Menu Icon Border Symbol Constants///////////////
 const wstring ConstructionOptions::GetMenuIconVerticalSymbol() const
@@ -269,19 +269,19 @@ const wstring ConstructionOptions::GetMenuIconHorizontalSymbol() const
 }
 const wstring ConstructionOptions::GetMenuIconUpperLeftSymbol() const
 {
-	return wstring(L"\u255D");
+	return wstring(L"\u2554");
 }
 const wstring ConstructionOptions::GetMenuIconUpperRightSymbol() const
 {
-	return wstring(L"\u255A");
+	return wstring(L"\u2557");
 }
 const wstring ConstructionOptions::GetMenuIconBottomLeftSymbol() const
 {
-	return wstring(L"\u2557");
+	return wstring(L"\u255A");
 }
 const wstring ConstructionOptions::GetMenuIconBottomRightSymbol() const
 {
-	return wstring(L"\u2554");
+	return wstring(L"\u255D");
 }
 ///////////////ConstructionOptions Initialisation and using///////////////
 ConstructionOptions* ConstructionOptions::GetAllOptions()

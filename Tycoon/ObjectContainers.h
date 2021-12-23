@@ -3,7 +3,6 @@
 #include <vector>
 #include <typeinfo>
 #include "ManagersDerived.h"
-#include "drawheader.h"
 /////////////Container of All Objects in the Game/////////////
 class AllObjects
 {
@@ -91,7 +90,7 @@ public:
 	list<Road*>& GetAllRoads();
 	int RoadEnvironment(PointCoord point);
 	void DisplayRoads(int cameraLeftX, int cameraRightX, int cameraTopY, int cameraBottomY);
-	void RedrawNeibourRoads(Road* r_ptr); //when new road tile added or removed redraw all neighbor roads
+	void RedrawNeibourRoads(PointCoord roadUpperLeft); //when new road tile added or removed redraw all neighbor roads
 	void IsGraphRoadsOnly();
 	vector<PointCoord> RoadConnectedToEntranceCheck(vector<PointCoord> possibleRoads);
 	void SetChainStatus();

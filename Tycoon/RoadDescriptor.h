@@ -7,5 +7,5 @@ public:
 		ConstructionDescriptor(managerLocation, constructionCost, description, iconSymbol, foreground, background)
 		{}
 	~RoadDescriptor() {}
-	wstring GetConstructionSymbol() override;
+	wstring GetConstructionSymbol(int mask = 0) override;
 };

@@ -47,7 +47,7 @@ void Building::SetExitDirection(Direction exit)
 {
 	exitDirection = exit;
 }
-wstring Building::GetEntranceSymbol() const
+wstring Building::GetEntranceSymbol(Direction exit) const
 {
 	switch (exitDirection)
 	{
@@ -55,7 +55,7 @@ wstring Building::GetEntranceSymbol() const
 	case Direction::Right: {return wstring(L"\u2192"); }
 	case Direction::Down: {return wstring(L"\u2193"); }
 	case Direction::Left: {return wstring(L"\u2190"); }
-	case Direction::None: {return; }
+	case Direction::None: {return wstring(L""); }
 	}
 }
 bool Building::GetRoadConnectionStatus() const
@@ -84,8 +84,8 @@ void Building::SetProfit(int profit)
 }
 void Building::DrawObject(int mask) const
 {
-	draw_ptr->DrawConstruction(GetUpperLeft().Get_x(), GetUpperLeft().Get_y(), GetUpperLeft().Get_x() + GetWidthAddition(), GetUpperLeft().Get_y() + GetHeightAddition(),
-		GetDescriptor()->GetConstructionSymbol(), GetDescriptor()->GetForegroundColor(), entranceHeightAdd, entranceWidthAdd, GetEntranceSymbol(exitDirection), GetDescriptor()->GetBackgroundColor());
+	GetPainter()->DrawConstruction(GetUpperLeft().Get_x(), GetUpperLeft().Get_y(), GetUpperLeft().Get_x() + GetWidthAddition(), GetUpperLeft().Get_y() + GetHeightAddition(),
+		GetDescriptor()->GetConstructionSymbol(), GetDescriptor()->GetForegroundColor(), GetEntranceSymbol(exitDirection), entranceHeightAdd, entranceWidthAdd,  GetDescriptor()->GetBackgroundColor());
 }
 ///////////////Road Class: Construction derived///////////////
 bool Road::GetGraphStatus() const
@@ -123,13 +123,17 @@ void Road::SetRoadIsInChainStatus(bool chainFlag)
 }
 void Road::DrawObject(int mask) const
 {
-	draw_ptr->DrawConstruction(GetUpperLeft().Get_x(), GetUpperLeft().Get_y(), GetUpperLeft().Get_x() + GetWidthAddition(), GetUpperLeft().Get_y() + GetHeightAddition(),
-		GetDescriptor()->GetConstructionSymbol(mask), GetDescriptor()->GetForegroundColor(), GetDescriptor()->GetBackgroundColor());
+	GetPainter()->DrawConstruction(GetUpperLeft().Get_x(), GetUpperLeft().Get_y(), GetUpperLeft().Get_x() + GetWidthAddition(), GetUpperLeft().Get_y() + GetHeightAddition(),
+		GetDescriptor()->GetConstructionSymbol(mask), GetDescriptor()->GetForegroundColor(),  GetDescriptor()->GetBackgroundColor());
 }
 ///////////////Visitor Class///////////////
 void Visitor::VisitorMove(int x, int y)
 {
 	SetUpperLeft(PointCoord(x, y));
+}
+void Visitor::DrawObject(int mask) const
+{
+
 }
 //GlobalObject* Visitor::CreateObject(PointCoord _point)
 //{

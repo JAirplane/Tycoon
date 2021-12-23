@@ -8,7 +8,7 @@ void GlobalObject::SetUpperLeft(PointCoord point)
 {
 	upperLeft.SetCoord(point.Get_x(), point.Get_y());
 }
-unsigned int GlobalObject::GetHeightAddition() const
+int GlobalObject::GetHeightAddition() const
 {
 	return heightAddition;
 }
@@ -16,7 +16,7 @@ void GlobalObject::SetHeightAddition(const int heightAdd)
 {
 	heightAddition = heightAdd;
 }
-unsigned int GlobalObject::GetWidthAddition() const
+int GlobalObject::GetWidthAddition() const
 {
 	return widthAddition;
 }

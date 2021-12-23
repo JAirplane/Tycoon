@@ -36,7 +36,7 @@ public:
 	int GetDailyExpences() const;
 	color GetForegroundColor();
 	color GetBackgroundColor();
-	virtual wstring GetConstructionSymbol();
+	virtual wstring GetConstructionSymbol(int mask = 0);
 	PointCoord GetManagerLocation() const;
 	void SetManagerLocation(PointCoord mLocation);
 };

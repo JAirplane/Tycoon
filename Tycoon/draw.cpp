@@ -63,8 +63,8 @@ void Visualisation::DrawVisitor(int x, int y)
 	cout << visitorSymbol;
 	set_color(cYELLOW);
 }
-void Visualisation::DrawConstruction(int leftX, int topY, int rightX, int bottomY, const wstring constructionSymbol, color foreground, const wstring entranceSymbol = L"",
-	int entranceHeightAdd = -1, int entranceWidthAdd = -1, color background)
+void Visualisation::DrawConstruction(int leftX, int topY, int rightX, int bottomY, const wstring constructionSymbol, color foreground, const wstring entranceSymbol,
+	int entranceHeightAdd, int entranceWidthAdd, color background)
 {
 	set_color(foreground, background);
 	_setmode(_fileno(stdout), _O_U16TEXT);
@@ -87,15 +87,17 @@ void Visualisation::DrawConstruction(int leftX, int topY, int rightX, int bottom
 void Visualisation::DrawConstruction(int leftX, int topY, int rightX, int bottomY, const wstring constructionSymbol, color foreground, color background)
 {
 	set_color(foreground, background);
+	_setmode(_fileno(stdout), _O_U16TEXT);
 	for (int j = topY; j <= bottomY; j++)
 	{
 		for (int i = leftX; i <= rightX; i++)
 		{
 			set_cursor_pos(i, j);
-			cout << constructionSymbol;
+			wcout << constructionSymbol;
 		}
 	}
 	set_color(cYELLOW);
+	_setmode(_fileno(stdout), _O_TEXT);
 }
 void Visualisation::EraseConstruction(int leftX, int topY, int rightX, int bottomY)
 {

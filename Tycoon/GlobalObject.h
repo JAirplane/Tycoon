@@ -5,17 +5,17 @@ class GlobalObject
 {
 private:
 	PointCoord upperLeft;
-	unsigned int heightAddition;
-	unsigned int widthAddition;
+	int heightAddition;
+	int widthAddition;
 public:
-	GlobalObject(PointCoord upperLeft, unsigned int heightAdd = 0, unsigned int widthAdd = 0) : upperLeft(upperLeft), heightAddition(heightAdd), widthAddition(widthAdd)
+	GlobalObject(PointCoord upperLeft, int heightAdd = 0, int widthAdd = 0) : upperLeft(upperLeft), heightAddition(heightAdd), widthAddition(widthAdd)
 	{}
 	~GlobalObject()
 	{}
 	PointCoord GetUpperLeft() const;
 	virtual void SetUpperLeft(PointCoord point);
-	unsigned int GetHeightAddition() const;
+	int GetHeightAddition() const;
 	void SetHeightAddition(const int heightAdd);
-	unsigned int GetWidthAddition() const;
+	int GetWidthAddition() const;
 	void SetWidthAddition(const int widthAdd);
 };

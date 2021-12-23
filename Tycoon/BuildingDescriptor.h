@@ -12,5 +12,5 @@ public:
 		this->buildingSymbol = buildingSymbol;
 	}
 	~BuildingDescriptor() {}
-	wstring GetConstructionSymbol() override;
+	wstring GetConstructionSymbol(int mask = 0) override;
 };
