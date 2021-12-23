@@ -31,20 +31,27 @@ bool AllObjects::GetLastElementFlag()
 }
 IngameObject* AllObjects::GetPreliminaryElement()
 {
-	return everyObject.back();
+	if (GetLastElementFlag())
+	{
+		return everyObject.back();
+	}
 }
-void AllObjects::AddPreliminaryElement(Construction* c_ptr)
+void AllObjects::AddPreliminaryElement(Construction* preliminary_ptr)
 {
-	everyObject.push_back(c_ptr);
+	everyObject.push_back(preliminary_ptr);
 	lastElementIsPreliminary = true;
 }
 void AllObjects::ErasePreliminaryElement()
 {
-	everyObject.pop_back();
+	if (GetLastElementFlag())
+	{
+		everyObject.pop_back();
+	}
+	lastElementIsPreliminary = false;
 }
-bool AllObjects::IsPartOfExistingObject(PointCoord point)
+bool AllObjects::IsPartOfExistingObject(PointCoord point) const
 {
-	list<IngameObject*>::iterator iter;
+	list<IngameObject*>::const_iterator iter;
 	for (iter = everyObject.begin(); iter != everyObject.end(); iter++)
 	{
 		PointCoord upperLeft = (*iter)->GetUpperLeft();
@@ -126,13 +133,13 @@ void AllObjects::EraseObjects(int cameraLeftX, int cameraRightX, int cameraTopY,
 	}
 }
 ///////////////All buildings Class///////////////
-void AllBuildings::AddBuilding(Building* go_ptr)
+void AllBuildings::AddBuilding(Building* realObject_ptr)
 {
-	buildings.push_back(go_ptr);
+	buildings.push_back(realObject_ptr);
 }
-void AllBuildings::DisplayBuildings(int cameraLeftX, int cameraRightX, int cameraTopY, int cameraBottomY)
+void AllBuildings::DisplayBuildings(int cameraLeftX, int cameraRightX, int cameraTopY, int cameraBottomY) const
 {
-	list<Building*>::iterator iter;
+	list<Building*>::const_iterator iter;
 	for (iter = buildings.begin(); iter != buildings.end(); iter++)
 	{
 		int leftX = (*iter)->GetUpperLeft().Get_x();
@@ -302,8 +309,8 @@ void AllRoads::DisplayRoads(int cameraLeftX, int cameraRightX, int cameraTopY, i
 		int topY = (*iter)->GetUpperLeft().Get_y();
 		int rightX = (*iter)->GetUpperLeft().Get_x() + (*iter)->GetWidthAddition();
 		int bottomY = (*iter)->GetUpperLeft().Get_y() + (*iter)->GetHeightAddition();
-		int mask1 = RoadEnvironment((*iter)->GetUpperLeft());
-		wstring roadSymbol = (*iter)->SetRoadSymbol(mask1);
+		int mask = RoadEnvironment((*iter)->GetUpperLeft());
+		wstring roadSymbol = (*iter)->GetDescriptor()->GetConstructionSymbol(mask);
 		if (leftX <= cameraLeftX && rightX > cameraLeftX)
 		{
 			leftX = cameraLeftX + 1;
@@ -327,13 +334,6 @@ void AllRoads::DisplayRoads(int cameraLeftX, int cameraRightX, int cameraTopY, i
 	}
 	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }
-wstring AllRoads::DrawRoad(PointCoord roadUpperLeft)
-{
-	Road* empty = nullptr;
-	int roadMask = RoadEnvironment(roadUpperLeft);
-	wstring roadSymbol = empty->SetRoadSymbol(roadMask);
-	return roadSymbol;
-}
 void AllRoads::RedrawNeibourRoads(PointCoord roadUpperLeft)
 {
 	list<Road*>::iterator iter;
@@ -345,7 +345,8 @@ void AllRoads::RedrawNeibourRoads(PointCoord roadUpperLeft)
 	{
 		if ((*iter)->GetUpperLeft() == leftLocation || (*iter)->GetUpperLeft() == rightLocation || (*iter)->GetUpperLeft() == downLocation || (*iter)->GetUpperLeft() == topLocation)
 		{
-			draw_ptr->DrawConstruction(upperLeft.Get_x(), upperLeft.Get_y(), upperLeft.Get_x() + roadWidthAdd, upperLeft.Get_y() + roadHeightAdd, DrawRoad((*iter)->GetUpperLeft()),
+			int mask = RoadEnvironment((*iter)->GetUpperLeft());
+			draw_ptr->DrawConstruction(upperLeft.Get_x(), upperLeft.Get_y(), upperLeft.Get_x() + roadWidthAdd, upperLeft.Get_y() + roadHeightAdd, (*iter)->GetDescriptor()->GetConstructionSymbol(mask)),
 				r_ptr->GetDescriptor()->GetForegroundColor(), r_ptr->GetDescriptor()->GetBackgroundColor());
 		}
 	}

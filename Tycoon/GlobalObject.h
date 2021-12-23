@@ -13,7 +13,7 @@ public:
 	~GlobalObject()
 	{}
 	PointCoord GetUpperLeft() const;
-	void SetUpperLeft(PointCoord point);
+	virtual void SetUpperLeft(PointCoord point);
 	unsigned int GetHeightAddition() const;
 	void SetHeightAddition(const int heightAdd);
 	unsigned int GetWidthAddition() const;

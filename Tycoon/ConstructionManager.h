@@ -16,6 +16,7 @@ public:
 	{
 		delete describe_ptr;
 	}
-	virtual Construction* CreateConstruction(PointCoord upperLeft);
+	virtual Construction* CreateConstruction(PointCoord upperLeft, Visualisation* paint_ptr);
+	void SetUpperLeft(PointCoord point) override;
 	ConstructionDescriptor* GetDescriptor();
 };

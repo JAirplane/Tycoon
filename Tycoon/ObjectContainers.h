@@ -35,7 +35,7 @@ public:
 	IngameObject* GetPreliminaryElement(); //it takes last element of everyObject list
 	void AddPreliminaryElement(Construction* c_ptr);
 	void ErasePreliminaryElement();
-	bool IsPartOfExistingObject(PointCoord point);
+	bool IsPartOfExistingObject(PointCoord point) const;
 	bool IsPartOfExistingObject(IngameObject* object_ptr, int cameraLeftX, int cameraRightX, int cameraTopY, int cameraBottomY);
 	void EraseObjects(int cameraLeftX, int cameraRightX, int cameraTopY, int cameraBottomY);
 };
@@ -61,7 +61,7 @@ public:
 		}
 	}
 	void AddBuilding(Building* go_ptr);
-	void DisplayBuildings(int cameraLeftX, int cameraRightX, int cameraTopY, int cameraBottomY);
+	void DisplayBuildings(int cameraLeftX, int cameraRightX, int cameraTopY, int cameraBottomY) const;
 	const list<Building*> GetAllBuildings();
 	vector<PointCoord> GetPotentialRoadCoords(); //returns points that are near the entrances
 	void SetRoadConnectionStatus(vector<PointCoord> connectedRoads);

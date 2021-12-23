@@ -8,7 +8,7 @@ public:
 		ConstructionManager(upperLeft, cursor_ptr, bd_ptr)
 	{}
 	~BuildingManager() {}
-	Construction* CreateConstruction(PointCoord upperLeft) override;
+	Construction* CreateConstruction(PointCoord upperLeft, Visualisation* paint_ptr) override;
 };
 class RoadManager : public ConstructionManager
 {
@@ -17,5 +17,5 @@ public:
 		ConstructionManager(upperLeft, cursor_ptr, bd_ptr)
 	{}
 	~RoadManager() {}
-	Construction* CreateConstruction(PointCoord upperLeft) override;
+	Construction* CreateConstruction(PointCoord upperLeft, Visualisation* paint_ptr) override;
 };

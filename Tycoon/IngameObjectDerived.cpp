@@ -20,6 +20,8 @@ wstring Construction::GetEntranceSymbol(Direction out) const
 {
 	return wstring(L"");
 }
+void Construction::DrawObject(int mask) const
+{}
 ///////////////Building Class: Construction derived///////////////
 int Building::GetEntranceHeightAdd() const
 {
@@ -47,7 +49,7 @@ void Building::SetExitDirection(Direction exit)
 }
 wstring Building::GetEntranceSymbol() const
 {
-	switch(exitDirection)
+	switch (exitDirection)
 	{
 	case Direction::Up: {return wstring(L"\u2191"); }
 	case Direction::Right: {return wstring(L"\u2192"); }
@@ -80,29 +82,12 @@ void Building::SetProfit(int profit)
 {
 	lastDayProfit = profit;
 }
-///////////////Road Class: Construction derived///////////////
-wstring Road::SetRoadSymbol(int mask) const
+void Building::DrawObject(int mask) const
 {
-	switch (mask)
-	{
-	case none: return wstring(L"\u2551");
-	case leftside: return wstring(L"\u2550");
-	case topside: return wstring(L"\u2551");
-	case rightside: return wstring(L"\u2550");
-	case bottomside: return wstring(L"\u2551");
-	case vertical: return wstring(L"\u2551");
-	case horizontal: return wstring(L"\u2550");
-	case lefttop_angle: return wstring(L"\u2554");
-	case righttop_angle: return wstring(L"\u2557");
-	case leftbottom_angle: return wstring(L"\u255A");
-	case rightbottom_angle: return wstring(L"\u255D");
-	case right_T: return wstring(L"\u2560");
-	case left_T: return wstring(L"\u2563");
-	case top_T: return wstring(L"\u2569");
-	case bottom_T: return wstring(L"\u2566");
-	case cross: return wstring(L"\u256C");
-	}
+	draw_ptr->DrawConstruction(GetUpperLeft().Get_x(), GetUpperLeft().Get_y(), GetUpperLeft().Get_x() + GetWidthAddition(), GetUpperLeft().Get_y() + GetHeightAddition(),
+		GetDescriptor()->GetConstructionSymbol(), GetDescriptor()->GetForegroundColor(), entranceHeightAdd, entranceWidthAdd, GetEntranceSymbol(exitDirection), GetDescriptor()->GetBackgroundColor());
 }
+///////////////Road Class: Construction derived///////////////
 bool Road::GetGraphStatus() const
 {
 	return graphStatus;
@@ -128,13 +113,18 @@ void Road::DefineGraphStatus(int mask)
 	default: return;
 	}
 }
-bool Road::GetroadIsInChainStatus()
+bool Road::GetRoadIsInChainStatus()
 {
 	return roadIsInChain;
 }
 void Road::SetRoadIsInChainStatus(bool chainFlag)
 {
 	roadIsInChain = chainFlag;
+}
+void Road::DrawObject(int mask) const
+{
+	draw_ptr->DrawConstruction(GetUpperLeft().Get_x(), GetUpperLeft().Get_y(), GetUpperLeft().Get_x() + GetWidthAddition(), GetUpperLeft().Get_y() + GetHeightAddition(),
+		GetDescriptor()->GetConstructionSymbol(mask), GetDescriptor()->GetForegroundColor(), GetDescriptor()->GetBackgroundColor());
 }
 ///////////////Visitor Class///////////////
 void Visitor::VisitorMove(int x, int y)

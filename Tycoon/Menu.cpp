@@ -56,11 +56,11 @@ void Menu::ShowMenuItems()
 		draw_ptr->DrawRectangle(leftX + 2, topY + 1, rightX - 2, topY + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight(),
 			itemBorderSymbols_ptr->GetVerticalSymbol(), itemBorderSymbols_ptr->GetHorizontalSymbol(), itemBorderSymbols_ptr->GetUpperLeftSymbol(),
 			itemBorderSymbols_ptr->GetUpperRightSymbol(), itemBorderSymbols_ptr->GetBottomLeftSymbol(), itemBorderSymbols_ptr->GetBottomRightSymbol(),
-			itemBorderSymbols_ptr->GetForegroundColor());
+			ConstructionOptions::GetAllOptions()->GetMenuItemInactiveColor());
 		draw_ptr->DrawIcon(leftX + 3, topY + 2, iconBorderSymbols_ptr->GetVerticalSymbol(), iconBorderSymbols_ptr->GetHorizontalSymbol(),
 			iconBorderSymbols_ptr->GetUpperLeftSymbol(), iconBorderSymbols_ptr->GetUpperRightSymbol(), iconBorderSymbols_ptr->GetBottomLeftSymbol(),
 			iconBorderSymbols_ptr->GetBottomRightSymbol(), (*iter)->GetDescriptor()->GetConstructionCost(), (*iter)->GetDescriptor()->GetDailyExpences(), (*iter)->GetDescriptor()->GetIconSymbol(),
-			(*iter)->GetDescriptor()->GetDescription(), (*iter)->GetDescriptor()->GetForegroundColor(), (*iter)->GetDescriptor()->GetBackgroundColor(), iconBorderSymbols_ptr->GetForegroundColor());
+			(*iter)->GetDescriptor()->GetDescription(), (*iter)->GetDescriptor()->GetForegroundColor(), (*iter)->GetDescriptor()->GetBackgroundColor(), ConstructionOptions::GetAllOptions()->GetMenuIconColor());
 		topY += ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight();
 	}
 	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
@@ -73,7 +73,7 @@ void Menu::ShowMenuBorders()
 	int bottomY = GetUpperLeft().Get_y() + ConstructionOptions::GetAllOptions()->GetMenuHeightAdd();
 	draw_ptr->DrawRectangle(leftX, topY, rightX, bottomY, menuBorderSymbols_ptr->GetVerticalSymbol(), menuBorderSymbols_ptr->GetHorizontalSymbol(),
 		menuBorderSymbols_ptr->GetUpperLeftSymbol(), menuBorderSymbols_ptr->GetUpperRightSymbol(), menuBorderSymbols_ptr->GetBottomLeftSymbol(),
-		menuBorderSymbols_ptr->GetBottomRightSymbol(), menuBorderSymbols_ptr->GetForegroundColor());
+		menuBorderSymbols_ptr->GetBottomRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuColor());
 	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }
 PointCoord Menu::GetNearestIconCoords(PointCoord currentIcon, IconsPosition ip) //this method returns next upper/lower Icon's coords before/after "currentIcon" coord
@@ -140,8 +140,7 @@ PointCoord Menu::MenuNavigation(PointCoord currentIcon, IconsPosition ip)
 		{
 			draw_ptr->DrawRectangle(menuUpperLeft.Get_x() + 2, currentIcon.Get_y(), menuUpperLeft.Get_x() + menuWidth - 2, currentIcon.Get_y() + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight() - 1,
 				itemBorderSymbols_ptr->GetVerticalSymbol(), itemBorderSymbols_ptr->GetHorizontalSymbol(), itemBorderSymbols_ptr->GetUpperLeftSymbol(), itemBorderSymbols_ptr->GetUpperRightSymbol(),
-				itemBorderSymbols_ptr->GetBottomLeftSymbol(), itemBorderSymbols_ptr->GetBottomRightSymbol(),
-				ConstructionOptions::GetAllOptions()->GetMenuItemInactiveColor());
+				itemBorderSymbols_ptr->GetBottomLeftSymbol(), itemBorderSymbols_ptr->GetBottomRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuItemInactiveColor());
 			draw_ptr->DrawRectangle(menuUpperLeft.Get_x() + 2, nearest.Get_y(), menuUpperLeft.Get_x() + menuWidth - 2, nearest.Get_y() + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight() - 1,
 				itemBorderSymbols_ptr->GetVerticalSymbol(), itemBorderSymbols_ptr->GetHorizontalSymbol(), itemBorderSymbols_ptr->GetUpperLeftSymbol(), itemBorderSymbols_ptr->GetUpperRightSymbol(),
 				itemBorderSymbols_ptr->GetBottomLeftSymbol(), itemBorderSymbols_ptr->GetBottomRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuItemActiveColor());
@@ -163,7 +162,7 @@ Construction* Menu::CreatePreliminaryObject(PointCoord iconPosition) const
 		{
 			int xCoord = (camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition()) / 2;
 			int yCoord = (camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition()) / 2;
-			Construction* preliminary_ptr = (*iter)->CreateConstruction(PointCoord(xCoord, yCoord));
+			Construction* preliminary_ptr = (*iter)->CreateConstruction(PointCoord(xCoord, yCoord), draw_ptr);
 			return preliminary_ptr;
 		}
 	}

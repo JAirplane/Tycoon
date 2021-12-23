@@ -24,19 +24,3 @@ wstring RectangleSymbols::GetBottomRightSymbol() const
 {
 	return bottomRightBorderSymbol;
 }
-color RectangleSymbols::GetForegroundColor() const
-{
-	return foreground;
-}
-void RectangleSymbols::SetForegroundColor(color foreground)
-{
-	this->foreground = foreground;
-}
-color RectangleSymbols::GetBackgroundColor() const
-{
-	return background;
-}
-void RectangleSymbols::SetBackgroundColor(color background)
-{
-	this->background = background;
-}
