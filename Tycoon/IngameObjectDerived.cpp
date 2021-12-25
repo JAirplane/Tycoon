@@ -85,7 +85,12 @@ void Building::SetProfit(int profit)
 void Building::DrawObject(int mask) const
 {
 	GetPainter()->DrawConstruction(GetUpperLeft().Get_x(), GetUpperLeft().Get_y(), GetUpperLeft().Get_x() + GetWidthAddition(), GetUpperLeft().Get_y() + GetHeightAddition(),
-		GetDescriptor()->GetConstructionSymbol(), GetDescriptor()->GetForegroundColor(), GetEntranceSymbol(exitDirection), entranceHeightAdd, entranceWidthAdd,  GetDescriptor()->GetBackgroundColor());
+		GetDescriptor()->GetConstructionSymbol(), GetDescriptor()->GetForegroundColor(), GetEntranceSymbol(exitDirection), entranceHeightAdd, entranceWidthAdd, GetDescriptor()->GetBackgroundColor());
+}
+void Building::DrawPartly(int leftX, int rightX, int topY, int bottomY) const
+{
+	GetPainter()->DrawConstruction(leftX, topY, rightX, bottomY, GetDescriptor()->GetConstructionSymbol(), GetDescriptor()->GetForegroundColor(),
+		GetEntranceSymbol(exitDirection), entranceHeightAdd, entranceWidthAdd, GetDescriptor()->GetBackgroundColor());
 }
 ///////////////Road Class: Construction derived///////////////
 bool Road::GetGraphStatus() const
@@ -124,7 +129,7 @@ void Road::SetRoadIsInChainStatus(bool chainFlag)
 void Road::DrawObject(int mask) const
 {
 	GetPainter()->DrawConstruction(GetUpperLeft().Get_x(), GetUpperLeft().Get_y(), GetUpperLeft().Get_x() + GetWidthAddition(), GetUpperLeft().Get_y() + GetHeightAddition(),
-		GetDescriptor()->GetConstructionSymbol(mask), GetDescriptor()->GetForegroundColor(),  GetDescriptor()->GetBackgroundColor());
+		GetDescriptor()->GetConstructionSymbol(mask), GetDescriptor()->GetForegroundColor(), GetDescriptor()->GetBackgroundColor());
 }
 ///////////////Visitor Class///////////////
 void Visitor::VisitorMove(int x, int y)

@@ -65,8 +65,6 @@ public:
 	void DisplayMenu();
 	void HideMenu();
 	void EraseScreen();
-	void Shift(Direction shiftDirection);
-	void Shift(Direction shiftDirection, int shiftvalue);
 	void DisplayAllObjects();
 	void GameProcess();
 	void UserActions(int key);

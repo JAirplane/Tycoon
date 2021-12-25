@@ -1,8 +1,8 @@
 #include "ObjectContainers.h"
 /////////////Container of All Objects in the Game/////////////
-list<IngameObject*>& AllObjects::GetAllObjects()
+int AllObjects::GetElementsQuantity()
 {
-	return everyObject;
+	return everyObject.size();
 }
 void AllObjects::AddObject(IngameObject* obj_ptr)
 {
@@ -136,6 +136,60 @@ void AllObjects::EraseObjects(int cameraLeftX, int cameraRightX, int cameraTopY,
 		}
 	}
 }
+void AllObjects::ShiftAllObjects(Direction shiftDirection)
+{
+	list<IngameObject*>::iterator iter;
+	for (iter = everyObject.begin(); iter != everyObject.end(); iter++)
+	{
+		PointCoord upperLeft = (*iter)->GetUpperLeft();
+		switch (shiftDirection)
+		{
+		case Direction::Right:
+		{
+			upperLeft.SetCoord(upperLeft.Get_x() + 1, upperLeft.Get_y());
+			break;
+		}
+		case Direction::Down:
+		{
+			upperLeft.SetCoord(upperLeft.Get_x(), upperLeft.Get_y() + 1);
+			break;
+		}
+		case Direction::Left:
+		{
+			upperLeft.SetCoord(upperLeft.Get_x() - 1, upperLeft.Get_y());
+			break;
+		}
+		case Direction::Up:
+		{
+			upperLeft.SetCoord(upperLeft.Get_x(), upperLeft.Get_y() - 1);
+			break;
+		}
+		}
+		(*iter)->SetUpperLeft(upperLeft);
+	}
+}
+void AllObjects::ShiftAllObjects(Direction shiftDirection, int shiftValue)
+{
+	list<IngameObject*>::iterator iter;
+	for (iter = everyObject.begin(); iter != everyObject.end(); iter++)
+	{
+		PointCoord upperLeft = (*iter)->GetUpperLeft();
+		switch (shiftDirection)
+		{
+		case Direction::Right:
+		{
+			upperLeft.SetCoord(upperLeft.Get_x() + shiftValue, upperLeft.Get_y());
+			break;
+		}
+		case Direction::Left:
+		{
+			upperLeft.SetCoord(upperLeft.Get_x() - shiftValue, upperLeft.Get_y());
+			break;
+		}
+		}
+		(*iter)->SetUpperLeft(upperLeft);
+	}
+}
 ///////////////All buildings Class///////////////
 void AllBuildings::AddBuilding(Building* realObject_ptr)
 {
@@ -150,6 +204,11 @@ void AllBuildings::DisplayBuildings(int cameraLeftX, int cameraRightX, int camer
 		int topY = (*iter)->GetUpperLeft().Get_y();
 		int rightX = (*iter)->GetUpperLeft().Get_x() + (*iter)->GetWidthAddition();
 		int bottomY = (*iter)->GetUpperLeft().Get_y() + (*iter)->GetHeightAddition();
+		if (leftX > cameraLeftX && rightX < cameraRightX && topY > cameraTopY && bottomY < cameraBottomY)
+		{
+			(*iter)->DrawObject();
+			continue;
+		}
 		if (leftX <= cameraLeftX && rightX > cameraLeftX)
 		{
 			leftX = cameraLeftX + 1;
@@ -168,14 +227,10 @@ void AllBuildings::DisplayBuildings(int cameraLeftX, int cameraRightX, int camer
 		}
 		if (leftX < cameraRightX && topY < cameraBottomY && rightX > cameraLeftX && bottomY > cameraTopY)
 		{
-			(*iter)->DrawObject();
+			(*iter)->DrawPartly(leftX, rightX, topY, bottomY);
 		}
 	}
 	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
-}
-const list<Building*> AllBuildings::GetAllBuildings()
-{
-	return buildings;
 }
 vector<PointCoord> AllBuildings::GetPotentialRoadCoords()
 {
@@ -251,10 +306,6 @@ bool AllVisitors::LocationCheck(PointCoord point)
 	}
 	return 1;
 }
-list<Visitor*>& AllVisitors::GetAllVisitors()
-{
-	return visitors;
-}
 void AllVisitors::DisplayVisitors()
 {
 	list< Visitor* >::iterator iter;
@@ -269,10 +320,6 @@ void AllVisitors::DisplayVisitors()
 void AllRoads::AddRoad(Road* go_ptr)
 {
 	roads.push_back(go_ptr);
-}
-list<Road*>& AllRoads::GetAllRoads()
-{
-	return roads;
 }
 int AllRoads::RoadEnvironment(PointCoord point)
 {

@@ -58,6 +58,7 @@ public:
 	int GetProfit() const;
 	void SetProfit(int profit);
 	void DrawObject(int mask = 0) const override;
+	void DrawPartly(int leftX, int rightX, int topY, int bottomY) const;
 };
 /////////////One Pixel of Road/////////////
 class Road : public Construction
@@ -80,6 +81,7 @@ public:
 	bool GetRoadIsInChainStatus();
 	void SetRoadIsInChainStatus(bool chainFlag);
 	void DrawObject(int mask = 0) const override;
+	void DrawPartly(int leftX, int rightX, int topY, int bottomY) const;
 };
 /////////////People are looking for some fun!/////////////
 class Visitor : public IngameObject

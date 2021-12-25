@@ -49,69 +49,15 @@ void GameManagement::GameProcess()
 		{
 			allObjects_ptr->EraseObjects(camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(),
 				camera_ptr->GetUpperLeft().Get_y(), camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
-			Shift(shiftDirection);
+			cursor_ptr->CursorShift(shiftDirection);
+			if (!allObjects_ptr->IsPartOfExistingObject(cursor_ptr->GetCursorConsoleLocation()) && !allObjects_ptr->GetLastElementFlag())
+			{
+				draw_ptr->DrawCursorPixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y(), ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor());
+			}
+			allObjects_ptr->ShiftAllObjects(shiftDirection);
 			DisplayAllObjects();
 		}
 		wait(100);
-	}
-}
-void GameManagement::Shift(Direction shiftDirection)
-{
-	cursor_ptr->CursorShift(shiftDirection);
-	if (!allObjects_ptr->IsPartOfExistingObject(cursor_ptr->GetCursorConsoleLocation()) && !allObjects_ptr->GetLastElementFlag())
-	{
-		draw_ptr->DrawCursorPixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y(), ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor());
-	}
-	list<IngameObject*>::const_iterator iter;
-	for (iter = (allObjects_ptr->GetAllObjects()).begin(); iter != (allObjects_ptr->GetAllObjects()).end(); iter++)
-	{
-		PointCoord upperLeft = (*iter)->GetUpperLeft();
-		switch (shiftDirection)
-		{
-		case Direction::Right:
-		{
-			upperLeft.SetCoord(upperLeft.Get_x() + 1, upperLeft.Get_y());
-			break;
-		}
-		case Direction::Down:
-		{
-			upperLeft.SetCoord(upperLeft.Get_x(), upperLeft.Get_y() + 1);
-			break;
-		}
-		case Direction::Left:
-		{
-			upperLeft.SetCoord(upperLeft.Get_x() - 1, upperLeft.Get_y());
-			break;
-		}
-		case Direction::Up:
-		{
-			upperLeft.SetCoord(upperLeft.Get_x(), upperLeft.Get_y() - 1);
-			break;
-		}
-		}
-		(*iter)->SetUpperLeft(upperLeft);
-	}
-}
-void GameManagement::Shift(Direction shiftDirection, int shiftValue)
-{
-	list<IngameObject*>::iterator iter;
-	for (iter = (allObjects_ptr->GetAllObjects()).begin(); iter != (allObjects_ptr->GetAllObjects()).end(); iter++)
-	{
-		PointCoord upperLeft = (*iter)->GetUpperLeft();
-		switch (shiftDirection)
-		{
-		case Direction::Right:
-		{
-			upperLeft.SetCoord(upperLeft.Get_x() + shiftValue, upperLeft.Get_y());
-			break;
-		}
-		case Direction::Left:
-		{
-			upperLeft.SetCoord(upperLeft.Get_x() - shiftValue, upperLeft.Get_y());
-			break;
-		}
-		}
-		(*iter)->SetUpperLeft(upperLeft);
 	}
 }
 void GameManagement::DisplayAllObjects()
@@ -163,7 +109,7 @@ void GameManagement::H_Key()
 }
 void GameManagement::S_Key()
 {
-	Shift(menu_ptr->ChangeMenuSide(), menu_ptr->GetWidthAddition());
+	allObjects_ptr->ShiftAllObjects(menu_ptr->ChangeMenuSide(), menu_ptr->GetWidthAddition());
 	EraseScreen();
 	DisplayCamera();
 	DisplayMenu();
@@ -175,18 +121,21 @@ void GameManagement::TabKey_Playingfield()
 	int cameraRightX = camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition();
 	int cameraTopY = camera_ptr->GetUpperLeft().Get_y();
 	int cameraBottomY = camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition();
+	int leftX = menu_ptr->GetUpperLeft().Get_x();
+	int rightX = menu_ptr->GetUpperLeft().Get_x() + menu_ptr->GetWidthAddition();
 	if (menu_ptr->GetHideMenuStatus())
 	{
 		DisplayMenu();
 		menu_ptr->SetHideMenuStatus(0);
 	}
-	if (!allObjects_ptr->IsPartOfExistingObject(cursor_ptr->GetCursorConsoleLocation()))
+	if (!allObjects_ptr->GetLastElementFlag())
 	{
-		draw_ptr->ErasePixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y());
+		if (!allObjects_ptr->IsPartOfExistingObject(cursor_ptr->GetCursorConsoleLocation()))
+		{
+			draw_ptr->ErasePixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y());
+		}
 	}
-	int leftX = menu_ptr->GetUpperLeft().Get_x();
-	int rightX = menu_ptr->GetUpperLeft().Get_x() + menu_ptr->GetWidthAddition();
-	if (allObjects_ptr->GetLastElementFlag())
+	else
 	{
 		IngameObject* preliminary_ptr = allObjects_ptr->GetPreliminaryElement();
 		if (!allObjects_ptr->IsPartOfExistingObject(preliminary_ptr, cameraLeftX, cameraRightX, cameraTopY, cameraBottomY))
@@ -237,7 +186,7 @@ void GameManagement::EnterKey_PlayingField()
 	{
 		ConstructionDescriptor* cd_ptr = allObjects_ptr->GetPreliminaryElement()->GetDescriptor();
 		Construction* realObject_ptr = menu_ptr->GetManager(cd_ptr)->CreateConstruction(cursor_ptr->GetCursorConsoleLocation(), draw_ptr);
-		int position = allObjects_ptr->GetAllObjects().size();
+		int position = allObjects_ptr->GetElementsQuantity();
 		allObjects_ptr->AddObject(realObject_ptr, position);
 		int mask = 0;
 		if (Building* real_ptr = dynamic_cast<Building*>(realObject_ptr))
@@ -251,7 +200,7 @@ void GameManagement::EnterKey_PlayingField()
 			roads_ptr->RedrawNeibourRoads(real_ptr->GetUpperLeft());
 		}
 		realObject_ptr->DrawObject(mask);
-		cursor_ptr->SetCursorConsoleLocation();
+		cursor_ptr->CursorMovement(realObject_ptr->GetUpperLeft().Get_x() + realObject_ptr->GetWidthAddition() + 1, realObject_ptr->GetUpperLeft().Get_y() + realObject_ptr->GetHeightAddition());
 		allObjects_ptr->GetPreliminaryElement()->SetUpperLeft(cursor_ptr->GetCursorConsoleLocation());
 		if (!allObjects_ptr->IsPartOfExistingObject(allObjects_ptr->GetPreliminaryElement(), cameraLeftX, cameraRightX, cameraTopY, cameraBottomY))
 		{
@@ -311,7 +260,7 @@ void GameManagement::EscKey_PlayingField()
 		draw_ptr->DrawRectangle(leftX, topY, rightX, bottomY, menu_ptr->GetItemSymbols()->GetVerticalSymbol(), menu_ptr->GetItemSymbols()->GetHorizontalSymbol(),
 			menu_ptr->GetItemSymbols()->GetUpperLeftSymbol(), menu_ptr->GetItemSymbols()->GetUpperRightSymbol(), menu_ptr->GetItemSymbols()->GetBottomLeftSymbol(),
 			menu_ptr->GetItemSymbols()->GetBottomRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuItemInactiveColor());
-		if (!allObjects_ptr->IsPartOfExistingObject(allObjects_ptr->GetPreliminaryElement(), camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(), 
+		if (!allObjects_ptr->IsPartOfExistingObject(allObjects_ptr->GetPreliminaryElement(), camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(),
 			camera_ptr->GetUpperLeft().Get_y(), camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition()))
 		{
 			draw_ptr->EraseConstruction(allObjects_ptr->GetPreliminaryElement()->GetUpperLeft().Get_x(), allObjects_ptr->GetPreliminaryElement()->GetUpperLeft().Get_y(),
@@ -324,10 +273,6 @@ void GameManagement::EscKey_PlayingField()
 		if (!allObjects_ptr->IsPartOfExistingObject(cursor_ptr->GetCursorConsoleLocation()))
 		{
 			draw_ptr->DrawCursorPixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y(), ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor());
-		}
-		else
-		{
-			return;
 		}
 	}
 }
@@ -360,21 +305,14 @@ void GameManagement::Arrows_PlayingField(PointCoord cursorDestination)
 			cursor_ptr->CursorMovement(io_ptr->GetUpperLeft());
 		}
 	}
-	else if (!allObjects_ptr->IsPartOfExistingObject(PointCoord(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y())) &&
-		cursor_ptr->GetCursorConsoleLocation().Get_x() != cameraLeftX && cursor_ptr->GetCursorConsoleLocation().Get_x() != cameraRightX &&
-		cursor_ptr->GetCursorConsoleLocation().Get_y() != cameraTopY && cursor_ptr->GetCursorConsoleLocation().Get_y() != cameraBottomY)
+	else
 	{
-		draw_ptr->ErasePixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y());
-		cursor_ptr->CursorMovement(cursorDestination);
 		if (!allObjects_ptr->IsPartOfExistingObject(PointCoord(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y())) &&
 			cursor_ptr->GetCursorConsoleLocation().Get_x() != cameraLeftX && cursor_ptr->GetCursorConsoleLocation().Get_x() != cameraRightX &&
 			cursor_ptr->GetCursorConsoleLocation().Get_y() != cameraTopY && cursor_ptr->GetCursorConsoleLocation().Get_y() != cameraBottomY)
 		{
-			draw_ptr->DrawCursorPixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y(), ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor());
+			draw_ptr->ErasePixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y());
 		}
-	}
-	else
-	{
 		cursor_ptr->CursorMovement(cursorDestination);
 		if (!allObjects_ptr->IsPartOfExistingObject(PointCoord(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y())) &&
 			cursor_ptr->GetCursorConsoleLocation().Get_x() != cameraLeftX && cursor_ptr->GetCursorConsoleLocation().Get_x() != cameraRightX &&

@@ -26,7 +26,7 @@ public:
 			delete (*iter);
 		}
 	}
-	list<IngameObject*>& GetAllObjects();
+	int GetElementsQuantity() const;
 	void AddObject(IngameObject* obj_ptr);
 	void AddObject(IngameObject* obj_ptr, int position);
 	void SetLastElementFlag(bool changer);
@@ -37,6 +37,8 @@ public:
 	bool IsPartOfExistingObject(PointCoord point) const;
 	bool IsPartOfExistingObject(IngameObject* object_ptr, int cameraLeftX, int cameraRightX, int cameraTopY, int cameraBottomY);
 	void EraseObjects(int cameraLeftX, int cameraRightX, int cameraTopY, int cameraBottomY);
+	void ShiftAllObjects(Direction shiftDirection);
+	void ShiftAllObjects(Direction shiftDirection, int shiftValue);
 };
 /////////////Container of All Types of buildings Class/////////////
 class AllBuildings
@@ -61,7 +63,6 @@ public:
 	}
 	void AddBuilding(Building* go_ptr);
 	void DisplayBuildings(int cameraLeftX, int cameraRightX, int cameraTopY, int cameraBottomY) const;
-	const list<Building*> GetAllBuildings();
 	vector<PointCoord> GetPotentialRoadCoords(); //returns points that are near the entrances
 	void SetRoadConnectionStatus(vector<PointCoord> connectedRoads);
 };
@@ -87,7 +88,6 @@ public:
 		}
 	}
 	void AddRoad(Road* r_ptr);
-	list<Road*>& GetAllRoads();
 	int RoadEnvironment(PointCoord point);
 	void DisplayRoads(int cameraLeftX, int cameraRightX, int cameraTopY, int cameraBottomY);
 	void RedrawNeibourRoads(PointCoord roadUpperLeft); //when new road tile added or removed redraw all neighbor roads
@@ -121,5 +121,4 @@ public:
 	void VisitorAppear();
 	bool LocationCheck(PointCoord);
 	void DisplayVisitors();
-	list<Visitor*>& GetAllVisitors();
 };

@@ -76,7 +76,7 @@ void Visualisation::DrawConstruction(int leftX, int topY, int rightX, int bottom
 			wcout << constructionSymbol;
 		}
 	}
-	if (entranceHeightAdd != -1 && entranceWidthAdd != -1)
+	if (entranceHeightAdd != -1 && entranceWidthAdd != -1 && leftX + entranceWidthAdd <= rightX && topY + entranceHeightAdd <= bottomY)
 	{
 		set_cursor_pos(leftX + entranceWidthAdd, topY + entranceHeightAdd);
 		wcout << entranceSymbol;
