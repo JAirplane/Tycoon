@@ -44,7 +44,7 @@ Direction Menu::ChangeMenuSide()
 	}
 	return shiftDirection;
 }
-void Menu::ShowMenuItems()
+void Menu::ShowMenuItems(PointCoord underConstruction)
 {
 	int leftX = GetUpperLeft().Get_x();
 	int topY = GetUpperLeft().Get_y();
@@ -53,10 +53,20 @@ void Menu::ShowMenuItems()
 	vector<ConstructionManager*>::iterator iter;
 	for (iter = managers.begin(); iter != managers.end() && (topY + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight()) < bottomY; iter++)
 	{
-		draw_ptr->DrawRectangle(leftX + 2, topY + 1, rightX - 2, topY + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight(),
-			itemBorderSymbols_ptr->GetVerticalSymbol(), itemBorderSymbols_ptr->GetHorizontalSymbol(), itemBorderSymbols_ptr->GetUpperLeftSymbol(),
-			itemBorderSymbols_ptr->GetUpperRightSymbol(), itemBorderSymbols_ptr->GetBottomLeftSymbol(), itemBorderSymbols_ptr->GetBottomRightSymbol(),
-			ConstructionOptions::GetAllOptions()->GetMenuItemInactiveColor());
+		if ((*iter)->GetUpperLeft() == underConstruction)
+		{
+			draw_ptr->DrawRectangle(leftX + 2, topY + 1, rightX - 2, topY + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight(),
+				itemBorderSymbols_ptr->GetVerticalSymbol(), itemBorderSymbols_ptr->GetHorizontalSymbol(), itemBorderSymbols_ptr->GetUpperLeftSymbol(),
+				itemBorderSymbols_ptr->GetUpperRightSymbol(), itemBorderSymbols_ptr->GetBottomLeftSymbol(), itemBorderSymbols_ptr->GetBottomRightSymbol(),
+				ConstructionOptions::GetAllOptions()->GetMenuItemUnderConstructionColor());
+		}
+		else
+		{
+			draw_ptr->DrawRectangle(leftX + 2, topY + 1, rightX - 2, topY + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight(),
+				itemBorderSymbols_ptr->GetVerticalSymbol(), itemBorderSymbols_ptr->GetHorizontalSymbol(), itemBorderSymbols_ptr->GetUpperLeftSymbol(),
+				itemBorderSymbols_ptr->GetUpperRightSymbol(), itemBorderSymbols_ptr->GetBottomLeftSymbol(), itemBorderSymbols_ptr->GetBottomRightSymbol(),
+				ConstructionOptions::GetAllOptions()->GetMenuItemInactiveColor());
+		}
 		draw_ptr->DrawIcon(leftX + 3, topY + 2, iconBorderSymbols_ptr->GetVerticalSymbol(), iconBorderSymbols_ptr->GetHorizontalSymbol(),
 			iconBorderSymbols_ptr->GetUpperLeftSymbol(), iconBorderSymbols_ptr->GetUpperRightSymbol(), iconBorderSymbols_ptr->GetBottomLeftSymbol(),
 			iconBorderSymbols_ptr->GetBottomRightSymbol(), (*iter)->GetDescriptor()->GetConstructionCost(), (*iter)->GetDescriptor()->GetDailyExpences(), (*iter)->GetDescriptor()->GetIconSymbol(),

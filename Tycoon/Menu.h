@@ -38,7 +38,7 @@ public:
 	void SetHideMenuStatus(bool hideFlag);
 	MenuStatus GetCurrentSide();
 	Direction ChangeMenuSide();
-	void ShowMenuItems();
+	void ShowMenuItems(PointCoord underConstruction = PointCoord(0, 0));
 	void ShowMenuBorders();
 	PointCoord GetNearestIconCoords(PointCoord currentIcon, IconsPosition ip);
 	void IconsShift(IconsPosition ip);

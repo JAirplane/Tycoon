@@ -1,6 +1,6 @@
 #include "PlayingField.h"
 /////////////PlayingField Class/////////////
-RectangleSymbols* PlayingField::GetRectangleSymbolsPointer() const
+RectangleSymbols* PlayingField::GetBorderSymbols() const
 {
 	return rectangleSymbols_ptr;
 }

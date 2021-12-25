@@ -43,6 +43,84 @@ void Visualisation::DrawRectangle(int leftX, int topY, int rightX, int bottomY, 
 	_setmode(_fileno(stdout), _O_TEXT);
 	set_color(cYELLOW);
 }
+void Visualisation::DrawPartOfRectangle(int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY, int leftX, int topY, int rightX, int bottomY, 
+	wstring vertical, wstring horizontal, wstring upperLeft, wstring upperRight, wstring bottomLeft, wstring bottomRight, color foreground, color background)
+{
+	_setmode(_fileno(stdout), _O_U16TEXT);
+	set_color(foreground, background);
+	if (leftX > cameraLeftX && leftX < cameraRightX)
+	{
+		for (int y = topY + 1; y < bottomY; y++)
+		{
+			if (y > cameraTopY && y < cameraBottomY)
+			{
+				set_cursor_pos(leftX, y);
+				wcout << vertical;
+			}
+		}
+	}
+	if (rightX > cameraLeftX && rightX < cameraRightX)
+	{
+		for (int y = topY + 1; y < bottomY; y++)
+		{
+			if (y > cameraTopY && y < cameraBottomY)
+			{
+				set_cursor_pos(rightX, y);
+				wcout << vertical;
+			}
+		}
+	}
+	if (topY > cameraTopY && topY < cameraBottomY)
+	{
+		for (int x = leftX + 1; x < rightX; x++)
+		{
+			if (x > cameraLeftX && x < cameraRightX)
+			{
+				set_cursor_pos(x, topY);
+				wcout << horizontal;
+			}
+		}
+	}
+	if (bottomY > cameraTopY && bottomY < cameraBottomY)
+	{
+		for (int x = leftX + 1; x < rightX; x++)
+		{
+			if (x > cameraLeftX && x < cameraRightX)
+			{
+				set_cursor_pos(x, bottomY);
+				wcout << horizontal;
+			}
+		}
+	}
+	if (rightX > cameraLeftX && rightX < cameraRightX)
+	{
+		if (topY > cameraTopY && topY < cameraBottomY)
+		{
+			set_cursor_pos(rightX, topY);
+			wcout << upperRight;
+		}
+		if (bottomY > cameraTopY && bottomY < cameraBottomY)
+		{
+			set_cursor_pos(rightX, bottomY);
+			wcout << bottomRight;
+		}
+	}
+	if (leftX > cameraLeftX && leftX < cameraRightX)
+	{
+		if (bottomY > cameraTopY && bottomY < cameraBottomY)
+		{
+			set_cursor_pos(leftX, bottomY);
+			wcout << bottomLeft;
+		}
+		if (topY > cameraTopY && topY < cameraBottomY)
+		{
+			set_cursor_pos(leftX, topY);
+			wcout << upperLeft;
+		}
+	}
+	_setmode(_fileno(stdout), _O_TEXT);
+	set_color(cYELLOW);
+}
 void Visualisation::ErasePixel(int x, int y)
 {
 	set_color(cBLACK);

@@ -6,7 +6,7 @@ class PlayingField : public GlobalObject
 private:
 	RectangleSymbols* rectangleSymbols_ptr;
 public:
-	PlayingField(PointCoord upperLeft, unsigned int heightAdd, unsigned int widthAdd, RectangleSymbols* rectangleSymbols_ptr) : GlobalObject(upperLeft, heightAdd, widthAdd)
+	PlayingField(PointCoord upperLeft, int heightAdd, int widthAdd, RectangleSymbols* rectangleSymbols_ptr) : GlobalObject(upperLeft, heightAdd, widthAdd)
 	{
 		this->rectangleSymbols_ptr = rectangleSymbols_ptr;
 	}
@@ -14,5 +14,5 @@ public:
 	{
 		delete rectangleSymbols_ptr;
 	}
-	RectangleSymbols* GetRectangleSymbolsPointer() const;
+	RectangleSymbols* GetBorderSymbols() const;
 };

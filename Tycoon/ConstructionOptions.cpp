@@ -27,7 +27,7 @@ const int ConstructionOptions::GetMenuHeightAdd() const
 }
 const int ConstructionOptions::GetPlayingFieldHeightAdd() const
 {
-	return 64;
+	return 62;
 }
 ///////////////Width Addition Constants///////////////
 const int ConstructionOptions::GetIceCreamShopWidthAdd() const
@@ -52,7 +52,7 @@ const int ConstructionOptions::GetMenuWidthAdd() const
 }
 const int ConstructionOptions::GetPlayingFieldWidthAdd() const
 {
-	return 130;
+	return 129;
 }
 ///////////////Cost Initialisation Constants///////////////
 const int ConstructionOptions::GetIceCreamShopCost() const
@@ -161,7 +161,7 @@ color ConstructionOptions::GetCameraColor() const
 }
 color ConstructionOptions::GetPlayingFieldColor() const
 {
-	return color::cBLUE;
+	return color::cDARK_GRAY;
 }
 color ConstructionOptions::GetMenuColor() const
 {

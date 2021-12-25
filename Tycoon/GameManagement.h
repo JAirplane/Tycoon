@@ -27,7 +27,7 @@ public:
 			ConstructionOptions::GetAllOptions()->GetHorizontalPlayingField(), ConstructionOptions::GetAllOptions()->GetUpperLeftPlayingField(),
 			ConstructionOptions::GetAllOptions()->GetUpperRightPlayingField(), ConstructionOptions::GetAllOptions()->GetBottomLeftPlayingField(),
 			ConstructionOptions::GetAllOptions()->GetBottomRightPlayingField());
-		field_ptr = new PlayingField(ConstructionOptions::GetAllOptions()->GetPlayingFieldUpperLeft(), ConstructionOptions::GetAllOptions()->GetCameraHeightAdd(),
+		field_ptr = new PlayingField(ConstructionOptions::GetAllOptions()->GetPlayingFieldUpperLeft(), ConstructionOptions::GetAllOptions()->GetPlayingFieldHeightAdd(),
 			ConstructionOptions::GetAllOptions()->GetPlayingFieldWidthAdd(), playingFieldSymbols_ptr);
 		draw_ptr = new Visualisation();
 		allObjects_ptr = new AllObjects(cursor_ptr, draw_ptr);
@@ -63,6 +63,7 @@ public:
 	}
 	void DisplayCamera();
 	void DisplayMenu();
+	void DisplayPlayingField();
 	void HideMenu();
 	void EraseScreen();
 	void DisplayAllObjects();

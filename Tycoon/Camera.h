@@ -14,6 +14,6 @@ public:
 	{
 		delete borderSymbols_ptr;
 	}
-	Direction CursorBordersCheck(Cursor* cursor_ptr);
+	Direction CursorBordersCheck(Cursor* cursor_ptr, PlayingField* field_ptr);
 	RectangleSymbols* GetBorderSymbols() const;
 };

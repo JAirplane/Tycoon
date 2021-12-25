@@ -55,7 +55,7 @@ wstring Building::GetEntranceSymbol(Direction exit) const
 	case Direction::Right: {return wstring(L"\u2192"); }
 	case Direction::Down: {return wstring(L"\u2193"); }
 	case Direction::Left: {return wstring(L"\u2190"); }
-	case Direction::None: {return wstring(L""); }
+	default: {return wstring(L""); }
 	}
 }
 bool Building::GetRoadConnectionStatus() const

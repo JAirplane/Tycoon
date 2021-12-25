@@ -1,6 +1,6 @@
 #include "ObjectContainers.h"
 /////////////Container of All Objects in the Game/////////////
-int AllObjects::GetElementsQuantity()
+int AllObjects::GetElementsQuantity() const
 {
 	return everyObject.size();
 }
