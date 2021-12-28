@@ -3,19 +3,29 @@
 #include <vector>
 #include <typeinfo>
 #include "ManagersDerived.h"
+/////////////Parent Class for containers in the Game/////////////
+class BasicContainer
+{
+private:
+	Cursor* cursor_ptr;
+	Visualisation* draw_ptr;
+public:
+	BasicContainer(Cursor* c_ptr, Visualisation* d_ptr) : cursor_ptr(c_ptr), draw_ptr(d_ptr)
+	{}
+	~BasicContainer()
+	{}
+	Cursor* GetCursor() const;
+	Visualisation* GetDrawer() const;
+}
 /////////////Container of All Objects in the Game/////////////
-class AllObjects
+class AllObjects : public BasicContainer
 {
 private:
 	list<IngameObject*> everyObject;
-	Cursor* cursor_ptr;
-	Visualisation* draw_ptr;
 	bool lastElementIsPreliminary;
 public:
-	AllObjects(Cursor* c_ptr, Visualisation* paint_ptr)
+	AllObjects(Cursor* c_ptr, Visualisation* paint_ptr) : BasicContainer(c_ptr, paint_ptr)
 	{
-		cursor_ptr = c_ptr;
-		draw_ptr = paint_ptr;
 		lastElementIsPreliminary = 0;
 	}
 	~AllObjects()
@@ -34,25 +44,20 @@ public:
 	IngameObject* GetPreliminaryElement(); //it takes last element of everyObject list
 	void AddPreliminaryElement(Construction* c_ptr);
 	void ErasePreliminaryElement();
-	bool IsPartOfExistingObject(PointCoord point) const;
-	bool IsPartOfExistingObject(IngameObject* object_ptr, int cameraLeftX, int cameraRightX, int cameraTopY, int cameraBottomY);
+	bool ObjectImposition(PointCoord point, PlayingField* field_ptr) const;
+	bool ObjectImposition(IngameObject* object_ptr, Camera* camera_ptr, PlayingField* field_ptr) const;
 	void EraseObjects(int cameraLeftX, int cameraRightX, int cameraTopY, int cameraBottomY);
 	void ShiftAllObjects(Direction shiftDirection);
 	void ShiftAllObjects(Direction shiftDirection, int shiftValue);
 };
 /////////////Container of All Types of buildings Class/////////////
-class AllBuildings
+class AllBuildings : public BasicContainer
 {
 private:
 	list<Building*> buildings;
-	Cursor* cursor_ptr;
-	Visualisation* draw_ptr;
 public:
-	AllBuildings(Cursor* c_ptr, Visualisation* paint_ptr)
-	{
-		cursor_ptr = c_ptr;
-		draw_ptr = paint_ptr;
-	}
+	AllBuildings(Cursor* c_ptr, Visualisation* paint_ptr) : BasicContainer(c_ptr, paint_ptr)
+	{}
 	~AllBuildings()
 	{
 		list<Building*>::iterator iter;
@@ -67,18 +72,13 @@ public:
 	void SetRoadConnectionStatus(vector<PointCoord> connectedRoads);
 };
 /////////////Road Container Class/////////////
-class AllRoads
+class AllRoads : public BasicContainer
 {
 private:
 	list<Road*> roads;
-	Cursor* cursor_ptr;
-	Visualisation* draw_ptr;
 public:
-	AllRoads(Cursor* c_ptr, Visualisation* paint_ptr)
-	{
-		cursor_ptr = c_ptr;
-		draw_ptr = paint_ptr;
-	}
+	AllRoads(Cursor* c_ptr, Visualisation* paint_ptr) : BasicContainer(c_ptr, paint_ptr)
+	{}
 	~AllRoads()
 	{
 		list<Road*>::iterator iter;
@@ -96,19 +96,15 @@ public:
 	void SetChainStatus();
 };
 /////////////Visitor Container Class/////////////
-class AllVisitors
+class AllVisitors : public BasicContainer
 {
 private:
 	list<Visitor*> visitors;
-	Cursor* cursor_ptr;
 	AllObjects* allObjects_ptr;
-	Visualisation* draw_ptr;
 public:
-	AllVisitors(Cursor* c_ptr, AllObjects* container_ptr, Visualisation* paint_ptr)
+	AllVisitors(Cursor* c_ptr, AllObjects* container_ptr, Visualisation* paint_ptr) : BasicContainer(c_ptr, paint_ptr)
 	{
-		cursor_ptr = c_ptr;
 		allObjects_ptr = container_ptr;
-		draw_ptr = paint_ptr;
 	}
 	~AllVisitors()
 	{

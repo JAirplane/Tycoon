@@ -60,6 +60,7 @@ public:
 		delete roads_ptr;
 		delete visitors_ptr;
 		delete menu_ptr;
+		delete field_ptr
 	}
 	void DisplayCamera();
 	void DisplayMenu();

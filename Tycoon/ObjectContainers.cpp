@@ -1,4 +1,13 @@
 #include "ObjectContainers.h"
+/////////////Parent Class for containers in the Game/////////////
+Cursor* BasicContainer::GetCursor() const
+{
+	return cursor_ptr;
+}
+Visualisation* BasicContainer::GetDrawer() const
+{
+	return draw_ptr;
+}
 /////////////Container of All Objects in the Game/////////////
 int AllObjects::GetElementsQuantity() const
 {
@@ -53,24 +62,40 @@ void AllObjects::ErasePreliminaryElement()
 	}
 	lastElementIsPreliminary = false;
 }
-bool AllObjects::IsPartOfExistingObject(PointCoord point) const
+bool AllObjects::ObjectImposition(PointCoord point, PlayingField* field_ptr) const
 {
+	int playingFieldLeftX = field_ptr->GetUpperLeft().Get_x();
+	int playingFieldRightX = playingFieldLeftX + field_ptr->GetWidthAddition();
+	int playingFieldTopY = field_ptr->GetUpperLeft().Get_y();
+	int playingFieldBottomY = playingFieldTopY + field_ptr->GetHeightAddition();
 	list<IngameObject*>::const_iterator iter;
+	if (playingFieldLeftX == point.Get_x() || playingFieldRightX == point.Get_x() || playingFieldTopY == point.Get_y() || playingFieldBottomY == point.Get_y()
+	{
+		return true;
+	}
 	for (iter = everyObject.begin(); iter != everyObject.end(); iter++)
 	{
 		PointCoord upperLeft = (*iter)->GetUpperLeft();
-		int heightAdd = (*iter)->GetHeightAddition();
-		int widthAdd = (*iter)->GetWidthAddition();
-		if (point.Get_x() >= upperLeft.Get_x() && point.Get_x() <= (upperLeft.Get_x() + widthAdd) && point.Get_y() >= upperLeft.Get_y() && point.Get_y() <= (upperLeft.Get_y() + heightAdd))
-		{
-			return true;
-		}
+			int heightAdd = (*iter)->GetHeightAddition();
+			int widthAdd = (*iter)->GetWidthAddition();
+			if (point.Get_x() >= upperLeft.Get_x() && point.Get_x() <= (upperLeft.Get_x() + widthAdd) && point.Get_y() >= upperLeft.Get_y() && point.Get_y() <= (upperLeft.Get_y() + heightAdd))
+			{
+				return true;
+			}
 	}
 	return false;
 }
-bool AllObjects::IsPartOfExistingObject(IngameObject* object_ptr, int cameraLeftX, int cameraRightX, int cameraTopY, int cameraBottomY)
+bool AllObjects::ObjectImposition(IngameObject* object_ptr, Camera* camera_ptr, PlayingField* field_ptr) const
 {
 	list<IngameObject*>::iterator iter;
+	int cameraLeftX = camera_ptr->GetUpperLeft().Get_x();
+	int cameraRightX = cameraLeftX + camera_ptr->GetWidthAddition();
+	int cameraTopY = camera_ptr->GetUpperLeft().Get_y();
+	int cameraBottomY = cameraTopY + camera_ptr->GetHeightAddition();
+	int playingFieldLeftX = field_ptr->GetUpperLeft().Get_x();
+	int playingFieldRightX = playingFieldLeftX + field_ptr->GetWidthAddition();
+	int playingFieldTopY = field_ptr->GetUpperLeft().Get_y();
+	int playingFieldBottomY = playingFieldTopY + field_ptr->GetHeightAddition();
 	int xCoord = object_ptr->GetUpperLeft().Get_x();
 	int yCoord = object_ptr->GetUpperLeft().Get_y();
 	int objectHeightAdd = object_ptr->GetHeightAddition();
@@ -97,6 +122,10 @@ bool AllObjects::IsPartOfExistingObject(IngameObject* object_ptr, int cameraLeft
 				}
 			}
 			if (yCoord == cameraTopY || yCoord == cameraBottomY || xCoord == cameraLeftX || xCoord == cameraRightX)
+			{
+				return true;
+			}
+			if (yCoord <= playingFieldTopY || yCoord >= playingFieldBottomY || xCoord <= playingFieldLeftX || xCoord >= playingFieldRightX)
 			{
 				return true;
 			}
@@ -132,7 +161,7 @@ void AllObjects::EraseObjects(int cameraLeftX, int cameraRightX, int cameraTopY,
 		}
 		if (leftX < cameraRightX && topY < cameraBottomY && rightX > cameraLeftX && bottomY > cameraTopY)
 		{
-			draw_ptr->EraseConstruction(leftX, topY, rightX, bottomY);
+			GetDrawer()->EraseConstruction(leftX, topY, rightX, bottomY);
 		}
 	}
 }
@@ -230,7 +259,7 @@ void AllBuildings::DisplayBuildings(int cameraLeftX, int cameraRightX, int camer
 			(*iter)->DrawPartly(leftX, rightX, topY, bottomY);
 		}
 	}
-	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
+	GetCursor()->CursorMovement(GetCursor()->GetCursorConsoleLocation());
 }
 vector<PointCoord> AllBuildings::GetPotentialRoadCoords()
 {
@@ -287,12 +316,12 @@ void AllVisitors::VisitorAppear()
 		int pee = 100;
 		Visitor* visitor_ptr;
 		IngameObject* vis_ptr;
-		vis_ptr = visitor_ptr = new Visitor(startVisitorPoint, food, pee, draw_ptr);
+		vis_ptr = visitor_ptr = new Visitor(startVisitorPoint, food, pee, GetDrawer());
 		visitors.push_back(visitor_ptr);
 		allObjects_ptr->AddObject(vis_ptr);
-		draw_ptr->DrawVisitor((visitor_ptr->GetUpperLeft()).Get_x(), (visitor_ptr->GetUpperLeft()).Get_y());
+		GetDrawer()->DrawVisitor((visitor_ptr->GetUpperLeft()).Get_x(), (visitor_ptr->GetUpperLeft()).Get_y());
 	}
-	cursor_ptr->SetCursorConsoleLocation();
+	GetCursor()->SetCursorConsoleLocation();
 }
 bool AllVisitors::LocationCheck(PointCoord point)
 {
@@ -312,9 +341,9 @@ void AllVisitors::DisplayVisitors()
 	for (iter = visitors.begin(); iter != visitors.end(); iter++)
 	{
 		PointCoord upperLeftVisitor = (*iter)->GetUpperLeft();
-		draw_ptr->DrawVisitor(upperLeftVisitor.Get_x(), upperLeftVisitor.Get_y());
+		GetDrawer()->DrawVisitor(upperLeftVisitor.Get_x(), upperLeftVisitor.Get_y());
 	}
-	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
+	GetCursor()->CursorMovement(GetCursor()->GetCursorConsoleLocation());
 }
 ///////////////AllRoads Class///////////////
 void AllRoads::AddRoad(Road* go_ptr)
@@ -379,10 +408,10 @@ void AllRoads::DisplayRoads(int cameraLeftX, int cameraRightX, int cameraTopY, i
 		}
 		if (leftX < cameraRightX && topY < cameraBottomY && rightX > cameraLeftX && bottomY > cameraTopY)
 		{
-			draw_ptr->DrawConstruction(leftX, topY, rightX, bottomY, roadSymbol, (*iter)->GetDescriptor()->GetForegroundColor(), (*iter)->GetDescriptor()->GetBackgroundColor());
+			GetDrawer()->DrawConstruction(leftX, topY, rightX, bottomY, roadSymbol, (*iter)->GetDescriptor()->GetForegroundColor(), (*iter)->GetDescriptor()->GetBackgroundColor());
 		}
 	}
-	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
+	GetCursor()->CursorMovement(GetCursor()->GetCursorConsoleLocation());
 }
 void AllRoads::RedrawNeibourRoads(PointCoord roadUpperLeft)
 {
