@@ -10,7 +10,7 @@ void GameManagement::DisplayMenu()
 	}
 	menu_ptr->ShowMenuItems(underConstruction);
 	color cursorBackgroundColor = ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor();
-	if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation()), PlayingField * field_ptr)
+	if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr))
 	{
 		draw_ptr->DrawCursorPixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y(), cursorBackgroundColor);
 	}
@@ -24,7 +24,7 @@ void GameManagement::HideMenu()
 	int rightX = leftX + camera_ptr->GetWidthAddition();
 	int bottomY = topY + camera_ptr->GetHeightAddition();
 	cursor_ptr->CursorMovement(PointCoord((leftX + rightX) / 2, (topY + bottomY) / 2));
-	if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation()), PlayingField * field_ptr)
+	if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr))
 	{
 		draw_ptr->DrawCursorPixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y(), ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor());
 	}
@@ -76,13 +76,13 @@ void GameManagement::GameProcess()
 			//cout << key;
 			UserActions(key);
 		}
-		shiftDirection = camera_ptr->CursorBordersCheck(cursor_ptr);
+		shiftDirection = camera_ptr->CursorBordersCheck(cursor_ptr, field_ptr);
 		if (shiftDirection != Direction::None)
 		{
 			allObjects_ptr->EraseObjects(camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(),
 				camera_ptr->GetUpperLeft().Get_y(), camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
 			cursor_ptr->CursorShift(shiftDirection);
-			if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), PlayingField * field_ptr) && !allObjects_ptr->GetLastElementFlag())
+			if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr) && !allObjects_ptr->GetLastElementFlag())
 			{
 				draw_ptr->DrawCursorPixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y(), ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor());
 			}
@@ -165,7 +165,7 @@ void GameManagement::TabKey_Playingfield()
 	}
 	if (!allObjects_ptr->GetLastElementFlag())
 	{
-		if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation()), PlayingField * field_ptr)
+		if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr))
 		{
 			draw_ptr->ErasePixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y());
 		}
@@ -204,7 +204,7 @@ void GameManagement::TabKey_Menu()
 		menu_ptr->GetItemSymbols()->GetUpperRightSymbol(), menu_ptr->GetItemSymbols()->GetBottomLeftSymbol(), menu_ptr->GetItemSymbols()->GetBottomRightSymbol(),
 		ConstructionOptions::GetAllOptions()->GetMenuItemInactiveColor());
 	cursor_ptr->CursorMovement(PointCoord((camera_ptr->GetUpperLeft().Get_x() * 2 + camera_ptr->GetWidthAddition()) / 2, (camera_ptr->GetUpperLeft().Get_y() * 2 + camera_ptr->GetHeightAddition()) / 2));
-	if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation()), PlayingField * field_ptr)
+	if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr))
 	{
 		draw_ptr->DrawCursorPixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y(), ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor());
 		cursor_ptr->SetCursorConsoleLocation();
@@ -307,7 +307,7 @@ void GameManagement::EscKey_PlayingField()
 		allObjects_ptr->ErasePreliminaryElement();
 		allObjects_ptr->SetLastElementFlag(0);
 		cursor_ptr->CursorMovement(PointCoord((camera_ptr->GetUpperLeft().Get_x() * 2 + camera_ptr->GetWidthAddition()) / 2, (camera_ptr->GetUpperLeft().Get_y() * 2 + camera_ptr->GetHeightAddition()) / 2));
-		if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation()), PlayingField * field_ptr)
+		if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr))
 		{
 			draw_ptr->DrawCursorPixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y(), ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor());
 		}

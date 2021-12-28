@@ -141,8 +141,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\msoft\msoftcon.h" />
-    <ClInclude Include="..\..\icu\icu4c\source\common\unicode\uchar.h" />
-    <ClInclude Include="..\..\icu\icu4c\source\common\unicode\utypes.h" />
     <ClInclude Include="BuildingDescriptor.h" />
     <ClInclude Include="ConstructionDescriptor.h" />
     <ClInclude Include="ConstructionManager.h" />

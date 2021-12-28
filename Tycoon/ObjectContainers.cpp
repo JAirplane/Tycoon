@@ -69,7 +69,7 @@ bool AllObjects::ObjectImposition(PointCoord point, PlayingField* field_ptr) con
 	int playingFieldTopY = field_ptr->GetUpperLeft().Get_y();
 	int playingFieldBottomY = playingFieldTopY + field_ptr->GetHeightAddition();
 	list<IngameObject*>::const_iterator iter;
-	if (playingFieldLeftX == point.Get_x() || playingFieldRightX == point.Get_x() || playingFieldTopY == point.Get_y() || playingFieldBottomY == point.Get_y()
+	if (playingFieldLeftX == point.Get_x() || playingFieldRightX == point.Get_x() || playingFieldTopY == point.Get_y() || playingFieldBottomY == point.Get_y())
 	{
 		return true;
 	}
@@ -87,7 +87,7 @@ bool AllObjects::ObjectImposition(PointCoord point, PlayingField* field_ptr) con
 }
 bool AllObjects::ObjectImposition(IngameObject* object_ptr, Camera* camera_ptr, PlayingField* field_ptr) const
 {
-	list<IngameObject*>::iterator iter;
+	list<IngameObject*>::const_iterator iter;
 	int cameraLeftX = camera_ptr->GetUpperLeft().Get_x();
 	int cameraRightX = cameraLeftX + camera_ptr->GetWidthAddition();
 	int cameraTopY = camera_ptr->GetUpperLeft().Get_y();

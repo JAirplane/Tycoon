@@ -6,26 +6,27 @@ RectangleSymbols* PlayingField::GetBorderSymbols() const
 }
 void PlayingField::Shift(Direction shiftDirection)
 {
+	PointCoord upperLeft = GetUpperLeft();
 	switch (shiftDirection)
 	{
 	case Direction::Right:
 	{
-		GetUpperLeft().SetCoord(GetUpperLeft().Get_x() + 1, GetUpperLeft().Get_y());
+		SetUpperLeft(PointCoord(GetUpperLeft().Get_x() + 1, GetUpperLeft().Get_y()));
 		return;
 	}
 	case Direction::Down:
 	{
-		GetUpperLeft().SetCoord(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() + 1);
+		SetUpperLeft(PointCoord(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() + 1));
 		return;
 	}
 	case Direction::Left:
 	{
-		GetUpperLeft().SetCoord(GetUpperLeft().Get_x() - 1, GetUpperLeft().Get_y());
+		SetUpperLeft(PointCoord(GetUpperLeft().Get_x() - 1, GetUpperLeft().Get_y()));
 		return;
 	}
 	case Direction::Up:
 	{
-		GetUpperLeft().SetCoord(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() - 1);
+		SetUpperLeft(PointCoord(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() - 1));
 		return;
 	}
 	}

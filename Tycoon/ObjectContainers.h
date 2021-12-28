@@ -2,7 +2,7 @@
 #include <list>
 #include <vector>
 #include <typeinfo>
-#include "ManagersDerived.h"
+#include "Camera.h"
 /////////////Parent Class for containers in the Game/////////////
 class BasicContainer
 {
@@ -16,7 +16,7 @@ public:
 	{}
 	Cursor* GetCursor() const;
 	Visualisation* GetDrawer() const;
-}
+};
 /////////////Container of All Objects in the Game/////////////
 class AllObjects : public BasicContainer
 {
