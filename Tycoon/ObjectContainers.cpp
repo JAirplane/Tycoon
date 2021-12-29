@@ -12,18 +12,22 @@ int AllObjects::GetVisitorsQuantity() const
 {
 	return visitors.size();
 }
-void AllObjects::AddObject(Building* obj_ptr, int position, bool isPreliminary)
+void AllObjects::AddObject(Construction* obj_ptr, int position, bool isPreliminary)
 {
-	if (buildings.size() < position)
+	if (containsPreliminary = PreliminaryStatus::BUILDING)
 	{
-		buildings.push_back(obj_ptr);
+		if (buildings.size() < position || position == -1)
+		{
+			buildings.push_back(dynamic_cast<Building*>(obj_ptr));
+		}
+		else
+		{
+			list<Building*>::iterator iter = buildings.begin();
+			iter = next(iter, position);
+			buildings.insert(iter, dynamic_cast<Building*>(obj_ptr));
+		}
 	}
-	else
-	{
-		list<Building*>::iterator iter = buildings.begin();
-		iter = next(iter, position);
-		buildings.insert(iter, obj_ptr);
-	}
+
 	if (isPreliminary)
 	{
 		containsPreliminary = PreliminaryStatus::BUILDING;
@@ -31,7 +35,7 @@ void AllObjects::AddObject(Building* obj_ptr, int position, bool isPreliminary)
 }
 void AllObjects::AddObject(Road* obj_ptr, int position, bool isPreliminary)
 {
-	if (roads.size() < position)
+	if (roads.size() < position || position == -1)
 	{
 		roads.push_back(obj_ptr);
 	}
@@ -48,7 +52,7 @@ void AllObjects::AddObject(Road* obj_ptr, int position, bool isPreliminary)
 }
 void AllObjects::AddObject(Visitor* obj_ptr, int position, bool isPreliminary)
 {
-	if (visitors.size() < position)
+	if (visitors.size() < position || position == -1)
 	{
 		visitors.push_back(obj_ptr);
 	}
@@ -86,7 +90,7 @@ void AllObjects::ErasePreliminaryElement()
 		{
 			buildings.pop_back();
 		}
-		else (containsPreliminary == PreliminaryStatus::ROAD)
+		else
 		{
 			roads.pop_back();
 		}
@@ -275,30 +279,30 @@ void AllObjects::ShiftAllObjects(Direction shiftDirection)
 		{
 		case Direction::Right:
 		{
-			(*buildingIter)->SetUpperLeft((*buildingIter)->GetUpperLeft().Get_x() + 1, (*buildingIter)->GetUpperLeft().Get_y());
-			(*roadIter)->SetUpperLeft((*roadIter)->GetUpperLeft().Get_x() + 1, (*roadIter)->GetUpperLeft().Get_y());
-			(*visitorIter)->SetUpperLeft((*visitorIter)->GetUpperLeft().Get_x() + 1, (*visitorIter)->GetUpperLeft().Get_y());
+			(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x() + 1, (*buildingIter)->GetUpperLeft().Get_y()));
+			(*roadIter)->SetUpperLeft(PointCoord((*roadIter)->GetUpperLeft().Get_x() + 1, (*roadIter)->GetUpperLeft().Get_y()));
+			(*visitorIter)->SetUpperLeft(PointCoord((*visitorIter)->GetUpperLeft().Get_x() + 1, (*visitorIter)->GetUpperLeft().Get_y()));
 			break;
 		}
 		case Direction::Down:
 		{
-			(*buildingIter)->SetUpperLeft((*buildingIter)->GetUpperLeft().Get_x(), (*buildingIter)->GetUpperLeft().Get_y() + 1);
-			(*roadIter)->SetUpperLeft((*roadIter)->GetUpperLeft().Get_x(), (*roadIter)->GetUpperLeft().Get_y() + 1);
-			(*visitorIter)->SetUpperLeft((*visitorIter)->GetUpperLeft().Get_x(), (*visitorIter)->GetUpperLeft().Get_y() + 1);
+			(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x(), (*buildingIter)->GetUpperLeft().Get_y() + 1));
+			(*roadIter)->SetUpperLeft(PointCoord((*roadIter)->GetUpperLeft().Get_x(), (*roadIter)->GetUpperLeft().Get_y() + 1));
+			(*visitorIter)->SetUpperLeft(PointCoord((*visitorIter)->GetUpperLeft().Get_x(), (*visitorIter)->GetUpperLeft().Get_y() + 1));
 			break;
 		}
 		case Direction::Left:
 		{
-			(*buildingIter)->SetUpperLeft((*buildingIter)->GetUpperLeft().Get_x() - 1, (*buildingIter)->GetUpperLeft().Get_y());
-			(*roadIter)->SetUpperLeft((*roadIter)->GetUpperLeft().Get_x() - 1, (*roadIter)->GetUpperLeft().Get_y());
-			(*visitorIter)->SetUpperLeft((*visitorIter)->GetUpperLeft().Get_x() - 1, (*visitorIter)->GetUpperLeft().Get_y());
+			(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x() - 1, (*buildingIter)->GetUpperLeft().Get_y()));
+			(*roadIter)->SetUpperLeft(PointCoord((*roadIter)->GetUpperLeft().Get_x() - 1, (*roadIter)->GetUpperLeft().Get_y()));
+			(*visitorIter)->SetUpperLeft(PointCoord((*visitorIter)->GetUpperLeft().Get_x() - 1, (*visitorIter)->GetUpperLeft().Get_y()));
 			break;
 		}
 		case Direction::Up:
 		{
-			(*buildingIter)->SetUpperLeft((*buildingIter)->GetUpperLeft().Get_x(), (*buildingIter)->GetUpperLeft().Get_y() - 1);
-			(*roadIter)->SetUpperLeft((*roadIter)->GetUpperLeft().Get_x(), (*roadIter)->GetUpperLeft().Get_y() - 1);
-			(*visitorIter)->SetUpperLeft((*visitorIter)->GetUpperLeft().Get_x(), (*visitorIter)->GetUpperLeft().Get_y() - 1);
+			(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x(), (*buildingIter)->GetUpperLeft().Get_y() - 1));
+			(*roadIter)->SetUpperLeft(PointCoord((*roadIter)->GetUpperLeft().Get_x(), (*roadIter)->GetUpperLeft().Get_y() - 1));
+			(*visitorIter)->SetUpperLeft(PointCoord((*visitorIter)->GetUpperLeft().Get_x(), (*visitorIter)->GetUpperLeft().Get_y() - 1));
 			break;
 		}
 		}
@@ -317,16 +321,16 @@ void AllObjects::ShiftAllObjects(Direction shiftDirection, int shiftValue)
 		{
 		case Direction::Right:
 		{
-			(*buildingIter)->SetUpperLeft((*buildingIter)->GetUpperLeft().Get_x() + shiftValue, (*buildingIter)->GetUpperLeft().Get_y());
-			(*roadIter)->SetUpperLeft((*roadIter)->GetUpperLeft().Get_x() + shiftValue, (*roadIter)->GetUpperLeft().Get_y());
-			(*visitorIter)->SetUpperLeft((*visitorIter)->GetUpperLeft().Get_x() + shiftValue, (*visitorIter)->GetUpperLeft().Get_y());
+			(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x() + shiftValue, (*buildingIter)->GetUpperLeft().Get_y()));
+			(*roadIter)->SetUpperLeft(PointCoord((*roadIter)->GetUpperLeft().Get_x() + shiftValue, (*roadIter)->GetUpperLeft().Get_y()));
+			(*visitorIter)->SetUpperLeft(PointCoord((*visitorIter)->GetUpperLeft().Get_x() + shiftValue, (*visitorIter)->GetUpperLeft().Get_y()));
 			break;
 		}
 		case Direction::Left:
 		{
-			(*buildingIter)->SetUpperLeft((*buildingIter)->GetUpperLeft().Get_x() - shiftValue, (*buildingIter)->GetUpperLeft().Get_y());
-			(*roadIter)->SetUpperLeft((*roadIter)->GetUpperLeft().Get_x() - shiftValue, (*roadIter)->GetUpperLeft().Get_y());
-			(*visitorIter)->SetUpperLeft((*visitorIter)->GetUpperLeft().Get_x() - shiftValue, (*visitorIter)->GetUpperLeft().Get_y());
+			(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x() - shiftValue, (*buildingIter)->GetUpperLeft().Get_y()));
+			(*roadIter)->SetUpperLeft(PointCoord((*roadIter)->GetUpperLeft().Get_x() - shiftValue, (*roadIter)->GetUpperLeft().Get_y()));
+			(*visitorIter)->SetUpperLeft(PointCoord((*visitorIter)->GetUpperLeft().Get_x() - shiftValue, (*visitorIter)->GetUpperLeft().Get_y()));
 			break;
 		}
 		}
@@ -371,7 +375,7 @@ void AllObjects::DisplayBuildings(Camera* camera_ptr) const
 			(*iter)->DrawPartly(leftX, rightX, topY, bottomY);
 		}
 	}
-	cursor_ptr->CursorMovement(GetCursor()->GetCursorConsoleLocation());
+	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }
 vector<PointCoord> AllObjects::GetPotentialRoadCoords()
 {
@@ -427,12 +431,11 @@ void AllObjects::VisitorAppear()
 		int pee = 100;
 		Visitor* visitor_ptr;
 		IngameObject* vis_ptr;
-		vis_ptr = visitor_ptr = new Visitor(startVisitorPoint, food, pee, GetDrawer());
+		vis_ptr = visitor_ptr = new Visitor(startVisitorPoint, food, pee, draw_ptr);
 		visitors.push_back(visitor_ptr);
-		allObjects_ptr->AddObject(vis_ptr);
 		draw_ptr->DrawVisitor((visitor_ptr->GetUpperLeft()).Get_x(), (visitor_ptr->GetUpperLeft()).Get_y());
 	}
-	GetCursor()->SetCursorConsoleLocation();
+	cursor_ptr->SetCursorConsoleLocation();
 }
 bool AllObjects::LocationCheck(PointCoord point)
 {
@@ -452,9 +455,9 @@ void AllObjects::DisplayVisitors()
 	for (iter = visitors.begin(); iter != visitors.end(); iter++)
 	{
 		PointCoord upperLeftVisitor = (*iter)->GetUpperLeft();
-		GetDrawer()->DrawVisitor(upperLeftVisitor.Get_x(), upperLeftVisitor.Get_y());
+		draw_ptr->DrawVisitor(upperLeftVisitor.Get_x(), upperLeftVisitor.Get_y());
 	}
-	GetCursor()->CursorMovement(GetCursor()->GetCursorConsoleLocation());
+	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }
 int AllObjects::RoadEnvironment(PointCoord point)
 {
@@ -500,10 +503,10 @@ void AllObjects::DisplayRoads(Camera* camera_ptr)
 		wstring roadSymbol = (*iter)->GetDescriptor()->GetConstructionSymbol(mask);
 		if (leftX < cameraRightX && topY < cameraBottomY && leftX > cameraLeftX && topY > cameraTopY)
 		{
-			draw_ptr->DrawConstruction(leftX, topY, rightX, bottomY, roadSymbol, (*iter)->GetDescriptor()->GetForegroundColor(), (*iter)->GetDescriptor()->GetBackgroundColor());
+			draw_ptr->DrawConstruction(leftX, topY, leftX, topY, roadSymbol, (*iter)->GetDescriptor()->GetForegroundColor(), (*iter)->GetDescriptor()->GetBackgroundColor());
 		}
 	}
-	cursor_ptr->CursorMovement(GetCursor()->GetCursorConsoleLocation());
+	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }
 void AllObjects::RedrawNeibourRoads(PointCoord roadUpperLeft)
 {

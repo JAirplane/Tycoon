@@ -22,28 +22,28 @@ public:
 	}
 	~AllObjects()
 	{
-		list<Building*>::iterator iter;
-		for (iter = buildings.begin(); iter != buildings.end(); iter++)
+		list<Building*>::iterator buildingIter;
+		for (buildingIter = buildings.begin(); buildingIter != buildings.end(); buildingIter++)
 		{
-			delete (*iter);
+			delete (*buildingIter);
 		}
-		list<Road*>::iterator iter;
-		for (iter = roads.begin(); iter != roads.end(); iter++)
+		list<Road*>::iterator roadIter;
+		for (roadIter = roads.begin(); roadIter != roads.end(); roadIter++)
 		{
-			delete (*iter);
+			delete (*roadIter);
 		}
-		list<Visitor*>::iterator iter;
-		for (iter = visitors.begin(); iter != visitors.end(); iter++)
+		list<Visitor*>::iterator visitorIter;
+		for (visitorIter = visitors.begin(); visitorIter != visitors.end(); visitorIter++)
 		{
-			delete (*iter);
+			delete (*visitorIter);
 		}
 	}
 	int GetBuildingsQuantity() const;
 	int GetRoadsQuantity() const;
 	int GetVisitorsQuantity() const;
-	void AddObject(Building* obj_ptr, int position = GetElementsQuantity() + 1, bool isPreliminary = false);
-	void AddObject(Road* obj_ptr, int position = GetElementsQuantity() + 1, bool isPreliminary = false);
-	void AddObject(Visitor* obj_ptr, int position = GetElementsQuantity() + 1, bool isPreliminary = false);
+	void AddObject(Building* obj_ptr, int position = -1, bool isPreliminary = false);
+	void AddObject(Road* obj_ptr, int position = -1, bool isPreliminary = false);
+	void AddObject(Visitor* obj_ptr, int position = -1, bool isPreliminary = false);
 	PreliminaryStatus GetPreliminaryStatus() const;
 	Construction* GetPreliminaryElement(); //it takes last element of everyObject list
 	void ErasePreliminaryElement();
@@ -59,7 +59,7 @@ public:
 	bool LocationCheck(PointCoord);
 	void DisplayVisitors();
 	int RoadEnvironment(PointCoord point);
-	void DisplayRoads(int cameraLeftX, int cameraRightX, int cameraTopY, int cameraBottomY);
+	void DisplayRoads(Camera* camera_ptr);
 	void RedrawNeibourRoads(PointCoord roadUpperLeft); //when new road tile added or removed redraw all neighbor roads
 	void IsGraphRoadsOnly();
 	vector<PointCoord> RoadConnectedToEntranceCheck(vector<PointCoord> possibleRoads);

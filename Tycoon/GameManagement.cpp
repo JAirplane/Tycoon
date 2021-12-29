@@ -216,12 +216,12 @@ void GameManagement::EnterKey_PlayingField()
 	int cameraRightX = camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition();
 	int cameraTopY = camera_ptr->GetUpperLeft().Get_y();
 	int cameraBottomY = camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition();
-	if (allObjects_ptr->GetLastElementFlag() && !allObjects_ptr->ObjectImposition(allObjects_ptr->GetPreliminaryElement(), camera_ptr, field_ptr))
+	if (allObjects_ptr->GetPreliminaryStatus() != PreliminaryStatus::NONE && !allObjects_ptr->ObjectImposition(allObjects_ptr->GetPreliminaryElement(), camera_ptr, field_ptr))
 	{
 		ConstructionDescriptor* cd_ptr = allObjects_ptr->GetPreliminaryElement()->GetDescriptor();
 		Construction* realObject_ptr = menu_ptr->GetManager(cd_ptr)->CreateConstruction(cursor_ptr->GetCursorConsoleLocation(), draw_ptr);
 		int position = allObjects_ptr->GetElementsQuantity();
-		allObjects_ptr->AddObject(realObject_ptr, position);
+		allObjects_ptr->AddObject(realObject_ptr);
 		int mask = 0;
 		if (Building* real_ptr = dynamic_cast<Building*>(realObject_ptr))
 		{
