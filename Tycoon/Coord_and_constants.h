@@ -23,6 +23,13 @@ enum class IconsPosition
 	UPPER,
 	LOWER,
 };
+/////////////Preliminary element status/////////////
+enum PreliminaryStatus
+{
+	NONE,
+	BUILDING,
+	ROAD
+};
 ///////////////All Possible Types of Mask///////////////
 const int none = int(roadMask::NONE);
 const int leftside = int(roadMask::LEFT);

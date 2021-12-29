@@ -81,7 +81,6 @@ public:
 	bool GetRoadIsInChainStatus();
 	void SetRoadIsInChainStatus(bool chainFlag);
 	void DrawObject(int mask = 0) const override;
-	void DrawPartly(int leftX, int rightX, int topY, int bottomY) const;
 };
 /////////////People are looking for some fun!/////////////
 class Visitor : public IngameObject

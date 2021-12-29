@@ -140,8 +140,3 @@ void Visitor::DrawObject(int mask) const
 {
 
 }
-//GlobalObject* Visitor::CreateObject(PointCoord _point)
-//{
-//	GlobalObject* fake_ptr = nupperLeftlptr;
-//	return fake_ptr;
-//}
