@@ -43,7 +43,7 @@ void Visualisation::DrawRectangle(int leftX, int topY, int rightX, int bottomY, 
 	_setmode(_fileno(stdout), _O_TEXT);
 	set_color(cYELLOW);
 }
-void Visualisation::DrawPartOfRectangle(int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY, int leftX, int topY, int rightX, int bottomY, 
+void Visualisation::DrawPartOfRectangle(int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY, int leftX, int topY, int rightX, int bottomY,
 	wstring vertical, wstring horizontal, wstring upperLeft, wstring upperRight, wstring bottomLeft, wstring bottomRight, color foreground, color background)
 {
 	_setmode(_fileno(stdout), _O_U16TEXT);
@@ -120,6 +120,54 @@ void Visualisation::DrawPartOfRectangle(int cameraLeftX, int cameraTopY, int cam
 	}
 	_setmode(_fileno(stdout), _O_TEXT);
 	set_color(cYELLOW);
+}
+void Visualisation::ErasePartOfRectangle(int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY, int leftX, int topY, int rightX, int bottomY)
+{
+	set_color(cBLACK);
+	if (leftX > cameraLeftX && leftX < cameraRightX)
+	{
+		for (int y = topY; y < bottomY; y++)
+		{
+			if (y > cameraTopY && y < cameraBottomY)
+			{
+				set_cursor_pos(leftX, y);
+				cout << ' ';
+			}
+		}
+	}
+	if (rightX > cameraLeftX && rightX < cameraRightX)
+	{
+		for (int y = topY; y < bottomY; y++)
+		{
+			if (y > cameraTopY && y < cameraBottomY)
+			{
+				set_cursor_pos(rightX, y);
+				cout << ' ';
+			}
+		}
+	}
+	if (topY > cameraTopY && topY < cameraBottomY)
+	{
+		for (int x = leftX; x < rightX; x++)
+		{
+			if (x > cameraLeftX && x < cameraRightX)
+			{
+				set_cursor_pos(x, topY);
+				cout << ' ';
+			}
+		}
+	}
+	if (bottomY > cameraTopY && bottomY < cameraBottomY)
+	{
+		for (int x = leftX; x < rightX; x++)
+		{
+			if (x > cameraLeftX && x < cameraRightX)
+			{
+				set_cursor_pos(x, bottomY);
+				cout << ' ';
+			}
+		}
+	}
 }
 void Visualisation::ErasePixel(int x, int y)
 {

@@ -176,6 +176,7 @@ Construction* Menu::CreatePreliminaryObject(PointCoord iconPosition) const
 			return preliminary_ptr;
 		}
 	}
+	return nullptr;
 }
 void Menu::EraseMenu()
 {
@@ -201,6 +202,7 @@ ConstructionManager* Menu::GetManager(ConstructionDescriptor* cd_ptr) const
 			return (*iter);
 		}
 	}
+	return nullptr;
 }
 RectangleSymbols* Menu::GetMenuSymbols() const
 {

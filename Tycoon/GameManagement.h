@@ -9,9 +9,6 @@ private:
 	PlayingField* field_ptr;
 	Visualisation* draw_ptr;
 	AllObjects* allObjects_ptr;
-	AllBuildings* buildings_ptr;
-	AllRoads* roads_ptr;
-	AllVisitors* visitors_ptr;
 	Menu* menu_ptr;
 public:
 	GameManagement()
@@ -31,9 +28,6 @@ public:
 			ConstructionOptions::GetAllOptions()->GetPlayingFieldWidthAdd(), playingFieldSymbols_ptr);
 		draw_ptr = new Visualisation();
 		allObjects_ptr = new AllObjects(cursor_ptr, draw_ptr);
-		buildings_ptr = new AllBuildings(cursor_ptr, draw_ptr);
-		roads_ptr = new AllRoads(cursor_ptr, draw_ptr);
-		visitors_ptr = new AllVisitors(cursor_ptr, allObjects_ptr, draw_ptr);
 		PointCoord menuUpperLeft(camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition() + 1, camera_ptr->GetUpperLeft().Get_y());
 		RectangleSymbols* menuSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMenuVerticalSymbol(),
 			ConstructionOptions::GetAllOptions()->GetMenuHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuUpperLeftSymbol(),
@@ -56,21 +50,18 @@ public:
 		delete camera_ptr;
 		delete draw_ptr;
 		delete allObjects_ptr;
-		delete buildings_ptr;
-		delete roads_ptr;
-		delete visitors_ptr;
 		delete menu_ptr;
 		delete field_ptr;
 	}
 	void DisplayCamera();
 	void DisplayMenu();
 	void DisplayPlayingField();
+	void ErasePlayingField();
 	void HideMenu();
 	void EraseScreen();
 	void DisplayAllObjects();
 	void GameProcess();
 	void UserActions(int key);
-	void BuildingConnectedToRoadCheck(); //sets true status to every building object that is connected to road and sets true "IsGraph" status to every connected road as well
 	virtual void CreateManagers();
 	void H_Key();
 	void S_Key();

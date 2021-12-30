@@ -24,7 +24,7 @@ enum class IconsPosition
 	LOWER,
 };
 /////////////Preliminary element status/////////////
-enum PreliminaryStatus
+enum class PreliminaryStatus
 {
 	NONE,
 	BUILDING,

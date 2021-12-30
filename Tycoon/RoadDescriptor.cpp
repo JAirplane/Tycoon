@@ -19,5 +19,6 @@ wstring RoadDescriptor::GetConstructionSymbol(int mask)
 	case top_T: {return wstring(L"\u2569"); }
 	case bottom_T: {return wstring(L"\u2566"); }
 	case cross: {return wstring(L"\u256C"); }
+	default: {return wstring(L""); }
 	}
 }

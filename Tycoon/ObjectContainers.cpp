@@ -12,42 +12,28 @@ int AllObjects::GetVisitorsQuantity() const
 {
 	return visitors.size();
 }
-void AllObjects::AddObject(Construction* obj_ptr, int position, bool isPreliminary)
+void AllObjects::AddObject(Construction* obj_ptr)
 {
-	if (containsPreliminary = PreliminaryStatus::BUILDING)
+	if (containsPreliminary == PreliminaryStatus::NONE)
 	{
-		if (buildings.size() < position || position == -1)
+		if (Road* isRoad_ptr = dynamic_cast<Road*>(obj_ptr))
 		{
-			buildings.push_back(dynamic_cast<Building*>(obj_ptr));
+			roads.push_back(isRoad_ptr);
+			containsPreliminary = PreliminaryStatus::ROAD;
 		}
 		else
 		{
-			list<Building*>::iterator iter = buildings.begin();
-			iter = next(iter, position);
-			buildings.insert(iter, dynamic_cast<Building*>(obj_ptr));
+			buildings.push_back(dynamic_cast<Building*>(obj_ptr));
+			containsPreliminary = PreliminaryStatus::BUILDING;
 		}
 	}
-
-	if (isPreliminary)
+	else if (containsPreliminary == PreliminaryStatus::BUILDING)
 	{
-		containsPreliminary = PreliminaryStatus::BUILDING;
-	}
-}
-void AllObjects::AddObject(Road* obj_ptr, int position, bool isPreliminary)
-{
-	if (roads.size() < position || position == -1)
-	{
-		roads.push_back(obj_ptr);
+		buildings.push_front(dynamic_cast<Building*>(obj_ptr));
 	}
 	else
 	{
-		list<Road*>::iterator iter = roads.begin();
-		iter = next(iter, position);
-		roads.insert(iter, obj_ptr);
-	}
-	if (isPreliminary)
-	{
-		containsPreliminary = PreliminaryStatus::ROAD;
+		roads.push_front(dynamic_cast<Road*>(obj_ptr));
 	}
 }
 void AllObjects::AddObject(Visitor* obj_ptr, int position, bool isPreliminary)
@@ -180,7 +166,7 @@ bool AllObjects::ObjectImposition(IngameObject* object_ptr, Camera* camera_ptr, 
 					if (object_ptr != (*roadIter))
 					{
 						PointCoord upperLeft = (*roadIter)->GetUpperLeft();
-						if (xCoord == upperLeft.Get_x() && yCoord >= upperLeft.Get_y())
+						if (xCoord == upperLeft.Get_x() && yCoord == upperLeft.Get_y())
 						{
 							return true;
 						}
@@ -272,7 +258,7 @@ void AllObjects::ShiftAllObjects(Direction shiftDirection)
 	list<Road*>::iterator roadIter;
 	list<Visitor*>::iterator visitorIter;
 	for (buildingIter = buildings.begin(), roadIter = roads.begin(), visitorIter = visitors.begin();
-		buildingIter != buildings.end(), roadIter != roads.end(), visitorIter != visitors.end();
+		buildingIter != buildings.end() && roadIter != roads.end() && visitorIter != visitors.end();
 		buildingIter++, roadIter++, visitorIter++)
 	{
 		switch (shiftDirection)
@@ -314,7 +300,7 @@ void AllObjects::ShiftAllObjects(Direction shiftDirection, int shiftValue)
 	list<Road*>::iterator roadIter;
 	list<Visitor*>::iterator visitorIter;
 	for (buildingIter = buildings.begin(), roadIter = roads.begin(), visitorIter = visitors.begin();
-		buildingIter != buildings.end(), roadIter != roads.end(), visitorIter != visitors.end();
+		buildingIter != buildings.end() && roadIter != roads.end() && visitorIter != visitors.end();
 		buildingIter++, roadIter++, visitorIter++)
 	{
 		switch (shiftDirection)
@@ -377,47 +363,47 @@ void AllObjects::DisplayBuildings(Camera* camera_ptr) const
 	}
 	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }
-vector<PointCoord> AllObjects::GetPotentialRoadCoords()
+void AllObjects::SetRoadAndBuildingConnectionStatuses()
 {
-	vector<PointCoord> potentiallyRoad;
-	list<Building*>::iterator iter;
-	for (iter = buildings.begin(); iter != buildings.end(); iter++)
+	PointCoord potentiallyRoad(0, 0);
+	list<Building*>::iterator buildingIter;
+	for (buildingIter = buildings.begin(); buildingIter != buildings.end(); buildingIter++)
 	{
-		Direction exitDirection = (*iter)->GetExitDirection();
+		Direction exitDirection = (*buildingIter)->GetExitDirection();
 		switch (exitDirection)
 		{
-		case Direction::Up: {potentiallyRoad.push_back(PointCoord((*iter)->GetEntranceWidthAdd(), (*iter)->GetEntranceHeightAdd() - 1)); break; }
-		case Direction::Down: {potentiallyRoad.push_back(PointCoord((*iter)->GetEntranceWidthAdd(), (*iter)->GetEntranceHeightAdd() + 1)); break; }
-		case Direction::Right: {potentiallyRoad.push_back(PointCoord((*iter)->GetEntranceWidthAdd() + 1, (*iter)->GetEntranceHeightAdd())); break; }
-		case Direction::Left: {potentiallyRoad.push_back(PointCoord((*iter)->GetEntranceWidthAdd() - 1, (*iter)->GetEntranceHeightAdd())); break; }
+		case Direction::Up: {potentiallyRoad.SetCoord(PointCoord((*buildingIter)->GetEntranceWidthAdd(), (*buildingIter)->GetEntranceHeightAdd() - 1)); break; }
+		case Direction::Down: {potentiallyRoad.SetCoord(PointCoord((*buildingIter)->GetEntranceWidthAdd(), (*buildingIter)->GetEntranceHeightAdd() + 1)); break; }
+		case Direction::Right: {potentiallyRoad.SetCoord(PointCoord((*buildingIter)->GetEntranceWidthAdd() + 1, (*buildingIter)->GetEntranceHeightAdd())); break; }
+		case Direction::Left: {potentiallyRoad.SetCoord(PointCoord((*buildingIter)->GetEntranceWidthAdd() - 1, (*buildingIter)->GetEntranceHeightAdd())); break; }
 		}
-	}
-	return potentiallyRoad;
-}
-void AllObjects::SetRoadConnectionStatus(vector<PointCoord> connectedRoads)
-{
-	vector<PointCoord>::iterator pointIter;
-	list<Building*>::iterator buildingIter;
-	for (pointIter = connectedRoads.begin(); pointIter != connectedRoads.end(); pointIter++)
-	{
-		buildingIter = buildings.begin();
-		do
+		list<Road*>::iterator roadIter;
+		for (roadIter = roads.begin(); roadIter != roads.end(); roadIter++)
 		{
-			PointCoord connectedRoad;
-			switch ((*buildingIter)->GetExitDirection())
+			if ((*roadIter)->GetUpperLeft() == potentiallyRoad)
 			{
-			case Direction::Up: {connectedRoad = PointCoord((*buildingIter)->GetEntranceWidthAdd(), (*buildingIter)->GetEntranceHeightAdd() - 1); break; }
-			case Direction::Down: {connectedRoad = PointCoord((*buildingIter)->GetEntranceWidthAdd(), (*buildingIter)->GetEntranceHeightAdd() + 1); break; }
-			case Direction::Right: {connectedRoad = PointCoord((*buildingIter)->GetEntranceWidthAdd() + 1, (*buildingIter)->GetEntranceHeightAdd()); break; }
-			case Direction::Left: {connectedRoad = PointCoord((*buildingIter)->GetEntranceWidthAdd() - 1, (*buildingIter)->GetEntranceHeightAdd()); break; }
+				(*roadIter)->SetGraphStatus(1);
+				list<Building*>::iterator buildingIter2 = buildings.begin();
+				do
+				{
+					PointCoord connectedRoad;
+					switch ((*buildingIter)->GetExitDirection())
+					{
+					case Direction::Up: {connectedRoad = PointCoord((*buildingIter)->GetEntranceWidthAdd(), (*buildingIter)->GetEntranceHeightAdd() - 1); break; }
+					case Direction::Down: {connectedRoad = PointCoord((*buildingIter)->GetEntranceWidthAdd(), (*buildingIter)->GetEntranceHeightAdd() + 1); break; }
+					case Direction::Right: {connectedRoad = PointCoord((*buildingIter)->GetEntranceWidthAdd() + 1, (*buildingIter)->GetEntranceHeightAdd()); break; }
+					case Direction::Left: {connectedRoad = PointCoord((*buildingIter)->GetEntranceWidthAdd() - 1, (*buildingIter)->GetEntranceHeightAdd()); break; }
+					}
+					if (connectedRoad == potentiallyRoad)
+					{
+						(*buildingIter2)->SetRoadConnectionStatus(1);
+						break;
+					}
+					++buildingIter;
+				} while (buildingIter != buildings.end());
 			}
-			if (connectedRoad == (*pointIter))
-			{
-				(*buildingIter)->SetRoadConnectionStatus(1);
-				break;
-			}
-			++buildingIter;
-		} while (buildingIter != buildings.end());
+
+		}
 	}
 }
 void AllObjects::VisitorAppear()
@@ -532,22 +518,4 @@ void AllObjects::IsGraphRoadsOnly()
 		int mask = RoadEnvironment((*iter)->GetUpperLeft());
 		(*iter)->DefineGraphStatus(mask);
 	}
-}
-vector<PointCoord> AllObjects::RoadConnectedToEntranceCheck(vector<PointCoord> possibleRoads)
-{
-	list<Road*>::iterator roadIter;
-	vector<PointCoord>::iterator pointIter;
-	vector<PointCoord> roadsNearBuildingEntrance;
-	for (roadIter = roads.begin(); roadIter != roads.end(); roadIter++)
-	{
-		for (pointIter = possibleRoads.begin(); pointIter != possibleRoads.end(); pointIter++)
-		{
-			if ((*roadIter)->GetUpperLeft() == (*pointIter))
-			{
-				(*roadIter)->SetGraphStatus(1);
-				roadsNearBuildingEntrance.push_back((*roadIter)->GetUpperLeft());
-			}
-		}
-	}
-	return roadsNearBuildingEntrance;
 }

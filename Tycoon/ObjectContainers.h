@@ -41,9 +41,8 @@ public:
 	int GetBuildingsQuantity() const;
 	int GetRoadsQuantity() const;
 	int GetVisitorsQuantity() const;
-	void AddObject(Building* obj_ptr, int position = -1, bool isPreliminary = false);
-	void AddObject(Road* obj_ptr, int position = -1, bool isPreliminary = false);
-	void AddObject(Visitor* obj_ptr, int position = -1, bool isPreliminary = false);
+	void AddObject(Construction* obj_ptr);
+	void AddObject(Visitor* obj_ptr, int position = 0, bool isPreliminary = false);
 	PreliminaryStatus GetPreliminaryStatus() const;
 	Construction* GetPreliminaryElement(); //it takes last element of everyObject list
 	void ErasePreliminaryElement();
@@ -53,8 +52,6 @@ public:
 	void ShiftAllObjects(Direction shiftDirection);
 	void ShiftAllObjects(Direction shiftDirection, int shiftValue);
 	void DisplayBuildings(Camera* camera_ptr) const;
-	vector<PointCoord> GetPotentialRoadCoords(); //returns points that are near the entrances
-	void SetRoadConnectionStatus(vector<PointCoord> connectedRoads);
 	void VisitorAppear();
 	bool LocationCheck(PointCoord);
 	void DisplayVisitors();
@@ -62,5 +59,5 @@ public:
 	void DisplayRoads(Camera* camera_ptr);
 	void RedrawNeibourRoads(PointCoord roadUpperLeft); //when new road tile added or removed redraw all neighbor roads
 	void IsGraphRoadsOnly();
-	vector<PointCoord> RoadConnectedToEntranceCheck(vector<PointCoord> possibleRoads);
+	void SetRoadAndBuildingConnectionStatuses(); //sets true status to every building object that is connected to road and sets true "IsGraph" status to every connected road as well
 };
