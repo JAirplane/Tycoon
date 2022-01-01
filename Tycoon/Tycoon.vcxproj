@@ -140,7 +140,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\msoft\msoftcon.h" />
     <ClInclude Include="BuildingDescriptor.h" />
     <ClInclude Include="ConstructionDescriptor.h" />
     <ClInclude Include="ConstructionManager.h" />
@@ -153,6 +152,7 @@
     <ClInclude Include="GlobalObject.h" />
     <ClInclude Include="IngameObjectDerived.h" />
     <ClInclude Include="GameManagement.h" />
+    <ClInclude Include="msoftcon.h" />
     <ClInclude Include="ObjectContainers.h" />
     <ClInclude Include="PlayingField.h" />
     <ClInclude Include="RectangleSymbols.h" />
@@ -162,7 +162,6 @@
     <ClInclude Include="Camera.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\msoft\msoftcon.cpp" />
     <ClCompile Include="BuildingDescriptor.cpp" />
     <ClCompile Include="ConstructionDescriptor.cpp" />
     <ClCompile Include="ConstructionManager.cpp" />
@@ -175,6 +174,7 @@
     <ClCompile Include="GlobalObject.cpp" />
     <ClCompile Include="IngameObjectDerived.cpp" />
     <ClCompile Include="GameManagement.cpp" />
+    <ClCompile Include="msoftcon.cpp" />
     <ClCompile Include="ObjectContainers.cpp" />
     <ClCompile Include="PlayingField.cpp" />
     <ClCompile Include="RectangleSymbols.cpp" />
