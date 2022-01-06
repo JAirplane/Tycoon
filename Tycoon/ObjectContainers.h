@@ -49,14 +49,15 @@ public:
 	bool ObjectImposition(PointCoord point, PlayingField* field_ptr) const;
 	bool ObjectImposition(IngameObject* object_ptr, Camera* camera_ptr, PlayingField* field_ptr) const;
 	void EraseObjects(Camera* camera_ptr);
-	void ShiftAllObjects(Direction shiftDirection);
-	void ShiftAllObjects(Direction shiftDirection, int shiftValue);
-	void DisplayBuildings(Camera* camera_ptr) const;
+	void ShiftBuildings(Direction shiftDirection, int shiftValue = 1);
+	void ShiftRoads(Direction shiftDirection, int shiftValue = 1);
+	void ShiftVisitors(Direction shiftDirection, int shiftValue = 1);
+	void DisplayBuildings(Camera* camera_ptr, PlayingField* field_ptr) const;
 	void VisitorAppear();
 	bool LocationCheck(PointCoord);
 	void DisplayVisitors();
 	int RoadEnvironment(PointCoord point);
-	void DisplayRoads(Camera* camera_ptr);
+	void DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr);
 	void RedrawNeibourRoads(PointCoord roadUpperLeft); //when new road tile added or removed redraw all neighbor roads
 	void IsGraphRoadsOnly();
 	void SetRoadAndBuildingConnectionStatuses(); //sets true status to every building object that is connected to road and sets true "IsGraph" status to every connected road as well

@@ -1,34 +1,67 @@
 #include "Camera.h"
 ///////////////Camera Class///////////////
-Direction Camera::CursorBordersCheck(Cursor* cursor_ptr, PlayingField* field_ptr)
+Direction Camera::CursorIsOnCameraCheck(Cursor* cursor_ptr)
 {
-	Direction shiftDirection;
+	if (cursor_ptr->GetCursorConsoleLocation().Get_x() == GetUpperLeft().Get_x())
+	{
+		return Direction::Right;
+	}
+	if (cursor_ptr->GetCursorConsoleLocation().Get_y() == GetUpperLeft().Get_y())
+	{
+		return Direction::Down;
+	}
+	if (cursor_ptr->GetCursorConsoleLocation().Get_x() == (GetUpperLeft().Get_x() + GetWidthAddition()))
+	{
+		return Direction::Left;
+	}
+	if (cursor_ptr->GetCursorConsoleLocation().Get_y() == (GetUpperLeft().Get_y() + GetHeightAddition()))
+	{
+		return Direction::Up;
+	}
+	return Direction::None;
+}
+bool Camera::IsShift(PlayingField* field_ptr, Direction shiftDirection)
+{
 	int playingFieldLeftX = field_ptr->GetUpperLeft().Get_x();
 	int playingFieldTopY = field_ptr->GetUpperLeft().Get_y();
 	int playingFieldRightX = field_ptr->GetUpperLeft().Get_x() + field_ptr->GetWidthAddition();
-	int playingFieldBottomY = field_ptr->GetUpperLeft().Get_x() + field_ptr->GetHeightAddition();
-	if ((cursor_ptr->GetCursorConsoleLocation()).Get_x() == GetUpperLeft().Get_x() && (playingFieldLeftX - GetUpperLeft().Get_x()) < 4)
+	int playingFieldBottomY = field_ptr->GetUpperLeft().Get_y() + field_ptr->GetHeightAddition();
+	int cameraLeftX = GetUpperLeft().Get_x();
+	int cameraRightX = GetUpperLeft().Get_x() + GetWidthAddition();
+	int cameraTopY = GetUpperLeft().Get_y();
+	int cameraBottomY = GetUpperLeft().Get_y() + GetHeightAddition();
+	switch (shiftDirection)
 	{
-		shiftDirection = Direction::Right;
-		return shiftDirection;
-	}
-	if ((cursor_ptr->GetCursorConsoleLocation()).Get_y() == GetUpperLeft().Get_y() && (playingFieldTopY - GetUpperLeft().Get_y()) < 4)
+	case Direction::Up:
 	{
-		shiftDirection = Direction::Down;
-		return shiftDirection;
+		if (cameraBottomY - playingFieldBottomY < 4)
+		{return true;}
+		else
+		{return false;}
 	}
-	if ((cursor_ptr->GetCursorConsoleLocation()).Get_x() == (GetUpperLeft().Get_x() + GetWidthAddition()) && (GetUpperLeft().Get_x() + GetWidthAddition() - playingFieldRightX) < 4)
+	case Direction::Right:
 	{
-		shiftDirection = Direction::Left;
-		return shiftDirection;
+		if (playingFieldLeftX - cameraLeftX < 4)
+		{return true;}
+		else
+		{return false;}
 	}
-	if ((cursor_ptr->GetCursorConsoleLocation()).Get_y() == (GetUpperLeft().Get_y() + GetHeightAddition()) && (GetUpperLeft().Get_y() + GetHeightAddition() - playingFieldBottomY) < 4)
+	case Direction::Down:
 	{
-		shiftDirection = Direction::Up;
-		return shiftDirection;
+		if (playingFieldTopY - cameraTopY < 4)
+		{return true;}
+		else
+		{return false;}
 	}
-	shiftDirection = Direction::None;
-	return shiftDirection;
+	case Direction::Left:
+	{
+		if (cameraRightX - playingFieldRightX < 4)
+		{return true;}
+		else
+		{return false;}
+	}
+	default: {return false; }
+	}
 }
 RectangleSymbols* Camera::GetBorderSymbols() const
 {

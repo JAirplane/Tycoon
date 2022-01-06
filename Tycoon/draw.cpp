@@ -126,7 +126,7 @@ void Visualisation::ErasePartOfRectangle(int cameraLeftX, int cameraTopY, int ca
 	set_color(cBLACK);
 	if (leftX > cameraLeftX && leftX < cameraRightX)
 	{
-		for (int y = topY; y < bottomY; y++)
+		for (int y = topY; y <= bottomY; y++)
 		{
 			if (y > cameraTopY && y < cameraBottomY)
 			{
@@ -137,7 +137,7 @@ void Visualisation::ErasePartOfRectangle(int cameraLeftX, int cameraTopY, int ca
 	}
 	if (rightX > cameraLeftX && rightX < cameraRightX)
 	{
-		for (int y = topY; y < bottomY; y++)
+		for (int y = topY; y <= bottomY; y++)
 		{
 			if (y > cameraTopY && y < cameraBottomY)
 			{
@@ -148,7 +148,7 @@ void Visualisation::ErasePartOfRectangle(int cameraLeftX, int cameraTopY, int ca
 	}
 	if (topY > cameraTopY && topY < cameraBottomY)
 	{
-		for (int x = leftX; x < rightX; x++)
+		for (int x = leftX; x <= rightX; x++)
 		{
 			if (x > cameraLeftX && x < cameraRightX)
 			{
@@ -159,7 +159,7 @@ void Visualisation::ErasePartOfRectangle(int cameraLeftX, int cameraTopY, int ca
 	}
 	if (bottomY > cameraTopY && bottomY < cameraBottomY)
 	{
-		for (int x = leftX; x < rightX; x++)
+		for (int x = leftX; x <= rightX; x++)
 		{
 			if (x > cameraLeftX && x < cameraRightX)
 			{

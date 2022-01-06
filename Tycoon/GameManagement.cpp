@@ -54,7 +54,7 @@ void GameManagement::DisplayPlayingField()
 	draw_ptr->DrawPartOfRectangle(cameraLeftX, cameraTopY, cameraRightX, cameraBottomY, leftX, topY, rightX, bottomY, field_ptr->GetBorderSymbols()->GetVerticalSymbol(), field_ptr->GetBorderSymbols()->GetHorizontalSymbol(),
 		field_ptr->GetBorderSymbols()->GetUpperLeftSymbol(), field_ptr->GetBorderSymbols()->GetUpperRightSymbol(), field_ptr->GetBorderSymbols()->GetBottomLeftSymbol(), field_ptr->GetBorderSymbols()->GetBottomRightSymbol(),
 		ConstructionOptions::GetAllOptions()->GetPlayingFieldColor());
-	cursor_ptr->CursorMovement(PointCoord((cameraLeftX + cameraRightX) / 2, (cameraTopY + cameraBottomY) / 2));
+	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }
 void GameManagement::ErasePlayingField()
 {
@@ -71,7 +71,6 @@ void GameManagement::ErasePlayingField()
 void GameManagement::GameProcess()
 {
 	char ch = 'a';
-	Direction shiftDirection;
 	while (true)
 	{
 		if (_kbhit() != 0)
@@ -84,28 +83,35 @@ void GameManagement::GameProcess()
 			//cout << key;
 			UserActions(key);
 		}
-		shiftDirection = camera_ptr->CursorBordersCheck(cursor_ptr, field_ptr);
+		Direction shiftDirection = camera_ptr->CursorIsOnCameraCheck(cursor_ptr);
+		bool shifting = camera_ptr->IsShift(field_ptr, shiftDirection);
 		if (shiftDirection != Direction::None)
 		{
-			allObjects_ptr->EraseObjects(camera_ptr);
-			ErasePlayingField();
 			cursor_ptr->CursorShift(shiftDirection);
+			if (shifting)
+			{
+				allObjects_ptr->EraseObjects(camera_ptr);
+				ErasePlayingField();
+				allObjects_ptr->ShiftBuildings(shiftDirection);
+				allObjects_ptr->ShiftRoads(shiftDirection);
+				allObjects_ptr->ShiftVisitors(shiftDirection);
+				field_ptr->Shift(shiftDirection);
+				DisplayAllObjects();
+				DisplayPlayingField();
+			}
 			if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr) && allObjects_ptr->GetPreliminaryStatus() == PreliminaryStatus::NONE)
 			{
-				draw_ptr->DrawCursorPixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y(), ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor());
+				draw_ptr->DrawCursorPixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y(),
+					ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor());
 			}
-			allObjects_ptr->ShiftAllObjects(shiftDirection);
-			field_ptr->Shift(shiftDirection);
-			DisplayAllObjects();
-			DisplayPlayingField();
 		}
 		wait(100);
 	}
 }
 void GameManagement::DisplayAllObjects()
 {
-	allObjects_ptr->DisplayBuildings(camera_ptr);
-	allObjects_ptr->DisplayRoads(camera_ptr);
+	allObjects_ptr->DisplayBuildings(camera_ptr, field_ptr);
+	allObjects_ptr->DisplayRoads(camera_ptr, field_ptr);
 	allObjects_ptr->DisplayVisitors();
 }
 void GameManagement::CreateManagers()
@@ -142,7 +148,9 @@ void GameManagement::H_Key()
 }
 void GameManagement::S_Key()
 {
-	allObjects_ptr->ShiftAllObjects(menu_ptr->ChangeMenuSide(), menu_ptr->GetWidthAddition());
+	allObjects_ptr->ShiftBuildings(menu_ptr->ChangeMenuSide(), menu_ptr->GetWidthAddition());
+	allObjects_ptr->ShiftRoads(menu_ptr->ChangeMenuSide(), menu_ptr->GetWidthAddition());
+	allObjects_ptr->ShiftVisitors(menu_ptr->ChangeMenuSide(), menu_ptr->GetWidthAddition());
 	EraseScreen();
 	DisplayCamera();
 	DisplayMenu();
@@ -223,7 +231,8 @@ void GameManagement::EnterKey_PlayingField()
 			allObjects_ptr->RedrawNeibourRoads(realObject_ptr->GetUpperLeft());
 		}
 		realObject_ptr->DrawObject(mask);
-		cursor_ptr->CursorMovement(PointCoord(realObject_ptr->GetUpperLeft().Get_x() + realObject_ptr->GetWidthAddition() + 1, realObject_ptr->GetUpperLeft().Get_y() + realObject_ptr->GetHeightAddition()));
+		cursor_ptr->CursorMovement(PointCoord(realObject_ptr->GetUpperLeft().Get_x() + realObject_ptr->GetWidthAddition() + 1,
+			realObject_ptr->GetUpperLeft().Get_y() + realObject_ptr->GetHeightAddition()));
 		allObjects_ptr->GetPreliminaryElement()->SetUpperLeft(cursor_ptr->GetCursorConsoleLocation());
 		if (!allObjects_ptr->ObjectImposition(allObjects_ptr->GetPreliminaryElement(), camera_ptr, field_ptr))
 		{
@@ -288,7 +297,7 @@ void GameManagement::EscKey_PlayingField()
 				allObjects_ptr->GetPreliminaryElement()->GetUpperLeft().Get_y() + allObjects_ptr->GetPreliminaryElement()->GetHeightAddition());
 		}
 		allObjects_ptr->ErasePreliminaryElement();
-		cursor_ptr->CursorMovement(PointCoord((camera_ptr->GetUpperLeft().Get_x() * 2 + camera_ptr->GetWidthAddition()) / 2, (camera_ptr->GetUpperLeft().Get_y() * 2 + camera_ptr->GetHeightAddition()) / 2));
+		cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 		if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr))
 		{
 			draw_ptr->DrawCursorPixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y(), ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor());

@@ -14,6 +14,7 @@ public:
 	{
 		delete borderSymbols_ptr;
 	}
-	Direction CursorBordersCheck(Cursor* cursor_ptr, PlayingField* field_ptr);
+	Direction CursorIsOnCameraCheck(Cursor* cursor_ptr);
+	bool IsShift(PlayingField* field_ptr, Direction shiftDirection);
 	RectangleSymbols* GetBorderSymbols() const;
 };

@@ -15,6 +15,5 @@ public:
 		delete rectangleSymbols_ptr;
 	}
 	RectangleSymbols* GetBorderSymbols() const;
-	void Shift(Direction shiftDirection);
-	void Shift(Direction shiftDirection, int shiftValue);
+	void Shift(Direction shiftDirection, int shiftValue = 1);
 };

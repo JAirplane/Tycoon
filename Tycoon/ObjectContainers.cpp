@@ -89,7 +89,8 @@ bool AllObjects::ObjectImposition(PointCoord point, PlayingField* field_ptr) con
 	int playingFieldRightX = playingFieldLeftX + field_ptr->GetWidthAddition();
 	int playingFieldTopY = field_ptr->GetUpperLeft().Get_y();
 	int playingFieldBottomY = playingFieldTopY + field_ptr->GetHeightAddition();
-	if (playingFieldLeftX == point.Get_x() || playingFieldRightX == point.Get_x() || playingFieldTopY == point.Get_y() || playingFieldBottomY == point.Get_y())
+	if ( ( (playingFieldLeftX == point.Get_x() || playingFieldRightX == point.Get_x() ) && playingFieldTopY <= point.Get_y() && playingFieldBottomY >= point.Get_y() ) 
+		|| ( (playingFieldTopY == point.Get_y() || playingFieldBottomY == point.Get_y() ) && playingFieldLeftX <= point.Get_x() && playingFieldRightX >= point.Get_x() ) )
 	{
 		return true;
 	}
@@ -252,82 +253,58 @@ void AllObjects::EraseObjects(Camera* camera_ptr)
 		}
 	}
 }
-void AllObjects::ShiftAllObjects(Direction shiftDirection)
+void AllObjects::ShiftBuildings(Direction shiftDirection, int shiftValue)
 {
 	list<Building*>::iterator buildingIter;
-	list<Road*>::iterator roadIter;
-	list<Visitor*>::iterator visitorIter;
-	for (buildingIter = buildings.begin(), roadIter = roads.begin(), visitorIter = visitors.begin();
-		buildingIter != buildings.end() && roadIter != roads.end() && visitorIter != visitors.end();
-		buildingIter++, roadIter++, visitorIter++)
+	for (buildingIter = buildings.begin(); buildingIter != buildings.end(); buildingIter++)
 	{
 		switch (shiftDirection)
 		{
-		case Direction::Right:
-		{
-			(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x() + 1, (*buildingIter)->GetUpperLeft().Get_y()));
-			(*roadIter)->SetUpperLeft(PointCoord((*roadIter)->GetUpperLeft().Get_x() + 1, (*roadIter)->GetUpperLeft().Get_y()));
-			(*visitorIter)->SetUpperLeft(PointCoord((*visitorIter)->GetUpperLeft().Get_x() + 1, (*visitorIter)->GetUpperLeft().Get_y()));
-			break;
-		}
-		case Direction::Down:
-		{
-			(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x(), (*buildingIter)->GetUpperLeft().Get_y() + 1));
-			(*roadIter)->SetUpperLeft(PointCoord((*roadIter)->GetUpperLeft().Get_x(), (*roadIter)->GetUpperLeft().Get_y() + 1));
-			(*visitorIter)->SetUpperLeft(PointCoord((*visitorIter)->GetUpperLeft().Get_x(), (*visitorIter)->GetUpperLeft().Get_y() + 1));
-			break;
-		}
-		case Direction::Left:
-		{
-			(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x() - 1, (*buildingIter)->GetUpperLeft().Get_y()));
-			(*roadIter)->SetUpperLeft(PointCoord((*roadIter)->GetUpperLeft().Get_x() - 1, (*roadIter)->GetUpperLeft().Get_y()));
-			(*visitorIter)->SetUpperLeft(PointCoord((*visitorIter)->GetUpperLeft().Get_x() - 1, (*visitorIter)->GetUpperLeft().Get_y()));
-			break;
-		}
-		case Direction::Up:
-		{
-			(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x(), (*buildingIter)->GetUpperLeft().Get_y() - 1));
-			(*roadIter)->SetUpperLeft(PointCoord((*roadIter)->GetUpperLeft().Get_x(), (*roadIter)->GetUpperLeft().Get_y() - 1));
-			(*visitorIter)->SetUpperLeft(PointCoord((*visitorIter)->GetUpperLeft().Get_x(), (*visitorIter)->GetUpperLeft().Get_y() - 1));
-			break;
-		}
+		case Direction::Right: {(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x() + shiftValue, (*buildingIter)->GetUpperLeft().Get_y())); break;}
+		case Direction::Down: {(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x(), (*buildingIter)->GetUpperLeft().Get_y() + shiftValue)); break;}
+		case Direction::Left: {(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x() - shiftValue, (*buildingIter)->GetUpperLeft().Get_y()));break;}
+		case Direction::Up: {(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x(), (*buildingIter)->GetUpperLeft().Get_y() - shiftValue));break;}
 		}
 	}
 }
-void AllObjects::ShiftAllObjects(Direction shiftDirection, int shiftValue)
+void AllObjects::ShiftRoads(Direction shiftDirection, int shiftValue)
 {
-	list<Building*>::iterator buildingIter;
 	list<Road*>::iterator roadIter;
-	list<Visitor*>::iterator visitorIter;
-	for (buildingIter = buildings.begin(), roadIter = roads.begin(), visitorIter = visitors.begin();
-		buildingIter != buildings.end() && roadIter != roads.end() && visitorIter != visitors.end();
-		buildingIter++, roadIter++, visitorIter++)
+	for (roadIter = roads.begin(); roadIter != roads.end(); roadIter++)
 	{
 		switch (shiftDirection)
 		{
-		case Direction::Right:
-		{
-			(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x() + shiftValue, (*buildingIter)->GetUpperLeft().Get_y()));
-			(*roadIter)->SetUpperLeft(PointCoord((*roadIter)->GetUpperLeft().Get_x() + shiftValue, (*roadIter)->GetUpperLeft().Get_y()));
-			(*visitorIter)->SetUpperLeft(PointCoord((*visitorIter)->GetUpperLeft().Get_x() + shiftValue, (*visitorIter)->GetUpperLeft().Get_y()));
-			break;
-		}
-		case Direction::Left:
-		{
-			(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x() - shiftValue, (*buildingIter)->GetUpperLeft().Get_y()));
-			(*roadIter)->SetUpperLeft(PointCoord((*roadIter)->GetUpperLeft().Get_x() - shiftValue, (*roadIter)->GetUpperLeft().Get_y()));
-			(*visitorIter)->SetUpperLeft(PointCoord((*visitorIter)->GetUpperLeft().Get_x() - shiftValue, (*visitorIter)->GetUpperLeft().Get_y()));
-			break;
-		}
+		case Direction::Right: {(*roadIter)->SetUpperLeft(PointCoord((*roadIter)->GetUpperLeft().Get_x() + shiftValue, (*roadIter)->GetUpperLeft().Get_y())); break; }
+		case Direction::Down: {(*roadIter)->SetUpperLeft(PointCoord((*roadIter)->GetUpperLeft().Get_x(), (*roadIter)->GetUpperLeft().Get_y() + shiftValue)); break; }
+		case Direction::Left: {(*roadIter)->SetUpperLeft(PointCoord((*roadIter)->GetUpperLeft().Get_x() - shiftValue, (*roadIter)->GetUpperLeft().Get_y())); break; }
+		case Direction::Up: {(*roadIter)->SetUpperLeft(PointCoord((*roadIter)->GetUpperLeft().Get_x(), (*roadIter)->GetUpperLeft().Get_y() - shiftValue)); break; }
 		}
 	}
 }
-void AllObjects::DisplayBuildings(Camera* camera_ptr) const
+void AllObjects::ShiftVisitors(Direction shiftDirection, int shiftValue)
+{
+	list<Visitor*>::iterator visitorIter;
+	for (visitorIter = visitors.begin(); visitorIter != visitors.end(); visitorIter++)
+	{
+		switch (shiftDirection)
+		{
+		case Direction::Right: {(*visitorIter)->SetUpperLeft(PointCoord((*visitorIter)->GetUpperLeft().Get_x() + shiftValue, (*visitorIter)->GetUpperLeft().Get_y())); break; }
+		case Direction::Down: {(*visitorIter)->SetUpperLeft(PointCoord((*visitorIter)->GetUpperLeft().Get_x(), (*visitorIter)->GetUpperLeft().Get_y() + shiftValue)); break; }
+		case Direction::Left: {(*visitorIter)->SetUpperLeft(PointCoord((*visitorIter)->GetUpperLeft().Get_x() - shiftValue, (*visitorIter)->GetUpperLeft().Get_y())); break; }
+		case Direction::Up: {(*visitorIter)->SetUpperLeft(PointCoord((*visitorIter)->GetUpperLeft().Get_x(), (*visitorIter)->GetUpperLeft().Get_y() - shiftValue)); break; }
+		}
+	}
+}
+void AllObjects::DisplayBuildings(Camera* camera_ptr, PlayingField* field_ptr) const
 {
 	int cameraLeftX = camera_ptr->GetUpperLeft().Get_x();
 	int cameraRightX = cameraLeftX + camera_ptr->GetWidthAddition();
 	int cameraTopY = camera_ptr->GetUpperLeft().Get_y();
 	int cameraBottomY = cameraTopY + camera_ptr->GetHeightAddition();
+	int playingFieldLeftX = field_ptr->GetUpperLeft().Get_x();
+	int playingFieldRightX = playingFieldLeftX + field_ptr->GetWidthAddition();
+	int playingFieldTopY = field_ptr->GetUpperLeft().Get_y();
+	int playingFieldBottomY = playingFieldTopY + field_ptr->GetHeightAddition();
 	list<Building*>::const_iterator iter;
 	for (iter = buildings.begin(); iter != buildings.end(); iter++)
 	{
@@ -335,30 +312,33 @@ void AllObjects::DisplayBuildings(Camera* camera_ptr) const
 		int topY = (*iter)->GetUpperLeft().Get_y();
 		int rightX = (*iter)->GetUpperLeft().Get_x() + (*iter)->GetWidthAddition();
 		int bottomY = (*iter)->GetUpperLeft().Get_y() + (*iter)->GetHeightAddition();
-		if (leftX > cameraLeftX && rightX < cameraRightX && topY > cameraTopY && bottomY < cameraBottomY)
+		if (leftX > playingFieldLeftX && rightX < playingFieldRightX && topY > playingFieldTopY && bottomY < playingFieldBottomY)
 		{
-			(*iter)->DrawObject();
-			continue;
-		}
-		if (leftX <= cameraLeftX && rightX > cameraLeftX)
-		{
-			leftX = cameraLeftX + 1;
-		}
-		if (topY <= cameraTopY && bottomY > cameraTopY)
-		{
-			topY = cameraTopY + 1;
-		}
-		if (rightX >= cameraRightX && leftX < cameraRightX)
-		{
-			rightX = cameraRightX - 1;
-		}
-		if (bottomY >= cameraBottomY && topY < cameraBottomY)
-		{
-			bottomY = cameraBottomY - 1;
-		}
-		if (leftX < cameraRightX && topY < cameraBottomY && rightX > cameraLeftX && bottomY > cameraTopY)
-		{
-			(*iter)->DrawPartly(leftX, rightX, topY, bottomY);
+			if (leftX > cameraLeftX && rightX < cameraRightX && topY > cameraTopY && bottomY < cameraBottomY)
+			{
+				(*iter)->DrawObject();
+				continue;
+			}
+			if (leftX <= cameraLeftX && rightX > cameraLeftX)
+			{
+				leftX = cameraLeftX + 1;
+			}
+			if (topY <= cameraTopY && bottomY > cameraTopY)
+			{
+				topY = cameraTopY + 1;
+			}
+			if (rightX >= cameraRightX && leftX < cameraRightX)
+			{
+				rightX = cameraRightX - 1;
+			}
+			if (bottomY >= cameraBottomY && topY < cameraBottomY)
+			{
+				bottomY = cameraBottomY - 1;
+			}
+			if (leftX < cameraRightX && topY < cameraBottomY && rightX > cameraLeftX && bottomY > cameraTopY)
+			{
+				(*iter)->DrawPartly(leftX, rightX, topY, bottomY);
+			}
 		}
 	}
 	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
@@ -474,12 +454,16 @@ int AllObjects::RoadEnvironment(PointCoord point)
 	}
 	return roadEnvironmentMask;
 }
-void AllObjects::DisplayRoads(Camera* camera_ptr)
+void AllObjects::DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr)
 {
 	int cameraLeftX = camera_ptr->GetUpperLeft().Get_x();
 	int cameraRightX = cameraLeftX + camera_ptr->GetWidthAddition();
 	int cameraTopY = camera_ptr->GetUpperLeft().Get_y();
 	int cameraBottomY = cameraTopY + camera_ptr->GetHeightAddition();
+	int playingFieldLeftX = field_ptr->GetUpperLeft().Get_x();
+	int playingFieldRightX = playingFieldLeftX + field_ptr->GetWidthAddition();
+	int playingFieldTopY = field_ptr->GetUpperLeft().Get_y();
+	int playingFieldBottomY = playingFieldTopY + field_ptr->GetHeightAddition();
 	list<Road*>::iterator iter;
 	for (iter = roads.begin(); iter != roads.end(); iter++)
 	{
@@ -487,7 +471,8 @@ void AllObjects::DisplayRoads(Camera* camera_ptr)
 		int topY = (*iter)->GetUpperLeft().Get_y();
 		int mask = RoadEnvironment((*iter)->GetUpperLeft());
 		wstring roadSymbol = (*iter)->GetDescriptor()->GetConstructionSymbol(mask);
-		if (leftX < cameraRightX && topY < cameraBottomY && leftX > cameraLeftX && topY > cameraTopY)
+		if (leftX < cameraRightX && leftX < playingFieldRightX && topY < cameraBottomY && topY < playingFieldBottomY &&
+			leftX > cameraLeftX && leftX > playingFieldLeftX && topY > cameraTopY && topY > playingFieldTopY)
 		{
 			draw_ptr->DrawConstruction(leftX, topY, leftX, topY, roadSymbol, (*iter)->GetDescriptor()->GetForegroundColor(), (*iter)->GetDescriptor()->GetBackgroundColor());
 		}

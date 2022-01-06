@@ -19,6 +19,5 @@ public:
 	PointCoord GetCursorConsoleLocation();
 	void SetCursorConsoleLocation();
 	void CursorMovement(PointCoord cursorDestination);
-	void CursorShift(Direction shiftDirection);
-	void CursorShift(Direction shiftDirection, int shiftValue);
+	void CursorShift(Direction shiftDirection, int shiftValue = 1);
 };
