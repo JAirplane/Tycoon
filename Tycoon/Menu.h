@@ -1,5 +1,5 @@
 #pragma once
-#include "ObjectContainers.h"
+#include "ManagersDerived.h"
 #include <vector>
 class Menu : public GlobalObject
 {
@@ -42,7 +42,7 @@ public:
 	void ShowMenuBorders();
 	PointCoord GetNearestIconCoords(PointCoord currentIcon, IconsPosition ip);
 	void IconsShift(IconsPosition ip);
-	Construction* CreatePreliminaryObject(PointCoord iconPosition) const;
+	Construction* CreatePreliminaryObject(PointCoord iconPosition, AllObjects* allObjects_ptr) const;
 	PointCoord MenuNavigation(PointCoord currentIcon, IconsPosition ip);
 	void EraseMenu();
 	void AddManager(ConstructionManager* manager_ptr);

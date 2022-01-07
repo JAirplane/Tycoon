@@ -12,28 +12,28 @@ int AllObjects::GetVisitorsQuantity() const
 {
 	return visitors.size();
 }
-void AllObjects::AddObject(Construction* obj_ptr)
+void AllObjects::AddObject(Building* obj_ptr)
 {
 	if (containsPreliminary == PreliminaryStatus::NONE)
 	{
-		if (Road* isRoad_ptr = dynamic_cast<Road*>(obj_ptr))
-		{
-			roads.push_back(isRoad_ptr);
-			containsPreliminary = PreliminaryStatus::ROAD;
-		}
-		else
-		{
-			buildings.push_back(dynamic_cast<Building*>(obj_ptr));
-			containsPreliminary = PreliminaryStatus::BUILDING;
-		}
-	}
-	else if (containsPreliminary == PreliminaryStatus::BUILDING)
-	{
-		buildings.push_front(dynamic_cast<Building*>(obj_ptr));
+		buildings.push_back(obj_ptr);
+		containsPreliminary = PreliminaryStatus::BUILDING;
 	}
 	else
 	{
-		roads.push_front(dynamic_cast<Road*>(obj_ptr));
+		buildings.push_front(obj_ptr);
+	}
+}
+void AllObjects::AddObject(Road* obj_ptr)
+{
+	if (containsPreliminary == PreliminaryStatus::NONE)
+	{
+		roads.push_back(obj_ptr);
+		containsPreliminary = PreliminaryStatus::ROAD;
+	}
+	else
+	{
+		roads.push_front(obj_ptr);
 	}
 }
 void AllObjects::AddObject(Visitor* obj_ptr, int position, bool isPreliminary)
@@ -479,7 +479,7 @@ void AllObjects::DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr)
 	}
 	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }
-void AllObjects::RedrawNeibourRoads(PointCoord roadUpperLeft)
+void AllObjects::RedrawNeibourRoads(PointCoord roadUpperLeft, Camera* camera_ptr, PlayingField* field_ptr)
 {
 	list<Road*>::iterator iter;
 	PointCoord leftLocation(roadUpperLeft.Get_x() - 1, roadUpperLeft.Get_y());
@@ -490,8 +490,11 @@ void AllObjects::RedrawNeibourRoads(PointCoord roadUpperLeft)
 	{
 		if ((*iter)->GetUpperLeft() == leftLocation || (*iter)->GetUpperLeft() == rightLocation || (*iter)->GetUpperLeft() == downLocation || (*iter)->GetUpperLeft() == topLocation)
 		{
-			int mask = RoadEnvironment((*iter)->GetUpperLeft());
-			(*iter)->DrawObject(mask);
+			if (!ObjectImposition((*iter), camera_ptr, field_ptr))
+			{
+				int mask = RoadEnvironment((*iter)->GetUpperLeft());
+				(*iter)->DrawObject(mask);
+			}
 		}
 	}
 }

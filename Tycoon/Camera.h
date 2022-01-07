@@ -1,5 +1,5 @@
 #pragma once
-#include "ManagersDerived.h"
+#include "PlayingField.h"
 /////////////Visible Map Class/////////////
 class Camera : public GlobalObject
 {

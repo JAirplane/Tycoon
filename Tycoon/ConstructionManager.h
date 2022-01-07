@@ -1,5 +1,5 @@
 #pragma once
-#include "PlayingField.h"
+#include "ObjectContainers.h"
 /////////////Construction Manager has all the information about Construction/////////////
 class ConstructionManager : public GlobalObject
 {
@@ -16,7 +16,7 @@ public:
 	{
 		delete describe_ptr;
 	}
-	virtual Construction* CreateConstruction(PointCoord upperLeft, Visualisation* paint_ptr);
+	virtual Construction* CreateConstruction(PointCoord upperLeft, Visualisation* paint_ptr, AllObjects* allObjects_ptr);
 	void SetUpperLeft(PointCoord point) override;
 	ConstructionDescriptor* GetDescriptor();
 };
