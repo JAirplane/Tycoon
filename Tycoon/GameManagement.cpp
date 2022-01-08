@@ -159,6 +159,11 @@ void GameManagement::S_Key()
 	DisplayAllObjects();
 	DisplayPlayingField();
 }
+void GameManagement::R_Key()
+{
+	allObjects_ptr->RotatePreliminaryBuilding();
+
+}
 void GameManagement::TabKey_Playingfield()
 {
 	int cameraLeftX = camera_ptr->GetUpperLeft().Get_x();

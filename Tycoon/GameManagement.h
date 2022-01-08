@@ -65,6 +65,7 @@ public:
 	virtual void CreateManagers();
 	void H_Key();
 	void S_Key();
+	void R_Key();
 	void TabKey_Playingfield();
 	void TabKey_Menu();
 	void EnterKey_PlayingField();

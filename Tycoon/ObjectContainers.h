@@ -62,4 +62,5 @@ public:
 	void RedrawNeibourRoads(PointCoord roadUpperLeft,Camera* camera_ptr, PlayingField* field_ptr); //when new road tile added or removed redraw all neighbor roads
 	void IsGraphRoadsOnly();
 	void SetRoadAndBuildingConnectionStatuses(); //sets true status to every building object that is connected to road and sets true "IsGraph" status to every connected road as well
+	void RotatePreliminaryBuilding();
 };

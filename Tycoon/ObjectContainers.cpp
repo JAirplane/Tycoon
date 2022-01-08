@@ -507,3 +507,49 @@ void AllObjects::IsGraphRoadsOnly()
 		(*iter)->DefineGraphStatus(mask);
 	}
 }
+void AllObjects::RotatePreliminaryBuilding()
+{
+	if (containsPreliminary == PreliminaryStatus::BUILDING)
+	{
+		list<Building*>::iterator buildingIter;
+		buildingIter = buildings.end();
+		--buildingIter;
+		int heightAdd = (*buildingIter)->GetHeightAddition();
+		int widthAdd = (*buildingIter)->GetWidthAddition();
+		(*buildingIter)->SetHeightAddition(widthAdd);
+		(*buildingIter)->SetWidthAddition(heightAdd);
+		switch ((*buildingIter)->GetExitDirection())
+		{
+		case Direction::Down:
+		{
+			(*buildingIter)->SetExitDirection(Direction::Left);
+			(*buildingIter)->SetEntranceHeightAdd((*buildingIter)->GetHeightAddition() / 2);
+			(*buildingIter)->SetEntranceWidthAdd(0);
+			return;
+		}
+		case Direction::Left:
+		{
+			(*buildingIter)->SetExitDirection(Direction::Up);
+			(*buildingIter)->SetEntranceHeightAdd(0);
+			(*buildingIter)->SetEntranceWidthAdd((*buildingIter)->GetWidthAddition() / 2);
+			return;
+		}
+		case Direction::Up:
+		{
+			(*buildingIter)->SetExitDirection(Direction::Right);
+			(*buildingIter)->SetEntranceHeightAdd((*buildingIter)->GetHeightAddition() / 2);
+			(*buildingIter)->SetEntranceWidthAdd((*buildingIter)->GetWidthAddition());
+			return;
+		}
+		case Direction::Right:
+		{
+			(*buildingIter)->SetExitDirection(Direction::Down);
+			(*buildingIter)->SetEntranceHeightAdd((*buildingIter)->GetHeightAddition());
+			(*buildingIter)->SetEntranceWidthAdd((*buildingIter)->GetWidthAddition() / 2);
+			return;
+		}
+		default:
+			return;
+		}
+	}
+}
