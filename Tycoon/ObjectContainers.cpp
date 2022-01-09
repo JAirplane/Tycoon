@@ -531,13 +531,13 @@ void AllObjects::RotatePreliminaryBuilding()
 		{
 			(*buildingIter)->SetExitDirection(Direction::Up);
 			(*buildingIter)->SetEntranceHeightAdd(0);
-			(*buildingIter)->SetEntranceWidthAdd((*buildingIter)->GetWidthAddition() / 2);
+			(*buildingIter)->SetEntranceWidthAdd((*buildingIter)->GetWidthAddition() / 2 + 1);
 			return;
 		}
 		case Direction::Up:
 		{
 			(*buildingIter)->SetExitDirection(Direction::Right);
-			(*buildingIter)->SetEntranceHeightAdd((*buildingIter)->GetHeightAddition() / 2);
+			(*buildingIter)->SetEntranceHeightAdd((*buildingIter)->GetHeightAddition() / 2 + 1);
 			(*buildingIter)->SetEntranceWidthAdd((*buildingIter)->GetWidthAddition());
 			return;
 		}

@@ -162,7 +162,10 @@ void GameManagement::S_Key()
 void GameManagement::R_Key()
 {
 	allObjects_ptr->RotatePreliminaryBuilding();
-
+	Construction* preliminary_ptr = allObjects_ptr->GetPreliminaryElement();
+	draw_ptr->EraseConstruction(preliminary_ptr->GetUpperLeft().Get_x(), preliminary_ptr->GetUpperLeft().Get_y(),
+		preliminary_ptr->GetUpperLeft().Get_x() + preliminary_ptr->GetWidthAddition(), preliminary_ptr->GetUpperLeft().Get_y() + preliminary_ptr->GetHeightAddition());
+	allObjects_ptr->GetPreliminaryElement()->DrawObject();
 }
 void GameManagement::TabKey_Playingfield()
 {
@@ -378,6 +381,7 @@ void GameManagement::UserActions(int key)
 		{
 		case 104: { H_Key(); return; }	//'h' key hide or display Menu
 		case 115: { S_Key(); return; }	//'s' key change placement of menu from right to left and vice versa
+		case 114: { R_Key(); return; }	//'r' key rotate preliminary building
 		case 75: { Arrows_PlayingField(PointCoord(cursor_ptr->GetCursorConsoleLocation().Get_x() - 1, cursor_ptr->GetCursorConsoleLocation().Get_y())); return; }	//left arrow 
 		case 72: { Arrows_PlayingField(PointCoord(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y() - 1)); return; }	//up arrow 
 		case 77: { Arrows_PlayingField(PointCoord(cursor_ptr->GetCursorConsoleLocation().Get_x() + 1, cursor_ptr->GetCursorConsoleLocation().Get_y())); return; }	//right arrow 

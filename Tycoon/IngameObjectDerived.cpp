@@ -58,6 +58,12 @@ wstring Building::GetEntranceSymbol(Direction exit) const
 	default: {return wstring(L""); }
 	}
 }
+void Building::CopyEntrance(Construction* preliminary_ptr)
+{
+	SetEntranceHeightAdd(preliminary_ptr->GetEntranceHeightAdd());
+	SetEntranceWidthAdd(preliminary_ptr->GetEntranceWidthAdd());
+	SetExitDirection(preliminary_ptr->GetExitDirection());
+}
 bool Building::GetRoadConnectionStatus() const
 {
 	return connectedToRoad;

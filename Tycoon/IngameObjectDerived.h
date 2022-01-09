@@ -51,6 +51,7 @@ public:
 	Direction GetExitDirection() const;
 	void SetExitDirection(Direction exit);
 	wstring GetEntranceSymbol(Direction exit) const;
+	void CopyEntrance(Construction* preliminary_ptr);
 	bool GetRoadConnectionStatus() const;
 	void SetRoadConnectionStatus(bool connected);
 	unsigned int GetVisitorsCount() const;

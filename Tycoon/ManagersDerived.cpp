@@ -4,6 +4,7 @@ Construction* BuildingManager::CreateConstruction(PointCoord upperLeft, Visualis
 {
 	Building* building_ptr = new Building(upperLeft, GetDescriptor(), paint_ptr);
 	allObjects_ptr->AddObject(building_ptr);
+	building_ptr->CopyEntrance(allObjects_ptr->GetPreliminaryElement());
 	return building_ptr;
 }
 ///////////////Road Manager Class: Construction Manager derived///////////////
