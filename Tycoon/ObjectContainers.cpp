@@ -427,27 +427,49 @@ void AllObjects::DisplayVisitors()
 }
 int AllObjects::RoadEnvironment(PointCoord point)
 {
-	list<Road*>::iterator iter;
+	list<Road*>::iterator roadIter;
 	PointCoord leftLocation(point.Get_x() - 1, point.Get_y());
 	PointCoord rightLocation(point.Get_x() + 1, point.Get_y());
 	PointCoord downLocation(point.Get_x(), point.Get_y() + 1);
 	PointCoord upLocation(point.Get_x(), point.Get_y() - 1);
 	int roadEnvironmentMask = 0;
-	for (iter = roads.begin(); iter != roads.end(); iter++)
+	for (roadIter = roads.begin(); roadIter != roads.end(); roadIter++)
 	{
-		if ((*iter)->GetUpperLeft() == leftLocation)
+		if ((*roadIter)->GetUpperLeft() == leftLocation)
 		{
 			roadEnvironmentMask |= int(roadMask::LEFT);
 		}
-		if ((*iter)->GetUpperLeft() == rightLocation)
+		if ((*roadIter)->GetUpperLeft() == rightLocation)
 		{
 			roadEnvironmentMask |= int(roadMask::RIGHT);
 		}
-		if ((*iter)->GetUpperLeft() == upLocation)
+		if ((*roadIter)->GetUpperLeft() == upLocation)
 		{
 			roadEnvironmentMask |= int(roadMask::TOP);
 		}
-		if ((*iter)->GetUpperLeft() == downLocation)
+		if ((*roadIter)->GetUpperLeft() == downLocation)
+		{
+			roadEnvironmentMask |= int(roadMask::BOTTOM);
+		}
+	}
+	list<Building*>::iterator buildingIter;
+	for (buildingIter = buildings.begin(); buildingIter != buildings.end(); buildingIter++)
+	{
+		PointCoord entrance = PointCoord((*buildingIter)->GetUpperLeft().Get_x() + (*buildingIter)->GetEntranceWidthAdd(),
+			(*buildingIter)->GetUpperLeft().Get_y() + (*buildingIter)->GetEntranceHeightAdd());
+		if (entrance == leftLocation && (*buildingIter)->GetExitDirection() == Direction::Right)
+		{
+			roadEnvironmentMask |= int(roadMask::LEFT);
+		}
+		if (entrance == rightLocation && (*buildingIter)->GetExitDirection() == Direction::Left)
+		{
+			roadEnvironmentMask |= int(roadMask::RIGHT);
+		}
+		if (entrance == upLocation && (*buildingIter)->GetExitDirection() == Direction::Down)
+		{
+			roadEnvironmentMask |= int(roadMask::TOP);
+		}
+		if (entrance == downLocation && (*buildingIter)->GetExitDirection() == Direction::Up)
 		{
 			roadEnvironmentMask |= int(roadMask::BOTTOM);
 		}
@@ -479,7 +501,7 @@ void AllObjects::DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr)
 	}
 	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }
-void AllObjects::RedrawNeibourRoads(PointCoord roadUpperLeft, Camera* camera_ptr, PlayingField* field_ptr)
+void AllObjects::RedrawNeibourRoads(PointCoord roadUpperLeft)
 {
 	list<Road*>::iterator iter;
 	PointCoord leftLocation(roadUpperLeft.Get_x() - 1, roadUpperLeft.Get_y());
@@ -488,13 +510,11 @@ void AllObjects::RedrawNeibourRoads(PointCoord roadUpperLeft, Camera* camera_ptr
 	PointCoord topLocation(roadUpperLeft.Get_x(), roadUpperLeft.Get_y() - 1);
 	for (iter = roads.begin(); iter != roads.end(); iter++)
 	{
-		if ((*iter)->GetUpperLeft() == leftLocation || (*iter)->GetUpperLeft() == rightLocation || (*iter)->GetUpperLeft() == downLocation || (*iter)->GetUpperLeft() == topLocation)
+		if (((*iter)->GetUpperLeft() == leftLocation || (*iter)->GetUpperLeft() == rightLocation || (*iter)->GetUpperLeft() == downLocation || (*iter)->GetUpperLeft() == topLocation) &&
+			(*iter) != GetPreliminaryElement())
 		{
-			if (!ObjectImposition((*iter), camera_ptr, field_ptr))
-			{
-				int mask = RoadEnvironment((*iter)->GetUpperLeft());
-				(*iter)->DrawObject(mask);
-			}
+			int mask = RoadEnvironment((*iter)->GetUpperLeft());
+			(*iter)->DrawObject(mask);
 		}
 	}
 }
@@ -551,5 +571,21 @@ void AllObjects::RotatePreliminaryBuilding()
 		default:
 			return;
 		}
+	}
+}
+PointCoord AllObjects::GetPreliminaryElementRedrawPoint()
+{
+	if (containsPreliminary == PreliminaryStatus::BUILDING)
+	{
+		return PointCoord(buildings.back()->GetUpperLeft().Get_x() + buildings.back()->GetEntranceWidthAdd(),
+			buildings.back()->GetUpperLeft().Get_y() + buildings.back()->GetEntranceHeightAdd());
+	}
+	else if (containsPreliminary == PreliminaryStatus::ROAD)
+	{
+		return roads.back()->GetUpperLeft();
+	}
+	else
+	{
+		return PointCoord(0, 0);
 	}
 }
