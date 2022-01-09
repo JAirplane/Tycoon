@@ -75,6 +75,9 @@
     <ClInclude Include="msoftcon.h">
       <Filter>Исходные файлы</Filter>
     </ClInclude>
+    <ClInclude Include="InfoPanel.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameManagement.cpp">
@@ -136,6 +139,9 @@
     </ClCompile>
     <ClCompile Include="msoftcon.cpp">
       <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="InfoPanel.cpp">
+      <Filter>Файлы ресурсов</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

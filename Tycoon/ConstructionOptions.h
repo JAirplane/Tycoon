@@ -23,6 +23,7 @@ public:
 	virtual const int GetCameraHeightAdd() const;
 	virtual const int GetMenuHeightAdd() const;
 	virtual const int GetPlayingFieldHeightAdd() const;
+	virtual const int GetInfoPanelHeightAdd() const;
 	///////////////Width Addition Constants///////////////
 	virtual const int GetIceCreamShopWidthAdd() const;
 	virtual const int GetRoadWidthAdd() const;
@@ -30,6 +31,7 @@ public:
 	virtual const int GetCameraWidthAdd() const;
 	virtual const int GetMenuWidthAdd() const;
 	virtual const int GetPlayingFieldWidthAdd() const;
+	virtual const int GetInfoPanelWidthAdd() const;
 	///////////////Cost Initialisation Constants///////////////
 	virtual const int GetIceCreamShopCost() const;
 	virtual const int GetRoadCost() const;
@@ -42,7 +44,8 @@ public:
 	virtual const wstring GetIceCreamShopSymbol() const;
 	///////////////Initialisation Coord Constants///////////////
 	virtual const PointCoord GetCameraInitialUpperLeft() const;
-	const PointCoord GetPlayingFieldUpperLeft() const;
+	virtual const PointCoord GetPlayingFieldUpperLeft() const;
+	virtual const PointCoord GetInfoPanelUpperLeft() const;
 	///////////////Constructions's Icon Symbol Constants///////////////
 	virtual const wstring GetIceCreamShopIconSymbol() const;
 	virtual const wstring GetRoadIconSymbol() const;
@@ -54,6 +57,7 @@ public:
 	virtual color GetCursorBackgroundColor() const;
 	virtual color GetCameraColor() const;
 	virtual color GetPlayingFieldColor() const;
+	virtual color GetInfoPanelColor() const;
 	virtual color GetMenuColor() const;
 	virtual color GetMenuIconColor() const;
 	virtual color GetMenuItemInactiveColor() const;
@@ -66,6 +70,13 @@ public:
 	virtual const wstring GetUpperRightPlayingField() const;
 	virtual const wstring GetBottomLeftPlayingField() const;
 	virtual const wstring GetBottomRightPlayingField() const;
+	///////////////InfoPanel Symbol Constants///////////////
+	virtual const wstring GetInfoPanelVerticalSymbol() const;
+	virtual const wstring GetInfoPanelHorizontalSymbol() const;
+	virtual const wstring GetInfoPanelUpperLeftSymbol() const;
+	virtual const wstring GetInfoPanelUpperRightSymbol() const;
+	virtual const wstring GetInfoPanelBottomLeftSymbol() const;
+	virtual const wstring GetInfoPanelBottomRightSymbol() const;
 	///////////////Menu Border Symbol Constants///////////////
 	virtual const wstring GetMenuVerticalSymbol() const;
 	virtual const wstring GetMenuHorizontalSymbol() const;

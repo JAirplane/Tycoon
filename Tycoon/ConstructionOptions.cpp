@@ -29,6 +29,10 @@ const int ConstructionOptions::GetPlayingFieldHeightAdd() const
 {
 	return 62;
 }
+const int ConstructionOptions::GetInfoPanelHeightAdd() const
+{
+	return 9;
+}
 ///////////////Width Addition Constants///////////////
 const int ConstructionOptions::GetIceCreamShopWidthAdd() const
 {
@@ -53,6 +57,10 @@ const int ConstructionOptions::GetMenuWidthAdd() const
 const int ConstructionOptions::GetPlayingFieldWidthAdd() const
 {
 	return 129;
+}
+const int ConstructionOptions::GetInfoPanelWidthAdd() const
+{
+	return 115;
 }
 ///////////////Cost Initialisation Constants///////////////
 const int ConstructionOptions::GetIceCreamShopCost() const
@@ -83,37 +91,6 @@ const wstring ConstructionOptions::GetIceCreamShopSymbol() const
 	wstring symbol = L"\u25D9";
 	return symbol;
 }
-///////////////PlayingField Symbol Constants///////////////
-const wstring ConstructionOptions::GetVerticalPlayingField() const
-{
-	wstring symbol = L"\u2503";
-	return symbol;
-}
-const wstring ConstructionOptions::GetHorizontalPlayingField() const
-{
-	wstring symbol = L"\u2501";
-	return symbol;
-}
-const wstring ConstructionOptions::GetUpperLeftPlayingField() const
-{
-	wstring symbol = L"\u250f";
-	return symbol;
-}
-const wstring ConstructionOptions::GetUpperRightPlayingField() const
-{
-	wstring symbol = L"\u2513";
-	return symbol;
-}
-const wstring ConstructionOptions::GetBottomLeftPlayingField() const
-{
-	wstring symbol = L"\u2517";
-	return symbol;
-}
-const wstring ConstructionOptions::GetBottomRightPlayingField() const
-{
-	wstring symbol = L"\u251b";
-	return symbol;
-}
 ///////////////Initialisation Coord Constants///////////////
 const PointCoord ConstructionOptions::GetCameraInitialUpperLeft() const
 {
@@ -122,6 +99,10 @@ const PointCoord ConstructionOptions::GetCameraInitialUpperLeft() const
 const PointCoord ConstructionOptions::GetPlayingFieldUpperLeft() const
 {
 	return PointCoord(-30, -30);
+}
+const PointCoord ConstructionOptions::GetInfoPanelUpperLeft() const
+{
+	return PointCoord(1, 36);
 }
 ///////////////Building's Icon Symbol Constants///////////////
 const wstring ConstructionOptions::GetIceCreamShopIconSymbol() const
@@ -163,6 +144,10 @@ color ConstructionOptions::GetPlayingFieldColor() const
 {
 	return color::cDARK_GRAY;
 }
+color ConstructionOptions::GetInfoPanelColor() const
+{
+	return color::cBLUE;
+}
 color ConstructionOptions::GetMenuColor() const
 {
 	return color::cBLUE;
@@ -182,6 +167,37 @@ color ConstructionOptions::GetMenuItemActiveColor() const
 color ConstructionOptions::GetMenuItemUnderConstructionColor() const
 {
 	return color::cRED;
+}
+///////////////PlayingField Symbol Constants///////////////
+const wstring ConstructionOptions::GetVerticalPlayingField() const
+{
+	wstring symbol = L"\u2503";
+	return symbol;
+}
+const wstring ConstructionOptions::GetHorizontalPlayingField() const
+{
+	wstring symbol = L"\u2501";
+	return symbol;
+}
+const wstring ConstructionOptions::GetUpperLeftPlayingField() const
+{
+	wstring symbol = L"\u250f";
+	return symbol;
+}
+const wstring ConstructionOptions::GetUpperRightPlayingField() const
+{
+	wstring symbol = L"\u2513";
+	return symbol;
+}
+const wstring ConstructionOptions::GetBottomLeftPlayingField() const
+{
+	wstring symbol = L"\u2517";
+	return symbol;
+}
+const wstring ConstructionOptions::GetBottomRightPlayingField() const
+{
+	wstring symbol = L"\u251b";
+	return symbol;
 }
 ///////////////Menu Border Symbol Constants///////////////
 const wstring ConstructionOptions::GetMenuVerticalSymbol() const
@@ -205,6 +221,31 @@ const wstring ConstructionOptions::GetMenuBottomLeftSymbol() const
 	return wstring(L"\u255A");
 }
 const wstring ConstructionOptions::GetMenuBottomRightSymbol() const
+{
+	return wstring(L"\u255D");
+}
+///////////////InfoPanel Border Symbol Constants///////////////
+const wstring ConstructionOptions::GetInfoPanelVerticalSymbol() const
+{
+	return wstring(L"\u2551");
+}
+const wstring ConstructionOptions::GetInfoPanelHorizontalSymbol() const
+{
+	return wstring(L"\u2550");
+}
+const wstring ConstructionOptions::GetInfoPanelUpperLeftSymbol() const
+{
+	return wstring(L"\u2554");
+}
+const wstring ConstructionOptions::GetInfoPanelUpperRightSymbol() const
+{
+	return wstring(L"\u2557");
+}
+const wstring ConstructionOptions::GetInfoPanelBottomLeftSymbol() const
+{
+	return wstring(L"\u255A");
+}
+const wstring ConstructionOptions::GetInfoPanelBottomRightSymbol() const
 {
 	return wstring(L"\u255D");
 }

@@ -56,6 +56,10 @@ void GameManagement::DisplayPlayingField()
 		ConstructionOptions::GetAllOptions()->GetPlayingFieldColor());
 	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }
+void GameManagement::DisplayInfoPanel()
+{
+	infoPanel_ptr->DrawInfoPanel();
+}
 void GameManagement::ErasePlayingField()
 {
 	int cameraLeftX = camera_ptr->GetUpperLeft().Get_x();

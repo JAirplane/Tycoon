@@ -11,6 +11,7 @@ int main()
 	GameMaster.CreateManagers();
 	GameMaster.DisplayCamera();
 	GameMaster.DisplayMenu();
+	GameMaster.DisplayInfoPanel();
 	GameMaster.DisplayPlayingField();
 	GameMaster.GameProcess();
 	set_cursor_pos(1, 40);

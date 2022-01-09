@@ -14,8 +14,8 @@ private:
 	MenuStatus currentSide;
 	bool hidden;
 public:
-	Menu(Visualisation* drawptr, Camera* vmptr, Cursor* _cursor_ptr, PointCoord upperLeft, RectangleSymbols* menuSymbols_ptr, RectangleSymbols* itemSymbols_ptr,
-		RectangleSymbols* iconSymbols_ptr, int heightAdd, int widthAdd) : GlobalObject(upperLeft, heightAdd, widthAdd), draw_ptr(drawptr), camera_ptr(vmptr), cursor_ptr(_cursor_ptr)
+	Menu(Visualisation* drawptr, Camera* vmptr, Cursor* cursorptr, PointCoord upperLeft, RectangleSymbols* menuSymbols_ptr, RectangleSymbols* itemSymbols_ptr,
+		RectangleSymbols* iconSymbols_ptr, int heightAdd, int widthAdd) : GlobalObject(upperLeft, heightAdd, widthAdd), draw_ptr(drawptr), camera_ptr(vmptr), cursor_ptr(cursorptr)
 	{
 		menuBorderSymbols_ptr = menuSymbols_ptr;
 		itemBorderSymbols_ptr = itemSymbols_ptr;
