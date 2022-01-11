@@ -14,5 +14,6 @@ public:
 	{
 		delete infoPanelBorderSymbols_ptr;
 	}
-	void DrawInfoPanel();
+	void DrawInfoPanelBorders();
+	void DrawInfoPanelSplashScreen();
 };
