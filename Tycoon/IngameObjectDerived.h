@@ -29,7 +29,7 @@ private:
 	int entranceWidthAdd;
 	Direction exitDirection;
 	bool connectedToRoad;
-	unsigned int lastDayVisitors;
+	int lastDayVisitors;
 	int lastDayProfit;
 public:
 	Building(PointCoord upperLeft, ConstructionDescriptor* manager_ptr, Visualisation* paint_ptr) : Construction(upperLeft, manager_ptr, paint_ptr)
@@ -38,7 +38,7 @@ public:
 		SetWidthAddition(manager_ptr->GetConstructionWidthAdd());
 		this->entranceHeightAdd = manager_ptr->GetConstructionHeightAdd();
 		this->entranceWidthAdd = manager_ptr->GetConstructionWidthAdd() / 2;
-		connectedToRoad = 0;
+		connectedToRoad = false;
 		lastDayVisitors = 0;
 		lastDayProfit = 0;
 		exitDirection = Direction::Down;
@@ -54,10 +54,11 @@ public:
 	void CopyEntrance(Construction* preliminary_ptr);
 	bool GetRoadConnectionStatus() const;
 	void SetRoadConnectionStatus(bool connected);
-	unsigned int GetVisitorsCount() const;
-	void SetVisitorsCount(unsigned int visitorsCount);
+	int GetVisitorsCount() const;
+	void SetVisitorsCount(int visitorsCount);
 	int GetProfit() const;
 	void SetProfit(int profit);
+	color GetBackgroundColor() const;
 	void DrawObject(int mask = 0) const override;
 	void DrawPartly(int leftX, int rightX, int topY, int bottomY) const;
 };

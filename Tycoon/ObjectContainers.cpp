@@ -343,46 +343,36 @@ void AllObjects::DisplayBuildings(Camera* camera_ptr, PlayingField* field_ptr) c
 	}
 	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }
-void AllObjects::SetRoadAndBuildingConnectionStatuses()
+void AllObjects::SetBuildingConnectionStatuses()
 {
 	PointCoord potentiallyRoad(0, 0);
 	list<Building*>::iterator buildingIter;
 	for (buildingIter = buildings.begin(); buildingIter != buildings.end(); buildingIter++)
 	{
+		bool previousStatus = (*buildingIter)->GetRoadConnectionStatus();
+		(*buildingIter)->SetRoadConnectionStatus(false);
 		Direction exitDirection = (*buildingIter)->GetExitDirection();
+		int entranceX = (*buildingIter)->GetUpperLeft().Get_x() + (*buildingIter)->GetEntranceWidthAdd();
+		int entranceY = (*buildingIter)->GetUpperLeft().Get_y() + (*buildingIter)->GetEntranceHeightAdd();
 		switch (exitDirection)
 		{
-		case Direction::Up: {potentiallyRoad.SetCoord(PointCoord((*buildingIter)->GetEntranceWidthAdd(), (*buildingIter)->GetEntranceHeightAdd() - 1)); break; }
-		case Direction::Down: {potentiallyRoad.SetCoord(PointCoord((*buildingIter)->GetEntranceWidthAdd(), (*buildingIter)->GetEntranceHeightAdd() + 1)); break; }
-		case Direction::Right: {potentiallyRoad.SetCoord(PointCoord((*buildingIter)->GetEntranceWidthAdd() + 1, (*buildingIter)->GetEntranceHeightAdd())); break; }
-		case Direction::Left: {potentiallyRoad.SetCoord(PointCoord((*buildingIter)->GetEntranceWidthAdd() - 1, (*buildingIter)->GetEntranceHeightAdd())); break; }
+		case Direction::Up: {potentiallyRoad.SetCoord(PointCoord(entranceX, entranceY - 1)); break; }
+		case Direction::Down: {potentiallyRoad.SetCoord(PointCoord(entranceX, entranceY + 1)); break; }
+		case Direction::Right: {potentiallyRoad.SetCoord(PointCoord(entranceX + 1, entranceY)); break; }
+		case Direction::Left: {potentiallyRoad.SetCoord(PointCoord(entranceX - 1, entranceY)); break; }
 		}
 		list<Road*>::iterator roadIter;
 		for (roadIter = roads.begin(); roadIter != roads.end(); roadIter++)
 		{
 			if ((*roadIter)->GetUpperLeft() == potentiallyRoad)
 			{
-				(*roadIter)->SetGraphStatus(1);
-				list<Building*>::iterator buildingIter2 = buildings.begin();
-				do
-				{
-					PointCoord connectedRoad;
-					switch ((*buildingIter)->GetExitDirection())
-					{
-					case Direction::Up: {connectedRoad = PointCoord((*buildingIter)->GetEntranceWidthAdd(), (*buildingIter)->GetEntranceHeightAdd() - 1); break; }
-					case Direction::Down: {connectedRoad = PointCoord((*buildingIter)->GetEntranceWidthAdd(), (*buildingIter)->GetEntranceHeightAdd() + 1); break; }
-					case Direction::Right: {connectedRoad = PointCoord((*buildingIter)->GetEntranceWidthAdd() + 1, (*buildingIter)->GetEntranceHeightAdd()); break; }
-					case Direction::Left: {connectedRoad = PointCoord((*buildingIter)->GetEntranceWidthAdd() - 1, (*buildingIter)->GetEntranceHeightAdd()); break; }
-					}
-					if (connectedRoad == potentiallyRoad)
-					{
-						(*buildingIter2)->SetRoadConnectionStatus(1);
-						break;
-					}
-					++buildingIter;
-				} while (buildingIter != buildings.end());
+				(*buildingIter)->SetRoadConnectionStatus(true);
+				break;
 			}
-
+		}
+		if (previousStatus != (*buildingIter)->GetRoadConnectionStatus())
+		{
+			(*buildingIter)->DrawObject();
 		}
 	}
 }

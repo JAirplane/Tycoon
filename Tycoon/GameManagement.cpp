@@ -58,7 +58,8 @@ void GameManagement::DisplayPlayingField()
 }
 void GameManagement::DisplayInfoPanel()
 {
-	infoPanel_ptr->DrawInfoPanel();
+	infoPanel_ptr->DrawInfoPanelBorders();
+	infoPanel_ptr->DrawInfoPanelSplashScreen(cGREEN, cDARK_CYAN);
 }
 void GameManagement::ErasePlayingField()
 {
@@ -171,6 +172,7 @@ void GameManagement::R_Key()
 	draw_ptr->EraseConstruction(preliminary_ptr->GetUpperLeft().Get_x(), preliminary_ptr->GetUpperLeft().Get_y(),
 		preliminary_ptr->GetUpperLeft().Get_x() + preliminary_ptr->GetWidthAddition(), preliminary_ptr->GetUpperLeft().Get_y() + preliminary_ptr->GetHeightAddition());
 	allObjects_ptr->RedrawNeibourRoads(preliminaryElementNeibourRedraw);
+	allObjects_ptr->SetBuildingConnectionStatuses();
 	allObjects_ptr->GetPreliminaryElement()->DrawObject();
 	allObjects_ptr->RedrawNeibourRoads(allObjects_ptr->GetPreliminaryElementRedrawPoint());
 	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
@@ -249,6 +251,7 @@ void GameManagement::EnterKey_PlayingField()
 			mask = allObjects_ptr->RoadEnvironment(realObject_ptr->GetUpperLeft());
 			allObjects_ptr->RedrawNeibourRoads(realObject_ptr->GetUpperLeft());
 		}
+		allObjects_ptr->SetBuildingConnectionStatuses();
 		realObject_ptr->DrawObject(mask);
 		cursor_ptr->CursorMovement(PointCoord(realObject_ptr->GetUpperLeft().Get_x() + realObject_ptr->GetWidthAddition() + 1,
 			realObject_ptr->GetUpperLeft().Get_y() + realObject_ptr->GetHeightAddition()));
@@ -260,6 +263,7 @@ void GameManagement::EnterKey_PlayingField()
 				mask = allObjects_ptr->RoadEnvironment(allObjects_ptr->GetPreliminaryElement()->GetUpperLeft());
 				allObjects_ptr->RedrawNeibourRoads(allObjects_ptr->GetPreliminaryElement()->GetUpperLeft());
 			}
+			allObjects_ptr->SetBuildingConnectionStatuses();
 			allObjects_ptr->GetPreliminaryElement()->DrawObject(mask);
 			cursor_ptr->CursorMovement(allObjects_ptr->GetPreliminaryElement()->GetUpperLeft());
 		}
@@ -285,6 +289,7 @@ void GameManagement::EnterKey_Menu()
 			mask = allObjects_ptr->RoadEnvironment(preliminary_ptr->GetUpperLeft());
 			allObjects_ptr->RedrawNeibourRoads(preliminary_ptr->GetUpperLeft());
 		}
+		allObjects_ptr->SetBuildingConnectionStatuses();
 		preliminary_ptr->DrawObject(mask);
 		cursor_ptr->CursorMovement(preliminary_ptr->GetUpperLeft());
 	}
@@ -347,6 +352,7 @@ void GameManagement::Arrows_PlayingField(PointCoord cursorDestination)
 				mask = allObjects_ptr->RoadEnvironment(io_ptr->GetUpperLeft());
 			}
 			allObjects_ptr->RedrawNeibourRoads(allObjects_ptr->GetPreliminaryElementRedrawPoint());
+			allObjects_ptr->SetBuildingConnectionStatuses();
 			io_ptr->DrawObject(mask);
 		}
 		cursor_ptr->CursorMovement(io_ptr->GetUpperLeft());

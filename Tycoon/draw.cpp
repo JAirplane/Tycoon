@@ -253,9 +253,9 @@ void Visualisation::DrawIcon(int leftX, int topY, wstring vertical, wstring hori
 	}
 	set_color(cYELLOW);
 }
-void Visualisation::DrawInfoPanelInitial(int leftX, int topY, int rightX, int bottomY)
+void Visualisation::DrawInfoPanelInitial(int leftX, int topY, color foreground, color background)
 {
-	set_color(cGREEN, cDARK_CYAN);
+	set_color(foreground, background);
 	//first row
 	set_cursor_pos(leftX + 3, topY + 2);
 	cout << "  ";
@@ -466,4 +466,7 @@ void Visualisation::DrawInfoPanelInitial(int leftX, int topY, int rightX, int bo
 	cout << " ";
 	set_cursor_pos(leftX + 88, topY + 7);
 	cout << " ";
+	set_color(cGREEN, cBLACK);
+	set_cursor_pos(leftX + 90, topY + 2);
+	cout << "Press i to use info panel";
 }

@@ -24,5 +24,5 @@ public:
 		int entranceHeightAdd = -1, int entranceWidthAdd = -1, color background = cBLACK);
 	void DrawConstruction(int leftX, int topY, int rightX, int bottomY, const wstring constructionSymbol, color foreground, color background = cBLACK);
 	void EraseConstruction(int leftX, int topY, int rightX, int bottomY);
-	void DrawInfoPanelInitial(int leftX, int topY, int rightX, int bottomY);
+	void DrawInfoPanelInitial(int leftX, int topY, color foreground, color background);
 };

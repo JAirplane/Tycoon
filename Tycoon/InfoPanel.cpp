@@ -6,7 +6,7 @@ void InfoPanel::DrawInfoPanelBorders()
 		infoPanelBorderSymbols_ptr->GetUpperRightSymbol(), infoPanelBorderSymbols_ptr->GetBottomLeftSymbol(), infoPanelBorderSymbols_ptr->GetBottomRightSymbol(),
 		ConstructionOptions::GetAllOptions()->GetInfoPanelColor());
 }
-void InfoPanel::DrawInfoPanelSplashScreen()
+void InfoPanel::DrawInfoPanelSplashScreen(color foreground, color background)
 {
-
+	draw_ptr->DrawInfoPanelInitial(GetUpperLeft().Get_x(), GetUpperLeft().Get_y(), foreground, background);
 }

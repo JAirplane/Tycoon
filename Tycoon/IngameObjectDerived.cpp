@@ -72,11 +72,11 @@ void Building::SetRoadConnectionStatus(bool connected)
 {
 	connectedToRoad = connected;
 }
-unsigned int Building::GetVisitorsCount() const
+int Building::GetVisitorsCount() const
 {
 	return lastDayVisitors;
 }
-void Building::SetVisitorsCount(unsigned int visitorsCount)
+void Building::SetVisitorsCount(int visitorsCount)
 {
 	lastDayVisitors = visitorsCount;
 }
@@ -88,16 +88,29 @@ void Building::SetProfit(int profit)
 {
 	lastDayProfit = profit;
 }
+color Building::GetBackgroundColor() const
+{
+	if (connectedToRoad == false)
+	{
+		return cBLACK;
+	}
+	else
+	{
+		return GetDescriptor()->GetBackgroundColor();
+	}
+}
 void Building::DrawObject(int mask) const
 {
+	color backgroundColor = GetBackgroundColor();
 	GetPainter()->DrawConstruction(GetUpperLeft().Get_x(), GetUpperLeft().Get_y(), GetUpperLeft().Get_x() + GetWidthAddition(), GetUpperLeft().Get_y() + GetHeightAddition(),
 		GetDescriptor()->GetConstructionSymbol(), GetDescriptor()->GetForegroundColor(), GetEntranceSymbol(exitDirection), entranceHeightAdd, entranceWidthAdd,
-		GetDescriptor()->GetBackgroundColor());
+		backgroundColor);
 }
 void Building::DrawPartly(int leftX, int rightX, int topY, int bottomY) const
 {
+	color backgroundColor = GetBackgroundColor();
 	GetPainter()->DrawConstruction(leftX, topY, rightX, bottomY, GetDescriptor()->GetConstructionSymbol(), GetDescriptor()->GetForegroundColor(),
-		GetEntranceSymbol(exitDirection), entranceHeightAdd, entranceWidthAdd, GetDescriptor()->GetBackgroundColor());
+		GetEntranceSymbol(exitDirection), entranceHeightAdd, entranceWidthAdd, backgroundColor);
 }
 ///////////////Road Class: Construction derived///////////////
 bool Road::GetGraphStatus() const
