@@ -140,6 +140,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Alphabet.h" />
     <ClInclude Include="BuildingDescriptor.h" />
     <ClInclude Include="ConstructionDescriptor.h" />
     <ClInclude Include="ConstructionManager.h" />
@@ -163,6 +164,7 @@
     <ClInclude Include="Camera.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Alphabet.cpp" />
     <ClCompile Include="BuildingDescriptor.cpp" />
     <ClCompile Include="ConstructionDescriptor.cpp" />
     <ClCompile Include="ConstructionManager.cpp" />

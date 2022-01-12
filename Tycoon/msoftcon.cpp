@@ -20,7 +20,7 @@ void init_graphics()
    SetConsoleScreenBufferSize(hConsole, console_size);
    //set text to white on black
    SetConsoleTextAttribute( hConsole, (WORD)((0 << 4) | 15) );
-   MoveWindow(Cons, 300, 200, 1366, 768, TRUE);
+   MoveWindow(Cons, 300, 200, 1440, 900, TRUE);
    fill_char = '\xDB';  //default fill is solid block
    clear_screen();
    }

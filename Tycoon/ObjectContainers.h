@@ -1,5 +1,4 @@
 #pragma once
-#include <list>
 #include <vector>
 #include <typeinfo>
 #include "Camera.h"
@@ -60,8 +59,8 @@ public:
 	int RoadEnvironment(PointCoord point);
 	void DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr);
 	void RedrawNeibourRoads(PointCoord roadUpperLeft); //when new road tile added or removed redraw all neighbor roads
-	void IsGraphRoadsOnly();
-	void SetBuildingConnectionStatuses(); //sets true status to every building object that is connected to road and sets true "IsGraph" status to every connected road as well
+	void IsGraph();
+	void SetBuildingConnectionStatuses(); //sets true status to every building object that is connected to road
 	void RotatePreliminaryBuilding();
 	PointCoord GetPreliminaryElementRedrawPoint(); //returns point of preliminary element (road pixel or building entrance) which partisipates in other road pixel environment
 };

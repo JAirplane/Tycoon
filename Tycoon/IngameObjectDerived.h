@@ -1,6 +1,9 @@
 #pragma once
 #include "IngameObject.h"
+#include <list>
 /////////////Parent Class of Every Construction Type/////////////
+class Road;
+class Building;
 class Construction : public IngameObject
 {
 private:
@@ -19,6 +22,7 @@ public:
 	virtual int GetEntranceWidthAdd() const;
 	virtual Direction GetExitDirection() const;
 	virtual wstring GetEntranceSymbol(Direction out) const;
+	virtual int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings = { 0 }) = 0;
 	void DrawObject(int mask = 0) const override;
 };
 /////////////Parent Class of buildings/////////////
@@ -44,16 +48,17 @@ public:
 		exitDirection = Direction::Down;
 	}
 	~Building() {}
-	int GetEntranceHeightAdd() const;
+	int GetEntranceHeightAdd() const override;
 	void SetEntranceHeightAdd(int heightAdd);
-	int GetEntranceWidthAdd() const;
+	int GetEntranceWidthAdd() const override;
 	void SetEntranceWidthAdd(int widthAdd);
-	Direction GetExitDirection() const;
+	Direction GetExitDirection() const override;
 	void SetExitDirection(Direction exit);
-	wstring GetEntranceSymbol(Direction exit) const;
+	wstring GetEntranceSymbol(Direction exit) const override;
 	void CopyEntrance(Construction* preliminary_ptr);
 	bool GetRoadConnectionStatus() const;
 	void SetRoadConnectionStatus(bool connected);
+	int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings = {0}) override;
 	int GetVisitorsCount() const;
 	void SetVisitorsCount(int visitorsCount);
 	int GetProfit() const;
@@ -79,6 +84,8 @@ public:
 	~Road() {}
 	bool GetGraphStatus() const;
 	void SetGraphStatus(bool status);
+	bool RoadIsAnEntrance(const list<Building*> &allBuildings);
+	int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings = {0}) override;
 	void DefineGraphStatus(int mask);
 	bool GetRoadIsInChainStatus();
 	void SetRoadIsInChainStatus(bool chainFlag);

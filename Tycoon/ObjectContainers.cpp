@@ -508,7 +508,7 @@ void AllObjects::RedrawNeibourRoads(PointCoord roadUpperLeft)
 		}
 	}
 }
-void AllObjects::IsGraphRoadsOnly()
+void AllObjects::IsGraph()
 {
 	list<Road*>::iterator iter;
 	for (iter = roads.begin(); iter != roads.end(); iter++)

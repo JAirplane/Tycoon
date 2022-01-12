@@ -1,5 +1,6 @@
 #pragma once
 #include "Menu.h"
+#include "Alphabet.h"
 class InfoPanel : public GlobalObject
 {
 private:

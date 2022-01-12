@@ -31,7 +31,7 @@ const int ConstructionOptions::GetPlayingFieldHeightAdd() const
 }
 const int ConstructionOptions::GetInfoPanelHeightAdd() const
 {
-	return 9;
+	return 10;
 }
 ///////////////Width Addition Constants///////////////
 const int ConstructionOptions::GetIceCreamShopWidthAdd() const
