@@ -37,6 +37,8 @@ public:
 			delete (*visitorIter);
 		}
 	}
+	const list<Building*>& GetAllBuildings() const;
+	const list<Road*>& GetAllRoads() const;
 	int GetBuildingsQuantity() const;
 	int GetRoadsQuantity() const;
 	int GetVisitorsQuantity() const;

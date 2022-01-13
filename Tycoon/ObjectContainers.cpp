@@ -1,5 +1,13 @@
 #include "ObjectContainers.h"
 /////////////Containers of All Objects in the Game/////////////
+const list<Building*>& AllObjects::GetAllBuildings() const
+{
+	return buildings;
+}
+const list<Road*>& AllObjects::GetAllRoads() const
+{
+	return roads;
+}
 int AllObjects::GetBuildingsQuantity() const
 {
 	return buildings.size();
@@ -500,8 +508,8 @@ void AllObjects::RedrawNeibourRoads(PointCoord roadUpperLeft)
 	PointCoord topLocation(roadUpperLeft.Get_x(), roadUpperLeft.Get_y() - 1);
 	for (iter = roads.begin(); iter != roads.end(); iter++)
 	{
-		if (((*iter)->GetUpperLeft() == leftLocation || (*iter)->GetUpperLeft() == rightLocation || (*iter)->GetUpperLeft() == downLocation || (*iter)->GetUpperLeft() == topLocation) &&
-			(*iter) != GetPreliminaryElement())
+		if (((*iter)->GetUpperLeft() == leftLocation || (*iter)->GetUpperLeft() == rightLocation || (*iter)->GetUpperLeft() == downLocation ||
+			(*iter)->GetUpperLeft() == topLocation) && (*iter) != GetPreliminaryElement())
 		{
 			int mask = RoadEnvironment((*iter)->GetUpperLeft());
 			(*iter)->DrawObject(mask);
