@@ -30,6 +30,38 @@ wstring Construction::GetEntranceSymbol(Direction out) const
 }
 void Construction::DrawObject(int mask) const
 {}
+void Construction::RedrawNeibours(PointCoord centralPoint, const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
+{
+	list<Road*>::const_iterator roadIter;
+	PointCoord leftLocation(centralPoint.Get_x() - 1, centralPoint.Get_y());
+	PointCoord rightLocation(centralPoint.Get_x() + 1, centralPoint.Get_y());
+	PointCoord downLocation(centralPoint.Get_x(), centralPoint.Get_y() + 1);
+	PointCoord topLocation(centralPoint.Get_x(), centralPoint.Get_y() - 1);
+	for (roadIter = allRoads.begin(); roadIter != allRoads.end(); roadIter++)
+	{
+		if (((*roadIter)->GetUpperLeft() == leftLocation || (*roadIter)->GetUpperLeft() == rightLocation || (*roadIter)->GetUpperLeft() == downLocation ||
+			(*roadIter)->GetUpperLeft() == topLocation) && (*roadIter) != preliminary_ptr)
+		{
+			int mask = (*roadIter)->GetEnvironmentMask(allRoads, allBuildings);
+			(*roadIter)->ConnectedToRoad(allRoads);
+			if (preliminary_ptr == nullptr)
+			{
+				(*roadIter)->IsGraph(allRoads, allBuildings);
+			}
+			(*roadIter)->DrawObject(mask);
+		}
+	}
+	list<Building*>::const_iterator buildingIter;
+	for (buildingIter = allBuildings.begin(); buildingIter != allBuildings.end(); buildingIter++)
+	{
+		PointCoord potentialRoad = (*buildingIter)->GetPotentialConnectedRoadPoint();
+		if (centralPoint == potentialRoad && (*buildingIter) != preliminary_ptr)
+		{
+			(*buildingIter)->ConnectedToRoad(allRoads);
+			(*buildingIter)->DrawObject();
+		}
+	}
+}
 ///////////////Building Class: Construction derived///////////////
 int Building::GetEntranceHeightAdd() const
 {
@@ -55,6 +87,21 @@ void Building::SetExitDirection(Direction exit)
 {
 	exitDirection = exit;
 }
+PointCoord Building::GetEntrancePoint() const
+{
+	return PointCoord(GetUpperLeft().Get_x() + GetEntranceWidthAdd(), GetUpperLeft().Get_y() + GetEntranceHeightAdd());
+}
+PointCoord Building::GetPotentialConnectedRoadPoint() const
+{
+	switch (GetExitDirection())
+	{
+	case Direction::Left: { return PointCoord(GetEntrancePoint().Get_x() - 1, GetEntrancePoint().Get_y()); }
+	case Direction::Up: { return PointCoord(GetEntrancePoint().Get_x(), GetEntrancePoint().Get_y() - 1); }
+	case Direction::Right: { return PointCoord(GetEntrancePoint().Get_x() + 1, GetEntrancePoint().Get_y()); }
+	case Direction::Down: { return PointCoord(GetEntrancePoint().Get_x(), GetEntrancePoint().Get_y() + 1); }
+	default: { return PointCoord(0, 0); }
+	}
+}
 wstring Building::GetEntranceSymbol(Direction exit) const
 {
 	switch (exitDirection)
@@ -78,15 +125,7 @@ int Building::GetEnvironmentMask(const list<Road*>& allRoads, const list<Buildin
 }
 void Building::ConnectedToRoad(const list<Road*>& allRoads)
 {
-	PointCoord potentialRoad;
-	switch (exitDirection)
-	{
-	case Direction::Up: {potentialRoad = PointCoord(GetUpperLeft().Get_x() + GetWidthAddition(), GetUpperLeft().Get_y() + GetHeightAddition() - 1); }
-	case Direction::Right: {potentialRoad = PointCoord(GetUpperLeft().Get_x() + GetWidthAddition() + 1, GetUpperLeft().Get_y() + GetHeightAddition()); }
-	case Direction::Down: {potentialRoad = PointCoord(GetUpperLeft().Get_x() + GetWidthAddition(), GetUpperLeft().Get_y() + GetHeightAddition() + 1); }
-	case Direction::Left: {potentialRoad = PointCoord(GetUpperLeft().Get_x() + GetWidthAddition() - 1, GetUpperLeft().Get_y() + GetHeightAddition()); }
-	default: {return; }
-	}
+	PointCoord potentialRoad = GetPotentialConnectedRoadPoint();
 	list<Road*>::const_iterator roadIter;
 	for (roadIter = allRoads.begin(); roadIter != allRoads.end(); roadIter++)
 	{
@@ -99,7 +138,7 @@ void Building::ConnectedToRoad(const list<Road*>& allRoads)
 	SetRoadConnectionStatus(false);
 }
 void Building::IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings)
-	{}
+{}
 int Building::GetVisitorsCount() const
 {
 	return lastDayVisitors;
@@ -127,18 +166,9 @@ color Building::GetBackgroundColor() const
 		return GetDescriptor()->GetBackgroundColor();
 	}
 }
-void Building::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings)
+void Building::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
 {
-	PointCoord entrance = PointCoord(GetUpperLeft().Get_x() + GetWidthAddition(), GetUpperLeft().Get_y() + GetHeightAddition());
-	PointCoord potentialRoad;
-	switch (GetExitDirection())
-	{
-	case Direction::Left: { potentialRoad = PointCoord(entrance.Get_x() - 1, entrance.Get_y()); break; }
-	case Direction::Up: { potentialRoad = PointCoord(entrance.Get_x(), entrance.Get_y() - 1); break; }
-	case Direction::Right: { potentialRoad = PointCoord(entrance.Get_x() + 1, entrance.Get_y()); break; }
-	case Direction::Down: { potentialRoad = PointCoord(entrance.Get_x(), entrance.Get_y() + 1); break; }
-	default: { return; }
-	}
+	PointCoord potentialRoad = GetPotentialConnectedRoadPoint();
 	list<Road*>::const_iterator roadIter;
 	for (roadIter = allRoads.begin(); roadIter != allRoads.end(); roadIter++)
 	{
@@ -146,22 +176,24 @@ void Building::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>
 		{
 			int mask = (*roadIter)->GetEnvironmentMask(allRoads, allBuildings);
 			(*roadIter)->ConnectedToRoad(allRoads);
+			if (preliminary_ptr == nullptr)
+			{
+				(*roadIter)->IsGraph(allRoads, allBuildings);
+			}
 			(*roadIter)->DrawObject(mask);
 		}
 	}
 }
 void Building::DrawObject(int mask) const
 {
-	color backgroundColor = GetBackgroundColor();
 	GetPainter()->DrawConstruction(GetUpperLeft().Get_x(), GetUpperLeft().Get_y(), GetUpperLeft().Get_x() + GetWidthAddition(), GetUpperLeft().Get_y() + GetHeightAddition(),
 		GetDescriptor()->GetConstructionSymbol(), GetDescriptor()->GetForegroundColor(), GetEntranceSymbol(exitDirection), entranceHeightAdd, entranceWidthAdd,
-		backgroundColor);
+		GetBackgroundColor());
 }
 void Building::DrawPartly(int leftX, int rightX, int topY, int bottomY) const
 {
-	color backgroundColor = GetBackgroundColor();
 	GetPainter()->DrawConstruction(leftX, topY, rightX, bottomY, GetDescriptor()->GetConstructionSymbol(), GetDescriptor()->GetForegroundColor(),
-		GetEntranceSymbol(exitDirection), entranceHeightAdd, entranceWidthAdd, backgroundColor);
+		GetEntranceSymbol(exitDirection), entranceHeightAdd, entranceWidthAdd, GetBackgroundColor());
 }
 ///////////////Road Class: Construction derived///////////////
 bool Road::GetGraphStatus() const
@@ -295,13 +327,13 @@ void Road::ConnectedToRoad(const list<Road*>& allRoads)
 	{
 		if (GetUpperLeft() == leftLocation || GetUpperLeft() == rightLocation || GetUpperLeft() == downLocation || GetUpperLeft() == upLocation)
 		{
-			SetRoadConnectionStatus(true);
+			(*roadIter)->ConnectedToRoad(allRoads);
 			return;
 		}
 	}
 	SetRoadConnectionStatus(false);
 }
-void Road::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings)
+void Road::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
 {
 	PointCoord leftLocation(GetUpperLeft().Get_x() - 1, GetUpperLeft().Get_y());
 	PointCoord rightLocation(GetUpperLeft().Get_x() + 1, GetUpperLeft().Get_y());
@@ -310,11 +342,14 @@ void Road::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& al
 	list<Road*>::const_iterator roadIter;
 	for (roadIter = allRoads.begin(); roadIter != allRoads.end(); roadIter++)
 	{
-		if ((*roadIter)->GetUpperLeft() == leftLocation || (*roadIter)->GetUpperLeft() == rightLocation || 
+		if ((*roadIter)->GetUpperLeft() == leftLocation || (*roadIter)->GetUpperLeft() == rightLocation ||
 			(*roadIter)->GetUpperLeft() == downLocation || (*roadIter)->GetUpperLeft() == upLocation)
 		{
 			int mask = (*roadIter)->GetEnvironmentMask(allRoads, allBuildings);
-			(*roadIter)->IsGraph(allRoads, allBuildings);
+			if (preliminary_ptr == nullptr)
+			{
+				(*roadIter)->IsGraph(allRoads, allBuildings);
+			}
 			(*roadIter)->ConnectedToRoad(allRoads);
 			(*roadIter)->DrawObject(mask);
 		}
@@ -322,20 +357,10 @@ void Road::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& al
 	list<Building*>::const_iterator buildingIter;
 	for (buildingIter = allBuildings.begin(); buildingIter != allBuildings.end(); buildingIter++)
 	{
-		PointCoord entrance = PointCoord((*buildingIter)->GetUpperLeft().Get_x() + (*buildingIter)->GetWidthAddition(),
-			(*buildingIter)->GetUpperLeft().Get_y() + (*buildingIter)->GetHeightAddition());
-		PointCoord potentialRoad;
-		switch ((*buildingIter)->GetExitDirection())
-		{
-		case Direction::Left: { potentialRoad = PointCoord(entrance.Get_x() - 1, entrance.Get_y()); break; }
-		case Direction::Up: { potentialRoad = PointCoord(entrance.Get_x(), entrance.Get_y() - 1); break; }
-		case Direction::Right: { potentialRoad = PointCoord(entrance.Get_x() + 1, entrance.Get_y()); break; }
-		case Direction::Down: { potentialRoad = PointCoord(entrance.Get_x(), entrance.Get_y() + 1); break; }
-		default: { return; }
-		}
+		PointCoord potentialRoad = (*buildingIter)->GetPotentialConnectedRoadPoint();
 		if (GetUpperLeft() == potentialRoad)
 		{
-			(*buildingIter)->SetRoadConnectionStatus(true);
+			(*buildingIter)->ConnectedToRoad(allRoads);
 			(*buildingIter)->DrawObject();
 		}
 	}

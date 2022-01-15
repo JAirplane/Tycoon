@@ -351,39 +351,6 @@ void AllObjects::DisplayBuildings(Camera* camera_ptr, PlayingField* field_ptr) c
 	}
 	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }
-void AllObjects::SetBuildingConnectionStatuses()
-{
-	PointCoord potentiallyRoad(0, 0);
-	list<Building*>::iterator buildingIter;
-	for (buildingIter = buildings.begin(); buildingIter != buildings.end(); buildingIter++)
-	{
-		bool previousStatus = (*buildingIter)->GetRoadConnectionStatus();
-		(*buildingIter)->SetRoadConnectionStatus(false);
-		Direction exitDirection = (*buildingIter)->GetExitDirection();
-		int entranceX = (*buildingIter)->GetUpperLeft().Get_x() + (*buildingIter)->GetEntranceWidthAdd();
-		int entranceY = (*buildingIter)->GetUpperLeft().Get_y() + (*buildingIter)->GetEntranceHeightAdd();
-		switch (exitDirection)
-		{
-		case Direction::Up: {potentiallyRoad.SetCoord(PointCoord(entranceX, entranceY - 1)); break; }
-		case Direction::Down: {potentiallyRoad.SetCoord(PointCoord(entranceX, entranceY + 1)); break; }
-		case Direction::Right: {potentiallyRoad.SetCoord(PointCoord(entranceX + 1, entranceY)); break; }
-		case Direction::Left: {potentiallyRoad.SetCoord(PointCoord(entranceX - 1, entranceY)); break; }
-		}
-		list<Road*>::iterator roadIter;
-		for (roadIter = roads.begin(); roadIter != roads.end(); roadIter++)
-		{
-			if ((*roadIter)->GetUpperLeft() == potentiallyRoad)
-			{
-				(*buildingIter)->SetRoadConnectionStatus(true);
-				break;
-			}
-		}
-		if (previousStatus != (*buildingIter)->GetRoadConnectionStatus())
-		{
-			(*buildingIter)->DrawObject();
-		}
-	}
-}
 void AllObjects::VisitorAppear()
 {
 	int randomX = rand() % 5 + 1; //5 possible cells to appear
@@ -423,107 +390,18 @@ void AllObjects::DisplayVisitors()
 	}
 	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }
-int AllObjects::RoadEnvironment(PointCoord point)
-{
-	list<Road*>::iterator roadIter;
-	PointCoord leftLocation(point.Get_x() - 1, point.Get_y());
-	PointCoord rightLocation(point.Get_x() + 1, point.Get_y());
-	PointCoord downLocation(point.Get_x(), point.Get_y() + 1);
-	PointCoord upLocation(point.Get_x(), point.Get_y() - 1);
-	int roadEnvironmentMask = 0;
-	for (roadIter = roads.begin(); roadIter != roads.end(); roadIter++)
-	{
-		if ((*roadIter)->GetUpperLeft() == leftLocation)
-		{
-			roadEnvironmentMask |= int(roadMask::LEFT);
-		}
-		if ((*roadIter)->GetUpperLeft() == rightLocation)
-		{
-			roadEnvironmentMask |= int(roadMask::RIGHT);
-		}
-		if ((*roadIter)->GetUpperLeft() == upLocation)
-		{
-			roadEnvironmentMask |= int(roadMask::TOP);
-		}
-		if ((*roadIter)->GetUpperLeft() == downLocation)
-		{
-			roadEnvironmentMask |= int(roadMask::BOTTOM);
-		}
-	}
-	list<Building*>::iterator buildingIter;
-	for (buildingIter = buildings.begin(); buildingIter != buildings.end(); buildingIter++)
-	{
-		PointCoord entrance = PointCoord((*buildingIter)->GetUpperLeft().Get_x() + (*buildingIter)->GetEntranceWidthAdd(),
-			(*buildingIter)->GetUpperLeft().Get_y() + (*buildingIter)->GetEntranceHeightAdd());
-		if (entrance == leftLocation && (*buildingIter)->GetExitDirection() == Direction::Right)
-		{
-			roadEnvironmentMask |= int(roadMask::LEFT);
-		}
-		if (entrance == rightLocation && (*buildingIter)->GetExitDirection() == Direction::Left)
-		{
-			roadEnvironmentMask |= int(roadMask::RIGHT);
-		}
-		if (entrance == upLocation && (*buildingIter)->GetExitDirection() == Direction::Down)
-		{
-			roadEnvironmentMask |= int(roadMask::TOP);
-		}
-		if (entrance == downLocation && (*buildingIter)->GetExitDirection() == Direction::Up)
-		{
-			roadEnvironmentMask |= int(roadMask::BOTTOM);
-		}
-	}
-	return roadEnvironmentMask;
-}
 void AllObjects::DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr)
 {
-	int cameraLeftX = camera_ptr->GetUpperLeft().Get_x();
-	int cameraRightX = cameraLeftX + camera_ptr->GetWidthAddition();
-	int cameraTopY = camera_ptr->GetUpperLeft().Get_y();
-	int cameraBottomY = cameraTopY + camera_ptr->GetHeightAddition();
-	int playingFieldLeftX = field_ptr->GetUpperLeft().Get_x();
-	int playingFieldRightX = playingFieldLeftX + field_ptr->GetWidthAddition();
-	int playingFieldTopY = field_ptr->GetUpperLeft().Get_y();
-	int playingFieldBottomY = playingFieldTopY + field_ptr->GetHeightAddition();
 	list<Road*>::iterator iter;
 	for (iter = roads.begin(); iter != roads.end(); iter++)
 	{
-		int leftX = (*iter)->GetUpperLeft().Get_x();
-		int topY = (*iter)->GetUpperLeft().Get_y();
-		int mask = RoadEnvironment((*iter)->GetUpperLeft());
-		wstring roadSymbol = (*iter)->GetDescriptor()->GetConstructionSymbol(mask);
-		if (leftX < cameraRightX && leftX < playingFieldRightX && topY < cameraBottomY && topY < playingFieldBottomY &&
-			leftX > cameraLeftX && leftX > playingFieldLeftX && topY > cameraTopY && topY > playingFieldTopY)
+		int mask = (*iter)->GetEnvironmentMask(roads, buildings);
+		if (!ObjectImposition((*iter), camera_ptr, field_ptr))
 		{
-			draw_ptr->DrawConstruction(leftX, topY, leftX, topY, roadSymbol, (*iter)->GetDescriptor()->GetForegroundColor(), (*iter)->GetDescriptor()->GetBackgroundColor());
-		}
-	}
-	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
-}
-void AllObjects::RedrawNeibourRoads(PointCoord roadUpperLeft)
-{
-	list<Road*>::iterator iter;
-	PointCoord leftLocation(roadUpperLeft.Get_x() - 1, roadUpperLeft.Get_y());
-	PointCoord rightLocation(roadUpperLeft.Get_x() + 1, roadUpperLeft.Get_y());
-	PointCoord downLocation(roadUpperLeft.Get_x(), roadUpperLeft.Get_y() + 1);
-	PointCoord topLocation(roadUpperLeft.Get_x(), roadUpperLeft.Get_y() - 1);
-	for (iter = roads.begin(); iter != roads.end(); iter++)
-	{
-		if (((*iter)->GetUpperLeft() == leftLocation || (*iter)->GetUpperLeft() == rightLocation || (*iter)->GetUpperLeft() == downLocation ||
-			(*iter)->GetUpperLeft() == topLocation) && (*iter) != GetPreliminaryElement())
-		{
-			int mask = RoadEnvironment((*iter)->GetUpperLeft());
 			(*iter)->DrawObject(mask);
 		}
 	}
-}
-void AllObjects::IsGraph()
-{
-	list<Road*>::iterator iter;
-	for (iter = roads.begin(); iter != roads.end(); iter++)
-	{
-		int mask = RoadEnvironment((*iter)->GetUpperLeft());
-		(*iter)->DefineGraphStatus(mask);
-	}
+	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }
 void AllObjects::RotatePreliminaryBuilding()
 {
@@ -575,8 +453,7 @@ PointCoord AllObjects::GetPreliminaryElementRedrawPoint()
 {
 	if (containsPreliminary == PreliminaryStatus::BUILDING)
 	{
-		return PointCoord(buildings.back()->GetUpperLeft().Get_x() + buildings.back()->GetEntranceWidthAdd(),
-			buildings.back()->GetUpperLeft().Get_y() + buildings.back()->GetEntranceHeightAdd());
+		return PointCoord(buildings.back()->GetEntrancePoint());
 	}
 	else if (containsPreliminary == PreliminaryStatus::ROAD)
 	{
