@@ -172,7 +172,7 @@ Construction* Menu::CreatePreliminaryObject(PointCoord iconPosition, AllObjects*
 		{
 			int xCoord = (camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition()) / 2;
 			int yCoord = (camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition()) / 2;
-			Construction* preliminary_ptr = (*iter)->CreateConstruction(PointCoord(xCoord, yCoord), draw_ptr, allObjects_ptr);
+			Construction* preliminary_ptr = (*iter)->CreatePreliminaryConstruction(PointCoord(xCoord, yCoord), draw_ptr, allObjects_ptr);
 			return preliminary_ptr;
 		}
 	}

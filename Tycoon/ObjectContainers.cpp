@@ -22,27 +22,11 @@ int AllObjects::GetVisitorsQuantity() const
 }
 void AllObjects::AddObject(Building* obj_ptr)
 {
-	if (containsPreliminary == PreliminaryStatus::NONE)
-	{
-		buildings.push_back(obj_ptr);
-		containsPreliminary = PreliminaryStatus::BUILDING;
-	}
-	else
-	{
-		buildings.push_front(obj_ptr);
-	}
+	buildings.push_back(obj_ptr);
 }
 void AllObjects::AddObject(Road* obj_ptr)
 {
-	if (containsPreliminary == PreliminaryStatus::NONE)
-	{
-		roads.push_back(obj_ptr);
-		containsPreliminary = PreliminaryStatus::ROAD;
-	}
-	else
-	{
-		roads.push_front(obj_ptr);
-	}
+	roads.push_back(obj_ptr);
 }
 void AllObjects::AddObject(Visitor* obj_ptr, int position, bool isPreliminary)
 {
@@ -57,39 +41,18 @@ void AllObjects::AddObject(Visitor* obj_ptr, int position, bool isPreliminary)
 		visitors.insert(iter, obj_ptr);
 	}
 }
-PreliminaryStatus AllObjects::GetPreliminaryStatus() const
+void AllObjects::AddPreliminaryElement(Construction* preliminary_ptr)
 {
-	return containsPreliminary;
+	preliminaryConstruction_ptr = preliminary_ptr;
 }
-Construction* AllObjects::GetPreliminaryElement()
+Construction* AllObjects::GetPreliminaryElement() const
 {
-	if (containsPreliminary == PreliminaryStatus::BUILDING)
-	{
-		return buildings.back();
-	}
-	else if (containsPreliminary == PreliminaryStatus::ROAD)
-	{
-		return roads.back();
-	}
-	else
-	{
-		return nullptr;
-	}
+	return preliminaryConstruction_ptr;
 }
 void AllObjects::ErasePreliminaryElement()
 {
-	if (containsPreliminary != PreliminaryStatus::NONE)
-	{
-		if (containsPreliminary == PreliminaryStatus::BUILDING)
-		{
-			buildings.pop_back();
-		}
-		else
-		{
-			roads.pop_back();
-		}
-		containsPreliminary = PreliminaryStatus::NONE;
-	}
+	delete preliminaryConstruction_ptr;
+	preliminaryConstruction_ptr = nullptr;
 }
 bool AllObjects::ObjectImposition(PointCoord point, PlayingField* field_ptr) const
 {
@@ -193,7 +156,7 @@ bool AllObjects::ObjectImposition(IngameObject* object_ptr, Camera* camera_ptr, 
 					}
 				}
 			}
-			if (yCoord == cameraTopY || yCoord == cameraBottomY || xCoord == cameraLeftX || xCoord == cameraRightX)
+			if (yCoord <= cameraTopY || yCoord >= cameraBottomY || xCoord <= cameraLeftX || xCoord >= cameraRightX)
 			{
 				return true;
 			}
@@ -395,72 +358,11 @@ void AllObjects::DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr)
 	list<Road*>::iterator iter;
 	for (iter = roads.begin(); iter != roads.end(); iter++)
 	{
-		int mask = (*iter)->GetEnvironmentMask(roads, buildings);
+		int mask = (*iter)->GetEnvironmentMask(roads, buildings, preliminaryConstruction_ptr);
 		if (!ObjectImposition((*iter), camera_ptr, field_ptr))
 		{
 			(*iter)->DrawObject(mask);
 		}
 	}
 	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
-}
-void AllObjects::RotatePreliminaryBuilding()
-{
-	if (containsPreliminary == PreliminaryStatus::BUILDING)
-	{
-		list<Building*>::iterator buildingIter;
-		buildingIter = buildings.end();
-		--buildingIter;
-		int heightAdd = (*buildingIter)->GetHeightAddition();
-		int widthAdd = (*buildingIter)->GetWidthAddition();
-		(*buildingIter)->SetHeightAddition(widthAdd);
-		(*buildingIter)->SetWidthAddition(heightAdd);
-		switch ((*buildingIter)->GetExitDirection())
-		{
-		case Direction::Down:
-		{
-			(*buildingIter)->SetExitDirection(Direction::Left);
-			(*buildingIter)->SetEntranceHeightAdd((*buildingIter)->GetHeightAddition() / 2);
-			(*buildingIter)->SetEntranceWidthAdd(0);
-			return;
-		}
-		case Direction::Left:
-		{
-			(*buildingIter)->SetExitDirection(Direction::Up);
-			(*buildingIter)->SetEntranceHeightAdd(0);
-			(*buildingIter)->SetEntranceWidthAdd((*buildingIter)->GetWidthAddition() / 2 + 1);
-			return;
-		}
-		case Direction::Up:
-		{
-			(*buildingIter)->SetExitDirection(Direction::Right);
-			(*buildingIter)->SetEntranceHeightAdd((*buildingIter)->GetHeightAddition() / 2 + 1);
-			(*buildingIter)->SetEntranceWidthAdd((*buildingIter)->GetWidthAddition());
-			return;
-		}
-		case Direction::Right:
-		{
-			(*buildingIter)->SetExitDirection(Direction::Down);
-			(*buildingIter)->SetEntranceHeightAdd((*buildingIter)->GetHeightAddition());
-			(*buildingIter)->SetEntranceWidthAdd((*buildingIter)->GetWidthAddition() / 2);
-			return;
-		}
-		default:
-			return;
-		}
-	}
-}
-PointCoord AllObjects::GetPreliminaryElementRedrawPoint()
-{
-	if (containsPreliminary == PreliminaryStatus::BUILDING)
-	{
-		return PointCoord(buildings.back()->GetEntrancePoint());
-	}
-	else if (containsPreliminary == PreliminaryStatus::ROAD)
-	{
-		return roads.back()->GetUpperLeft();
-	}
-	else
-	{
-		return PointCoord(0, 0);
-	}
 }

@@ -20,15 +20,19 @@ public:
 	~Construction()
 	{}
 	ConstructionDescriptor* GetDescriptor() const override; //no setter here
-	virtual int GetEntranceHeightAdd() const;
-	virtual int GetEntranceWidthAdd() const;
-	virtual Direction GetExitDirection() const;
+	virtual int GetEntranceHeightAdd() const = 0;
+	virtual int GetEntranceWidthAdd() const = 0;
+	virtual PointCoord GetEntrancePoint() const = 0;
+	virtual PointCoord GetRedrawNeiboursPoint() const = 0;
+	virtual Direction GetExitDirection() const = 0;
+	virtual void RotateConstruction() = 0;
 	virtual wstring GetEntranceSymbol(Direction out) const;
 	bool GetRoadConnectionStatus() const;
 	void SetRoadConnectionStatus(bool connected);
-	virtual int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings) = 0;
-	virtual void IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings) = 0;
-	virtual void ConnectedToRoad(const list<Road*>& allRoads) = 0;
+	virtual int GetNeibourRoadMask(const list<Road*>& allRoads, const Construction* preliminary_ptr) const = 0;
+	virtual int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
+	virtual void IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
+	virtual void ConnectedToRoad(const list<Road*>& allRoads, const Construction* preliminary_ptr) = 0;
 	void DrawObject(int mask = 0) const override;
 	virtual void RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
 	static void RedrawNeibours(PointCoord centralPoint, const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr);
@@ -60,13 +64,16 @@ public:
 	void SetEntranceWidthAdd(int widthAdd);
 	Direction GetExitDirection() const override;
 	void SetExitDirection(Direction exit);
-	PointCoord GetEntrancePoint() const;
+	PointCoord GetEntrancePoint() const override;
+	void RotateConstruction() override;
+	int GetNeibourRoadMask(const list<Road*>& allRoads, const Construction* preliminary_ptr) const override;
+	PointCoord GetRedrawNeiboursPoint() const override;
 	PointCoord GetPotentialConnectedRoadPoint() const;
 	wstring GetEntranceSymbol(Direction exit) const override;
 	void CopyEntrance(Construction* preliminary_ptr);
-	int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings) override;
-	void IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings) override;
-	void ConnectedToRoad(const list<Road*>& allRoads) override;
+	int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
+	void IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
+	void ConnectedToRoad(const list<Road*>& allRoads, const Construction* preliminary_ptr) override;
 	int GetVisitorsCount() const;
 	void SetVisitorsCount(int visitorsCount);
 	int GetProfit() const;
@@ -89,13 +96,19 @@ public:
 		graphStatus = false;
 	}
 	~Road() {}
+	int GetEntranceHeightAdd() const override;
+	int GetEntranceWidthAdd() const override;
+	Direction GetExitDirection() const override;
+	void RotateConstruction() override;
 	bool GetGraphStatus() const;
 	void SetGraphStatus(bool status);
 	bool RoadIsAnEntrance(const list<Building*>& allBuildings);
-	int GetNeibourRoadMask(const list<Road*>& allRoads);
-	int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings) override;
-	void IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings) override;
-	void ConnectedToRoad(const list<Road*>& allRoads) override;
+	PointCoord GetEntrancePoint() const override;
+	PointCoord GetRedrawNeiboursPoint() const override;
+	int GetNeibourRoadMask(const list<Road*>& allRoads, const Construction* preliminary_ptr) const override;
+	int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
+	void IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
+	void ConnectedToRoad(const list<Road*>& allRoads, const Construction* preliminary_ptr) override;
 	void DefineGraphStatus(int mask); // use NeibourRoadMask here!
 	void RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
 	void DrawObject(int mask = 0) const override;

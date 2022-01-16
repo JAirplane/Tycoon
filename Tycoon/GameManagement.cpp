@@ -4,7 +4,7 @@ void GameManagement::DisplayMenu()
 {
 	menu_ptr->ShowMenuBorders();
 	PointCoord underConstruction(0, 0);
-	if (allObjects_ptr->GetPreliminaryStatus() != PreliminaryStatus::NONE)
+	if (allObjects_ptr->GetPreliminaryElement() != nullptr)
 	{
 		underConstruction = allObjects_ptr->GetPreliminaryElement()->GetDescriptor()->GetManagerLocation();
 	}
@@ -19,7 +19,19 @@ void GameManagement::DisplayMenu()
 void GameManagement::HideMenu()
 {
 	menu_ptr->EraseMenu();
-	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
+	if (cursor_ptr->GetCursorConsoleLocation().Get_x() < camera_ptr->GetUpperLeft().Get_x() ||
+		cursor_ptr->GetCursorConsoleLocation().Get_x() > camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition())
+	{
+		int leftX = camera_ptr->GetUpperLeft().Get_x();
+		int topY = camera_ptr->GetUpperLeft().Get_y();
+		int rightX = leftX + camera_ptr->GetWidthAddition();
+		int bottomY = topY + camera_ptr->GetHeightAddition();
+		cursor_ptr->CursorMovement(PointCoord((leftX + rightX) / 2, (topY + bottomY) / 2));
+	}
+	else
+	{
+		cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
+	}
 	if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr))
 	{
 		draw_ptr->DrawCursorPixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y(), ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor());
@@ -104,7 +116,7 @@ void GameManagement::GameProcess()
 				DisplayAllObjects();
 				DisplayPlayingField();
 			}
-			if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr) && allObjects_ptr->GetPreliminaryStatus() == PreliminaryStatus::NONE)
+			if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr) && allObjects_ptr->GetPreliminaryElement() == nullptr)
 			{
 				draw_ptr->DrawCursorPixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y(),
 					ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor());
@@ -166,15 +178,15 @@ void GameManagement::S_Key()
 }
 void GameManagement::R_Key()
 {
-	if (allObjects_ptr->GetPreliminaryStatus() == PreliminaryStatus::BUILDING)
+	Construction* preliminary_ptr = allObjects_ptr->GetPreliminaryElement();
+	if (preliminary_ptr != nullptr && !allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
 	{
-		PointCoord preliminaryElementNeibourRedraw = allObjects_ptr->GetPreliminaryElementRedrawPoint();
-		allObjects_ptr->RotatePreliminaryBuilding();
-		Construction* preliminary_ptr = allObjects_ptr->GetPreliminaryElement();
+		PointCoord preliminaryElementNeibourRedraw = preliminary_ptr->GetRedrawNeiboursPoint();
+		preliminary_ptr->RotateConstruction();
 		draw_ptr->EraseConstruction(preliminary_ptr->GetUpperLeft().Get_x(), preliminary_ptr->GetUpperLeft().Get_y(),
 			preliminary_ptr->GetUpperLeft().Get_x() + preliminary_ptr->GetWidthAddition(), preliminary_ptr->GetUpperLeft().Get_y() + preliminary_ptr->GetHeightAddition());
 		Construction::RedrawNeibours(preliminaryElementNeibourRedraw, allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
-		preliminary_ptr->ConnectedToRoad(allObjects_ptr->GetAllRoads());
+		preliminary_ptr->ConnectedToRoad(allObjects_ptr->GetAllRoads(), preliminary_ptr);
 		preliminary_ptr->DrawObject();
 		preliminary_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
 		cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
@@ -193,7 +205,7 @@ void GameManagement::TabKey_Playingfield()
 		DisplayMenu();
 		menu_ptr->SetHideMenuStatus(0);
 	}
-	if (allObjects_ptr->GetPreliminaryStatus() == PreliminaryStatus::NONE)
+	if (allObjects_ptr->GetPreliminaryElement() == nullptr)
 	{
 		if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr))
 		{
@@ -214,7 +226,7 @@ void GameManagement::TabKey_Playingfield()
 			menu_ptr->GetItemSymbols()->GetVerticalSymbol(), menu_ptr->GetItemSymbols()->GetHorizontalSymbol(), menu_ptr->GetItemSymbols()->GetUpperLeftSymbol(),
 			menu_ptr->GetItemSymbols()->GetUpperRightSymbol(), menu_ptr->GetItemSymbols()->GetBottomLeftSymbol(), menu_ptr->GetItemSymbols()->GetBottomRightSymbol(),
 			ConstructionOptions::GetAllOptions()->GetMenuItemInactiveColor());	//draw external menu icon bordres
-		PointCoord preliminaryElementNeibourRedraw = allObjects_ptr->GetPreliminaryElementRedrawPoint();
+		PointCoord preliminaryElementNeibourRedraw = preliminary_ptr->GetRedrawNeiboursPoint();
 		allObjects_ptr->ErasePreliminaryElement();
 		Construction::RedrawNeibours(preliminaryElementNeibourRedraw, allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), allObjects_ptr->GetPreliminaryElement());
 	}
@@ -249,19 +261,19 @@ void GameManagement::EnterKey_PlayingField()
 	{
 		ConstructionDescriptor* cd_ptr = preliminary_ptr->GetDescriptor();
 		Construction* realObject_ptr = menu_ptr->GetManager(cd_ptr)->CreateConstruction(cursor_ptr->GetCursorConsoleLocation(), draw_ptr, allObjects_ptr);
-		int mask = realObject_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings());
+		int mask = realObject_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
 		realObject_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), nullptr);
-		realObject_ptr->ConnectedToRoad(allObjects_ptr->GetAllRoads());
-		realObject_ptr->IsGraph(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings());
+		realObject_ptr->ConnectedToRoad(allObjects_ptr->GetAllRoads(), preliminary_ptr);
+		realObject_ptr->IsGraph(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
 		realObject_ptr->DrawObject(mask);
 		cursor_ptr->CursorMovement(PointCoord(realObject_ptr->GetUpperLeft().Get_x() + realObject_ptr->GetWidthAddition() + 1,
 			realObject_ptr->GetUpperLeft().Get_y() + realObject_ptr->GetHeightAddition()));
 		preliminary_ptr->SetUpperLeft(cursor_ptr->GetCursorConsoleLocation());
 		if (!allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
 		{
-			mask = preliminary_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings());
+			mask = preliminary_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
 			preliminary_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
-			preliminary_ptr->ConnectedToRoad(allObjects_ptr->GetAllRoads());
+			preliminary_ptr->ConnectedToRoad(allObjects_ptr->GetAllRoads(), preliminary_ptr);
 			preliminary_ptr->DrawObject(mask);
 			cursor_ptr->CursorMovement(preliminary_ptr->GetUpperLeft());
 		}
@@ -282,9 +294,9 @@ void GameManagement::EnterKey_Menu()
 	preliminary_ptr->SetUpperLeft(cursor_ptr->GetCursorConsoleLocation());
 	if (!allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
 	{
-		int mask = preliminary_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings());
+		int mask = preliminary_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
 		preliminary_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
-		preliminary_ptr->ConnectedToRoad(allObjects_ptr->GetAllRoads());
+		preliminary_ptr->ConnectedToRoad(allObjects_ptr->GetAllRoads(), preliminary_ptr);
 		preliminary_ptr->DrawObject(mask);
 		cursor_ptr->CursorMovement(preliminary_ptr->GetUpperLeft());
 	}
@@ -292,7 +304,7 @@ void GameManagement::EnterKey_Menu()
 }
 void GameManagement::EscKey_PlayingField()
 {
-	if (allObjects_ptr->GetPreliminaryStatus() != PreliminaryStatus::NONE)
+	if (allObjects_ptr->GetPreliminaryElement() != nullptr)
 	{
 		int leftX = menu_ptr->GetUpperLeft().Get_x() + 2;
 		int topY = allObjects_ptr->GetPreliminaryElement()->GetDescriptor()->GetManagerLocation().Get_y();
@@ -310,7 +322,7 @@ void GameManagement::EscKey_PlayingField()
 				allObjects_ptr->GetPreliminaryElement()->GetUpperLeft().Get_x() + allObjects_ptr->GetPreliminaryElement()->GetWidthAddition(),
 				allObjects_ptr->GetPreliminaryElement()->GetUpperLeft().Get_y() + allObjects_ptr->GetPreliminaryElement()->GetHeightAddition());
 		}
-		PointCoord preliminaryElementNeibourRedraw = allObjects_ptr->GetPreliminaryElementRedrawPoint();
+		PointCoord preliminaryElementNeibourRedraw = allObjects_ptr->GetPreliminaryElement()->GetRedrawNeiboursPoint();
 		allObjects_ptr->ErasePreliminaryElement();
 		cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 		Construction::RedrawNeibours(preliminaryElementNeibourRedraw, allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), allObjects_ptr->GetPreliminaryElement());
@@ -327,26 +339,26 @@ void GameManagement::Arrows_PlayingField(PointCoord cursorDestination)
 	int cameraRightX = camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition();
 	int cameraTopY = camera_ptr->GetUpperLeft().Get_y();
 	int cameraBottomY = camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition();
-	Construction* io_ptr = allObjects_ptr->GetPreliminaryElement();
-	if (io_ptr != nullptr)
+	Construction* preliminary_ptr = allObjects_ptr->GetPreliminaryElement();
+	if (preliminary_ptr != nullptr)
 	{
-		if (!allObjects_ptr->ObjectImposition(io_ptr, camera_ptr, field_ptr))
+		if (!allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
 		{
-			draw_ptr->EraseConstruction(io_ptr->GetUpperLeft().Get_x(), io_ptr->GetUpperLeft().Get_y(), io_ptr->GetUpperLeft().Get_x() + io_ptr->GetWidthAddition(),
-				io_ptr->GetUpperLeft().Get_y() + io_ptr->GetHeightAddition());
+			draw_ptr->EraseConstruction(preliminary_ptr->GetUpperLeft().Get_x(), preliminary_ptr->GetUpperLeft().Get_y(), 
+				preliminary_ptr->GetUpperLeft().Get_x() + preliminary_ptr->GetWidthAddition(), preliminary_ptr->GetUpperLeft().Get_y() + preliminary_ptr->GetHeightAddition());
 		}
-		PointCoord preliminaryElementNeibourRedraw = allObjects_ptr->GetPreliminaryElementRedrawPoint();
-		io_ptr->SetUpperLeft(cursorDestination);
+		PointCoord preliminaryElementNeibourRedraw = preliminary_ptr->GetRedrawNeiboursPoint();
+		preliminary_ptr->SetUpperLeft(cursorDestination);
 		cursor_ptr->CursorMovement(cursorDestination);
-		Construction::RedrawNeibours(preliminaryElementNeibourRedraw, allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), io_ptr);
-		if (!allObjects_ptr->ObjectImposition(io_ptr, camera_ptr, field_ptr))
+		Construction::RedrawNeibours(preliminaryElementNeibourRedraw, allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
+		if (!allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
 		{
-			int mask = io_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings());
-			io_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), io_ptr);
-			io_ptr->ConnectedToRoad(allObjects_ptr->GetAllRoads());
-			io_ptr->DrawObject(mask);
+			int mask = preliminary_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
+			preliminary_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
+			preliminary_ptr->ConnectedToRoad(allObjects_ptr->GetAllRoads(), preliminary_ptr);
+			preliminary_ptr->DrawObject(mask);
 		}
-		cursor_ptr->CursorMovement(io_ptr->GetUpperLeft());
+		cursor_ptr->CursorMovement(preliminary_ptr->GetUpperLeft());
 	}
 	else
 	{

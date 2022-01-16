@@ -9,6 +9,7 @@ public:
 	{}
 	~BuildingManager() {}
 	Construction* CreateConstruction(PointCoord upperLeft, Visualisation* paint_ptr, AllObjects* allObjects_ptr) override;
+	Construction* CreatePreliminaryConstruction(PointCoord upperLeft, Visualisation* paint_ptr, AllObjects* allObjects_ptr) override;
 };
 class RoadManager : public ConstructionManager
 {
@@ -18,4 +19,5 @@ public:
 	{}
 	~RoadManager() {}
 	Construction* CreateConstruction(PointCoord upperLeft, Visualisation* paint_ptr, AllObjects* allObjects_ptr) override;
+	Construction* CreatePreliminaryConstruction(PointCoord upperLeft, Visualisation* paint_ptr, AllObjects* allObjects_ptr) override;
 };

@@ -11,13 +11,13 @@ private:
 	list<Building*> buildings;
 	list<Road*> roads;
 	list<Visitor*> visitors;
-	PreliminaryStatus containsPreliminary;
+	Construction* preliminaryConstruction_ptr;
 public:
 	AllObjects(Cursor* c_ptr, Visualisation* paint_ptr)
 	{
 		cursor_ptr = c_ptr;
 		draw_ptr = paint_ptr;
-		containsPreliminary = PreliminaryStatus::NONE;
+		preliminaryConstruction_ptr = nullptr;
 	}
 	~AllObjects()
 	{
@@ -36,6 +36,7 @@ public:
 		{
 			delete (*visitorIter);
 		}
+		delete preliminaryConstruction_ptr;
 	}
 	const list<Building*>& GetAllBuildings() const;
 	const list<Road*>& GetAllRoads() const;
@@ -45,8 +46,8 @@ public:
 	void AddObject(Building* obj_ptr);
 	void AddObject(Road* obj_ptr);
 	void AddObject(Visitor* obj_ptr, int position = 0, bool isPreliminary = false);
-	PreliminaryStatus GetPreliminaryStatus() const;
-	Construction* GetPreliminaryElement(); //it takes last element of everyObject list
+	void AddPreliminaryElement(Construction* preliminary_ptr);
+	Construction* GetPreliminaryElement() const; //it takes last element of everyObject list
 	void ErasePreliminaryElement();
 	bool ObjectImposition(PointCoord point, PlayingField* field_ptr) const;
 	bool ObjectImposition(IngameObject* object_ptr, Camera* camera_ptr, PlayingField* field_ptr) const;
@@ -59,6 +60,4 @@ public:
 	bool LocationCheck(PointCoord);
 	void DisplayVisitors();
 	void DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr);
-	void RotatePreliminaryBuilding();
-	PointCoord GetPreliminaryElementRedrawPoint(); //returns point of preliminary element (road pixel or building entrance) which partisipates in other road pixel environment
 };
