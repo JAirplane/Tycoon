@@ -51,7 +51,10 @@ Construction* AllObjects::GetPreliminaryElement() const
 }
 void AllObjects::ErasePreliminaryElement()
 {
-	delete preliminaryConstruction_ptr;
+	if (preliminaryConstruction_ptr != nullptr)
+	{
+		delete preliminaryConstruction_ptr;
+	}
 	preliminaryConstruction_ptr = nullptr;
 }
 bool AllObjects::ObjectImposition(PointCoord point, PlayingField* field_ptr) const

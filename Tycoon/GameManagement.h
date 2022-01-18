@@ -1,5 +1,19 @@
 #pragma once
+#include <exception>
 #include "InfoPanel.h"
+class MyException : public exception
+{
+private:
+	InfoPanel* infoPanel_ptr;
+public:
+	MyException(const char* msg, InfoPanel* ip_ptr) : exception(msg)
+	{
+		infoPanel_ptr = ip_ptr;
+	}
+	~MyException()
+	{}
+	InfoPanel* GetPanelPointer() const;
+};
 /////////////Game Management Class/////////////
 class GameManagement
 {

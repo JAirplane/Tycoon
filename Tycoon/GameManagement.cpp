@@ -1,4 +1,8 @@
 #include "GameManagement.h"
+InfoPanel* MyException::GetPanelPointer() const
+{
+	return infoPanel_ptr;
+}
 ///////////////GameManagement Class///////////////
 void GameManagement::DisplayMenu()
 {
@@ -9,16 +13,19 @@ void GameManagement::DisplayMenu()
 		underConstruction = allObjects_ptr->GetPreliminaryElement()->GetDescriptor()->GetManagerLocation();
 	}
 	menu_ptr->ShowMenuItems(underConstruction);
+	infoPanel_ptr->DrawInfoPanelBorders();
+	infoPanel_ptr->DrawInfoPanelSplashScreen(cGREEN, cDARK_CYAN);
 	color cursorBackgroundColor = ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor();
 	if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr))
 	{
 		draw_ptr->DrawCursorPixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y(), cursorBackgroundColor);
 	}
-
 }
 void GameManagement::HideMenu()
 {
 	menu_ptr->EraseMenu();
+	infoPanel_ptr->ClearInfoPanelContent();
+	infoPanel_ptr->EraseInfoPanelBorders();
 	if (cursor_ptr->GetCursorConsoleLocation().Get_x() < camera_ptr->GetUpperLeft().Get_x() ||
 		cursor_ptr->GetCursorConsoleLocation().Get_x() > camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition())
 	{
@@ -90,39 +97,46 @@ void GameManagement::GameProcess()
 	char ch = 'a';
 	while (true)
 	{
-		if (_kbhit() != 0)
+		try
 		{
-			int key = _getch();
-			if (key == 0 || key == 224)
+			if (_kbhit() != 0)
 			{
-				key = _getch();
+				int key = _getch();
+				if (key == 0 || key == 224)
+				{
+					key = _getch();
+				}
+				//cout << key;
+				UserActions(key);
 			}
-			//cout << key;
-			UserActions(key);
+			Direction shiftDirection = camera_ptr->CursorIsOnCameraCheck(cursor_ptr);
+			bool shifting = camera_ptr->IsShift(field_ptr, shiftDirection);
+			if (shiftDirection != Direction::None)
+			{
+				cursor_ptr->CursorShift(shiftDirection);
+				if (shifting)
+				{
+					allObjects_ptr->EraseObjects(camera_ptr);
+					ErasePlayingField();
+					allObjects_ptr->ShiftBuildings(shiftDirection);
+					allObjects_ptr->ShiftRoads(shiftDirection);
+					allObjects_ptr->ShiftVisitors(shiftDirection);
+					field_ptr->Shift(shiftDirection);
+					DisplayAllObjects();
+					DisplayPlayingField();
+				}
+				if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr) && allObjects_ptr->GetPreliminaryElement() == nullptr)
+				{
+					draw_ptr->DrawCursorPixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y(),
+						ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor());
+				}
+			}
+			wait(100);
 		}
-		Direction shiftDirection = camera_ptr->CursorIsOnCameraCheck(cursor_ptr);
-		bool shifting = camera_ptr->IsShift(field_ptr, shiftDirection);
-		if (shiftDirection != Direction::None)
+		catch (const MyException& error)
 		{
-			cursor_ptr->CursorShift(shiftDirection);
-			if (shifting)
-			{
-				allObjects_ptr->EraseObjects(camera_ptr);
-				ErasePlayingField();
-				allObjects_ptr->ShiftBuildings(shiftDirection);
-				allObjects_ptr->ShiftRoads(shiftDirection);
-				allObjects_ptr->ShiftVisitors(shiftDirection);
-				field_ptr->Shift(shiftDirection);
-				DisplayAllObjects();
-				DisplayPlayingField();
-			}
-			if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr) && allObjects_ptr->GetPreliminaryElement() == nullptr)
-			{
-				draw_ptr->DrawCursorPixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y(),
-					ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor());
-			}
+			infoPanel_ptr->AddMessage(error.what());
 		}
-		wait(100);
 	}
 }
 void GameManagement::DisplayAllObjects()
@@ -175,6 +189,7 @@ void GameManagement::S_Key()
 	DisplayMenu();
 	DisplayAllObjects();
 	DisplayPlayingField();
+	DisplayInfoPanel();
 }
 void GameManagement::R_Key()
 {
