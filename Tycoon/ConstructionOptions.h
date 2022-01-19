@@ -77,6 +77,20 @@ public:
 	virtual const wstring GetInfoPanelUpperRightSymbol() const;
 	virtual const wstring GetInfoPanelBottomLeftSymbol() const;
 	virtual const wstring GetInfoPanelBottomRightSymbol() const;
+	//
+	virtual const wstring GetInfoScreenVerticalSymbol() const;
+	virtual const wstring GetInfoScreenHorizontalSymbol() const;
+	virtual const wstring GetInfoScreenUpperLeftSymbol() const;
+	virtual const wstring GetInfoScreenUpperRightSymbol() const;
+	virtual const wstring GetInfoScreenBottomLeftSymbol() const;
+	virtual const wstring GetInfoScreenBottomRightSymbol() const;
+	//
+	virtual const wstring GetInfoScreenButtonVerticalSymbol() const;
+	virtual const wstring GetInfoScreenButtonHorizontalSymbol() const;
+	virtual const wstring GetInfoScreenButtonUpperLeftSymbol() const;
+	virtual const wstring GetInfoScreenButtonUpperRightSymbol() const;
+	virtual const wstring GetInfoScreenButtonBottomLeftSymbol() const;
+	virtual const wstring GetInfoScreenButtonBottomRightSymbol() const;
 	///////////////Menu Border Symbol Constants///////////////
 	virtual const wstring GetMenuVerticalSymbol() const;
 	virtual const wstring GetMenuHorizontalSymbol() const;
@@ -105,4 +119,9 @@ public:
 	virtual const wstring GetMenuIconUpperRightSymbol() const;
 	virtual const wstring GetMenuIconBottomLeftSymbol() const;
 	virtual const wstring GetMenuIconBottomRightSymbol() const;
+	///////////////Indent Constants///////////////
+	virtual const int GetInfoPanelAboveIndent() const;
+	virtual const int GetInfoPanelBottomIndent() const;
+	virtual const int GetInfoPanelLeftIndent() const;
+	virtual const int GetInfoPanelRightIndent() const;
 };

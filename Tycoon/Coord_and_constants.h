@@ -1,5 +1,6 @@
 #pragma once
 #include "msoftcon.h"
+#include "MyException.h"
 using namespace std;
 ///////////////Enum ShiftDirection///////////////
 enum class Direction { None, Up, Right, Down, Left };
@@ -22,13 +23,6 @@ enum class IconsPosition
 {
 	UPPER,
 	LOWER,
-};
-/////////////Preliminary element status/////////////
-enum class PreliminaryStatus
-{
-	NONE,
-	BUILDING,
-	ROAD
 };
 ///////////////All Possible Types of Mask///////////////
 const int none = int(roadMask::NONE);

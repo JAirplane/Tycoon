@@ -214,7 +214,7 @@ const wstring ConstructionOptions::GetMenuUpperLeftSymbol() const
 }
 const wstring ConstructionOptions::GetMenuUpperRightSymbol() const
 {
-	return wstring(L"\u2557"); 
+	return wstring(L"\u2557");
 }
 const wstring ConstructionOptions::GetMenuBottomLeftSymbol() const
 {
@@ -248,6 +248,56 @@ const wstring ConstructionOptions::GetInfoPanelBottomLeftSymbol() const
 const wstring ConstructionOptions::GetInfoPanelBottomRightSymbol() const
 {
 	return wstring(L"\u255D");
+}
+//
+const wstring ConstructionOptions::GetInfoScreenVerticalSymbol() const
+{
+	return wstring(L"#");
+}
+const wstring ConstructionOptions::GetInfoScreenHorizontalSymbol() const
+{
+	return wstring(L"#");
+}
+const wstring ConstructionOptions::GetInfoScreenUpperLeftSymbol() const
+{
+	return wstring(L"#");
+}
+const wstring ConstructionOptions::GetInfoScreenUpperRightSymbol() const
+{
+	return wstring(L"#");
+}
+const wstring ConstructionOptions::GetInfoScreenBottomLeftSymbol() const
+{
+	return wstring(L"#");
+}
+const wstring ConstructionOptions::GetInfoScreenBottomRightSymbol() const
+{
+	return wstring(L"#");
+}
+//
+const wstring ConstructionOptions::GetInfoScreenButtonVerticalSymbol() const
+{
+	return wstring(L"#");
+}
+const wstring ConstructionOptions::GetInfoScreenButtonHorizontalSymbol() const
+{
+	return wstring(L"#");
+}
+const wstring ConstructionOptions::GetInfoScreenButtonUpperLeftSymbol() const
+{
+	return wstring(L"#");
+}
+const wstring ConstructionOptions::GetInfoScreenButtonUpperRightSymbol() const
+{
+	return wstring(L"#");
+}
+const wstring ConstructionOptions::GetInfoScreenButtonBottomLeftSymbol() const
+{
+	return wstring(L"#");
+}
+const wstring ConstructionOptions::GetInfoScreenButtonBottomRightSymbol() const
+{
+	return wstring(L"#");
 }
 ///////////////Camera Border Symbol Constants///////////////
 const wstring ConstructionOptions::GetCameraVerticalSymbol() const
@@ -297,7 +347,7 @@ const wstring ConstructionOptions::GetMenuItemBottomLeftSymbol() const
 }
 const wstring ConstructionOptions::GetMenuItemBottomRightSymbol() const
 {
-	 return wstring(L"\u255D");
+	return wstring(L"\u255D");
 }
 ///////////////Menu Icon Border Symbol Constants///////////////
 const wstring ConstructionOptions::GetMenuIconVerticalSymbol() const
@@ -323,6 +373,23 @@ const wstring ConstructionOptions::GetMenuIconBottomLeftSymbol() const
 const wstring ConstructionOptions::GetMenuIconBottomRightSymbol() const
 {
 	return wstring(L"\u255D");
+}
+///////////////Indent Constants///////////////
+const int ConstructionOptions::GetInfoPanelAboveIndent() const
+{
+	return 2;
+}
+const int ConstructionOptions::GetInfoPanelBottomIndent() const
+{
+	return 2;
+}
+const int ConstructionOptions::GetInfoPanelLeftIndent() const
+{
+	return 2;
+}
+const int ConstructionOptions::GetInfoPanelRightIndent() const
+{
+	return 2;
 }
 ///////////////ConstructionOptions Initialisation and using///////////////
 ConstructionOptions* ConstructionOptions::GetAllOptions()

@@ -253,3 +253,9 @@ void Visualisation::DrawIcon(int leftX, int topY, wstring vertical, wstring hori
 	}
 	set_color(cYELLOW);
 }
+void Visualisation::WriteMessage(int initialX, int initialY, string message, color letterColor, color background)
+{
+	set_color(letterColor, background);
+	set_cursor_pos(initialX, initialY);
+	cout << message;
+}

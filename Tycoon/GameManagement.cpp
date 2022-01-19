@@ -1,8 +1,4 @@
 #include "GameManagement.h"
-InfoPanel* MyException::GetPanelPointer() const
-{
-	return infoPanel_ptr;
-}
 ///////////////GameManagement Class///////////////
 void GameManagement::DisplayMenu()
 {
@@ -13,8 +9,7 @@ void GameManagement::DisplayMenu()
 		underConstruction = allObjects_ptr->GetPreliminaryElement()->GetDescriptor()->GetManagerLocation();
 	}
 	menu_ptr->ShowMenuItems(underConstruction);
-	infoPanel_ptr->DrawInfoPanelBorders();
-	infoPanel_ptr->DrawInfoPanelSplashScreen(cGREEN, cDARK_CYAN);
+	infoPanel_ptr->DrawInfoPanelExternalBorders();
 	color cursorBackgroundColor = ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor();
 	if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr))
 	{
@@ -25,7 +20,7 @@ void GameManagement::HideMenu()
 {
 	menu_ptr->EraseMenu();
 	infoPanel_ptr->ClearInfoPanelContent();
-	infoPanel_ptr->EraseInfoPanelBorders();
+	infoPanel_ptr->EraseInfoPanelExternalBorders();
 	if (cursor_ptr->GetCursorConsoleLocation().Get_x() < camera_ptr->GetUpperLeft().Get_x() ||
 		cursor_ptr->GetCursorConsoleLocation().Get_x() > camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition())
 	{
@@ -77,7 +72,7 @@ void GameManagement::DisplayPlayingField()
 }
 void GameManagement::DisplayInfoPanel()
 {
-	infoPanel_ptr->DrawInfoPanelBorders();
+	infoPanel_ptr->DrawInfoPanelExternalBorders();
 	infoPanel_ptr->DrawInfoPanelSplashScreen(cGREEN, cDARK_CYAN);
 }
 void GameManagement::ErasePlayingField()
@@ -206,6 +201,22 @@ void GameManagement::R_Key()
 		preliminary_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
 		cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 	}
+}
+void GameManagement::I_Key()
+{
+	if (menu_ptr->GetHideMenuStatus())
+	{
+		DisplayMenu();
+		menu_ptr->SetHideMenuStatus(0);
+	}
+	else
+	{
+		infoPanel_ptr->ClearInfoPanelContent();
+	}
+	infoPanel_ptr->DrawInfoScreen(infoPanel_ptr->GetUpperLeft().Get_x() + 10, infoPanel_ptr->GetUpperLeft().Get_y() + 2,
+		infoPanel_ptr->GetUpperLeft().Get_x() + infoPanel_ptr->GetWidthAddition() - 10, 
+		infoPanel_ptr->GetUpperLeft().Get_y() + infoPanel_ptr->GetHeightAddition() - 2, cWHITE);
+	
 }
 void GameManagement::TabKey_Playingfield()
 {
@@ -404,15 +415,21 @@ void GameManagement::DownArrow_Menu()
 }
 void GameManagement::UserActions(int key)
 {
-	MenuStatus menuPosition = menu_ptr->GetCurrentSide();
-	if ((cursor_ptr->GetCursorConsoleLocation().Get_x() < (camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition()) && menuPosition == MenuStatus::RIGHT) ||
-		(cursor_ptr->GetCursorConsoleLocation().Get_x() > camera_ptr->GetUpperLeft().Get_x() && menuPosition == MenuStatus::LEFT))	//this condition checks if the cursor is in the playing field or in the menu
+	switch (key)
+	{
+	case 104: { H_Key(); return; }	//'h' key hide or display Menu
+	case 115: { S_Key(); return; }	//'s' key change placement of menu from right to left and vice versa
+	default: break;
+	}
+	if (cursor_ptr->GetCursorConsoleLocation().Get_x() < (camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition()) &&
+		cursor_ptr->GetCursorConsoleLocation().Get_x() > camera_ptr->GetUpperLeft().Get_x() && 
+		cursor_ptr->GetCursorConsoleLocation().Get_y() < (camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition()) &&
+		cursor_ptr->GetCursorConsoleLocation().Get_y() > camera_ptr->GetUpperLeft().Get_y())	//this condition checks if the cursor is within the camera borders
 	{
 		switch (key)
 		{
-		case 104: { H_Key(); return; }	//'h' key hide or display Menu
-		case 115: { S_Key(); return; }	//'s' key change placement of menu from right to left and vice versa
 		case 114: { R_Key(); return; }	//'r' key rotate preliminary building
+		case 105: { I_Key(); return; }
 		case 75: { Arrows_PlayingField(PointCoord(cursor_ptr->GetCursorConsoleLocation().Get_x() - 1, cursor_ptr->GetCursorConsoleLocation().Get_y())); return; }	//left arrow 
 		case 72: { Arrows_PlayingField(PointCoord(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y() - 1)); return; }	//up arrow 
 		case 77: { Arrows_PlayingField(PointCoord(cursor_ptr->GetCursorConsoleLocation().Get_x() + 1, cursor_ptr->GetCursorConsoleLocation().Get_y())); return; }	//right arrow 
@@ -423,16 +440,31 @@ void GameManagement::UserActions(int key)
 		default: return;
 		}
 	}
-	else		//when the cursor is in the side menu
+	else if(cursor_ptr->GetCursorConsoleLocation().Get_x() < (menu_ptr->GetUpperLeft().Get_x() + menu_ptr->GetWidthAddition()) &&
+		cursor_ptr->GetCursorConsoleLocation().Get_x() > menu_ptr->GetUpperLeft().Get_x() &&
+		cursor_ptr->GetCursorConsoleLocation().Get_y() < (menu_ptr->GetUpperLeft().Get_y() + menu_ptr->GetHeightAddition()) &&
+		cursor_ptr->GetCursorConsoleLocation().Get_y() > menu_ptr->GetUpperLeft().Get_y())		//when the cursor is in the side menu
 	{
 		switch (key)
 		{
-		case 104: { H_Key(); return; }	//'h' key hide or display Menu
-		case 115: { S_Key(); return; }	//'s' key change placement of menu from right to left and vice versa
+		case 105: { I_Key(); return; }
 		case 72: { UpArrow_Menu(); return; }	//up arrow
 		case 80: { DownArrow_Menu(); return; }	//down arrow
 		case 9: { TabKey_Menu(); return; }	//tab key moves cursor to the center of playing field
 		case 13: { EnterKey_Menu(); return; }	//enter key chooses building to create
+		default: return;
+		}
+	}
+	else if (cursor_ptr->GetCursorConsoleLocation().Get_x() < (infoPanel_ptr->GetUpperLeft().Get_x() + infoPanel_ptr->GetWidthAddition()) &&
+		cursor_ptr->GetCursorConsoleLocation().Get_x() > infoPanel_ptr->GetUpperLeft().Get_x() &&
+		cursor_ptr->GetCursorConsoleLocation().Get_y() < (infoPanel_ptr->GetUpperLeft().Get_y() + infoPanel_ptr->GetHeightAddition()) &&
+		cursor_ptr->GetCursorConsoleLocation().Get_y() > infoPanel_ptr->GetUpperLeft().Get_y())
+	{
+		switch (key)
+		{
+		//case 75: { LeftArrow_InfoPanel(); return; }
+		//case 77: { RightArrow_InfoPanel(); return; }
+		//case 105: { I_key_InfoPanel(); return; }
 		default: return;
 		}
 	}

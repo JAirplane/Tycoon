@@ -155,6 +155,7 @@
     <ClInclude Include="IngameObjectDerived.h" />
     <ClInclude Include="GameManagement.h" />
     <ClInclude Include="msoftcon.h" />
+    <ClInclude Include="MyException.h" />
     <ClInclude Include="ObjectContainers.h" />
     <ClInclude Include="PlayingField.h" />
     <ClInclude Include="RectangleSymbols.h" />
@@ -179,6 +180,7 @@
     <ClCompile Include="IngameObjectDerived.cpp" />
     <ClCompile Include="GameManagement.cpp" />
     <ClCompile Include="msoftcon.cpp" />
+    <ClCompile Include="MyException.cpp" />
     <ClCompile Include="ObjectContainers.cpp" />
     <ClCompile Include="PlayingField.cpp" />
     <ClCompile Include="RectangleSymbols.cpp" />

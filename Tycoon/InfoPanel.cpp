@@ -1,5 +1,5 @@
 #include "InfoPanel.h"
-void InfoPanel::DrawInfoPanelBorders()
+void InfoPanel::DrawInfoPanelExternalBorders()
 {
 	draw_ptr->DrawRectangle(GetUpperLeft().Get_x(), GetUpperLeft().Get_y(), GetUpperLeft().Get_x() + GetWidthAddition(), GetUpperLeft().Get_y() + GetHeightAddition(),
 		infoPanelBorderSymbols_ptr->GetVerticalSymbol(), infoPanelBorderSymbols_ptr->GetHorizontalSymbol(), infoPanelBorderSymbols_ptr->GetUpperLeftSymbol(),
@@ -7,7 +7,7 @@ void InfoPanel::DrawInfoPanelBorders()
 		ConstructionOptions::GetAllOptions()->GetInfoPanelColor());
 	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }
-void InfoPanel::EraseInfoPanelBorders()
+void InfoPanel::EraseInfoPanelExternalBorders()
 {
 	int leftX = GetUpperLeft().Get_x();
 	int topY = GetUpperLeft().Get_y();
@@ -49,29 +49,63 @@ void InfoPanel::DrawInfoPanelSplashScreen(color foreground, color background)
 }
 void InfoPanel::ClearInfoPanelContent()
 {
-	int leftX = GetUpperLeft().Get_x() + 1;
-	int topY = GetUpperLeft().Get_y() + 1;
+	int leftX = GetUpperLeft().Get_x() + ConstructionOptions::GetAllOptions()->GetInfoPanelLeftIndent();
+	int topY = GetUpperLeft().Get_y() + ConstructionOptions::GetAllOptions()->GetInfoPanelAboveIndent();
 	for (topY; topY < GetUpperLeft().Get_y() + GetHeightAddition(); topY++)
 	{
 		for (leftX; leftX < GetUpperLeft().Get_x() + GetWidthAddition(); leftX++)
 		{
 			draw_ptr->ErasePixel(leftX, topY);
 		}
-		leftX = GetUpperLeft().Get_x() + 1;
+		leftX = GetUpperLeft().Get_x() + ConstructionOptions::GetAllOptions()->GetInfoPanelLeftIndent();
 	}
 	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }
 void InfoPanel::AddMessage(const string error)
 {
-	messages.push_front(make_pair(error, false));
+	messages.push_front(error);
 }
 void InfoPanel::DeleteMessage()
 {
 	messages.pop_back();
 }
-void InfoPanel::DisplayMessage()
+void InfoPanel::DisplayMessage(int initialX, int initialY, string message, color letterColor, color background)
 {
-	messages.back().second = true;
-	set_cursor_pos(GetUpperLeft().Get_x() + 1, GetUpperLeft().Get_y() + 1);
-	cout << messages.back().first;
+	draw_ptr->WriteMessage(initialX, initialY, message, letterColor, background);
+}
+void InfoPanel::DeleteOldMessages()
+{
+	while (messages.size() > (GetHeightAddition() + 1 - ConstructionOptions::GetAllOptions()->GetInfoPanelAboveIndent() - ConstructionOptions::GetAllOptions()->GetInfoPanelBottomIndent()))
+	{
+		DeleteMessage();
+	}
+}
+void InfoPanel::DisplayMessages()
+{
+	list<string>::iterator messageIter;
+	int initialX = GetUpperLeft().Get_x() + ConstructionOptions::GetAllOptions()->GetInfoPanelLeftIndent();
+	int initialY = GetUpperLeft().Get_y() + ConstructionOptions::GetAllOptions()->GetInfoPanelAboveIndent();
+	for (messageIter = messages.begin(); messageIter != messages.end(); messageIter++)
+	{
+		DisplayMessage(initialX, initialY, (*messageIter), cRED);
+		++initialY;
+	}
+}
+void InfoPanel::DrawInfoScreenBorders(int leftX, int topY, int rightX, int bottomY, color foreground, color background)
+{
+	draw_ptr->DrawRectangle(leftX, topY, rightX, bottomY, infoScreenBorderSymbols_ptr->GetVerticalSymbol(), infoScreenBorderSymbols_ptr->GetHorizontalSymbol(),
+		infoScreenBorderSymbols_ptr->GetUpperLeftSymbol(), infoScreenBorderSymbols_ptr->GetUpperRightSymbol(), infoScreenBorderSymbols_ptr->GetBottomLeftSymbol(),
+		infoScreenBorderSymbols_ptr->GetBottomRightSymbol(), foreground, background);
+}
+void InfoPanel::DrawInfoScreenButton(int leftX, int topY, int rightX, int bottomY, color foreground, color background)
+{
+	draw_ptr->DrawRectangle(leftX, topY, rightX, bottomY, infoScreenButtonBorderSymbols_ptr->GetVerticalSymbol(),
+		infoScreenButtonBorderSymbols_ptr->GetHorizontalSymbol(), infoScreenButtonBorderSymbols_ptr->GetUpperLeftSymbol(), 
+		infoScreenButtonBorderSymbols_ptr->GetUpperRightSymbol(), infoScreenButtonBorderSymbols_ptr->GetBottomLeftSymbol(),
+		infoScreenButtonBorderSymbols_ptr->GetBottomRightSymbol(), foreground, background);
+}
+void InfoPanel::DrawInfoScreen(int leftX, int topY, int rightX, int bottomY, color foreground, color background)
+{
+	DrawInfoScreenBorders(leftX, topY, rightX, bottomY, foreground, background);
+
 }

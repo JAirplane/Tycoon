@@ -1,19 +1,5 @@
 #pragma once
-#include <exception>
 #include "InfoPanel.h"
-class MyException : public exception
-{
-private:
-	InfoPanel* infoPanel_ptr;
-public:
-	MyException(const char* msg, InfoPanel* ip_ptr) : exception(msg)
-	{
-		infoPanel_ptr = ip_ptr;
-	}
-	~MyException()
-	{}
-	InfoPanel* GetPanelPointer() const;
-};
 /////////////Game Management Class/////////////
 class GameManagement
 {
@@ -58,12 +44,21 @@ public:
 			ConstructionOptions::GetAllOptions()->GetMenuIconBottomRightSymbol());
 		menu_ptr = new Menu(draw_ptr, camera_ptr, cursor_ptr, menuUpperLeft, menuSymbols_ptr, itemSymbols_ptr, iconSymbols_ptr,
 			ConstructionOptions::GetAllOptions()->GetMenuHeightAdd(), ConstructionOptions::GetAllOptions()->GetMenuWidthAdd());
-		RectangleSymbols* infoPanelSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetInfoPanelVerticalSymbol(),
+		RectangleSymbols* externalBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetInfoPanelVerticalSymbol(),
 			ConstructionOptions::GetAllOptions()->GetInfoPanelHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetInfoPanelUpperLeftSymbol(),
 			ConstructionOptions::GetAllOptions()->GetInfoPanelUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetInfoPanelBottomLeftSymbol(),
 			ConstructionOptions::GetAllOptions()->GetInfoPanelBottomRightSymbol());
-		infoPanel_ptr = new InfoPanel(draw_ptr, cursor_ptr, ConstructionOptions::GetAllOptions()->GetInfoPanelUpperLeft(), infoPanelSymbols_ptr,
-			ConstructionOptions::GetAllOptions()->GetInfoPanelHeightAdd(), ConstructionOptions::GetAllOptions()->GetInfoPanelWidthAdd());
+		RectangleSymbols* infoScreenBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetInfoScreenVerticalSymbol(),
+			ConstructionOptions::GetAllOptions()->GetInfoScreenHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetInfoScreenUpperLeftSymbol(),
+			ConstructionOptions::GetAllOptions()->GetInfoScreenUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetInfoScreenBottomLeftSymbol(),
+			ConstructionOptions::GetAllOptions()->GetInfoScreenBottomRightSymbol());
+		RectangleSymbols* ButtonBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetInfoScreenButtonVerticalSymbol(),
+			ConstructionOptions::GetAllOptions()->GetInfoScreenButtonHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetInfoScreenButtonUpperLeftSymbol(),
+			ConstructionOptions::GetAllOptions()->GetInfoScreenButtonUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetInfoScreenButtonBottomLeftSymbol(),
+			ConstructionOptions::GetAllOptions()->GetInfoScreenButtonBottomRightSymbol());
+		infoPanel_ptr = new InfoPanel(draw_ptr, cursor_ptr, ConstructionOptions::GetAllOptions()->GetInfoPanelUpperLeft(), externalBorderSymbols_ptr,
+			infoScreenBorderSymbols_ptr, ButtonBorderSymbols_ptr, ConstructionOptions::GetAllOptions()->GetInfoPanelHeightAdd(),
+			ConstructionOptions::GetAllOptions()->GetInfoPanelWidthAdd());
 	}
 	~GameManagement()
 	{
@@ -89,6 +84,7 @@ public:
 	void H_Key();
 	void S_Key();
 	void R_Key();
+	void I_Key();
 	void TabKey_Playingfield();
 	void TabKey_Menu();
 	void EnterKey_PlayingField();
