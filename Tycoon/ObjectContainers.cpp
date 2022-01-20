@@ -8,15 +8,15 @@ const list<Road*>& AllObjects::GetAllRoads() const
 {
 	return roads;
 }
-int AllObjects::GetBuildingsQuantity() const
+size_t AllObjects::GetBuildingsQuantity() const
 {
 	return buildings.size();
 }
-int AllObjects::GetRoadsQuantity() const
+size_t AllObjects::GetRoadsQuantity() const
 {
 	return roads.size();
 }
-int AllObjects::GetVisitorsQuantity() const
+size_t AllObjects::GetVisitorsQuantity() const
 {
 	return visitors.size();
 }

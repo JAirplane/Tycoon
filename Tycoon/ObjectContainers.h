@@ -40,9 +40,9 @@ public:
 	}
 	const list<Building*>& GetAllBuildings() const;
 	const list<Road*>& GetAllRoads() const;
-	int GetBuildingsQuantity() const;
-	int GetRoadsQuantity() const;
-	int GetVisitorsQuantity() const;
+	size_t GetBuildingsQuantity() const;
+	size_t GetRoadsQuantity() const;
+	size_t GetVisitorsQuantity() const;
 	void AddObject(Building* obj_ptr);
 	void AddObject(Road* obj_ptr);
 	void AddObject(Visitor* obj_ptr, int position = 0, bool isPreliminary = false);

@@ -52,12 +52,16 @@ public:
 			ConstructionOptions::GetAllOptions()->GetInfoScreenHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetInfoScreenUpperLeftSymbol(),
 			ConstructionOptions::GetAllOptions()->GetInfoScreenUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetInfoScreenBottomLeftSymbol(),
 			ConstructionOptions::GetAllOptions()->GetInfoScreenBottomRightSymbol());
-		RectangleSymbols* ButtonBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetInfoScreenButtonVerticalSymbol(),
+		RectangleSymbols* buttonBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetInfoScreenButtonVerticalSymbol(),
 			ConstructionOptions::GetAllOptions()->GetInfoScreenButtonHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetInfoScreenButtonUpperLeftSymbol(),
 			ConstructionOptions::GetAllOptions()->GetInfoScreenButtonUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetInfoScreenButtonBottomLeftSymbol(),
 			ConstructionOptions::GetAllOptions()->GetInfoScreenButtonBottomRightSymbol());
+		RectangleSymbols* controlsBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetControlsVerticalSymbol(),
+			ConstructionOptions::GetAllOptions()->GetControlsHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetControlsUpperLeftSymbol(),
+			ConstructionOptions::GetAllOptions()->GetControlsUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetControlsBottomLeftSymbol(),
+			ConstructionOptions::GetAllOptions()->GetControlsBottomRightSymbol());
 		infoPanel_ptr = new InfoPanel(draw_ptr, cursor_ptr, ConstructionOptions::GetAllOptions()->GetInfoPanelUpperLeft(), externalBorderSymbols_ptr,
-			infoScreenBorderSymbols_ptr, ButtonBorderSymbols_ptr, ConstructionOptions::GetAllOptions()->GetInfoPanelHeightAdd(),
+			infoScreenBorderSymbols_ptr, buttonBorderSymbols_ptr, controlsBorderSymbols_ptr, ConstructionOptions::GetAllOptions()->GetInfoPanelHeightAdd(),
 			ConstructionOptions::GetAllOptions()->GetInfoPanelWidthAdd());
 	}
 	~GameManagement()
@@ -74,6 +78,7 @@ public:
 	void DisplayMenu();
 	void DisplayPlayingField();
 	void DisplayInfoPanel();
+	void HideInfoPanel();
 	void ErasePlayingField();
 	void HideMenu();
 	void EraseScreen();

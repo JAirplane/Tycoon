@@ -97,15 +97,78 @@ void InfoPanel::DrawInfoScreenBorders(int leftX, int topY, int rightX, int botto
 		infoScreenBorderSymbols_ptr->GetUpperLeftSymbol(), infoScreenBorderSymbols_ptr->GetUpperRightSymbol(), infoScreenBorderSymbols_ptr->GetBottomLeftSymbol(),
 		infoScreenBorderSymbols_ptr->GetBottomRightSymbol(), foreground, background);
 }
-void InfoPanel::DrawInfoScreenButton(int leftX, int topY, int rightX, int bottomY, color foreground, color background)
+void InfoPanel::DrawInfoScreenButton(int leftX, int topY, int rightX, int bottomY, string buttonTitle, color letterColor, 
+	color insideBackground, color foregroundBorder, color backgroundBorder)
 {
 	draw_ptr->DrawRectangle(leftX, topY, rightX, bottomY, infoScreenButtonBorderSymbols_ptr->GetVerticalSymbol(),
-		infoScreenButtonBorderSymbols_ptr->GetHorizontalSymbol(), infoScreenButtonBorderSymbols_ptr->GetUpperLeftSymbol(), 
+		infoScreenButtonBorderSymbols_ptr->GetHorizontalSymbol(), infoScreenButtonBorderSymbols_ptr->GetUpperLeftSymbol(),
 		infoScreenButtonBorderSymbols_ptr->GetUpperRightSymbol(), infoScreenButtonBorderSymbols_ptr->GetBottomLeftSymbol(),
-		infoScreenButtonBorderSymbols_ptr->GetBottomRightSymbol(), foreground, background);
+		infoScreenButtonBorderSymbols_ptr->GetBottomRightSymbol(), foregroundBorder, backgroundBorder);
+	int length = (int)buttonTitle.length();
+	set_color(letterColor, insideBackground);
+	for (int y = topY + 1; y < bottomY; y++)
+	{
+		for (int x = leftX + 1; x < rightX; x++)
+		{
+			set_cursor_pos(x, y);
+			cout << " ";
+		}
+	}
+	if (length > rightX - leftX - 1)
+	{
+		string truncatedTitle = buttonTitle.substr(0, (size_t)(rightX - leftX - 1));
+		set_cursor_pos(leftX + 1, topY + 2);
+		cout << truncatedTitle;
+	}
+	else
+	{
+		int addToLeftX = (rightX - leftX - 1 - length) / 2;
+		set_cursor_pos(leftX + 1 + addToLeftX, topY + 2);
+		cout << buttonTitle;
+	}
 }
-void InfoPanel::DrawInfoScreen(int leftX, int topY, int rightX, int bottomY, color foreground, color background)
+void InfoPanel::DrawInfoScreen(color letterColor, color insideBackground, color foregroundBorder, color buttonActive, color backgroundBorder)
 {
-	DrawInfoScreenBorders(leftX, topY, rightX, bottomY, foreground, background);
+	int leftX = GetUpperLeft().Get_x();
+	int topY = GetUpperLeft().Get_y();
+	int rightX = GetUpperLeft().Get_x() + GetWidthAddition();
+	int bottomY = GetUpperLeft().Get_y() + GetHeightAddition();
+	int buttonWidth = 20;
+	int leftXFirstButton = rightX / 2 - rightX / 10 - buttonWidth;
+	int leftXSecondButton = rightX / 2 + rightX / 10;
+	DrawInfoScreenBorders(leftX + 2, topY + 2, rightX - 2, bottomY - 2, foregroundBorder, backgroundBorder);
+	DrawInfoScreenButton(leftXFirstButton, topY + 3, leftXFirstButton + buttonWidth, topY + 7, ConstructionOptions::GetAllOptions()->GetControlsButtonTitle(),
+		letterColor, insideBackground, buttonActive, backgroundBorder);
+	DrawInfoScreenButton(leftXSecondButton, topY + 3, leftXSecondButton + buttonWidth, topY + 7, ConstructionOptions::GetAllOptions()->GetInfoScreenButtonTitle(),
+		letterColor, insideBackground, foregroundBorder, backgroundBorder);
+	cursor_ptr->CursorMovement(PointCoord(leftXFirstButton + buttonWidth / 2, topY + 3));
+}
+void InfoPanel::DrawControlsBorder(int leftX, int topY, int rightX, int bottomY, color foreground, color background)
+{
+	draw_ptr->DrawRectangle(leftX, topY, rightX, bottomY, controlsBorderSymbols_ptr->GetVerticalSymbol(), controlsBorderSymbols_ptr->GetHorizontalSymbol(),
+		controlsBorderSymbols_ptr->GetUpperLeftSymbol(), controlsBorderSymbols_ptr->GetUpperRightSymbol(), controlsBorderSymbols_ptr->GetBottomLeftSymbol(),
+		controlsBorderSymbols_ptr->GetBottomRightSymbol(), foreground, background);
+}
+void InfoPanel::ShowControls(color foreground, color background)
+{
+	int leftX = GetUpperLeft().Get_x();
+	int topY = GetUpperLeft().Get_y();
+	int rightX = GetUpperLeft().Get_x() + GetWidthAddition();
+	int bottomY = GetUpperLeft().Get_y() + GetHeightAddition();
+	DrawControlsBorder(leftX + 2, topY + 2, rightX - 2, bottomY - 2, foreground, background);
 
+}
+void InfoPanel::SwitchContent(InfoPanelContentType choosenContent)
+{
+	ClearInfoPanelContent();
+	switch (choosenContent)
+	{
+	case InfoPanelContentType::SplashScreen:
+	{ DrawInfoPanelSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor()); return; }
+	case InfoPanelContentType::InfoScreen:
+	{ DrawInfoScreen(ConstructionOptions::GetAllOptions()->GetButtonContentForegroundColor(), ConstructionOptions::GetAllOptions()->GetButtonContentBackgroundColor(),
+		ConstructionOptions::GetAllOptions()->GetInfoScreenBorderForegroundColor(), ConstructionOptions::GetAllOptions()->GetInfoScreenBorderBackgroundColor()); return; }
+	case InfoPanelContentType::Controls:
+	{ DrawInfoPanelSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor()); return; }
+	}
 }

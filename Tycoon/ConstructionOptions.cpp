@@ -168,6 +168,42 @@ color ConstructionOptions::GetMenuItemUnderConstructionColor() const
 {
 	return color::cRED;
 }
+color ConstructionOptions::GetSplashScreenForegroundColor() const
+{
+	return cWHITE;
+}
+color ConstructionOptions::GetSplashScreenBackgroundColor() const
+{
+	return cDARK_CYAN;
+}
+color ConstructionOptions::GetInfoScreenBorderForegroundColor() const
+{
+	return cWHITE;
+}
+color ConstructionOptions::GetInfoScreenBorderBackgroundColor() const
+{
+	return cBLACK;
+}
+color ConstructionOptions::GetButtonBorderActiveColor() const
+{
+	return cGREEN;
+}
+color ConstructionOptions::GetButtonContentForegroundColor() const
+{
+	return cBLACK;
+}
+color ConstructionOptions::GetButtonContentBackgroundColor() const
+{
+	return cDARK_CYAN;
+}
+color ConstructionOptions::GetControlsScreenForegroundColor() const
+{
+	return cCYAN;
+}
+color ConstructionOptions::GetControlsScreenBackgroundColor() const
+{
+	return cBLACK;
+}
 ///////////////PlayingField Symbol Constants///////////////
 const wstring ConstructionOptions::GetVerticalPlayingField() const
 {
@@ -298,6 +334,40 @@ const wstring ConstructionOptions::GetInfoScreenButtonBottomLeftSymbol() const
 const wstring ConstructionOptions::GetInfoScreenButtonBottomRightSymbol() const
 {
 	return wstring(L"#");
+}
+//
+const wstring ConstructionOptions::GetControlsVerticalSymbol() const
+{
+	return wstring(L"@");
+}
+const wstring ConstructionOptions::GetControlsHorizontalSymbol() const
+{
+	return wstring(L"@");
+}
+const wstring ConstructionOptions::GetControlsUpperLeftSymbol() const
+{
+	return wstring(L"@");
+}
+const wstring ConstructionOptions::GetControlsUpperRightSymbol() const
+{
+	return wstring(L"@");
+}
+const wstring ConstructionOptions::GetControlsBottomLeftSymbol() const
+{
+	return wstring(L"@");
+}
+const wstring ConstructionOptions::GetControlsBottomRightSymbol() const
+{
+	return wstring(L"@");
+}
+//
+const string ConstructionOptions::GetControlsButtonTitle() const
+{
+	return "CONTROLS";
+}
+const string ConstructionOptions::GetInfoScreenButtonTitle() const
+{
+	return "MESSAGES AND INFO";
 }
 ///////////////Camera Border Symbol Constants///////////////
 const wstring ConstructionOptions::GetCameraVerticalSymbol() const

@@ -24,6 +24,14 @@ enum class IconsPosition
 	UPPER,
 	LOWER,
 };
+/////////////InfoPanel Types of Content/////////////
+enum class InfoPanelContentType
+{
+	SplashScreen,
+	InfoScreen,
+	Controls,
+	SystemMessagesAndConstructionInfo,
+};
 ///////////////All Possible Types of Mask///////////////
 const int none = int(roadMask::NONE);
 const int leftside = int(roadMask::LEFT);

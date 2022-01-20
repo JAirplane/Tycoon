@@ -49,7 +49,7 @@ public:
 	///////////////Constructions's Icon Symbol Constants///////////////
 	virtual const wstring GetIceCreamShopIconSymbol() const;
 	virtual const wstring GetRoadIconSymbol() const;
-	///////////////Color Construction Constants///////////////
+	///////////////Color Constants///////////////
 	virtual color GetIceCreamShopForegroundColor() const;
 	virtual color GetIceCreamShopBackgroundColor() const;
 	virtual color GetRoadForegroundColor() const;
@@ -63,6 +63,15 @@ public:
 	virtual color GetMenuItemInactiveColor() const;
 	virtual color GetMenuItemActiveColor() const;
 	virtual color GetMenuItemUnderConstructionColor() const;
+	virtual color GetSplashScreenForegroundColor() const;
+	virtual color GetSplashScreenBackgroundColor() const;
+	virtual color GetInfoScreenBorderForegroundColor() const;
+	virtual color GetInfoScreenBorderBackgroundColor() const;
+	virtual color GetButtonBorderActiveColor() const;
+	virtual color GetButtonContentForegroundColor() const;
+	virtual color GetButtonContentBackgroundColor() const;
+	virtual color GetControlsScreenForegroundColor() const;
+	virtual color GetControlsScreenBackgroundColor() const;
 	///////////////PlayingField Symbol Constants///////////////
 	virtual const wstring GetVerticalPlayingField() const;
 	virtual const wstring GetHorizontalPlayingField() const;
@@ -91,6 +100,17 @@ public:
 	virtual const wstring GetInfoScreenButtonUpperRightSymbol() const;
 	virtual const wstring GetInfoScreenButtonBottomLeftSymbol() const;
 	virtual const wstring GetInfoScreenButtonBottomRightSymbol() const;
+	//
+	virtual const wstring GetControlsVerticalSymbol() const;
+	virtual const wstring GetControlsHorizontalSymbol() const;
+	virtual const wstring GetControlsUpperLeftSymbol() const;
+	virtual const wstring GetControlsUpperRightSymbol() const;
+	virtual const wstring GetControlsBottomLeftSymbol() const;
+	virtual const wstring GetControlsBottomRightSymbol() const;
+	//
+	virtual const string GetControlsButtonTitle() const;
+	virtual const string GetInfoScreenButtonTitle() const;
+	//
 	///////////////Menu Border Symbol Constants///////////////
 	virtual const wstring GetMenuVerticalSymbol() const;
 	virtual const wstring GetMenuHorizontalSymbol() const;

@@ -9,15 +9,16 @@ private:
 	RectangleSymbols* infoPanelBorderSymbols_ptr;
 	RectangleSymbols* infoScreenBorderSymbols_ptr;
 	RectangleSymbols* infoScreenButtonBorderSymbols_ptr;
+	RectangleSymbols* controlsBorderSymbols_ptr;
 	list<string> messages;
 	vector<string> controls;
 public:
-	InfoPanel(Visualisation* drawptr, Cursor* cursorptr, PointCoord upperLeft, RectangleSymbols* externalBorderSymbols_ptr, 
-		RectangleSymbols* infoScreenSymbols_ptr, RectangleSymbols* buttonBorders_ptr, int heightAdd, int widthAdd) : GlobalObject(upperLeft, heightAdd, widthAdd), 
+	InfoPanel(Visualisation* drawptr, Cursor* cursorptr, PointCoord upperLeft, RectangleSymbols* externalBorderSymbols_ptr,
+		RectangleSymbols* infoScreenSymbols_ptr, RectangleSymbols* buttonBorders_ptr, RectangleSymbols* controlsBorders_ptr, int heightAdd, int widthAdd) : GlobalObject(upperLeft, heightAdd, widthAdd),
 		draw_ptr(drawptr), cursor_ptr(cursorptr), infoPanelBorderSymbols_ptr(externalBorderSymbols_ptr), infoScreenBorderSymbols_ptr(infoScreenSymbols_ptr),
-		infoScreenButtonBorderSymbols_ptr(buttonBorders_ptr)
+		infoScreenButtonBorderSymbols_ptr(buttonBorders_ptr), controlsBorderSymbols_ptr(controlsBorders_ptr)
 	{
-		controls.push_back("Use arrows to move cursor on the playingfield / navigate in menu");
+		controls.push_back("Use arrows to navigate on the playingfield / navigate in menu");
 		controls.push_back("Tab to switch between main screen and menu");
 		controls.push_back("Enter to select construction in the menu / to build it on the playingfield");
 		controls.push_back("Esc to deselect construction");
@@ -39,6 +40,10 @@ public:
 	void DeleteOldMessages();
 	void DisplayMessages();
 	void DrawInfoScreenBorders(int leftX, int topY, int rightX, int bottomY, color foreground, color background = cBLACK);
-	void DrawInfoScreenButton(int leftX, int topY, int rightX, int bottomY, color foreground, color background = cBLACK);
-	void DrawInfoScreen(int leftX, int topY, int rightX, int bottomY, color foreground, color background = cBLACK);
+	void DrawInfoScreenButton(int leftX, int topY, int rightX, int bottomY, string buttonTitle, color letterColor, 
+		color insideBackground, color foregroundBorder, color backgroundBorder = cBLACK);
+	void DrawInfoScreen(color letterColor, color insideBackground, color foregroundBorder, color buttonActive, color backgroundBorder = cBLACK);
+	void DrawControlsBorder(int leftX, int topY, int rightX, int bottomY, color foreground, color background = cBLACK);
+	void ShowControls(color foreground, color background = cBLACK);
+	void SwitchContent(InfoPanelContentType choosenContent);
 };

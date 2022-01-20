@@ -9,7 +9,6 @@ void GameManagement::DisplayMenu()
 		underConstruction = allObjects_ptr->GetPreliminaryElement()->GetDescriptor()->GetManagerLocation();
 	}
 	menu_ptr->ShowMenuItems(underConstruction);
-	infoPanel_ptr->DrawInfoPanelExternalBorders();
 	color cursorBackgroundColor = ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor();
 	if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr))
 	{
@@ -19,10 +18,10 @@ void GameManagement::DisplayMenu()
 void GameManagement::HideMenu()
 {
 	menu_ptr->EraseMenu();
-	infoPanel_ptr->ClearInfoPanelContent();
-	infoPanel_ptr->EraseInfoPanelExternalBorders();
 	if (cursor_ptr->GetCursorConsoleLocation().Get_x() < camera_ptr->GetUpperLeft().Get_x() ||
-		cursor_ptr->GetCursorConsoleLocation().Get_x() > camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition())
+		cursor_ptr->GetCursorConsoleLocation().Get_x() > camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition() ||
+		cursor_ptr->GetCursorConsoleLocation().Get_y() < camera_ptr->GetUpperLeft().Get_y() ||
+		cursor_ptr->GetCursorConsoleLocation().Get_y() > camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition())
 	{
 		int leftX = camera_ptr->GetUpperLeft().Get_x();
 		int topY = camera_ptr->GetUpperLeft().Get_y();
@@ -38,6 +37,17 @@ void GameManagement::HideMenu()
 	{
 		draw_ptr->DrawCursorPixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y(), ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor());
 	}
+}
+void GameManagement::DisplayInfoPanel()
+{
+	infoPanel_ptr->DrawInfoPanelExternalBorders();
+	infoPanel_ptr->DrawInfoPanelSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), 
+		ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
+}
+void GameManagement::HideInfoPanel()
+{
+	infoPanel_ptr->ClearInfoPanelContent();
+	infoPanel_ptr->EraseInfoPanelExternalBorders();
 }
 void GameManagement::EraseScreen()
 {
@@ -69,11 +79,6 @@ void GameManagement::DisplayPlayingField()
 		field_ptr->GetBorderSymbols()->GetUpperLeftSymbol(), field_ptr->GetBorderSymbols()->GetUpperRightSymbol(), field_ptr->GetBorderSymbols()->GetBottomLeftSymbol(), field_ptr->GetBorderSymbols()->GetBottomRightSymbol(),
 		ConstructionOptions::GetAllOptions()->GetPlayingFieldColor());
 	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
-}
-void GameManagement::DisplayInfoPanel()
-{
-	infoPanel_ptr->DrawInfoPanelExternalBorders();
-	infoPanel_ptr->DrawInfoPanelSplashScreen(cGREEN, cDARK_CYAN);
 }
 void GameManagement::ErasePlayingField()
 {
@@ -213,10 +218,9 @@ void GameManagement::I_Key()
 	{
 		infoPanel_ptr->ClearInfoPanelContent();
 	}
-	infoPanel_ptr->DrawInfoScreen(infoPanel_ptr->GetUpperLeft().Get_x() + 10, infoPanel_ptr->GetUpperLeft().Get_y() + 2,
-		infoPanel_ptr->GetUpperLeft().Get_x() + infoPanel_ptr->GetWidthAddition() - 10, 
-		infoPanel_ptr->GetUpperLeft().Get_y() + infoPanel_ptr->GetHeightAddition() - 2, cWHITE);
-	
+	infoPanel_ptr->DrawInfoScreen(ConstructionOptions::GetAllOptions()->GetButtonContentForegroundColor(), 
+		ConstructionOptions::GetAllOptions()->GetButtonContentBackgroundColor(), ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor(),
+		ConstructionOptions::GetAllOptions()->GetInfoScreenBorderForegroundColor(), ConstructionOptions::GetAllOptions()->GetInfoScreenBorderBackgroundColor());
 }
 void GameManagement::TabKey_Playingfield()
 {
@@ -315,7 +319,7 @@ void GameManagement::EnterKey_Menu()
 		menu_ptr->GetItemSymbols()->GetVerticalSymbol(), menu_ptr->GetItemSymbols()->GetHorizontalSymbol(), menu_ptr->GetItemSymbols()->GetUpperLeftSymbol(),
 		menu_ptr->GetItemSymbols()->GetUpperRightSymbol(), menu_ptr->GetItemSymbols()->GetBottomLeftSymbol(), menu_ptr->GetItemSymbols()->GetBottomRightSymbol(),
 		ConstructionOptions::GetAllOptions()->GetMenuItemUnderConstructionColor());
-	cursor_ptr->CursorMovement(PointCoord((camera_ptr->GetUpperLeft().Get_x() * 2 + camera_ptr->GetWidthAddition()) / 2, 
+	cursor_ptr->CursorMovement(PointCoord((camera_ptr->GetUpperLeft().Get_x() * 2 + camera_ptr->GetWidthAddition()) / 2,
 		(camera_ptr->GetUpperLeft().Get_y() * 2 + camera_ptr->GetHeightAddition()) / 2));
 	preliminary_ptr->SetUpperLeft(cursor_ptr->GetCursorConsoleLocation());
 	if (!allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
@@ -370,7 +374,7 @@ void GameManagement::Arrows_PlayingField(PointCoord cursorDestination)
 	{
 		if (!allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
 		{
-			draw_ptr->EraseConstruction(preliminary_ptr->GetUpperLeft().Get_x(), preliminary_ptr->GetUpperLeft().Get_y(), 
+			draw_ptr->EraseConstruction(preliminary_ptr->GetUpperLeft().Get_x(), preliminary_ptr->GetUpperLeft().Get_y(),
 				preliminary_ptr->GetUpperLeft().Get_x() + preliminary_ptr->GetWidthAddition(), preliminary_ptr->GetUpperLeft().Get_y() + preliminary_ptr->GetHeightAddition());
 		}
 		PointCoord preliminaryElementNeibourRedraw = preliminary_ptr->GetRedrawNeiboursPoint();
@@ -422,7 +426,7 @@ void GameManagement::UserActions(int key)
 	default: break;
 	}
 	if (cursor_ptr->GetCursorConsoleLocation().Get_x() < (camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition()) &&
-		cursor_ptr->GetCursorConsoleLocation().Get_x() > camera_ptr->GetUpperLeft().Get_x() && 
+		cursor_ptr->GetCursorConsoleLocation().Get_x() > camera_ptr->GetUpperLeft().Get_x() &&
 		cursor_ptr->GetCursorConsoleLocation().Get_y() < (camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition()) &&
 		cursor_ptr->GetCursorConsoleLocation().Get_y() > camera_ptr->GetUpperLeft().Get_y())	//this condition checks if the cursor is within the camera borders
 	{
@@ -440,7 +444,7 @@ void GameManagement::UserActions(int key)
 		default: return;
 		}
 	}
-	else if(cursor_ptr->GetCursorConsoleLocation().Get_x() < (menu_ptr->GetUpperLeft().Get_x() + menu_ptr->GetWidthAddition()) &&
+	else if (cursor_ptr->GetCursorConsoleLocation().Get_x() < (menu_ptr->GetUpperLeft().Get_x() + menu_ptr->GetWidthAddition()) &&
 		cursor_ptr->GetCursorConsoleLocation().Get_x() > menu_ptr->GetUpperLeft().Get_x() &&
 		cursor_ptr->GetCursorConsoleLocation().Get_y() < (menu_ptr->GetUpperLeft().Get_y() + menu_ptr->GetHeightAddition()) &&
 		cursor_ptr->GetCursorConsoleLocation().Get_y() > menu_ptr->GetUpperLeft().Get_y())		//when the cursor is in the side menu
@@ -462,9 +466,9 @@ void GameManagement::UserActions(int key)
 	{
 		switch (key)
 		{
-		//case 75: { LeftArrow_InfoPanel(); return; }
-		//case 77: { RightArrow_InfoPanel(); return; }
-		//case 105: { I_key_InfoPanel(); return; }
+			//case 75: { LeftArrow_InfoPanel(); return; }
+			//case 77: { RightArrow_InfoPanel(); return; }
+			//case 105: { I_key_InfoPanel(); return; }
 		default: return;
 		}
 	}
