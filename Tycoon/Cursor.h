@@ -1,5 +1,5 @@
 #pragma once
-#include "RectangleSymbols.h"
+#include "RectangleBorder.h"
 /////////////Cursor Class/////////////
 class Cursor
 {

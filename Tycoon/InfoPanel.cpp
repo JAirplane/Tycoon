@@ -1,4 +1,10 @@
 #include "InfoPanel.h"
+///////////////InfoScreen Button///////////////
+string InfoScreenButton::GetButtonTitle() const
+{
+	return title;
+}
+///////////////InfoPanel///////////////
 void InfoPanel::DrawInfoPanelExternalBorders()
 {
 	draw_ptr->DrawRectangle(GetUpperLeft().Get_x(), GetUpperLeft().Get_y(), GetUpperLeft().Get_x() + GetWidthAddition(), GetUpperLeft().Get_y() + GetHeightAddition(),
@@ -97,7 +103,7 @@ void InfoPanel::DrawInfoScreenBorders(int leftX, int topY, int rightX, int botto
 		infoScreenBorderSymbols_ptr->GetUpperLeftSymbol(), infoScreenBorderSymbols_ptr->GetUpperRightSymbol(), infoScreenBorderSymbols_ptr->GetBottomLeftSymbol(),
 		infoScreenBorderSymbols_ptr->GetBottomRightSymbol(), foreground, background);
 }
-void InfoPanel::DrawInfoScreenButton(int leftX, int topY, int rightX, int bottomY, string buttonTitle, color letterColor, 
+void InfoPanel::DrawInfoScreenButton(int leftX, int topY, int rightX, int bottomY, string buttonTitle, color letterColor,
 	color insideBackground, color foregroundBorder, color backgroundBorder)
 {
 	draw_ptr->DrawRectangle(leftX, topY, rightX, bottomY, infoScreenButtonBorderSymbols_ptr->GetVerticalSymbol(),
@@ -127,13 +133,12 @@ void InfoPanel::DrawInfoScreenButton(int leftX, int topY, int rightX, int bottom
 		cout << buttonTitle;
 	}
 }
-void InfoPanel::DrawInfoScreen(color letterColor, color insideBackground, color foregroundBorder, color buttonActive, color backgroundBorder)
+void InfoPanel::DrawInfoScreen(int buttonWidth, color letterColor, color insideBackground, color foregroundBorder, color buttonActive, color backgroundBorder)
 {
 	int leftX = GetUpperLeft().Get_x();
 	int topY = GetUpperLeft().Get_y();
 	int rightX = GetUpperLeft().Get_x() + GetWidthAddition();
 	int bottomY = GetUpperLeft().Get_y() + GetHeightAddition();
-	int buttonWidth = 20;
 	int leftXFirstButton = rightX / 2 - rightX / 10 - buttonWidth;
 	int leftXSecondButton = rightX / 2 + rightX / 10;
 	DrawInfoScreenBorders(leftX + 2, topY + 2, rightX - 2, bottomY - 2, foregroundBorder, backgroundBorder);
@@ -166,8 +171,9 @@ void InfoPanel::SwitchContent(InfoPanelContentType choosenContent)
 	case InfoPanelContentType::SplashScreen:
 	{ DrawInfoPanelSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor()); return; }
 	case InfoPanelContentType::InfoScreen:
-	{ DrawInfoScreen(ConstructionOptions::GetAllOptions()->GetButtonContentForegroundColor(), ConstructionOptions::GetAllOptions()->GetButtonContentBackgroundColor(),
-		ConstructionOptions::GetAllOptions()->GetInfoScreenBorderForegroundColor(), ConstructionOptions::GetAllOptions()->GetInfoScreenBorderBackgroundColor()); return; }
+	{ DrawInfoScreen(ConstructionOptions::GetAllOptions()->GetInfoPanelButtonWidth(), ConstructionOptions::GetAllOptions()->GetButtonContentForegroundColor(),
+		ConstructionOptions::GetAllOptions()->GetButtonContentBackgroundColor(), ConstructionOptions::GetAllOptions()->GetInfoScreenBorderForegroundColor(),
+		ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor(), ConstructionOptions::GetAllOptions()->GetInfoScreenBorderBackgroundColor()); return; }
 	case InfoPanelContentType::Controls:
 	{ DrawInfoPanelSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor()); return; }
 	}

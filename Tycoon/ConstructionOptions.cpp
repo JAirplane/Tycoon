@@ -144,9 +144,45 @@ color ConstructionOptions::GetPlayingFieldColor() const
 {
 	return color::cDARK_GRAY;
 }
-color ConstructionOptions::GetInfoPanelColor() const
+color ConstructionOptions::GetInfoPanelBorderForegroundColor() const
 {
 	return color::cBLUE;
+}
+color ConstructionOptions::GetInfoPanelBorderBackgroundColor() const
+{
+	return cBLACK;
+}
+color ConstructionOptions::GetInfoPanelTextColor() const
+{
+	return cWHITE;
+}
+color ConstructionOptions::GetInfoPanelShadingColor() const
+{
+	return cBLACK;
+}
+color ConstructionOptions::GetSplashScreenForegroundColor() const
+{
+	return cWHITE;
+}
+color ConstructionOptions::GetSplashScreenBackgroundColor() const
+{
+	return cDARK_CYAN;
+}
+color ConstructionOptions::GetMenuScreenBorderForegroundColor() const
+{
+	return cWHITE;
+}
+color ConstructionOptions::GetMenuScreenBorderBackgroundColor() const
+{
+	return cBLACK;
+}
+color ConstructionOptions::GetMenuScreenTextColor() const
+{
+	return cWHITE;
+}
+color ConstructionOptions::GetMenuScreenShadingColor() const
+{
+	return cBLACK;
 }
 color ConstructionOptions::GetMenuColor() const
 {
@@ -168,25 +204,17 @@ color ConstructionOptions::GetMenuItemUnderConstructionColor() const
 {
 	return color::cRED;
 }
-color ConstructionOptions::GetSplashScreenForegroundColor() const
-{
-	return cWHITE;
-}
-color ConstructionOptions::GetSplashScreenBackgroundColor() const
-{
-	return cDARK_CYAN;
-}
-color ConstructionOptions::GetInfoScreenBorderForegroundColor() const
-{
-	return cWHITE;
-}
-color ConstructionOptions::GetInfoScreenBorderBackgroundColor() const
-{
-	return cBLACK;
-}
 color ConstructionOptions::GetButtonBorderActiveColor() const
 {
 	return cGREEN;
+}
+color ConstructionOptions::GetButtonBorderInactiveColor() const
+{
+	return cWHITE;
+}
+color ConstructionOptions::GetButtonBorderBackgroundColor() const
+{
+
 }
 color ConstructionOptions::GetButtonContentForegroundColor() const
 {
@@ -286,52 +314,52 @@ const wstring ConstructionOptions::GetInfoPanelBottomRightSymbol() const
 	return wstring(L"\u255D");
 }
 //
-const wstring ConstructionOptions::GetInfoScreenVerticalSymbol() const
+const wstring ConstructionOptions::GetMenuScreenVerticalSymbol() const
 {
 	return wstring(L"#");
 }
-const wstring ConstructionOptions::GetInfoScreenHorizontalSymbol() const
+const wstring ConstructionOptions::GetMenuScreenHorizontalSymbol() const
 {
 	return wstring(L"#");
 }
-const wstring ConstructionOptions::GetInfoScreenUpperLeftSymbol() const
+const wstring ConstructionOptions::GetMenuScreenUpperLeftSymbol() const
 {
 	return wstring(L"#");
 }
-const wstring ConstructionOptions::GetInfoScreenUpperRightSymbol() const
+const wstring ConstructionOptions::GetMenuScreenUpperRightSymbol() const
 {
 	return wstring(L"#");
 }
-const wstring ConstructionOptions::GetInfoScreenBottomLeftSymbol() const
+const wstring ConstructionOptions::GetMenuScreenBottomLeftSymbol() const
 {
 	return wstring(L"#");
 }
-const wstring ConstructionOptions::GetInfoScreenBottomRightSymbol() const
+const wstring ConstructionOptions::GetMenuScreenBottomRightSymbol() const
 {
 	return wstring(L"#");
 }
 //
-const wstring ConstructionOptions::GetInfoScreenButtonVerticalSymbol() const
+const wstring ConstructionOptions::GetMenuScreenButtonVerticalSymbol() const
 {
 	return wstring(L"#");
 }
-const wstring ConstructionOptions::GetInfoScreenButtonHorizontalSymbol() const
+const wstring ConstructionOptions::GetMenuScreenButtonHorizontalSymbol() const
 {
 	return wstring(L"#");
 }
-const wstring ConstructionOptions::GetInfoScreenButtonUpperLeftSymbol() const
+const wstring ConstructionOptions::GetMenuScreenButtonUpperLeftSymbol() const
 {
 	return wstring(L"#");
 }
-const wstring ConstructionOptions::GetInfoScreenButtonUpperRightSymbol() const
+const wstring ConstructionOptions::GetMenuScreenButtonUpperRightSymbol() const
 {
 	return wstring(L"#");
 }
-const wstring ConstructionOptions::GetInfoScreenButtonBottomLeftSymbol() const
+const wstring ConstructionOptions::GetMenuScreenButtonBottomLeftSymbol() const
 {
 	return wstring(L"#");
 }
-const wstring ConstructionOptions::GetInfoScreenButtonBottomRightSymbol() const
+const wstring ConstructionOptions::GetMenuScreenButtonBottomRightSymbol() const
 {
 	return wstring(L"#");
 }

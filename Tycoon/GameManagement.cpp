@@ -3,6 +3,7 @@
 void GameManagement::DisplayMenu()
 {
 	menu_ptr->ShowMenuBorders();
+	DisplayInfoPanel();
 	PointCoord underConstruction(0, 0);
 	if (allObjects_ptr->GetPreliminaryElement() != nullptr)
 	{
@@ -18,6 +19,7 @@ void GameManagement::DisplayMenu()
 void GameManagement::HideMenu()
 {
 	menu_ptr->EraseMenu();
+	HideInfoPanel();
 	if (cursor_ptr->GetCursorConsoleLocation().Get_x() < camera_ptr->GetUpperLeft().Get_x() ||
 		cursor_ptr->GetCursorConsoleLocation().Get_x() > camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition() ||
 		cursor_ptr->GetCursorConsoleLocation().Get_y() < camera_ptr->GetUpperLeft().Get_y() ||
@@ -41,7 +43,7 @@ void GameManagement::HideMenu()
 void GameManagement::DisplayInfoPanel()
 {
 	infoPanel_ptr->DrawInfoPanelExternalBorders();
-	infoPanel_ptr->DrawInfoPanelSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), 
+	infoPanel_ptr->DrawInfoPanelSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(),
 		ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
 }
 void GameManagement::HideInfoPanel()
@@ -207,20 +209,21 @@ void GameManagement::R_Key()
 		cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 	}
 }
-void GameManagement::I_Key()
+void GameManagement::I_Key_OutOfInfoPanel()
 {
 	if (menu_ptr->GetHideMenuStatus())
 	{
 		DisplayMenu();
+		infoPanel_ptr->DrawInfoPanelExternalBorders();
 		menu_ptr->SetHideMenuStatus(0);
 	}
 	else
 	{
 		infoPanel_ptr->ClearInfoPanelContent();
 	}
-	infoPanel_ptr->DrawInfoScreen(ConstructionOptions::GetAllOptions()->GetButtonContentForegroundColor(), 
-		ConstructionOptions::GetAllOptions()->GetButtonContentBackgroundColor(), ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor(),
-		ConstructionOptions::GetAllOptions()->GetInfoScreenBorderForegroundColor(), ConstructionOptions::GetAllOptions()->GetInfoScreenBorderBackgroundColor());
+	infoPanel_ptr->DrawInfoScreen(ConstructionOptions::GetAllOptions()->GetInfoPanelButtonWidth(), ConstructionOptions::GetAllOptions()->GetButtonContentForegroundColor(),
+		ConstructionOptions::GetAllOptions()->GetButtonContentBackgroundColor(), ConstructionOptions::GetAllOptions()->GetInfoScreenBorderForegroundColor(),
+		ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor(), ConstructionOptions::GetAllOptions()->GetInfoScreenBorderBackgroundColor());
 }
 void GameManagement::TabKey_Playingfield()
 {
@@ -433,7 +436,7 @@ void GameManagement::UserActions(int key)
 		switch (key)
 		{
 		case 114: { R_Key(); return; }	//'r' key rotate preliminary building
-		case 105: { I_Key(); return; }
+		case 105: { I_Key_OutOfInfoPanel(); return; }
 		case 75: { Arrows_PlayingField(PointCoord(cursor_ptr->GetCursorConsoleLocation().Get_x() - 1, cursor_ptr->GetCursorConsoleLocation().Get_y())); return; }	//left arrow 
 		case 72: { Arrows_PlayingField(PointCoord(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y() - 1)); return; }	//up arrow 
 		case 77: { Arrows_PlayingField(PointCoord(cursor_ptr->GetCursorConsoleLocation().Get_x() + 1, cursor_ptr->GetCursorConsoleLocation().Get_y())); return; }	//right arrow 
@@ -451,7 +454,7 @@ void GameManagement::UserActions(int key)
 	{
 		switch (key)
 		{
-		case 105: { I_Key(); return; }
+		case 105: { I_Key_OutOfInfoPanel(); return; }
 		case 72: { UpArrow_Menu(); return; }	//up arrow
 		case 80: { DownArrow_Menu(); return; }	//down arrow
 		case 9: { TabKey_Menu(); return; }	//tab key moves cursor to the center of playing field

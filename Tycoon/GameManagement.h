@@ -89,7 +89,7 @@ public:
 	void H_Key();
 	void S_Key();
 	void R_Key();
-	void I_Key();
+	void I_Key_OutOfInfoPanel();
 	void TabKey_Playingfield();
 	void TabKey_Menu();
 	void EnterKey_PlayingField();

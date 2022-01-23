@@ -1,5 +1,5 @@
 #pragma once
-#include "GlobalObject.h"
+#include "Rectangle.h"
 #include "drawheader.h"
 /////////////Parent Class of Every Object in Game/////////////
 class IngameObject : public GlobalObject

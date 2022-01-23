@@ -1,6 +1,6 @@
 #pragma once
 #include "ConstructionOptions.h"
-/////////////Symbols to Draw Rectangle Class/////////////
+/////////////Contains Symbols to Draw Rectangle/////////////
 class RectangleSymbols
 {
 private:
@@ -28,4 +28,24 @@ public:
 	wstring GetUpperRightSymbol() const;
 	wstring GetBottomLeftSymbol() const;
 	wstring GetBottomRightSymbol() const;
+};
+///////////////Border Appearance: Symbols plus Color///////////////
+class BorderAppearance
+{
+private:
+	RectangleSymbols* borderSymbols_ptr;
+	color borderForegroundColor;
+	color borderBackgroundColor;
+public:
+	BorderAppearance(RectangleSymbols* symbols_ptr, color foreground, color background) : borderSymbols_ptr(symbols_ptr), borderForegroundColor(foreground), borderBackgroundColor(background)
+	{}
+	~BorderAppearance()
+	{
+		delete borderSymbols_ptr;
+	}
+	const RectangleSymbols* GetBorderSymbols() const;
+	color GetBorderForegroundColor() const;
+	color GetBorderBackgroundColor() const;
+	void SetBorderForegroundColor(color newColor);
+	void SetBorderBackgroundColor(color newColor);
 };

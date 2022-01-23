@@ -32,6 +32,7 @@ public:
 	virtual const int GetMenuWidthAdd() const;
 	virtual const int GetPlayingFieldWidthAdd() const;
 	virtual const int GetInfoPanelWidthAdd() const;
+	virtual const int GetInfoPanelButtonWidth() const;
 	///////////////Cost Initialisation Constants///////////////
 	virtual const int GetIceCreamShopCost() const;
 	virtual const int GetRoadCost() const;
@@ -57,17 +58,24 @@ public:
 	virtual color GetCursorBackgroundColor() const;
 	virtual color GetCameraColor() const;
 	virtual color GetPlayingFieldColor() const;
-	virtual color GetInfoPanelColor() const;
+	virtual color GetInfoPanelBorderForegroundColor() const;
+	virtual color GetInfoPanelBorderBackgroundColor() const;
+	virtual color GetInfoPanelTextColor() const;
+	virtual color GetInfoPanelShadingColor() const;
+	virtual color GetSplashScreenForegroundColor() const;
+	virtual color GetSplashScreenBackgroundColor() const;
+	virtual color GetMenuScreenBorderForegroundColor() const;
+	virtual color GetMenuScreenBorderBackgroundColor() const;
+	virtual color GetMenuScreenTextColor() const;
+	virtual color GetMenuScreenShadingColor() const;
 	virtual color GetMenuColor() const;
 	virtual color GetMenuIconColor() const;
 	virtual color GetMenuItemInactiveColor() const;
 	virtual color GetMenuItemActiveColor() const;
 	virtual color GetMenuItemUnderConstructionColor() const;
-	virtual color GetSplashScreenForegroundColor() const;
-	virtual color GetSplashScreenBackgroundColor() const;
-	virtual color GetInfoScreenBorderForegroundColor() const;
-	virtual color GetInfoScreenBorderBackgroundColor() const;
 	virtual color GetButtonBorderActiveColor() const;
+	virtual color GetButtonBorderInactiveColor() const;
+	virtual color GetButtonBorderBackgroundColor() const;
 	virtual color GetButtonContentForegroundColor() const;
 	virtual color GetButtonContentBackgroundColor() const;
 	virtual color GetControlsScreenForegroundColor() const;
@@ -87,19 +95,19 @@ public:
 	virtual const wstring GetInfoPanelBottomLeftSymbol() const;
 	virtual const wstring GetInfoPanelBottomRightSymbol() const;
 	//
-	virtual const wstring GetInfoScreenVerticalSymbol() const;
-	virtual const wstring GetInfoScreenHorizontalSymbol() const;
-	virtual const wstring GetInfoScreenUpperLeftSymbol() const;
-	virtual const wstring GetInfoScreenUpperRightSymbol() const;
-	virtual const wstring GetInfoScreenBottomLeftSymbol() const;
-	virtual const wstring GetInfoScreenBottomRightSymbol() const;
+	virtual const wstring GetMenuScreenVerticalSymbol() const;
+	virtual const wstring GetMenuScreenHorizontalSymbol() const;
+	virtual const wstring GetMenuScreenUpperLeftSymbol() const;
+	virtual const wstring GetMenuScreenUpperRightSymbol() const;
+	virtual const wstring GetMenuScreenBottomLeftSymbol() const;
+	virtual const wstring GetMenuScreenBottomRightSymbol() const;
 	//
-	virtual const wstring GetInfoScreenButtonVerticalSymbol() const;
-	virtual const wstring GetInfoScreenButtonHorizontalSymbol() const;
-	virtual const wstring GetInfoScreenButtonUpperLeftSymbol() const;
-	virtual const wstring GetInfoScreenButtonUpperRightSymbol() const;
-	virtual const wstring GetInfoScreenButtonBottomLeftSymbol() const;
-	virtual const wstring GetInfoScreenButtonBottomRightSymbol() const;
+	virtual const wstring GetMenuScreenButtonVerticalSymbol() const;
+	virtual const wstring GetMenuScreenButtonHorizontalSymbol() const;
+	virtual const wstring GetMenuScreenButtonUpperLeftSymbol() const;
+	virtual const wstring GetMenuScreenButtonUpperRightSymbol() const;
+	virtual const wstring GetMenuScreenButtonBottomLeftSymbol() const;
+	virtual const wstring GetMenuScreenButtonBottomRightSymbol() const;
 	//
 	virtual const wstring GetControlsVerticalSymbol() const;
 	virtual const wstring GetControlsHorizontalSymbol() const;

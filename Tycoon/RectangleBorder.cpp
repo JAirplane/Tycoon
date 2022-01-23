@@ -1,4 +1,4 @@
-#include "RectangleSymbols.h"
+#include "RectangleBorder.h"
 /////////////Symbols to Draw Rectangle Class/////////////
 wstring RectangleSymbols::GetVerticalSymbol() const
 {
@@ -23,4 +23,25 @@ wstring RectangleSymbols::GetBottomLeftSymbol() const
 wstring RectangleSymbols::GetBottomRightSymbol() const
 {
 	return bottomRightBorderSymbol;
+}
+///////////////Border Appearance///////////////
+const RectangleSymbols* BorderAppearance::GetBorderSymbols() const
+{
+	return borderSymbols_ptr;
+}
+color BorderAppearance::GetBorderForegroundColor() const
+{
+	return borderForegroundColor;
+}
+color BorderAppearance::GetBorderBackgroundColor() const
+{
+	return borderBackgroundColor;
+}
+void BorderAppearance::SetBorderForegroundColor(color newColor)
+{
+	borderForegroundColor = newColor;
+}
+void BorderAppearance::SetBorderBackgroundColor(color newColor)
+{
+	borderBackgroundColor = newColor;
 }

@@ -156,9 +156,10 @@
     <ClInclude Include="GameManagement.h" />
     <ClInclude Include="msoftcon.h" />
     <ClInclude Include="MyException.h" />
+    <ClInclude Include="Rectangle.h" />
     <ClInclude Include="ObjectContainers.h" />
     <ClInclude Include="PlayingField.h" />
-    <ClInclude Include="RectangleSymbols.h" />
+    <ClInclude Include="RectangleBorder.h" />
     <ClInclude Include="RoadDescriptor.h" />
     <ClInclude Include="RoadGraph.h" />
     <ClInclude Include="Menu.h" />
@@ -183,7 +184,8 @@
     <ClCompile Include="MyException.cpp" />
     <ClCompile Include="ObjectContainers.cpp" />
     <ClCompile Include="PlayingField.cpp" />
-    <ClCompile Include="RectangleSymbols.cpp" />
+    <ClCompile Include="Rectangle.cpp" />
+    <ClCompile Include="RectangleBorder.cpp" />
     <ClCompile Include="RoadDescriptor.cpp" />
     <ClCompile Include="run.cpp" />
     <ClCompile Include="Menu.cpp" />
