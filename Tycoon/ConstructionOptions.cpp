@@ -62,6 +62,10 @@ const int ConstructionOptions::GetInfoPanelWidthAdd() const
 {
 	return 115;
 }
+const int ConstructionOptions::GetInfoPanelButtonWidthAdd() const
+{
+	return 30;
+}
 ///////////////Cost Initialisation Constants///////////////
 const int ConstructionOptions::GetIceCreamShopCost() const
 {
@@ -84,6 +88,34 @@ const string ConstructionOptions::GetIceCreamShopDescription() const
 const string ConstructionOptions::GetRoadDescription() const
 {
 	return "visitors can walk roads only";
+}
+const string ConstructionOptions::GetArrowsDescription() const
+{
+	return "Arrows to navigate on the playingfield / in menu";
+}
+const string ConstructionOptions::GetTabDescription() const
+{
+	return "Tab to switch between main screen and menu";
+}
+const string ConstructionOptions::GetEnterDescription() const
+{
+	return "Enter to press buttons / to build constructions";
+}
+const string ConstructionOptions::GetEscDescription() const
+{
+	return "Esc to deselect construction";
+}
+const string ConstructionOptions::GetHKeyDescription() const
+{
+	return "'H' key to hide / show menu elements";
+}
+const string ConstructionOptions::GetSKeyDescription() const
+{
+	return "'S' key to switch menu side";
+}
+const string ConstructionOptions::GetRKeyDescription() const
+{
+	return "'R' key rotates buildings";
 }
 ///////////////Building Symbol Constants///////////////
 const wstring ConstructionOptions::GetIceCreamShopSymbol() const
@@ -224,11 +256,35 @@ color ConstructionOptions::GetButtonContentBackgroundColor() const
 {
 	return cDARK_CYAN;
 }
-color ConstructionOptions::GetControlsScreenForegroundColor() const
+color ConstructionOptions::GetControlsScreenBorderForegroundColor() const
 {
-	return cCYAN;
+	return cWHITE;
 }
-color ConstructionOptions::GetControlsScreenBackgroundColor() const
+color ConstructionOptions::GetControlsScreenBorderBackgroundColor() const
+{
+	return cBLACK;
+}
+color ConstructionOptions::GetControlsScreenLetterColor() const
+{
+	return cDARK_GREEN;
+}
+color ConstructionOptions::GetControlsScreenShadingColor() const
+{
+	return cBLACK;
+}
+color ConstructionOptions::GetMessagesAndInfoScreenBorderForegroundColor() const
+{
+	return cWHITE;
+}
+color ConstructionOptions::GetMessagesAndInfoScreenBorderBackgroundColor() const
+{
+	return cBLACK;
+}
+color ConstructionOptions::GetMessagesAndInfoScreenLetterColor() const
+{
+	return cDARK_GREEN;
+}
+color ConstructionOptions::GetMessagesAndInfoScreenShadingColor() const
 {
 	return cBLACK;
 }
@@ -385,6 +441,31 @@ const wstring ConstructionOptions::GetControlsBottomLeftSymbol() const
 	return wstring(L"@");
 }
 const wstring ConstructionOptions::GetControlsBottomRightSymbol() const
+{
+	return wstring(L"@");
+}
+//
+const wstring ConstructionOptions::GetMessagesAndInfoVerticalSymbol() const
+{
+	return wstring(L"@");
+}
+const wstring ConstructionOptions::GetMessagesAndInfoHorizontalSymbol() const
+{
+	return wstring(L"@");
+}
+const wstring ConstructionOptions::GetMessagesAndInfoUpperLeftSymbol() const
+{
+	return wstring(L"@");
+}
+const wstring ConstructionOptions::GetMessagesAndInfoUpperRightSymbol() const
+{
+	return wstring(L"@");
+}
+const wstring ConstructionOptions::GetMessagesAndInfoBottomLeftSymbol() const
+{
+	return wstring(L"@");
+}
+const wstring ConstructionOptions::GetMessagesAndInfoBottomRightSymbol() const
 {
 	return wstring(L"@");
 }

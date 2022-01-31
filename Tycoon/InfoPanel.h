@@ -6,11 +6,11 @@ class InfoScreenButton : public MyRectangle
 private:
 	string title;
 public:
-	InfoScreenButton(PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* externalBorder, color letterColor,
-		color shadingColor, string buttonTitle) : MyRectangle(upperLeft, heightAdd, widthAdd, externalBorder, letterColor, shadingColor)
+	InfoScreenButton(PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* externalBorder, color letterColor, color shadingColor, string buttonTitle,
+		Visualisation* vis_ptr, Cursor* cur_ptr) : MyRectangle(upperLeft, heightAdd, widthAdd, externalBorder, letterColor, shadingColor, vis_ptr, cur_ptr)
 	{
 		title = buttonTitle;
-		RectangleSymbols* infoScreenButtonBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMenuScreenButtonVerticalSymbol(),
+		/*RectangleSymbols* infoScreenButtonBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMenuScreenButtonVerticalSymbol(),
 			ConstructionOptions::GetAllOptions()->GetMenuScreenButtonHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuScreenButtonUpperLeftSymbol(),
 			ConstructionOptions::GetAllOptions()->GetMenuScreenButtonUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuScreenButtonBottomLeftSymbol(),
 			ConstructionOptions::GetAllOptions()->GetMenuScreenButtonBottomRightSymbol());
@@ -18,7 +18,7 @@ public:
 		color borderBackgroundColor = ConstructionOptions::GetAllOptions()->GetButtonBorderBackgroundColor();
 		BorderAppearance* borderVisual_ptr = new BorderAppearance(infoScreenButtonBorderSymbols_ptr, borderForegroundColor, borderBackgroundColor);
 		color titleColor = ConstructionOptions::GetAllOptions()->GetButtonContentForegroundColor();
-		color shadingColor = ConstructionOptions::GetAllOptions()->GetButtonContentBackgroundColor();
+		color shadingColor = ConstructionOptions::GetAllOptions()->GetButtonContentBackgroundColor();*/
 	}
 	~InfoScreenButton()
 		{}
@@ -27,20 +27,18 @@ public:
 class InfoPanel : public MyRectangle
 {
 private:
-	Visualisation* draw_ptr;
-	Cursor* cursor_ptr;
 	MyRectangle* menuScreen;
-	InfoScreenButton* leftButton_ptr;
-	InfoScreenButton* rightButton_ptr;
-	RectangleSymbols* controlsBorderSymbols_ptr;
+	InfoScreenButton* messagesAndInfoButton_ptr;
+	InfoScreenButton* controlsButton_ptr;
+	MyRectangle* controlsScreen;
+	vector<string> controlsDescription;
+	MyRectangle* messagesAndInfoScreen;
 	list<string> messages;
-	vector<string> controls;
+	
 public:
 	InfoPanel(Visualisation* drawptr, Cursor* cursorptr, PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* externalBorder, color letterColor,
-		color shadingColor, InfoScreenButton* lButton_ptr, InfoScreenButton* rButton_ptr) : MyRectangle(upperLeft, heightAdd, widthAdd, externalBorder, letterColor, shadingColor)
+		color shadingColor, Visualisation* vis_ptr, Cursor* cur_ptr) : MyRectangle(upperLeft, heightAdd, widthAdd, externalBorder, letterColor, shadingColor, vis_ptr, cur_ptr)
 	{
-		draw_ptr = drawptr;
-		cursor_ptr = cursorptr;
 		/*RectangleSymbols* borderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetInfoPanelVerticalSymbol(),
 			ConstructionOptions::GetAllOptions()->GetInfoPanelHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetInfoPanelUpperLeftSymbol(),
 			ConstructionOptions::GetAllOptions()->GetInfoPanelUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetInfoPanelBottomLeftSymbol(),
@@ -50,6 +48,7 @@ public:
 		BorderAppearance* externalBorder = new BorderAppearance(borderSymbols_ptr, borderForegroundColor, borderBackgroundColor);
 		color letterColor = ConstructionOptions::GetAllOptions()->GetInfoPanelTextColor();
 		color shadingColor = ConstructionOptions::GetAllOptions()->GetInfoPanelShadingColor();*/
+		//Menu Screen initialisation
 		RectangleSymbols* menuScreenBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMenuScreenVerticalSymbol(),
 			ConstructionOptions::GetAllOptions()->GetMenuScreenHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuScreenUpperLeftSymbol(),
 			ConstructionOptions::GetAllOptions()->GetMenuScreenUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuScreenBottomLeftSymbol(),
@@ -60,7 +59,10 @@ public:
 		color menuLetterColor = ConstructionOptions::GetAllOptions()->GetMenuScreenTextColor();
 		color menuShadingColor = ConstructionOptions::GetAllOptions()->GetMenuScreenShadingColor();
 		PointCoord menuScreenUpperLeft = PointCoord(upperLeft.Get_x() + 2, upperLeft.Get_y() + 2);
-		menuScreen = new MyRectangle(menuScreenUpperLeft, heightAdd - 4, widthAdd - 4, menuScreenBorder, menuLetterColor, menuShadingColor);
+		int menuScreenHeightAdd = heightAdd - 4;
+		int menuScreenWidthAdd = widthAdd - 4;
+		menuScreen = new MyRectangle(menuScreenUpperLeft, menuScreenHeightAdd, menuScreenWidthAdd, menuScreenBorder, menuLetterColor, menuShadingColor, vis_ptr, cur_ptr);
+		//Buttons on Menu Screen initialisation
 		RectangleSymbols* infoScreenButtonBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMenuScreenButtonVerticalSymbol(),
 			ConstructionOptions::GetAllOptions()->GetMenuScreenButtonHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuScreenButtonUpperLeftSymbol(),
 			ConstructionOptions::GetAllOptions()->GetMenuScreenButtonUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuScreenButtonBottomLeftSymbol(),
@@ -68,58 +70,77 @@ public:
 		color borderForegroundColor = ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor();
 		color borderBackgroundColor = ConstructionOptions::GetAllOptions()->GetButtonBorderBackgroundColor();
 		BorderAppearance* borderVisual_ptr = new BorderAppearance(infoScreenButtonBorderSymbols_ptr, borderForegroundColor, borderBackgroundColor);
+		BorderAppearance* controlsBorderVisual_ptr = new BorderAppearance(*borderVisual_ptr);
 		color buttonLetterColor = ConstructionOptions::GetAllOptions()->GetButtonContentForegroundColor();
 		color buttonShadingColor = ConstructionOptions::GetAllOptions()->GetButtonContentBackgroundColor();
-		
-		int buttonWidth = ConstructionOptions::GetAllOptions()->GetInfoPanelButtonWidth();
+		int buttonWidthAdd = ConstructionOptions::GetAllOptions()->GetInfoPanelButtonWidthAdd();
+		int buttonHeightAdd = menuScreenHeightAdd - 2;
 		int leftX = GetUpperLeft().Get_x();
-		int topY = GetUpperLeft().Get_y();
-		int rightX = GetUpperLeft().Get_x() + GetWidthAddition();
-		int bottomY = GetUpperLeft().Get_y() + GetHeightAddition();
-		int leftXFirstButton = rightX / 2 - rightX / 10 - buttonWidth;
-		int leftXSecondButton = rightX / 2 + rightX / 10;
-		PointCoord leftButtonUpperLeft = PointCoord(rightX / 2 - rightX / 10 - ConstructionOptions::GetAllOptions()->Get);
-		DrawInfoScreenButton(leftXFirstButton, topY + 3, leftXFirstButton + buttonWidth, topY + 7, ConstructionOptions::GetAllOptions()->GetControlsButtonTitle(),
-			letterColor, insideBackground, buttonActive, backgroundBorder);
-		DrawInfoScreenButton(leftXSecondButton, topY + 3, leftXSecondButton + buttonWidth, topY + 7, ConstructionOptions::GetAllOptions()->GetInfoScreenButtonTitle(),
-			letterColor, insideBackground, foregroundBorder, backgroundBorder);
-
-		controlsBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetControlsVerticalSymbol(),
+		int topYButtons = GetUpperLeft().Get_y() + 3;
+		int rightX = leftX + widthAdd;
+		int leftXInfoScreenButton = rightX / 2 - rightX / 10 - buttonWidthAdd;
+		int leftXControlsButton = rightX / 2 + rightX / 10;
+		PointCoord leftButtonUpperLeft = PointCoord(leftXInfoScreenButton, topYButtons);
+		PointCoord rightButtonUpperLeft = PointCoord(leftXControlsButton, topYButtons);
+		messagesAndInfoButton_ptr = new InfoScreenButton(leftButtonUpperLeft, buttonHeightAdd, buttonWidthAdd, borderVisual_ptr, buttonLetterColor, buttonShadingColor, 
+			ConstructionOptions::GetAllOptions()->GetInfoScreenButtonTitle(), vis_ptr, cur_ptr);
+		controlsButton_ptr = new InfoScreenButton(rightButtonUpperLeft, buttonHeightAdd, buttonWidthAdd, controlsBorderVisual_ptr, buttonLetterColor, buttonShadingColor,
+			ConstructionOptions::GetAllOptions()->GetControlsButtonTitle(), vis_ptr, cur_ptr);
+		//Controls Screen initialisation
+		RectangleSymbols* controlsBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetControlsVerticalSymbol(),
 			ConstructionOptions::GetAllOptions()->GetControlsHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetControlsUpperLeftSymbol(),
 			ConstructionOptions::GetAllOptions()->GetControlsUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetControlsBottomLeftSymbol(),
 			ConstructionOptions::GetAllOptions()->GetControlsBottomRightSymbol());
-		//
-
-		leftButton_ptr = lButton_ptr;
-		rightButton_ptr = rButton_ptr;
-		controls.push_back("Use arrows to navigate on the playingfield / navigate in menu");
-		controls.push_back("Tab to switch between main screen and menu");
-		controls.push_back("Enter to select construction in the menu / to build it on the playingfield");
-		controls.push_back("Esc to deselect construction");
-		controls.push_back("'H' key to hide / show menu elements");
-		controls.push_back("'S' key to switch menu side");
-		controls.push_back("'R' key rotates buildings");
+		color controlsScreenBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetControlsScreenBorderForegroundColor();
+		color controlsScreenBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetControlsScreenBorderBackgroundColor();
+		BorderAppearance* controlsBorderVisual_ptr = new BorderAppearance(controlsBorderSymbols_ptr, controlsScreenBorderForegroundColor, controlsScreenBorderBackgroundColor);
+		color controlsLetterColor = ConstructionOptions::GetAllOptions()->GetControlsScreenLetterColor();
+		color controlsShadingColor = ConstructionOptions::GetAllOptions()->GetControlsScreenShadingColor();
+		PointCoord controlsScreenUpperLeft = PointCoord(upperLeft.Get_x() + 2, upperLeft.Get_y() + 2);
+		int controlsScreenHeightAdd = heightAdd - 4;
+		int controlsScreenWidthAdd = widthAdd - 4;
+		controlsScreen = new MyRectangle(controlsScreenUpperLeft, controlsScreenHeightAdd, controlsScreenWidthAdd, 
+			controlsBorderVisual_ptr, controlsLetterColor, controlsShadingColor, vis_ptr, cur_ptr);
+		controlsDescription.push_back(ConstructionOptions::GetAllOptions()->GetArrowsDescription());
+		controlsDescription.push_back(ConstructionOptions::GetAllOptions()->GetTabDescription());
+		controlsDescription.push_back(ConstructionOptions::GetAllOptions()->GetEnterDescription());
+		controlsDescription.push_back(ConstructionOptions::GetAllOptions()->GetEscDescription());
+		controlsDescription.push_back(ConstructionOptions::GetAllOptions()->GetHKeyDescription());
+		controlsDescription.push_back(ConstructionOptions::GetAllOptions()->GetSKeyDescription());
+		controlsDescription.push_back(ConstructionOptions::GetAllOptions()->GetRKeyDescription());
+		//Messages and info Screen initialisation
+		RectangleSymbols* messagesAndInfoBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMessagesAndInfoVerticalSymbol(),
+			ConstructionOptions::GetAllOptions()->GetMessagesAndInfoHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMessagesAndInfoUpperLeftSymbol(),
+			ConstructionOptions::GetAllOptions()->GetMessagesAndInfoUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMessagesAndInfoBottomLeftSymbol(),
+			ConstructionOptions::GetAllOptions()->GetMessagesAndInfoBottomRightSymbol());
+		color messagesAndInfoScreenBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetMessagesAndInfoScreenBorderForegroundColor();
+		color messagesAndInfoScreenBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetMessagesAndInfoScreenBorderBackgroundColor();
+		BorderAppearance* messagesAndInfoBorderVisual_ptr = new BorderAppearance(messagesAndInfoBorderSymbols_ptr, 
+			messagesAndInfoScreenBorderForegroundColor, messagesAndInfoScreenBorderBackgroundColor);
+		color messagesAndInfoLetterColor = ConstructionOptions::GetAllOptions()->GetMessagesAndInfoScreenLetterColor();
+		color messagesAndInfoShadingColor = ConstructionOptions::GetAllOptions()->GetMessagesAndInfoScreenShadingColor();
+		PointCoord messagesAndInfoScreenUpperLeft = PointCoord(upperLeft.Get_x() + 2, upperLeft.Get_y() + 2);
+		int messagesAndInfoScreenHeightAdd = heightAdd - 4;
+		int messagesAndInfoScreenWidthAdd = widthAdd - 4;
+		messagesAndInfoScreen = new MyRectangle(messagesAndInfoScreenUpperLeft, messagesAndInfoScreenHeightAdd, messagesAndInfoScreenWidthAdd,
+			messagesAndInfoBorderVisual_ptr, messagesAndInfoLetterColor, messagesAndInfoShadingColor, vis_ptr, cur_ptr);
 	}
 	~InfoPanel()
 	{
-		delete externalBorderSymbols_ptr;
-		delete infoScreenBorderSymbols_ptr;
-		delete controlsBorderSymbols_ptr;
+		delete menuScreen;
+		delete messagesAndInfoButton_ptr;
+		delete controlsButton_ptr;
+		delete controlsScreen;
+		delete messagesAndInfoScreen;
 	}
-	void DrawInfoPanelExternalBorders();
-	void EraseInfoPanelExternalBorders();
-	void ClearInfoPanelContent();
-	void DrawInfoPanelSplashScreen(color foreground, color background);
+	void DrawSplashScreen(color foreground, color background);
 	void AddMessage(const string);
 	void DeleteMessage();
 	void DisplayMessage(int initialX, int initialY, string message, color letterColor, color background = cBLACK);
 	void DeleteOldMessages();
 	void DisplayMessages();
-	void DrawInfoScreenBorders(int leftX, int topY, int rightX, int bottomY, color foreground, color background = cBLACK);
-	void DrawInfoScreenButton(int leftX, int topY, int rightX, int bottomY, string buttonTitle, color letterColor,
-		color insideBackground, color foregroundBorder, color backgroundBorder = cBLACK);
-	void DrawInfoScreen(int buttonWidth, color letterColor, color insideBackground, color foregroundBorder, color buttonActive, color backgroundBorder = cBLACK);
-	void DrawControlsBorder(int leftX, int topY, int rightX, int bottomY, color foreground, color background = cBLACK);
-	void ShowControls(color foreground, color background = cBLACK);
+	void DrawMenuScreenButton(InfoScreenButton* button_ptr);
+	void DrawMenuScreen();
+	void ShowControls();
 	void SwitchContent(InfoPanelContentType choosenContent);
 };

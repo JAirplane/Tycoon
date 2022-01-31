@@ -32,7 +32,7 @@ public:
 	virtual const int GetMenuWidthAdd() const;
 	virtual const int GetPlayingFieldWidthAdd() const;
 	virtual const int GetInfoPanelWidthAdd() const;
-	virtual const int GetInfoPanelButtonWidth() const;
+	virtual const int GetInfoPanelButtonWidthAdd() const;
 	///////////////Cost Initialisation Constants///////////////
 	virtual const int GetIceCreamShopCost() const;
 	virtual const int GetRoadCost() const;
@@ -41,6 +41,13 @@ public:
 	///////////////Description Initialisation Constants///////////////
 	virtual const string GetIceCreamShopDescription() const;
 	virtual const string GetRoadDescription() const;
+	virtual const string GetArrowsDescription() const;
+	virtual const string GetTabDescription() const;
+	virtual const string GetEnterDescription() const;
+	virtual const string GetEscDescription() const;
+	virtual const string GetHKeyDescription() const;
+	virtual const string GetSKeyDescription() const;
+	virtual const string GetRKeyDescription() const;
 	///////////////Building Symbol Constants///////////////
 	virtual const wstring GetIceCreamShopSymbol() const;
 	///////////////Initialisation Coord Constants///////////////
@@ -78,8 +85,14 @@ public:
 	virtual color GetButtonBorderBackgroundColor() const;
 	virtual color GetButtonContentForegroundColor() const;
 	virtual color GetButtonContentBackgroundColor() const;
-	virtual color GetControlsScreenForegroundColor() const;
-	virtual color GetControlsScreenBackgroundColor() const;
+	virtual color GetControlsScreenBorderForegroundColor() const;
+	virtual color GetControlsScreenBorderBackgroundColor() const;
+	virtual color GetControlsScreenLetterColor() const;
+	virtual color GetControlsScreenShadingColor() const;
+	virtual color GetMessagesAndInfoScreenBorderForegroundColor() const;
+	virtual color GetMessagesAndInfoScreenBorderBackgroundColor() const;
+	virtual color GetMessagesAndInfoScreenLetterColor() const;
+	virtual color GetMessagesAndInfoScreenShadingColor() const;
 	///////////////PlayingField Symbol Constants///////////////
 	virtual const wstring GetVerticalPlayingField() const;
 	virtual const wstring GetHorizontalPlayingField() const;
@@ -115,6 +128,13 @@ public:
 	virtual const wstring GetControlsUpperRightSymbol() const;
 	virtual const wstring GetControlsBottomLeftSymbol() const;
 	virtual const wstring GetControlsBottomRightSymbol() const;
+	//
+	virtual const wstring GetMessagesAndInfoVerticalSymbol() const;
+	virtual const wstring GetMessagesAndInfoHorizontalSymbol() const;
+	virtual const wstring GetMessagesAndInfoUpperLeftSymbol() const;
+	virtual const wstring GetMessagesAndInfoUpperRightSymbol() const;
+	virtual const wstring GetMessagesAndInfoBottomLeftSymbol() const;
+	virtual const wstring GetMessagesAndInfoBottomRightSymbol() const;
 	//
 	virtual const string GetControlsButtonTitle() const;
 	virtual const string GetInfoScreenButtonTitle() const;
