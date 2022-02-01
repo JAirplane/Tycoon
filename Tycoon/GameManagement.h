@@ -29,40 +29,31 @@ public:
 			ConstructionOptions::GetAllOptions()->GetPlayingFieldWidthAdd(), playingFieldSymbols_ptr);
 		draw_ptr = new Visualisation();
 		allObjects_ptr = new AllObjects(cursor_ptr, draw_ptr);
+		//Menu initialisation
 		PointCoord menuUpperLeft(camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition() + 1, camera_ptr->GetUpperLeft().Get_y());
 		RectangleSymbols* menuSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMenuVerticalSymbol(),
 			ConstructionOptions::GetAllOptions()->GetMenuHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuUpperLeftSymbol(),
 			ConstructionOptions::GetAllOptions()->GetMenuUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuBottomLeftSymbol(),
 			ConstructionOptions::GetAllOptions()->GetMenuBottomRightSymbol());
-		RectangleSymbols* itemSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMenuItemVerticalSymbol(),
-			ConstructionOptions::GetAllOptions()->GetMenuItemHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuItemUpperLeftSymbol(),
-			ConstructionOptions::GetAllOptions()->GetMenuItemUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuItemBottomLeftSymbol(),
-			ConstructionOptions::GetAllOptions()->GetMenuItemBottomRightSymbol());
-		RectangleSymbols* iconSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMenuIconVerticalSymbol(),
-			ConstructionOptions::GetAllOptions()->GetMenuIconHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuIconUpperLeftSymbol(),
-			ConstructionOptions::GetAllOptions()->GetMenuIconUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuIconBottomLeftSymbol(),
-			ConstructionOptions::GetAllOptions()->GetMenuIconBottomRightSymbol());
-		menu_ptr = new Menu(draw_ptr, camera_ptr, cursor_ptr, menuUpperLeft, menuSymbols_ptr, itemSymbols_ptr, iconSymbols_ptr,
-			ConstructionOptions::GetAllOptions()->GetMenuHeightAdd(), ConstructionOptions::GetAllOptions()->GetMenuWidthAdd());
-		RectangleSymbols* externalBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetInfoPanelVerticalSymbol(),
+		color menuBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetMenuBorderForegroundColor();
+		color menuBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetMenuBorderBackgroundColor();
+		BorderAppearance* menuBorder = new BorderAppearance(menuSymbols_ptr, menuBorderForegroundColor, menuBorderBackgroundColor);
+		color menuLetterColor = ConstructionOptions::GetAllOptions()->GetMenuLetterColor();
+		color menuShadingColor = ConstructionOptions::GetAllOptions()->GetMenuShadingColor();
+		menu_ptr = new Menu(draw_ptr, camera_ptr, cursor_ptr, menuUpperLeft, ConstructionOptions::GetAllOptions()->GetMenuHeightAdd(),
+			ConstructionOptions::GetAllOptions()->GetMenuWidthAdd(), menuBorder, menuLetterColor, menuShadingColor);
+		//InfoPanel initialisation
+		RectangleSymbols* infoPanelBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetInfoPanelVerticalSymbol(),
 			ConstructionOptions::GetAllOptions()->GetInfoPanelHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetInfoPanelUpperLeftSymbol(),
 			ConstructionOptions::GetAllOptions()->GetInfoPanelUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetInfoPanelBottomLeftSymbol(),
 			ConstructionOptions::GetAllOptions()->GetInfoPanelBottomRightSymbol());
-		RectangleSymbols* infoScreenBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetInfoScreenVerticalSymbol(),
-			ConstructionOptions::GetAllOptions()->GetInfoScreenHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetInfoScreenUpperLeftSymbol(),
-			ConstructionOptions::GetAllOptions()->GetInfoScreenUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetInfoScreenBottomLeftSymbol(),
-			ConstructionOptions::GetAllOptions()->GetInfoScreenBottomRightSymbol());
-		RectangleSymbols* buttonBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetInfoScreenButtonVerticalSymbol(),
-			ConstructionOptions::GetAllOptions()->GetInfoScreenButtonHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetInfoScreenButtonUpperLeftSymbol(),
-			ConstructionOptions::GetAllOptions()->GetInfoScreenButtonUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetInfoScreenButtonBottomLeftSymbol(),
-			ConstructionOptions::GetAllOptions()->GetInfoScreenButtonBottomRightSymbol());
-		RectangleSymbols* controlsBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetControlsVerticalSymbol(),
-			ConstructionOptions::GetAllOptions()->GetControlsHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetControlsUpperLeftSymbol(),
-			ConstructionOptions::GetAllOptions()->GetControlsUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetControlsBottomLeftSymbol(),
-			ConstructionOptions::GetAllOptions()->GetControlsBottomRightSymbol());
-		infoPanel_ptr = new InfoPanel(draw_ptr, cursor_ptr, ConstructionOptions::GetAllOptions()->GetInfoPanelUpperLeft(), externalBorderSymbols_ptr,
-			infoScreenBorderSymbols_ptr, buttonBorderSymbols_ptr, controlsBorderSymbols_ptr, ConstructionOptions::GetAllOptions()->GetInfoPanelHeightAdd(),
-			ConstructionOptions::GetAllOptions()->GetInfoPanelWidthAdd());
+		color borderForegroundColor = ConstructionOptions::GetAllOptions()->GetInfoPanelBorderForegroundColor();
+		color borderBackgroundColor = ConstructionOptions::GetAllOptions()->GetInfoPanelBorderBackgroundColor();
+		BorderAppearance* externalBorder = new BorderAppearance(infoPanelBorderSymbols_ptr, borderForegroundColor, borderBackgroundColor);
+		color letterColor = ConstructionOptions::GetAllOptions()->GetInfoPanelTextColor();
+		color shadingColor = ConstructionOptions::GetAllOptions()->GetInfoPanelShadingColor();
+		infoPanel_ptr = new InfoPanel(ConstructionOptions::GetAllOptions()->GetInfoPanelUpperLeft(), ConstructionOptions::GetAllOptions()->GetInfoPanelHeightAdd(), 
+			ConstructionOptions::GetAllOptions()->GetInfoPanelWidthAdd(), externalBorder, letterColor, shadingColor, draw_ptr, cursor_ptr);
 	}
 	~GameManagement()
 	{
@@ -89,7 +80,9 @@ public:
 	void H_Key();
 	void S_Key();
 	void R_Key();
-	void I_Key_OutOfInfoPanel();
+	void I_Key_PlayingField();
+	void I_Key_Menu();
+	void I_Key_InfoPanel();
 	void TabKey_Playingfield();
 	void TabKey_Menu();
 	void EnterKey_PlayingField();
@@ -98,4 +91,5 @@ public:
 	void Arrows_PlayingField(PointCoord cursorDestination);
 	void UpArrow_Menu();
 	void DownArrow_Menu();
+	CursorLocation CurrentCursorLoc();
 };

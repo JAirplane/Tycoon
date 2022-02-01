@@ -5,9 +5,13 @@ const int ConstructionOptions::GetIceCreamShopHeightAdd() const
 {
 	return 1;
 }
-const int ConstructionOptions::GetMenuElementBordersHeight() const
+const int ConstructionOptions::GetMenuElementHeightAdd() const
 {
-	return 6;
+	return 5;
+}
+const int ConstructionOptions::GetMenuIconHeightAdd() const
+{
+	return 3;
 }
 const int ConstructionOptions::GetRoadHeightAdd() const
 {
@@ -53,6 +57,10 @@ const int ConstructionOptions::GetCameraWidthAdd() const
 const int ConstructionOptions::GetMenuWidthAdd() const
 {
 	return 45;
+}
+const int ConstructionOptions::GetMenuIconWidthAdd() const
+{
+	return 3;
 }
 const int ConstructionOptions::GetPlayingFieldWidthAdd() const
 {
@@ -216,25 +224,61 @@ color ConstructionOptions::GetMenuScreenShadingColor() const
 {
 	return cBLACK;
 }
-color ConstructionOptions::GetMenuColor() const
+color ConstructionOptions::GetMenuBorderForegroundColor() const
 {
 	return color::cBLUE;
 }
-color ConstructionOptions::GetMenuIconColor() const
+color ConstructionOptions::GetMenuBorderBackgroundColor() const
+{
+	return cBLACK;
+}
+color ConstructionOptions::GetMenuLetterColor() const
+{
+	return cWHITE;
+}
+color ConstructionOptions::GetMenuShadingColor() const
+{
+	return cBLACK;
+}
+color ConstructionOptions::GetMenuIconForegroundColor() const
 {
 	return color::cGREEN;
 }
-color ConstructionOptions::GetMenuItemInactiveColor() const
+color ConstructionOptions::GetMenuIconBackgroundColor() const
+{
+	return cBLACK;
+}
+color ConstructionOptions::GetMenuIconLetterColor() const
+{
+	return cWHITE;
+}
+color ConstructionOptions::GetMenuIconShadingColor() const
+{
+	return cBLACK;
+}
+color ConstructionOptions::GetMenuElementInactiveColor() const
 {
 	return color::cYELLOW;
 }
-color ConstructionOptions::GetMenuItemActiveColor() const
+color ConstructionOptions::GetMenuElementActiveColor() const
 {
 	return color::cGREEN;
 }
-color ConstructionOptions::GetMenuItemUnderConstructionColor() const
+color ConstructionOptions::GetMenuElementUnderConstructionColor() const
 {
 	return color::cRED;
+}
+color ConstructionOptions::GetMenuElementBackgroundColor() const
+{
+	return cBLACK;
+}
+color ConstructionOptions::GetMenuElementLetterColor() const
+{
+	return cDARK_GRAY;
+}
+color ConstructionOptions::GetMenuElementShadingColor() const
+{
+	return cBLACK;
 }
 color ConstructionOptions::GetButtonBorderActiveColor() const
 {
@@ -246,7 +290,7 @@ color ConstructionOptions::GetButtonBorderInactiveColor() const
 }
 color ConstructionOptions::GetButtonBorderBackgroundColor() const
 {
-
+	return cBLACK;
 }
 color ConstructionOptions::GetButtonContentForegroundColor() const
 {

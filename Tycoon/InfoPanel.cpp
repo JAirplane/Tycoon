@@ -7,6 +7,7 @@ string InfoScreenButton::GetButtonTitle() const
 ///////////////InfoPanel///////////////
 void InfoPanel::DrawSplashScreen(color foreground, color background)
 {
+	currentScreen = InfoPanelContentType::SplashScreen;
 	PointCoord previousLoc = GetCursor()->GetCursorConsoleLocation();
 	Alphabet::DrawLetter(Alphabet::Get_I_Matrix(), GetUpperLeft().Get_x() + 3, GetUpperLeft().Get_y() + 2);
 	GetCursor()->SetCursorConsoleLocation();
@@ -84,10 +85,13 @@ void InfoPanel::DrawMenuScreen()
 	controlsButton_ptr->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
 	DrawMenuScreenButton(messagesAndInfoButton_ptr);
 	DrawMenuScreenButton(controlsButton_ptr);
-	GetCursor()->CursorMovement(PointCoord((messagesAndInfoButton_ptr->GetWidthAddition() + 1) / 2, messagesAndInfoButton_ptr->GetUpperLeft().Get_y()));
+	currentScreen = InfoPanelContentType::MenuScreen;
+	GetCursor()->CursorMovement(PointCoord(messagesAndInfoButton_ptr->GetUpperLeft().Get_x() + messagesAndInfoButton_ptr->GetWidthAddition() / 2,
+		messagesAndInfoButton_ptr->GetUpperLeft().Get_y()));
 }
 void InfoPanel::ShowControls()
 {
+	currentScreen = InfoPanelContentType::Controls;
 	int midX = (controlsScreen->GetWidthAddition() + 1) / 2;
 	int leftX = controlsScreen->GetUpperLeft().Get_x();
 	int topY = controlsScreen->GetUpperLeft().Get_y();
@@ -120,13 +124,59 @@ void InfoPanel::SwitchContent(InfoPanelContentType choosenContent)
 	ClearContent();
 	switch (choosenContent)
 	{
-	case InfoPanelContentType::SplashScreen:
-	{ DrawInfoPanelSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor()); return; }
-	case InfoPanelContentType::InfoScreen:
-	{ DrawInfoScreen(ConstructionOptions::GetAllOptions()->GetInfoPanelButtonWidth(), ConstructionOptions::GetAllOptions()->GetButtonContentForegroundColor(),
-		ConstructionOptions::GetAllOptions()->GetButtonContentBackgroundColor(), ConstructionOptions::GetAllOptions()->GetInfoScreenBorderForegroundColor(),
-		ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor(), ConstructionOptions::GetAllOptions()->GetInfoScreenBorderBackgroundColor()); return; }
-	case InfoPanelContentType::Controls:
-	{ DrawInfoPanelSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor()); return; }
+		case InfoPanelContentType::SplashScreen:
+		{ 
+			DrawSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
+			currentScreen = InfoPanelContentType::SplashScreen;
+			return;
+		}
+		case InfoPanelContentType::MenuScreen:
+		{ 
+			DrawMenuScreen();
+			currentScreen = InfoPanelContentType::MenuScreen;
+			return;
+		}
+		case InfoPanelContentType::Controls:
+		{ 
+			ShowControls();
+			currentScreen = InfoPanelContentType::Controls;
+			return;
+		}
 	}
+}
+void InfoPanel::Arrows(Direction arrowDir)
+{
+	if (currentScreen == InfoPanelContentType::MenuScreen)
+	{
+		if (GetCursor()->GetCursorConsoleLocation() == PointCoord(controlsButton_ptr->GetUpperLeft().Get_x() + controlsButton_ptr->GetWidthAddition() / 2,
+			controlsButton_ptr->GetUpperLeft().Get_y()) && arrowDir == Direction::Left)
+		{
+			controlsButton_ptr->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+			controlsButton_ptr->DrawBorder();
+			messagesAndInfoButton_ptr->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor());
+			messagesAndInfoButton_ptr->DrawBorder();
+			GetCursor()->CursorMovement(PointCoord(messagesAndInfoButton_ptr->GetUpperLeft().Get_x() + messagesAndInfoButton_ptr->GetWidthAddition() / 2,
+				messagesAndInfoButton_ptr->GetUpperLeft().Get_y()));
+		}
+		if (GetCursor()->GetCursorConsoleLocation() == PointCoord(messagesAndInfoButton_ptr->GetUpperLeft().Get_x() + messagesAndInfoButton_ptr->GetWidthAddition() / 2,
+			messagesAndInfoButton_ptr->GetUpperLeft().Get_y()) && arrowDir == Direction::Right)
+		{
+			messagesAndInfoButton_ptr->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+			messagesAndInfoButton_ptr->DrawBorder();
+			controlsButton_ptr->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor());
+			controlsButton_ptr->DrawBorder();
+			GetCursor()->CursorMovement(PointCoord(controlsButton_ptr->GetUpperLeft().Get_x() + controlsButton_ptr->GetWidthAddition() / 2,
+				controlsButton_ptr->GetUpperLeft().Get_y()));
+		}
+	}
+}
+void InfoPanel::EndInteraction()
+{
+	if (currentScreen == InfoPanelContentType::MenuScreen)
+	{
+		messagesAndInfoButton_ptr->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+		controlsButton_ptr->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+		SwitchContent(InfoPanelContentType::SplashScreen);
+	}
+
 }

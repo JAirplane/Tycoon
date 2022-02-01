@@ -51,7 +51,7 @@ public:
 		{}
 	BorderAppearance(const BorderAppearance& borderVisual)
 	{
-		*borderSymbols_ptr = *(borderVisual.GetBorderSymbols());
+		borderSymbols_ptr = new RectangleSymbols(*(borderVisual.GetBorderSymbols()));
 		borderForegroundColor = borderVisual.GetBorderForegroundColor();
 		borderBackgroundColor = borderVisual.GetBorderBackgroundColor();
 	}

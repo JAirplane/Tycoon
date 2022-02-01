@@ -1,38 +1,95 @@
 #pragma once
 #include "ManagersDerived.h"
 #include <vector>
-class Menu : public GlobalObject
+class MenuElement : public MyRectangle
 {
 private:
-	Visualisation* draw_ptr;
+	MyRectangle* icon_ptr;
+	ConstructionManager* manager_ptr;
+public:
+	MenuElement(Visualisation* draw_ptr, Cursor* cursor_ptr, PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* menuBorbder_ptr,
+		color letterColor, color shadingColor, MyRectangle* icn_ptr, ConstructionManager* manage_ptr) :
+		MyRectangle(upperLeft, heightAdd, widthAdd, menuBorbder_ptr, letterColor, shadingColor, draw_ptr, cursor_ptr)
+	{
+		icon_ptr = icn_ptr;
+		manager_ptr = manage_ptr;
+	}
+	~MenuElement()
+	{
+		delete icon_ptr;
+		delete manager_ptr;
+	}
+	const MyRectangle* GetIcon() const;
+	const ConstructionManager* GetManager() const;
+};
+class Menu : public MyRectangle
+{
+private:
 	Camera* camera_ptr;
-	Cursor* cursor_ptr;
-	RectangleSymbols* menuBorderSymbols_ptr;
-	RectangleSymbols* itemBorderSymbols_ptr;
-	RectangleSymbols* iconBorderSymbols_ptr;
+	vector<MenuElement*> menuItems;
 	vector<ConstructionManager*> managers;
 	MenuStatus currentSide;
 	bool hidden;
 public:
-	Menu(Visualisation* drawptr, Camera* vmptr, Cursor* cursorptr, PointCoord upperLeft, RectangleSymbols* menuSymbols_ptr, RectangleSymbols* itemSymbols_ptr,
-		RectangleSymbols* iconSymbols_ptr, int heightAdd, int widthAdd) : GlobalObject(upperLeft, heightAdd, widthAdd), draw_ptr(drawptr), camera_ptr(vmptr), cursor_ptr(cursorptr)
+	Menu(Visualisation* draw_ptr, Camera* cam_ptr, Cursor* cursor_ptr, PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* menuBorbder_ptr,
+		color letterColor, color shadingColor) : MyRectangle(upperLeft, heightAdd, widthAdd, menuBorbder_ptr, letterColor, shadingColor, draw_ptr, cursor_ptr)
 	{
-		menuBorderSymbols_ptr = menuSymbols_ptr;
-		itemBorderSymbols_ptr = itemSymbols_ptr;
-		iconBorderSymbols_ptr = iconSymbols_ptr;
+		camera_ptr = cam_ptr;
 		hidden = 0;
 		currentSide = MenuStatus::RIGHT;
+		RectangleSymbols* elementSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMenuItemVerticalSymbol(),
+			ConstructionOptions::GetAllOptions()->GetMenuItemHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuItemUpperLeftSymbol(),
+			ConstructionOptions::GetAllOptions()->GetMenuItemUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuItemBottomLeftSymbol(),
+			ConstructionOptions::GetAllOptions()->GetMenuItemBottomRightSymbol());
+		color menuElementBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor();
+		color menuElementBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetMenuElementBackgroundColor();
+		BorderAppearance* menuElementBorder = new BorderAppearance(elementSymbols_ptr, menuElementBorderForegroundColor, menuElementBorderBackgroundColor);
+		color menuElementLetterColor = ConstructionOptions::GetAllOptions()->GetMenuElementLetterColor();
+		color menuElementShadingColor = ConstructionOptions::GetAllOptions()->GetMenuElementShadingColor();
+		//
+		PointCoord firstElementLocation = PointCoord(upperLeft.Get_x() + 2, upperLeft.Get_y() + 1);
+		int elementHeightAdd = ConstructionOptions::GetAllOptions()->GetMenuElementHeightAdd();
+		int elementWidthAdd = widthAdd - 4;
+		//
+		RectangleSymbols* iconSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMenuIconVerticalSymbol(),
+			ConstructionOptions::GetAllOptions()->GetMenuIconHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuIconUpperLeftSymbol(),
+			ConstructionOptions::GetAllOptions()->GetMenuIconUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuIconBottomLeftSymbol(),
+			ConstructionOptions::GetAllOptions()->GetMenuIconBottomRightSymbol());
+		color menuIconBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetMenuIconForegroundColor();
+		color menuIconBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetMenuIconBackgroundColor();
+		BorderAppearance* menuIconBorder = new BorderAppearance(iconSymbols_ptr, menuIconBorderForegroundColor, menuIconBorderBackgroundColor);
+		color menuIconLetterColor = ConstructionOptions::GetAllOptions()->GetMenuIconLetterColor();
+		color menuIconShadingColor = ConstructionOptions::GetAllOptions()->GetMenuIconShadingColor();
+		//
+		PointCoord firstIconLocation = PointCoord(firstElementLocation.Get_x() + 1, firstElementLocation.Get_y() + 1);
+		int iconHeightAdd = ConstructionOptions::GetAllOptions()->GetMenuIconHeightAdd();
+		int iconWidthAdd = ConstructionOptions::GetAllOptions()->GetMenuIconWidthAdd();
+		MyRectangle* menuIcon_ptr = new MyRectangle(firstIconLocation, iconHeightAdd, iconWidthAdd, menuIconBorder, menuIconLetterColor, menuIconShadingColor, draw_ptr, cursor_ptr);
+		//
+		ConstructionDescriptor* iceCreamDesc = new BuildingDescriptor(firstElementLocation, ConstructionOptions::GetAllOptions()->GetIceCreamShopCost(),
+			ConstructionOptions::GetAllOptions()->GetIceCreamShopDescription(), ConstructionOptions::GetAllOptions()->GetIceCreamShopIconSymbol(),
+			ConstructionOptions::GetAllOptions()->GetIceCreamShopForegroundColor(), ConstructionOptions::GetAllOptions()->GetIceCreamShopBackgroundColor(),
+			ConstructionOptions::GetAllOptions()->GetIceCreamShopSymbol(), ConstructionOptions::GetAllOptions()->GetIceCreamShopExpences(),
+			ConstructionOptions::GetAllOptions()->GetIceCreamShopHeightAdd(), ConstructionOptions::GetAllOptions()->GetIceCreamShopWidthAdd());
+		ConstructionManager* iceCreamManager_ptr = new BuildingManager(cursor_ptr, iceCreamDesc);
+		//
+		MenuElement* IceCreamShop_ptr = new MenuElement(draw_ptr, cursor_ptr, firstElementLocation, elementHeightAdd, elementWidthAdd, menuElementBorder, menuElementLetterColor,
+			menuElementShadingColor, menuIcon_ptr, iceCreamManager_ptr);
+		menuItems.push_back(IceCreamShop_ptr);
+
 	}
 	~Menu()
 	{
-		vector<ConstructionManager*>::iterator iter;
-		for (iter = managers.begin(); iter != managers.end(); iter++)
+		vector<ConstructionManager*>::iterator managersIter;
+		for (managersIter = managers.begin(); managersIter != managers.end(); managersIter++)
 		{
-			delete (*iter);
+			delete (*managersIter);
 		}
-		delete menuBorderSymbols_ptr;
-		delete itemBorderSymbols_ptr;
-		delete iconBorderSymbols_ptr;
+		vector<MenuElement*>::iterator elementsIter;
+		for (elementsIter = menuItems.begin(); elementsIter != menuItems.end(); elementsIter++)
+		{
+			delete (*elementsIter);
+		}
 	}
 	bool GetHideMenuStatus() const;
 	void SetHideMenuStatus(bool hideFlag);

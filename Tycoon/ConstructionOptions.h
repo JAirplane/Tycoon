@@ -17,7 +17,8 @@ public:
 	static ConstructionOptions* GetAllOptions();
 	///////////////Height Addition Constants///////////////
 	virtual const int GetIceCreamShopHeightAdd() const;
-	virtual const int GetMenuElementBordersHeight() const; //height of 1 element of menu
+	virtual const int GetMenuElementHeightAdd() const; //height of 1 element of menu
+	virtual const int GetMenuIconHeightAdd() const;
 	virtual const int GetRoadHeightAdd() const;
 	virtual const int GetVisitorHeightAdd() const;
 	virtual const int GetCameraHeightAdd() const;
@@ -30,6 +31,7 @@ public:
 	virtual const int GetVisitorWidthAdd() const;
 	virtual const int GetCameraWidthAdd() const;
 	virtual const int GetMenuWidthAdd() const;
+	virtual const int GetMenuIconWidthAdd() const;
 	virtual const int GetPlayingFieldWidthAdd() const;
 	virtual const int GetInfoPanelWidthAdd() const;
 	virtual const int GetInfoPanelButtonWidthAdd() const;
@@ -75,11 +77,20 @@ public:
 	virtual color GetMenuScreenBorderBackgroundColor() const;
 	virtual color GetMenuScreenTextColor() const;
 	virtual color GetMenuScreenShadingColor() const;
-	virtual color GetMenuColor() const;
-	virtual color GetMenuIconColor() const;
-	virtual color GetMenuItemInactiveColor() const;
-	virtual color GetMenuItemActiveColor() const;
-	virtual color GetMenuItemUnderConstructionColor() const;
+	virtual color GetMenuBorderForegroundColor() const;
+	virtual color GetMenuBorderBackgroundColor() const;
+	virtual color GetMenuLetterColor() const;
+	virtual color GetMenuShadingColor() const;
+	virtual color GetMenuIconForegroundColor() const;
+	virtual color GetMenuIconBackgroundColor() const;
+	virtual color GetMenuIconLetterColor() const;
+	virtual color GetMenuIconShadingColor() const;
+	virtual color GetMenuElementInactiveColor() const;
+	virtual color GetMenuElementActiveColor() const;
+	virtual color GetMenuElementUnderConstructionColor() const;
+	virtual color GetMenuElementBackgroundColor() const;
+	virtual color GetMenuElementLetterColor() const;
+	virtual color GetMenuElementShadingColor() const;
 	virtual color GetButtonBorderActiveColor() const;
 	virtual color GetButtonBorderInactiveColor() const;
 	virtual color GetButtonBorderBackgroundColor() const;

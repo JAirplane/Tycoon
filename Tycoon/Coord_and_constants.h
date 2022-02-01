@@ -27,10 +27,18 @@ enum class IconsPosition
 /////////////InfoPanel Types of Content/////////////
 enum class InfoPanelContentType
 {
+	None,
 	SplashScreen,
-	InfoScreen,
+	MenuScreen,
 	Controls,
 	SystemMessagesAndConstructionInfo,
+};
+enum class CursorLocation
+{
+	Unknown,
+	Camera,
+	Menu,
+	InfoPanel,
 };
 ///////////////All Possible Types of Mask///////////////
 const int none = int(roadMask::NONE);

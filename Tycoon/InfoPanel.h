@@ -10,15 +10,6 @@ public:
 		Visualisation* vis_ptr, Cursor* cur_ptr) : MyRectangle(upperLeft, heightAdd, widthAdd, externalBorder, letterColor, shadingColor, vis_ptr, cur_ptr)
 	{
 		title = buttonTitle;
-		/*RectangleSymbols* infoScreenButtonBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMenuScreenButtonVerticalSymbol(),
-			ConstructionOptions::GetAllOptions()->GetMenuScreenButtonHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuScreenButtonUpperLeftSymbol(),
-			ConstructionOptions::GetAllOptions()->GetMenuScreenButtonUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuScreenButtonBottomLeftSymbol(),
-			ConstructionOptions::GetAllOptions()->GetMenuScreenButtonBottomRightSymbol());
-		color borderForegroundColor = ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor();
-		color borderBackgroundColor = ConstructionOptions::GetAllOptions()->GetButtonBorderBackgroundColor();
-		BorderAppearance* borderVisual_ptr = new BorderAppearance(infoScreenButtonBorderSymbols_ptr, borderForegroundColor, borderBackgroundColor);
-		color titleColor = ConstructionOptions::GetAllOptions()->GetButtonContentForegroundColor();
-		color shadingColor = ConstructionOptions::GetAllOptions()->GetButtonContentBackgroundColor();*/
 	}
 	~InfoScreenButton()
 		{}
@@ -34,20 +25,12 @@ private:
 	vector<string> controlsDescription;
 	MyRectangle* messagesAndInfoScreen;
 	list<string> messages;
+	InfoPanelContentType currentScreen;
 	
 public:
-	InfoPanel(Visualisation* drawptr, Cursor* cursorptr, PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* externalBorder, color letterColor,
+	InfoPanel(PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* externalBorder, color letterColor,
 		color shadingColor, Visualisation* vis_ptr, Cursor* cur_ptr) : MyRectangle(upperLeft, heightAdd, widthAdd, externalBorder, letterColor, shadingColor, vis_ptr, cur_ptr)
 	{
-		/*RectangleSymbols* borderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetInfoPanelVerticalSymbol(),
-			ConstructionOptions::GetAllOptions()->GetInfoPanelHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetInfoPanelUpperLeftSymbol(),
-			ConstructionOptions::GetAllOptions()->GetInfoPanelUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetInfoPanelBottomLeftSymbol(),
-			ConstructionOptions::GetAllOptions()->GetInfoPanelBottomRightSymbol());
-		color borderForegroundColor = ConstructionOptions::GetAllOptions()->GetInfoPanelBorderForegroundColor();
-		color borderBackgroundColor = ConstructionOptions::GetAllOptions()->GetInfoPanelBorderBackgroundColor();
-		BorderAppearance* externalBorder = new BorderAppearance(borderSymbols_ptr, borderForegroundColor, borderBackgroundColor);
-		color letterColor = ConstructionOptions::GetAllOptions()->GetInfoPanelTextColor();
-		color shadingColor = ConstructionOptions::GetAllOptions()->GetInfoPanelShadingColor();*/
 		//Menu Screen initialisation
 		RectangleSymbols* menuScreenBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMenuScreenVerticalSymbol(),
 			ConstructionOptions::GetAllOptions()->GetMenuScreenHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuScreenUpperLeftSymbol(),
@@ -70,7 +53,7 @@ public:
 		color borderForegroundColor = ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor();
 		color borderBackgroundColor = ConstructionOptions::GetAllOptions()->GetButtonBorderBackgroundColor();
 		BorderAppearance* borderVisual_ptr = new BorderAppearance(infoScreenButtonBorderSymbols_ptr, borderForegroundColor, borderBackgroundColor);
-		BorderAppearance* controlsBorderVisual_ptr = new BorderAppearance(*borderVisual_ptr);
+		BorderAppearance* controlsButtonBorderVisual_ptr = new BorderAppearance(*borderVisual_ptr);
 		color buttonLetterColor = ConstructionOptions::GetAllOptions()->GetButtonContentForegroundColor();
 		color buttonShadingColor = ConstructionOptions::GetAllOptions()->GetButtonContentBackgroundColor();
 		int buttonWidthAdd = ConstructionOptions::GetAllOptions()->GetInfoPanelButtonWidthAdd();
@@ -84,7 +67,7 @@ public:
 		PointCoord rightButtonUpperLeft = PointCoord(leftXControlsButton, topYButtons);
 		messagesAndInfoButton_ptr = new InfoScreenButton(leftButtonUpperLeft, buttonHeightAdd, buttonWidthAdd, borderVisual_ptr, buttonLetterColor, buttonShadingColor, 
 			ConstructionOptions::GetAllOptions()->GetInfoScreenButtonTitle(), vis_ptr, cur_ptr);
-		controlsButton_ptr = new InfoScreenButton(rightButtonUpperLeft, buttonHeightAdd, buttonWidthAdd, controlsBorderVisual_ptr, buttonLetterColor, buttonShadingColor,
+		controlsButton_ptr = new InfoScreenButton(rightButtonUpperLeft, buttonHeightAdd, buttonWidthAdd, controlsButtonBorderVisual_ptr, buttonLetterColor, buttonShadingColor,
 			ConstructionOptions::GetAllOptions()->GetControlsButtonTitle(), vis_ptr, cur_ptr);
 		//Controls Screen initialisation
 		RectangleSymbols* controlsBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetControlsVerticalSymbol(),
@@ -124,6 +107,7 @@ public:
 		int messagesAndInfoScreenWidthAdd = widthAdd - 4;
 		messagesAndInfoScreen = new MyRectangle(messagesAndInfoScreenUpperLeft, messagesAndInfoScreenHeightAdd, messagesAndInfoScreenWidthAdd,
 			messagesAndInfoBorderVisual_ptr, messagesAndInfoLetterColor, messagesAndInfoShadingColor, vis_ptr, cur_ptr);
+		currentScreen = InfoPanelContentType::None;
 	}
 	~InfoPanel()
 	{
@@ -143,4 +127,6 @@ public:
 	void DrawMenuScreen();
 	void ShowControls();
 	void SwitchContent(InfoPanelContentType choosenContent);
+	void Arrows(Direction arrowDir);
+	void EndInteraction();
 };

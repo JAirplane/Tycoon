@@ -1,4 +1,13 @@
 #include "Menu.h"
+/////////////Menu Element Class/////////////
+const MyRectangle* MenuElement::GetIcon() const
+{
+	return icon_ptr;
+}
+const ConstructionManager* MenuElement::GetManager() const
+{
+	return manager_ptr;
+}
 /////////////Side Menu Class/////////////
 MenuStatus Menu::GetCurrentSide()
 {
