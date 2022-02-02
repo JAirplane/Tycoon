@@ -1,19 +1,13 @@
 #pragma once
 #include "IngameObjectDerived.h"
 /////////////PlayingField Class/////////////
-class PlayingField : public GlobalObject
+class PlayingField : public MyRectangle
 {
-private:
-	RectangleSymbols* rectangleSymbols_ptr;
 public:
-	PlayingField(PointCoord upperLeft, int heightAdd, int widthAdd, RectangleSymbols* rectangleSymbols_ptr) : GlobalObject(upperLeft, heightAdd, widthAdd)
-	{
-		this->rectangleSymbols_ptr = rectangleSymbols_ptr;
-	}
+	PlayingField(PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* borderApp_ptr, color letterColor, color backgroundColor,
+		Visualisation* vis_ptr, Cursor* cur_ptr) : MyRectangle(upperLeft, heightAdd, widthAdd, borderApp_ptr, letterColor, backgroundColor, vis_ptr, cur_ptr)
+		{}
 	~PlayingField()
-	{
-		delete rectangleSymbols_ptr;
-	}
-	RectangleSymbols* GetBorderSymbols() const;
+		{}
 	void Shift(Direction shiftDirection, int shiftValue = 1);
 };

@@ -1,20 +1,14 @@
 #pragma once
 #include "PlayingField.h"
 /////////////Visible Map Class/////////////
-class Camera : public GlobalObject
+class Camera : public MyRectangle
 {
-private:
-	RectangleSymbols* borderSymbols_ptr;
 public:
-	Camera(PointCoord upperLeft, int heightAdd, int widthAdd, RectangleSymbols* symbols_ptr) : GlobalObject(upperLeft, heightAdd, widthAdd)
-	{
-		borderSymbols_ptr = symbols_ptr;
-	}
+	Camera(PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* borderApp_ptr, color letterColor, color backgroundColor,
+		Visualisation* vis_ptr, Cursor* cur_ptr) : MyRectangle(upperLeft, heightAdd, widthAdd,  borderApp_ptr, letterColor, backgroundColor, vis_ptr, cur_ptr)
+		{}
 	~Camera()
-	{
-		delete borderSymbols_ptr;
-	}
-	Direction CursorIsOnCameraCheck(Cursor* cursor_ptr);
+		{}
+	Direction CursorIsOnCameraBorder(); // returns shift direction if cursor is on camera border
 	bool IsShift(PlayingField* field_ptr, Direction shiftDirection);
-	RectangleSymbols* GetBorderSymbols() const;
 };

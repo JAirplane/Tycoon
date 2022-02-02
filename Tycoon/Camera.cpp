@@ -1,20 +1,20 @@
 #include "Camera.h"
 ///////////////Camera Class///////////////
-Direction Camera::CursorIsOnCameraCheck(Cursor* cursor_ptr)
+Direction Camera::CursorIsOnCameraBorder()
 {
-	if (cursor_ptr->GetCursorConsoleLocation().Get_x() == GetUpperLeft().Get_x())
+	if (GetCursor()->GetCursorConsoleLocation().Get_x() == GetUpperLeft().Get_x())
 	{
 		return Direction::Right;
 	}
-	if (cursor_ptr->GetCursorConsoleLocation().Get_y() == GetUpperLeft().Get_y())
+	if (GetCursor()->GetCursorConsoleLocation().Get_y() == GetUpperLeft().Get_y())
 	{
 		return Direction::Down;
 	}
-	if (cursor_ptr->GetCursorConsoleLocation().Get_x() == (GetUpperLeft().Get_x() + GetWidthAddition()))
+	if (GetCursor()->GetCursorConsoleLocation().Get_x() == (GetUpperLeft().Get_x() + GetWidthAddition()))
 	{
 		return Direction::Left;
 	}
-	if (cursor_ptr->GetCursorConsoleLocation().Get_y() == (GetUpperLeft().Get_y() + GetHeightAddition()))
+	if (GetCursor()->GetCursorConsoleLocation().Get_y() == (GetUpperLeft().Get_y() + GetHeightAddition()))
 	{
 		return Direction::Up;
 	}
@@ -62,8 +62,4 @@ bool Camera::IsShift(PlayingField* field_ptr, Direction shiftDirection)
 	}
 	default: {return false; }
 	}
-}
-RectangleSymbols* Camera::GetBorderSymbols() const
-{
-	return borderSymbols_ptr;
 }

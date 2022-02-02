@@ -65,8 +65,14 @@ public:
 	virtual color GetRoadForegroundColor() const;
 	virtual color GetRoadBackgroundColor() const;
 	virtual color GetCursorBackgroundColor() const;
-	virtual color GetCameraColor() const;
-	virtual color GetPlayingFieldColor() const;
+	virtual color GetCameraBorderForegroundColor() const;
+	virtual color GetCameraBorderBackgroundColor() const;
+	virtual color GetCameraLetterColor() const;
+	virtual color GetCameraShadingColor() const;
+	virtual color GetPlayingFieldBorderForegroundColor() const;
+	virtual color GetPlayingFieldBorderBackgroundColor() const;
+	virtual color GetPlayingFieldLetterColor() const;
+	virtual color GetPlayingFieldShadingColor() const;
 	virtual color GetInfoPanelBorderForegroundColor() const;
 	virtual color GetInfoPanelBorderBackgroundColor() const;
 	virtual color GetInfoPanelTextColor() const;

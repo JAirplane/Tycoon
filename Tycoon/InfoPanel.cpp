@@ -1,10 +1,61 @@
 #include "InfoPanel.h"
-///////////////InfoScreen Button///////////////
-string InfoScreenButton::GetButtonTitle() const
-{
-	return title;
-}
 ///////////////InfoPanel///////////////
+// create Screens
+void InfoPanel::CreateMenuScreen()
+{
+	RectangleSymbols* menuScreenBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMenuScreenVerticalSymbol(),
+		ConstructionOptions::GetAllOptions()->GetMenuScreenHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuScreenUpperLeftSymbol(),
+		ConstructionOptions::GetAllOptions()->GetMenuScreenUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuScreenBottomLeftSymbol(),
+		ConstructionOptions::GetAllOptions()->GetMenuScreenBottomRightSymbol());
+	color menuScreenBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetMenuScreenBorderForegroundColor();
+	color menuScreenBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetMenuScreenBorderBackgroundColor();
+	BorderAppearance* menuScreenBorder = new BorderAppearance(menuScreenBorderSymbols_ptr, menuScreenBorderForegroundColor, menuScreenBorderBackgroundColor);
+	color menuLetterColor = ConstructionOptions::GetAllOptions()->GetMenuScreenTextColor();
+	color menuShadingColor = ConstructionOptions::GetAllOptions()->GetMenuScreenShadingColor();
+	PointCoord menuScreenUpperLeft = PointCoord(GetUpperLeft().Get_x() + 2, GetUpperLeft().Get_y() + 2);
+	int menuScreenHeightAdd = GetHeightAddition() - 4;
+	int menuScreenWidthAdd = GetWidthAddition() - 4;
+	mainScreen_ptr = new MenuScreen(menuScreenUpperLeft, menuScreenHeightAdd, menuScreenWidthAdd, menuScreenBorder,
+		menuLetterColor, menuShadingColor, GetDrawPointer(), GetCursor());
+	mainScreen_ptr->CreateButtons();
+}
+void InfoPanel::CreateControlsScreen()
+{
+	RectangleSymbols* controlsBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetControlsVerticalSymbol(),
+		ConstructionOptions::GetAllOptions()->GetControlsHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetControlsUpperLeftSymbol(),
+		ConstructionOptions::GetAllOptions()->GetControlsUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetControlsBottomLeftSymbol(),
+		ConstructionOptions::GetAllOptions()->GetControlsBottomRightSymbol());
+	color controlsScreenBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetControlsScreenBorderForegroundColor();
+	color controlsScreenBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetControlsScreenBorderBackgroundColor();
+	BorderAppearance* controlsBorderVisual_ptr = new BorderAppearance(controlsBorderSymbols_ptr, controlsScreenBorderForegroundColor, controlsScreenBorderBackgroundColor);
+	color controlsLetterColor = ConstructionOptions::GetAllOptions()->GetControlsScreenLetterColor();
+	color controlsShadingColor = ConstructionOptions::GetAllOptions()->GetControlsScreenShadingColor();
+	PointCoord controlsScreenUpperLeft = PointCoord(GetUpperLeft().Get_x() + 2, GetUpperLeft().Get_y() + 2);
+	int controlsScreenHeightAdd = GetHeightAddition() - 4;
+	int controlsScreenWidthAdd = GetWidthAddition() - 4;
+	gameControlInfo_ptr = new ControlsScreen(controlsScreenUpperLeft, controlsScreenHeightAdd, controlsScreenWidthAdd,
+		controlsBorderVisual_ptr, controlsLetterColor, controlsShadingColor, GetDrawPointer(), GetCursor());
+	gameControlInfo_ptr->FillControlsDescriptions();
+}
+void InfoPanel::CreateGameMessagesScreen()
+{
+	RectangleSymbols* messagesAndInfoBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMessagesAndInfoVerticalSymbol(),
+		ConstructionOptions::GetAllOptions()->GetMessagesAndInfoHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMessagesAndInfoUpperLeftSymbol(),
+		ConstructionOptions::GetAllOptions()->GetMessagesAndInfoUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMessagesAndInfoBottomLeftSymbol(),
+		ConstructionOptions::GetAllOptions()->GetMessagesAndInfoBottomRightSymbol());
+	color messagesAndInfoScreenBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetMessagesAndInfoScreenBorderForegroundColor();
+	color messagesAndInfoScreenBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetMessagesAndInfoScreenBorderBackgroundColor();
+	BorderAppearance* messagesAndInfoBorderVisual_ptr = new BorderAppearance(messagesAndInfoBorderSymbols_ptr,
+		messagesAndInfoScreenBorderForegroundColor, messagesAndInfoScreenBorderBackgroundColor);
+	color messagesAndInfoLetterColor = ConstructionOptions::GetAllOptions()->GetMessagesAndInfoScreenLetterColor();
+	color messagesAndInfoShadingColor = ConstructionOptions::GetAllOptions()->GetMessagesAndInfoScreenShadingColor();
+	PointCoord messagesAndInfoScreenUpperLeft = PointCoord(GetUpperLeft().Get_x() + 2, GetUpperLeft().Get_y() + 2);
+	int messagesAndInfoScreenHeightAdd = GetHeightAddition() - 4;
+	int messagesAndInfoScreenWidthAdd = GetWidthAddition() - 4;
+	messagesAndInfoScreen_ptr = new GameMessagesScreen(messagesAndInfoScreenUpperLeft, messagesAndInfoScreenHeightAdd, messagesAndInfoScreenWidthAdd,
+		messagesAndInfoBorderVisual_ptr, messagesAndInfoLetterColor, messagesAndInfoShadingColor, GetDrawPointer(), GetCursor());
+}
+//
 void InfoPanel::DrawSplashScreen(color foreground, color background)
 {
 	currentScreen = InfoPanelContentType::SplashScreen;
@@ -59,7 +110,7 @@ void InfoPanel::DisplayMessages()
 		++initialY;
 	}
 }
-void InfoPanel::DrawMenuScreenButton(InfoScreenButton* button_ptr)
+void InfoPanel::DrawMenuScreenButton(Button* button_ptr)
 {
 	button_ptr->DrawBorder();
 	button_ptr->ClearContent();

@@ -1,15 +1,98 @@
 #include "Menu.h"
-/////////////Menu Element Class/////////////
-const MyRectangle* MenuElement::GetIcon() const
-{
-	return icon_ptr;
-}
-const ConstructionManager* MenuElement::GetManager() const
-{
-	return manager_ptr;
-}
 /////////////Side Menu Class/////////////
-MenuStatus Menu::GetCurrentSide()
+//for roads
+ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, unsigned int constructionCost, string description, wstring iconSymbol, color foreground, color background)
+{
+	ConstructionDescriptor* roadDesc_ptr = new RoadDescriptor(menuElementLocation, constructionCost, description, iconSymbol, foreground, background);
+	ConstructionManager* roadManager_ptr = new BuildingManager(GetCursor(), roadDesc_ptr);
+}
+// for buildings
+ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color background,
+	wstring buildingSymbol, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd) 
+{
+	ConstructionDescriptor* buildingDesc_ptr = new BuildingDescriptor(menuElementLocation, constructionCost, description, iconSymbol,
+		foreground, background, buildingSymbol, dailyExpences, constructionHeightAdd, constructionWidthAdd);
+	ConstructionManager* buildingManager_ptr = new BuildingManager(GetCursor(), buildingDesc_ptr);
+}
+// create road element
+void Menu::CreateMenuElement(unsigned int constructionCost, string description, wstring iconSymbol, color foreground, color background)
+{
+	BorderAppearance* elementBorder_ptr = CreateElementBorder();
+	color menuElementLetterColor = ConstructionOptions::GetAllOptions()->GetMenuElementLetterColor();
+	color menuElementShadingColor = ConstructionOptions::GetAllOptions()->GetMenuElementShadingColor();
+	PointCoord elementLocation(0, 0);
+	if (menuItems.empty())
+	{
+		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, GetUpperLeft().Get_y() + 1);
+	}
+	else
+	{
+		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, menuItems.back()->GetUpperLeft().Get_y() + menuItems.back()->GetHeightAddition() + 1);
+	}
+	int elementHeightAdd = ConstructionOptions::GetAllOptions()->GetMenuElementHeightAdd();
+	int elementWidthAdd = GetWidthAddition() - 4;
+	MyRectangle* menuIcon_ptr = CreateIcon(elementLocation);
+	ConstructionManager* manager_ptr = CreateManager(elementLocation, constructionCost, description, iconSymbol, foreground, background);
+	MenuElement* element_ptr = new MenuElement(GetDrawPointer(), GetCursor(), elementLocation, elementHeightAdd, elementWidthAdd, elementBorder_ptr, menuElementLetterColor,
+		menuElementShadingColor, menuIcon_ptr, manager_ptr);
+	menuItems.push_back(element_ptr);
+}
+// create building element
+void Menu::CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color background,
+	wstring buildingSymbol, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
+{
+	BorderAppearance* elementBorder_ptr = CreateElementBorder();
+	color menuElementLetterColor = ConstructionOptions::GetAllOptions()->GetMenuElementLetterColor();
+	color menuElementShadingColor = ConstructionOptions::GetAllOptions()->GetMenuElementShadingColor();
+	PointCoord elementLocation(0, 0);
+	if (menuItems.empty())
+	{
+		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, GetUpperLeft().Get_y() + 1);
+	}
+	else
+	{
+		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, menuItems.back()->GetUpperLeft().Get_y() + menuItems.back()->GetHeightAddition() + 1);
+	}
+	int elementHeightAdd = ConstructionOptions::GetAllOptions()->GetMenuElementHeightAdd();
+	int elementWidthAdd = GetWidthAddition() - 4;
+	MyRectangle* menuIcon_ptr = CreateIcon(elementLocation);
+	ConstructionManager* manager_ptr = CreateManager(elementLocation, constructionCost, description, iconSymbol, foreground, background, buildingSymbol,
+		dailyExpences, constructionHeightAdd, constructionWidthAdd);
+	MenuElement* element_ptr = new MenuElement(GetDrawPointer(), GetCursor(), elementLocation, elementHeightAdd, elementWidthAdd, elementBorder_ptr, menuElementLetterColor,
+		menuElementShadingColor, menuIcon_ptr, manager_ptr);
+	menuItems.push_back(element_ptr);
+}
+BorderAppearance* Menu::CreateElementBorder()
+{
+	RectangleSymbols* elementSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMenuItemVerticalSymbol(),
+		ConstructionOptions::GetAllOptions()->GetMenuItemHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuItemUpperLeftSymbol(),
+		ConstructionOptions::GetAllOptions()->GetMenuItemUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuItemBottomLeftSymbol(),
+		ConstructionOptions::GetAllOptions()->GetMenuItemBottomRightSymbol());
+	color menuElementBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor();
+	color menuElementBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetMenuElementBackgroundColor();
+	BorderAppearance* menuElementBorder_ptr = new BorderAppearance(elementSymbols_ptr, menuElementBorderForegroundColor, menuElementBorderBackgroundColor);
+	return menuElementBorder_ptr;
+}
+MyRectangle* Menu::CreateIcon(PointCoord elementLocation)
+{
+	RectangleSymbols* iconSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMenuIconVerticalSymbol(),
+		ConstructionOptions::GetAllOptions()->GetMenuIconHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuIconUpperLeftSymbol(),
+		ConstructionOptions::GetAllOptions()->GetMenuIconUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuIconBottomLeftSymbol(),
+		ConstructionOptions::GetAllOptions()->GetMenuIconBottomRightSymbol());
+	color menuIconBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetMenuIconForegroundColor();
+	color menuIconBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetMenuIconBackgroundColor();
+	BorderAppearance* menuIconBorder = new BorderAppearance(iconSymbols_ptr, menuIconBorderForegroundColor, menuIconBorderBackgroundColor);
+	color menuIconLetterColor = ConstructionOptions::GetAllOptions()->GetMenuIconLetterColor();
+	color menuIconShadingColor = ConstructionOptions::GetAllOptions()->GetMenuIconShadingColor();
+	//
+	PointCoord firstIconLocation = PointCoord(elementLocation.Get_x() + 1, elementLocation.Get_y() + 1);
+	int iconHeightAdd = ConstructionOptions::GetAllOptions()->GetMenuIconHeightAdd();
+	int iconWidthAdd = ConstructionOptions::GetAllOptions()->GetMenuIconWidthAdd();
+	MyRectangle* menuIcon_ptr = new MyRectangle(firstIconLocation, iconHeightAdd, iconWidthAdd, menuIconBorder,
+		menuIconLetterColor, menuIconShadingColor, GetDrawPointer(), GetCursor());
+	return menuIcon_ptr;
+}
+MenuStatus Menu::GetCurrentSide() const
 {
 	return currentSide;
 }
@@ -21,35 +104,37 @@ void Menu::SetHideMenuStatus(bool hideFlag)
 {
 	hidden = hideFlag;
 }
-Direction Menu::ChangeMenuSide()
+Direction Menu::ChangeMenuSide(Camera* camera_ptr)
 {
-	vector<ConstructionManager*>::iterator iter;
+	vector<MenuElement*>::iterator menuElementIter;
 	Direction shiftDirection;
-	PointCoord upperLeft, menuUpperLeft;
+	PointCoord cameraUpperLeft, menuUpperLeft;
 	if (currentSide == MenuStatus::LEFT)
 	{
 		currentSide = MenuStatus::RIGHT;
-		upperLeft = ConstructionOptions::GetAllOptions()->GetCameraInitialUpperLeft();
-		unsigned int widthAdd = camera_ptr->GetWidthAddition();
-		menuUpperLeft = PointCoord(upperLeft.Get_x() + widthAdd + 1, upperLeft.Get_y());
+		cameraUpperLeft = ConstructionOptions::GetAllOptions()->GetCameraInitialUpperLeft();
+		int cameraWidthAdd = camera_ptr->GetWidthAddition();
+		menuUpperLeft = PointCoord(cameraUpperLeft.Get_x() + cameraWidthAdd + 1, cameraUpperLeft.Get_y());
 		shiftDirection = Direction::Left;
 	}
 	else
 	{
 		currentSide = MenuStatus::LEFT;
 		menuUpperLeft = ConstructionOptions::GetAllOptions()->GetCameraInitialUpperLeft();
-		unsigned int menuWidthAdd = GetWidthAddition();
-		upperLeft = PointCoord(menuUpperLeft.Get_x() + menuWidthAdd + 1, menuUpperLeft.Get_y());
+		int menuWidthAdd = GetWidthAddition();
+		cameraUpperLeft = PointCoord(menuUpperLeft.Get_x() + menuWidthAdd + 1, menuUpperLeft.Get_y());
 		shiftDirection = Direction::Right;
 	}
-	camera_ptr->SetUpperLeft(upperLeft);
+	camera_ptr->SetUpperLeft(cameraUpperLeft);
 	SetUpperLeft(menuUpperLeft);
-	int _x = (GetUpperLeft().Get_x() * 2 + GetWidthAddition()) / 2;
+	int _x = GetUpperLeft().Get_x() + 2;
 	int _y = GetUpperLeft().Get_y() + 1;
-	for (iter = managers.begin(); iter != managers.end(); iter++)
+	for (menuElementIter = menuItems.begin(); menuElementIter != menuItems.end(); menuElementIter++)
 	{
-		(*iter)->SetUpperLeft(PointCoord(_x, _y));
-		_y += ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight();
+		(*menuElementIter)->SetUpperLeft(PointCoord(_x, _y));
+		(*menuElementIter)->GetIcon()->SetUpperLeft(PointCoord(_x + 1, _y + 1));
+		(*menuElementIter)->GetManager()->GetDescriptor()->SetMenuElementLocation(PointCoord(_x, _y));
+		_y += ConstructionOptions::GetAllOptions()->GetMenuElementHeightAdd() + 1;
 	}
 	return shiftDirection;
 }
@@ -59,65 +144,71 @@ void Menu::ShowMenuItems(PointCoord underConstruction)
 	int topY = GetUpperLeft().Get_y();
 	int rightX = GetUpperLeft().Get_x() + GetWidthAddition();
 	int bottomY = GetUpperLeft().Get_x() + GetHeightAddition();
-	vector<ConstructionManager*>::iterator iter;
-	for (iter = managers.begin(); iter != managers.end() && (topY + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight()) < bottomY; iter++)
+	vector<MenuElement*>::iterator menuElementIter;
+	for (menuElementIter = menuItems.begin(); menuElementIter != menuItems.end() && (topY + (*menuElementIter)->GetHeightAddition()) < bottomY; menuElementIter++)
 	{
-		if ((*iter)->GetUpperLeft() == underConstruction)
+		(*menuElementIter)->DrawBorder();
+		(*menuElementIter)->GetIcon()->DrawBorder();
+		(*menuElementIter)->GetDrawPointer()->DrawMenuElementContent((*menuElementIter)->GetIcon()->GetUpperLeft().Get_x() + 1,
+			(*menuElementIter)->GetIcon()->GetUpperLeft().Get_y() + 1, (*menuElementIter)->GetManager()->GetDescriptor()->GetConstructionCost(),
+			(*menuElementIter)->GetManager()->GetDescriptor()->GetDailyExpences(), (*menuElementIter)->GetManager()->GetDescriptor()->GetIconSymbol(),
+			(*menuElementIter)->GetManager()->GetDescriptor()->GetDescription(), (*menuElementIter)->GetManager()->GetDescriptor()->GetForegroundColor(),
+			(*menuElementIter)->GetManager()->GetDescriptor()->GetBackgroundColor());
+		topY += (*menuElementIter)->GetHeightAddition() + 1;
+	}
+	GetCursor()->CursorMovement(GetCursor()->GetCursorConsoleLocation());
+}
+MenuElement* Menu::GetUpperVisibleMenuElement() const
+{
+	vector<MenuElement*>::const_iterator menuElementIter;
+	for (menuElementIter = menuItems.begin(); menuElementIter != menuItems.end(); menuElementIter++)
+	{
+		if ((*menuElementIter)->GetUpperLeft().Get_y() > GetUpperLeft().Get_y())
 		{
-			draw_ptr->DrawRectangle(leftX + 2, topY + 1, rightX - 2, topY + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight(),
-				itemBorderSymbols_ptr->GetVerticalSymbol(), itemBorderSymbols_ptr->GetHorizontalSymbol(), itemBorderSymbols_ptr->GetUpperLeftSymbol(),
-				itemBorderSymbols_ptr->GetUpperRightSymbol(), itemBorderSymbols_ptr->GetBottomLeftSymbol(), itemBorderSymbols_ptr->GetBottomRightSymbol(),
-				ConstructionOptions::GetAllOptions()->GetMenuItemUnderConstructionColor());
+			return (*menuElementIter);
+		}
+	}
+}
+//this method returns next upper/lower menu element before/after "currentIcon" coord
+MenuElement* Menu::GetNextMenuElement(PointCoord currentElement, IconsPosition upperOrLower) const
+{
+	MenuElement* nearest = nullptr;
+	if (upperOrLower == IconsPosition::UPPER)
+	{
+		if (menuItems.front()->GetUpperLeft().Get_y() < currentElement.Get_y())
+		{
+			nearest = menuItems.front();
 		}
 		else
 		{
-			draw_ptr->DrawRectangle(leftX + 2, topY + 1, rightX - 2, topY + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight(),
-				itemBorderSymbols_ptr->GetVerticalSymbol(), itemBorderSymbols_ptr->GetHorizontalSymbol(), itemBorderSymbols_ptr->GetUpperLeftSymbol(),
-				itemBorderSymbols_ptr->GetUpperRightSymbol(), itemBorderSymbols_ptr->GetBottomLeftSymbol(), itemBorderSymbols_ptr->GetBottomRightSymbol(),
-				ConstructionOptions::GetAllOptions()->GetMenuItemInactiveColor());
+			return nearest;
 		}
-		draw_ptr->DrawIcon(leftX + 3, topY + 2, iconBorderSymbols_ptr->GetVerticalSymbol(), iconBorderSymbols_ptr->GetHorizontalSymbol(),
-			iconBorderSymbols_ptr->GetUpperLeftSymbol(), iconBorderSymbols_ptr->GetUpperRightSymbol(), iconBorderSymbols_ptr->GetBottomLeftSymbol(),
-			iconBorderSymbols_ptr->GetBottomRightSymbol(), (*iter)->GetDescriptor()->GetConstructionCost(), (*iter)->GetDescriptor()->GetDailyExpences(), (*iter)->GetDescriptor()->GetIconSymbol(),
-			(*iter)->GetDescriptor()->GetDescription(), (*iter)->GetDescriptor()->GetForegroundColor(), (*iter)->GetDescriptor()->GetBackgroundColor(), ConstructionOptions::GetAllOptions()->GetMenuIconColor());
-		topY += ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight();
-	}
-	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
-}
-void Menu::ShowMenuBorders()
-{
-	int leftX = GetUpperLeft().Get_x();
-	int topY = GetUpperLeft().Get_y();
-	int rightX = GetUpperLeft().Get_x() + ConstructionOptions::GetAllOptions()->GetMenuWidthAdd();
-	int bottomY = GetUpperLeft().Get_y() + ConstructionOptions::GetAllOptions()->GetMenuHeightAdd();
-	draw_ptr->DrawRectangle(leftX, topY, rightX, bottomY, menuBorderSymbols_ptr->GetVerticalSymbol(), menuBorderSymbols_ptr->GetHorizontalSymbol(),
-		menuBorderSymbols_ptr->GetUpperLeftSymbol(), menuBorderSymbols_ptr->GetUpperRightSymbol(), menuBorderSymbols_ptr->GetBottomLeftSymbol(),
-		menuBorderSymbols_ptr->GetBottomRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuColor());
-	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
-}
-PointCoord Menu::GetNearestIconCoords(PointCoord currentIcon, IconsPosition ip) //this method returns next upper/lower Icon's coords before/after "currentIcon" coord
-{
-	vector<ConstructionManager*>::iterator iter;
-	if (ip == IconsPosition::UPPER)
-	{
-		PointCoord nearest(currentIcon.Get_x(), currentIcon.Get_y() - 1000);
-		for (iter = managers.begin(); iter != managers.end(); iter++)
+		vector<MenuElement*>::const_iterator menuElementIter;
+		for (menuElementIter = menuItems.begin(); menuElementIter != menuItems.end(); menuElementIter++)
 		{
-			if ((*iter)->GetUpperLeft().Get_y() < currentIcon.Get_y() && (*iter)->GetUpperLeft().Get_y() > nearest.Get_y())
+			if ((*menuElementIter)->GetUpperLeft().Get_y() < currentElement.Get_y() && (*menuElementIter)->GetUpperLeft().Get_y() > nearest->GetUpperLeft().Get_y())
 			{
-				nearest = (*iter)->GetUpperLeft();
+				nearest = *menuElementIter;
 			}
 		}
 		return nearest;
 	}
 	else
 	{
-		PointCoord nearest(currentIcon.Get_x(), currentIcon.Get_y() + 1000);
-		for (iter = managers.begin(); iter != managers.end(); iter++)
+		if (menuItems.back()->GetUpperLeft().Get_y() > currentElement.Get_y())
 		{
-			if ((*iter)->GetUpperLeft().Get_y() > currentIcon.Get_y() && (*iter)->GetUpperLeft().Get_y() < nearest.Get_y())
+			nearest = menuItems.back();
+		}
+		else
+		{
+			return nearest;
+		}
+		vector<MenuElement*>::const_reverse_iterator menuElementRIter;
+		for (menuElementRIter = menuItems.rbegin(); menuElementRIter != menuItems.rend(); menuElementRIter++)
+		{
+			if ((*menuElementRIter)->GetUpperLeft().Get_y() > currentElement.Get_y() && (*menuElementRIter)->GetUpperLeft().Get_y() < nearest->GetUpperLeft().Get_y())
 			{
-				nearest = (*iter)->GetUpperLeft();
+				nearest = *menuElementRIter;
 			}
 		}
 		return nearest;
@@ -212,16 +303,4 @@ ConstructionManager* Menu::GetManager(ConstructionDescriptor* cd_ptr) const
 		}
 	}
 	return nullptr;
-}
-RectangleSymbols* Menu::GetMenuSymbols() const
-{
-	return menuBorderSymbols_ptr;
-}
-RectangleSymbols* Menu::GetItemSymbols() const
-{
-	return itemBorderSymbols_ptr;
-}
-RectangleSymbols* Menu::GetIconSymbols() const
-{
-	return iconBorderSymbols_ptr;
 }

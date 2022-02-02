@@ -8,7 +8,14 @@ using namespace std;
 int main()
 {
 	GameManagement GameMaster;
-	GameMaster.CreateManagers();
+	GameMaster.CreateCursor();
+	GameMaster.CreateDrawPointer();
+	GameMaster.CreateAllObjects();
+	GameMaster.CreateCamera();
+	GameMaster.CreatePlayingField();
+	GameMaster.CreateMenuAndElements();
+	GameMaster.CreateInfoPanel();
+	//
 	GameMaster.DisplayCamera();
 	GameMaster.DisplayMenu();
 	GameMaster.DisplayInfoPanel();

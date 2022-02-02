@@ -235,18 +235,16 @@ void Visualisation::EraseConstruction(int leftX, int topY, int rightX, int botto
 		}
 	}
 }
-void Visualisation::DrawIcon(int leftX, int topY, wstring vertical, wstring horizontal, wstring upperLeft, wstring upperRight, wstring bottomLeft,
-	wstring bottomRight, int constructionCost, int dailySpend, const wstring iconSymbol, string description, color foregroundIcon, color backgroundIcon,
-	color foregroundBorder, color backgroundBorder) //icon border
+void Visualisation::DrawMenuElementContent(int leftX, int topY, int constructionCost, int dailySpend, const wstring iconSymbol,
+	string description, color foregroundIcon, color backgroundIcon) //icon border
 {
-	DrawRectangle(leftX, topY, leftX + 3, topY + 3, vertical, horizontal, upperLeft, upperRight, bottomLeft, bottomRight, foregroundBorder, backgroundBorder);
-	DrawConstruction(leftX + 1, topY + 1, leftX + 2, topY + 2, iconSymbol, foregroundIcon, backgroundIcon);
-	set_cursor_pos(leftX + 4, topY);
+	DrawConstruction(leftX, topY, leftX + 1, topY + 1, iconSymbol, foregroundIcon, backgroundIcon);
+	set_cursor_pos(leftX + 3, topY);
 	set_color(cLIGHT_GRAY);
 	cout << description;
-	set_cursor_pos(leftX + 4, topY + 1);
+	set_cursor_pos(leftX + 3, topY + 1);
 	cout << "Construction Cost: " << constructionCost;
-	set_cursor_pos(leftX + 4, topY + 2);
+	set_cursor_pos(leftX + 3, topY + 2);
 	if (dailySpend != 0)
 	{
 		cout << "Service will cost you " << dailySpend << " per day.";

@@ -37,11 +37,11 @@ wstring ConstructionDescriptor::GetConstructionSymbol(int mask)
 	wstring empty = L"0";
 	return empty;
 }
-PointCoord ConstructionDescriptor::GetManagerLocation() const
+PointCoord ConstructionDescriptor::GetMenuElementLocation() const
 {
-	return ManagerLocation;
+	return menuElementLocation;
 }
-void ConstructionDescriptor::SetManagerLocation(PointCoord mLocation)
+void ConstructionDescriptor::SetMenuElementLocation(PointCoord Location)
 {
-	ManagerLocation = mLocation;
+	menuElementLocation = Location;
 }

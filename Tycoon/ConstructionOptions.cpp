@@ -176,13 +176,37 @@ color ConstructionOptions::GetCursorBackgroundColor() const
 {
 	return color::cYELLOW;
 }
-color ConstructionOptions::GetCameraColor() const
+color ConstructionOptions::GetCameraBorderForegroundColor() const
 {
 	return color::cBLUE;
 }
-color ConstructionOptions::GetPlayingFieldColor() const
+color ConstructionOptions::GetCameraBorderBackgroundColor() const
+{
+	return cBLACK;
+}
+color ConstructionOptions::GetCameraLetterColor() const
+{
+	return cWHITE;
+}
+color ConstructionOptions::GetCameraShadingColor() const
+{
+	return cBLACK;
+}
+color ConstructionOptions::GetPlayingFieldBorderForegroundColor() const
 {
 	return color::cDARK_GRAY;
+}
+color ConstructionOptions::GetPlayingFieldBorderBackgroundColor() const
+{
+	return cBLACK;
+}
+color ConstructionOptions::GetPlayingFieldLetterColor() const
+{
+	return cWHITE;
+}
+color ConstructionOptions::GetPlayingFieldShadingColor() const
+{
+	return cBLACK;
 }
 color ConstructionOptions::GetInfoPanelBorderForegroundColor() const
 {

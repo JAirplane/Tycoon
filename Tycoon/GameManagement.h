@@ -4,56 +4,23 @@
 class GameManagement
 {
 private:
-	Camera* camera_ptr;
 	Cursor* cursor_ptr;
-	PlayingField* field_ptr;
 	Visualisation* draw_ptr;
 	AllObjects* allObjects_ptr;
+	Camera* camera_ptr;
+	PlayingField* field_ptr;
 	Menu* menu_ptr;
 	InfoPanel* infoPanel_ptr;
 public:
 	GameManagement()
 	{
-		cursor_ptr = new Cursor();
-		RectangleSymbols* cameraSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetCameraVerticalSymbol(),
-			ConstructionOptions::GetAllOptions()->GetCameraHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetCameraUpperLeftSymbol(),
-			ConstructionOptions::GetAllOptions()->GetCameraUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetCameraBottomLeftSymbol(),
-			ConstructionOptions::GetAllOptions()->GetCameraBottomRightSymbol());
-		camera_ptr = new Camera(ConstructionOptions::GetAllOptions()->GetCameraInitialUpperLeft(), ConstructionOptions::GetAllOptions()->GetCameraHeightAdd(),
-			ConstructionOptions::GetAllOptions()->GetCameraWidthAdd(), cameraSymbols_ptr);
-		RectangleSymbols* playingFieldSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetVerticalPlayingField(),
-			ConstructionOptions::GetAllOptions()->GetHorizontalPlayingField(), ConstructionOptions::GetAllOptions()->GetUpperLeftPlayingField(),
-			ConstructionOptions::GetAllOptions()->GetUpperRightPlayingField(), ConstructionOptions::GetAllOptions()->GetBottomLeftPlayingField(),
-			ConstructionOptions::GetAllOptions()->GetBottomRightPlayingField());
-		field_ptr = new PlayingField(ConstructionOptions::GetAllOptions()->GetPlayingFieldUpperLeft(), ConstructionOptions::GetAllOptions()->GetPlayingFieldHeightAdd(),
-			ConstructionOptions::GetAllOptions()->GetPlayingFieldWidthAdd(), playingFieldSymbols_ptr);
-		draw_ptr = new Visualisation();
-		allObjects_ptr = new AllObjects(cursor_ptr, draw_ptr);
-		//Menu initialisation
-		PointCoord menuUpperLeft(camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition() + 1, camera_ptr->GetUpperLeft().Get_y());
-		RectangleSymbols* menuSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMenuVerticalSymbol(),
-			ConstructionOptions::GetAllOptions()->GetMenuHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuUpperLeftSymbol(),
-			ConstructionOptions::GetAllOptions()->GetMenuUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuBottomLeftSymbol(),
-			ConstructionOptions::GetAllOptions()->GetMenuBottomRightSymbol());
-		color menuBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetMenuBorderForegroundColor();
-		color menuBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetMenuBorderBackgroundColor();
-		BorderAppearance* menuBorder = new BorderAppearance(menuSymbols_ptr, menuBorderForegroundColor, menuBorderBackgroundColor);
-		color menuLetterColor = ConstructionOptions::GetAllOptions()->GetMenuLetterColor();
-		color menuShadingColor = ConstructionOptions::GetAllOptions()->GetMenuShadingColor();
-		menu_ptr = new Menu(draw_ptr, camera_ptr, cursor_ptr, menuUpperLeft, ConstructionOptions::GetAllOptions()->GetMenuHeightAdd(),
-			ConstructionOptions::GetAllOptions()->GetMenuWidthAdd(), menuBorder, menuLetterColor, menuShadingColor);
-		//InfoPanel initialisation
-		RectangleSymbols* infoPanelBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetInfoPanelVerticalSymbol(),
-			ConstructionOptions::GetAllOptions()->GetInfoPanelHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetInfoPanelUpperLeftSymbol(),
-			ConstructionOptions::GetAllOptions()->GetInfoPanelUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetInfoPanelBottomLeftSymbol(),
-			ConstructionOptions::GetAllOptions()->GetInfoPanelBottomRightSymbol());
-		color borderForegroundColor = ConstructionOptions::GetAllOptions()->GetInfoPanelBorderForegroundColor();
-		color borderBackgroundColor = ConstructionOptions::GetAllOptions()->GetInfoPanelBorderBackgroundColor();
-		BorderAppearance* externalBorder = new BorderAppearance(infoPanelBorderSymbols_ptr, borderForegroundColor, borderBackgroundColor);
-		color letterColor = ConstructionOptions::GetAllOptions()->GetInfoPanelTextColor();
-		color shadingColor = ConstructionOptions::GetAllOptions()->GetInfoPanelShadingColor();
-		infoPanel_ptr = new InfoPanel(ConstructionOptions::GetAllOptions()->GetInfoPanelUpperLeft(), ConstructionOptions::GetAllOptions()->GetInfoPanelHeightAdd(), 
-			ConstructionOptions::GetAllOptions()->GetInfoPanelWidthAdd(), externalBorder, letterColor, shadingColor, draw_ptr, cursor_ptr);
+		cursor_ptr = nullptr;
+		draw_ptr = nullptr;
+		allObjects_ptr = nullptr;
+		camera_ptr = nullptr;
+		field_ptr = nullptr;
+		menu_ptr = nullptr;
+		infoPanel_ptr = nullptr;
 	}
 	~GameManagement()
 	{
@@ -65,6 +32,15 @@ public:
 		delete field_ptr;
 		delete infoPanel_ptr;
 	}
+	// create game elements
+	virtual void CreateCursor();
+	virtual void CreateDrawPointer();
+	virtual void CreateAllObjects();
+	virtual void CreateCamera();
+	virtual void CreatePlayingField();
+	virtual void CreateMenuAndElements();
+	virtual void CreateInfoPanel();
+	//
 	void DisplayCamera();
 	void DisplayMenu();
 	void DisplayPlayingField();
@@ -76,7 +52,6 @@ public:
 	void DisplayAllObjects();
 	void GameProcess();
 	void UserActions(int key);
-	virtual void CreateManagers();
 	void H_Key();
 	void S_Key();
 	void R_Key();

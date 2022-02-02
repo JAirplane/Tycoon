@@ -17,6 +17,14 @@ public:
 		textColor = letterColor;
 		shadingColor = backgroundColor;
 	}
+	MyRectangle()
+	{
+		draw_ptr = nullptr;
+		cursor_ptr = nullptr;
+		border_ptr = nullptr;
+		textColor = cBLACK;
+		shadingColor = cBLACK;
+	}
 	~MyRectangle()
 	{
 		delete border_ptr;

@@ -10,6 +10,12 @@ private:
 public:
 	GlobalObject(PointCoord upperLeft, int heightAdd = 0, int widthAdd = 0) : upperLeft(upperLeft), heightAddition(heightAdd), widthAddition(widthAdd)
 	{}
+	GlobalObject()
+	{
+		upperLeft = PointCoord(0, 0);
+		heightAddition = 0;
+		widthAddition = 0;
+	}
 	~GlobalObject()
 	{}
 	PointCoord GetUpperLeft() const;
