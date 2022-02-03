@@ -10,5 +10,9 @@ public:
 		{}
 	~GameMessagesScreen()
 		{}
-
+	void AddMessage(const string);
+	void DeleteMessage();
+	void DisplayMessage(int initialX, int initialY, string message, color letterColor, color background = cBLACK);
+	void DeleteOldMessages();
+	void DisplayMessages();
 };

@@ -18,4 +18,7 @@ public:
 		delete controlsButton_ptr;
 	}
 	virtual void CreateButtons();
+	Button* GetMessagesButton() const;
+	Button* GetControlsButton() const;
+	void DrawMenuScreenButton(Button* button_ptr);
 };

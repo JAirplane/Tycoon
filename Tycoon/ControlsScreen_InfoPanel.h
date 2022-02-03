@@ -11,4 +11,5 @@ public:
 	~ControlsScreen()
 		{}
 	virtual void FillControlsDescriptions();
+	void DisplayControls();
 };

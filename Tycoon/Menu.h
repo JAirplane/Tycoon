@@ -37,13 +37,11 @@ public:
 	bool GetHideMenuStatus() const;
 	void SetHideMenuStatus(bool hideFlag);
 	Direction ChangeMenuSide(Camera* camera_ptr);
-	void ShowMenuItems(PointCoord underConstruction = PointCoord(0, 0));
+	void ShowMenuItems();
 	MenuElement* GetUpperVisibleMenuElement() const;
-	MenuElement* GetNextMenuElement(PointCoord currentElement, IconsPosition upperOrLower) const;
-	void IconsShift(IconsPosition ip);
-	Construction* CreatePreliminaryObject(PointCoord iconPosition, AllObjects* allObjects_ptr) const;
-	PointCoord MenuNavigation(PointCoord currentIcon, IconsPosition ip);
+	MenuElement* GetNextMenuElement(MenuElement* currentElement, IconsPosition upperOrLower) const;
+	void MenuElementsShift(IconsPosition upperOrLower);
+	Construction* CreatePreliminaryObject(AllObjects* allObjects_ptr, Camera* camera_ptr) const;
+	MenuElement* MenuNavigation(MenuElement* currentElement, IconsPosition upperOrLower);
 	void EraseMenu();
-	void AddManager(ConstructionManager* manager_ptr);
-	ConstructionManager* GetManager(ConstructionDescriptor* cd_ptr) const;
 };

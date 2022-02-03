@@ -29,12 +29,6 @@ public:
 	virtual void CreateGameMessagesScreen();
 	//
 	void DrawSplashScreen(color foreground, color background);
-	void AddMessage(const string);
-	void DeleteMessage();
-	void DisplayMessage(int initialX, int initialY, string message, color letterColor, color background = cBLACK);
-	void DeleteOldMessages();
-	void DisplayMessages();
-	void DrawMenuScreenButton(Button* button_ptr);
 	void DrawMenuScreen();
 	void ShowControls();
 	void SwitchContent(InfoPanelContentType choosenContent);
