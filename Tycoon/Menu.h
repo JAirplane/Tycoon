@@ -26,7 +26,7 @@ public:
 		}
 	}
 	// create road element
-	void CreateMenuElement(unsigned int constructionCost, string description, wstring iconSymbol, color foreground, color background);
+	void CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color background);
 	// create building element
 	void CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color background,
 		wstring buildingSymbol, int dailyExpences = 0, int constructionheightAdd = 0, int constructionwidthAdd = 0);
@@ -38,10 +38,10 @@ public:
 	void SetHideMenuStatus(bool hideFlag);
 	Direction ChangeMenuSide(Camera* camera_ptr);
 	void ShowMenuItems();
+	MenuElement* GetMenuElement(int yCoord) const;
 	MenuElement* GetUpperVisibleMenuElement() const;
 	MenuElement* GetNextMenuElement(MenuElement* currentElement, IconsPosition upperOrLower) const;
 	void MenuElementsShift(IconsPosition upperOrLower);
 	Construction* CreatePreliminaryObject(AllObjects* allObjects_ptr, Camera* camera_ptr) const;
 	MenuElement* MenuNavigation(MenuElement* currentElement, IconsPosition upperOrLower);
-	void EraseMenu();
 };

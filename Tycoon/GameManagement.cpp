@@ -53,7 +53,7 @@ void GameManagement::CreateMenuAndElements()
 	BorderAppearance* menuBorder = new BorderAppearance(menuSymbols_ptr, menuBorderForegroundColor, menuBorderBackgroundColor);
 	color menuLetterColor = ConstructionOptions::GetAllOptions()->GetMenuLetterColor();
 	color menuShadingColor = ConstructionOptions::GetAllOptions()->GetMenuShadingColor();
-	menu_ptr = new Menu(draw_ptr, camera_ptr, cursor_ptr, menuUpperLeft, ConstructionOptions::GetAllOptions()->GetMenuHeightAdd(),
+	menu_ptr = new Menu(draw_ptr, cursor_ptr, menuUpperLeft, ConstructionOptions::GetAllOptions()->GetMenuHeightAdd(),
 		ConstructionOptions::GetAllOptions()->GetMenuWidthAdd(), menuBorder, menuLetterColor, menuShadingColor);
 	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetIceCreamShopCost(),
 		ConstructionOptions::GetAllOptions()->GetIceCreamShopDescription(), ConstructionOptions::GetAllOptions()->GetIceCreamShopIconSymbol(),
@@ -84,13 +84,8 @@ void GameManagement::CreateInfoPanel()
 //
 void GameManagement::DisplayMenu()
 {
-	menu_ptr->ShowMenuBorders();
-	PointCoord underConstruction(0, 0);
-	if (allObjects_ptr->GetPreliminaryElement() != nullptr)
-	{
-		underConstruction = allObjects_ptr->GetPreliminaryElement()->GetDescriptor()->GetManagerLocation();
-	}
-	menu_ptr->ShowMenuItems(underConstruction);
+	menu_ptr->DrawBorder();
+	menu_ptr->ShowMenuItems();
 	color cursorBackgroundColor = ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor();
 	if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr))
 	{
@@ -99,7 +94,8 @@ void GameManagement::DisplayMenu()
 }
 void GameManagement::HideMenu()
 {
-	menu_ptr->EraseMenu();
+	menu_ptr->ClearContent();
+	menu_ptr->EraseBorder();
 	if (cursor_ptr->GetCursorConsoleLocation().Get_x() < camera_ptr->GetUpperLeft().Get_x() ||
 		cursor_ptr->GetCursorConsoleLocation().Get_x() > camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition() ||
 		cursor_ptr->GetCursorConsoleLocation().Get_y() < camera_ptr->GetUpperLeft().Get_y() ||
@@ -142,9 +138,7 @@ void GameManagement::DisplayCamera()
 	int topY = camera_ptr->GetUpperLeft().Get_y();
 	int rightX = leftX + camera_ptr->GetWidthAddition();
 	int bottomY = topY + camera_ptr->GetHeightAddition();
-	draw_ptr->DrawRectangle(leftX, topY, rightX, bottomY, camera_ptr->GetBorderSymbols()->GetVerticalSymbol(), camera_ptr->GetBorderSymbols()->GetHorizontalSymbol(),
-		camera_ptr->GetBorderSymbols()->GetUpperLeftSymbol(), camera_ptr->GetBorderSymbols()->GetUpperRightSymbol(), camera_ptr->GetBorderSymbols()->GetBottomLeftSymbol(),
-		camera_ptr->GetBorderSymbols()->GetBottomRightSymbol(), ConstructionOptions::GetAllOptions()->GetCameraColor());
+	camera_ptr->DrawBorder();
 	cursor_ptr->CursorMovement(PointCoord((leftX + rightX) / 2, (topY + bottomY) / 2));
 }
 void GameManagement::DisplayPlayingField()
@@ -157,9 +151,11 @@ void GameManagement::DisplayPlayingField()
 	int topY = field_ptr->GetUpperLeft().Get_y();
 	int rightX = leftX + field_ptr->GetWidthAddition();
 	int bottomY = topY + field_ptr->GetHeightAddition();
-	draw_ptr->DrawPartOfRectangle(cameraLeftX, cameraTopY, cameraRightX, cameraBottomY, leftX, topY, rightX, bottomY, field_ptr->GetBorderSymbols()->GetVerticalSymbol(), field_ptr->GetBorderSymbols()->GetHorizontalSymbol(),
-		field_ptr->GetBorderSymbols()->GetUpperLeftSymbol(), field_ptr->GetBorderSymbols()->GetUpperRightSymbol(), field_ptr->GetBorderSymbols()->GetBottomLeftSymbol(), field_ptr->GetBorderSymbols()->GetBottomRightSymbol(),
-		ConstructionOptions::GetAllOptions()->GetPlayingFieldColor());
+	draw_ptr->DrawPartOfRectangle(cameraLeftX, cameraTopY, cameraRightX, cameraBottomY, leftX, topY, rightX, bottomY,
+		field_ptr->GetBorder()->GetBorderSymbols()->GetVerticalSymbol(), field_ptr->GetBorder()->GetBorderSymbols()->GetHorizontalSymbol(),
+		field_ptr->GetBorder()->GetBorderSymbols()->GetUpperLeftSymbol(), field_ptr->GetBorder()->GetBorderSymbols()->GetUpperRightSymbol(),
+		field_ptr->GetBorder()->GetBorderSymbols()->GetBottomLeftSymbol(), field_ptr->GetBorder()->GetBorderSymbols()->GetBottomRightSymbol(),
+		ConstructionOptions::GetAllOptions()->GetPlayingFieldBorderForegroundColor());
 	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }
 void GameManagement::ErasePlayingField()
@@ -191,7 +187,7 @@ void GameManagement::GameProcess()
 				//cout << key;
 				UserActions(key);
 			}
-			Direction shiftDirection = camera_ptr->CursorIsOnCameraBorder(cursor_ptr);
+			Direction shiftDirection = camera_ptr->CursorIsOnCameraBorder();
 			bool shifting = camera_ptr->IsShift(field_ptr, shiftDirection);
 			if (shiftDirection != Direction::None)
 			{
@@ -217,7 +213,7 @@ void GameManagement::GameProcess()
 		}
 		catch (const MyException& error)
 		{
-			infoPanel_ptr->AddMessage(error.what());
+			infoPanel_ptr->GetMessagesScreen()->AddMessage(error.what());
 		}
 	}
 }
@@ -246,7 +242,7 @@ void GameManagement::H_Key()
 void GameManagement::S_Key()
 {
 	allObjects_ptr->ErasePreliminaryElement();
-	Direction shiftDirection = menu_ptr->ChangeMenuSide();
+	Direction shiftDirection = menu_ptr->ChangeMenuSide(camera_ptr);
 	allObjects_ptr->ShiftBuildings(shiftDirection, menu_ptr->GetWidthAddition());
 	allObjects_ptr->ShiftRoads(shiftDirection, menu_ptr->GetWidthAddition());
 	allObjects_ptr->ShiftVisitors(shiftDirection, menu_ptr->GetWidthAddition());
@@ -338,31 +334,23 @@ void GameManagement::TabKey_Playingfield()
 				preliminary_ptr->GetUpperLeft().Get_x() + preliminary_ptr->GetHeightAddition(),
 				preliminary_ptr->GetUpperLeft().Get_y() + preliminary_ptr->GetWidthAddition());
 		}
-		draw_ptr->DrawRectangle(leftX + 2, preliminary_ptr->GetDescriptor()->GetManagerLocation().Get_y(), rightX - 2,
-			preliminary_ptr->GetDescriptor()->GetManagerLocation().Get_y() + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight() - 1,
-			menu_ptr->GetItemSymbols()->GetVerticalSymbol(), menu_ptr->GetItemSymbols()->GetHorizontalSymbol(), menu_ptr->GetItemSymbols()->GetUpperLeftSymbol(),
-			menu_ptr->GetItemSymbols()->GetUpperRightSymbol(), menu_ptr->GetItemSymbols()->GetBottomLeftSymbol(), menu_ptr->GetItemSymbols()->GetBottomRightSymbol(),
-			ConstructionOptions::GetAllOptions()->GetMenuItemInactiveColor());	//draw external menu icon bordres
+		MenuElement* elementOfPreliminary = menu_ptr->GetMenuElement(preliminary_ptr->GetDescriptor()->GetMenuElementLocation().Get_y());
+		elementOfPreliminary->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor());
+		elementOfPreliminary->DrawBorder();
 		PointCoord preliminaryElementNeibourRedraw = preliminary_ptr->GetRedrawNeiboursPoint();
 		allObjects_ptr->ErasePreliminaryElement();
 		Construction::RedrawNeibours(preliminaryElementNeibourRedraw, allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), allObjects_ptr->GetPreliminaryElement());
 	}
-	PointCoord upperVisibleItem = menu_ptr->GetNearestIconCoords(PointCoord(0, 0), IconsPosition::LOWER);
-	draw_ptr->DrawRectangle(leftX + 2, upperVisibleItem.Get_y(), rightX - 2, upperVisibleItem.Get_y() + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight() - 1,
-		menu_ptr->GetItemSymbols()->GetVerticalSymbol(), menu_ptr->GetItemSymbols()->GetHorizontalSymbol(), menu_ptr->GetItemSymbols()->GetUpperLeftSymbol(),
-		menu_ptr->GetItemSymbols()->GetUpperRightSymbol(), menu_ptr->GetItemSymbols()->GetBottomLeftSymbol(), menu_ptr->GetItemSymbols()->GetBottomRightSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMenuItemActiveColor());	//draw external menu icon bordres
-	cursor_ptr->CursorMovement(upperVisibleItem);
+	MenuElement* upperVisibleElement = menu_ptr->GetUpperVisibleMenuElement();
+	upperVisibleElement->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementActiveColor());
+	upperVisibleElement->DrawBorder();
+	cursor_ptr->CursorMovement(PointCoord(upperVisibleElement->GetUpperLeft().Get_x() + upperVisibleElement->GetWidthAddition() / 2, upperVisibleElement->GetUpperLeft().Get_y()));
 }
 void GameManagement::TabKey_Menu()
 {
-	int MenuLeftX = menu_ptr->GetUpperLeft().Get_x();
-	int MenuRightX = menu_ptr->GetUpperLeft().Get_x() + menu_ptr->GetWidthAddition();
-	draw_ptr->DrawRectangle(MenuLeftX + 2, cursor_ptr->GetCursorConsoleLocation().Get_y(), MenuRightX - 2,
-		cursor_ptr->GetCursorConsoleLocation().Get_y() + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight() - 1,
-		menu_ptr->GetItemSymbols()->GetVerticalSymbol(), menu_ptr->GetItemSymbols()->GetHorizontalSymbol(), menu_ptr->GetItemSymbols()->GetUpperLeftSymbol(),
-		menu_ptr->GetItemSymbols()->GetUpperRightSymbol(), menu_ptr->GetItemSymbols()->GetBottomLeftSymbol(), menu_ptr->GetItemSymbols()->GetBottomRightSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMenuItemInactiveColor());
+	MenuElement* currentElement = menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y());
+	currentElement->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor());
+	currentElement->DrawBorder();
 	cursor_ptr->CursorMovement(PointCoord(camera_ptr->GetUpperLeft().Get_x() + (camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition()) / 2,
 		camera_ptr->GetUpperLeft().Get_y() + (camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition()) / 2));
 	if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr))
@@ -377,8 +365,8 @@ void GameManagement::EnterKey_PlayingField()
 	Construction* preliminary_ptr = allObjects_ptr->GetPreliminaryElement();
 	if (preliminary_ptr != nullptr && !allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
 	{
-		ConstructionDescriptor* cd_ptr = preliminary_ptr->GetDescriptor();
-		Construction* realObject_ptr = menu_ptr->GetManager(cd_ptr)->CreateConstruction(cursor_ptr->GetCursorConsoleLocation(), draw_ptr, allObjects_ptr);
+		MenuElement* elementOfPreliminary = menu_ptr->GetMenuElement(preliminary_ptr->GetDescriptor()->GetMenuElementLocation().Get_y());
+		Construction* realObject_ptr = elementOfPreliminary->GetManager()->CreateConstruction(cursor_ptr->GetCursorConsoleLocation(), draw_ptr, allObjects_ptr);
 		int mask = realObject_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
 		realObject_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), nullptr);
 		realObject_ptr->ConnectedToRoad(allObjects_ptr->GetAllRoads(), preliminary_ptr);
@@ -399,14 +387,10 @@ void GameManagement::EnterKey_PlayingField()
 }
 void GameManagement::EnterKey_Menu()
 {
-	int menuLeftX = menu_ptr->GetUpperLeft().Get_x();
-	int menuRightX = menu_ptr->GetUpperLeft().Get_x() + menu_ptr->GetWidthAddition();
-	Construction* preliminary_ptr = menu_ptr->CreatePreliminaryObject(cursor_ptr->GetCursorConsoleLocation(), allObjects_ptr);
-	draw_ptr->DrawRectangle(menuLeftX + 2, preliminary_ptr->GetDescriptor()->GetManagerLocation().Get_y(), menuRightX - 2,
-		preliminary_ptr->GetDescriptor()->GetManagerLocation().Get_y() + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight() - 1,
-		menu_ptr->GetItemSymbols()->GetVerticalSymbol(), menu_ptr->GetItemSymbols()->GetHorizontalSymbol(), menu_ptr->GetItemSymbols()->GetUpperLeftSymbol(),
-		menu_ptr->GetItemSymbols()->GetUpperRightSymbol(), menu_ptr->GetItemSymbols()->GetBottomLeftSymbol(), menu_ptr->GetItemSymbols()->GetBottomRightSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMenuItemUnderConstructionColor());
+	MenuElement* currentElement = menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y());
+	Construction* preliminary_ptr = menu_ptr->CreatePreliminaryObject(allObjects_ptr, camera_ptr);
+	currentElement->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementUnderConstructionColor());
+	currentElement->DrawBorder();
 	cursor_ptr->CursorMovement(PointCoord((camera_ptr->GetUpperLeft().Get_x() * 2 + camera_ptr->GetWidthAddition()) / 2,
 		(camera_ptr->GetUpperLeft().Get_y() * 2 + camera_ptr->GetHeightAddition()) / 2));
 	preliminary_ptr->SetUpperLeft(cursor_ptr->GetCursorConsoleLocation());
@@ -418,21 +402,17 @@ void GameManagement::EnterKey_Menu()
 		preliminary_ptr->DrawObject(mask);
 		cursor_ptr->CursorMovement(preliminary_ptr->GetUpperLeft());
 	}
-	return;
 }
 void GameManagement::EscKey_PlayingField()
 {
-	if (allObjects_ptr->GetPreliminaryElement() != nullptr)
+	Construction* preliminary_ptr = allObjects_ptr->GetPreliminaryElement();
+	if (preliminary_ptr != nullptr)
 	{
-		int leftX = menu_ptr->GetUpperLeft().Get_x() + 2;
-		int topY = allObjects_ptr->GetPreliminaryElement()->GetDescriptor()->GetManagerLocation().Get_y();
-		int rightX = menu_ptr->GetUpperLeft().Get_x() + menu_ptr->GetWidthAddition() - 2;
-		int bottomY = topY + ConstructionOptions::GetAllOptions()->GetMenuElementBordersHeight() - 1;
+		MenuElement* elementOfPreliminary = menu_ptr->GetMenuElement(preliminary_ptr->GetDescriptor()->GetMenuElementLocation().Get_y());
+		elementOfPreliminary->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor());
 		if (!menu_ptr->GetHideMenuStatus())
 		{
-			draw_ptr->DrawRectangle(leftX, topY, rightX, bottomY, menu_ptr->GetItemSymbols()->GetVerticalSymbol(), menu_ptr->GetItemSymbols()->GetHorizontalSymbol(),
-				menu_ptr->GetItemSymbols()->GetUpperLeftSymbol(), menu_ptr->GetItemSymbols()->GetUpperRightSymbol(), menu_ptr->GetItemSymbols()->GetBottomLeftSymbol(),
-				menu_ptr->GetItemSymbols()->GetBottomRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuItemInactiveColor());
+			elementOfPreliminary->DrawBorder();
 		}
 		if (!allObjects_ptr->ObjectImposition(allObjects_ptr->GetPreliminaryElement(), camera_ptr, field_ptr))
 		{
@@ -499,11 +479,13 @@ void GameManagement::Arrows_PlayingField(PointCoord cursorDestination)
 }
 void GameManagement::UpArrow_Menu()
 {
-	cursor_ptr->CursorMovement(menu_ptr->MenuNavigation(cursor_ptr->GetCursorConsoleLocation(), IconsPosition::UPPER));
+	MenuElement* nearest = menu_ptr->MenuNavigation(menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y()), IconsPosition::UPPER);
+	cursor_ptr->CursorMovement(PointCoord(nearest->GetUpperLeft().Get_x() + nearest->GetWidthAddition() / 2, nearest->GetUpperLeft().Get_y()));
 }
 void GameManagement::DownArrow_Menu()
 {
-	cursor_ptr->CursorMovement(menu_ptr->MenuNavigation(cursor_ptr->GetCursorConsoleLocation(), IconsPosition::LOWER));
+	MenuElement* nearest = menu_ptr->MenuNavigation(menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y()), IconsPosition::LOWER);
+	cursor_ptr->CursorMovement(PointCoord(nearest->GetUpperLeft().Get_x() + nearest->GetWidthAddition() / 2, nearest->GetUpperLeft().Get_y()));
 }
 CursorLocation GameManagement::CurrentCursorLoc()
 {

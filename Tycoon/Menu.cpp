@@ -4,7 +4,7 @@
 ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, unsigned int constructionCost, string description, wstring iconSymbol, color foreground, color background)
 {
 	ConstructionDescriptor* roadDesc_ptr = new RoadDescriptor(menuElementLocation, constructionCost, description, iconSymbol, foreground, background);
-	ConstructionManager* roadManager_ptr = new BuildingManager(GetCursor(), roadDesc_ptr);
+	return new RoadManager(GetCursor(), roadDesc_ptr);
 }
 // for buildings
 ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color background,
@@ -12,10 +12,10 @@ ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int con
 {
 	ConstructionDescriptor* buildingDesc_ptr = new BuildingDescriptor(menuElementLocation, constructionCost, description, iconSymbol,
 		foreground, background, buildingSymbol, dailyExpences, constructionHeightAdd, constructionWidthAdd);
-	ConstructionManager* buildingManager_ptr = new BuildingManager(GetCursor(), buildingDesc_ptr);
+	return new BuildingManager(GetCursor(), buildingDesc_ptr);
 }
 // create road element
-void Menu::CreateMenuElement(unsigned int constructionCost, string description, wstring iconSymbol, color foreground, color background)
+void Menu::CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color background)
 {
 	BorderAppearance* elementBorder_ptr = CreateElementBorder();
 	color menuElementLetterColor = ConstructionOptions::GetAllOptions()->GetMenuElementLetterColor();
@@ -158,6 +158,18 @@ void Menu::ShowMenuItems()
 	}
 	GetCursor()->CursorMovement(GetCursor()->GetCursorConsoleLocation());
 }
+MenuElement* Menu::GetMenuElement(int yCoord) const
+{
+	vector<MenuElement*>::const_iterator menuElementIter;
+	for (menuElementIter = menuItems.begin(); menuElementIter != menuItems.end(); menuElementIter++)
+	{
+		if ((*menuElementIter)->GetUpperLeft().Get_y() == yCoord)
+		{
+			return (*menuElementIter);
+		}
+	}
+	return nullptr; //TODO can throw exception here
+}
 MenuElement* Menu::GetUpperVisibleMenuElement() const
 {
 	vector<MenuElement*>::const_iterator menuElementIter;
@@ -289,9 +301,4 @@ Construction* Menu::CreatePreliminaryObject(AllObjects* allObjects_ptr, Camera* 
 		}
 	}
 	return nullptr;
-}
-void Menu::EraseMenu()
-{
-	ClearContent();
-	EraseBorder();
 }

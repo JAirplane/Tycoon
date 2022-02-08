@@ -56,6 +56,19 @@ void InfoPanel::CreateGameMessagesScreen()
 		messagesAndInfoBorderVisual_ptr, messagesAndInfoLetterColor, messagesAndInfoShadingColor, GetDrawPointer(), GetCursor());
 }
 //
+const MenuScreen* InfoPanel::GetMenuScreen()
+{
+	return mainScreen_ptr;
+}
+const ControlsScreen* InfoPanel::GetControlsScreen()
+{
+	return gameControlInfo_ptr;
+}
+GameMessagesScreen* InfoPanel::GetMessagesScreen()
+{
+	return messagesAndInfoScreen_ptr;
+}
+//
 void InfoPanel::DrawSplashScreen(color foreground, color background)
 {
 	currentScreen = InfoPanelContentType::SplashScreen;

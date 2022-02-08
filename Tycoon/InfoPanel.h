@@ -28,6 +28,10 @@ public:
 	virtual void CreateControlsScreen();
 	virtual void CreateGameMessagesScreen();
 	//
+	const MenuScreen* GetMenuScreen();
+	const ControlsScreen* GetControlsScreen();
+	GameMessagesScreen* GetMessagesScreen();
+	//
 	void DrawSplashScreen(color foreground, color background);
 	void DrawMenuScreen();
 	void ShowControls();
