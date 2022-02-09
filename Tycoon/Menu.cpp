@@ -8,7 +8,7 @@ ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, unsigne
 }
 // for buildings
 ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color background,
-	wstring buildingSymbol, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd) 
+	wstring buildingSymbol, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
 {
 	ConstructionDescriptor* buildingDesc_ptr = new BuildingDescriptor(menuElementLocation, constructionCost, description, iconSymbol,
 		foreground, background, buildingSymbol, dailyExpences, constructionHeightAdd, constructionWidthAdd);
@@ -156,7 +156,6 @@ void Menu::ShowMenuItems()
 			(*menuElementIter)->GetManager()->GetDescriptor()->GetBackgroundColor());
 		topY += (*menuElementIter)->GetHeightAddition() + 1;
 	}
-	GetCursor()->CursorMovement(GetCursor()->GetCursorConsoleLocation());
 }
 MenuElement* Menu::GetMenuElement(int yCoord) const
 {
@@ -231,31 +230,31 @@ void Menu::MenuElementsShift(IconsPosition upperOrLower)
 	vector<MenuElement*>::iterator menuElementIter;
 	switch (upperOrLower)
 	{
-		case IconsPosition::UPPER:
+	case IconsPosition::UPPER:
+	{
+		for (menuElementIter = menuItems.begin(); menuElementIter != menuItems.end(); menuElementIter++)
 		{
-			for (menuElementIter = menuItems.begin(); menuElementIter != menuItems.end(); menuElementIter++)
-			{
-				(*menuElementIter)->SetUpperLeft(PointCoord((*menuElementIter)->GetUpperLeft().Get_x(),
-					(*menuElementIter)->GetUpperLeft().Get_y() + (*menuElementIter)->GetHeightAddition() + 1));
-				(*menuElementIter)->GetIcon()->SetUpperLeft(PointCoord((*menuElementIter)->GetUpperLeft().Get_x() + 1,
-					(*menuElementIter)->GetUpperLeft().Get_y() + (*menuElementIter)->GetHeightAddition() + 2));
-				(*menuElementIter)->GetManager()->GetDescriptor()->SetMenuElementLocation(PointCoord((*menuElementIter)->GetUpperLeft().Get_x(),
-					(*menuElementIter)->GetUpperLeft().Get_y() + (*menuElementIter)->GetHeightAddition() + 1));
-			}
+			(*menuElementIter)->SetUpperLeft(PointCoord((*menuElementIter)->GetUpperLeft().Get_x(),
+				(*menuElementIter)->GetUpperLeft().Get_y() + (*menuElementIter)->GetHeightAddition() + 1));
+			(*menuElementIter)->GetIcon()->SetUpperLeft(PointCoord((*menuElementIter)->GetUpperLeft().Get_x() + 1,
+				(*menuElementIter)->GetUpperLeft().Get_y() + (*menuElementIter)->GetHeightAddition() + 2));
+			(*menuElementIter)->GetManager()->GetDescriptor()->SetMenuElementLocation(PointCoord((*menuElementIter)->GetUpperLeft().Get_x(),
+				(*menuElementIter)->GetUpperLeft().Get_y() + (*menuElementIter)->GetHeightAddition() + 1));
 		}
-		case IconsPosition::LOWER:
+	}
+	case IconsPosition::LOWER:
+	{
+		for (menuElementIter = menuItems.begin(); menuElementIter != menuItems.end(); menuElementIter++)
 		{
-			for (menuElementIter = menuItems.begin(); menuElementIter != menuItems.end(); menuElementIter++)
-			{
-				(*menuElementIter)->SetUpperLeft(PointCoord((*menuElementIter)->GetUpperLeft().Get_x(),
-					(*menuElementIter)->GetUpperLeft().Get_y() - (*menuElementIter)->GetHeightAddition() - 1));
-				(*menuElementIter)->GetIcon()->SetUpperLeft(PointCoord((*menuElementIter)->GetUpperLeft().Get_x() + 1,
-					(*menuElementIter)->GetUpperLeft().Get_y() - (*menuElementIter)->GetHeightAddition()));
-				(*menuElementIter)->GetManager()->GetDescriptor()->SetMenuElementLocation(PointCoord((*menuElementIter)->GetUpperLeft().Get_x(),
-					(*menuElementIter)->GetUpperLeft().Get_y() - (*menuElementIter)->GetHeightAddition() - 1));
-			}
+			(*menuElementIter)->SetUpperLeft(PointCoord((*menuElementIter)->GetUpperLeft().Get_x(),
+				(*menuElementIter)->GetUpperLeft().Get_y() - (*menuElementIter)->GetHeightAddition() - 1));
+			(*menuElementIter)->GetIcon()->SetUpperLeft(PointCoord((*menuElementIter)->GetUpperLeft().Get_x() + 1,
+				(*menuElementIter)->GetUpperLeft().Get_y() - (*menuElementIter)->GetHeightAddition()));
+			(*menuElementIter)->GetManager()->GetDescriptor()->SetMenuElementLocation(PointCoord((*menuElementIter)->GetUpperLeft().Get_x(),
+				(*menuElementIter)->GetUpperLeft().Get_y() - (*menuElementIter)->GetHeightAddition() - 1));
 		}
-		default: {return;}
+	}
+	default: {return; }
 	}
 }
 MenuElement* Menu::MenuNavigation(MenuElement* currentElement, IconsPosition upperOrLower)

@@ -24,4 +24,6 @@ public:
 	void SetHeightAddition(const int heightAdd);
 	int GetWidthAddition() const;
 	void SetWidthAddition(const int widthAdd);
+	int GetHalfXAxis() const;
+	int GetHalfYAxis() const;
 };

@@ -53,7 +53,19 @@ void AllObjects::ErasePreliminaryElement()
 {
 	if (preliminaryConstruction_ptr != nullptr)
 	{
-		delete preliminaryConstruction_ptr;
+		if (!allObjects_ptr->ObjectImposition(preliminaryConstruction_ptr, camera_ptr, field_ptr))
+		{
+			draw_ptr->EraseConstruction(preliminaryConstruction_ptr->GetUpperLeft().Get_x(), preliminaryConstruction_ptr->GetUpperLeft().Get_y(),
+				preliminaryConstruction_ptr->GetUpperLeft().Get_x() + preliminaryConstruction_ptr->GetWidthAddition(),
+				preliminaryConstruction_ptr->GetUpperLeft().Get_y() + preliminaryConstruction_ptr->GetHeightAddition());
+			PointCoord preliminaryElementNeibourRedraw = preliminaryConstruction_ptr->GetRedrawNeiboursPoint();
+			delete preliminaryConstruction_ptr;
+			Construction::RedrawNeibours(preliminaryElementNeibourRedraw, roads, buildings, preliminaryConstruction_ptr);
+		}
+		else
+		{
+			delete preliminaryConstruction_ptr;
+		}
 	}
 	preliminaryConstruction_ptr = nullptr;
 }
@@ -63,8 +75,8 @@ bool AllObjects::ObjectImposition(PointCoord point, PlayingField* field_ptr) con
 	int playingFieldRightX = playingFieldLeftX + field_ptr->GetWidthAddition();
 	int playingFieldTopY = field_ptr->GetUpperLeft().Get_y();
 	int playingFieldBottomY = playingFieldTopY + field_ptr->GetHeightAddition();
-	if ( ( (playingFieldLeftX == point.Get_x() || playingFieldRightX == point.Get_x() ) && playingFieldTopY <= point.Get_y() && playingFieldBottomY >= point.Get_y() ) 
-		|| ( (playingFieldTopY == point.Get_y() || playingFieldBottomY == point.Get_y() ) && playingFieldLeftX <= point.Get_x() && playingFieldRightX >= point.Get_x() ) )
+	if (((playingFieldLeftX == point.Get_x() || playingFieldRightX == point.Get_x()) && playingFieldTopY <= point.Get_y() && playingFieldBottomY >= point.Get_y())
+		|| ((playingFieldTopY == point.Get_y() || playingFieldBottomY == point.Get_y()) && playingFieldLeftX <= point.Get_x() && playingFieldRightX >= point.Get_x()))
 	{
 		return true;
 	}
@@ -234,10 +246,10 @@ void AllObjects::ShiftBuildings(Direction shiftDirection, int shiftValue)
 	{
 		switch (shiftDirection)
 		{
-		case Direction::Right: {(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x() + shiftValue, (*buildingIter)->GetUpperLeft().Get_y())); break;}
-		case Direction::Down: {(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x(), (*buildingIter)->GetUpperLeft().Get_y() + shiftValue)); break;}
-		case Direction::Left: {(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x() - shiftValue, (*buildingIter)->GetUpperLeft().Get_y()));break;}
-		case Direction::Up: {(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x(), (*buildingIter)->GetUpperLeft().Get_y() - shiftValue));break;}
+		case Direction::Right: {(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x() + shiftValue, (*buildingIter)->GetUpperLeft().Get_y())); break; }
+		case Direction::Down: {(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x(), (*buildingIter)->GetUpperLeft().Get_y() + shiftValue)); break; }
+		case Direction::Left: {(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x() - shiftValue, (*buildingIter)->GetUpperLeft().Get_y())); break; }
+		case Direction::Up: {(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x(), (*buildingIter)->GetUpperLeft().Get_y() - shiftValue)); break; }
 		}
 	}
 }
@@ -315,7 +327,6 @@ void AllObjects::DisplayBuildings(Camera* camera_ptr, PlayingField* field_ptr) c
 			}
 		}
 	}
-	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }
 void AllObjects::VisitorAppear()
 {
@@ -354,7 +365,6 @@ void AllObjects::DisplayVisitors()
 		PointCoord upperLeftVisitor = (*iter)->GetUpperLeft();
 		draw_ptr->DrawVisitor(upperLeftVisitor.Get_x(), upperLeftVisitor.Get_y());
 	}
-	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }
 void AllObjects::DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr)
 {
@@ -367,5 +377,4 @@ void AllObjects::DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr)
 			(*iter)->DrawObject(mask);
 		}
 	}
-	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }

@@ -24,3 +24,11 @@ void GlobalObject::SetWidthAddition(const int widthAdd)
 {
 	widthAddition = widthAdd;
 }
+int GlobalObject::GetHalfXAxis() const
+{
+	return GetUpperLeft().Get_x() + GetWidthAddition() / 2;
+}
+int GlobalObject::GetHalfYAxis() const
+{
+	return GetUpperLeft().Get_y() + GetHeightAddition() / 2;
+}

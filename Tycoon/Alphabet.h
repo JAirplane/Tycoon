@@ -41,5 +41,16 @@ public:
 	static const vector< vector<bool> > Get_QuestionMark_Matrix();
 	static const vector< vector<bool> > Get_Colon_Matrix();
 	static const vector< vector<bool> > Get_Semicolon_Matrix();
+	static const vector< vector<bool> > Get_Asterisk_Matrix();
+	static const vector< vector<bool> > Get_NumberOne_Matrix();
+	static const vector< vector<bool> > Get_NumberTwo_Matrix();
+	static const vector< vector<bool> > Get_NumberThree_Matrix();
+	static const vector< vector<bool> > Get_NumberFour_Matrix();
+	static const vector< vector<bool> > Get_NumberFive_Matrix();
+	static const vector< vector<bool> > Get_NumberSix_Matrix();
+	static const vector< vector<bool> > Get_NumberSeven_Matrix();
+	static const vector< vector<bool> > Get_NumberEight_Matrix();
+	static const vector< vector<bool> > Get_NumberNine_Matrix();
+	static const vector< vector<bool> > Get_NumberZero_Matrix();
 	static void DrawLetter(const vector< vector<bool> > letterMatrix, int startX, int startY, color foreground = cBLACK, color background = cDARK_CYAN);
 };

@@ -72,7 +72,6 @@ GameMessagesScreen* InfoPanel::GetMessagesScreen()
 void InfoPanel::DrawSplashScreen(color foreground, color background)
 {
 	currentScreen = InfoPanelContentType::SplashScreen;
-	PointCoord previousLoc = GetCursor()->GetCursorConsoleLocation();
 	Alphabet::DrawLetter(Alphabet::Get_I_Matrix(), GetUpperLeft().Get_x() + 3, GetUpperLeft().Get_y() + 2);
 	GetCursor()->SetCursorConsoleLocation();
 	Alphabet::DrawLetter(Alphabet::Get_N_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x() + 1, GetCursor()->GetCursorConsoleLocation().Get_y());
@@ -91,7 +90,6 @@ void InfoPanel::DrawSplashScreen(color foreground, color background)
 	Alphabet::DrawLetter(Alphabet::Get_E_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x() + 1, GetCursor()->GetCursorConsoleLocation().Get_y());
 	GetCursor()->SetCursorConsoleLocation();
 	Alphabet::DrawLetter(Alphabet::Get_L_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x() + 1, GetCursor()->GetCursorConsoleLocation().Get_y());
-	GetCursor()->CursorMovement(previousLoc);
 }
 void InfoPanel::DrawMenuScreen()
 {
@@ -101,7 +99,7 @@ void InfoPanel::DrawMenuScreen()
 	mainScreen_ptr->GetControlsButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
 	mainScreen_ptr->DrawMenuScreenButton(mainScreen_ptr->GetMessagesButton());
 	mainScreen_ptr->DrawMenuScreenButton(mainScreen_ptr->GetControlsButton());
-	GetCursor()->CursorMovement(PointCoord(mainScreen_ptr->GetMessagesButton()->GetUpperLeft().Get_x() + mainScreen_ptr->GetMessagesButton()->GetWidthAddition() / 2,
+	GetCursor()->CursorMovement(PointCoord(mainScreen_ptr->GetMessagesButton()->GetHalfXAxis(),
 		mainScreen_ptr->GetMessagesButton()->GetUpperLeft().Get_y()));
 }
 void InfoPanel::ShowControls()
@@ -125,24 +123,24 @@ void InfoPanel::SwitchContent(InfoPanelContentType choosenContent)
 	ClearContent();
 	switch (choosenContent)
 	{
-		case InfoPanelContentType::SplashScreen:
-		{ 
-			DrawSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
-			currentScreen = InfoPanelContentType::SplashScreen;
-			return;
-		}
-		case InfoPanelContentType::MenuScreen:
-		{ 
-			DrawMenuScreen();
-			currentScreen = InfoPanelContentType::MenuScreen;
-			return;
-		}
-		case InfoPanelContentType::Controls:
-		{ 
-			ShowControls();
-			currentScreen = InfoPanelContentType::Controls;
-			return;
-		}
+	case InfoPanelContentType::SplashScreen:
+	{
+		DrawSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
+		currentScreen = InfoPanelContentType::SplashScreen;
+		return;
+	}
+	case InfoPanelContentType::MenuScreen:
+	{
+		DrawMenuScreen();
+		currentScreen = InfoPanelContentType::MenuScreen;
+		return;
+	}
+	case InfoPanelContentType::Controls:
+	{
+		ShowControls();
+		currentScreen = InfoPanelContentType::Controls;
+		return;
+	}
 	}
 }
 void InfoPanel::Arrows(Direction arrowDir)
@@ -151,7 +149,7 @@ void InfoPanel::Arrows(Direction arrowDir)
 	{
 		if (GetCursor()->GetCursorConsoleLocation() ==
 			PointCoord(mainScreen_ptr->GetControlsButton()->GetUpperLeft().Get_x() + mainScreen_ptr->GetControlsButton()->GetWidthAddition() / 2,
-			mainScreen_ptr->GetControlsButton()->GetUpperLeft().Get_y()) && arrowDir == Direction::Left)
+				mainScreen_ptr->GetControlsButton()->GetUpperLeft().Get_y()) && arrowDir == Direction::Left)
 		{
 			mainScreen_ptr->GetControlsButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
 			mainScreen_ptr->GetControlsButton()->DrawBorder();
@@ -160,7 +158,7 @@ void InfoPanel::Arrows(Direction arrowDir)
 			GetCursor()->CursorMovement(PointCoord(mainScreen_ptr->GetMessagesButton()->GetUpperLeft().Get_x() + mainScreen_ptr->GetMessagesButton()->GetWidthAddition() / 2,
 				mainScreen_ptr->GetMessagesButton()->GetUpperLeft().Get_y()));
 		}
-		if (GetCursor()->GetCursorConsoleLocation() == 
+		if (GetCursor()->GetCursorConsoleLocation() ==
 			PointCoord(mainScreen_ptr->GetMessagesButton()->GetUpperLeft().Get_x() + mainScreen_ptr->GetMessagesButton()->GetWidthAddition() / 2,
 				mainScreen_ptr->GetMessagesButton()->GetUpperLeft().Get_y()) && arrowDir == Direction::Right)
 		{

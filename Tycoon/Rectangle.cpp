@@ -34,7 +34,6 @@ void MyRectangle::DrawBorder()
 		GetBorder()->GetBorderSymbols()->GetVerticalSymbol(), GetBorder()->GetBorderSymbols()->GetHorizontalSymbol(), GetBorder()->GetBorderSymbols()->GetUpperLeftSymbol(),
 		GetBorder()->GetBorderSymbols()->GetUpperRightSymbol(), GetBorder()->GetBorderSymbols()->GetBottomLeftSymbol(), GetBorder()->GetBorderSymbols()->GetBottomRightSymbol(),
 		GetBorder()->GetBorderForegroundColor(), GetBorder()->GetBorderBackgroundColor());
-	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }
 void MyRectangle::EraseBorder()
 {
@@ -51,7 +50,6 @@ void MyRectangle::EraseBorder()
 		draw_ptr->ErasePixel(leftX, topY);
 		draw_ptr->ErasePixel(leftX, topY + GetHeightAddition());
 	}
-	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }
 void MyRectangle::ClearContent()
 {
@@ -65,5 +63,4 @@ void MyRectangle::ClearContent()
 		}
 		leftX = GetUpperLeft().Get_x() + 1;
 	}
-	cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
 }

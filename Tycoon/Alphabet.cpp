@@ -598,6 +598,211 @@ const vector< vector<bool> > Alphabet::Get_Semicolon_Matrix()
 	rootVector.push_back(seventhRow);
 	return rootVector;
 }
+const vector< vector<bool> > Alphabet::Get_Asterisk_Matrix()
+{
+	vector< vector<bool> > rootVector;
+	vector<bool> firstRow{ 1, 0, 1, 0, 1 };
+	vector<bool> secondRow{ 1, 1, 1, 1, 1 };
+	vector<bool> thirdRow{ 0, 1, 1, 1, 0 };
+	vector<bool> fourthRow{ 1, 1, 1, 1, 1 };
+	vector<bool> fifthRow{ 1, 0, 1, 0, 1 };
+	rootVector.push_back(firstRow);
+	rootVector.push_back(secondRow);
+	rootVector.push_back(thirdRow);
+	rootVector.push_back(fourthRow);
+	rootVector.push_back(fifthRow);
+	return rootVector;
+}
+const vector< vector<bool> > Alphabet::Get_NumberOne_Matrix()
+{
+	vector< vector<bool> > rootVector;
+	vector<bool> firstRow{ 0, 0, 1, 1 };
+	vector<bool> secondRow{ 0, 1, 1, 1 };
+	vector<bool> thirdRow{ 1, 1, 1, 1 };
+	vector<bool> fourthRow{ 0, 0, 1, 1 };
+	vector<bool> fifthRow{ 0, 0, 1, 1 };
+	vector<bool> sixthRow{ 0, 0, 1, 1 };
+	vector<bool> seventhRow{ 0, 0, 1, 1 };
+	rootVector.push_back(firstRow);
+	rootVector.push_back(secondRow);
+	rootVector.push_back(thirdRow);
+	rootVector.push_back(fourthRow);
+	rootVector.push_back(fifthRow);
+	rootVector.push_back(sixthRow);
+	rootVector.push_back(seventhRow);
+	return rootVector;
+}
+const vector< vector<bool> > Alphabet::Get_NumberTwo_Matrix()
+{
+	vector< vector<bool> > rootVector;
+	vector<bool> firstRow{ 1, 1, 1, 1, 1, 1 };
+	vector<bool> secondRow{ 1, 1, 0, 0, 1, 1 };
+	vector<bool> thirdRow{ 0, 0, 0, 0, 1, 1 };
+	vector<bool> fourthRow{ 0, 0, 0, 1, 1, 0 };
+	vector<bool> fifthRow{ 0, 0, 1, 1, 0, 0 };
+	vector<bool> sixthRow{ 0, 1, 1, 0, 0, 0 };
+	vector<bool> seventhRow{ 1, 1, 1, 1, 1, 1 };
+	rootVector.push_back(firstRow);
+	rootVector.push_back(secondRow);
+	rootVector.push_back(thirdRow);
+	rootVector.push_back(fourthRow);
+	rootVector.push_back(fifthRow);
+	rootVector.push_back(sixthRow);
+	rootVector.push_back(seventhRow);
+	return rootVector;
+}
+const vector< vector<bool> > Alphabet::Get_NumberThree_Matrix()
+{
+	vector< vector<bool> > rootVector;
+	vector<bool> firstRow{ 1, 1, 1, 1, 1, 1 };
+	vector<bool> secondRow{ 1, 1, 0, 0, 1, 1 };
+	vector<bool> thirdRow{ 0, 0, 0, 0, 1, 1 };
+	vector<bool> fourthRow{ 0, 0, 1, 1, 1, 0 };
+	vector<bool> fifthRow{ 0, 0, 0, 0, 1, 1 };
+	vector<bool> sixthRow{ 1, 1, 0, 0, 1, 1 };
+	vector<bool> seventhRow{ 1, 1, 1, 1, 1, 1 };
+	rootVector.push_back(firstRow);
+	rootVector.push_back(secondRow);
+	rootVector.push_back(thirdRow);
+	rootVector.push_back(fourthRow);
+	rootVector.push_back(fifthRow);
+	rootVector.push_back(sixthRow);
+	rootVector.push_back(seventhRow);
+	return rootVector;
+}
+const vector< vector<bool> > Alphabet::Get_NumberFour_Matrix()
+{
+	vector< vector<bool> > rootVector;
+	vector<bool> firstRow{ 1, 1, 0, 0, 1, 1 };
+	vector<bool> secondRow{ 1, 1, 0, 0, 1, 1 };
+	vector<bool> thirdRow{ 1, 1, 0, 0, 1, 1 };
+	vector<bool> fourthRow{ 1, 1, 1, 1, 1, 1 };
+	vector<bool> fifthRow{ 0, 0, 0, 0, 1, 1 };
+	vector<bool> sixthRow{ 0, 0, 0, 0, 1, 1 };
+	vector<bool> seventhRow{ 0, 0, 0, 0, 1, 1 };
+	rootVector.push_back(firstRow);
+	rootVector.push_back(secondRow);
+	rootVector.push_back(thirdRow);
+	rootVector.push_back(fourthRow);
+	rootVector.push_back(fifthRow);
+	rootVector.push_back(sixthRow);
+	rootVector.push_back(seventhRow);
+	return rootVector;
+}
+const vector< vector<bool> > Alphabet::Get_NumberFive_Matrix()
+{
+	vector< vector<bool> > rootVector;
+	vector<bool> firstRow{ 1, 1, 1, 1, 1, 1 };
+	vector<bool> secondRow{ 1, 1, 0, 0, 0, 0 };
+	vector<bool> thirdRow{ 1, 1, 0, 0, 0, 0 };
+	vector<bool> fourthRow{ 1, 1, 1, 1, 1, 1 };
+	vector<bool> fifthRow{ 0, 0, 0, 0, 1, 1 };
+	vector<bool> sixthRow{ 0, 0, 0, 0, 1, 1 };
+	vector<bool> seventhRow{ 1, 1, 1, 1, 1, 1 };
+	rootVector.push_back(firstRow);
+	rootVector.push_back(secondRow);
+	rootVector.push_back(thirdRow);
+	rootVector.push_back(fourthRow);
+	rootVector.push_back(fifthRow);
+	rootVector.push_back(sixthRow);
+	rootVector.push_back(seventhRow);
+	return rootVector;
+}
+const vector< vector<bool> > Alphabet::Get_NumberSix_Matrix()
+{
+	vector< vector<bool> > rootVector;
+	vector<bool> firstRow{ 1, 1, 1, 1, 1, 1 };
+	vector<bool> secondRow{ 1, 1, 0, 0, 0, 0 };
+	vector<bool> thirdRow{ 1, 1, 0, 0, 0, 0 };
+	vector<bool> fourthRow{ 1, 1, 1, 1, 1, 1 };
+	vector<bool> fifthRow{ 1, 1, 0, 0, 1, 1 };
+	vector<bool> sixthRow{ 1, 1, 0, 0, 1, 1 };
+	vector<bool> seventhRow{ 1, 1, 1, 1, 1, 1 };
+	rootVector.push_back(firstRow);
+	rootVector.push_back(secondRow);
+	rootVector.push_back(thirdRow);
+	rootVector.push_back(fourthRow);
+	rootVector.push_back(fifthRow);
+	rootVector.push_back(sixthRow);
+	rootVector.push_back(seventhRow);
+	return rootVector;
+}
+const vector< vector<bool> > Alphabet::Get_NumberSeven_Matrix()
+{
+	vector< vector<bool> > rootVector;
+	vector<bool> firstRow{ 1, 1, 1, 1, 1, 1 };
+	vector<bool> secondRow{ 0, 0, 0, 0, 1, 1 };
+	vector<bool> thirdRow{ 0, 0, 0, 0, 1, 1 };
+	vector<bool> fourthRow{ 0, 0, 0, 0, 1, 1 };
+	vector<bool> fifthRow{ 0, 0, 0, 0, 1, 1 };
+	vector<bool> sixthRow{ 0, 0, 0, 0, 1, 1 };
+	vector<bool> seventhRow{ 0, 0, 0, 0, 1, 1 };
+	rootVector.push_back(firstRow);
+	rootVector.push_back(secondRow);
+	rootVector.push_back(thirdRow);
+	rootVector.push_back(fourthRow);
+	rootVector.push_back(fifthRow);
+	rootVector.push_back(sixthRow);
+	rootVector.push_back(seventhRow);
+	return rootVector;
+}
+const vector< vector<bool> > Alphabet::Get_NumberEight_Matrix()
+{
+	vector< vector<bool> > rootVector;
+	vector<bool> firstRow{ 1, 1, 1, 1, 1, 1 };
+	vector<bool> secondRow{ 1, 1, 0, 0, 1, 1 };
+	vector<bool> thirdRow{ 1, 1, 0, 0, 1, 1 };
+	vector<bool> fourthRow{ 1, 1, 1, 1, 1, 1 };
+	vector<bool> fifthRow{ 1, 1, 0, 0, 1, 1 };
+	vector<bool> sixthRow{ 1, 1, 0, 0, 1, 1 };
+	vector<bool> seventhRow{ 1, 1, 1, 1, 1, 1 };
+	rootVector.push_back(firstRow);
+	rootVector.push_back(secondRow);
+	rootVector.push_back(thirdRow);
+	rootVector.push_back(fourthRow);
+	rootVector.push_back(fifthRow);
+	rootVector.push_back(sixthRow);
+	rootVector.push_back(seventhRow);
+	return rootVector;
+}
+const vector< vector<bool> > Alphabet::Get_NumberNine_Matrix()
+{
+	vector< vector<bool> > rootVector;
+	vector<bool> firstRow{ 1, 1, 1, 1, 1, 1 };
+	vector<bool> secondRow{ 1, 1, 0, 0, 1, 1 };
+	vector<bool> thirdRow{ 1, 1, 0, 0, 1, 1 };
+	vector<bool> fourthRow{ 1, 1, 1, 1, 1, 1 };
+	vector<bool> fifthRow{ 0, 0, 0, 0, 1, 1 };
+	vector<bool> sixthRow{ 0, 0, 0, 0, 1, 1 };
+	vector<bool> seventhRow{ 1, 1, 1, 1, 1, 1 };
+	rootVector.push_back(firstRow);
+	rootVector.push_back(secondRow);
+	rootVector.push_back(thirdRow);
+	rootVector.push_back(fourthRow);
+	rootVector.push_back(fifthRow);
+	rootVector.push_back(sixthRow);
+	rootVector.push_back(seventhRow);
+	return rootVector;
+}
+const vector< vector<bool> > Alphabet::Get_NumberZero_Matrix()
+{
+	vector< vector<bool> > rootVector;
+	vector<bool> firstRow{ 1, 1, 1, 1, 1, 1 };
+	vector<bool> secondRow{ 1, 1, 0, 0, 1, 1 };
+	vector<bool> thirdRow{ 1, 1, 0, 0, 1, 1 };
+	vector<bool> fourthRow{ 1, 1, 0, 0, 1, 1 };
+	vector<bool> fifthRow{ 1, 1, 0, 0, 1, 1 };
+	vector<bool> sixthRow{ 1, 1, 0, 0, 1, 1 };
+	vector<bool> seventhRow{ 1, 1, 1, 1, 1, 1 };
+	rootVector.push_back(firstRow);
+	rootVector.push_back(secondRow);
+	rootVector.push_back(thirdRow);
+	rootVector.push_back(fourthRow);
+	rootVector.push_back(fifthRow);
+	rootVector.push_back(sixthRow);
+	rootVector.push_back(seventhRow);
+	return rootVector;
+}
 void Alphabet::DrawLetter(const vector< vector<bool> > letterMatrix, int startX, int startY, color foreground, color background)
 {
 	vector< vector<bool> >::const_iterator rootIter;

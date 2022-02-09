@@ -41,6 +41,10 @@ public:
 	virtual void CreateMenuAndElements();
 	virtual void CreateInfoPanel();
 	//
+	CursorLocation GetCursorArea();
+	void ReturnCursorToCamera();
+	void DrawCursor();
+	// display / erase main game elements
 	void DisplayCamera();
 	void DisplayMenu();
 	void DisplayPlayingField();
@@ -50,21 +54,18 @@ public:
 	void HideMenu();
 	void EraseScreen();
 	void DisplayAllObjects();
+	//
 	void GameProcess();
 	void UserActions(int key);
 	void H_Key();
 	void S_Key();
 	void R_Key();
-	void I_Key_PlayingField();
-	void I_Key_Menu();
-	void I_Key_InfoPanel();
-	void TabKey_Playingfield();
-	void TabKey_Menu();
+	void I_Key();
+	void Tab_Key();
 	void EnterKey_PlayingField();
 	void EnterKey_Menu();
 	void EscKey_PlayingField();
 	void Arrows_PlayingField(PointCoord cursorDestination);
 	void UpArrow_Menu();
 	void DownArrow_Menu();
-	CursorLocation CurrentCursorLoc();
 };
