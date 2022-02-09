@@ -68,8 +68,12 @@ GameMessagesScreen* InfoPanel::GetMessagesScreen()
 {
 	return messagesAndInfoScreen_ptr;
 }
+InfoPanelContentType InfoPanel::GetCurrentContent() const
+{
+	return currentScreen;
+}
 //
-void InfoPanel::DrawSplashScreen(color foreground, color background)
+void InfoPanel::ShowSplashScreen(color foreground, color background)
 {
 	currentScreen = InfoPanelContentType::SplashScreen;
 	Alphabet::DrawLetter(Alphabet::Get_I_Matrix(), GetUpperLeft().Get_x() + 3, GetUpperLeft().Get_y() + 2);
@@ -91,7 +95,7 @@ void InfoPanel::DrawSplashScreen(color foreground, color background)
 	GetCursor()->SetCursorConsoleLocation();
 	Alphabet::DrawLetter(Alphabet::Get_L_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x() + 1, GetCursor()->GetCursorConsoleLocation().Get_y());
 }
-void InfoPanel::DrawMenuScreen()
+void InfoPanel::ShowMenuScreen()
 {
 	currentScreen = InfoPanelContentType::MenuScreen;
 	mainScreen_ptr->DrawBorder();
@@ -118,29 +122,40 @@ void InfoPanel::ShowControls()
 	}
 	gameControlInfo_ptr->DisplayControls();
 }
+void InfoPanel::ShowMessagesScreen()
+{
+	//TODO this
+}
 void InfoPanel::SwitchContent(InfoPanelContentType choosenContent)
 {
 	ClearContent();
 	switch (choosenContent)
 	{
-	case InfoPanelContentType::SplashScreen:
-	{
-		DrawSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
-		currentScreen = InfoPanelContentType::SplashScreen;
-		return;
-	}
-	case InfoPanelContentType::MenuScreen:
-	{
-		DrawMenuScreen();
-		currentScreen = InfoPanelContentType::MenuScreen;
-		return;
-	}
-	case InfoPanelContentType::Controls:
-	{
-		ShowControls();
-		currentScreen = InfoPanelContentType::Controls;
-		return;
-	}
+		case InfoPanelContentType::SplashScreen:
+		{
+			ShowSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
+			currentScreen = InfoPanelContentType::SplashScreen;
+			return;
+		}
+		case InfoPanelContentType::MenuScreen:
+		{
+			ShowMenuScreen();
+			currentScreen = InfoPanelContentType::MenuScreen;
+			return;
+		}
+		case InfoPanelContentType::Controls:
+		{
+			ShowControls();
+			currentScreen = InfoPanelContentType::Controls;
+			return;
+		}
+		case InfoPanelContentType::SystemMessagesAndConstructionInfo:
+		{
+			ShowMessagesScreen();
+			currentScreen = InfoPanelContentType::SystemMessagesAndConstructionInfo;
+			return;
+		}
+		default: {return;} //TODO throw exception
 	}
 }
 void InfoPanel::Arrows(Direction arrowDir)

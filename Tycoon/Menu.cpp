@@ -179,6 +179,7 @@ MenuElement* Menu::GetUpperVisibleMenuElement() const
 			return (*menuElementIter);
 		}
 	}
+	return nullptr;
 }
 //this method returns next upper/lower menu element before/after "currentIcon" coord
 MenuElement* Menu::GetNextMenuElement(MenuElement* currentElement, IconsPosition upperOrLower) const

@@ -48,7 +48,7 @@ public:
 	void AddObject(Visitor* obj_ptr, int position = 0, bool isPreliminary = false);
 	void AddPreliminaryElement(Construction* preliminary_ptr);
 	Construction* GetPreliminaryElement() const; //it takes last element of everyObject list
-	void ErasePreliminaryElement();
+	void ErasePreliminaryElement(Camera* camera_ptr, PlayingField* field_ptr);
 	bool ObjectImposition(PointCoord point, PlayingField* field_ptr) const;
 	bool ObjectImposition(IngameObject* object_ptr, Camera* camera_ptr, PlayingField* field_ptr) const;
 	void EraseObjects(Camera* camera_ptr);

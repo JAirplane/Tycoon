@@ -31,10 +31,12 @@ public:
 	const MenuScreen* GetMenuScreen();
 	const ControlsScreen* GetControlsScreen();
 	GameMessagesScreen* GetMessagesScreen();
+	InfoPanelContentType GetCurrentContent() const;
 	//
-	void DrawSplashScreen(color foreground, color background);
-	void DrawMenuScreen();
+	void ShowSplashScreen(color foreground, color background);
+	void ShowMenuScreen();
 	void ShowControls();
+	void ShowMessagesScreen();
 	void SwitchContent(InfoPanelContentType choosenContent);
 	void Arrows(Direction arrowDir);
 	void EndInteraction();

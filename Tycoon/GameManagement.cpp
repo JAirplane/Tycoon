@@ -125,7 +125,8 @@ void GameManagement::DrawCursor()
 {
 	if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr) && allObjects_ptr->GetPreliminaryElement() == nullptr)
 	{
-		draw_ptr->DrawCursorPixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y(), ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor(););
+		draw_ptr->DrawCursorPixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y(),
+			ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor());
 	}
 }
 void GameManagement::DisplayMenu()
@@ -145,7 +146,7 @@ void GameManagement::HideMenu()
 void GameManagement::DisplayInfoPanel()
 {
 	infoPanel_ptr->DrawBorder();
-	infoPanel_ptr->DrawSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
+	infoPanel_ptr->ShowSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
 	ReturnCursorToCamera();
 	DrawCursor();
 }
@@ -207,6 +208,20 @@ void GameManagement::DisplayAllObjects()
 	ReturnCursorToCamera();
 	DrawCursor();
 }
+//
+void GameManagement::HideInterface()
+{
+	HideMenu();
+	HideInfoPanel();
+	menu_ptr->SetHideMenuStatus(1);
+}
+void GameManagement::ShowInterface()
+{
+	DisplayMenu();
+	DisplayInfoPanel();
+	menu_ptr->SetHideMenuStatus(0);
+}
+//
 void GameManagement::GameProcess()
 {
 	char ch = 'a';
@@ -255,20 +270,16 @@ void GameManagement::H_Key()
 {
 	if (!menu_ptr->GetHideMenuStatus())
 	{
-		HideMenu();
-		HideInfoPanel();
-		menu_ptr->SetHideMenuStatus(1);
+		HideInterface();
 	}
 	else
 	{
-		DisplayMenu();
-		DisplayInfoPanel();
-		menu_ptr->SetHideMenuStatus(0);
+		ShowInterface();
 	}
 }
 void GameManagement::S_Key()
 {
-	allObjects_ptr->ErasePreliminaryElement();
+	allObjects_ptr->ErasePreliminaryElement(camera_ptr, field_ptr);
 	Direction shiftDirection = menu_ptr->ChangeMenuSide(camera_ptr);
 	allObjects_ptr->ShiftBuildings(shiftDirection, menu_ptr->GetWidthAddition());
 	allObjects_ptr->ShiftRoads(shiftDirection, menu_ptr->GetWidthAddition());
@@ -296,99 +307,125 @@ void GameManagement::R_Key()
 			preliminary_ptr->ConnectedToRoad(allObjects_ptr->GetAllRoads(), preliminary_ptr);
 			preliminary_ptr->DrawObject();
 			preliminary_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
-			cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
+			cursor_ptr->CursorMovement(preliminary_ptr->GetUpperLeft());
 		}
 	}
 }
+void GameManagement::IKey_Camera()
+{
+	EscKey_Camera();
+	if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr))
+	{
+		draw_ptr->ErasePixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y());
+	}
+	if (menu_ptr->GetHideMenuStatus())
+	{
+		ShowInterface();
+	}
+	else
+	{
+		infoPanel_ptr->ClearContent();
+	}
+	infoPanel_ptr->ShowMenuScreen();
+}
+void GameManagement::IKey_Menu()
+{
+	MenuElement* currentActiveElement_ptr = menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y());
+	currentActiveElement_ptr->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor());
+	currentActiveElement_ptr->DrawBorder();
+	infoPanel_ptr->ClearContent();
+	infoPanel_ptr->ShowMenuScreen();
+}
+void GameManagement::IKey_InfoPanel()
+{
+	infoPanel_ptr->EndInteraction();
+	ReturnCursorToCamera();
+	DrawCursor();
+}
 void GameManagement::I_Key()
 {
-	if (GetCursorArea() == CursorLocation::Camera)
+	switch (GetCursorArea())
 	{
-		EscKey_PlayingField();
+		case CursorLocation::Camera: 
+		{
+			IKey_Camera();
+			return;
+		}
+		case CursorLocation::Menu:
+		{
+			IKey_Menu();
+			return;
+		}
+		case CursorLocation::InfoPanel:
+		{
+			IKey_InfoPanel();
+			return;
+		}
+		default: {return;}//TODO can throw exception here
+	}
+}
+void GameManagement::TabKey_Camera()
+{
+	if (menu_ptr->GetHideMenuStatus())
+	{
+		ShowInterface();
+	}
+	if (allObjects_ptr->GetPreliminaryElement() == nullptr)
+	{
 		if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr))
 		{
 			draw_ptr->ErasePixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y());
 		}
-		if (menu_ptr->GetHideMenuStatus())
-		{
-			DisplayMenu();
-			infoPanel_ptr->DrawBorder();
-			menu_ptr->SetHideMenuStatus(0);
-		}
-		else
-		{
-			infoPanel_ptr->ClearContent();
-		}
-		infoPanel_ptr->DrawMenuScreen();
-	}
-	else if (GetCursorArea() == CursorLocation::Menu)
-	{
-		MenuElement* currentActiveElement_ptr = menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y());
-		currentActiveElement_ptr->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor());
-		currentActiveElement_ptr->DrawBorder();
-		infoPanel_ptr->ClearContent();
-		infoPanel_ptr->DrawMenuScreen();
-	}
-	else if (GetCursorArea() == CursorLocation::InfoPanel)
-	{
-		infoPanel_ptr->EndInteraction();
-		ReturnCursorToCamera();
-		DrawCursor();
 	}
 	else
 	{
-		return; //TODO can throw exception here
+		MenuElement* elementOfPreliminary = menu_ptr->GetMenuElement(allObjects_ptr->GetPreliminaryElement()->GetDescriptor()->GetMenuElementLocation().Get_y());
+		elementOfPreliminary->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor());
+		elementOfPreliminary->DrawBorder();
+		allObjects_ptr->ErasePreliminaryElement(camera_ptr, field_ptr);
 	}
+	MenuElement* upperVisibleElement = menu_ptr->GetUpperVisibleMenuElement();
+	upperVisibleElement->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementActiveColor());
+	upperVisibleElement->DrawBorder();
+	cursor_ptr->CursorMovement(PointCoord(upperVisibleElement->GetHalfXAxis(), upperVisibleElement->GetUpperLeft().Get_y()));
+}
+void GameManagement::TabKey_Menu()
+{
+	MenuElement* currentElement = menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y());
+	currentElement->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor());
+	currentElement->DrawBorder();
+	ReturnCursorToCamera();
+	DrawCursor();
+}
+void GameManagement::TabKey_InfoPanel()
+{
+	infoPanel_ptr->EndInteraction();
+	ReturnCursorToCamera();
+	DrawCursor();
 }
 void GameManagement::Tab_Key()
 {
-	if (GetCursorArea() == CursorLocation::Camera)
+	switch (GetCursorArea())
 	{
-		if (menu_ptr->GetHideMenuStatus())
+		case CursorLocation::Camera:
 		{
-			DisplayMenu();
-			DisplayInfoPanel();
-			menu_ptr->SetHideMenuStatus(0);
+			TabKey_Camera();
+			return;
 		}
-		if (allObjects_ptr->GetPreliminaryElement() == nullptr)
+		case CursorLocation::Menu:
 		{
-			if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr))
-			{
-				draw_ptr->ErasePixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y());
-			}
+			TabKey_Camera();
+			return;
 		}
-		else
+		case CursorLocation::InfoPanel:
 		{
-			MenuElement* elementOfPreliminary = menu_ptr->GetMenuElement(preliminary_ptr->GetDescriptor()->GetMenuElementLocation().Get_y());
-			elementOfPreliminary->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor());
-			elementOfPreliminary->DrawBorder();
-			allObjects_ptr->ErasePreliminaryElement();
+			TabKey_InfoPanel();
+			return;
 		}
-		MenuElement* upperVisibleElement = menu_ptr->GetUpperVisibleMenuElement();
-		upperVisibleElement->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementActiveColor());
-		upperVisibleElement->DrawBorder();
-		cursor_ptr->CursorMovement(PointCoord(upperVisibleElement->GetHalfXAxis(), upperVisibleElement->GetUpperLeft().Get_y()));
-	}
-	else if (GetCursorArea() == CursorLocation::Menu)
-	{
-		MenuElement* currentElement = menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y());
-		currentElement->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor());
-		currentElement->DrawBorder();
-		ReturnCursorToCamera();
-		DrawCursor();
-	}
-	else if (GetCursorArea() == CursorLocation::InfoPanel)
-	{
-		infoPanel_ptr->EndInteraction();
-		ReturnCursorToCamera();
-		DrawCursor();
-	}
-	else
-	{
-		return; //TODO can throw exception here
+		default: {return;} //TODO can throw exception here
 	}
 }
-void GameManagement::EnterKey_PlayingField()
+void GameManagement::EnterKey_Camera()
 {
 	Construction* preliminary_ptr = allObjects_ptr->GetPreliminaryElement();
 	if (preliminary_ptr != nullptr && !allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
@@ -430,7 +467,49 @@ void GameManagement::EnterKey_Menu()
 		cursor_ptr->CursorMovement(preliminary_ptr->GetUpperLeft());
 	}
 }
-void GameManagement::EscKey_PlayingField()
+void GameManagement::EnterKey_InfoPanel()
+{
+	if (infoPanel_ptr->GetCurrentContent() == InfoPanelContentType::MenuScreen)
+	{
+		if (cursor_ptr->GetCursorConsoleLocation().Get_x() == infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetHalfXAxis())
+		{
+			infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+			infoPanel_ptr->SwitchContent(InfoPanelContentType::SystemMessagesAndConstructionInfo);
+		}
+		else if (cursor_ptr->GetCursorConsoleLocation().Get_x() == infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetHalfXAxis())
+		{
+			infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+			infoPanel_ptr->SwitchContent(InfoPanelContentType::Controls);
+		}
+		else
+		{
+			return; //TODO throw exception
+		}
+	}
+}
+void GameManagement::Enter_Key()
+{
+	switch (GetCursorArea())
+	{
+		case CursorLocation::Camera:
+		{
+			EnterKey_Camera();
+			return;
+		}
+		case CursorLocation::Menu:
+		{
+			EnterKey_Menu();
+			return;
+		}
+		case CursorLocation::InfoPanel:
+		{
+			EnterKey_InfoPanel();
+			return;
+		}
+		default: {return;} //TODO can throw exception here
+	}
+}
+void GameManagement::EscKey_Camera()
 {
 	Construction* preliminary_ptr = allObjects_ptr->GetPreliminaryElement();
 	if (preliminary_ptr != nullptr)
@@ -441,9 +520,37 @@ void GameManagement::EscKey_PlayingField()
 		{
 			elementOfPreliminary->DrawBorder();
 		}
-		allObjects_ptr->ErasePreliminaryElement();
+		allObjects_ptr->ErasePreliminaryElement(camera_ptr, field_ptr);
 		ReturnCursorToCamera();
 		DrawCursor();
+	}
+}
+void GameManagement::EscKey_InfoPanel()
+{
+	if (infoPanel_ptr->GetCurrentContent() == InfoPanelContentType::Controls || infoPanel_ptr->GetCurrentContent() == InfoPanelContentType::SystemMessagesAndConstructionInfo)
+	{
+		infoPanel_ptr->SwitchContent(InfoPanelContentType::MenuScreen);
+	}
+}
+void GameManagement::Esc_Key()
+{
+	switch (GetCursorArea())
+	{
+	case CursorLocation::Camera:
+	{
+		EscKey_Camera();
+		return;
+	}
+	case CursorLocation::Menu:
+	{
+		return; //TODO exception with message
+	}
+	case CursorLocation::InfoPanel:
+	{
+		EscKey_InfoPanel();
+		return;
+	}
+	default: {return; } //TODO can throw exception here
 	}
 }
 void GameManagement::Arrows_PlayingField(PointCoord cursorDestination)
@@ -524,8 +631,8 @@ void GameManagement::UserActions(int key)
 		case 77: { Arrows_PlayingField(PointCoord(cursor_ptr->GetCursorConsoleLocation().Get_x() + 1, cursor_ptr->GetCursorConsoleLocation().Get_y())); return; }	//right arrow 
 		case 80: { Arrows_PlayingField(PointCoord(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y() + 1)); return; }	//down arrow 
 		case 9: { TabKey_Playingfield(); return; }		//tab key moves cursor from the playing field to the upper visible icon from menu
-		case 13: { EnterKey_PlayingField(); return; }	//enter key builds construction, choosen from side menu
-		case 27: { EscKey_PlayingField(); return; }	//esc prevents from keep build choosen construction (tab key too)
+		case 13: { EnterKey_Camera(); return; }	//enter key builds construction, choosen from side menu
+		case 27: { EscKey_Camera(); return; }	//esc prevents from keep build choosen construction (tab key too)
 		default: return;
 		}
 	}

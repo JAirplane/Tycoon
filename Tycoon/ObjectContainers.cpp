@@ -49,11 +49,11 @@ Construction* AllObjects::GetPreliminaryElement() const
 {
 	return preliminaryConstruction_ptr;
 }
-void AllObjects::ErasePreliminaryElement()
+void AllObjects::ErasePreliminaryElement(Camera* camera_ptr, PlayingField* field_ptr)
 {
 	if (preliminaryConstruction_ptr != nullptr)
 	{
-		if (!allObjects_ptr->ObjectImposition(preliminaryConstruction_ptr, camera_ptr, field_ptr))
+		if (!ObjectImposition(preliminaryConstruction_ptr, camera_ptr, field_ptr))
 		{
 			draw_ptr->EraseConstruction(preliminaryConstruction_ptr->GetUpperLeft().Get_x(), preliminaryConstruction_ptr->GetUpperLeft().Get_y(),
 				preliminaryConstruction_ptr->GetUpperLeft().Get_x() + preliminaryConstruction_ptr->GetWidthAddition(),

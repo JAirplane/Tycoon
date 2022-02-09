@@ -55,16 +55,33 @@ public:
 	void EraseScreen();
 	void DisplayAllObjects();
 	//
+	void HideInterface();
+	void ShowInterface();
+	//
 	void GameProcess();
 	void UserActions(int key);
 	void H_Key();
 	void S_Key();
 	void R_Key();
+	//
+	void IKey_Camera();
+	void IKey_Menu();
+	void IKey_InfoPanel();
 	void I_Key();
+	//
+	void TabKey_Camera();
+	void TabKey_Menu();
+	void TabKey_InfoPanel();
 	void Tab_Key();
-	void EnterKey_PlayingField();
+	//
+	void EnterKey_Camera();
 	void EnterKey_Menu();
-	void EscKey_PlayingField();
+	void EnterKey_InfoPanel();
+	void Enter_Key();
+	//
+	void EscKey_Camera();
+	void EscKey_InfoPanel();
+	void Esc_Key();
 	void Arrows_PlayingField(PointCoord cursorDestination);
 	void UpArrow_Menu();
 	void DownArrow_Menu();
