@@ -490,27 +490,27 @@ const wstring ConstructionOptions::GetMenuScreenButtonBottomRightSymbol() const
 //
 const wstring ConstructionOptions::GetControlsVerticalSymbol() const
 {
-	return wstring(L"@");
+	return wstring(L"#");
 }
 const wstring ConstructionOptions::GetControlsHorizontalSymbol() const
 {
-	return wstring(L"@");
+	return wstring(L"#");
 }
 const wstring ConstructionOptions::GetControlsUpperLeftSymbol() const
 {
-	return wstring(L"@");
+	return wstring(L"#");
 }
 const wstring ConstructionOptions::GetControlsUpperRightSymbol() const
 {
-	return wstring(L"@");
+	return wstring(L"#");
 }
 const wstring ConstructionOptions::GetControlsBottomLeftSymbol() const
 {
-	return wstring(L"@");
+	return wstring(L"#");
 }
 const wstring ConstructionOptions::GetControlsBottomRightSymbol() const
 {
-	return wstring(L"@");
+	return wstring(L"#");
 }
 //
 const wstring ConstructionOptions::GetMessagesAndInfoVerticalSymbol() const

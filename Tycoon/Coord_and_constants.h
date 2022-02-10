@@ -21,6 +21,7 @@ enum class MenuStatus
 /////////////Icons Position higher or lower than current active icon or coord/////////////
 enum class IconsPosition
 {
+	NONE,
 	UPPER,
 	LOWER,
 };

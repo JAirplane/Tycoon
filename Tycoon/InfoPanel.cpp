@@ -109,21 +109,25 @@ void InfoPanel::ShowMenuScreen()
 void InfoPanel::ShowControls()
 {
 	currentScreen = InfoPanelContentType::Controls;
-	int midX = (gameControlInfo_ptr->GetWidthAddition() + 1) / 2;
-	int leftX = gameControlInfo_ptr->GetUpperLeft().Get_x();
-	int topY = gameControlInfo_ptr->GetUpperLeft().Get_y();
-	int rightX = gameControlInfo_ptr->GetUpperLeft().Get_x() + gameControlInfo_ptr->GetWidthAddition();
-	int bottomY = gameControlInfo_ptr->GetUpperLeft().Get_y() + gameControlInfo_ptr->GetHeightAddition();
 	gameControlInfo_ptr->DrawBorder();
+	int midX = gameControlInfo_ptr->GetHalfXAxis();
+	int topY = gameControlInfo_ptr->GetUpperLeft().Get_y();
+	int bottomY = gameControlInfo_ptr->GetUpperLeft().Get_y() + gameControlInfo_ptr->GetHeightAddition();
+	_setmode(_fileno(stdout), _O_U16TEXT);
+	set_color(cWHITE, cBLACK);
 	for (int y = topY + 1; y < bottomY; y++)
 	{
-		set_cursor_pos(leftX + midX, y);
+		set_cursor_pos(midX, y);
 		wcout << L"\u205E";
 	}
+	_setmode(_fileno(stdout), _O_TEXT);
 	gameControlInfo_ptr->DisplayControls();
 }
 void InfoPanel::ShowMessagesScreen()
 {
+	currentScreen = InfoPanelContentType::SystemMessagesAndConstructionInfo;
+	messagesAndInfoScreen_ptr->DrawBorder();
+
 	//TODO this
 }
 void InfoPanel::SwitchContent(InfoPanelContentType choosenContent)
@@ -131,59 +135,27 @@ void InfoPanel::SwitchContent(InfoPanelContentType choosenContent)
 	ClearContent();
 	switch (choosenContent)
 	{
-		case InfoPanelContentType::SplashScreen:
-		{
-			ShowSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
-			currentScreen = InfoPanelContentType::SplashScreen;
-			return;
-		}
-		case InfoPanelContentType::MenuScreen:
-		{
-			ShowMenuScreen();
-			currentScreen = InfoPanelContentType::MenuScreen;
-			return;
-		}
-		case InfoPanelContentType::Controls:
-		{
-			ShowControls();
-			currentScreen = InfoPanelContentType::Controls;
-			return;
-		}
-		case InfoPanelContentType::SystemMessagesAndConstructionInfo:
-		{
-			ShowMessagesScreen();
-			currentScreen = InfoPanelContentType::SystemMessagesAndConstructionInfo;
-			return;
-		}
-		default: {return;} //TODO throw exception
-	}
-}
-void InfoPanel::Arrows(Direction arrowDir)
-{
-	if (currentScreen == InfoPanelContentType::MenuScreen)
+	case InfoPanelContentType::SplashScreen:
 	{
-		if (GetCursor()->GetCursorConsoleLocation() ==
-			PointCoord(mainScreen_ptr->GetControlsButton()->GetUpperLeft().Get_x() + mainScreen_ptr->GetControlsButton()->GetWidthAddition() / 2,
-				mainScreen_ptr->GetControlsButton()->GetUpperLeft().Get_y()) && arrowDir == Direction::Left)
-		{
-			mainScreen_ptr->GetControlsButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
-			mainScreen_ptr->GetControlsButton()->DrawBorder();
-			mainScreen_ptr->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor());
-			mainScreen_ptr->GetMessagesButton()->DrawBorder();
-			GetCursor()->CursorMovement(PointCoord(mainScreen_ptr->GetMessagesButton()->GetUpperLeft().Get_x() + mainScreen_ptr->GetMessagesButton()->GetWidthAddition() / 2,
-				mainScreen_ptr->GetMessagesButton()->GetUpperLeft().Get_y()));
-		}
-		if (GetCursor()->GetCursorConsoleLocation() ==
-			PointCoord(mainScreen_ptr->GetMessagesButton()->GetUpperLeft().Get_x() + mainScreen_ptr->GetMessagesButton()->GetWidthAddition() / 2,
-				mainScreen_ptr->GetMessagesButton()->GetUpperLeft().Get_y()) && arrowDir == Direction::Right)
-		{
-			mainScreen_ptr->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
-			mainScreen_ptr->GetMessagesButton()->DrawBorder();
-			mainScreen_ptr->GetControlsButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor());
-			mainScreen_ptr->GetControlsButton()->DrawBorder();
-			GetCursor()->CursorMovement(PointCoord(mainScreen_ptr->GetControlsButton()->GetUpperLeft().Get_x() + mainScreen_ptr->GetControlsButton()->GetWidthAddition() / 2,
-				mainScreen_ptr->GetControlsButton()->GetUpperLeft().Get_y()));
-		}
+		ShowSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
+		return;
+	}
+	case InfoPanelContentType::MenuScreen:
+	{
+		ShowMenuScreen();
+		return;
+	}
+	case InfoPanelContentType::Controls:
+	{
+		ShowControls();
+		return;
+	}
+	case InfoPanelContentType::SystemMessagesAndConstructionInfo:
+	{
+		ShowMessagesScreen();
+		return;
+	}
+	default: {return; } //TODO throw exception
 	}
 }
 void InfoPanel::EndInteraction()

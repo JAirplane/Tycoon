@@ -1,4 +1,6 @@
 #pragma once
+#include <fcntl.h>
+#include <io.h>
 #include "MessagesAndInfoScreen_InfoPanel.h"
 #include "Alphabet.h"
 class InfoPanel : public MyRectangle
@@ -38,6 +40,5 @@ public:
 	void ShowControls();
 	void ShowMessagesScreen();
 	void SwitchContent(InfoPanelContentType choosenContent);
-	void Arrows(Direction arrowDir);
 	void EndInteraction();
 };
