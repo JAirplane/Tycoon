@@ -1,5 +1,8 @@
 #pragma once
 #include <iostream>
+#include <windows.h>
+#include <fcntl.h>
+#include <io.h>
 #include "msoftcon.h"
 using namespace std;
 class Visualisation

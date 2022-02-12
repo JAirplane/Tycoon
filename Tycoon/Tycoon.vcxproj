@@ -144,6 +144,7 @@
     <ClInclude Include="BuildingDescriptor.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="ConstructionDescriptor.h" />
+    <ClInclude Include="ConstructionInfoScreen.h" />
     <ClInclude Include="ConstructionManager.h" />
     <ClInclude Include="ConstructionOptions.h" />
     <ClInclude Include="ControlsScreen_InfoPanel.h" />
@@ -169,12 +170,14 @@
     <ClInclude Include="RoadGraph.h" />
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="SplitScreen.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Alphabet.cpp" />
     <ClCompile Include="BuildingDescriptor.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="ConstructionDescriptor.cpp" />
+    <ClCompile Include="ConstructionInfoScreen.cpp" />
     <ClCompile Include="ConstructionManager.cpp" />
     <ClCompile Include="ConstructionOptions.cpp" />
     <ClCompile Include="ControlsScreen_InfoPanel.cpp" />
@@ -200,6 +203,7 @@
     <ClCompile Include="run.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="SplitScreen.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

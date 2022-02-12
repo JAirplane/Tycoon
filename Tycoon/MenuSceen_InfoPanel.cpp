@@ -35,20 +35,5 @@ Button* MenuScreen::GetControlsButton() const
 }
 void MenuScreen::DrawMenuScreenButton(Button* button_ptr)
 {
-	button_ptr->DrawBorder();
-	button_ptr->ClearContent();
-	int length = (int)button_ptr->GetButtonTitle().length();
-	set_color(button_ptr->GetTextColor(), button_ptr->GetShadingColor());
-	if (length > button_ptr->GetWidthAddition() - 1)
-	{
-		string truncatedTitle = button_ptr->GetButtonTitle().substr(0, (size_t)(button_ptr->GetWidthAddition() - 1));
-		set_cursor_pos(button_ptr->GetUpperLeft().Get_x() + 1, button_ptr->GetUpperLeft().Get_y() + 2);
-		cout << truncatedTitle;
-	}
-	else
-	{
-		int addToLeftX = (button_ptr->GetWidthAddition() - 1 - length) / 2;
-		set_cursor_pos(button_ptr->GetUpperLeft().Get_x() + 1 + addToLeftX, button_ptr->GetUpperLeft().Get_y() + 2);
-		cout << button_ptr->GetButtonTitle();
-	}
+	button_ptr->Display();
 }

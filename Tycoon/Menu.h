@@ -7,7 +7,7 @@ private:
 	vector<MenuElement*> menuItems;
 	MenuStatus currentSide;
 	bool hidden;
-	ConstructionManager* CreateManager(PointCoord managerLocation, unsigned int constructionCost, string description, wstring iconSymbol, color foreground, color background);
+	ConstructionManager* CreateManager(PointCoord managerLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color background);
 	ConstructionManager* CreateManager(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color background,
 		wstring buildingSymbol, int dailyExpences = 0, int constructionheightAdd = 0, int constructionwidthAdd = 0);
 public:

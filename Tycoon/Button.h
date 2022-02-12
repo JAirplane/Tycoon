@@ -13,4 +13,5 @@ public:
 	~Button()
 	{}
 	string GetButtonTitle() const;
+	void Display() const;
 };

@@ -36,7 +36,7 @@ public:
 	Cursor* GetCursor() const;
 	void SetTextColor(color letterColor);
 	void SetShadingColor(color backgroundColor);
-	void DrawBorder();
-	void EraseBorder();
+	virtual void DrawBorder() const;
+	virtual void EraseBorder() const;
 	void ClearContent();
 };

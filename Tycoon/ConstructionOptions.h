@@ -25,6 +25,7 @@ public:
 	virtual const int GetMenuHeightAdd() const;
 	virtual const int GetPlayingFieldHeightAdd() const;
 	virtual const int GetInfoPanelHeightAdd() const;
+	virtual const int GetConstructionInfoButtonHeightAdd() const;
 	///////////////Width Addition Constants///////////////
 	virtual const int GetIceCreamShopWidthAdd() const;
 	virtual const int GetRoadWidthAdd() const;
@@ -35,6 +36,7 @@ public:
 	virtual const int GetPlayingFieldWidthAdd() const;
 	virtual const int GetInfoPanelWidthAdd() const;
 	virtual const int GetInfoPanelButtonWidthAdd() const;
+	virtual const int GetConstructionInfoButtonWidthAdd() const;
 	///////////////Cost Initialisation Constants///////////////
 	virtual const int GetIceCreamShopCost() const;
 	virtual const int GetRoadCost() const;
@@ -62,54 +64,83 @@ public:
 	///////////////Color Constants///////////////
 	virtual color GetIceCreamShopForegroundColor() const;
 	virtual color GetIceCreamShopBackgroundColor() const;
+	//
 	virtual color GetRoadForegroundColor() const;
 	virtual color GetRoadBackgroundColor() const;
+	//
 	virtual color GetCursorBackgroundColor() const;
+	//
 	virtual color GetCameraBorderForegroundColor() const;
 	virtual color GetCameraBorderBackgroundColor() const;
 	virtual color GetCameraLetterColor() const;
 	virtual color GetCameraShadingColor() const;
+	//
 	virtual color GetPlayingFieldBorderForegroundColor() const;
 	virtual color GetPlayingFieldBorderBackgroundColor() const;
 	virtual color GetPlayingFieldLetterColor() const;
 	virtual color GetPlayingFieldShadingColor() const;
+	//
 	virtual color GetInfoPanelBorderForegroundColor() const;
 	virtual color GetInfoPanelBorderBackgroundColor() const;
 	virtual color GetInfoPanelTextColor() const;
 	virtual color GetInfoPanelShadingColor() const;
+	//
 	virtual color GetSplashScreenForegroundColor() const;
 	virtual color GetSplashScreenBackgroundColor() const;
+	//
 	virtual color GetMenuScreenBorderForegroundColor() const;
 	virtual color GetMenuScreenBorderBackgroundColor() const;
 	virtual color GetMenuScreenTextColor() const;
 	virtual color GetMenuScreenShadingColor() const;
+	//
 	virtual color GetMenuBorderForegroundColor() const;
 	virtual color GetMenuBorderBackgroundColor() const;
 	virtual color GetMenuLetterColor() const;
 	virtual color GetMenuShadingColor() const;
+	//
 	virtual color GetMenuIconForegroundColor() const;
 	virtual color GetMenuIconBackgroundColor() const;
 	virtual color GetMenuIconLetterColor() const;
 	virtual color GetMenuIconShadingColor() const;
+	//
 	virtual color GetMenuElementInactiveColor() const;
 	virtual color GetMenuElementActiveColor() const;
 	virtual color GetMenuElementUnderConstructionColor() const;
 	virtual color GetMenuElementBackgroundColor() const;
 	virtual color GetMenuElementLetterColor() const;
 	virtual color GetMenuElementShadingColor() const;
+	//
 	virtual color GetButtonBorderActiveColor() const;
 	virtual color GetButtonBorderInactiveColor() const;
 	virtual color GetButtonBorderBackgroundColor() const;
 	virtual color GetButtonContentForegroundColor() const;
 	virtual color GetButtonContentBackgroundColor() const;
+	//
 	virtual color GetControlsScreenBorderForegroundColor() const;
 	virtual color GetControlsScreenBorderBackgroundColor() const;
 	virtual color GetControlsScreenLetterColor() const;
 	virtual color GetControlsScreenShadingColor() const;
+	//
 	virtual color GetMessagesAndInfoScreenBorderForegroundColor() const;
 	virtual color GetMessagesAndInfoScreenBorderBackgroundColor() const;
 	virtual color GetMessagesAndInfoScreenLetterColor() const;
 	virtual color GetMessagesAndInfoScreenShadingColor() const;
+	//
+	virtual color GetMessagesPartScreenLetterColor() const;
+	virtual color GetMessagesPartScreenShadingColor() const;
+	//
+	virtual color GetInfoPartScreenLetterColor() const;
+	virtual color GetInfoPartScreenShadingColor() const;
+	//
+	virtual color GetConstructionInfoButtonBorderForegroundColor() const;
+	virtual color GetConstructionInfoButtonBorderBackgroundColor() const;
+	virtual color GetConstructionInfoButtonLetterColor() const;
+	virtual color GetConstructionInfoButtonShadingColor() const;
+	//
+	virtual color GetConstructionInfoScreenIconBorderForegroundColor() const;
+	virtual color GetConstructionInfoScreenIconBorderBackgroundColor() const;
+	virtual color GetConstructionInfoScreenIconLetterColor() const;
+	virtual color GetConstructionInfoScreenIconShadingColor() const;
 	///////////////PlayingField Symbol Constants///////////////
 	virtual const wstring GetVerticalPlayingField() const;
 	virtual const wstring GetHorizontalPlayingField() const;
@@ -153,8 +184,25 @@ public:
 	virtual const wstring GetMessagesAndInfoBottomLeftSymbol() const;
 	virtual const wstring GetMessagesAndInfoBottomRightSymbol() const;
 	//
+	virtual const wstring GetConstructionInfoButtonVerticalSymbol() const;
+	virtual const wstring GetConstructionInfoButtonHorizontalSymbol() const;
+	virtual const wstring GetConstructionInfoButtonUpperLeftSymbol() const;
+	virtual const wstring GetConstructionInfoButtonUpperRightSymbol() const;
+	virtual const wstring GetConstructionInfoButtonBottomLeftSymbol() const;
+	virtual const wstring GetConstructionInfoButtonBottomRightSymbol() const;
+	//
+	virtual const wstring GetConstructionInfoScreenIconVerticalSymbol() const;
+	virtual const wstring GetConstructionInfoScreenIconHorizontalSymbol() const;
+	virtual const wstring GetConstructionInfoScreenIconUpperLeftSymbol() const;
+	virtual const wstring GetConstructionInfoScreenIconUpperRightSymbol() const;
+	virtual const wstring GetConstructionInfoScreenIconBottomLeftSymbol() const;
+	virtual const wstring GetConstructionInfoScreenIconBottomRightSymbol() const;
+	//Empty Border Rectangle Symbol
+	virtual const wstring GetEmptyRectangleBorderSymbol() const;
+	//
 	virtual const string GetControlsButtonTitle() const;
 	virtual const string GetInfoScreenButtonTitle() const;
+	virtual const string GetDeconstructButtonTitle() const;
 	//
 	///////////////Menu Border Symbol Constants///////////////
 	virtual const wstring GetMenuVerticalSymbol() const;

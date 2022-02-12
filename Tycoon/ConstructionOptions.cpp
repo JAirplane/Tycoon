@@ -37,6 +37,10 @@ const int ConstructionOptions::GetInfoPanelHeightAdd() const
 {
 	return 10;
 }
+const int ConstructionOptions::GetConstructionInfoButtonHeightAdd() const
+{
+	return 2;
+}
 ///////////////Width Addition Constants///////////////
 const int ConstructionOptions::GetIceCreamShopWidthAdd() const
 {
@@ -73,6 +77,10 @@ const int ConstructionOptions::GetInfoPanelWidthAdd() const
 const int ConstructionOptions::GetInfoPanelButtonWidthAdd() const
 {
 	return 30;
+}
+const int ConstructionOptions::GetConstructionInfoButtonWidthAdd() const
+{
+	return 12;
 }
 ///////////////Cost Initialisation Constants///////////////
 const int ConstructionOptions::GetIceCreamShopCost() const
@@ -356,6 +364,55 @@ color ConstructionOptions::GetMessagesAndInfoScreenShadingColor() const
 {
 	return cBLACK;
 }
+color ConstructionOptions::GetMessagesPartScreenLetterColor() const
+{
+	return cBLUE;
+}
+color ConstructionOptions::GetMessagesPartScreenShadingColor() const
+{
+	return cYELLOW;
+}
+color ConstructionOptions::GetInfoPartScreenLetterColor() const
+{
+	return cGREEN;
+}
+color ConstructionOptions::GetInfoPartScreenShadingColor() const
+{
+	return cBLACK;
+}
+color ConstructionOptions::GetConstructionInfoButtonBorderForegroundColor() const
+{
+	return cYELLOW;
+}
+color ConstructionOptions::GetConstructionInfoButtonBorderBackgroundColor() const
+{
+	return cGREEN;
+}
+color ConstructionOptions::GetConstructionInfoButtonLetterColor() const
+{
+	return cRED;
+}
+color ConstructionOptions::GetConstructionInfoButtonShadingColor() const
+{
+	return cBLACK;
+}
+//
+color ConstructionOptions::GetConstructionInfoScreenIconBorderForegroundColor() const
+{
+	return cRED;
+}
+color ConstructionOptions::GetConstructionInfoScreenIconBorderBackgroundColor() const
+{
+	return cBLACK;
+}
+color ConstructionOptions::GetConstructionInfoScreenIconLetterColor() const
+{
+	return cBLACK;
+}
+color ConstructionOptions::GetConstructionInfoScreenIconShadingColor() const
+{
+	return cBLACK;
+}
 ///////////////PlayingField Symbol Constants///////////////
 const wstring ConstructionOptions::GetVerticalPlayingField() const
 {
@@ -538,6 +595,56 @@ const wstring ConstructionOptions::GetMessagesAndInfoBottomRightSymbol() const
 	return wstring(L"@");
 }
 //
+const wstring ConstructionOptions::GetConstructionInfoButtonVerticalSymbol() const
+{
+	return wstring(L"*");
+}
+const wstring ConstructionOptions::GetConstructionInfoButtonHorizontalSymbol() const
+{
+	return wstring(L"*");
+}
+const wstring ConstructionOptions::GetConstructionInfoButtonUpperLeftSymbol() const
+{
+	return wstring(L"*");
+}
+const wstring ConstructionOptions::GetConstructionInfoButtonUpperRightSymbol() const
+{
+	return wstring(L"*");
+}
+const wstring ConstructionOptions::GetConstructionInfoButtonBottomLeftSymbol() const
+{
+	return wstring(L"*");
+}
+const wstring ConstructionOptions::GetConstructionInfoButtonBottomRightSymbol() const
+{
+	return wstring(L"*");
+}
+//
+const wstring ConstructionOptions::GetConstructionInfoScreenIconVerticalSymbol() const
+{
+	return wstring(L"\u2593");
+}
+const wstring ConstructionOptions::GetConstructionInfoScreenIconHorizontalSymbol() const
+{
+	return wstring(L"\u2593");
+}
+const wstring ConstructionOptions::GetConstructionInfoScreenIconUpperLeftSymbol() const
+{
+	return wstring(L"\u2593");
+}
+const wstring ConstructionOptions::GetConstructionInfoScreenIconUpperRightSymbol() const
+{
+	return wstring(L"\u2593");
+}
+const wstring ConstructionOptions::GetConstructionInfoScreenIconBottomLeftSymbol() const
+{
+	return wstring(L"\u2593");
+}
+const wstring ConstructionOptions::GetConstructionInfoScreenIconBottomRightSymbol() const
+{
+	return wstring(L"\u2593");
+}
+//
 const string ConstructionOptions::GetControlsButtonTitle() const
 {
 	return "CONTROLS";
@@ -545,6 +652,10 @@ const string ConstructionOptions::GetControlsButtonTitle() const
 const string ConstructionOptions::GetInfoScreenButtonTitle() const
 {
 	return "MESSAGES AND INFO";
+}
+const string ConstructionOptions::GetDeconstructButtonTitle() const
+{
+	return "Deconstruct";
 }
 ///////////////Camera Border Symbol Constants///////////////
 const wstring ConstructionOptions::GetCameraVerticalSymbol() const
@@ -620,6 +731,11 @@ const wstring ConstructionOptions::GetMenuIconBottomLeftSymbol() const
 const wstring ConstructionOptions::GetMenuIconBottomRightSymbol() const
 {
 	return wstring(L"\u255D");
+}
+///////////////Empty Border Rectangle Symbol///////////////
+const wstring ConstructionOptions::GetEmptyRectangleBorderSymbol() const
+{
+	return wstring(L" ");
 }
 ///////////////Indent Constants///////////////
 const int ConstructionOptions::GetInfoPanelAboveIndent() const

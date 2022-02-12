@@ -1,18 +1,34 @@
 #pragma once
 #include "ControlsScreen_InfoPanel.h"
-class GameMessagesScreen : public MyRectangle
+class MessagesAndInfoScreen : public SplitScreen
 {
 private:
+	MyRectangle* messagesScreen_ptr;
+	ConstructionInfoScreen* constructionInfo_ptr;
 	list<string> messages;
 public:
-	GameMessagesScreen(PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* borderApp_ptr, color letterColor, color backgroundColor, Visualisation* vis_ptr,
-		Cursor* cur_ptr) : MyRectangle(upperLeft, heightAdd, widthAdd, borderApp_ptr, letterColor, backgroundColor, vis_ptr, cur_ptr)
-		{}
-	~GameMessagesScreen()
-		{}
+	MessagesAndInfoScreen(PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* borderApp_ptr, color letterColor, color backgroundColor, Visualisation* vis_ptr,
+		Cursor* cur_ptr) : SplitScreen(upperLeft, heightAdd, widthAdd, borderApp_ptr, letterColor, backgroundColor, vis_ptr, cur_ptr)
+	{
+		messagesScreen_ptr = nullptr;
+		constructionInfo_ptr = nullptr;
+	}
+	~MessagesAndInfoScreen()
+	{
+		delete messagesScreen_ptr;
+		delete constructionInfo_ptr;
+	}
+	void CreateMessagesScreen();
+	void CreateConstructionInfoScreen();
+	//
+	ConstructionInfoScreen* GetConstructionInfoScreen() const;
+	//
+	bool MessagesIsEmpty();
 	void AddMessage(const string);
 	void DeleteMessage();
-	void DisplayMessage(int initialX, int initialY, string message, color letterColor, color background = cBLACK);
+	void DisplayMessage(int initialX, int initialY, string message);
 	void DeleteOldMessages();
 	void DisplayMessages();
+	//
+	
 };

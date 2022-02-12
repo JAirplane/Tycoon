@@ -9,6 +9,7 @@ class Construction : public IngameObject
 private:
 	ConstructionDescriptor* describe_ptr;
 	bool connectedToRoad;
+	int visitorsCount;
 public:
 	Construction(PointCoord upperLeft, ConstructionDescriptor* description_ptr, Visualisation* paint_ptr) : IngameObject(upperLeft, paint_ptr)
 	{
@@ -16,6 +17,7 @@ public:
 		SetHeightAddition(describe_ptr->GetConstructionHeightAdd());
 		SetWidthAddition(describe_ptr->GetConstructionWidthAdd());
 		connectedToRoad = false;
+		visitorsCount = 0;
 	}
 	~Construction()
 	{}
@@ -36,6 +38,9 @@ public:
 	void DrawObject(int mask = 0) const override;
 	virtual void RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
 	static void RedrawNeibours(PointCoord centralPoint, const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr);
+	int GetVisitorsCount() const;
+	void SetVisitorsCount(int visitorsCount);
+	virtual int GetProfit() const = 0;
 };
 /////////////Parent Class of buildings/////////////
 class Building : public Construction
@@ -44,8 +49,7 @@ private:
 	int entranceHeightAdd;
 	int entranceWidthAdd;
 	Direction exitDirection;
-	int lastDayVisitors;
-	int lastDayProfit;
+	int overallProfit;
 public:
 	Building(PointCoord upperLeft, ConstructionDescriptor* manager_ptr, Visualisation* paint_ptr) : Construction(upperLeft, manager_ptr, paint_ptr)
 	{
@@ -53,8 +57,7 @@ public:
 		SetWidthAddition(manager_ptr->GetConstructionWidthAdd());
 		this->entranceHeightAdd = manager_ptr->GetConstructionHeightAdd();
 		this->entranceWidthAdd = manager_ptr->GetConstructionWidthAdd() / 2;
-		lastDayVisitors = 0;
-		lastDayProfit = 0;
+		overallProfit = 0;
 		exitDirection = Direction::Down;
 	}
 	~Building() {}
@@ -74,8 +77,6 @@ public:
 	int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
 	void IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
 	void ConnectedToRoad(const list<Road*>& allRoads, const Construction* preliminary_ptr) override;
-	int GetVisitorsCount() const;
-	void SetVisitorsCount(int visitorsCount);
 	int GetProfit() const;
 	void SetProfit(int profit);
 	color GetBackgroundColor() const;
@@ -102,6 +103,7 @@ public:
 	void RotateConstruction() override;
 	bool GetGraphStatus() const;
 	void SetGraphStatus(bool status);
+	int GetProfit() const;
 	bool RoadIsAnEntrance(const list<Building*>& allBuildings);
 	PointCoord GetEntrancePoint() const override;
 	PointCoord GetRedrawNeiboursPoint() const override;

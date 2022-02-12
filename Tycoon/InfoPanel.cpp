@@ -52,8 +52,10 @@ void InfoPanel::CreateGameMessagesScreen()
 	PointCoord messagesAndInfoScreenUpperLeft = PointCoord(GetUpperLeft().Get_x() + 2, GetUpperLeft().Get_y() + 2);
 	int messagesAndInfoScreenHeightAdd = GetHeightAddition() - 4;
 	int messagesAndInfoScreenWidthAdd = GetWidthAddition() - 4;
-	messagesAndInfoScreen_ptr = new GameMessagesScreen(messagesAndInfoScreenUpperLeft, messagesAndInfoScreenHeightAdd, messagesAndInfoScreenWidthAdd,
+	messagesAndInfoScreen_ptr = new MessagesAndInfoScreen(messagesAndInfoScreenUpperLeft, messagesAndInfoScreenHeightAdd, messagesAndInfoScreenWidthAdd,
 		messagesAndInfoBorderVisual_ptr, messagesAndInfoLetterColor, messagesAndInfoShadingColor, GetDrawPointer(), GetCursor());
+	messagesAndInfoScreen_ptr->CreateConstructionInfoScreen();
+	messagesAndInfoScreen_ptr->CreateMessagesScreen();
 }
 //
 const MenuScreen* InfoPanel::GetMenuScreen()
@@ -64,7 +66,7 @@ const ControlsScreen* InfoPanel::GetControlsScreen()
 {
 	return gameControlInfo_ptr;
 }
-GameMessagesScreen* InfoPanel::GetMessagesScreen()
+MessagesAndInfoScreen* InfoPanel::GetMessagesScreen()
 {
 	return messagesAndInfoScreen_ptr;
 }
@@ -110,25 +112,22 @@ void InfoPanel::ShowControls()
 {
 	currentScreen = InfoPanelContentType::Controls;
 	gameControlInfo_ptr->DrawBorder();
-	int midX = gameControlInfo_ptr->GetHalfXAxis();
-	int topY = gameControlInfo_ptr->GetUpperLeft().Get_y();
-	int bottomY = gameControlInfo_ptr->GetUpperLeft().Get_y() + gameControlInfo_ptr->GetHeightAddition();
-	_setmode(_fileno(stdout), _O_U16TEXT);
-	set_color(cWHITE, cBLACK);
-	for (int y = topY + 1; y < bottomY; y++)
-	{
-		set_cursor_pos(midX, y);
-		wcout << L"\u205E";
-	}
-	_setmode(_fileno(stdout), _O_TEXT);
 	gameControlInfo_ptr->DisplayControls();
 }
 void InfoPanel::ShowMessagesScreen()
 {
 	currentScreen = InfoPanelContentType::SystemMessagesAndConstructionInfo;
 	messagesAndInfoScreen_ptr->DrawBorder();
-
-	//TODO this
+	if (!messagesAndInfoScreen_ptr->MessagesIsEmpty())
+	{
+		messagesAndInfoScreen_ptr->DeleteOldMessages();
+		messagesAndInfoScreen_ptr->DisplayMessages();
+	}
+	else
+	{
+		messagesAndInfoScreen_ptr->DisplayMessage(GetHalfXAxis() + 2, messagesAndInfoScreen_ptr->GetUpperLeft().Get_y() + 1, "No messages");
+	}
+	messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->DisplayConstructionInfo();
 }
 void InfoPanel::SwitchContent(InfoPanelContentType choosenContent)
 {

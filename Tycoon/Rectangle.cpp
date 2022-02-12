@@ -28,14 +28,14 @@ void MyRectangle::SetShadingColor(color backgroundColor)
 {
 	shadingColor = backgroundColor;
 }
-void MyRectangle::DrawBorder()
+void MyRectangle::DrawBorder() const
 {
 	draw_ptr->DrawRectangle(GetUpperLeft().Get_x(), GetUpperLeft().Get_y(), GetUpperLeft().Get_x() + GetWidthAddition(), GetUpperLeft().Get_y() + GetHeightAddition(),
 		GetBorder()->GetBorderSymbols()->GetVerticalSymbol(), GetBorder()->GetBorderSymbols()->GetHorizontalSymbol(), GetBorder()->GetBorderSymbols()->GetUpperLeftSymbol(),
 		GetBorder()->GetBorderSymbols()->GetUpperRightSymbol(), GetBorder()->GetBorderSymbols()->GetBottomLeftSymbol(), GetBorder()->GetBorderSymbols()->GetBottomRightSymbol(),
 		GetBorder()->GetBorderForegroundColor(), GetBorder()->GetBorderBackgroundColor());
 }
-void MyRectangle::EraseBorder()
+void MyRectangle::EraseBorder() const
 {
 	int leftX = GetUpperLeft().Get_x();
 	int topY = GetUpperLeft().Get_y();

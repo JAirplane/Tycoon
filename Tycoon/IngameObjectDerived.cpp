@@ -50,6 +50,14 @@ void Construction::RedrawNeibours(PointCoord centralPoint, const list<Road*>& al
 		}
 	}
 }
+int Construction::GetVisitorsCount() const
+{
+	return visitorsCount;
+}
+void Construction::SetVisitorsCount(int visitorsCount)
+{
+	this->visitorsCount = visitorsCount;
+}
 ///////////////Building Class: Construction derived///////////////
 int Building::GetEntranceHeightAdd() const
 {
@@ -180,21 +188,13 @@ void Building::ConnectedToRoad(const list<Road*>& allRoads, const Construction* 
 }
 void Building::IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
 	{}
-int Building::GetVisitorsCount() const
-{
-	return lastDayVisitors;
-}
-void Building::SetVisitorsCount(int visitorsCount)
-{
-	lastDayVisitors = visitorsCount;
-}
 int Building::GetProfit() const
 {
-	return lastDayProfit;
+	return overallProfit;
 }
 void Building::SetProfit(int profit)
 {
-	lastDayProfit = profit;
+	overallProfit = profit;
 }
 color Building::GetBackgroundColor() const
 {
@@ -258,6 +258,10 @@ bool Road::GetGraphStatus() const
 void Road::SetGraphStatus(bool graphStatus)
 {
 	this->graphStatus = graphStatus;
+}
+int Road::GetProfit() const
+{
+	return -1;
 }
 void Road::DefineGraphStatus(int mask) // use NeibourRoadMask here!
 {

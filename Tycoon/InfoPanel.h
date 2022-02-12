@@ -8,7 +8,7 @@ class InfoPanel : public MyRectangle
 private:
 	MenuScreen* mainScreen_ptr;
 	ControlsScreen* gameControlInfo_ptr;
-	GameMessagesScreen* messagesAndInfoScreen_ptr;
+	MessagesAndInfoScreen* messagesAndInfoScreen_ptr;
 	InfoPanelContentType currentScreen;
 public:
 	InfoPanel(PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* externalBorder, color letterColor,
@@ -32,7 +32,7 @@ public:
 	//
 	const MenuScreen* GetMenuScreen();
 	const ControlsScreen* GetControlsScreen();
-	GameMessagesScreen* GetMessagesScreen();
+	MessagesAndInfoScreen* GetMessagesScreen();
 	InfoPanelContentType GetCurrentContent() const;
 	//
 	void ShowSplashScreen(color foreground, color background);

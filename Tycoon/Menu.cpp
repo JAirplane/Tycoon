@@ -1,7 +1,7 @@
 #include "Menu.h"
 /////////////Side Menu Class/////////////
 //for roads
-ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, unsigned int constructionCost, string description, wstring iconSymbol, color foreground, color background)
+ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color background)
 {
 	ConstructionDescriptor* roadDesc_ptr = new RoadDescriptor(menuElementLocation, constructionCost, description, iconSymbol, foreground, background);
 	return new RoadManager(GetCursor(), roadDesc_ptr);
