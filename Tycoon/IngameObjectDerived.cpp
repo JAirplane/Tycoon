@@ -1,6 +1,6 @@
 #include "IngameObjectDerived.h"
 ///////////////Construction Class: GlobalObject derived///////////////
-ConstructionDescriptor* Construction::GetDescriptor() //no setter here
+ConstructionDescriptor* Construction::GetDescriptor() const //no setter here
 {
 	return describe_ptr;
 }
@@ -12,17 +12,37 @@ void Construction::SetRoadConnectionStatus(bool connected)
 {
 	connectedToRoad = connected;
 }
+bool Construction::GetChosenStatus() const
+{
+	return isChosen;
+}
+void Construction::SetChosenStatus(bool chosen)
+{
+	isChosen = chosen;
+}
 wstring Construction::GetEntranceSymbol(Direction out) const
 {
 	return wstring(L"");
 }
 color Construction::GetBackgroundColor() const
 {
-	return GetDescriptor()->GetBackgroundColor();
-}
-void Construction::SetBackgroundColor(color background)
-{
-	GetDescriptor()->SetBackgroundColor(background);
+	color background = cBLACK;
+	if (GetChosenStatus())
+	{
+		background = GetDescriptor()->GetChosenBackgroundColor();
+	}
+	else
+	{
+		if (!GetRoadConnectionStatus())
+		{
+			background = GetDescriptor()->GetNotConnectedBackgroundColor();
+		}
+		else
+		{
+			background = GetDescriptor()->GetConnectedBackgroundColor();
+		}
+	}
+	return background;
 }
 void Construction::DrawObject(int mask) const
 {}
@@ -184,7 +204,6 @@ void Building::ConnectedToRoad(const list<Road*>& allRoads, const Construction* 
 		if ((*roadIter)->GetUpperLeft() == potentialRoad)
 		{
 			SetRoadConnectionStatus(true);
-			SetBackgroundColor();
 			return;
 		}
 	}
@@ -470,7 +489,7 @@ void Road::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& al
 void Road::DrawObject(int mask) const
 {
 	GetPainter()->DrawConstruction(GetUpperLeft().Get_x(), GetUpperLeft().Get_y(), GetUpperLeft().Get_x() + GetWidthAddition(), GetUpperLeft().Get_y() + GetHeightAddition(),
-		GetDescriptor()->GetConstructionSymbol(mask), GetDescriptor()->GetForegroundColor(), GetDescriptor()->GetBackgroundColor());
+		GetDescriptor()->GetConstructionSymbol(mask), GetDescriptor()->GetForegroundColor(), GetBackgroundColor());
 }
 ///////////////Visitor Class///////////////
 void Visitor::VisitorMove(int x, int y)

@@ -63,10 +63,14 @@ public:
 	virtual const wstring GetRoadIconSymbol() const;
 	///////////////Color Constants///////////////
 	virtual color GetIceCreamShopForegroundColor() const;
-	virtual color GetIceCreamShopBackgroundColor() const;
+	virtual color GetIceCreamShopConnectedBackgroundColor() const;
+	virtual color GetIceCreamShopNotConnectedBackgroundColor() const;
+	virtual color GetIceCreamShopChosenBackgroundColor() const;
 	//
 	virtual color GetRoadForegroundColor() const;
-	virtual color GetRoadBackgroundColor() const;
+	virtual color GetRoadConnectedBackgroundColor() const;
+	virtual color GetRoadNotConnectedBackgroundColor() const;
+	virtual color GetRoadChosenBackgroundColor() const;
 	//
 	virtual color GetCursorBackgroundColor() const;
 	//

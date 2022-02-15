@@ -28,13 +28,17 @@ color ConstructionDescriptor::GetForegroundColor()
 {
 	return foreground;
 }
-color ConstructionDescriptor::GetBackgroundColor()
+color ConstructionDescriptor::GetConnectedBackgroundColor()
 {
-	return background;
+	return backgroundConnected;
 }
-void ConstructionDescriptor::SetBackgroundColor(color background)
+color ConstructionDescriptor::GetNotConnectedBackgroundColor()
 {
-	this->background = background;
+	return backgroundNotConnected;
+}
+color ConstructionDescriptor::GetChosenBackgroundColor()
+{
+	return backgroundChoosen;
 }
 wstring ConstructionDescriptor::GetConstructionSymbol(int mask)
 {

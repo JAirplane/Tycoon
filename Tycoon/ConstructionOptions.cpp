@@ -172,22 +172,32 @@ color ConstructionOptions::GetIceCreamShopConnectedBackgroundColor() const
 {
 	return color::cDARK_CYAN;
 }
-color ConstructionOptions::GetIceCreamShopBackgroundColor() const
+color ConstructionOptions::GetIceCreamShopNotConnectedBackgroundColor() const
 {
-	return color::cDARK_CYAN;
+	return color::cBLACK;
 }
-color ConstructionOptions::GetIceCreamShopBackgroundColor() const
+color ConstructionOptions::GetIceCreamShopChosenBackgroundColor() const
 {
-	return color::cDARK_CYAN;
+	return color::cRED;
 }
+//
 color ConstructionOptions::GetRoadForegroundColor() const
 {
 	return color::cGREEN;
 }
-color ConstructionOptions::GetRoadBackgroundColor() const
+color ConstructionOptions::GetRoadConnectedBackgroundColor() const
 {
 	return color::cDARK_GRAY;
 }
+color ConstructionOptions::GetRoadNotConnectedBackgroundColor() const
+{
+	return cBLACK;
+}
+color ConstructionOptions::GetRoadChosenBackgroundColor() const
+{
+	return cRED;
+}
+//
 color ConstructionOptions::GetCursorBackgroundColor() const
 {
 	return color::cYELLOW;

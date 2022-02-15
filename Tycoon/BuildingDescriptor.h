@@ -5,9 +5,10 @@ class BuildingDescriptor : public ConstructionDescriptor
 private:
 	wstring buildingSymbol;
 public:
-	BuildingDescriptor(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color background, wstring buildingSymbol,
-		int dailyExpences = 0, int constructionheightAdd = 0, int constructionwidthAdd = 0) :
-		ConstructionDescriptor(menuElementLocation, constructionCost, description, iconSymbol, foreground, background, dailyExpences, constructionheightAdd, constructionwidthAdd)
+	BuildingDescriptor(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
+		color backgroundNotConnected, color backgroundChoosen, wstring buildingSymbol, int dailyExpences = 0, int constructionheightAdd = 0, int constructionwidthAdd = 0) :
+		ConstructionDescriptor(menuElementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected, backgroundNotConnected, backgroundChoosen,
+			dailyExpences, constructionheightAdd, constructionwidthAdd)
 	{
 		this->buildingSymbol = buildingSymbol;
 	}

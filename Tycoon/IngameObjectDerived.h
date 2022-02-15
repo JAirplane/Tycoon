@@ -9,6 +9,7 @@ class Construction : public IngameObject
 private:
 	ConstructionDescriptor* describe_ptr;
 	bool connectedToRoad;
+	bool isChosen;
 	int visitorsCount;
 public:
 	Construction(PointCoord upperLeft, ConstructionDescriptor* description_ptr, Visualisation* paint_ptr) : IngameObject(upperLeft, paint_ptr)
@@ -17,11 +18,12 @@ public:
 		SetHeightAddition(describe_ptr->GetConstructionHeightAdd());
 		SetWidthAddition(describe_ptr->GetConstructionWidthAdd());
 		connectedToRoad = false;
+		isChosen = false;
 		visitorsCount = 0;
 	}
 	~Construction()
 	{}
-	ConstructionDescriptor* GetDescriptor() override; //no setter here
+	ConstructionDescriptor* GetDescriptor() const; //no setter here
 	//
 	virtual int GetEntranceHeightAdd() const = 0;
 	virtual int GetEntranceWidthAdd() const = 0;
@@ -32,9 +34,12 @@ public:
 	virtual wstring GetEntranceSymbol(Direction out) const;
 	bool GetRoadConnectionStatus() const;
 	void SetRoadConnectionStatus(bool connected);
-	color GetBackgroundColor() const;
-	void SetBackgroundColor(color background);
+	bool GetChosenStatus() const;
+	void SetChosenStatus(bool chosen);
+	virtual int GetProfit() const = 0;
+	virtual int GetVisitorsCount() const;
 	//
+	color GetBackgroundColor() const;
 	virtual void RotateConstruction() = 0;
 	virtual int GetNeibourRoadMask(const list<Road*>& allRoads, const Construction* preliminary_ptr) const = 0;
 	virtual int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
@@ -43,9 +48,7 @@ public:
 	void DrawObject(int mask = 0) const override;
 	virtual void RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
 	static void RedrawNeibours(PointCoord centralPoint, const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr);
-	int GetVisitorsCount() const;
 	void SetVisitorsCount(int visitorsCount);
-	virtual int GetProfit() const = 0;
 };
 /////////////Parent Class of buildings/////////////
 class Building : public Construction

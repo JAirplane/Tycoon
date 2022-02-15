@@ -57,12 +57,14 @@ void GameManagement::CreateMenuAndElements()
 		ConstructionOptions::GetAllOptions()->GetMenuWidthAdd(), menuBorder, menuLetterColor, menuShadingColor);
 	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetIceCreamShopCost(),
 		ConstructionOptions::GetAllOptions()->GetIceCreamShopDescription(), ConstructionOptions::GetAllOptions()->GetIceCreamShopIconSymbol(),
-		ConstructionOptions::GetAllOptions()->GetIceCreamShopForegroundColor(), ConstructionOptions::GetAllOptions()->GetIceCreamShopBackgroundColor(),
+		ConstructionOptions::GetAllOptions()->GetIceCreamShopForegroundColor(), ConstructionOptions::GetAllOptions()->GetIceCreamShopConnectedBackgroundColor(),
+		ConstructionOptions::GetAllOptions()->GetIceCreamShopNotConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetIceCreamShopChosenBackgroundColor(),
 		ConstructionOptions::GetAllOptions()->GetIceCreamShopSymbol(), ConstructionOptions::GetAllOptions()->GetIceCreamShopExpences(),
 		ConstructionOptions::GetAllOptions()->GetIceCreamShopHeightAdd(), ConstructionOptions::GetAllOptions()->GetIceCreamShopWidthAdd());
 	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetRoadCost(), ConstructionOptions::GetAllOptions()->GetRoadDescription(),
 		ConstructionOptions::GetAllOptions()->GetRoadIconSymbol(), ConstructionOptions::GetAllOptions()->GetRoadForegroundColor(),
-		ConstructionOptions::GetAllOptions()->GetRoadBackgroundColor());
+		ConstructionOptions::GetAllOptions()->GetRoadConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetRoadNotConnectedBackgroundColor(),
+		ConstructionOptions::GetAllOptions()->GetRoadChosenBackgroundColor());
 }
 void GameManagement::CreateInfoPanel()
 {
@@ -80,19 +82,19 @@ void GameManagement::CreateInfoPanel()
 	infoPanel_ptr->CreateMenuScreen();
 	infoPanel_ptr->CreateControlsScreen();
 	infoPanel_ptr->CreateGameMessagesScreen();
-	ChoosenConstructionAttach(infoPanel_ptr);
+	ChosenConstructionAttach(infoPanel_ptr);
 	UserMessageAttach(infoPanel_ptr);
 }
 // notifies InfoPanel if user choose some construction on the playing field
-void GameManagement::ChoosenConstructionAttach(ConstructionInfoObserverInterface* observer)
+void GameManagement::ChosenConstructionAttach(ConstructionInfoObserverInterface* observer)
 {
 	choosenConstructionObservers.push_back(observer);
 }
-void GameManagement::ChoosenConstructionDetach(ConstructionInfoObserverInterface* observer)
+void GameManagement::ChosenConstructionDetach(ConstructionInfoObserverInterface* observer)
 {
 	choosenConstructionObservers.remove(observer);
 }
-void GameManagement::ChoosenConstructionNotify(const Construction* choosenConstruction_ptr)
+void GameManagement::ChosenConstructionNotify(Construction* choosenConstruction_ptr)
 {
 	if(choosenConstruction_ptr == nullptr)
 	{
@@ -100,10 +102,12 @@ void GameManagement::ChoosenConstructionNotify(const Construction* choosenConstr
 	}
 	else
 	{
+		choosenConstruction_ptr->SetChosenStatus(true);
+		choosenConstruction_ptr->DrawObject();
 		list<ConstructionInfoObserverInterface*>::iterator observerIter = choosenConstructionObservers.begin();
 		while (observerIter != choosenConstructionObservers.end()) 
 		{
-		  (*observerIter)->ChoosenConstructionUpdate(choosenConstruction_ptr);
+		  (*observerIter)->ChosenConstructionUpdate(choosenConstruction_ptr);
 		  ++observerIter;
 		}
 	}
@@ -343,6 +347,7 @@ void GameManagement::S_Key()
 	DisplayAllObjects();
 	DisplayPlayingField();
 	DisplayInfoPanel();
+	UserMessageNotify("Menu side changed");
 }
 void GameManagement::R_Key()
 {
@@ -540,7 +545,7 @@ void GameManagement::EnterKey_Camera()
 		}
 		else
 		{
-			ChoosenConstructionNotify(userChoice_ptr);
+			ChosenConstructionNotify(userChoice_ptr);
 		}
 	}
 }
@@ -578,6 +583,15 @@ void GameManagement::EnterKey_InfoPanel()
 		else
 		{
 			return; //TODO throw exception
+		}
+	}
+	else if (infoPanel_ptr->GetCurrentContent() == InfoPanelContentType::SystemMessagesAndConstructionInfo)
+	{
+		int buttonHalfX = infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetDeconstructButton()->GetHalfXAxis();
+		int topY = infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetDeconstructButton()->GetUpperLeft().Get_y();
+		if (cursor_ptr->GetCursorConsoleLocation() == PointCoord(buttonHalfX, topY))
+		{
+			//infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetChosenConstruction()->
 		}
 	}
 }

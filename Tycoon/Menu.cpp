@@ -1,21 +1,24 @@
 #include "Menu.h"
 /////////////Side Menu Class/////////////
 //for roads
-ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color background)
+ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
+	color backgroundNotConnected, color backgroundChosen)
 {
-	ConstructionDescriptor* roadDesc_ptr = new RoadDescriptor(menuElementLocation, constructionCost, description, iconSymbol, foreground, background);
+	ConstructionDescriptor* roadDesc_ptr = new RoadDescriptor(menuElementLocation, constructionCost, description, iconSymbol,
+		foreground, backgroundConnected, backgroundNotConnected, backgroundChosen);
 	return new RoadManager(GetCursor(), roadDesc_ptr);
 }
 // for buildings
-ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color background,
-	wstring buildingSymbol, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
+ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
+	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
 {
 	ConstructionDescriptor* buildingDesc_ptr = new BuildingDescriptor(menuElementLocation, constructionCost, description, iconSymbol,
-		foreground, background, buildingSymbol, dailyExpences, constructionHeightAdd, constructionWidthAdd);
+		foreground, backgroundConnected, backgroundNotConnected, backgroundChosen, buildingSymbol, dailyExpences, constructionHeightAdd, constructionWidthAdd);
 	return new BuildingManager(GetCursor(), buildingDesc_ptr);
 }
 // create road element
-void Menu::CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color background)
+void Menu::CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
+	color backgroundNotConnected, color backgroundChosen)
 {
 	BorderAppearance* elementBorder_ptr = CreateElementBorder();
 	color menuElementLetterColor = ConstructionOptions::GetAllOptions()->GetMenuElementLetterColor();
@@ -32,14 +35,15 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 	int elementHeightAdd = ConstructionOptions::GetAllOptions()->GetMenuElementHeightAdd();
 	int elementWidthAdd = GetWidthAddition() - 4;
 	MyRectangle* menuIcon_ptr = CreateIcon(elementLocation);
-	ConstructionManager* manager_ptr = CreateManager(elementLocation, constructionCost, description, iconSymbol, foreground, background);
+	ConstructionManager* manager_ptr = CreateManager(elementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected, backgroundNotConnected,
+		backgroundChosen);
 	MenuElement* element_ptr = new MenuElement(GetDrawPointer(), GetCursor(), elementLocation, elementHeightAdd, elementWidthAdd, elementBorder_ptr, menuElementLetterColor,
 		menuElementShadingColor, menuIcon_ptr, manager_ptr);
 	menuItems.push_back(element_ptr);
 }
 // create building element
-void Menu::CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color background,
-	wstring buildingSymbol, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
+void Menu::CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
+	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
 {
 	BorderAppearance* elementBorder_ptr = CreateElementBorder();
 	color menuElementLetterColor = ConstructionOptions::GetAllOptions()->GetMenuElementLetterColor();
@@ -56,8 +60,8 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 	int elementHeightAdd = ConstructionOptions::GetAllOptions()->GetMenuElementHeightAdd();
 	int elementWidthAdd = GetWidthAddition() - 4;
 	MyRectangle* menuIcon_ptr = CreateIcon(elementLocation);
-	ConstructionManager* manager_ptr = CreateManager(elementLocation, constructionCost, description, iconSymbol, foreground, background, buildingSymbol,
-		dailyExpences, constructionHeightAdd, constructionWidthAdd);
+	ConstructionManager* manager_ptr = CreateManager(elementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected, backgroundNotConnected,
+		backgroundChosen, buildingSymbol, dailyExpences, constructionHeightAdd, constructionWidthAdd);
 	MenuElement* element_ptr = new MenuElement(GetDrawPointer(), GetCursor(), elementLocation, elementHeightAdd, elementWidthAdd, elementBorder_ptr, menuElementLetterColor,
 		menuElementShadingColor, menuIcon_ptr, manager_ptr);
 	menuItems.push_back(element_ptr);
@@ -153,7 +157,7 @@ void Menu::ShowMenuItems()
 			(*menuElementIter)->GetIcon()->GetUpperLeft().Get_y() + 1, (*menuElementIter)->GetManager()->GetDescriptor()->GetConstructionCost(),
 			(*menuElementIter)->GetManager()->GetDescriptor()->GetDailyExpences(), (*menuElementIter)->GetManager()->GetDescriptor()->GetIconSymbol(),
 			(*menuElementIter)->GetManager()->GetDescriptor()->GetDescription(), (*menuElementIter)->GetManager()->GetDescriptor()->GetForegroundColor(),
-			(*menuElementIter)->GetManager()->GetDescriptor()->GetBackgroundColor());
+			(*menuElementIter)->GetManager()->GetDescriptor()->GetConnectedBackgroundColor());
 		topY += (*menuElementIter)->GetHeightAddition() + 1;
 	}
 }

@@ -5,14 +5,14 @@ class ConstructionInfoScreen : public MyRectangle
 private:
 	Button* deconstruct_ptr;
 	MyRectangle* constructionIcon_ptr;
-	Construction* choosen_ptr;
+	Construction* chosen_ptr;
 public:
 	ConstructionInfoScreen(PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* borderApp_ptr, color letterColor, color backgroundColor, Visualisation* vis_ptr,
 		Cursor* cur_ptr) : MyRectangle(upperLeft, heightAdd, widthAdd, borderApp_ptr, letterColor, backgroundColor, vis_ptr, cur_ptr)
 	{
 		deconstruct_ptr = nullptr;
 		constructionIcon_ptr = nullptr;
-		choosen_ptr = nullptr;
+		chosen_ptr = nullptr;
 	}
 	~ConstructionInfoScreen()
 	{
@@ -23,8 +23,9 @@ public:
 	virtual void CreateConstructionIcon();
 	//
 	Button* GetDeconstructButton();
+	Construction* GetChosenConstruction() const;
+	void SetChosenConstruction(Construction* choice_ptr);
 	//
-	void SetChoosenConstruction(Construction* choice_ptr);
-	void ClearChoosenConstruction(); //do not free memory
+	void ClearChosenConstruction(); //do not free memory
 	void DisplayConstructionInfo();
 };

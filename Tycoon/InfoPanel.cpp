@@ -58,10 +58,9 @@ void InfoPanel::CreateGameMessagesScreen()
 	messagesAndInfoScreen_ptr->CreateMessagesScreen();
 }
 // when receive notification from GameManagement that user choose some construction on the playing field
-void InfoPanel::ChoosenConstructionObserverUpdate(Construction* choice_ptr)
+void InfoPanel::ChosenConstructionUpdate(Construction* choice_ptr)
 {
-	if(messagesAndInfoScreen_ptr->GetConstructionInfoScreen())
-	SetChoosenConstruction(choice_ptr);
+	SetChosenConstruction(choice_ptr);
 	if(currentScreen != InfoPanelContentType::SystemMessagesAndConstructionInfo)
 	{
 		SwitchContent(InfoPanelContentType::SystemMessagesAndConstructionInfo);
@@ -73,7 +72,7 @@ void InfoPanel::ChoosenConstructionObserverUpdate(Construction* choice_ptr)
 	}
 }
 // when receive user message from GameManagement
-void InfoPanel::UserMessageObserverUpdate(const string message)
+void InfoPanel::UserMessageUpdate(const string message)
 {
 	messagesAndInfoScreen_ptr->AddMessage(message);
 	messagesAndInfoScreen_ptr->DeleteOldMessages();
@@ -187,7 +186,7 @@ void InfoPanel::SwitchContent(InfoPanelContentType choosenContent)
 	default: {return; } //TODO throw exception
 	}
 }
-void GetToInfoPanelDisplayRule()
+void InfoPanel::GetToInfoPanelDisplayRule()
 {
 	switch(currentScreen)
 		{
@@ -200,7 +199,7 @@ void GetToInfoPanelDisplayRule()
 			{
 				mainScreen_ptr->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor());
 				mainScreen_ptr->GetMessagesButton()->DrawBorder();
-				cursor_ptr->CursorMovement(PointCoord(mainScreen_ptr->GetMessagesButton()->GetHalfXAxis(), mainScreen_ptr->GetMessagesButton()->GetUpperLeft().Get_y()));
+				GetCursor()->CursorMovement(PointCoord(mainScreen_ptr->GetMessagesButton()->GetHalfXAxis(), mainScreen_ptr->GetMessagesButton()->GetUpperLeft().Get_y()));
 				return;
 			}
 			case InfoPanelContentType::Controls:
@@ -212,7 +211,7 @@ void GetToInfoPanelDisplayRule()
 			{
 				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor());
 				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->DrawBorder();
-				cursor_ptr->CursorMovement(PointCoord(messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetHalfXAxis(),
+				GetCursor()->CursorMovement(PointCoord(messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetHalfXAxis(),
 					messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetUpperLeft().Get_y()));
 				return;
 			}
@@ -255,11 +254,11 @@ void InfoPanel::EndInteractionDisplayRule()
 			}
 		}
 }
-void InfoPanel::SetChoosenConstruction(Construction* choice_ptr)
+void InfoPanel::SetChosenConstruction(Construction* choice_ptr)
 {
-	messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->SetChoosenConstruction(choice_ptr);
+	messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->SetChosenConstruction(choice_ptr);
 }
 void InfoPanel::ClearChoosenConstruction()
 {
-	messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->ClearChoosenConstruction();
+	messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->ClearChosenConstruction();
 }

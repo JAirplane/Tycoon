@@ -60,5 +60,5 @@ public:
 	bool LocationCheck(PointCoord);
 	void DisplayVisitors();
 	void DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr);
-	const Construction* FindConstruction(PointCoord location) const; //checks if location is on road or building
+	Construction* FindConstruction(PointCoord location) const; //checks if location is on road or building
 };

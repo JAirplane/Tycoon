@@ -1,5 +1,5 @@
 #pragma once
-#include "IngameObjectDerived.h"
+#include "ObserverInterface.h"
 /////////////PlayingField Class/////////////
 class PlayingField : public MyRectangle
 {

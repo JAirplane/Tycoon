@@ -162,6 +162,7 @@
     <ClInclude Include="MessagesAndInfoScreen_InfoPanel.h" />
     <ClInclude Include="msoftcon.h" />
     <ClInclude Include="MyException.h" />
+    <ClInclude Include="ObserverInterface.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="ObjectContainers.h" />
     <ClInclude Include="PlayingField.h" />

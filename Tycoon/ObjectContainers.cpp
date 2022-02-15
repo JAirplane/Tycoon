@@ -378,7 +378,7 @@ void AllObjects::DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr)
 		}
 	}
 }
-const Construction* AllObjects::FindConstruction(PointCoord location) const
+Construction* AllObjects::FindConstruction(PointCoord location) const
 {
 	list<Building*>::const_iterator buildingIter;
 	for (buildingIter = buildings.begin(); buildingIter != buildings.end(); buildingIter++)
@@ -394,7 +394,7 @@ const Construction* AllObjects::FindConstruction(PointCoord location) const
 			}
 		}
 	}
-	list<Road*>::iterator roadIter;
+	list<Road*>::const_iterator roadIter;
 	for (roadIter = roads.begin(); roadIter != roads.end(); roadIter++)
 	{
 		if((*roadIter)->GetUpperLeft() == location)

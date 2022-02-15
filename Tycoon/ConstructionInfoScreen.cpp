@@ -40,33 +40,37 @@ Button* ConstructionInfoScreen::GetDeconstructButton()
 {
 	return deconstruct_ptr;
 }
-//
-void ConstructionInfoScreen::SetChoosenConstruction(Construction* choice_ptr)
+Construction* ConstructionInfoScreen::GetChosenConstruction() const
 {
-	choosen_ptr = choice_ptr;
+	return chosen_ptr;
 }
-void ConstructionInfoScreen::ClearChoosenConstruction()
+void ConstructionInfoScreen::SetChosenConstruction(Construction* choice_ptr)
 {
-	choosen_ptr->GetDescriptor()
-	choosen_ptr = nullptr;
+	chosen_ptr = choice_ptr;
+}
+//
+void ConstructionInfoScreen::ClearChosenConstruction()
+{
+	chosen_ptr->GetDescriptor();
+	chosen_ptr = nullptr;
 }
 void ConstructionInfoScreen::DisplayConstructionInfo()
 {
-	if (choosen_ptr != nullptr)
+	if (chosen_ptr != nullptr)
 	{
 		constructionIcon_ptr->DrawBorder();
 		GetDrawPointer()->DrawConstruction(constructionIcon_ptr->GetUpperLeft().Get_x() + 1, constructionIcon_ptr->GetUpperLeft().Get_y() + 1,
 			constructionIcon_ptr->GetUpperLeft().Get_x() + constructionIcon_ptr->GetWidthAddition() - 1,
-			constructionIcon_ptr->GetUpperLeft().Get_y() + constructionIcon_ptr->GetHeightAddition() - 1, choosen_ptr->GetDescriptor()->GetIconSymbol(),
-			choosen_ptr->GetDescriptor()->GetForegroundColor(), choosen_ptr->GetDescriptor()->GetBackgroundColor());
+			constructionIcon_ptr->GetUpperLeft().Get_y() + constructionIcon_ptr->GetHeightAddition() - 1, chosen_ptr->GetDescriptor()->GetIconSymbol(),
+			chosen_ptr->GetDescriptor()->GetForegroundColor(), chosen_ptr->GetDescriptor()->GetConnectedBackgroundColor());
 		deconstruct_ptr->Display();
 		set_cursor_pos(constructionIcon_ptr->GetUpperLeft().Get_x() + constructionIcon_ptr->GetWidthAddition() + 2,
 			constructionIcon_ptr->GetUpperLeft().Get_y() + constructionIcon_ptr->GetHeightAddition() + 1);
-		cout << "Visitors: " << choosen_ptr->GetVisitorsCount() << endl;
-		int profit = choosen_ptr->GetProfit();
+		cout << "Visitors: " << chosen_ptr->GetVisitorsCount() << endl;
+		int profit = chosen_ptr->GetProfit();
 		if (profit != -1)
 		{
-			cout << "Overall profit: " << choosen_ptr->GetProfit();
+			cout << "Overall profit: " << chosen_ptr->GetProfit();
 		}
 	}
 	else

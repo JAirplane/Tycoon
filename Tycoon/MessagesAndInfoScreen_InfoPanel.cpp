@@ -30,7 +30,7 @@ ConstructionInfoScreen* MessagesAndInfoScreen::GetConstructionInfoScreen() const
 {
 	return constructionInfo_ptr;
 }
-MyRectangle* MessagesAndInfoScreen::GetMessagesScreen() cosnt
+MyRectangle* MessagesAndInfoScreen::GetMessagesScreen() const
 {
 	return messagesScreen_ptr;
 }

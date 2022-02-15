@@ -3,8 +3,9 @@
 class RoadDescriptor : public ConstructionDescriptor
 {
 public:
-	RoadDescriptor(PointCoord managerLocation, unsigned int constructionCost, string description, wstring iconSymbol, color foreground, color background) :
-		ConstructionDescriptor(managerLocation, constructionCost, description, iconSymbol, foreground, background)
+	RoadDescriptor(PointCoord managerLocation, unsigned int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
+		color backgroundNotConnected, color backgroundChoosen) :
+		ConstructionDescriptor(managerLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected, backgroundNotConnected, backgroundChoosen)
 		{}
 	~RoadDescriptor() {}
 	wstring GetConstructionSymbol(int mask = 0) override;
