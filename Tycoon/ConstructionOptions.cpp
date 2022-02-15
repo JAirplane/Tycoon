@@ -168,6 +168,14 @@ color ConstructionOptions::GetIceCreamShopForegroundColor() const
 {
 	return color::cYELLOW;
 }
+color ConstructionOptions::GetIceCreamShopConnectedBackgroundColor() const
+{
+	return color::cDARK_CYAN;
+}
+color ConstructionOptions::GetIceCreamShopBackgroundColor() const
+{
+	return color::cDARK_CYAN;
+}
 color ConstructionOptions::GetIceCreamShopBackgroundColor() const
 {
 	return color::cDARK_CYAN;

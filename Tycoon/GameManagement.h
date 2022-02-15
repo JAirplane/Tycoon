@@ -1,7 +1,7 @@
 #pragma once
 #include "InfoPanel.h"
 /////////////Game Management Class/////////////
-class GameManagement
+class GameManagement: public MessageSubjectInterface, ConstructionInfoSubjectInterface
 {
 private:
 	Cursor* cursor_ptr;
@@ -11,6 +11,9 @@ private:
 	PlayingField* field_ptr;
 	Menu* menu_ptr;
 	InfoPanel* infoPanel_ptr;
+	//
+	list<ConstructionInfoObserverInterface*> choosenConstructionObservers;
+	list<MessageObserverInterface*> userMessageObservers;
 public:
 	GameManagement()
 	{
@@ -40,6 +43,14 @@ public:
 	virtual void CreatePlayingField();
 	virtual void CreateMenuAndElements();
 	virtual void CreateInfoPanel();
+	// notifies InfoPanel if user choose some construction on the playing field
+	void ChoosenConstructionAttach(ConstructionInfoObserverInterface* observer) override;
+	void ChoosenConstructionDetach(ConstructionInfoObserverInterface* observer) override;
+	void ChoosenConstructionNotify(const Construction* choosenConstruction_ptr) override;
+	// notifies InfoPanel about various issues with a message
+	void UserMessageAttach(MessageObserverInterface* observer) override;
+	void UserMessageDetach(MessageObserverInterface* observer) override;
+	void UserMessageNotify(const string message) override;
 	//
 	CursorLocation GetCursorArea();
 	void ReturnCursorToCamera();

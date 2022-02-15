@@ -22,9 +22,10 @@ public:
 	void CreateConstructionInfoScreen();
 	//
 	ConstructionInfoScreen* GetConstructionInfoScreen() const;
+	MyRectangle* GetMessagesScreen() cosnt;
 	//
 	bool MessagesIsEmpty();
-	void AddMessage(const string);
+	void AddMessage(const string msg);
 	void DeleteMessage();
 	void DisplayMessage(int initialX, int initialY, string message);
 	void DeleteOldMessages();

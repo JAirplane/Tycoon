@@ -47,7 +47,7 @@ public:
 	void AddObject(Road* obj_ptr);
 	void AddObject(Visitor* obj_ptr, int position = 0, bool isPreliminary = false);
 	void AddPreliminaryElement(Construction* preliminary_ptr);
-	Construction* GetPreliminaryElement() const; //it takes last element of everyObject list
+	Construction* GetPreliminaryElement() const;
 	void ErasePreliminaryElement(Camera* camera_ptr, PlayingField* field_ptr);
 	bool ObjectImposition(PointCoord point, PlayingField* field_ptr) const;
 	bool ObjectImposition(IngameObject* object_ptr, Camera* camera_ptr, PlayingField* field_ptr) const;
@@ -60,4 +60,5 @@ public:
 	bool LocationCheck(PointCoord);
 	void DisplayVisitors();
 	void DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr);
+	const Construction* FindConstruction(PointCoord location) const; //checks if location is on road or building
 };

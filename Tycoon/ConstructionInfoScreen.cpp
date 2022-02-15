@@ -35,6 +35,21 @@ void ConstructionInfoScreen::CreateConstructionIcon()
 	int iconWidthAdd = ConstructionOptions::GetAllOptions()->GetMenuIconWidthAdd();	//always equal to menu icon
 	MyRectangle* menuIcon_ptr = new MyRectangle(iconLocation, iconHeightAdd, iconWidthAdd, iconBorder, iconLetterColor, iconShadingColor, GetDrawPointer(), GetCursor());
 }
+//
+Button* ConstructionInfoScreen::GetDeconstructButton()
+{
+	return deconstruct_ptr;
+}
+//
+void ConstructionInfoScreen::SetChoosenConstruction(Construction* choice_ptr)
+{
+	choosen_ptr = choice_ptr;
+}
+void ConstructionInfoScreen::ClearChoosenConstruction()
+{
+	choosen_ptr->GetDescriptor()
+	choosen_ptr = nullptr;
+}
 void ConstructionInfoScreen::DisplayConstructionInfo()
 {
 	if (choosen_ptr != nullptr)

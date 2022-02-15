@@ -3,7 +3,7 @@
 #include <io.h>
 #include "MessagesAndInfoScreen_InfoPanel.h"
 #include "Alphabet.h"
-class InfoPanel : public MyRectangle
+class InfoPanel : public MyRectangle, MessageObserverInterface, ConstructionInfoObserverInterface
 {
 private:
 	MenuScreen* mainScreen_ptr;
@@ -29,6 +29,10 @@ public:
 	virtual void CreateMenuScreen();
 	virtual void CreateControlsScreen();
 	virtual void CreateGameMessagesScreen();
+	// when receive notification from GameManagement that user choose some construction on the playing field
+	void ChoosenConstructionUpdate(Construction* choice_ptr) override;
+	// when receive user message from GameManagement
+	void UserMessageUpdate(const string message) override;
 	//
 	const MenuScreen* GetMenuScreen();
 	const ControlsScreen* GetControlsScreen();
@@ -40,5 +44,8 @@ public:
 	void ShowControls();
 	void ShowMessagesScreen();
 	void SwitchContent(InfoPanelContentType choosenContent);
-	void EndInteraction();
+	void GetToInfoPanelDisplayRule();
+	void EndInteractionDisplayRule();
+	void SetChoosenConstruction(Construction* choice_ptr);
+	void ClearChoosenConstruction(); //do not free memory
 };

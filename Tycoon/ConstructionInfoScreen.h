@@ -22,5 +22,9 @@ public:
 	virtual void CreateDeconstructButton();
 	virtual void CreateConstructionIcon();
 	//
+	Button* GetDeconstructButton();
+	//
+	void SetChoosenConstruction(Construction* choice_ptr);
+	void ClearChoosenConstruction(); //do not free memory
 	void DisplayConstructionInfo();
 };

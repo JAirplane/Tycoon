@@ -32,6 +32,10 @@ color ConstructionDescriptor::GetBackgroundColor()
 {
 	return background;
 }
+void ConstructionDescriptor::SetBackgroundColor(color background)
+{
+	this->background = background;
+}
 wstring ConstructionDescriptor::GetConstructionSymbol(int mask)
 {
 	wstring empty = L"0";

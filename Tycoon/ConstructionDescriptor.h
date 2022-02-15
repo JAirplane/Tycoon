@@ -36,6 +36,7 @@ public:
 	int GetDailyExpences() const;
 	color GetForegroundColor();
 	color GetBackgroundColor();
+	void SetBackgroundColor(color background); // the only setter needed in descriptor
 	virtual wstring GetConstructionSymbol(int mask = 0);
 	PointCoord GetMenuElementLocation() const;
 	void SetMenuElementLocation(PointCoord mLocation);

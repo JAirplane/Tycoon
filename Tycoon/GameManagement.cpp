@@ -80,6 +80,58 @@ void GameManagement::CreateInfoPanel()
 	infoPanel_ptr->CreateMenuScreen();
 	infoPanel_ptr->CreateControlsScreen();
 	infoPanel_ptr->CreateGameMessagesScreen();
+	ChoosenConstructionAttach(infoPanel_ptr);
+	UserMessageAttach(infoPanel_ptr);
+}
+// notifies InfoPanel if user choose some construction on the playing field
+void GameManagement::ChoosenConstructionAttach(ConstructionInfoObserverInterface* observer)
+{
+	choosenConstructionObservers.push_back(observer);
+}
+void GameManagement::ChoosenConstructionDetach(ConstructionInfoObserverInterface* observer)
+{
+	choosenConstructionObservers.remove(observer);
+}
+void GameManagement::ChoosenConstructionNotify(const Construction* choosenConstruction_ptr)
+{
+	if(choosenConstruction_ptr == nullptr)
+	{
+		//TODO exception
+	}
+	else
+	{
+		list<ConstructionInfoObserverInterface*>::iterator observerIter = choosenConstructionObservers.begin();
+		while (observerIter != choosenConstructionObservers.end()) 
+		{
+		  (*observerIter)->ChoosenConstructionUpdate(choosenConstruction_ptr);
+		  ++observerIter;
+		}
+	}
+}
+// notifies InfoPanel about various issues with a message
+void GameManagement::UserMessageAttach(MessageObserverInterface* observer)
+{
+	userMessageObservers.push_back(observer);
+}
+void GameManagement::UserMessageDetach(MessageObserverInterface* observer)
+{
+	userMessageObservers.remove(observer);
+}
+void GameManagement::UserMessageNotify(const string message)
+{
+	if(message.empty())
+	{
+		//TODO exception
+	}
+	else
+	{
+		list<MessageObserverInterface*>::iterator observerIter = userMessageObservers.begin();
+		while (observerIter != userMessageObservers.end()) 
+		{
+		  (*observerIter)->UserMessageUpdate(message);
+		  ++observerIter;
+		}
+	}
 }
 //
 CursorLocation GameManagement::GetCursorArea()
@@ -297,18 +349,33 @@ void GameManagement::R_Key()
 	if (GetCursorArea() == CursorLocation::Camera)
 	{
 		Construction* preliminary_ptr = allObjects_ptr->GetPreliminaryElement();
-		if (preliminary_ptr != nullptr && !allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
+		if (preliminary_ptr != nullptr)
 		{
-			PointCoord preliminaryElementNeibourRedraw = preliminary_ptr->GetRedrawNeiboursPoint();
-			preliminary_ptr->RotateConstruction();
-			draw_ptr->EraseConstruction(preliminary_ptr->GetUpperLeft().Get_x(), preliminary_ptr->GetUpperLeft().Get_y(),
-				preliminary_ptr->GetUpperLeft().Get_x() + preliminary_ptr->GetWidthAddition(), preliminary_ptr->GetUpperLeft().Get_y() + preliminary_ptr->GetHeightAddition());
-			Construction::RedrawNeibours(preliminaryElementNeibourRedraw, allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
-			preliminary_ptr->ConnectedToRoad(allObjects_ptr->GetAllRoads(), preliminary_ptr);
-			preliminary_ptr->DrawObject();
-			preliminary_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
-			cursor_ptr->CursorMovement(preliminary_ptr->GetUpperLeft());
+			if(!allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
+			{
+				PointCoord preliminaryElementNeibourRedraw = preliminary_ptr->GetRedrawNeiboursPoint();
+				preliminary_ptr->RotateConstruction();
+				draw_ptr->EraseConstruction(preliminary_ptr->GetUpperLeft().Get_x(), preliminary_ptr->GetUpperLeft().Get_y(),
+					preliminary_ptr->GetUpperLeft().Get_x() + preliminary_ptr->GetWidthAddition(), preliminary_ptr->GetUpperLeft().Get_y() + preliminary_ptr->GetHeightAddition());
+				Construction::RedrawNeibours(preliminaryElementNeibourRedraw, allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
+				preliminary_ptr->ConnectedToRoad(allObjects_ptr->GetAllRoads(), preliminary_ptr);
+				preliminary_ptr->DrawObject();
+				preliminary_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
+				cursor_ptr->CursorMovement(preliminary_ptr->GetUpperLeft());
+			}
+			else
+			{
+				UserMessageNotify("Can't rotate here");
+			}
 		}
+		else
+		{
+			UserMessageNotify("Nothing to rotate");
+		}
+	}
+	else
+	{
+		UserMessageNotify("'R' key do nothing here");
 	}
 }
 void GameManagement::IKey_Camera()
@@ -324,21 +391,19 @@ void GameManagement::IKey_Camera()
 	}
 	else
 	{
-		infoPanel_ptr->ClearContent();
+		infoPanel_ptr->GetToInfoPanelDisplayRule();
 	}
-	infoPanel_ptr->ShowMenuScreen();
 }
 void GameManagement::IKey_Menu()
 {
 	MenuElement* currentActiveElement_ptr = menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y());
 	currentActiveElement_ptr->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor());
 	currentActiveElement_ptr->DrawBorder();
-	infoPanel_ptr->ClearContent();
-	infoPanel_ptr->ShowMenuScreen();
+	infoPanel_ptr->GetToInfoPanelDisplayRule();
 }
 void GameManagement::IKey_InfoPanel()
 {
-	infoPanel_ptr->EndInteraction();
+	infoPanel_ptr->EndInteractionDisplayRule();
 	ReturnCursorToCamera();
 	DrawCursor();
 }
@@ -346,22 +411,27 @@ void GameManagement::I_Key()
 {
 	switch (GetCursorArea())
 	{
-	case CursorLocation::Camera:
-	{
-		IKey_Camera();
-		return;
-	}
-	case CursorLocation::Menu:
-	{
-		IKey_Menu();
-		return;
-	}
-	case CursorLocation::InfoPanel:
-	{
-		IKey_InfoPanel();
-		return;
-	}
-	default: {return; }//TODO can throw exception here
+		case CursorLocation::Camera:
+		{
+			IKey_Camera();
+			return;
+		}
+		case CursorLocation::Menu:
+		{
+			IKey_Menu();
+			return;
+		}
+		case CursorLocation::InfoPanel:
+		{
+			IKey_InfoPanel();
+			return;
+		}
+		default:
+		{
+			ReturnCursorToCamera();
+			//TODO can throw exception here
+			return; 
+		}
 	}
 }
 void GameManagement::TabKey_Camera()
@@ -399,7 +469,7 @@ void GameManagement::TabKey_Menu()
 }
 void GameManagement::TabKey_InfoPanel()
 {
-	infoPanel_ptr->EndInteraction();
+	infoPanel_ptr->EndInteractionDisplayRule();
 	ReturnCursorToCamera();
 	DrawCursor();
 }
@@ -407,46 +477,70 @@ void GameManagement::Tab_Key()
 {
 	switch (GetCursorArea())
 	{
-	case CursorLocation::Camera:
-	{
-		TabKey_Camera();
-		return;
-	}
-	case CursorLocation::Menu:
-	{
-		TabKey_Menu();
-		return;
-	}
-	case CursorLocation::InfoPanel:
-	{
-		TabKey_InfoPanel();
-		return;
-	}
-	default: {return; } //TODO can throw exception here
+		case CursorLocation::Camera:
+		{
+			TabKey_Camera();
+			return;
+		}
+		case CursorLocation::Menu:
+		{
+			TabKey_Menu();
+			return;
+		}
+		case CursorLocation::InfoPanel:
+		{
+			TabKey_InfoPanel();
+			return;
+		}
+		default:
+		{
+			ReturnCursorToCamera();
+			//TODO can throw exception here
+			return; 
+		}
 	}
 }
 void GameManagement::EnterKey_Camera()
 {
 	Construction* preliminary_ptr = allObjects_ptr->GetPreliminaryElement();
-	if (preliminary_ptr != nullptr && !allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
+	if (preliminary_ptr != nullptr)
 	{
-		MenuElement* elementOfPreliminary = menu_ptr->GetMenuElement(preliminary_ptr->GetDescriptor()->GetMenuElementLocation().Get_y());
-		Construction* realObject_ptr = elementOfPreliminary->GetManager()->CreateConstruction(cursor_ptr->GetCursorConsoleLocation(), draw_ptr, allObjects_ptr);
-		int mask = realObject_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
-		realObject_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), nullptr);
-		realObject_ptr->ConnectedToRoad(allObjects_ptr->GetAllRoads(), preliminary_ptr);
-		realObject_ptr->IsGraph(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
-		realObject_ptr->DrawObject(mask);
-		cursor_ptr->CursorMovement(PointCoord(realObject_ptr->GetUpperLeft().Get_x() + realObject_ptr->GetWidthAddition() + 1,
-			realObject_ptr->GetUpperLeft().Get_y() + realObject_ptr->GetHeightAddition()));
-		preliminary_ptr->SetUpperLeft(cursor_ptr->GetCursorConsoleLocation());
-		if (!allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
+		if(!allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
 		{
-			mask = preliminary_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
-			preliminary_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
-			preliminary_ptr->ConnectedToRoad(allObjects_ptr->GetAllRoads(), preliminary_ptr);
-			preliminary_ptr->DrawObject(mask);
-			cursor_ptr->CursorMovement(preliminary_ptr->GetUpperLeft());
+			MenuElement* elementOfPreliminary = menu_ptr->GetMenuElement(preliminary_ptr->GetDescriptor()->GetMenuElementLocation().Get_y());
+			Construction* realObject_ptr = elementOfPreliminary->GetManager()->CreateConstruction(cursor_ptr->GetCursorConsoleLocation(), draw_ptr, allObjects_ptr);
+			int mask = realObject_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
+			realObject_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), nullptr);
+			realObject_ptr->ConnectedToRoad(allObjects_ptr->GetAllRoads(), preliminary_ptr);
+			realObject_ptr->IsGraph(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
+			realObject_ptr->DrawObject(mask);
+			cursor_ptr->CursorMovement(PointCoord(realObject_ptr->GetUpperLeft().Get_x() + realObject_ptr->GetWidthAddition() + 1,
+				realObject_ptr->GetUpperLeft().Get_y() + realObject_ptr->GetHeightAddition()));
+			preliminary_ptr->SetUpperLeft(cursor_ptr->GetCursorConsoleLocation());
+			if (!allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
+			{
+				mask = preliminary_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
+				preliminary_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
+				preliminary_ptr->ConnectedToRoad(allObjects_ptr->GetAllRoads(), preliminary_ptr);
+				preliminary_ptr->DrawObject(mask);
+				cursor_ptr->CursorMovement(preliminary_ptr->GetUpperLeft());
+			}
+		}
+		else
+		{
+			UserMessageNotify("Can't build in this location");
+		}
+	}
+	else
+	{
+		Construction* userChoice_ptr = allObjects_ptr->FindConstruction(cursor_ptr->GetCursorConsoleLocation());
+		if(userChoice_ptr == nullptr)
+		{
+			UserMessageNotify("No construction found");
+		}
+		else
+		{
+			ChoosenConstructionNotify(userChoice_ptr);
 		}
 	}
 }

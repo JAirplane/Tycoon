@@ -21,16 +21,21 @@ public:
 	}
 	~Construction()
 	{}
-	ConstructionDescriptor* GetDescriptor() const override; //no setter here
+	ConstructionDescriptor* GetDescriptor() override; //no setter here
+	//
 	virtual int GetEntranceHeightAdd() const = 0;
 	virtual int GetEntranceWidthAdd() const = 0;
+	//
 	virtual PointCoord GetEntrancePoint() const = 0;
 	virtual PointCoord GetRedrawNeiboursPoint() const = 0;
 	virtual Direction GetExitDirection() const = 0;
-	virtual void RotateConstruction() = 0;
 	virtual wstring GetEntranceSymbol(Direction out) const;
 	bool GetRoadConnectionStatus() const;
 	void SetRoadConnectionStatus(bool connected);
+	color GetBackgroundColor() const;
+	void SetBackgroundColor(color background);
+	//
+	virtual void RotateConstruction() = 0;
 	virtual int GetNeibourRoadMask(const list<Road*>& allRoads, const Construction* preliminary_ptr) const = 0;
 	virtual int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
 	virtual void IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
@@ -79,7 +84,6 @@ public:
 	void ConnectedToRoad(const list<Road*>& allRoads, const Construction* preliminary_ptr) override;
 	int GetProfit() const;
 	void SetProfit(int profit);
-	color GetBackgroundColor() const;
 	void RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
 	void DrawObject(int mask = 0) const override;
 	void DrawPartly(int leftX, int rightX, int topY, int bottomY) const;

@@ -57,6 +57,36 @@ void InfoPanel::CreateGameMessagesScreen()
 	messagesAndInfoScreen_ptr->CreateConstructionInfoScreen();
 	messagesAndInfoScreen_ptr->CreateMessagesScreen();
 }
+// when receive notification from GameManagement that user choose some construction on the playing field
+void InfoPanel::ChoosenConstructionObserverUpdate(Construction* choice_ptr)
+{
+	if(messagesAndInfoScreen_ptr->GetConstructionInfoScreen())
+	SetChoosenConstruction(choice_ptr);
+	if(currentScreen != InfoPanelContentType::SystemMessagesAndConstructionInfo)
+	{
+		SwitchContent(InfoPanelContentType::SystemMessagesAndConstructionInfo);
+	}
+	else
+	{
+		messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->ClearContent();
+		messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->DisplayConstructionInfo();
+	}
+}
+// when receive user message from GameManagement
+void InfoPanel::UserMessageObserverUpdate(const string message)
+{
+	messagesAndInfoScreen_ptr->AddMessage(message);
+	messagesAndInfoScreen_ptr->DeleteOldMessages();
+	if(currentScreen != InfoPanelContentType::SystemMessagesAndConstructionInfo)
+	{
+		SwitchContent(InfoPanelContentType::SystemMessagesAndConstructionInfo);
+	}
+	else
+	{
+		messagesAndInfoScreen_ptr->GetMessagesScreen()->ClearContent();
+		messagesAndInfoScreen_ptr->DisplayMessages();
+	}
+}
 //
 const MenuScreen* InfoPanel::GetMenuScreen()
 {
@@ -157,7 +187,43 @@ void InfoPanel::SwitchContent(InfoPanelContentType choosenContent)
 	default: {return; } //TODO throw exception
 	}
 }
-void InfoPanel::EndInteraction()
+void GetToInfoPanelDisplayRule()
+{
+	switch(currentScreen)
+		{
+			case InfoPanelContentType::SplashScreen:
+			{
+				SwitchContent(InfoPanelContentType::MenuScreen);
+				return;
+			}
+			case InfoPanelContentType::MenuScreen:
+			{
+				mainScreen_ptr->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor());
+				mainScreen_ptr->GetMessagesButton()->DrawBorder();
+				cursor_ptr->CursorMovement(PointCoord(mainScreen_ptr->GetMessagesButton()->GetHalfXAxis(), mainScreen_ptr->GetMessagesButton()->GetUpperLeft().Get_y()));
+				return;
+			}
+			case InfoPanelContentType::Controls:
+			{
+				SwitchContent(InfoPanelContentType::MenuScreen);
+				return;
+			}
+			case InfoPanelContentType::SystemMessagesAndConstructionInfo:
+			{
+				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor());
+				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->DrawBorder();
+				cursor_ptr->CursorMovement(PointCoord(messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetHalfXAxis(),
+					messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetUpperLeft().Get_y()));
+				return;
+			}
+			default:
+			{
+				ShowSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
+				// TODO exception
+			}
+		}
+}
+void InfoPanel::EndInteractionDisplayRule()
 {
 	if (currentScreen == InfoPanelContentType::MenuScreen)
 	{
@@ -165,4 +231,35 @@ void InfoPanel::EndInteraction()
 		mainScreen_ptr->GetControlsButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
 		SwitchContent(InfoPanelContentType::SplashScreen);
 	}
+	switch(currentScreen)
+		{
+			case InfoPanelContentType::SplashScreen: {return;}
+			case InfoPanelContentType::MenuScreen:
+			{
+				mainScreen_ptr->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+				mainScreen_ptr->GetControlsButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+				SwitchContent(InfoPanelContentType::SplashScreen);
+				return;
+			}
+			case InfoPanelContentType::Controls: {return;}
+			case InfoPanelContentType::SystemMessagesAndConstructionInfo:
+			{
+				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->DrawBorder();
+				return;
+			}
+			default:
+			{
+				ShowSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
+				// TODO exception
+			}
+		}
+}
+void InfoPanel::SetChoosenConstruction(Construction* choice_ptr)
+{
+	messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->SetChoosenConstruction(choice_ptr);
+}
+void InfoPanel::ClearChoosenConstruction()
+{
+	messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->ClearChoosenConstruction();
 }

@@ -1,6 +1,6 @@
 #include "IngameObjectDerived.h"
 ///////////////Construction Class: GlobalObject derived///////////////
-ConstructionDescriptor* Construction::GetDescriptor() const //no setter here
+ConstructionDescriptor* Construction::GetDescriptor() //no setter here
 {
 	return describe_ptr;
 }
@@ -15,6 +15,14 @@ void Construction::SetRoadConnectionStatus(bool connected)
 wstring Construction::GetEntranceSymbol(Direction out) const
 {
 	return wstring(L"");
+}
+color Construction::GetBackgroundColor() const
+{
+	return GetDescriptor()->GetBackgroundColor();
+}
+void Construction::SetBackgroundColor(color background)
+{
+	GetDescriptor()->SetBackgroundColor(background);
 }
 void Construction::DrawObject(int mask) const
 {}
@@ -176,6 +184,7 @@ void Building::ConnectedToRoad(const list<Road*>& allRoads, const Construction* 
 		if ((*roadIter)->GetUpperLeft() == potentialRoad)
 		{
 			SetRoadConnectionStatus(true);
+			SetBackgroundColor();
 			return;
 		}
 	}
@@ -195,17 +204,6 @@ int Building::GetProfit() const
 void Building::SetProfit(int profit)
 {
 	overallProfit = profit;
-}
-color Building::GetBackgroundColor() const
-{
-	if (GetRoadConnectionStatus() == false)
-	{
-		return cBLACK;
-	}
-	else
-	{
-		return GetDescriptor()->GetBackgroundColor();
-	}
 }
 void Building::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
 {

@@ -25,10 +25,16 @@ void MessagesAndInfoScreen::CreateConstructionInfoScreen()
 	constructionInfo_ptr->CreateDeconstructButton();
 	constructionInfo_ptr->CreateConstructionIcon();
 }
+//
 ConstructionInfoScreen* MessagesAndInfoScreen::GetConstructionInfoScreen() const
 {
 	return constructionInfo_ptr;
 }
+MyRectangle* MessagesAndInfoScreen::GetMessagesScreen() cosnt
+{
+	return messagesScreen_ptr;
+}
+//
 bool MessagesAndInfoScreen::MessagesIsEmpty()
 {
 	if (messages.empty())
