@@ -103,7 +103,9 @@ void GameManagement::ChosenConstructionNotify(Construction* choosenConstruction_
 	else
 	{
 		choosenConstruction_ptr->SetChosenStatus(true);
-		choosenConstruction_ptr->DrawObject();
+		int mask = choosenConstruction_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), allObjects_ptr->GetPreliminaryElement());
+		choosenConstruction_ptr->DrawObject(mask, camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(), camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(),
+			camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
 		list<ConstructionInfoObserverInterface*>::iterator observerIter = choosenConstructionObservers.begin();
 		while (observerIter != choosenConstructionObservers.end()) 
 		{
@@ -359,13 +361,22 @@ void GameManagement::R_Key()
 			if(!allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
 			{
 				PointCoord preliminaryElementNeibourRedraw = preliminary_ptr->GetRedrawNeiboursPoint();
-				preliminary_ptr->RotateConstruction();
-				draw_ptr->EraseConstruction(preliminary_ptr->GetUpperLeft().Get_x(), preliminary_ptr->GetUpperLeft().Get_y(),
-					preliminary_ptr->GetUpperLeft().Get_x() + preliminary_ptr->GetWidthAddition(), preliminary_ptr->GetUpperLeft().Get_y() + preliminary_ptr->GetHeightAddition());
-				Construction::RedrawNeibours(preliminaryElementNeibourRedraw, allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
-				preliminary_ptr->ConnectedToRoad(allObjects_ptr->GetAllRoads(), preliminary_ptr);
-				preliminary_ptr->DrawObject();
-				preliminary_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
+				int rotateRes = preliminary_ptr->RotateConstruction();
+				if(rotateRes == -1)
+				{
+					UserMessageNotify("Rotation failed");
+				}
+				else
+				{
+					draw_ptr->EraseConstruction(preliminary_ptr->GetUpperLeft().Get_x(), preliminary_ptr->GetUpperLeft().Get_y(),
+						preliminary_ptr->GetUpperLeft().Get_x() + preliminary_ptr->GetWidthAddition(), preliminary_ptr->GetUpperLeft().Get_y() + preliminary_ptr->GetHeightAddition());
+					Construction::RedrawNeibours(preliminaryElementNeibourRedraw, allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr, camera_ptr);
+					preliminary_ptr->ConnectedToRoad(allObjects_ptr->GetAllRoads(), preliminary_ptr);
+					int mask = preliminary_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
+					preliminary_ptr->DrawObject(mask, camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(), camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(),
+						camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
+					preliminary_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr, camera_ptr);
+				}
 				cursor_ptr->CursorMovement(preliminary_ptr->GetUpperLeft());
 			}
 			else
@@ -591,30 +602,45 @@ void GameManagement::EnterKey_InfoPanel()
 		int topY = infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetDeconstructButton()->GetUpperLeft().Get_y();
 		if (cursor_ptr->GetCursorConsoleLocation() == PointCoord(buttonHalfX, topY))
 		{
-			//infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetChosenConstruction()->
+			Construction* chosen_ptr = infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetChosenConstruction();
+			auto isEqual = [chosen_ptr](Construction* element)->bool
+			{
+				return (chosen_ptr == element);
+			}
+			chosen_ptr->EraseConstruction();
+			allObjects_ptr->DeleteConstruction(chosen_ptr, isEqual);
 		}
+	}
+	else
+	{
+		return;
 	}
 }
 void GameManagement::Enter_Key()
 {
 	switch (GetCursorArea())
 	{
-	case CursorLocation::Camera:
-	{
-		EnterKey_Camera();
-		return;
-	}
-	case CursorLocation::Menu:
-	{
-		EnterKey_Menu();
-		return;
-	}
-	case CursorLocation::InfoPanel:
-	{
-		EnterKey_InfoPanel();
-		return;
-	}
-	default: {return; } //TODO can throw exception here
+		case CursorLocation::Camera:
+		{
+			EnterKey_Camera();
+			return;
+		}
+		case CursorLocation::Menu:
+		{
+			EnterKey_Menu();
+			return;
+		}
+		case CursorLocation::InfoPanel:
+		{
+			EnterKey_InfoPanel();
+			return;
+		}
+		default:
+		{
+			ReturnCursorToCamera();
+			//TODO can throw exception here
+			return;
+		} 
 	}
 }
 void GameManagement::EscKey_Camera()

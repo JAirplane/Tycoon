@@ -43,7 +43,14 @@ void AllObjects::AddObject(Visitor* obj_ptr, int position, bool isPreliminary)
 }
 void AllObjects::AddPreliminaryElement(Construction* preliminary_ptr)
 {
-	preliminaryConstruction_ptr = preliminary_ptr;
+	if(preliminaryConstruction_ptr == nullptr)
+	{
+		preliminaryConstruction_ptr = preliminary_ptr;
+	}
+	else
+	{
+		//TODO exception
+	}
 }
 Construction* AllObjects::GetPreliminaryElement() const
 {
@@ -60,7 +67,7 @@ void AllObjects::ErasePreliminaryElement(Camera* camera_ptr, PlayingField* field
 				preliminaryConstruction_ptr->GetUpperLeft().Get_y() + preliminaryConstruction_ptr->GetHeightAddition());
 			PointCoord preliminaryElementNeibourRedraw = preliminaryConstruction_ptr->GetRedrawNeiboursPoint();
 			delete preliminaryConstruction_ptr;
-			Construction::RedrawNeibours(preliminaryElementNeibourRedraw, roads, buildings, preliminaryConstruction_ptr);
+			Construction::RedrawNeibours(preliminaryElementNeibourRedraw, roads, buildings, preliminaryConstruction_ptr, camera_ptr);
 		}
 		else
 		{
@@ -69,17 +76,44 @@ void AllObjects::ErasePreliminaryElement(Camera* camera_ptr, PlayingField* field
 	}
 	preliminaryConstruction_ptr = nullptr;
 }
-bool AllObjects::ObjectImposition(PointCoord point, PlayingField* field_ptr) const
+bool AllObjects::RectangleImposition(PointCoord point, MyRectangle* rect_ptr) const
 {
-	int playingFieldLeftX = field_ptr->GetUpperLeft().Get_x();
-	int playingFieldRightX = playingFieldLeftX + field_ptr->GetWidthAddition();
-	int playingFieldTopY = field_ptr->GetUpperLeft().Get_y();
-	int playingFieldBottomY = playingFieldTopY + field_ptr->GetHeightAddition();
-	if (((playingFieldLeftX == point.Get_x() || playingFieldRightX == point.Get_x()) && playingFieldTopY <= point.Get_y() && playingFieldBottomY >= point.Get_y())
-		|| ((playingFieldTopY == point.Get_y() || playingFieldBottomY == point.Get_y()) && playingFieldLeftX <= point.Get_x() && playingFieldRightX >= point.Get_x()))
+	int rectangleLeftX = rect_ptr->GetUpperLeft().Get_x();
+	int rectangleRightX = rectangleLeftXLeftX + rect_ptr->GetWidthAddition();
+	int rectangleTopY = rect_ptr->GetUpperLeft().Get_y();
+	int rectangleBottomY = rectangleLeftXTopY + rect_ptr->GetHeightAddition();
+	if (((rectangleLeftX == point.Get_x() || rectangleRightX == point.Get_x()) && rectangleTopY <= point.Get_y() && rectangleBottomY >= point.Get_y()) ||
+		((rectangleTopY == point.Get_y() || rectangleBottomY == point.Get_y()) && rectangleLeftX <= point.Get_x() && rectangleRightX >= point.Get_x()))
 	{
 		return true;
 	}
+	return false;
+}
+bool AllObjects::RectangleImposition(IngameObject* object_ptr, MyRectangle* rect_ptr) const
+{
+	int rectangleLeftX = rect_ptr->GetUpperLeft().Get_x();
+	int rectangleRightX = rectangleLeftXLeftX + rect_ptr->GetWidthAddition();
+	int rectangleTopY = rect_ptr->GetUpperLeft().Get_y();
+	int rectangleBottomY = rectangleLeftXTopY + rect_ptr->GetHeightAddition();
+	int xCoord = object_ptr->GetUpperLeft().Get_x();
+	int yCoord = object_ptr->GetUpperLeft().Get_y();
+	int objectHeightAdd = object_ptr->GetHeightAddition();
+	int objectWidthAdd = object_ptr->GetWidthAddition();
+	for (yCoord; yCoord <= object_ptr->GetUpperLeft().Get_y() + objectHeightAdd; yCoord++)
+	{
+		for (xCoord; xCoord <= object_ptr->GetUpperLeft().Get_x() + objectWidthAdd; xCoord++)
+		{
+			if (yCoord <= rectangleTopY || yCoord >= rectangleBottomY || xCoord <= rectangleLeftX || xCoord >= rectangleRightX)
+			{
+				return true;
+			}
+		}
+		xCoord = object_ptr->GetUpperLeft().Get_x();
+	}
+	return false;
+}
+bool AllObjects::BuildingsImposition(PointCoord point) const
+{
 	list<Building*>::const_iterator buildingIter;
 	for (buildingIter = buildings.begin(); buildingIter != buildings.end(); buildingIter++)
 	{
@@ -91,39 +125,11 @@ bool AllObjects::ObjectImposition(PointCoord point, PlayingField* field_ptr) con
 			return true;
 		}
 	}
-	list<Road*>::const_iterator roadIter;
-	for (roadIter = roads.begin(); roadIter != roads.end(); roadIter++)
-	{
-		PointCoord upperLeft = (*roadIter)->GetUpperLeft();
-		if (point.Get_x() == upperLeft.Get_x() && point.Get_y() == upperLeft.Get_y())
-		{
-			return true;
-		}
-	}
-	list<Visitor*>::const_iterator visitorIter;
-	for (visitorIter = visitors.begin(); visitorIter != visitors.end(); visitorIter++)
-	{
-		PointCoord upperLeft = (*visitorIter)->GetUpperLeft();
-		if (point.Get_x() == upperLeft.Get_x() && point.Get_y() == upperLeft.Get_y())
-		{
-			return true;
-		}
-	}
 	return false;
 }
-bool AllObjects::ObjectImposition(IngameObject* object_ptr, Camera* camera_ptr, PlayingField* field_ptr) const
+bool AllObjects::BuildingsImposition(IngameObject* object_ptr) const
 {
 	list<Building*>::const_iterator buildingIter;
-	list<Road*>::const_iterator roadIter;
-	list<Visitor*>::const_iterator visitorIter;
-	int cameraLeftX = camera_ptr->GetUpperLeft().Get_x();
-	int cameraRightX = cameraLeftX + camera_ptr->GetWidthAddition();
-	int cameraTopY = camera_ptr->GetUpperLeft().Get_y();
-	int cameraBottomY = cameraTopY + camera_ptr->GetHeightAddition();
-	int playingFieldLeftX = field_ptr->GetUpperLeft().Get_x();
-	int playingFieldRightX = playingFieldLeftX + field_ptr->GetWidthAddition();
-	int playingFieldTopY = field_ptr->GetUpperLeft().Get_y();
-	int playingFieldBottomY = playingFieldTopY + field_ptr->GetHeightAddition();
 	int xCoord = object_ptr->GetUpperLeft().Get_x();
 	int yCoord = object_ptr->GetUpperLeft().Get_y();
 	int objectHeightAdd = object_ptr->GetHeightAddition();
@@ -148,39 +154,137 @@ bool AllObjects::ObjectImposition(IngameObject* object_ptr, Camera* camera_ptr, 
 						}
 					}
 				}
+			}
+		}
+		xCoord = object_ptr->GetUpperLeft().Get_x();
+	}
+	return false;
+}
+bool AllObjects::RoadsImposition(PointCoord point) const
+{
+	list<Road*>::const_iterator roadIter;
+	for (roadIter = roads.begin(); roadIter != roads.end(); roadIter++)
+	{
+		if (point == (*roadIter)->GetUpperLeft())
+		{
+			return true;
+		}
+	}
+	return false;
+}
+bool AllObjects::RoadsImposition(IngameObject* object_ptr) const
+{
+	list<Road*>::const_iterator roadIter;
+	int xCoord = object_ptr->GetUpperLeft().Get_x();
+	int yCoord = object_ptr->GetUpperLeft().Get_y();
+	int objectHeightAdd = object_ptr->GetHeightAddition();
+	int objectWidthAdd = object_ptr->GetWidthAddition();
+	for (yCoord; yCoord <= object_ptr->GetUpperLeft().Get_y() + objectHeightAdd; yCoord++)
+	{
+		for (xCoord; xCoord <= object_ptr->GetUpperLeft().Get_x() + objectWidthAdd; xCoord++)
+		{
+			if (yCoord == object_ptr->GetUpperLeft().Get_y() || yCoord == object_ptr->GetUpperLeft().Get_y() + objectHeightAdd,
+				xCoord == object_ptr->GetUpperLeft().Get_x() || xCoord == object_ptr->GetUpperLeft().Get_x() + objectWidthAdd)
+			{
 				for (roadIter = roads.begin(); roadIter != roads.end(); roadIter++)
 				{
 					if (object_ptr != (*roadIter))
 					{
-						PointCoord upperLeft = (*roadIter)->GetUpperLeft();
-						if (xCoord == upperLeft.Get_x() && yCoord == upperLeft.Get_y())
+						if (PointCoord(xCoord, yCoord) == (*roadIter)->GetUpperLeft())
 						{
 							return true;
 						}
 					}
 				}
+			}
+		}
+		xCoord = object_ptr->GetUpperLeft().Get_x();
+	}
+	return false;
+}
+bool AllObjects::VisitorsImposition(PointCoord point) const
+{
+	list<Visitor*>::const_iterator visitorIter;
+	for (visitorIter = visitors.begin(); visitorIter != visitors.end(); visitorIter++)
+	{
+		if (point == (*visitorIter)->GetUpperLeft())
+		{
+			return true;
+		}
+	}
+	return false;
+}
+bool AllObjects::VisitorsImposition(IngameObject* object_ptr) const
+{
+	list<Visitor*>::const_iterator visitorIter;
+	int xCoord = object_ptr->GetUpperLeft().Get_x();
+	int yCoord = object_ptr->GetUpperLeft().Get_y();
+	int objectHeightAdd = object_ptr->GetHeightAddition();
+	int objectWidthAdd = object_ptr->GetWidthAddition();
+	for (yCoord; yCoord <= object_ptr->GetUpperLeft().Get_y() + objectHeightAdd; yCoord++)
+	{
+		for (xCoord; xCoord <= object_ptr->GetUpperLeft().Get_x() + objectWidthAdd; xCoord++)
+		{
+			if (yCoord == object_ptr->GetUpperLeft().Get_y() || yCoord == object_ptr->GetUpperLeft().Get_y() + objectHeightAdd,
+				xCoord == object_ptr->GetUpperLeft().Get_x() || xCoord == object_ptr->GetUpperLeft().Get_x() + objectWidthAdd)
+			{
 				for (visitorIter = visitors.begin(); visitorIter != visitors.end(); visitorIter++)
 				{
 					if (object_ptr != (*visitorIter))
 					{
-						PointCoord upperLeft = (*visitorIter)->GetUpperLeft();
-						if (xCoord == upperLeft.Get_x() && yCoord >= upperLeft.Get_y())
+						if (PointCoord(xCoord, yCoord) == (*visitorIter)->GetUpperLeft())
 						{
 							return true;
 						}
 					}
 				}
 			}
-			if (yCoord <= cameraTopY || yCoord >= cameraBottomY || xCoord <= cameraLeftX || xCoord >= cameraRightX)
-			{
-				return true;
-			}
-			if (yCoord <= playingFieldTopY || yCoord >= playingFieldBottomY || xCoord <= playingFieldLeftX || xCoord >= playingFieldRightX)
-			{
-				return true;
-			}
 		}
 		xCoord = object_ptr->GetUpperLeft().Get_x();
+	}
+	return false;
+}
+bool AllObjects::ObjectImposition(PointCoord point, PlayingField* field_ptr) const
+{
+	if(RectangleImposition(point, field_ptr))
+	{
+		return true;
+	}
+	if(BuildingsImposition(point))
+	{
+		return true;
+	}
+	if(RoadsImposition(point))
+	{
+		return true;
+	}
+	if(VisitorsImposition(point))
+	{
+		return true;
+	}
+	return false;
+}
+bool AllObjects::ObjectImposition(IngameObject* object_ptr, Camera* camera_ptr, PlayingField* field_ptr) const
+{
+	if(RectangleImposition(object_ptr, camera_ptr))
+	{
+		return true;
+	}
+	if(RectangleImposition(object_ptr, field_ptr))
+	{
+		return true;
+	}
+	if(BuildingsImposition(object_ptr))
+	{
+		return true;
+	}
+	if(RoadsImposition(object_ptr))
+	{
+		return true;
+	}
+	if(VisitorsImposition(object_ptr))
+	{
+		return true;
 	}
 	return false;
 }
@@ -287,44 +391,12 @@ void AllObjects::DisplayBuildings(Camera* camera_ptr, PlayingField* field_ptr) c
 	int cameraRightX = cameraLeftX + camera_ptr->GetWidthAddition();
 	int cameraTopY = camera_ptr->GetUpperLeft().Get_y();
 	int cameraBottomY = cameraTopY + camera_ptr->GetHeightAddition();
-	int playingFieldLeftX = field_ptr->GetUpperLeft().Get_x();
-	int playingFieldRightX = playingFieldLeftX + field_ptr->GetWidthAddition();
-	int playingFieldTopY = field_ptr->GetUpperLeft().Get_y();
-	int playingFieldBottomY = playingFieldTopY + field_ptr->GetHeightAddition();
-	list<Building*>::const_iterator iter;
-	for (iter = buildings.begin(); iter != buildings.end(); iter++)
+	list<Building*>::const_iterator buildingIter;
+	for (buildingIter = buildings.begin(); buildingIter != buildings.end(); buildingIter++)
 	{
-		int leftX = (*iter)->GetUpperLeft().Get_x();
-		int topY = (*iter)->GetUpperLeft().Get_y();
-		int rightX = (*iter)->GetUpperLeft().Get_x() + (*iter)->GetWidthAddition();
-		int bottomY = (*iter)->GetUpperLeft().Get_y() + (*iter)->GetHeightAddition();
-		if (leftX > playingFieldLeftX && rightX < playingFieldRightX && topY > playingFieldTopY && bottomY < playingFieldBottomY)
+		if (!RectangleImposition((*iter), field_ptr))
 		{
-			if (leftX > cameraLeftX && rightX < cameraRightX && topY > cameraTopY && bottomY < cameraBottomY)
-			{
-				(*iter)->DrawObject();
-				continue;
-			}
-			if (leftX <= cameraLeftX && rightX > cameraLeftX)
-			{
-				leftX = cameraLeftX + 1;
-			}
-			if (topY <= cameraTopY && bottomY > cameraTopY)
-			{
-				topY = cameraTopY + 1;
-			}
-			if (rightX >= cameraRightX && leftX < cameraRightX)
-			{
-				rightX = cameraRightX - 1;
-			}
-			if (bottomY >= cameraBottomY && topY < cameraBottomY)
-			{
-				bottomY = cameraBottomY - 1;
-			}
-			if (leftX < cameraRightX && topY < cameraBottomY && rightX > cameraLeftX && bottomY > cameraTopY)
-			{
-				(*iter)->DrawPartly(leftX, rightX, topY, bottomY);
-			}
+			(*iter)->DrawObject(0, cameraLeftX, cameraTopY, cameraRightX, cameraBottomY);
 		}
 	}
 }
@@ -403,4 +475,9 @@ Construction* AllObjects::FindConstruction(PointCoord location) const
 				}
 	}
 	return nullptr;
+}
+void AllObjects::DeleteConstruction(Construction* forDeleting, bool (*isEqual)(Construction*))
+{
+	buildings.remove_if(buildings.begin(), buildings.end(), (*isEqual));
+	roads.remove_if(roads.begin(), roads.end(), (*isEqual));
 }

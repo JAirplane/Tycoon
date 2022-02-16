@@ -44,15 +44,19 @@ color Construction::GetBackgroundColor() const
 	}
 	return background;
 }
-void Construction::DrawObject(int mask) const
+void Construction::DrawObject(int mask, int leftX, int topY, int rightX, int bottomY) const
 {}
-void Construction::RedrawNeibours(PointCoord centralPoint, const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
+void Construction::RedrawNeibours(PointCoord centralPoint, const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr, const Camera* camera_ptr)
 {
 	list<Road*>::const_iterator roadIter;
 	PointCoord leftLocation(centralPoint.Get_x() - 1, centralPoint.Get_y());
 	PointCoord rightLocation(centralPoint.Get_x() + 1, centralPoint.Get_y());
 	PointCoord downLocation(centralPoint.Get_x(), centralPoint.Get_y() + 1);
 	PointCoord topLocation(centralPoint.Get_x(), centralPoint.Get_y() - 1);
+	int cameraLeftX = camera_ptr->GetUpperLeft().Get_x();
+	int cameraTopY = camera_ptr->GetUpperLeft().Get_y();
+	int cameraRightX = cameraLeftX + camera_ptr->GetWidthAddition();
+	int cameraBottomY = cameraTopY + camera_ptr->GetHeightAddition();
 	for (roadIter = allRoads.begin(); roadIter != allRoads.end(); roadIter++)
 	{
 		if (((*roadIter)->GetUpperLeft() == leftLocation || (*roadIter)->GetUpperLeft() == rightLocation || (*roadIter)->GetUpperLeft() == downLocation ||
@@ -74,7 +78,7 @@ void Construction::RedrawNeibours(PointCoord centralPoint, const list<Road*>& al
 		if (centralPoint == potentialRoad && (*buildingIter) != preliminary_ptr)
 		{
 			(*buildingIter)->ConnectedToRoad(allRoads, preliminary_ptr);
-			(*buildingIter)->DrawObject();
+			(*buildingIter)->DrawObject(0, cameraLeftX, cameraTopY, cameraRightX, cameraBottomY);
 		}
 	}
 }
@@ -115,7 +119,7 @@ PointCoord Building::GetEntrancePoint() const
 {
 	return PointCoord(GetUpperLeft().Get_x() + GetEntranceWidthAdd(), GetUpperLeft().Get_y() + GetEntranceHeightAdd());
 }
-void Building::RotateConstruction()
+int Building::RotateConstruction()
 {
 	int heightAdd = GetHeightAddition();
 	int widthAdd = GetWidthAddition();
@@ -152,7 +156,7 @@ void Building::RotateConstruction()
 		return;
 	}
 	default:
-		return;
+		return -1;
 	}
 }
 PointCoord Building::GetRedrawNeiboursPoint() const
@@ -161,7 +165,7 @@ PointCoord Building::GetRedrawNeiboursPoint() const
 }
 PointCoord Building::GetPotentialConnectedRoadPoint() const
 {
-	switch (GetExitDirection())
+	switch (exitDirection)
 	{
 	case Direction::Left: { return PointCoord(GetEntrancePoint().Get_x() - 1, GetEntrancePoint().Get_y()); }
 	case Direction::Up: { return PointCoord(GetEntrancePoint().Get_x(), GetEntrancePoint().Get_y() - 1); }
@@ -224,7 +228,7 @@ void Building::SetProfit(int profit)
 {
 	overallProfit = profit;
 }
-void Building::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
+void Building::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr, const Camera* camera_ptr)
 {
 	PointCoord potentialRoad = GetPotentialConnectedRoadPoint();
 	list<Road*>::const_iterator roadIter;
@@ -242,16 +246,33 @@ void Building::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>
 		}
 	}
 }
-void Building::DrawObject(int mask) const
+void Building::DrawObject(int mask, int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY) const
 {
-	GetPainter()->DrawConstruction(GetUpperLeft().Get_x(), GetUpperLeft().Get_y(), GetUpperLeft().Get_x() + GetWidthAddition(), GetUpperLeft().Get_y() + GetHeightAddition(),
-		GetDescriptor()->GetConstructionSymbol(), GetDescriptor()->GetForegroundColor(), GetEntranceSymbol(exitDirection), entranceHeightAdd, entranceWidthAdd,
-		GetBackgroundColor());
-}
-void Building::DrawPartly(int leftX, int rightX, int topY, int bottomY) const
-{
-	GetPainter()->DrawConstruction(leftX, topY, rightX, bottomY, GetDescriptor()->GetConstructionSymbol(), GetDescriptor()->GetForegroundColor(),
-		GetEntranceSymbol(exitDirection), entranceHeightAdd, entranceWidthAdd, GetBackgroundColor());
+	int leftX = GetUpperLeft().Get_x();
+	int topY = GetUpperLeft().Get_y();
+	int rightX = GetUpperLeft().Get_x() + GetWidthAddition();
+	int bottomY = GetUpperLeft().Get_y() + GetHeightAddition();
+	if (leftX <= cameraLeftX && rightX > cameraLeftX)
+	{
+		leftX = cameraLeftX + 1;
+	}
+	if (topY <= cameraTopY && bottomY > cameraTopY)
+	{
+		topY = cameraTopY + 1;
+	}
+	if (rightX >= cameraRightX && leftX < cameraRightX)
+	{
+		rightX = cameraRightX - 1;
+	}
+	if (bottomY >= cameraBottomY && topY < cameraBottomY)
+	{
+		bottomY = cameraBottomY - 1;
+	}
+	if (leftX < cameraRightX && topY < cameraBottomY && rightX > cameraLeftX && bottomY > cameraTopY)
+	{
+		GetPainter()->DrawConstruction(leftX, topY, rightX, bottomY, GetDescriptor()->GetConstructionSymbol(), GetDescriptor()->GetForegroundColor(),
+			GetEntranceSymbol(exitDirection), entranceHeightAdd, entranceWidthAdd, GetBackgroundColor());
+	}
 }
 ///////////////Road Class: Construction derived///////////////
 int Road::GetEntranceHeightAdd() const
@@ -266,8 +287,10 @@ Direction Road::GetExitDirection() const
 {
 	return Direction::None;
 }
-void Road::RotateConstruction()
-	{}
+int Road::RotateConstruction()
+{
+	return -1;
+}
 bool Road::GetGraphStatus() const
 {
 	return graphStatus;
@@ -454,12 +477,16 @@ void Road::ConnectedToRoad(const list<Road*>& allRoads, const Construction* prel
 	}
 	SetRoadConnectionStatus(false);
 }
-void Road::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
+void Road::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr, const Camera* camera_ptr)
 {
 	PointCoord leftLocation(GetUpperLeft().Get_x() - 1, GetUpperLeft().Get_y());
 	PointCoord rightLocation(GetUpperLeft().Get_x() + 1, GetUpperLeft().Get_y());
 	PointCoord downLocation(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() + 1);
 	PointCoord upLocation(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() - 1);
+	int cameraLeftX = camera_ptr->GetUpperLeft().Get_x();
+	int cameraTopY = camera_ptr->GetUpperLeft().Get_y();
+	int cameraRightX = cameraLeftX + camera_ptr->GetWidthAddition();
+	int cameraBottomY = cameraTopY + camera_ptr->GetHeightAddition();
 	list<Road*>::const_iterator roadIter;
 	for (roadIter = allRoads.begin(); roadIter != allRoads.end(); roadIter++)
 	{
@@ -482,11 +509,11 @@ void Road::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& al
 		if (GetUpperLeft() == potentialRoad)
 		{
 			(*buildingIter)->ConnectedToRoad(allRoads, preliminary_ptr);
-			(*buildingIter)->DrawObject();
+			(*buildingIter)->DrawObject(0, cameraLeftX, cameraTopY, cameraRightX, cameraBottomY);
 		}
 	}
 }
-void Road::DrawObject(int mask) const
+void Road::DrawObject(int mask, int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY) const
 {
 	GetPainter()->DrawConstruction(GetUpperLeft().Get_x(), GetUpperLeft().Get_y(), GetUpperLeft().Get_x() + GetWidthAddition(), GetUpperLeft().Get_y() + GetHeightAddition(),
 		GetDescriptor()->GetConstructionSymbol(mask), GetDescriptor()->GetForegroundColor(), GetBackgroundColor());
@@ -496,7 +523,7 @@ void Visitor::VisitorMove(int x, int y)
 {
 	SetUpperLeft(PointCoord(x, y));
 }
-void Visitor::DrawObject(int mask) const
+void Visitor::DrawObject(int mask, int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY) const
 {
 
 }

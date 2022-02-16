@@ -40,13 +40,13 @@ public:
 	virtual int GetVisitorsCount() const;
 	//
 	color GetBackgroundColor() const;
-	virtual void RotateConstruction() = 0;
+	virtual int RotateConstruction() = 0;
 	virtual int GetNeibourRoadMask(const list<Road*>& allRoads, const Construction* preliminary_ptr) const = 0;
 	virtual int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
 	virtual void IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
 	virtual void ConnectedToRoad(const list<Road*>& allRoads, const Construction* preliminary_ptr) = 0;
-	void DrawObject(int mask = 0) const override;
-	virtual void RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
+	void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const override;
+	virtual void RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr, const Camera* camera_ptr) = 0;
 	static void RedrawNeibours(PointCoord centralPoint, const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr);
 	void SetVisitorsCount(int visitorsCount);
 };
@@ -76,7 +76,7 @@ public:
 	Direction GetExitDirection() const override;
 	void SetExitDirection(Direction exit);
 	PointCoord GetEntrancePoint() const override;
-	void RotateConstruction() override;
+	int RotateConstruction() override; // returns -1 if rotation failed
 	int GetNeibourRoadMask(const list<Road*>& allRoads, const Construction* preliminary_ptr) const override;
 	PointCoord GetRedrawNeiboursPoint() const override;
 	PointCoord GetPotentialConnectedRoadPoint() const;
@@ -87,9 +87,8 @@ public:
 	void ConnectedToRoad(const list<Road*>& allRoads, const Construction* preliminary_ptr) override;
 	int GetProfit() const;
 	void SetProfit(int profit);
-	void RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
-	void DrawObject(int mask = 0) const override;
-	void DrawPartly(int leftX, int rightX, int topY, int bottomY) const;
+	void RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr, const Camera* camera_ptr) override;
+	void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const override;
 };
 /////////////One Pixel of Road/////////////
 class Road : public Construction
@@ -107,7 +106,7 @@ public:
 	int GetEntranceHeightAdd() const override;
 	int GetEntranceWidthAdd() const override;
 	Direction GetExitDirection() const override;
-	void RotateConstruction() override;
+	int RotateConstruction() override;
 	bool GetGraphStatus() const;
 	void SetGraphStatus(bool status);
 	int GetProfit() const;
@@ -119,8 +118,8 @@ public:
 	void IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
 	void ConnectedToRoad(const list<Road*>& allRoads, const Construction* preliminary_ptr) override;
 	void DefineGraphStatus(int mask); // use NeibourRoadMask here!
-	void RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
-	void DrawObject(int mask = 0) const override;
+	void RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr, const Camera* camera_ptr) override;
+	void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const override;
 };
 /////////////People are looking for some fun!/////////////
 class Visitor : public IngameObject
@@ -137,7 +136,7 @@ public:
 	~Visitor()
 	{}
 	void VisitorMove(int _x, int _y);
-	void DrawObject(int mask = 0) const override;
+	void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const override;
 	//GlobalObject* CreateObject(PointCoord _point) override;
 };
 /////////////End of Constructions Classes/////////////

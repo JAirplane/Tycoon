@@ -12,5 +12,5 @@ public:
 	}
 	virtual ConstructionDescriptor* GetDescriptor() const;
 	Visualisation* GetPainter() const;
-	virtual void DrawObject(int mask = 0) const = 0;
+	virtual void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const = 0;
 };

@@ -49,8 +49,18 @@ public:
 	void AddPreliminaryElement(Construction* preliminary_ptr);
 	Construction* GetPreliminaryElement() const;
 	void ErasePreliminaryElement(Camera* camera_ptr, PlayingField* field_ptr);
+	//
+	bool RectangleImposition(PointCoord point, MyRectangle* rect_ptr) const;
+	bool RectangleImposition(IngameObject* object_ptr, MyRectangle* rect_ptr) const;
+	bool BuildingsImposition(PointCoord point) const;
+	bool BuildingsImposition(IngameObject* object_ptr) const;
+	bool RoadsImposition(PointCoord point) const;
+	bool RoadsImposition(IngameObject* object_ptr) const;
+	bool VisitorsImposition(PointCoord point) const;
+	bool VisitorsImposition(IngameObject* object_ptr) const;
 	bool ObjectImposition(PointCoord point, PlayingField* field_ptr) const;
 	bool ObjectImposition(IngameObject* object_ptr, Camera* camera_ptr, PlayingField* field_ptr) const;
+	//
 	void EraseObjects(Camera* camera_ptr);
 	void ShiftBuildings(Direction shiftDirection, int shiftValue = 1);
 	void ShiftRoads(Direction shiftDirection, int shiftValue = 1);
@@ -61,4 +71,5 @@ public:
 	void DisplayVisitors();
 	void DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr);
 	Construction* FindConstruction(PointCoord location) const; //checks if location is on road or building
+	void DeleteConstruction(Construction* forDeleting, bool (*isEqual)(Construction*));
 };
