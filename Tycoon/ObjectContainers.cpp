@@ -79,9 +79,9 @@ void AllObjects::ErasePreliminaryElement(Camera* camera_ptr, PlayingField* field
 bool AllObjects::RectangleImposition(PointCoord point, MyRectangle* rect_ptr) const
 {
 	int rectangleLeftX = rect_ptr->GetUpperLeft().Get_x();
-	int rectangleRightX = rectangleLeftXLeftX + rect_ptr->GetWidthAddition();
+	int rectangleRightX = rectangleLeftX + rect_ptr->GetWidthAddition();
 	int rectangleTopY = rect_ptr->GetUpperLeft().Get_y();
-	int rectangleBottomY = rectangleLeftXTopY + rect_ptr->GetHeightAddition();
+	int rectangleBottomY = rectangleTopY + rect_ptr->GetHeightAddition();
 	if (((rectangleLeftX == point.Get_x() || rectangleRightX == point.Get_x()) && rectangleTopY <= point.Get_y() && rectangleBottomY >= point.Get_y()) ||
 		((rectangleTopY == point.Get_y() || rectangleBottomY == point.Get_y()) && rectangleLeftX <= point.Get_x() && rectangleRightX >= point.Get_x()))
 	{
@@ -92,9 +92,9 @@ bool AllObjects::RectangleImposition(PointCoord point, MyRectangle* rect_ptr) co
 bool AllObjects::RectangleImposition(IngameObject* object_ptr, MyRectangle* rect_ptr) const
 {
 	int rectangleLeftX = rect_ptr->GetUpperLeft().Get_x();
-	int rectangleRightX = rectangleLeftXLeftX + rect_ptr->GetWidthAddition();
+	int rectangleRightX = rectangleLeftX + rect_ptr->GetWidthAddition();
 	int rectangleTopY = rect_ptr->GetUpperLeft().Get_y();
-	int rectangleBottomY = rectangleLeftXTopY + rect_ptr->GetHeightAddition();
+	int rectangleBottomY = rectangleTopY + rect_ptr->GetHeightAddition();
 	int xCoord = object_ptr->GetUpperLeft().Get_x();
 	int yCoord = object_ptr->GetUpperLeft().Get_y();
 	int objectHeightAdd = object_ptr->GetHeightAddition();
@@ -394,9 +394,9 @@ void AllObjects::DisplayBuildings(Camera* camera_ptr, PlayingField* field_ptr) c
 	list<Building*>::const_iterator buildingIter;
 	for (buildingIter = buildings.begin(); buildingIter != buildings.end(); buildingIter++)
 	{
-		if (!RectangleImposition((*iter), field_ptr))
+		if (!RectangleImposition((*buildingIter), field_ptr))
 		{
-			(*iter)->DrawObject(0, cameraLeftX, cameraTopY, cameraRightX, cameraBottomY);
+			(*buildingIter)->DrawObject(0, cameraLeftX, cameraTopY, cameraRightX, cameraBottomY);
 		}
 	}
 }
@@ -476,8 +476,8 @@ Construction* AllObjects::FindConstruction(PointCoord location) const
 	}
 	return nullptr;
 }
-void AllObjects::DeleteConstruction(Construction* forDeleting, bool (*isEqual)(Construction*))
+void AllObjects::DeleteConstruction(Construction* forDeleting, function<bool(Construction*)> IsEqual)
 {
-	buildings.remove_if(buildings.begin(), buildings.end(), (*isEqual));
-	roads.remove_if(roads.begin(), roads.end(), (*isEqual));
+	buildings.remove_if(IsEqual);
+	roads.remove_if(IsEqual);
 }

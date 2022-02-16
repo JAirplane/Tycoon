@@ -2,6 +2,7 @@
 #include <fcntl.h>
 #include <io.h>
 #include "MessagesAndInfoScreen_InfoPanel.h"
+#include "ObserverInterface.h"
 #include "Alphabet.h"
 class InfoPanel : public MyRectangle, public MessageObserverInterface, public ConstructionInfoObserverInterface
 {

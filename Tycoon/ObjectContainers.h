@@ -1,7 +1,8 @@
 #pragma once
 #include <vector>
 #include <typeinfo>
-#include "Camera.h"
+#include <functional>
+#include "IngameObjectDerived.h"
 /////////////Containers of All Objects in the Game/////////////
 class AllObjects
 {
@@ -71,5 +72,5 @@ public:
 	void DisplayVisitors();
 	void DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr);
 	Construction* FindConstruction(PointCoord location) const; //checks if location is on road or building
-	void DeleteConstruction(Construction* forDeleting, bool (*isEqual)(Construction*));
+	void DeleteConstruction(Construction* forDeleting, function<bool(Construction*)> IsEqual);
 };
