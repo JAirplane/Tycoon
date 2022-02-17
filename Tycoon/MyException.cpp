@@ -3,12 +3,11 @@ string MyException::GetError() const
 {
 	return errorMessage;
 }
-void MyException::AddToLogFile() const
+void MyException::AddToLogFile()
 {
 	if(!errorMessage.empty())
 	{
-		ofstream logFile;
-		logFile.open("Logs.txt", ios_base::out | ios_base::app );
+		ofstream logFile("Logs.txt", ofstream::out, ios_base::out | ios_base::app );
 		logFile << errorMessage << endl;
 		errorMessage.clear();
 	}

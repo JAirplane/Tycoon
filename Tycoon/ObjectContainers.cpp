@@ -348,7 +348,7 @@ void AllObjects::ShiftBuildings(Direction shiftDirection, int shiftValue)
 	list<Building*>::iterator buildingIter;
 	for (buildingIter = buildings.begin(); buildingIter != buildings.end(); buildingIter++)
 	{
-		*buildingIter->ShiftObject(shiftDirection, shiftValue);
+		(*buildingIter)->ShiftObject(shiftDirection, shiftValue);
 	}
 }
 void AllObjects::ShiftRoads(Direction shiftDirection, int shiftValue)
@@ -356,7 +356,7 @@ void AllObjects::ShiftRoads(Direction shiftDirection, int shiftValue)
 	list<Road*>::iterator roadIter;
 	for (roadIter = roads.begin(); roadIter != roads.end(); roadIter++)
 	{
-		*roadIter->ShiftObject(shiftDirection, shiftValue);
+		(*roadIter)->ShiftObject(shiftDirection, shiftValue);
 	}
 }
 void AllObjects::ShiftVisitors(Direction shiftDirection, int shiftValue)
@@ -364,7 +364,7 @@ void AllObjects::ShiftVisitors(Direction shiftDirection, int shiftValue)
 	list<Visitor*>::iterator visitorIter;
 	for (visitorIter = visitors.begin(); visitorIter != visitors.end(); visitorIter++)
 	{
-		*visitorIter->ShiftObject(shiftDirection, shiftValue);
+		(*visitorIter)->ShiftObject(shiftDirection, shiftValue);
 	}
 }
 void AllObjects::DisplayBuildings(Camera* camera_ptr, PlayingField* field_ptr) const

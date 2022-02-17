@@ -1,5 +1,7 @@
 #pragma once
+#include <fstream>
 #include <exception>
+#include <string>
 using namespace std;
 class MyException : public exception
 {
@@ -13,5 +15,5 @@ public:
 	~MyException()
 	{}
 	string GetError() const;
-	void AddToLogFile() const;
+	void AddToLogFile();
 };

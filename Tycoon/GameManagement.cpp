@@ -560,7 +560,7 @@ void GameManagement::EnterKey_Camera()
 		if(previousChoice_ptr != nullptr)
 		{
 			previousChoice_ptr->SetChosenStatus(false);
-			mask = previousChoice_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
+			int mask = previousChoice_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
 			previousChoice_ptr->DrawObject(mask, camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(), camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(),
 				camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
 			infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->ClearChosenConstruction();
@@ -689,7 +689,7 @@ void GameManagement::EscKey_Camera()
 		chosen_ptr->EraseObject(camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(), camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(),
 			camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
 		chosen_ptr->SetChosenStatus(false);
-		int mask = chosen_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads, allObjects_ptr->GetAllBuildings(), allObjects_ptr->GetPreliminaryElement());
+		int mask = chosen_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), allObjects_ptr->GetPreliminaryElement());
 		chosen_ptr->DrawObject(mask, camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(), camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(),
 			camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
 		infoPanel_ptr->ClearChoosenConstruction();
