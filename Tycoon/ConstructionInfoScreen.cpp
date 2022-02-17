@@ -51,7 +51,6 @@ void ConstructionInfoScreen::SetChosenConstruction(Construction* choice_ptr)
 //
 void ConstructionInfoScreen::ClearChosenConstruction()
 {
-	chosen_ptr->GetDescriptor();
 	chosen_ptr = nullptr;
 }
 void ConstructionInfoScreen::DisplayConstructionInfo()

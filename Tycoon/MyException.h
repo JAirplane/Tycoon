@@ -1,17 +1,17 @@
 #pragma once
 #include <exception>
 using namespace std;
-class InfoPanel;
 class MyException : public exception
 {
 private:
-	InfoPanel* infoPanel_ptr;
+	string errorMessage;
 public:
-	MyException(const char* msg, InfoPanel* ip_ptr) : exception(msg)
+	MyException(string error) : exception()
 	{
-		infoPanel_ptr = ip_ptr;
+		errorMessage = error;
 	}
 	~MyException()
 	{}
-	InfoPanel* GetPanelPointer() const;
+	string GetError() const;
+	void AddToLogFile() const;
 };

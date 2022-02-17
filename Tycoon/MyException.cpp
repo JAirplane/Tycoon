@@ -1,5 +1,15 @@
 #include "MyException.h"
-InfoPanel* MyException::GetPanelPointer() const
+string MyException::GetError() const
 {
-	return infoPanel_ptr;
+	return errorMessage;
+}
+void MyException::AddToLogFile() const
+{
+	if(!errorMessage.empty())
+	{
+		ofstream logFile;
+		logFile.open("Logs.txt", ios_base::out | ios_base::app );
+		logFile << errorMessage << endl;
+		errorMessage.clear();
+	}
 }

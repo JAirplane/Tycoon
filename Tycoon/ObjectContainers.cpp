@@ -348,13 +348,7 @@ void AllObjects::ShiftBuildings(Direction shiftDirection, int shiftValue)
 	list<Building*>::iterator buildingIter;
 	for (buildingIter = buildings.begin(); buildingIter != buildings.end(); buildingIter++)
 	{
-		switch (shiftDirection)
-		{
-		case Direction::Right: {(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x() + shiftValue, (*buildingIter)->GetUpperLeft().Get_y())); break; }
-		case Direction::Down: {(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x(), (*buildingIter)->GetUpperLeft().Get_y() + shiftValue)); break; }
-		case Direction::Left: {(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x() - shiftValue, (*buildingIter)->GetUpperLeft().Get_y())); break; }
-		case Direction::Up: {(*buildingIter)->SetUpperLeft(PointCoord((*buildingIter)->GetUpperLeft().Get_x(), (*buildingIter)->GetUpperLeft().Get_y() - shiftValue)); break; }
-		}
+		*buildingIter->ShiftObject(shiftDirection, shiftValue);
 	}
 }
 void AllObjects::ShiftRoads(Direction shiftDirection, int shiftValue)
@@ -362,13 +356,7 @@ void AllObjects::ShiftRoads(Direction shiftDirection, int shiftValue)
 	list<Road*>::iterator roadIter;
 	for (roadIter = roads.begin(); roadIter != roads.end(); roadIter++)
 	{
-		switch (shiftDirection)
-		{
-		case Direction::Right: {(*roadIter)->SetUpperLeft(PointCoord((*roadIter)->GetUpperLeft().Get_x() + shiftValue, (*roadIter)->GetUpperLeft().Get_y())); break; }
-		case Direction::Down: {(*roadIter)->SetUpperLeft(PointCoord((*roadIter)->GetUpperLeft().Get_x(), (*roadIter)->GetUpperLeft().Get_y() + shiftValue)); break; }
-		case Direction::Left: {(*roadIter)->SetUpperLeft(PointCoord((*roadIter)->GetUpperLeft().Get_x() - shiftValue, (*roadIter)->GetUpperLeft().Get_y())); break; }
-		case Direction::Up: {(*roadIter)->SetUpperLeft(PointCoord((*roadIter)->GetUpperLeft().Get_x(), (*roadIter)->GetUpperLeft().Get_y() - shiftValue)); break; }
-		}
+		*roadIter->ShiftObject(shiftDirection, shiftValue);
 	}
 }
 void AllObjects::ShiftVisitors(Direction shiftDirection, int shiftValue)
@@ -376,13 +364,7 @@ void AllObjects::ShiftVisitors(Direction shiftDirection, int shiftValue)
 	list<Visitor*>::iterator visitorIter;
 	for (visitorIter = visitors.begin(); visitorIter != visitors.end(); visitorIter++)
 	{
-		switch (shiftDirection)
-		{
-		case Direction::Right: {(*visitorIter)->SetUpperLeft(PointCoord((*visitorIter)->GetUpperLeft().Get_x() + shiftValue, (*visitorIter)->GetUpperLeft().Get_y())); break; }
-		case Direction::Down: {(*visitorIter)->SetUpperLeft(PointCoord((*visitorIter)->GetUpperLeft().Get_x(), (*visitorIter)->GetUpperLeft().Get_y() + shiftValue)); break; }
-		case Direction::Left: {(*visitorIter)->SetUpperLeft(PointCoord((*visitorIter)->GetUpperLeft().Get_x() - shiftValue, (*visitorIter)->GetUpperLeft().Get_y())); break; }
-		case Direction::Up: {(*visitorIter)->SetUpperLeft(PointCoord((*visitorIter)->GetUpperLeft().Get_x(), (*visitorIter)->GetUpperLeft().Get_y() - shiftValue)); break; }
-		}
+		*visitorIter->ShiftObject(shiftDirection, shiftValue);
 	}
 }
 void AllObjects::DisplayBuildings(Camera* camera_ptr, PlayingField* field_ptr) const
