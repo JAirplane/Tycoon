@@ -46,6 +46,10 @@ Construction* ConstructionInfoScreen::GetChosenConstruction() const
 }
 void ConstructionInfoScreen::SetChosenConstruction(Construction* choice_ptr)
 {
+	if(choice_ptr == nullptr)
+	{
+		throw MyException("ConstructionInfoScreen::SetChosenConstruction(Construction* choice_ptr) argument is nullptr.");
+	}
 	chosen_ptr = choice_ptr;
 }
 //

@@ -27,6 +27,10 @@ wstring RectangleSymbols::GetBottomRightSymbol() const
 ///////////////Border Appearance///////////////
 const RectangleSymbols* BorderAppearance::GetBorderSymbols() const
 {
+	if(borderSymbols_ptr == nullptr)
+	{
+		throw MyException("BorderAppearance::GetBorderSymbols() borderSymbols_ptr is nullptr.");
+	}
 	return borderSymbols_ptr;
 }
 color BorderAppearance::GetBorderForegroundColor() const

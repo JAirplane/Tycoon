@@ -22,10 +22,18 @@ size_t AllObjects::GetVisitorsQuantity() const
 }
 void AllObjects::AddObject(Building* obj_ptr)
 {
+	if(obj_ptr == nullptr)
+	{
+		throw MyException("AllObjects::AddObject(Building* obj_ptr) received nullptr argument.");
+	}
 	buildings.push_back(obj_ptr);
 }
 void AllObjects::AddObject(Road* obj_ptr)
 {
+	if(obj_ptr == nullptr)
+	{
+		throw MyException("AllObjects::AddObject(Road* obj_ptr) received nullptr argument.");
+	}
 	roads.push_back(obj_ptr);
 }
 void AllObjects::AddObject(Visitor* obj_ptr, int position, bool isPreliminary)
@@ -43,13 +51,17 @@ void AllObjects::AddObject(Visitor* obj_ptr, int position, bool isPreliminary)
 }
 void AllObjects::AddPreliminaryElement(Construction* preliminary_ptr)
 {
+	if(preliminary_ptr == nullptr)
+	{
+		throw MyException("AllObjects::AddPreliminaryElement(Construction* preliminary_ptr) received nullptr argument.");
+	}
 	if(preliminaryConstruction_ptr == nullptr)
 	{
 		preliminaryConstruction_ptr = preliminary_ptr;
 	}
 	else
 	{
-		//TODO exception
+		throw MyException("AllObjects::AddPreliminaryElement(Construction* preliminary_ptr) preliminaryConstruction_ptr not a nullptr."); // exception
 	}
 }
 Construction* AllObjects::GetPreliminaryElement() const
@@ -73,11 +85,15 @@ void AllObjects::ErasePreliminaryElement(Camera* camera_ptr, PlayingField* field
 		{
 			delete preliminaryConstruction_ptr;
 		}
+		preliminaryConstruction_ptr = nullptr;
 	}
-	preliminaryConstruction_ptr = nullptr;
 }
 bool AllObjects::RectangleImposition(PointCoord point, MyRectangle* rect_ptr) const
 {
+	if(rect_ptr == nullptr)
+	{
+		throw MyException("AllObjects::RectangleImposition(PointCoord point, MyRectangle* rect_ptr) received nullptr argument rect_ptr.");
+	}
 	int rectangleLeftX = rect_ptr->GetUpperLeft().Get_x();
 	int rectangleRightX = rectangleLeftX + rect_ptr->GetWidthAddition();
 	int rectangleTopY = rect_ptr->GetUpperLeft().Get_y();
@@ -91,6 +107,14 @@ bool AllObjects::RectangleImposition(PointCoord point, MyRectangle* rect_ptr) co
 }
 bool AllObjects::RectangleImposition(IngameObject* object_ptr, MyRectangle* rect_ptr) const
 {
+	if(rect_ptr == nullptr)
+	{
+		throw MyException("AllObjects::RectangleImposition(IngameObject* object_ptr, MyRectangle* rect_ptr) received nullptr argument rect_ptr.");
+	}
+	if(object_ptr == nullptr)
+	{
+		throw MyException("AllObjects::RectangleImposition(IngameObject* object_ptr, MyRectangle* rect_ptr) received nullptr argument object_ptr.");
+	}
 	int rectangleLeftX = rect_ptr->GetUpperLeft().Get_x();
 	int rectangleRightX = rectangleLeftX + rect_ptr->GetWidthAddition();
 	int rectangleTopY = rect_ptr->GetUpperLeft().Get_y();
@@ -129,6 +153,10 @@ bool AllObjects::BuildingsImposition(PointCoord point) const
 }
 bool AllObjects::BuildingsImposition(IngameObject* object_ptr) const
 {
+	if(object_ptr == nullptr)
+	{
+		throw MyException("AllObjects::BuildingsImposition(IngameObject* object_ptr) received nullptr argument object_ptr.");
+	}
 	list<Building*>::const_iterator buildingIter;
 	int xCoord = object_ptr->GetUpperLeft().Get_x();
 	int yCoord = object_ptr->GetUpperLeft().Get_y();
@@ -174,6 +202,10 @@ bool AllObjects::RoadsImposition(PointCoord point) const
 }
 bool AllObjects::RoadsImposition(IngameObject* object_ptr) const
 {
+	if(object_ptr == nullptr)
+	{
+		throw MyException("AllObjects::RoadsImposition(IngameObject* object_ptr) received nullptr argument object_ptr.");
+	}
 	list<Road*>::const_iterator roadIter;
 	int xCoord = object_ptr->GetUpperLeft().Get_x();
 	int yCoord = object_ptr->GetUpperLeft().Get_y();
@@ -216,6 +248,10 @@ bool AllObjects::VisitorsImposition(PointCoord point) const
 }
 bool AllObjects::VisitorsImposition(IngameObject* object_ptr) const
 {
+	if(object_ptr == nullptr)
+	{
+		throw MyException("AllObjects::VisitorsImposition(IngameObject* object_ptr) received nullptr argument object_ptr.");
+	}
 	list<Visitor*>::const_iterator visitorIter;
 	int xCoord = object_ptr->GetUpperLeft().Get_x();
 	int yCoord = object_ptr->GetUpperLeft().Get_y();
@@ -348,7 +384,7 @@ void AllObjects::ShiftBuildings(Direction shiftDirection, int shiftValue)
 	list<Building*>::iterator buildingIter;
 	for (buildingIter = buildings.begin(); buildingIter != buildings.end(); buildingIter++)
 	{
-		(*buildingIter)->ShiftObject(shiftDirection, shiftValue);
+		(*buildingIter)->ShiftObject(shiftDirection, shiftValue); //already has an exception inside
 	}
 }
 void AllObjects::ShiftRoads(Direction shiftDirection, int shiftValue)
@@ -356,7 +392,7 @@ void AllObjects::ShiftRoads(Direction shiftDirection, int shiftValue)
 	list<Road*>::iterator roadIter;
 	for (roadIter = roads.begin(); roadIter != roads.end(); roadIter++)
 	{
-		(*roadIter)->ShiftObject(shiftDirection, shiftValue);
+		(*roadIter)->ShiftObject(shiftDirection, shiftValue); //already has an exception inside
 	}
 }
 void AllObjects::ShiftVisitors(Direction shiftDirection, int shiftValue)
@@ -364,7 +400,7 @@ void AllObjects::ShiftVisitors(Direction shiftDirection, int shiftValue)
 	list<Visitor*>::iterator visitorIter;
 	for (visitorIter = visitors.begin(); visitorIter != visitors.end(); visitorIter++)
 	{
-		(*visitorIter)->ShiftObject(shiftDirection, shiftValue);
+		(*visitorIter)->ShiftObject(shiftDirection, shiftValue); //already has an exception inside
 	}
 }
 void AllObjects::DisplayBuildings(Camera* camera_ptr, PlayingField* field_ptr) const
@@ -461,5 +497,5 @@ Construction* AllObjects::FindConstruction(PointCoord location) const
 void AllObjects::DeleteConstruction(Construction* forDeleting, function<bool(Construction*)> IsEqual)
 {
 	buildings.remove_if(IsEqual);
-	roads.remove_if(IsEqual);
+	roads.remove_if(IsEqual); //not quite correct?
 }

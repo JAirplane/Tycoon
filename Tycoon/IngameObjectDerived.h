@@ -31,7 +31,7 @@ public:
 	virtual PointCoord GetEntrancePoint() const = 0;
 	virtual PointCoord GetRedrawNeiboursPoint() const = 0;
 	virtual Direction GetExitDirection() const = 0;
-	virtual wstring GetEntranceSymbol(Direction out) const;
+	virtual wstring GetEntranceSymbol() const;
 	bool GetRoadConnectionStatus() const;
 	void SetRoadConnectionStatus(bool connected);
 	bool GetChosenStatus() const;
@@ -82,7 +82,7 @@ public:
 	int GetNeibourRoadMask(const list<Road*>& allRoads, const Construction* preliminary_ptr) const override;
 	PointCoord GetRedrawNeiboursPoint() const override;
 	PointCoord GetPotentialConnectedRoadPoint() const;
-	wstring GetEntranceSymbol(Direction exit) const override;
+	wstring GetEntranceSymbol() const override;
 	void CopyEntrance(Construction* preliminary_ptr);
 	int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
 	void IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;

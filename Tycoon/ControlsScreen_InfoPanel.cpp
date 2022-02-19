@@ -11,6 +11,10 @@ void ControlsScreen::FillControlsDescriptions()
 }
 void ControlsScreen::DisplayControls()
 {
+	if(controlsDescription.empty()
+	{
+		throw MyException("ControlsScreen::DisplayControls() has empty descriptions container.");
+	}
 	set_color(GetTextColor(), GetShadingColor());
 	vector<string>::iterator controlsIter;
 	int y = GetUpperLeft().Get_y() + 1;
@@ -19,7 +23,13 @@ void ControlsScreen::DisplayControls()
 		if (y < GetUpperLeft().Get_y() + GetHeightAddition())
 		{
 			set_cursor_pos(GetUpperLeft().Get_x() + 1, y);
-			cout << *(controlsIter);
+			int length = (int)(*controlsIter).length();
+			if (length > GetHalfXAxis() - GetUpperLeft().Get_x() - 1)
+			{
+				string truncatedDscription = (*controlsIter).substr(0, (size_t)(widthAdd - 1));
+				cout << truncatedTitle;
+			}
+			cout << (*controlsIter);
 			++y;
 		}
 		else
@@ -33,7 +43,13 @@ void ControlsScreen::DisplayControls()
 		if (y < GetUpperLeft().Get_y() + GetHeightAddition())
 		{
 			set_cursor_pos(GetUpperLeft().Get_x() + (GetWidthAddition() + 1) / 2 + 1, y);
-			cout << *(controlsIter);
+			int length = (int)(*controlsIter).length();
+			if (length > GetHalfXAxis() - GetUpperLeft().Get_x() - 1)
+			{
+				string truncatedDscription = (*controlsIter).substr(0, (size_t)(widthAdd - 1));
+				cout << truncatedTitle;
+			}
+			cout << (*controlsIter);
 			++y;
 		}
 		else

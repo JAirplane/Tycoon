@@ -42,8 +42,8 @@ color ConstructionDescriptor::GetChosenBackgroundColor()
 }
 wstring ConstructionDescriptor::GetConstructionSymbol(int mask)
 {
-	wstring empty = L"0";
-	return empty;
+	//wstring empty = L"0";
+	//return empty;
 }
 PointCoord ConstructionDescriptor::GetMenuElementLocation() const
 {

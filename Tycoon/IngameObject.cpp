@@ -17,6 +17,6 @@ void IngameObject::ShiftObject(Direction shiftDirection, int shiftValue)
 		case Direction::Down: {SetUpperLeft(PointCoord(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() + shiftValue)); return; }
 		case Direction::Left: {SetUpperLeft(PointCoord(GetUpperLeft().Get_x() - shiftValue, GetUpperLeft().Get_y())); return; }
 		case Direction::Up: {SetUpperLeft(PointCoord(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() - shiftValue)); return; }
-		default: {return;} //TODO exception
+		default: {throw MyException("IngameObject::ShiftObject(Direction shiftDirection, int shiftValue) got bad Direction.");} //TODO exception
 	}
 }

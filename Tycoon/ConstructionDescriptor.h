@@ -43,7 +43,7 @@ public:
 	color GetConnectedBackgroundColor();
 	color GetNotConnectedBackgroundColor();
 	color GetChosenBackgroundColor();
-	virtual wstring GetConstructionSymbol(int mask = 0);
+	virtual wstring GetConstructionSymbol(int mask = 0) = 0;
 	PointCoord GetMenuElementLocation() const;
 	void SetMenuElementLocation(PointCoord mLocation);
 };

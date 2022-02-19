@@ -789,7 +789,7 @@ void GameManagement::Arrows_Menu(Direction arrowDir)
 	{
 	case Direction::Up: {upperOrLower = IconsPosition::UPPER; break; }
 	case Direction::Down: {upperOrLower = IconsPosition::LOWER; break; }
-	default: {throw MyException("GameManagement::Arrows_Menu() incorrect direction."); } //TODO exception
+	default: {throw MyException("GameManagement::Arrows_Menu() incorrect direction."); } //exception
 	}
 	MenuElement* nearest = menu_ptr->MenuNavigation(menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y()), upperOrLower);
 	cursor_ptr->CursorMovement(PointCoord(nearest->GetHalfXAxis(), nearest->GetUpperLeft().Get_y()));

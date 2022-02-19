@@ -110,7 +110,6 @@ void Menu::SetHideMenuStatus(bool hideFlag)
 }
 Direction Menu::ChangeMenuSide(Camera* camera_ptr)
 {
-	vector<MenuElement*>::iterator menuElementIter;
 	Direction shiftDirection;
 	PointCoord cameraUpperLeft, menuUpperLeft;
 	if (currentSide == MenuStatus::LEFT)
@@ -133,6 +132,11 @@ Direction Menu::ChangeMenuSide(Camera* camera_ptr)
 	SetUpperLeft(menuUpperLeft);
 	int _x = GetUpperLeft().Get_x() + 2;
 	int _y = GetUpperLeft().Get_y() + 1;
+	if(menuItems.empty())
+	{
+		throw MyException("Menu::ChangeMenuSide(Camera* camera_ptr) menu elements container is empty.");
+	}
+	vector<MenuElement*>::iterator menuElementIter;
 	for (menuElementIter = menuItems.begin(); menuElementIter != menuItems.end(); menuElementIter++)
 	{
 		(*menuElementIter)->SetUpperLeft(PointCoord(_x, _y));
@@ -148,6 +152,10 @@ void Menu::ShowMenuItems()
 	int topY = GetUpperLeft().Get_y();
 	int rightX = GetUpperLeft().Get_x() + GetWidthAddition();
 	int bottomY = GetUpperLeft().Get_x() + GetHeightAddition();
+	if(menuItems.empty())
+	{
+		throw MyException("Menu::ShowMenuItems() menu elements container is empty.");
+	}
 	vector<MenuElement*>::iterator menuElementIter;
 	for (menuElementIter = menuItems.begin(); menuElementIter != menuItems.end() && (topY + (*menuElementIter)->GetHeightAddition()) < bottomY; menuElementIter++)
 	{
@@ -163,6 +171,10 @@ void Menu::ShowMenuItems()
 }
 MenuElement* Menu::GetMenuElement(int yCoord) const
 {
+	if(menuItems.empty())
+	{
+		throw MyException("Menu::GetMenuElement(int yCoord) menu elements container is empty.");
+	}
 	vector<MenuElement*>::const_iterator menuElementIter;
 	for (menuElementIter = menuItems.begin(); menuElementIter != menuItems.end(); menuElementIter++)
 	{
@@ -175,6 +187,10 @@ MenuElement* Menu::GetMenuElement(int yCoord) const
 }
 MenuElement* Menu::GetUpperVisibleMenuElement() const
 {
+	if(menuItems.empty())
+	{
+		throw MyException("Menu::GetUpperVisibleMenuElement() menu elements container is empty.");
+	}
 	vector<MenuElement*>::const_iterator menuElementIter;
 	for (menuElementIter = menuItems.begin(); menuElementIter != menuItems.end(); menuElementIter++)
 	{
@@ -188,6 +204,14 @@ MenuElement* Menu::GetUpperVisibleMenuElement() const
 //this method returns next upper/lower menu element before/after "currentIcon" coord
 MenuElement* Menu::GetNextMenuElement(MenuElement* currentElement, IconsPosition upperOrLower) const
 {
+	if(menuItems.empty())
+	{
+		throw MyException("Menu::GetNextMenuElement(MenuElement* currentElement, IconsPosition upperOrLower) menu elements container is empty.");
+	}
+	if(currentElement == nullptr)
+	{
+		throw MyException("Menu::GetNextMenuElement(MenuElement* currentElement, IconsPosition upperOrLower) currentElement is nullptr.");
+	}
 	MenuElement* nearest = nullptr;
 	if (upperOrLower == IconsPosition::UPPER)
 	{
@@ -232,6 +256,10 @@ MenuElement* Menu::GetNextMenuElement(MenuElement* currentElement, IconsPosition
 }
 void Menu::MenuElementsShift(IconsPosition upperOrLower)
 {
+	if(menuItems.empty())
+	{
+		throw MyException("Menu::MenuElementsShift(IconsPosition upperOrLower) menu elements container is empty.");
+	}
 	vector<MenuElement*>::iterator menuElementIter;
 	switch (upperOrLower)
 	{
@@ -259,7 +287,7 @@ void Menu::MenuElementsShift(IconsPosition upperOrLower)
 				(*menuElementIter)->GetUpperLeft().Get_y() - (*menuElementIter)->GetHeightAddition() - 1));
 		}
 	}
-	default: {return; }
+	default: {throw MyException("Menu::MenuElementsShift(IconsPosition upperOrLower) bas IconsPosition argument."); }
 	}
 }
 MenuElement* Menu::MenuNavigation(MenuElement* currentElement, IconsPosition upperOrLower)
@@ -293,6 +321,10 @@ MenuElement* Menu::MenuNavigation(MenuElement* currentElement, IconsPosition upp
 }
 Construction* Menu::CreatePreliminaryObject(AllObjects* allObjects_ptr, Camera* camera_ptr) const
 {
+	if(menuItems.empty())
+	{
+		throw MyException("Menu::MenuElementsShift(IconsPosition upperOrLower) menu elements container is empty.");
+	}
 	vector<MenuElement*>::const_iterator menuElementIter;
 	for (menuElementIter = menuItems.begin(); menuElementIter != menuItems.end(); menuElementIter++)
 	{

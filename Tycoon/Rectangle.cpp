@@ -2,6 +2,10 @@
 ///////////////Rectangle///////////////
 BorderAppearance* MyRectangle::GetBorder() const
 {
+	if(border_ptr == nullptr)
+	{
+		throw MyException("MyRectangle::GetBorder() border_ptr is nullptr.");
+	}
 	return border_ptr;
 }
 color MyRectangle::GetTextColor() const
@@ -14,10 +18,18 @@ color MyRectangle::GetShadingColor() const
 }
 Visualisation* MyRectangle::GetDrawPointer() const
 {
+	if(draw_ptr == nullptr)
+	{
+		throw MyException("MyRectangle::GetDrawPointer() draw_ptr is nullptr.");
+	}
 	return draw_ptr;
 }
 Cursor* MyRectangle::GetCursor() const
 {
+	if(cursor_ptr == nullptr)
+	{
+		throw MyException("MyRectangle::GetCursor() cursor_ptr is nullptr.");
+	}
 	return cursor_ptr;
 }
 void MyRectangle::SetTextColor(color letterColor)

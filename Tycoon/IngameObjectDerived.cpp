@@ -20,14 +20,14 @@ void Construction::SetChosenStatus(bool chosen)
 {
 	isChosen = chosen;
 }
-wstring Construction::GetEntranceSymbol(Direction out) const
+wstring Construction::GetEntranceSymbol() const
 {
 	return wstring(L"");
 }
 color Construction::GetBackgroundColor() const
 {
 	color background = cBLACK;
-	if (GetChosenStatus())
+	if (GetChosenStatus()) // GetChosenStatus() has an exception
 	{
 		background = GetDescriptor()->GetChosenBackgroundColor();
 	}
@@ -170,10 +170,10 @@ PointCoord Building::GetPotentialConnectedRoadPoint() const
 	case Direction::Up: { return PointCoord(GetEntrancePoint().Get_x(), GetEntrancePoint().Get_y() - 1); }
 	case Direction::Right: { return PointCoord(GetEntrancePoint().Get_x() + 1, GetEntrancePoint().Get_y()); }
 	case Direction::Down: { return PointCoord(GetEntrancePoint().Get_x(), GetEntrancePoint().Get_y() + 1); }
-	default: { return PointCoord(0, 0); }
+	default: { throw MyException("Building::GetPotentialConnectedRoadPoint() building has bad exitDirection."); }
 	}
 }
-wstring Building::GetEntranceSymbol(Direction exit) const
+wstring Building::GetEntranceSymbol() const
 {
 	switch (exitDirection)
 	{
@@ -181,11 +181,15 @@ wstring Building::GetEntranceSymbol(Direction exit) const
 	case Direction::Right: {return wstring(L"\u2192"); }
 	case Direction::Down: {return wstring(L"\u2193"); }
 	case Direction::Left: {return wstring(L"\u2190"); }
-	default: {return wstring(L""); }
+	default: {throw MyException("Building::GetEntranceSymbol() building has bad exitDirection."); }
 	}
 }
 void Building::CopyEntrance(Construction* preliminary_ptr)
 {
+	if(preliminary_ptr == nullptr)
+	{
+		throw MyException("Building::CopyEntrance(Construction* preliminary_ptr) received nullptr argument.");
+	}
 	SetEntranceHeightAdd(preliminary_ptr->GetEntranceHeightAdd());
 	SetEntranceWidthAdd(preliminary_ptr->GetEntranceWidthAdd());
 	SetExitDirection(preliminary_ptr->GetExitDirection());
@@ -484,11 +488,14 @@ void Road::ConnectedToRoad(const list<Road*>& allRoads, const Construction* prel
 			return;
 		}
 	}
-	if (preliminary_ptr->GetUpperLeft() == leftLocation || preliminary_ptr->GetUpperLeft() == rightLocation ||
-		preliminary_ptr->GetUpperLeft() == downLocation || preliminary_ptr->GetUpperLeft() == upLocation)
+	if(preliminary_ptr != nullptr)
 	{
-		SetRoadConnectionStatus(true);
-		return;
+		if (preliminary_ptr->GetUpperLeft() == leftLocation || preliminary_ptr->GetUpperLeft() == rightLocation ||
+		preliminary_ptr->GetUpperLeft() == downLocation || preliminary_ptr->GetUpperLeft() == upLocation)
+		{
+			SetRoadConnectionStatus(true);
+			return;
+		}
 	}
 	SetRoadConnectionStatus(false);
 }

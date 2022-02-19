@@ -13,5 +13,7 @@ void PlayingField::Shift(Direction shiftDirection, int shiftValue)
 		{SetUpperLeft(PointCoord(GetUpperLeft().Get_x() - shiftValue, GetUpperLeft().Get_y())); return;}
 		case Direction::Up:
 		{SetUpperLeft(PointCoord(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() - shiftValue)); return;}
+		default:{throw MyException("PlayingField::Shift(Direction shiftDirection, int shiftValue) bad shiftDirection.");}
+		
 	}
 }

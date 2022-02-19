@@ -60,7 +60,7 @@ void InfoPanel::CreateGameMessagesScreen()
 // when receive notification from GameManagement that user choose some construction on the playing field
 void InfoPanel::ChosenConstructionUpdate(Construction* choice_ptr)
 {
-	SetChosenConstruction(choice_ptr);
+	SetChosenConstruction(choice_ptr); //already throws exception, if receives nullptr
 	if(currentScreen != InfoPanelContentType::SystemMessagesAndConstructionInfo)
 	{
 		SwitchContent(InfoPanelContentType::SystemMessagesAndConstructionInfo);
@@ -74,6 +74,10 @@ void InfoPanel::ChosenConstructionUpdate(Construction* choice_ptr)
 // when receive user message from GameManagement
 void InfoPanel::UserMessageUpdate(const string message)
 {
+	if(message.empty())
+	{
+		throw MyException("InfoPanel::UserMessageUpdate(const string message) received empty string.");
+	}
 	messagesAndInfoScreen_ptr->AddMessage(message);
 	messagesAndInfoScreen_ptr->DeleteOldMessages();
 	if(currentScreen != InfoPanelContentType::SystemMessagesAndConstructionInfo)
@@ -183,7 +187,7 @@ void InfoPanel::SwitchContent(InfoPanelContentType choosenContent)
 		ShowMessagesScreen();
 		return;
 	}
-	default: {return; } //TODO throw exception
+	default: {throw MyException("InfoPanel::SwitchContent(InfoPanelContentType choosenContent) got unknown content type.");} //exception
 	}
 }
 void InfoPanel::GetToInfoPanelDisplayRule()
@@ -218,18 +222,12 @@ void InfoPanel::GetToInfoPanelDisplayRule()
 			default:
 			{
 				ShowSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
-				// TODO exception
+				throw MyException("InfoPanel::GetToInfoPanelDisplayRule() currentScreen is undefined."); // exception
 			}
 		}
 }
 void InfoPanel::EndInteractionDisplayRule()
 {
-	if (currentScreen == InfoPanelContentType::MenuScreen)
-	{
-		mainScreen_ptr->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
-		mainScreen_ptr->GetControlsButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
-		SwitchContent(InfoPanelContentType::SplashScreen);
-	}
 	switch(currentScreen)
 		{
 			case InfoPanelContentType::SplashScreen: {return;}
@@ -250,7 +248,7 @@ void InfoPanel::EndInteractionDisplayRule()
 			default:
 			{
 				ShowSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
-				// TODO exception
+				throw MyException("InfoPanel::EndInteractionDisplayRule() currentScreen is undefined."); //exception
 			}
 		}
 }

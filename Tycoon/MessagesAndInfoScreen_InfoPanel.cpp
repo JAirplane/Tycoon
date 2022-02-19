@@ -39,11 +39,11 @@ bool MessagesAndInfoScreen::MessagesIsEmpty()
 {
 	if (messages.empty())
 	{
-		return 1;
+		return true;
 	}
 	else
 	{
-		return 0;
+		return false;
 	}
 }
 void MessagesAndInfoScreen::AddMessage(const string msg)
@@ -52,7 +52,10 @@ void MessagesAndInfoScreen::AddMessage(const string msg)
 }
 void MessagesAndInfoScreen::DeleteMessage()
 {
-	messages.pop_back();
+	if (!messages.empty())
+	{
+		messages.pop_back();
+	}
 }
 void MessagesAndInfoScreen::DisplayMessage(int initialX, int initialY, string message)
 {
