@@ -808,7 +808,7 @@ void Alphabet::DrawLetter(const vector< vector<bool> > letterMatrix, int startX,
 	vector< vector<bool> >::const_iterator rootIter;
 	int row = startX;
 	int column = startY;
-	int letterWidth = (*letterMatrix.begin()).size();
+	int letterWidth = (int)(*letterMatrix.begin()).size();
 	for (rootIter = letterMatrix.begin(); rootIter != letterMatrix.end(); rootIter++, column++)
 	{
 		vector<bool>::const_iterator internalIter;

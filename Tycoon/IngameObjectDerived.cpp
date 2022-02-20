@@ -278,7 +278,7 @@ void Building::DrawObject(int mask, int cameraLeftX, int cameraTopY, int cameraR
 	if (leftX < cameraRightX && topY < cameraBottomY && rightX > cameraLeftX && bottomY > cameraTopY)
 	{
 		GetPainter()->DrawConstruction(leftX, topY, rightX, bottomY, GetDescriptor()->GetConstructionSymbol(), GetDescriptor()->GetForegroundColor(),
-			GetEntranceSymbol(exitDirection), entranceHeightAdd, entranceWidthAdd, GetBackgroundColor());
+			GetEntranceSymbol(), entranceHeightAdd, entranceWidthAdd, GetBackgroundColor());
 	}
 }
 void Building::EraseObject(int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY) const

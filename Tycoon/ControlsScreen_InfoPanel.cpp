@@ -11,7 +11,7 @@ void ControlsScreen::FillControlsDescriptions()
 }
 void ControlsScreen::DisplayControls()
 {
-	if(controlsDescription.empty()
+	if(controlsDescription.empty())
 	{
 		throw MyException("ControlsScreen::DisplayControls() has empty descriptions container.");
 	}
@@ -26,8 +26,8 @@ void ControlsScreen::DisplayControls()
 			int length = (int)(*controlsIter).length();
 			if (length > GetHalfXAxis() - GetUpperLeft().Get_x() - 1)
 			{
-				string truncatedDscription = (*controlsIter).substr(0, (size_t)(widthAdd - 1));
-				cout << truncatedTitle;
+				string truncatedDscription = (*controlsIter).substr(0, (size_t)(GetHalfXAxis() - 1));
+				cout << truncatedDscription;
 			}
 			cout << (*controlsIter);
 			++y;
@@ -46,8 +46,8 @@ void ControlsScreen::DisplayControls()
 			int length = (int)(*controlsIter).length();
 			if (length > GetHalfXAxis() - GetUpperLeft().Get_x() - 1)
 			{
-				string truncatedDscription = (*controlsIter).substr(0, (size_t)(widthAdd - 1));
-				cout << truncatedTitle;
+				string truncatedDscription = (*controlsIter).substr(0, (size_t)(GetHalfXAxis() - 1));
+				cout << truncatedDscription;
 			}
 			cout << (*controlsIter);
 			++y;
