@@ -8,18 +8,31 @@ using namespace std;
 int main()
 {
 	GameManagement GameMaster;
-	GameMaster.CreateCursor();
-	GameMaster.CreateDrawPointer();
-	GameMaster.CreateAllObjects();
-	GameMaster.CreateCamera();
-	GameMaster.CreatePlayingField();
-	GameMaster.CreateMenuAndElements();
-	GameMaster.CreateInfoPanel();
-	//
-	GameMaster.DisplayCamera();
-	GameMaster.DisplayMenu();
-	GameMaster.DisplayInfoPanel();
-	GameMaster.DisplayPlayingField();
+	try
+	{
+		GameMaster.CreateCursor();
+		GameMaster.CreateDrawPointer();
+		GameMaster.CreateAllObjects();
+		GameMaster.CreateCamera();
+		GameMaster.CreatePlayingField();
+		GameMaster.CreateMenuAndElements();
+		GameMaster.CreateInfoPanel();
+		//
+		GameMaster.DisplayCamera();
+		GameMaster.DisplayMenu();
+		GameMaster.DisplayInfoPanel();
+		GameMaster.DisplayPlayingField();
+	}
+	catch (MyException& somethingOccured)
+	{
+		somethingOccured.AddToLogFile();
+	}
+	catch (exception& standardException)
+	{
+		ofstream logFile;
+		logFile.open("Logs.txt", ios_base::out | ios_base::app);
+		logFile << standardException.what() << endl;
+	}
 	GameMaster.GameProcess();
 	set_cursor_pos(1, 40);
 	return 0;

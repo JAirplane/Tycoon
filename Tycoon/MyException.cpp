@@ -6,10 +6,10 @@ string MyException::GetError() const
 }
 void MyException::AddToLogFile()
 {
-	cout << errorMessage;
 	if(!errorMessage.empty())
 	{
-		ofstream logFile("Logs.txt", ofstream::out, ios_base::out | ios_base::app );
+		ofstream logFile;
+		logFile.open("Logs.txt", ofstream::out | ofstream::app);
 		if (!logFile.is_open())
 		{
 			cout << "Failed to open file";

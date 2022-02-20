@@ -165,7 +165,7 @@ CursorLocation GameManagement::GetCursorArea()
 	}
 	else
 	{
-		throw MyException("GameManagement::UserMessageNotify() received empty message."); //probably somewhere on border
+		throw MyException("GameManagement::GetCursorArea() bad cursor area."); //probably somewhere on border
 	}
 }
 void GameManagement::ReturnCursorToCamera()
