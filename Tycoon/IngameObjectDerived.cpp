@@ -359,7 +359,7 @@ PointCoord Road::GetRedrawNeiboursPoint() const
 {
 	return GetUpperLeft();
 }
-int Road::GetNeibourRoadMask(const list<Road*>& allRoads, const Construction* preliminary_ptr) const
+int Road::GetMaskPartPreliminaryRoad(const Construction* preliminary_ptr) const
 {
 	PointCoord leftLocation(GetUpperLeft().Get_x() - 1, GetUpperLeft().Get_y());
 	PointCoord rightLocation(GetUpperLeft().Get_x() + 1, GetUpperLeft().Get_y());
@@ -372,24 +372,33 @@ int Road::GetNeibourRoadMask(const list<Road*>& allRoads, const Construction* pr
 		if (preliminary_ptr->GetExitDirection() == Direction::None)
 		{
 			preliminaryUpperLeft = preliminary_ptr->GetUpperLeft();
-		}
-		if (preliminaryUpperLeft == leftLocation)
-		{
-			roadEnvironmentMask |= int(roadMask::LEFT);
-		}
-		if (preliminaryUpperLeft == rightLocation)
-		{
-			roadEnvironmentMask |= int(roadMask::RIGHT);
-		}
-		if (preliminaryUpperLeft == upLocation)
-		{
-			roadEnvironmentMask |= int(roadMask::TOP);
-		}
-		if (preliminaryUpperLeft == downLocation)
-		{
-			roadEnvironmentMask |= int(roadMask::BOTTOM);
+			if (preliminaryUpperLeft == leftLocation)
+			{
+				roadEnvironmentMask |= int(roadMask::LEFT);
+			}
+			if (preliminaryUpperLeft == rightLocation)
+			{
+				roadEnvironmentMask |= int(roadMask::RIGHT);
+			}
+			if (preliminaryUpperLeft == upLocation)
+			{
+				roadEnvironmentMask |= int(roadMask::TOP);
+			}
+			if (preliminaryUpperLeft == downLocation)
+			{
+				roadEnvironmentMask |= int(roadMask::BOTTOM);
+			}
 		}
 	}
+	return roadEnvironmentMask;
+}
+int Road::GetMaskPartRealRoads(const list<Road*>& allRoads)
+{
+	PointCoord leftLocation(GetUpperLeft().Get_x() - 1, GetUpperLeft().Get_y());
+	PointCoord rightLocation(GetUpperLeft().Get_x() + 1, GetUpperLeft().Get_y());
+	PointCoord downLocation(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() + 1);
+	PointCoord upLocation(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() - 1);
+	int roadEnvironmentMask = 0;
 	list<Road*>::const_iterator roadIter;
 	for (roadIter = allRoads.begin(); roadIter != allRoads.end(); roadIter++)
 	{
@@ -410,6 +419,12 @@ int Road::GetNeibourRoadMask(const list<Road*>& allRoads, const Construction* pr
 			roadEnvironmentMask |= int(roadMask::BOTTOM);
 		}
 	}
+	return roadEnvironmentMask;
+}
+int Road::GetNeibourRoadMask(const list<Road*>& allRoads, const Construction* preliminary_ptr) const
+{
+	int roadEnvironmentMask = GetMaskPartPreliminaryObject(preliminary_ptr);
+	roadEnvironmentMask |= GetMaskPartRealRoads(allRoads);
 	return roadEnvironmentMask;
 }
 int Road::GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)

@@ -1,67 +1,81 @@
 #pragma once
+#include <vector>
 
-class RoadGraphNode
+class Node
 {
 private:
-	Construction* RoadVertex;
-	unsigned int EdgeDistance;
+	const Construction* roadVertex;
 public:
-	RoadGraphNode(Construction* vertex, unsigned int distance = 0) : RoadVertex(vertex), EdgeDistance(distance)
+	Node(const Construction* vertex) : roadVertex(vertex_ptr)
 	{}
-	~RoadGraphNode()
+	~Node()
 	{}
-	RoadGraphNode* CreateNode(Construction* vertex, unsigned int distance = 0)
+	const Construction* getVertex() const;
+};
+class SideNode : public Node
+{
+private:
+	int distanceToRoot;
+	vector<const Construction*> pathFromRoot;
+public:
+	SideNode(const Construction* vertex) : Node(vertex)
 	{
-		RoadGraphNode* newnode_ptr = new RoadGraphNode(vertex, distance);
-		return newnode_ptr;
+		distanceToRoot = 1; //minimum range between two different nodes
 	}
-	Construction* getVertex() const
+	~SideNode()
+	{}
+	int GetDistanceToRoot() const;
+	void AddToPath(const Construction* notANodeRoad_ptr);
+	void ClearPath(); // do not free the memory, just left the vector empty
+	void ResetPathCapacity();
+};
+class RootNode : public Node
+{
+private:
+	SideNode* leftVertex;
+	SideNode* topVertex;
+	SideNode* rightVertex;
+	SideNode* bottomVertex;
+public:
+	RootNode(const Construction* vertex) : Node(vertex)
 	{
-		return RoadVertex;
+		leftVertex = nullptr;
+		topVertex = nullptr;
+		rightVertex = nullptr;
+		bottomVertex = nullptr;
 	}
-	unsigned int getDistance() const
+	~RootNode()
 	{
-		return EdgeDistance;
+		delete leftVertex;
+		delete topVertex;
+		delete rightVertex;
+		delete bottomVertex;
 	}
+	SideNode* CreateSideNode(Direction side, const Construction* vertex_ptr);
+	void DeleteSideNode(Direction side);
+	void DeleteSideNode(const Construction* vertex_ptr);
+	void PathAdd(Direction side, const Construction* notANodeRoad_ptr);
+	PointCoord GetFirstPathElementCoord(Direction pathDirection);
 };
 class RoadGraph
 {
 private:
-	list<list<RoadGraphNode*> > Graph;
+	list<RootNode*> graph;
 public:
 	RoadGraph()
 	{}
 	~RoadGraph()
 	{
-		list<list<RoadGraphNode*> >::iterator externaliter;
-		for (externaliter = Graph.begin(); externaliter != Graph.end(); externaliter++)
+		for (auto& element : graph)
 		{
-			list<RoadGraphNode*> internal = *externaliter;
-			list<RoadGraphNode*>::iterator internaliter;
-			for (internaliter = internal.begin(); internaliter != internal.end(); internaliter++)
-			{
-				delete (*internaliter);
-			}
+			delete element;
 		}
 	}
-	void addRootNode(RoadGraphNode* _rootroad)
-	{
-		list<RoadGraphNode*> internal;
-		internal.push_back(RootRoad);
-		Graph.push_back(internal);
-	}
-	void addNode(RoadGraphNode* _road, Construction* _rootvertex)
-	{
-		list<list<RoadGraphNode*> >::iterator externaliter;
-		for (externaliter = Graph.begin(); externaliter != Graph.end(); externaliter++)
-		{
-			list<RoadGraphNode*> internal = *externaliter;
-			list<RoadGraphNode*>::iterator internaliter = internal.begin();
-			if ((*internaliter)->getVertex() == _rootvertex)
-			{
-				(*externaliter).push_back(_road);
-				return;
-			}
-		}
-	}
-}
+	void CreateRootNode(const Construction* vertex_ptr);
+	void DeleteRootNode(const Construction* vertex_ptr);
+	void AddRootNode(const Construction* vertex_ptr);
+	RootNode* FindRootNode(const Construction* vertex_ptr);
+	void FillGraphWithRootNodes(const list<Road*>& roads);
+	void FillPathToSideNode(const RootNode* node_ptr, Direction pathDirection, const list<Road*>& roads);
+	void FillPathToSideNodes(const RootNode* node_ptr, const list<Road*>& roads);
+};
