@@ -110,6 +110,7 @@ InfoPanelContentType InfoPanel::GetCurrentContent() const
 //
 void InfoPanel::ShowSplashScreen(color foreground, color background)
 {
+	PointCoord previousLocation = GetCursor()->GetCursorConsoleLocation();
 	currentScreen = InfoPanelContentType::SplashScreen;
 	Alphabet::DrawLetter(Alphabet::Get_I_Matrix(), GetUpperLeft().Get_x() + 3, GetUpperLeft().Get_y() + 2);
 	GetCursor()->SetCursorConsoleLocation();
@@ -129,6 +130,7 @@ void InfoPanel::ShowSplashScreen(color foreground, color background)
 	Alphabet::DrawLetter(Alphabet::Get_E_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x() + 1, GetCursor()->GetCursorConsoleLocation().Get_y());
 	GetCursor()->SetCursorConsoleLocation();
 	Alphabet::DrawLetter(Alphabet::Get_L_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x() + 1, GetCursor()->GetCursorConsoleLocation().Get_y());
+	GetCursor()->CursorMovement(previousLocation);
 }
 void InfoPanel::ShowMenuScreen()
 {
@@ -193,64 +195,76 @@ void InfoPanel::SwitchContent(InfoPanelContentType choosenContent)
 void InfoPanel::GetToInfoPanelDisplayRule()
 {
 	switch(currentScreen)
+	{
+		case InfoPanelContentType::SplashScreen:
 		{
-			case InfoPanelContentType::SplashScreen:
+			SwitchContent(InfoPanelContentType::MenuScreen);
+			return;
+		}
+		case InfoPanelContentType::MenuScreen:
+		{
+			mainScreen_ptr->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor());
+			mainScreen_ptr->GetMessagesButton()->DrawBorder();
+			GetCursor()->CursorMovement(PointCoord(mainScreen_ptr->GetMessagesButton()->GetHalfXAxis(), mainScreen_ptr->GetMessagesButton()->GetUpperLeft().Get_y()));
+			return;
+		}
+		case InfoPanelContentType::Controls:
+		{
+			SwitchContent(InfoPanelContentType::MenuScreen);
+			return;
+		}
+		case InfoPanelContentType::SystemMessagesAndConstructionInfo:
+		{
+			if (messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetChosenConstruction() != nullptr)
 			{
-				SwitchContent(InfoPanelContentType::MenuScreen);
-				return;
-			}
-			case InfoPanelContentType::MenuScreen:
-			{
-				mainScreen_ptr->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor());
-				mainScreen_ptr->GetMessagesButton()->DrawBorder();
-				GetCursor()->CursorMovement(PointCoord(mainScreen_ptr->GetMessagesButton()->GetHalfXAxis(), mainScreen_ptr->GetMessagesButton()->GetUpperLeft().Get_y()));
-				return;
-			}
-			case InfoPanelContentType::Controls:
-			{
-				SwitchContent(InfoPanelContentType::MenuScreen);
-				return;
-			}
-			case InfoPanelContentType::SystemMessagesAndConstructionInfo:
-			{
-				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor());
+				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->
+					SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor());
 				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->DrawBorder();
 				GetCursor()->CursorMovement(PointCoord(messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetHalfXAxis(),
 					messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetUpperLeft().Get_y()));
-				return;
 			}
-			default:
+			else
 			{
-				ShowSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
-				throw MyException("InfoPanel::GetToInfoPanelDisplayRule() currentScreen is undefined."); // exception
+				GetCursor()->CursorMovement(PointCoord(messagesAndInfoScreen_ptr->GetHalfXAxis(), messagesAndInfoScreen_ptr->GetUpperLeft().Get_y()));
 			}
+			return;
 		}
+		default:
+		{
+			ShowSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
+			throw MyException("InfoPanel::GetToInfoPanelDisplayRule() currentScreen is undefined.");
+		}
+	}
 }
 void InfoPanel::EndInteractionDisplayRule()
 {
 	switch(currentScreen)
+	{
+		case InfoPanelContentType::SplashScreen: {return;}
+		case InfoPanelContentType::MenuScreen:
 		{
-			case InfoPanelContentType::SplashScreen: {return;}
-			case InfoPanelContentType::MenuScreen:
-			{
-				mainScreen_ptr->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
-				mainScreen_ptr->GetControlsButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
-				SwitchContent(InfoPanelContentType::SplashScreen);
-				return;
-			}
-			case InfoPanelContentType::Controls: {return;}
-			case InfoPanelContentType::SystemMessagesAndConstructionInfo:
-			{
-				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
-				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->DrawBorder();
-				return;
-			}
-			default:
-			{
-				ShowSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
-				throw MyException("InfoPanel::EndInteractionDisplayRule() currentScreen is undefined."); //exception
-			}
+			mainScreen_ptr->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+			mainScreen_ptr->GetControlsButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+			SwitchContent(InfoPanelContentType::SplashScreen);
+			return;
 		}
+		case InfoPanelContentType::Controls: {return;}
+		case InfoPanelContentType::SystemMessagesAndConstructionInfo:
+		{
+			if (messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetChosenConstruction() != nullptr)
+			{
+				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->
+					SetBorderBackgroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->DrawBorder();
+			}
+			return;
+		}
+		default:
+		{
+			ShowSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
+			throw MyException("InfoPanel::EndInteractionDisplayRule() currentScreen is undefined."); //exception
+		}
+	}
 }
 void InfoPanel::SetChosenConstruction(Construction* choice_ptr)
 {

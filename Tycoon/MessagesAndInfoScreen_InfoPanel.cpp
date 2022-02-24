@@ -1,6 +1,7 @@
 #include "MessagesAndInfoScreen_InfoPanel.h"
 void MessagesAndInfoScreen::CreateMessagesScreen()
 {
+	//ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol()
 	RectangleSymbols* messagesScreenSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol(),
 		ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol(), ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol(),
 		ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol(), ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol(),
@@ -8,7 +9,7 @@ void MessagesAndInfoScreen::CreateMessagesScreen()
 	BorderAppearance* messagesScreenBorder_ptr = new BorderAppearance(messagesScreenSymbols_ptr, cBLACK, cBLACK);
 	color messagesScreenLetterColor = ConstructionOptions::GetAllOptions()->GetMessagesPartScreenLetterColor();
 	color messagesScreenShadingColor = ConstructionOptions::GetAllOptions()->GetMessagesPartScreenShadingColor();
-	messagesScreen_ptr = new MyRectangle(PointCoord(GetHalfXAxis() + 1, GetUpperLeft().Get_y()), GetHeightAddition(), GetHalfYAxis() - 1, messagesScreenBorder_ptr,
+	messagesScreen_ptr = new MyRectangle(PointCoord(GetHalfXAxis() + 1, GetUpperLeft().Get_y()), GetHeightAddition(), GetWidthAddition() / 2, messagesScreenBorder_ptr,
 		messagesScreenLetterColor, messagesScreenShadingColor, GetDrawPointer(), GetCursor());
 }
 void MessagesAndInfoScreen::CreateConstructionInfoScreen()
@@ -20,7 +21,7 @@ void MessagesAndInfoScreen::CreateConstructionInfoScreen()
 	BorderAppearance* constructionInfoScreenBorder_ptr = new BorderAppearance(constructionInfoScreenSymbols_ptr, cBLACK, cBLACK);
 	color constructionInfoScreenLetterColor = ConstructionOptions::GetAllOptions()->GetInfoPartScreenLetterColor();
 	color constructionInfoScreenShadingColor = ConstructionOptions::GetAllOptions()->GetInfoPartScreenShadingColor();
-	constructionInfo_ptr = new ConstructionInfoScreen(GetUpperLeft(), GetHeightAddition(), GetHalfYAxis() - 1, constructionInfoScreenBorder_ptr,
+	constructionInfo_ptr = new ConstructionInfoScreen(GetUpperLeft(), GetHeightAddition(), GetWidthAddition() / 2 - 1, constructionInfoScreenBorder_ptr,
 		constructionInfoScreenLetterColor, constructionInfoScreenShadingColor, GetDrawPointer(), GetCursor());
 	constructionInfo_ptr->CreateDeconstructButton();
 	constructionInfo_ptr->CreateConstructionIcon();

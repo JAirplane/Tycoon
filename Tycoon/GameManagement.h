@@ -55,6 +55,8 @@ public:
 	CursorLocation GetCursorArea();
 	void ReturnCursorToCamera();
 	void DrawCursor();
+	//
+	
 	// display / erase main game elements
 	void DisplayCamera();
 	void DisplayMenu();
@@ -69,6 +71,8 @@ public:
 	void HideInterface();
 	void ShowInterface();
 	//
+	void ErasePreliminaryElementAndMenuRedraw();
+	void ClearChosenElementAndInfoPanelRedraw();
 	void GameProcess();
 	//
 	void H_Key();

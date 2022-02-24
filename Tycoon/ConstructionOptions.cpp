@@ -306,6 +306,7 @@ color ConstructionOptions::GetMenuIconShadingColor() const
 {
 	return cBLACK;
 }
+//
 color ConstructionOptions::GetMenuElementInactiveColor() const
 {
 	return color::cYELLOW;
@@ -330,6 +331,7 @@ color ConstructionOptions::GetMenuElementShadingColor() const
 {
 	return cBLACK;
 }
+//
 color ConstructionOptions::GetButtonBorderActiveColor() const
 {
 	return cGREEN;
@@ -350,6 +352,7 @@ color ConstructionOptions::GetButtonContentBackgroundColor() const
 {
 	return cDARK_CYAN;
 }
+//
 color ConstructionOptions::GetControlsScreenBorderForegroundColor() const
 {
 	return cWHITE;
@@ -366,6 +369,7 @@ color ConstructionOptions::GetControlsScreenShadingColor() const
 {
 	return cBLACK;
 }
+//
 color ConstructionOptions::GetMessagesAndInfoScreenBorderForegroundColor() const
 {
 	return cWHITE;
@@ -382,6 +386,7 @@ color ConstructionOptions::GetMessagesAndInfoScreenShadingColor() const
 {
 	return cBLACK;
 }
+//
 color ConstructionOptions::GetMessagesPartScreenLetterColor() const
 {
 	return cBLUE;
@@ -390,6 +395,7 @@ color ConstructionOptions::GetMessagesPartScreenShadingColor() const
 {
 	return cYELLOW;
 }
+//
 color ConstructionOptions::GetInfoPartScreenLetterColor() const
 {
 	return cGREEN;
@@ -398,6 +404,7 @@ color ConstructionOptions::GetInfoPartScreenShadingColor() const
 {
 	return cBLACK;
 }
+//
 color ConstructionOptions::GetConstructionInfoButtonBorderForegroundColor() const
 {
 	return cYELLOW;

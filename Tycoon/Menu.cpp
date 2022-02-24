@@ -319,6 +319,15 @@ MenuElement* Menu::MenuNavigation(MenuElement* currentElement, IconsPosition upp
 		return nearest;
 	}
 }
+void Menu::MenuElementRedrawBorder(int elementTopY, color newColor)
+{
+	MenuElement* element_ptr = GetMenuElement(elementTopY);
+	element_ptr->GetBorder()->SetBorderForegroundColor(newColor);
+	if (!hidden)
+	{
+		element_ptr->DrawBorder();
+	}
+}
 Construction* Menu::CreatePreliminaryObject(AllObjects* allObjects_ptr, Camera* camera_ptr) const
 {
 	if(menuItems.empty())

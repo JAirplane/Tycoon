@@ -88,7 +88,7 @@ void AllObjects::ErasePreliminaryElement(Camera* camera_ptr, PlayingField* field
 		preliminaryConstruction_ptr = nullptr;
 	}
 }
-bool AllObjects::RectangleImposition(PointCoord point, MyRectangle* rect_ptr) const
+bool AllObjects::RectangleImposition(PointCoord point, const MyRectangle* rect_ptr) const
 {
 	if(rect_ptr == nullptr)
 	{
@@ -105,7 +105,7 @@ bool AllObjects::RectangleImposition(PointCoord point, MyRectangle* rect_ptr) co
 	}
 	return false;
 }
-bool AllObjects::RectangleImposition(IngameObject* object_ptr, MyRectangle* rect_ptr) const
+bool AllObjects::RectangleImposition(IngameObject* object_ptr, const MyRectangle* rect_ptr) const
 {
 	if(rect_ptr == nullptr)
 	{
@@ -300,7 +300,7 @@ bool AllObjects::ObjectImposition(PointCoord point, PlayingField* field_ptr) con
 	}
 	return false;
 }
-bool AllObjects::ObjectImposition(IngameObject* object_ptr, Camera* camera_ptr, PlayingField* field_ptr) const
+bool AllObjects::ObjectImposition(IngameObject* object_ptr, const Camera* camera_ptr, const PlayingField* field_ptr) const
 {
 	if(RectangleImposition(object_ptr, camera_ptr))
 	{
@@ -475,7 +475,7 @@ Construction* AllObjects::FindConstruction(PointCoord location) const
 	{
 		for(int yCoord = (*buildingIter)->GetUpperLeft().Get_y(); yCoord <= (*buildingIter)->GetUpperLeft().Get_y() + (*buildingIter)->GetHeightAddition(); yCoord++)
 		{
-			for(int xCoord = (*buildingIter)->GetUpperLeft().Get_x(); yCoord <= (*buildingIter)->GetUpperLeft().Get_x() + (*buildingIter)->GetWidthAddition(); xCoord++)
+			for(int xCoord = (*buildingIter)->GetUpperLeft().Get_x(); xCoord <= (*buildingIter)->GetUpperLeft().Get_x() + (*buildingIter)->GetWidthAddition(); xCoord++)
 			{
 				if(PointCoord(xCoord, yCoord) == location)
 				{

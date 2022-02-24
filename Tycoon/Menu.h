@@ -45,5 +45,6 @@ public:
 	MenuElement* GetNextMenuElement(MenuElement* currentElement, IconsPosition upperOrLower) const;
 	void MenuElementsShift(IconsPosition upperOrLower);
 	Construction* CreatePreliminaryObject(AllObjects* allObjects_ptr, Camera* camera_ptr) const;
+	void MenuElementRedrawBorder(int elementTopY, color newColor);
 	MenuElement* MenuNavigation(MenuElement* currentElement, IconsPosition upperOrLower);
 };

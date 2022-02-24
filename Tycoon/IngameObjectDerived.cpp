@@ -392,7 +392,7 @@ int Road::GetMaskPartPreliminaryRoad(const Construction* preliminary_ptr) const
 	}
 	return roadEnvironmentMask;
 }
-int Road::GetMaskPartRealRoads(const list<Road*>& allRoads)
+int Road::GetMaskPartRealRoads(const list<Road*>& allRoads) const
 {
 	PointCoord leftLocation(GetUpperLeft().Get_x() - 1, GetUpperLeft().Get_y());
 	PointCoord rightLocation(GetUpperLeft().Get_x() + 1, GetUpperLeft().Get_y());
@@ -423,7 +423,7 @@ int Road::GetMaskPartRealRoads(const list<Road*>& allRoads)
 }
 int Road::GetNeibourRoadMask(const list<Road*>& allRoads, const Construction* preliminary_ptr) const
 {
-	int roadEnvironmentMask = GetMaskPartPreliminaryObject(preliminary_ptr);
+	int roadEnvironmentMask = GetMaskPartPreliminaryRoad(preliminary_ptr);
 	roadEnvironmentMask |= GetMaskPartRealRoads(allRoads);
 	return roadEnvironmentMask;
 }

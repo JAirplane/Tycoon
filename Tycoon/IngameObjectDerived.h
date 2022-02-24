@@ -117,8 +117,8 @@ public:
 	bool RoadIsAnEntrance(const list<Building*>& allBuildings);
 	PointCoord GetEntrancePoint() const override;
 	PointCoord GetRedrawNeiboursPoint() const override;
-	int GetMaskPartPreliminaryObject(const Construction* preliminary_ptr) const;
-	int GetMaskPartRealRoads(const list<Road*>& allRoads);
+	int GetMaskPartPreliminaryRoad(const Construction* preliminary_ptr) const;
+	int GetMaskPartRealRoads(const list<Road*>& allRoads) const;
 	int GetNeibourRoadMask(const list<Road*>& allRoads, const Construction* preliminary_ptr) const override;
 	int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
 	void IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
