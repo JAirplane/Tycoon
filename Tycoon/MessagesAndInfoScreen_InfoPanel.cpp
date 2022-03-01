@@ -1,7 +1,6 @@
 #include "MessagesAndInfoScreen_InfoPanel.h"
 void MessagesAndInfoScreen::CreateMessagesScreen()
 {
-	//ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol()
 	RectangleSymbols* messagesScreenSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol(),
 		ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol(), ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol(),
 		ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol(), ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol(),

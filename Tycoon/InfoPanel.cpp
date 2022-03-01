@@ -257,6 +257,10 @@ void InfoPanel::EndInteractionDisplayRule()
 					SetBorderBackgroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
 				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->DrawBorder();
 			}
+			else
+			{
+				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->DisplayConstructionInfo();
+			}
 			return;
 		}
 		default:

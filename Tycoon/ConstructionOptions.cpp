@@ -258,6 +258,7 @@ color ConstructionOptions::GetSplashScreenBackgroundColor() const
 {
 	return cDARK_CYAN;
 }
+//
 color ConstructionOptions::GetMenuScreenBorderForegroundColor() const
 {
 	return cWHITE;
@@ -274,6 +275,7 @@ color ConstructionOptions::GetMenuScreenShadingColor() const
 {
 	return cBLACK;
 }
+//
 color ConstructionOptions::GetMenuBorderForegroundColor() const
 {
 	return color::cBLUE;
@@ -290,6 +292,7 @@ color ConstructionOptions::GetMenuShadingColor() const
 {
 	return cBLACK;
 }
+//
 color ConstructionOptions::GetMenuIconForegroundColor() const
 {
 	return color::cGREEN;
@@ -389,11 +392,11 @@ color ConstructionOptions::GetMessagesAndInfoScreenShadingColor() const
 //
 color ConstructionOptions::GetMessagesPartScreenLetterColor() const
 {
-	return cBLUE;
+	return cGREEN;
 }
 color ConstructionOptions::GetMessagesPartScreenShadingColor() const
 {
-	return cYELLOW;
+	return cBLACK;
 }
 //
 color ConstructionOptions::GetInfoPartScreenLetterColor() const

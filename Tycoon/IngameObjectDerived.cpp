@@ -44,6 +44,10 @@ color Construction::GetBackgroundColor() const
 	}
 	return background;
 }
+PointCoord Construction::GetPotentialConnectedRoadPoint() const
+{
+	return PointCoord(0, 0);
+}
 void Construction::RedrawNeibours(PointCoord centralPoint, const list<Road*>& allRoads, const list<Building*>& allBuildings,
 	const Construction* preliminary_ptr, const Camera* camera_ptr)
 {
@@ -62,7 +66,7 @@ void Construction::RedrawNeibours(PointCoord centralPoint, const list<Road*>& al
 			(*roadIter)->GetUpperLeft() == topLocation) && (*roadIter) != preliminary_ptr)
 		{
 			int mask = (*roadIter)->GetEnvironmentMask(allRoads, allBuildings, preliminary_ptr);
-			(*roadIter)->ConnectedToRoad(allRoads, preliminary_ptr);
+			(*roadIter)->Connected(allRoads, allBuildings, preliminary_ptr);
 			if (preliminary_ptr == nullptr)
 			{
 				(*roadIter)->IsGraph(allRoads, allBuildings, preliminary_ptr);
@@ -76,7 +80,7 @@ void Construction::RedrawNeibours(PointCoord centralPoint, const list<Road*>& al
 		PointCoord potentialRoad = (*buildingIter)->GetPotentialConnectedRoadPoint();
 		if (centralPoint == potentialRoad && (*buildingIter) != preliminary_ptr)
 		{
-			(*buildingIter)->ConnectedToRoad(allRoads, preliminary_ptr);
+			(*buildingIter)->Connected(allRoads, allBuildings, preliminary_ptr);
 			(*buildingIter)->DrawObject(0, cameraLeftX, cameraTopY, cameraRightX, cameraBottomY);
 		}
 	}
@@ -202,7 +206,7 @@ int Building::GetEnvironmentMask(const list<Road*>& allRoads, const list<Buildin
 {
 	return 0;
 }
-void Building::ConnectedToRoad(const list<Road*>& allRoads, const Construction* preliminary_ptr)
+void Building::Connected(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
 {
 	PointCoord potentialRoad = GetPotentialConnectedRoadPoint();
 	list<Road*>::const_iterator roadIter;
@@ -240,7 +244,7 @@ void Building::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>
 		if ((*roadIter)->GetUpperLeft() == potentialRoad)
 		{
 			int mask = (*roadIter)->GetEnvironmentMask(allRoads, allBuildings, preliminary_ptr);
-			(*roadIter)->ConnectedToRoad(allRoads, preliminary_ptr);
+			(*roadIter)->Connected(allRoads, allBuildings, preliminary_ptr);
 			if (preliminary_ptr == nullptr)
 			{
 				(*roadIter)->IsGraph(allRoads, allBuildings, preliminary_ptr);
@@ -487,7 +491,7 @@ void Road::IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildi
 	int mask = GetNeibourRoadMask(allRoads, preliminary_ptr);
 	DefineGraphStatus(mask);
 }
-void Road::ConnectedToRoad(const list<Road*>& allRoads, const Construction* preliminary_ptr)
+void Road::Connected(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
 {
 	PointCoord leftLocation(GetUpperLeft().Get_x() - 1, GetUpperLeft().Get_y());
 	PointCoord rightLocation(GetUpperLeft().Get_x() + 1, GetUpperLeft().Get_y());
@@ -503,13 +507,33 @@ void Road::ConnectedToRoad(const list<Road*>& allRoads, const Construction* prel
 			return;
 		}
 	}
-	if(preliminary_ptr != nullptr)
+	for (Building* building : allBuildings)
 	{
-		if (preliminary_ptr->GetUpperLeft() == leftLocation || preliminary_ptr->GetUpperLeft() == rightLocation ||
-		preliminary_ptr->GetUpperLeft() == downLocation || preliminary_ptr->GetUpperLeft() == upLocation)
+		if (building->GetPotentialConnectedRoadPoint() == GetUpperLeft())
 		{
 			SetRoadConnectionStatus(true);
 			return;
+		}
+	}
+	if(preliminary_ptr != nullptr)
+	{
+		Direction exit = preliminary_ptr->GetExitDirection();
+		if (exit == Direction::None)
+		{
+			if (preliminary_ptr->GetUpperLeft() == leftLocation || preliminary_ptr->GetUpperLeft() == rightLocation ||
+				preliminary_ptr->GetUpperLeft() == downLocation || preliminary_ptr->GetUpperLeft() == upLocation)
+			{
+				SetRoadConnectionStatus(true);
+				return;
+			}
+		}
+		else
+		{
+			if (preliminary_ptr->GetPotentialConnectedRoadPoint() == GetUpperLeft())
+			{
+				SetRoadConnectionStatus(true);
+				return;
+			}
 		}
 	}
 	SetRoadConnectionStatus(false);
@@ -535,7 +559,7 @@ void Road::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& al
 			{
 				(*roadIter)->IsGraph(allRoads, allBuildings, preliminary_ptr);
 			}
-			(*roadIter)->ConnectedToRoad(allRoads, preliminary_ptr);
+			(*roadIter)->Connected(allRoads, allBuildings, preliminary_ptr);
 			(*roadIter)->DrawObject(mask);
 		}
 	}
@@ -545,7 +569,7 @@ void Road::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& al
 		PointCoord potentialRoad = (*buildingIter)->GetPotentialConnectedRoadPoint();
 		if (GetUpperLeft() == potentialRoad)
 		{
-			(*buildingIter)->ConnectedToRoad(allRoads, preliminary_ptr);
+			(*buildingIter)->Connected(allRoads, allBuildings, preliminary_ptr);
 			(*buildingIter)->DrawObject(0, cameraLeftX, cameraTopY, cameraRightX, cameraBottomY);
 		}
 	}

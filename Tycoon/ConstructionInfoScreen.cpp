@@ -108,6 +108,7 @@ void ConstructionInfoScreen::DisplayConstructionInfo()
 	else
 	{
 		set_cursor_pos(GetUpperLeft().Get_x() + 2, GetUpperLeft().Get_y() + 1);
+		set_color(GetTextColor(), GetShadingColor());
 		cout << "Choose construction to get data";
 	}
 }

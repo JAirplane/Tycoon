@@ -183,7 +183,7 @@ MenuElement* Menu::GetMenuElement(int yCoord) const
 			return (*menuElementIter);
 		}
 	}
-	return nullptr; //TODO can throw exception here
+	throw MyException("Menu::GetMenuElement(int yCoord) no menu element at this location.");
 }
 MenuElement* Menu::GetUpperVisibleMenuElement() const
 {
