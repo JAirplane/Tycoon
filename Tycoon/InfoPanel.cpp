@@ -70,6 +70,8 @@ void InfoPanel::ChosenConstructionUpdate(Construction* choice_ptr)
 		messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->ClearContent();
 		messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->DisplayConstructionInfo();
 	}
+	EraseInfoPanelMessage();
+	DisplayInfoPanelMessage("Press 'i' to get to the InfoPanel");
 }
 // when receive user message from GameManagement
 void InfoPanel::UserMessageUpdate(const string message)
@@ -89,6 +91,7 @@ void InfoPanel::UserMessageUpdate(const string message)
 		messagesAndInfoScreen_ptr->GetMessagesScreen()->ClearContent();
 		messagesAndInfoScreen_ptr->DisplayMessages();
 	}
+	GetCursor()->CursorMovement(GetCursor()->GetCursorConsoleLocation());
 }
 //
 const MenuScreen* InfoPanel::GetMenuScreen()
@@ -108,6 +111,26 @@ InfoPanelContentType InfoPanel::GetCurrentContent() const
 	return currentScreen;
 }
 //
+void InfoPanel::DisplayInfoPanelMessage(string msg)
+{
+	set_cursor_pos(GetUpperLeft().Get_x() + GetWidthAddition() - 1 - static_cast<int>(msg.length()), GetUpperLeft().Get_y() + 1);
+	set_color(GetTextColor(), GetShadingColor());
+	cout << msg;
+	set_color(cWHITE, cBLACK);
+}
+void InfoPanel::EraseInfoPanelMessage()
+{
+	int xCoord = GetUpperLeft().Get_x() + 1;
+	int yCoord = GetUpperLeft().Get_y() + 1;
+	set_cursor_pos(GetUpperLeft().Get_x() + 1, GetUpperLeft().Get_y() + 1);
+	set_color(cBLACK, cBLACK);
+	while (xCoord < GetUpperLeft().Get_x() + GetWidthAddition())
+	{
+		cout << " ";
+		++xCoord;
+	}
+	set_color(cWHITE, cBLACK);
+}
 void InfoPanel::ShowSplashScreen(color foreground, color background)
 {
 	PointCoord previousLocation = GetCursor()->GetCursorConsoleLocation();
@@ -130,6 +153,13 @@ void InfoPanel::ShowSplashScreen(color foreground, color background)
 	Alphabet::DrawLetter(Alphabet::Get_E_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x() + 1, GetCursor()->GetCursorConsoleLocation().Get_y());
 	GetCursor()->SetCursorConsoleLocation();
 	Alphabet::DrawLetter(Alphabet::Get_L_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x() + 1, GetCursor()->GetCursorConsoleLocation().Get_y());
+	GetCursor()->SetCursorConsoleLocation();
+	Alphabet::DrawLetter(Alphabet::Get_Asterisk_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x() + 2, GetCursor()->GetCursorConsoleLocation().Get_y());
+	GetCursor()->SetCursorConsoleLocation();
+	Alphabet::DrawLetter(Alphabet::Get_Asterisk_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x() + 2, GetCursor()->GetCursorConsoleLocation().Get_y() + 1);
+	GetCursor()->SetCursorConsoleLocation();
+	Alphabet::DrawLetter(Alphabet::Get_Asterisk_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x() + 2, GetCursor()->GetCursorConsoleLocation().Get_y() + 1);
+	DisplayInfoPanelMessage("Press 'i' to get to the InfoPanel");
 	GetCursor()->CursorMovement(previousLocation);
 }
 void InfoPanel::ShowMenuScreen()
@@ -140,12 +170,14 @@ void InfoPanel::ShowMenuScreen()
 	mainScreen_ptr->GetControlsButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
 	mainScreen_ptr->DrawMenuScreenButton(mainScreen_ptr->GetMessagesButton());
 	mainScreen_ptr->DrawMenuScreenButton(mainScreen_ptr->GetControlsButton());
+	DisplayInfoPanelMessage("Press 'i' to return to the camera");
 	GetCursor()->CursorMovement(PointCoord(mainScreen_ptr->GetMessagesButton()->GetHalfXAxis(),
 		mainScreen_ptr->GetMessagesButton()->GetUpperLeft().Get_y()));
 }
 void InfoPanel::ShowControls()
 {
 	currentScreen = InfoPanelContentType::Controls;
+	DisplayInfoPanelMessage("Press 'esc' to return to the previous screen");
 	gameControlInfo_ptr->DrawBorder();
 	gameControlInfo_ptr->DisplayControls();
 }
@@ -220,11 +252,15 @@ void InfoPanel::GetToInfoPanelDisplayRule()
 				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->
 					SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor());
 				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->DrawBorder();
+				EraseInfoPanelMessage();
+				DisplayInfoPanelMessage("Press 'enter' to deconstruct chosen one");
 				GetCursor()->CursorMovement(PointCoord(messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetHalfXAxis(),
 					messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetUpperLeft().Get_y()));
 			}
 			else
 			{
+				EraseInfoPanelMessage();
+				DisplayInfoPanelMessage("Press 'esc' to get to the previous screen");
 				GetCursor()->CursorMovement(PointCoord(messagesAndInfoScreen_ptr->GetHalfXAxis(), messagesAndInfoScreen_ptr->GetUpperLeft().Get_y()));
 			}
 			return;
@@ -251,10 +287,12 @@ void InfoPanel::EndInteractionDisplayRule()
 		case InfoPanelContentType::Controls: {return;}
 		case InfoPanelContentType::SystemMessagesAndConstructionInfo:
 		{
+			EraseInfoPanelMessage();
+			DisplayInfoPanelMessage("Press 'i' to get to the InfoPanel");
 			if (messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetChosenConstruction() != nullptr)
 			{
 				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->
-					SetBorderBackgroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+					SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
 				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->DrawBorder();
 			}
 			else

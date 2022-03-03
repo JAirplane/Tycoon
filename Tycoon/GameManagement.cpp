@@ -201,7 +201,8 @@ void GameManagement::HideMenu()
 void GameManagement::DisplayInfoPanel()
 {
 	infoPanel_ptr->DrawBorder();
-	infoPanel_ptr->ShowSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
+	infoPanel_ptr->ShowSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(),
+		ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
 	ReturnCursorToCamera();
 	DrawCursor();
 }
@@ -295,10 +296,14 @@ void GameManagement::ClearChosenElementAndInfoPanelRedraw()
 		infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->DeselectConstruction(camera_ptr, field_ptr, allObjects_ptr);
 		if (infoPanel_ptr->GetCurrentContent() == InfoPanelContentType::SystemMessagesAndConstructionInfo)
 		{
+			infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->
+				SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
 			infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->ClearContent();
 			infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->DisplayConstructionInfo();
 		}
 	}
+	infoPanel_ptr->EraseInfoPanelMessage();
+	infoPanel_ptr->DisplayInfoPanelMessage("Press 'i' to get to the InfoPanel");
 }
 void GameManagement::GameProcess()
 {
@@ -353,30 +358,29 @@ void GameManagement::GameProcess()
 		}
 	}
 }
-
 void GameManagement::H_Key()
 {
 	if (!menu_ptr->GetHideMenuStatus())
 	{
 		switch (GetCursorArea())
 		{
-		case CursorLocation::Camera: {break; }
-		case CursorLocation::Menu:
-		{
-			MenuElement* current_ptr = menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y());
-			current_ptr->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor());
-			break;
-		}
-		case CursorLocation::InfoPanel:
-		{
-			infoPanel_ptr->EndInteractionDisplayRule();
-			break;
-		}
-		default:
-		{
-			ReturnCursorToCamera();
-			break;
-		}
+			case CursorLocation::Camera: {break; }
+			case CursorLocation::Menu:
+			{
+				MenuElement* current_ptr = menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y());
+				current_ptr->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor());
+				break;
+			}
+			case CursorLocation::InfoPanel:
+			{
+				infoPanel_ptr->EndInteractionDisplayRule();
+				break;
+			}
+			default:
+			{
+				ReturnCursorToCamera();
+				break;
+			}
 		}
 		HideInterface();
 	}
@@ -643,6 +647,8 @@ void GameManagement::EnterKey_Menu()
 	{
 		infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->ClearContent();
 		infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->DisplayConstructionInfo();
+		infoPanel_ptr->EraseInfoPanelMessage();
+		infoPanel_ptr->DisplayInfoPanelMessage("Press 'i' to get to the InfoPanel");
 	}
 	menu_ptr->MenuElementRedrawBorder(menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y())->GetUpperLeft().Get_y(),
 		ConstructionOptions::GetAllOptions()->GetMenuElementUnderConstructionColor());
@@ -667,6 +673,9 @@ void GameManagement::EnterKey_InfoPanel()
 		{
 			infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
 			infoPanel_ptr->SwitchContent(InfoPanelContentType::SystemMessagesAndConstructionInfo);
+			infoPanel_ptr->EraseInfoPanelMessage();
+			infoPanel_ptr->DisplayInfoPanelMessage("Press 'esc' to get back to the previous screen");
+			cursor_ptr->CursorMovement(PointCoord(infoPanel_ptr->GetMessagesScreen()->GetHalfXAxis(), infoPanel_ptr->GetMessagesScreen()->GetUpperLeft().Get_y()));
 		}
 		else if (cursor_ptr->GetCursorConsoleLocation().Get_x() == infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetHalfXAxis())
 		{

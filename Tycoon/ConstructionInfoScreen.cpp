@@ -24,8 +24,8 @@ void ConstructionInfoScreen::CreateConstructionIcon()
 		ConstructionOptions::GetAllOptions()->GetConstructionInfoScreenIconHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetConstructionInfoScreenIconUpperLeftSymbol(),
 		ConstructionOptions::GetAllOptions()->GetConstructionInfoScreenIconUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetConstructionInfoScreenIconBottomLeftSymbol(),
 		ConstructionOptions::GetAllOptions()->GetConstructionInfoScreenIconBottomRightSymbol());
-	color iconBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetConstructionInfoButtonBorderForegroundColor();
-	color iconBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetConstructionInfoButtonBorderBackgroundColor();
+	color iconBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetConstructionInfoScreenIconBorderForegroundColor();
+	color iconBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetConstructionInfoScreenIconBorderBackgroundColor();
 	BorderAppearance* iconBorder = new BorderAppearance(iconSymbols_ptr, iconBorderForegroundColor, iconBorderBackgroundColor);
 	color iconLetterColor = ConstructionOptions::GetAllOptions()->GetConstructionInfoScreenIconLetterColor();
 	color iconShadingColor = ConstructionOptions::GetAllOptions()->GetConstructionInfoScreenIconShadingColor();
@@ -94,9 +94,9 @@ void ConstructionInfoScreen::DisplayConstructionInfo()
 			constructionIcon_ptr->GetUpperLeft().Get_x() + constructionIcon_ptr->GetWidthAddition() - 1,
 			constructionIcon_ptr->GetUpperLeft().Get_y() + constructionIcon_ptr->GetHeightAddition() - 1, chosen_ptr->GetDescriptor()->GetIconSymbol(),
 			chosen_ptr->GetDescriptor()->GetForegroundColor(), chosen_ptr->GetDescriptor()->GetConnectedBackgroundColor());
-		deconstruct_ptr->GetBorder()->SetBorderBackgroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor());
 		deconstruct_ptr->Display();
 		set_cursor_pos(constructionIcon_ptr->GetUpperLeft().Get_x() + constructionIcon_ptr->GetWidthAddition() + 2, constructionIcon_ptr->GetUpperLeft().Get_y() + 1);
+		set_color(GetTextColor(), GetShadingColor());
 		cout << "Visitors: " << chosen_ptr->GetVisitorsCount();
 		int profit = chosen_ptr->GetProfit();
 		if (profit != -1)

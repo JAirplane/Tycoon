@@ -234,6 +234,7 @@ color ConstructionOptions::GetPlayingFieldShadingColor() const
 {
 	return cBLACK;
 }
+//
 color ConstructionOptions::GetInfoPanelBorderForegroundColor() const
 {
 	return color::cBLUE;
@@ -244,12 +245,13 @@ color ConstructionOptions::GetInfoPanelBorderBackgroundColor() const
 }
 color ConstructionOptions::GetInfoPanelTextColor() const
 {
-	return cWHITE;
+	return cCYAN;
 }
 color ConstructionOptions::GetInfoPanelShadingColor() const
 {
 	return cBLACK;
 }
+//
 color ConstructionOptions::GetSplashScreenForegroundColor() const
 {
 	return cWHITE;
@@ -341,7 +343,7 @@ color ConstructionOptions::GetButtonBorderActiveColor() const
 }
 color ConstructionOptions::GetButtonBorderInactiveColor() const
 {
-	return cWHITE;
+	return cYELLOW;
 }
 color ConstructionOptions::GetButtonBorderBackgroundColor() const
 {
@@ -414,7 +416,7 @@ color ConstructionOptions::GetConstructionInfoButtonBorderForegroundColor() cons
 }
 color ConstructionOptions::GetConstructionInfoButtonBorderBackgroundColor() const
 {
-	return cGREEN;
+	return cBLACK;
 }
 color ConstructionOptions::GetConstructionInfoButtonLetterColor() const
 {
@@ -427,7 +429,7 @@ color ConstructionOptions::GetConstructionInfoButtonShadingColor() const
 //
 color ConstructionOptions::GetConstructionInfoScreenIconBorderForegroundColor() const
 {
-	return cRED;
+	return cYELLOW;
 }
 color ConstructionOptions::GetConstructionInfoScreenIconBorderBackgroundColor() const
 {
@@ -625,52 +627,52 @@ const wstring ConstructionOptions::GetMessagesAndInfoBottomRightSymbol() const
 //
 const wstring ConstructionOptions::GetConstructionInfoButtonVerticalSymbol() const
 {
-	return wstring(L"*");
+	return wstring(L"\u2551");
 }
 const wstring ConstructionOptions::GetConstructionInfoButtonHorizontalSymbol() const
 {
-	return wstring(L"*");
+	return wstring(L"\u2550");
 }
 const wstring ConstructionOptions::GetConstructionInfoButtonUpperLeftSymbol() const
 {
-	return wstring(L"*");
+	return wstring(L"\u2554");
 }
 const wstring ConstructionOptions::GetConstructionInfoButtonUpperRightSymbol() const
 {
-	return wstring(L"*");
+	return wstring(L"\u2557");
 }
 const wstring ConstructionOptions::GetConstructionInfoButtonBottomLeftSymbol() const
 {
-	return wstring(L"*");
+	return wstring(L"\u255A");
 }
 const wstring ConstructionOptions::GetConstructionInfoButtonBottomRightSymbol() const
 {
-	return wstring(L"*");
+	return wstring(L"\u255D");
 }
 //
 const wstring ConstructionOptions::GetConstructionInfoScreenIconVerticalSymbol() const
 {
-	return wstring(L"\u2593");
+	return wstring(L"\u00A7");
 }
 const wstring ConstructionOptions::GetConstructionInfoScreenIconHorizontalSymbol() const
 {
-	return wstring(L"\u2593");
+	return wstring(L"\u00A7");
 }
 const wstring ConstructionOptions::GetConstructionInfoScreenIconUpperLeftSymbol() const
 {
-	return wstring(L"\u2593");
+	return wstring(L"\u00A7");
 }
 const wstring ConstructionOptions::GetConstructionInfoScreenIconUpperRightSymbol() const
 {
-	return wstring(L"\u2593");
+	return wstring(L"\u00A7");
 }
 const wstring ConstructionOptions::GetConstructionInfoScreenIconBottomLeftSymbol() const
 {
-	return wstring(L"\u2593");
+	return wstring(L"\u00A7");
 }
 const wstring ConstructionOptions::GetConstructionInfoScreenIconBottomRightSymbol() const
 {
-	return wstring(L"\u2593");
+	return wstring(L"\u00A7");
 }
 //
 const string ConstructionOptions::GetControlsButtonTitle() const

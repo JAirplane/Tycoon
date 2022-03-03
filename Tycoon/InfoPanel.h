@@ -12,8 +12,8 @@ private:
 	MessagesAndInfoScreen* messagesAndInfoScreen_ptr;
 	InfoPanelContentType currentScreen;
 public:
-	InfoPanel(PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* externalBorder, color letterColor,
-		color shadingColor, Visualisation* vis_ptr, Cursor* cur_ptr) : MyRectangle(upperLeft, heightAdd, widthAdd, externalBorder, letterColor, shadingColor, vis_ptr, cur_ptr)
+	InfoPanel(PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* externalBorder, color letterColor, color shadingColor, Visualisation* vis_ptr,
+		Cursor* cur_ptr) : MyRectangle(upperLeft, heightAdd, widthAdd, externalBorder, letterColor, shadingColor, vis_ptr, cur_ptr)
 	{
 		mainScreen_ptr = nullptr;
 		gameControlInfo_ptr = nullptr;
@@ -40,6 +40,8 @@ public:
 	MessagesAndInfoScreen* GetMessagesScreen();
 	InfoPanelContentType GetCurrentContent() const;
 	//
+	void DisplayInfoPanelMessage(string msg);
+	void EraseInfoPanelMessage();
 	void ShowSplashScreen(color foreground, color background);
 	void ShowMenuScreen();
 	void ShowControls();
