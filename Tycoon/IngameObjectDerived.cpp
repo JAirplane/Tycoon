@@ -218,10 +218,13 @@ void Building::Connected(const list<Road*>& allRoads, const list<Building*>& all
 			return;
 		}
 	}
-	if (preliminary_ptr->GetUpperLeft() == potentialRoad && preliminary_ptr->GetExitDirection() == Direction::None)
+	if (preliminary_ptr != nullptr)
 	{
-		SetRoadConnectionStatus(true);
-		return;
+		if (preliminary_ptr->GetUpperLeft() == potentialRoad && preliminary_ptr->GetExitDirection() == Direction::None)
+		{
+			SetRoadConnectionStatus(true);
+			return;
+		}
 	}
 	SetRoadConnectionStatus(false);
 }

@@ -637,6 +637,7 @@ void GameManagement::EnterKey_Camera()
 			int mask = userChoice_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), allObjects_ptr->GetPreliminaryElement());
 			userChoice_ptr->DrawObject(mask, camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(),
 				camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(), camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
+			cursor_ptr->CursorMovement(userChoice_ptr->GetUpperLeft());
 		}
 	}
 }
@@ -706,6 +707,8 @@ void GameManagement::EnterKey_InfoPanel()
 				allObjects_ptr->DeleteConstruction(chosen_ptr, IsEqual);
 				infoPanel_ptr->ClearChoosenConstruction();
 				Construction::RedrawNeibours(redrawPoint, allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), allObjects_ptr->GetPreliminaryElement(), camera_ptr);
+				infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->
+					SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
 				infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->ClearContent();
 				infoPanel_ptr->EndInteractionDisplayRule();
 				ReturnCursorToCamera();
@@ -759,8 +762,15 @@ void GameManagement::EscKey_Camera()
 }
 void GameManagement::EscKey_InfoPanel()
 {
+	if (infoPanel_ptr->GetCurrentContent() == InfoPanelContentType::SystemMessagesAndConstructionInfo &&
+		infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetChosenConstruction() != nullptr)
+	{
+		infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->
+			SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+	}
 	if (infoPanel_ptr->GetCurrentContent() == InfoPanelContentType::Controls || infoPanel_ptr->GetCurrentContent() == InfoPanelContentType::SystemMessagesAndConstructionInfo)
 	{
+
 		infoPanel_ptr->SwitchContent(InfoPanelContentType::MenuScreen);
 	}
 }

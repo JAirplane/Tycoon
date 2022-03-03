@@ -1,1 +1,6 @@
 GameManagement::GetCursorArea() bad cursor area.
+GameManagement::Arrows_Menu() incorrect direction.
+GameManagement::Arrows_Menu() incorrect direction.
+GameManagement::Arrows_Menu() incorrect direction.
+GameManagement::Arrows_Menu() incorrect direction.
+GameManagement::Arrows_Menu() incorrect direction.
