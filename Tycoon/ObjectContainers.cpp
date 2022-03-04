@@ -79,12 +79,11 @@ void AllObjects::ErasePreliminaryElement(Camera* camera_ptr, PlayingField* field
 				preliminaryConstruction_ptr->GetUpperLeft().Get_y() + preliminaryConstruction_ptr->GetHeightAddition());
 			PointCoord preliminaryElementNeibourRedraw = preliminaryConstruction_ptr->GetRedrawNeiboursPoint();
 			delete preliminaryConstruction_ptr;
+			preliminaryConstruction_ptr = nullptr;
 			Construction::RedrawNeibours(preliminaryElementNeibourRedraw, roads, buildings, preliminaryConstruction_ptr, camera_ptr);
+			return;
 		}
-		else
-		{
-			delete preliminaryConstruction_ptr;
-		}
+		delete preliminaryConstruction_ptr;
 		preliminaryConstruction_ptr = nullptr;
 	}
 }

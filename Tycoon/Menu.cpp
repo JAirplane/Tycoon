@@ -51,7 +51,7 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 	PointCoord elementLocation(0, 0);
 	if (menuItems.empty())
 	{
-		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, GetUpperLeft().Get_y() + 1);
+		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, GetUpperLeft().Get_y() + 5);
 	}
 	else
 	{
@@ -95,6 +95,23 @@ MyRectangle* Menu::CreateIcon(PointCoord elementLocation)
 	MyRectangle* menuIcon_ptr = new MyRectangle(firstIconLocation, iconHeightAdd, iconWidthAdd, menuIconBorder,
 		menuIconLetterColor, menuIconShadingColor, GetDrawPointer(), GetCursor());
 	return menuIcon_ptr;
+}
+void Menu::CreateGameStats()
+{
+	RectangleSymbols* gameStatsSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetGameStatsVerticalSymbol(),
+		ConstructionOptions::GetAllOptions()->GetGameStatsHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetGameStatsUpperLeftSymbol(),
+		ConstructionOptions::GetAllOptions()->GetGameStatsUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetGameStatsBottomLeftSymbol(),
+		ConstructionOptions::GetAllOptions()->GetGameStatsBottomRightSymbol());
+	color gameStatsBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetGameStatsBorderForegroundColor();
+	color gameStatsBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetGameStatsBorderBackgroundColor();
+	BorderAppearance* gameStatsBorder = new BorderAppearance(gameStatsSymbols_ptr, gameStatsBorderForegroundColor, gameStatsBorderBackgroundColor);
+	color gameStatsLetterColor = ConstructionOptions::GetAllOptions()->GetGameStatsLetterColor();
+	color gameStatsShadingColor = ConstructionOptions::GetAllOptions()->GetGameStatsShadingColor();
+	PointCoord gameStatsLocation = PointCoord(GetUpperLeft().Get_x() + 1, GetUpperLeft().Get_y() + 1);
+	int gameStatsHeightAdd = ConstructionOptions::GetAllOptions()->GetGameStatsHeightAdd();
+	int gameStatsWidthAdd = GetWidthAddition() - 2;
+	gameStats_ptr = new MyRectangle(gameStatsLocation, gameStatsHeightAdd, gameStatsWidthAdd, gameStatsBorder,
+		gameStatsLetterColor, gameStatsShadingColor, GetDrawPointer(), GetCursor());
 }
 MenuStatus Menu::GetCurrentSide() const
 {

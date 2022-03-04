@@ -1,9 +1,10 @@
 #pragma once
-#include "MenuElement.h"
+#include "GameStats.h"
 #include <vector>
 class Menu : public MyRectangle
 {
 private:
+	MyRectangle* gameStats_ptr;
 	vector<MenuElement*> menuItems;
 	MenuStatus currentSide;
 	bool hidden;
@@ -32,6 +33,8 @@ public:
 	// create building element
 	void CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
 		color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int dailyExpences = 0, int constructionheightAdd = 0, int constructionwidthAdd = 0);
+	// create game stats
+	virtual void CreateGameStats();
 	BorderAppearance* CreateElementBorder();
 	MyRectangle* CreateIcon(PointCoord elementLocation);
 	//

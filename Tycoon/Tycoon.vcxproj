@@ -151,6 +151,7 @@
     <ClInclude Include="Coord_and_constants.h" />
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="drawheader.h" />
+    <ClInclude Include="GameStats.h" />
     <ClInclude Include="InfoPanel.h" />
     <ClInclude Include="IngameObject.h" />
     <ClInclude Include="ManagersDerived.h" />
@@ -185,6 +186,7 @@
     <ClCompile Include="Coord_and_constants.cpp" />
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="draw.cpp" />
+    <ClCompile Include="GameStats.cpp" />
     <ClCompile Include="InfoPanel.cpp" />
     <ClCompile Include="IngameObject.cpp" />
     <ClCompile Include="ManagersDerived.cpp" />

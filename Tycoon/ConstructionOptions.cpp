@@ -13,6 +13,10 @@ const int ConstructionOptions::GetMenuIconHeightAdd() const
 {
 	return 3;
 }
+const int ConstructionOptions::GetGameStatsHeightAdd() const
+{
+	return 4;
+}
 const int ConstructionOptions::GetRoadHeightAdd() const
 {
 	return 0;
@@ -295,6 +299,23 @@ color ConstructionOptions::GetMenuShadingColor() const
 	return cBLACK;
 }
 //
+color ConstructionOptions::GetGameStatsBorderForegroundColor() const
+{
+	return cCYAN;
+}
+color ConstructionOptions::GetGameStatsBorderBackgroundColor() const
+{
+	return cBLACK;
+}
+color ConstructionOptions::GetGameStatsLetterColor() const
+{
+	return cBLUE;
+}
+color ConstructionOptions::GetGameStatsShadingColor() const
+{
+	return cBLACK;
+}
+//
 color ConstructionOptions::GetMenuIconForegroundColor() const
 {
 	return color::cGREEN;
@@ -496,6 +517,31 @@ const wstring ConstructionOptions::GetMenuBottomLeftSymbol() const
 	return wstring(L"\u255A");
 }
 const wstring ConstructionOptions::GetMenuBottomRightSymbol() const
+{
+	return wstring(L"\u255D");
+}
+///////////////Game Stats Border Symbol Constants///////////////
+const wstring ConstructionOptions::GetGameStatsVerticalSymbol() const
+{
+	return wstring(L"\u2551");
+}
+const wstring ConstructionOptions::GetGameStatsHorizontalSymbol() const
+{
+	return wstring(L"\u2550");
+}
+const wstring ConstructionOptions::GetGameStatsUpperLeftSymbol() const
+{
+	return wstring(L"\u2554");
+}
+const wstring ConstructionOptions::GetGameStatsUpperRightSymbol() const
+{
+	return wstring(L"\u2557");
+}
+const wstring ConstructionOptions::GetGameStatsBottomLeftSymbol() const
+{
+	return wstring(L"\u255A");
+}
+const wstring ConstructionOptions::GetGameStatsBottomRightSymbol() const
 {
 	return wstring(L"\u255D");
 }

@@ -19,6 +19,7 @@ public:
 	virtual const int GetIceCreamShopHeightAdd() const;
 	virtual const int GetMenuElementHeightAdd() const; //height of 1 element of menu
 	virtual const int GetMenuIconHeightAdd() const;
+	virtual const int GetGameStatsHeightAdd() const;
 	virtual const int GetRoadHeightAdd() const;
 	virtual const int GetVisitorHeightAdd() const;
 	virtual const int GetCameraHeightAdd() const;
@@ -101,6 +102,11 @@ public:
 	virtual color GetMenuBorderBackgroundColor() const;
 	virtual color GetMenuLetterColor() const;
 	virtual color GetMenuShadingColor() const;
+	//
+	virtual color GetGameStatsBorderForegroundColor() const;
+	virtual color GetGameStatsBorderBackgroundColor() const;
+	virtual color GetGameStatsLetterColor() const;
+	virtual color GetGameStatsShadingColor() const;
 	//
 	virtual color GetMenuIconForegroundColor() const;
 	virtual color GetMenuIconBackgroundColor() const;
@@ -215,6 +221,13 @@ public:
 	virtual const wstring GetMenuUpperRightSymbol() const;
 	virtual const wstring GetMenuBottomLeftSymbol() const;
 	virtual const wstring GetMenuBottomRightSymbol() const;
+	///////////////Game Stats Border Symbol Constants///////////////
+	virtual const wstring GetGameStatsVerticalSymbol() const;
+	virtual const wstring GetGameStatsHorizontalSymbol() const;
+	virtual const wstring GetGameStatsUpperLeftSymbol() const;
+	virtual const wstring GetGameStatsUpperRightSymbol() const;
+	virtual const wstring GetGameStatsBottomLeftSymbol() const;
+	virtual const wstring GetGameStatsBottomRightSymbol() const;
 	///////////////Camera Border Symbol Constants///////////////
 	virtual const wstring GetCameraVerticalSymbol() const;
 	virtual const wstring GetCameraHorizontalSymbol() const;

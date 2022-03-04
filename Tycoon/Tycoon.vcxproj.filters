@@ -111,6 +111,9 @@
     <ClInclude Include="ObserverInterface.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="GameStats.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameManagement.cpp">
@@ -204,6 +207,9 @@
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
     <ClCompile Include="SplitScreen.cpp">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
+    <ClCompile Include="GameStats.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
   </ItemGroup>
