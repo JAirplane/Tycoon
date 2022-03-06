@@ -10,7 +10,7 @@ public:
 		Cursor* cur_ptr) : MyRectangle(upperLeft, heightAdd, widthAdd, borderApp_ptr, letterColor, backgroundColor, vis_ptr, cur_ptr)
 	{
 		currentVisitors = 0;
-		moneyAmount = 500;
+		moneyAmount = 1000;
 	}
 	~GameStats()	{}
 	int GetCurrentVisitors() const;
@@ -18,5 +18,6 @@ public:
 	int GetAmountOfMoney() const;
 	void SetAmountOfMoney(int amount);
 	__declspec(property(get = GetCurrentVisitors, put = SetCurrentVisitors)) int visitorsCounter;
-	__declspec(property(get = GetAmountOfMoney, put = SetAmountOfMoney)) int AmountOfMoney;
+	__declspec(property(get = GetAmountOfMoney, put = SetAmountOfMoney)) int amountOfMoney;
+	void DrawContent();
 };

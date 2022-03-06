@@ -55,6 +55,7 @@ void GameManagement::CreateMenuAndElements()
 	color menuShadingColor = ConstructionOptions::GetAllOptions()->GetMenuShadingColor();
 	menu_ptr = new Menu(draw_ptr, cursor_ptr, menuUpperLeft, ConstructionOptions::GetAllOptions()->GetMenuHeightAdd(),
 		ConstructionOptions::GetAllOptions()->GetMenuWidthAdd(), menuBorder, menuLetterColor, menuShadingColor);
+	menu_ptr->CreateGameStats();
 	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetIceCreamShopCost(),
 		ConstructionOptions::GetAllOptions()->GetIceCreamShopDescription(), ConstructionOptions::GetAllOptions()->GetIceCreamShopIconSymbol(),
 		ConstructionOptions::GetAllOptions()->GetIceCreamShopForegroundColor(), ConstructionOptions::GetAllOptions()->GetIceCreamShopConnectedBackgroundColor(),
@@ -188,6 +189,7 @@ void GameManagement::DisplayMenu()
 {
 	menu_ptr->DrawBorder();
 	menu_ptr->ShowMenuItems();
+	menu_ptr->ShowStats();
 	ReturnCursorToCamera();
 	DrawCursor();
 }
@@ -596,25 +598,35 @@ void GameManagement::EnterKey_Camera()
 	{
 		if(!allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
 		{
-			MenuElement* elementOfPreliminary = menu_ptr->GetMenuElement(preliminary_ptr->GetDescriptor()->GetMenuElementLocation().Get_y());
-			Construction* realObject_ptr = elementOfPreliminary->GetManager()->CreateConstruction(cursor_ptr->GetCursorConsoleLocation(), draw_ptr, allObjects_ptr);
-			int mask = realObject_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
-			realObject_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), nullptr, camera_ptr);
-			realObject_ptr->Connected(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
-			realObject_ptr->IsGraph(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
-			realObject_ptr->DrawObject(mask, camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(), camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(),
-				camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
-			cursor_ptr->CursorMovement(PointCoord(realObject_ptr->GetUpperLeft().Get_x() + realObject_ptr->GetWidthAddition() + 1,
-				realObject_ptr->GetUpperLeft().Get_y() + realObject_ptr->GetHeightAddition()));
-			preliminary_ptr->SetUpperLeft(cursor_ptr->GetCursorConsoleLocation());
-			if (!allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
+			if (preliminary_ptr->GetDescriptor()->GetConstructionCost() < menu_ptr->GetGameStats()->amountOfMoney)
 			{
-				mask = preliminary_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
-				preliminary_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr, camera_ptr);
-				preliminary_ptr->Connected(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
-				preliminary_ptr->DrawObject(mask, camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(), camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(),
-					camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
-				cursor_ptr->CursorMovement(preliminary_ptr->GetUpperLeft());
+				menu_ptr->GetGameStats()->amountOfMoney -= preliminary_ptr->GetDescriptor()->GetConstructionCost();
+				menu_ptr->GetGameStats()->ClearContent();
+				menu_ptr->GetGameStats()->DrawContent();
+				MenuElement* elementOfPreliminary = menu_ptr->GetMenuElement(preliminary_ptr->GetDescriptor()->GetMenuElementLocation().Get_y());
+				Construction* realObject_ptr = elementOfPreliminary->GetManager()->CreateConstruction(cursor_ptr->GetCursorConsoleLocation(), draw_ptr, allObjects_ptr);
+				int mask = realObject_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
+				realObject_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), nullptr, camera_ptr);
+				realObject_ptr->Connected(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
+				realObject_ptr->IsGraph(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
+				realObject_ptr->DrawObject(mask, camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(),
+					camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(), camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
+				cursor_ptr->CursorMovement(PointCoord(realObject_ptr->GetUpperLeft().Get_x() + realObject_ptr->GetWidthAddition() + 1,
+					realObject_ptr->GetUpperLeft().Get_y() + realObject_ptr->GetHeightAddition()));
+				preliminary_ptr->SetUpperLeft(cursor_ptr->GetCursorConsoleLocation());
+				if (!allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
+				{
+					mask = preliminary_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
+					preliminary_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr, camera_ptr);
+					preliminary_ptr->Connected(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
+					preliminary_ptr->DrawObject(mask, camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(),
+						camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(), camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
+					cursor_ptr->CursorMovement(preliminary_ptr->GetUpperLeft());
+				}
+			}
+			else
+			{
+				UserMessageNotify("Not enough money");
 			}
 		}
 		else
@@ -856,7 +868,10 @@ void GameManagement::Arrows_Menu(Direction arrowDir)
 	default: {throw MyException("GameManagement::Arrows_Menu() incorrect direction."); } //exception
 	}
 	MenuElement* nearest = menu_ptr->MenuNavigation(menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y()), upperOrLower);
-	cursor_ptr->CursorMovement(PointCoord(nearest->GetHalfXAxis(), nearest->GetUpperLeft().Get_y()));
+	if (nearest != nullptr)
+	{
+		cursor_ptr->CursorMovement(PointCoord(nearest->GetHalfXAxis(), nearest->GetUpperLeft().Get_y()));
+	}
 }
 void GameManagement::Arrows_InfoPanel(Direction arrowDir)
 {

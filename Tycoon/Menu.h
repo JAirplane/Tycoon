@@ -4,7 +4,7 @@
 class Menu : public MyRectangle
 {
 private:
-	MyRectangle* gameStats_ptr;
+	GameStats* gameStats_ptr;
 	vector<MenuElement*> menuItems;
 	MenuStatus currentSide;
 	bool hidden;
@@ -16,6 +16,7 @@ public:
 	Menu(Visualisation* draw_ptr, Cursor* cursor_ptr, PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* menuBorbder_ptr,
 		color letterColor, color shadingColor) : MyRectangle(upperLeft, heightAdd, widthAdd, menuBorbder_ptr, letterColor, shadingColor, draw_ptr, cursor_ptr)
 	{
+		gameStats_ptr = nullptr;
 		hidden = 0;
 		currentSide = MenuStatus::RIGHT;
 	}
@@ -38,10 +39,12 @@ public:
 	BorderAppearance* CreateElementBorder();
 	MyRectangle* CreateIcon(PointCoord elementLocation);
 	//
+	GameStats* GetGameStats() const;
 	MenuStatus GetCurrentSide() const;
 	bool GetHideMenuStatus() const;
 	void SetHideMenuStatus(bool hideFlag);
 	Direction ChangeMenuSide(Camera* camera_ptr);
+	void ShowStats();
 	void ShowMenuItems();
 	MenuElement* GetMenuElement(int yCoord) const;
 	MenuElement* GetUpperVisibleMenuElement() const;

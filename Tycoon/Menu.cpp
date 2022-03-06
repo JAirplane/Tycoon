@@ -41,7 +41,7 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 		menuElementShadingColor, menuIcon_ptr, manager_ptr);
 	menuItems.push_back(element_ptr);
 }
-// create building element
+// create menu element
 void Menu::CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
 	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
 {
@@ -51,7 +51,11 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 	PointCoord elementLocation(0, 0);
 	if (menuItems.empty())
 	{
-		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, GetUpperLeft().Get_y() + 5);
+		if (gameStats_ptr == nullptr)
+		{
+			throw MyException("Menu::CreateMenuElement(args...) tried to create menu element with gameStats == nullptr");
+		}
+		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, gameStats_ptr->GetUpperLeft().Get_y() + gameStats_ptr->GetHeightAddition() + 1);
 	}
 	else
 	{
@@ -110,8 +114,13 @@ void Menu::CreateGameStats()
 	PointCoord gameStatsLocation = PointCoord(GetUpperLeft().Get_x() + 1, GetUpperLeft().Get_y() + 1);
 	int gameStatsHeightAdd = ConstructionOptions::GetAllOptions()->GetGameStatsHeightAdd();
 	int gameStatsWidthAdd = GetWidthAddition() - 2;
-	gameStats_ptr = new MyRectangle(gameStatsLocation, gameStatsHeightAdd, gameStatsWidthAdd, gameStatsBorder,
+	gameStats_ptr = new GameStats(gameStatsLocation, gameStatsHeightAdd, gameStatsWidthAdd, gameStatsBorder,
 		gameStatsLetterColor, gameStatsShadingColor, GetDrawPointer(), GetCursor());
+}
+//
+GameStats* Menu::GetGameStats() const
+{
+	return gameStats_ptr;
 }
 MenuStatus Menu::GetCurrentSide() const
 {
@@ -147,8 +156,9 @@ Direction Menu::ChangeMenuSide(Camera* camera_ptr)
 	}
 	camera_ptr->SetUpperLeft(cameraUpperLeft);
 	SetUpperLeft(menuUpperLeft);
+	gameStats_ptr->SetUpperLeft(PointCoord(GetUpperLeft().Get_x() + 1, GetUpperLeft().Get_y() + 1));
 	int _x = GetUpperLeft().Get_x() + 2;
-	int _y = GetUpperLeft().Get_y() + 1;
+	int _y = gameStats_ptr->GetUpperLeft().Get_y() + 1;
 	if(menuItems.empty())
 	{
 		throw MyException("Menu::ChangeMenuSide(Camera* camera_ptr) menu elements container is empty.");
@@ -162,6 +172,11 @@ Direction Menu::ChangeMenuSide(Camera* camera_ptr)
 		_y += ConstructionOptions::GetAllOptions()->GetMenuElementHeightAdd() + 1;
 	}
 	return shiftDirection;
+}
+void Menu::ShowStats()
+{
+	gameStats_ptr->DrawBorder();
+	gameStats_ptr->DrawContent();
 }
 void Menu::ShowMenuItems()
 {
@@ -263,7 +278,8 @@ MenuElement* Menu::GetNextMenuElement(MenuElement* currentElement, IconsPosition
 		vector<MenuElement*>::const_reverse_iterator menuElementRIter;
 		for (menuElementRIter = menuItems.rbegin(); menuElementRIter != menuItems.rend(); menuElementRIter++)
 		{
-			if ((*menuElementRIter)->GetUpperLeft().Get_y() > currentElement->GetUpperLeft().Get_y() && (*menuElementRIter)->GetUpperLeft().Get_y() < nearest->GetUpperLeft().Get_y())
+			if ((*menuElementRIter)->GetUpperLeft().Get_y() > currentElement->GetUpperLeft().Get_y() &&
+				(*menuElementRIter)->GetUpperLeft().Get_y() < nearest->GetUpperLeft().Get_y())
 			{
 				nearest = *menuElementRIter;
 			}
@@ -331,6 +347,7 @@ MenuElement* Menu::MenuNavigation(MenuElement* currentElement, IconsPosition upp
 		{
 			MenuElementsShift(upperOrLower);
 			ClearContent();
+			ShowStats();
 			ShowMenuItems();
 		}
 		return nearest;

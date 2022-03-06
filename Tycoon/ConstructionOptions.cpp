@@ -15,7 +15,7 @@ const int ConstructionOptions::GetMenuIconHeightAdd() const
 }
 const int ConstructionOptions::GetGameStatsHeightAdd() const
 {
-	return 4;
+	return 3;
 }
 const int ConstructionOptions::GetRoadHeightAdd() const
 {

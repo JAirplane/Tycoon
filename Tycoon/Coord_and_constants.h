@@ -90,3 +90,11 @@ public:
 	void SetCoord(PointCoord point);
 	bool operator == (PointCoord point);
 };
+class NumberOfDigits
+{
+protected:
+	static NumberOfDigits* countDigits_ptr;
+public:
+	int GetNumberOfDigits(int number);
+	static NumberOfDigits* GetDigitsCounter();
+};
