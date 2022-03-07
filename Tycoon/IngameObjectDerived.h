@@ -127,6 +127,7 @@ public:
 	void DefineGraphStatus(int mask); // use NeibourRoadMask here!
 	void RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr, const Camera* camera_ptr) override;
 	void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const override;
+	void DrawObject(const wstring drawingSymbol) const;
 	void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
 };
 /////////////People are looking for some fun!/////////////

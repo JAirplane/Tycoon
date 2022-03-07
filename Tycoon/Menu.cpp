@@ -122,6 +122,10 @@ GameStats* Menu::GetGameStats() const
 {
 	return gameStats_ptr;
 }
+vector<MenuElement*> Menu::GetMenuItems() const
+{
+	return menuItems;
+}
 MenuStatus Menu::GetCurrentSide() const
 {
 	return currentSide;

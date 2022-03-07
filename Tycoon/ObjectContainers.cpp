@@ -1,5 +1,26 @@
 #include "ObjectContainers.h"
 /////////////Containers of All Objects in the Game/////////////
+void AllObjects::CreateParkEntrance(const PlayingField* playingField_ptr, ConstructionDescriptor* descriptor_ptr, Visualisation* draw_ptr)
+{
+	for (int yAdd = 3; yAdd >= 0; yAdd--)
+	{
+		Road* road_ptr = new Road(PointCoord(playingField_ptr->GetHalfXAxis(), playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() + yAdd),
+			descriptor_ptr, draw_ptr);
+		road_ptr->SetRoadConnectionStatus(true);
+		outOfPlayingFieldEntrance.push_back(road_ptr);
+	}
+}
+void AllObjects::DrawParkEntrance(const Camera* camera_ptr)
+{
+	for (auto road : outOfPlayingFieldEntrance)
+	{
+		if (!RectangleImposition(road, camera_ptr))
+		{
+			road->DrawObject(wstring(L"\u2551"));
+		}
+	}
+}
+//
 const list<Building*>& AllObjects::GetAllBuildings() const
 {
 	return buildings;

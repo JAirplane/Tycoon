@@ -12,10 +12,10 @@ int main()
 	{
 		GameMaster.CreateCursor();
 		GameMaster.CreateDrawPointer();
-		GameMaster.CreateAllObjects();
 		GameMaster.CreateCamera();
 		GameMaster.CreatePlayingField();
 		GameMaster.CreateMenuAndElements();
+		GameMaster.CreateAllObjects();
 		GameMaster.CreateInfoPanel();
 		//
 		GameMaster.DisplayCamera();

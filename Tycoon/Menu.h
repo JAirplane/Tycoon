@@ -39,6 +39,7 @@ public:
 	BorderAppearance* CreateElementBorder();
 	MyRectangle* CreateIcon(PointCoord elementLocation);
 	//
+	vector<MenuElement*> GetMenuItems() const;
 	GameStats* GetGameStats() const;
 	MenuStatus GetCurrentSide() const;
 	bool GetHideMenuStatus() const;

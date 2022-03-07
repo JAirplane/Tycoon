@@ -13,6 +13,7 @@ private:
 	list<Road*> roads;
 	list<Visitor*> visitors;
 	Construction* preliminaryConstruction_ptr;
+	vector<Road*> outOfPlayingFieldEntrance;
 public:
 	AllObjects(Cursor* c_ptr, Visualisation* paint_ptr)
 	{
@@ -38,7 +39,14 @@ public:
 			delete (*visitorIter);
 		}
 		delete preliminaryConstruction_ptr;
+		for (auto parkEntrance : outOfPlayingFieldEntrance)
+		{
+			delete parkEntrance;
+		}
 	}
+	void CreateParkEntrance(const PlayingField* playingField_ptr, ConstructionDescriptor* descriptor_ptr, Visualisation* draw_ptr);
+	void DrawParkEntrance(const Camera* camera_ptr);
+	//
 	const list<Building*>& GetAllBuildings() const;
 	const list<Road*>& GetAllRoads() const;
 	size_t GetBuildingsQuantity() const;

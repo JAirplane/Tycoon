@@ -12,6 +12,15 @@ void GameManagement::CreateDrawPointer()
 void GameManagement::CreateAllObjects()
 {
 	allObjects_ptr = new AllObjects(cursor_ptr, draw_ptr);
+	for (auto menuItem : menu_ptr->GetMenuItems())
+	{
+		if (static_cast<RoadManager*>(menuItem->GetManager()))
+		{
+			allObjects_ptr->CreateParkEntrance(field_ptr, menuItem->GetManager()->GetDescriptor(), draw_ptr);
+			return;
+		}
+	}
+	throw MyException("GameManagement::CreateAllObjects() failed to find RoadManager* from menu elements");
 }
 void GameManagement::CreateCamera()
 {
@@ -241,6 +250,7 @@ void GameManagement::DisplayPlayingField()
 		field_ptr->GetBorder()->GetBorderSymbols()->GetUpperLeftSymbol(), field_ptr->GetBorder()->GetBorderSymbols()->GetUpperRightSymbol(),
 		field_ptr->GetBorder()->GetBorderSymbols()->GetBottomLeftSymbol(), field_ptr->GetBorder()->GetBorderSymbols()->GetBottomRightSymbol(),
 		ConstructionOptions::GetAllOptions()->GetPlayingFieldBorderForegroundColor());
+	allObjects_ptr->DrawParkEntrance(camera_ptr);
 	ReturnCursorToCamera();
 	DrawCursor();
 }
