@@ -320,43 +320,49 @@ void GameManagement::ClearChosenElementAndInfoPanelRedraw()
 void GameManagement::GameProcess()
 {
 	char ch = 'a';
+	const int userActionDelay = 16;
+	chrono::milliseconds userActionStartTime = chrono::milliseconds(0);
+	chrono::milliseconds cycleEndTime = chrono::milliseconds(17);
 	while (true)
 	{
 		try
 		{
-			if (_kbhit() != 0)
+			if (cycleEndTime - userActionStartTime > chrono::milliseconds(16))
 			{
-				int key = _getch();
-				if (key == 0 || key == 224)
+				userActionStartTime = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch());
+				if (_kbhit() != 0)
 				{
-					key = _getch();
-				}
-				//cout << key;
-				UserActions(key);
-			}
-			Direction shiftDirection = camera_ptr->CursorIsOnCameraBorder();
-			bool shifting = camera_ptr->IsShift(field_ptr, shiftDirection);
-			if (shiftDirection != Direction::None)
-			{
-				cursor_ptr->CursorShift(shiftDirection);
-				if (shifting)
-				{
-					allObjects_ptr->EraseObjects(camera_ptr);
-					ErasePlayingField();
-					if (allObjects_ptr->GetPreliminaryElement() != nullptr)
+					int key = _getch();
+					if (key == 0 || key == 224)
 					{
-						allObjects_ptr->GetPreliminaryElement()->ShiftObject(shiftDirection);
+						key = _getch();
 					}
-					allObjects_ptr->ShiftBuildings(shiftDirection);
-					allObjects_ptr->ShiftRoads(shiftDirection);
-					allObjects_ptr->ShiftVisitors(shiftDirection);
-					field_ptr->Shift(shiftDirection);
-					DisplayAllObjects();
-					DisplayPlayingField();
+					//cout << key;
+					UserActions(key);
 				}
-				DrawCursor();
+				Direction shiftDirection = camera_ptr->CursorIsOnCameraBorder();
+				bool shifting = camera_ptr->IsShift(field_ptr, shiftDirection);
+				if (shiftDirection != Direction::None)
+				{
+					cursor_ptr->CursorShift(shiftDirection);
+					if (shifting)
+					{
+						allObjects_ptr->EraseObjects(camera_ptr);
+						ErasePlayingField();
+						if (allObjects_ptr->GetPreliminaryElement() != nullptr)
+						{
+							allObjects_ptr->GetPreliminaryElement()->ShiftObject(shiftDirection);
+						}
+						allObjects_ptr->ShiftBuildings(shiftDirection);
+						allObjects_ptr->ShiftRoads(shiftDirection);
+						allObjects_ptr->ShiftVisitors(shiftDirection);
+						field_ptr->Shift(shiftDirection);
+						DisplayAllObjects();
+						DisplayPlayingField();
+					}
+					DrawCursor();
+				}
 			}
-			wait(100);
 		}
 		catch(MyException& somethingOccured)
 		{
@@ -368,6 +374,7 @@ void GameManagement::GameProcess()
 			logFile.open("Logs.txt", ios_base::out | ios_base::app );
 			logFile << standardException.what() << endl;
 		}
+		cycleEndTime = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch());
 	}
 }
 void GameManagement::H_Key()

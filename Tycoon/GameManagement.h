@@ -1,4 +1,5 @@
 #pragma once
+#include <chrono>
 #include "InfoPanel.h"
 /////////////Game Management Class/////////////
 class GameManagement: public MessageSubjectInterface, public ConstructionInfoSubjectInterface
