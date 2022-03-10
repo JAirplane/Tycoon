@@ -21,7 +21,7 @@ public:
 	void ErasePixel(int x, int y);
 	void DrawMenuElementContent(int leftX, int topY, int constructionCost, int dailySpend, const wstring iconSymbol,
 		string description, color foregroundIcon, color backgroundIcon);
-	void DrawVisitor(int _x, int _y);
+	void DrawVisitor(int xCoord, int yCoord, color foreground, const wstring visitorSymbol);
 	void DrawConstruction(int leftX, int topY, int rightX, int bottomY, const wstring constructionSymbol, color foreground, const wstring entranceSymbol = L"",
 		int entranceHeightAdd = -1, int entranceWidthAdd = -1, color background = cBLACK);
 	void DrawConstruction(int leftX, int topY, int rightX, int bottomY, const wstring constructionSymbol, color foreground, color background = cBLACK);

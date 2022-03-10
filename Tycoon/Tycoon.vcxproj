@@ -154,6 +154,8 @@
     <ClInclude Include="GameStats.h" />
     <ClInclude Include="InfoPanel.h" />
     <ClInclude Include="IngameObject.h" />
+    <ClInclude Include="IngameObjectDescriptor.h" />
+    <ClInclude Include="IngameObjectManager.h" />
     <ClInclude Include="ManagersDerived.h" />
     <ClInclude Include="GlobalObject.h" />
     <ClInclude Include="IngameObjectDerived.h" />
@@ -173,6 +175,8 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="SplitScreen.h" />
+    <ClInclude Include="VisitorDescriptor.h" />
+    <ClInclude Include="VisitorManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Alphabet.cpp" />
@@ -189,6 +193,7 @@
     <ClCompile Include="GameStats.cpp" />
     <ClCompile Include="InfoPanel.cpp" />
     <ClCompile Include="IngameObject.cpp" />
+    <ClCompile Include="IngameObjectDescriptor.cpp" />
     <ClCompile Include="ManagersDerived.cpp" />
     <ClCompile Include="GlobalObject.cpp" />
     <ClCompile Include="IngameObjectDerived.cpp" />
@@ -207,6 +212,8 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="SplitScreen.cpp" />
+    <ClCompile Include="VisitorDescriptor.cpp" />
+    <ClCompile Include="VisitorManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

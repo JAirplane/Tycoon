@@ -6,6 +6,7 @@ class Menu : public MyRectangle
 private:
 	GameStats* gameStats_ptr;
 	vector<MenuElement*> menuItems;
+	VisitorManager* visitorsCreator_ptr;
 	MenuStatus currentSide;
 	bool hidden;
 	ConstructionManager* CreateManager(PointCoord managerLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
@@ -17,6 +18,7 @@ public:
 		color letterColor, color shadingColor) : MyRectangle(upperLeft, heightAdd, widthAdd, menuBorbder_ptr, letterColor, shadingColor, draw_ptr, cursor_ptr)
 	{
 		gameStats_ptr = nullptr;
+		visitorsCreator_ptr = nullptr;
 		hidden = 0;
 		currentSide = MenuStatus::RIGHT;
 	}
@@ -36,6 +38,7 @@ public:
 		color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int dailyExpences = 0, int constructionheightAdd = 0, int constructionwidthAdd = 0);
 	// create game stats
 	virtual void CreateGameStats();
+	virtual void CreateVisitorManager();
 	BorderAppearance* CreateElementBorder();
 	MyRectangle* CreateIcon(PointCoord elementLocation);
 	//

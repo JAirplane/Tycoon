@@ -54,7 +54,7 @@ public:
 	size_t GetVisitorsQuantity() const;
 	void AddObject(Building* obj_ptr);
 	void AddObject(Road* obj_ptr);
-	void AddObject(Visitor* obj_ptr, int position = 0, bool isPreliminary = false);
+	void AddObject(Visitor* obj_ptr);
 	void AddPreliminaryElement(Construction* preliminary_ptr);
 	Construction* GetPreliminaryElement() const;
 	void ErasePreliminaryElement(Camera* camera_ptr, PlayingField* field_ptr);

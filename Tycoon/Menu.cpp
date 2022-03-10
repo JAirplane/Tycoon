@@ -6,7 +6,7 @@ ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int con
 {
 	ConstructionDescriptor* roadDesc_ptr = new RoadDescriptor(menuElementLocation, constructionCost, description, iconSymbol,
 		foreground, backgroundConnected, backgroundNotConnected, backgroundChosen);
-	return new RoadManager(GetCursor(), roadDesc_ptr);
+	return new RoadManager(roadDesc_ptr);
 }
 // for buildings
 ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
@@ -14,7 +14,7 @@ ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int con
 {
 	ConstructionDescriptor* buildingDesc_ptr = new BuildingDescriptor(menuElementLocation, constructionCost, description, iconSymbol,
 		foreground, backgroundConnected, backgroundNotConnected, backgroundChosen, buildingSymbol, dailyExpences, constructionHeightAdd, constructionWidthAdd);
-	return new BuildingManager(GetCursor(), buildingDesc_ptr);
+	return new BuildingManager(buildingDesc_ptr);
 }
 // create road element
 void Menu::CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
@@ -116,6 +116,13 @@ void Menu::CreateGameStats()
 	int gameStatsWidthAdd = GetWidthAddition() - 2;
 	gameStats_ptr = new GameStats(gameStatsLocation, gameStatsHeightAdd, gameStatsWidthAdd, gameStatsBorder,
 		gameStatsLetterColor, gameStatsShadingColor, GetDrawPointer(), GetCursor());
+}
+void Menu::CreateVisitorManager()
+{
+	VisitorDescriptor* describe_ptr = new VisitorDescriptor(ConstructionOptions::GetAllOptions()->GetVisitorSymbol(), ConstructionOptions::GetAllOptions()->GetVisitorForegroundColor(),
+		ConstructionOptions::GetAllOptions()->GetVisitorBackgroundColor(), ConstructionOptions::GetAllOptions()->GetVisitorHeightAdd(),
+		ConstructionOptions::GetAllOptions()->GetVisitorWidthAdd());
+	visitorsCreator_ptr = new VisitorManager(describe_ptr);
 }
 //
 GameStats* Menu::GetGameStats() const

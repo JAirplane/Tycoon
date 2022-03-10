@@ -4,8 +4,8 @@
 class BuildingManager : public ConstructionManager
 {
 public:
-	BuildingManager(Cursor* cursor_ptr, ConstructionDescriptor* bd_ptr) :
-		ConstructionManager(cursor_ptr, bd_ptr)
+	BuildingManager(ConstructionDescriptor* bd_ptr) :
+		ConstructionManager(bd_ptr)
 	{}
 	~BuildingManager() {}
 	Construction* CreateConstruction(PointCoord upperLeft, Visualisation* paint_ptr, AllObjects* allObjects_ptr) override;
@@ -14,8 +14,8 @@ public:
 class RoadManager : public ConstructionManager
 {
 public:
-	RoadManager(Cursor* cursor_ptr, ConstructionDescriptor* bd_ptr) :
-		ConstructionManager(cursor_ptr, bd_ptr)
+	RoadManager(ConstructionDescriptor* bd_ptr) :
+		ConstructionManager(bd_ptr)
 	{}
 	~RoadManager() {}
 	Construction* CreateConstruction(PointCoord upperLeft, Visualisation* paint_ptr, AllObjects* allObjects_ptr) override;

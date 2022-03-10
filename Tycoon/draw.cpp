@@ -177,11 +177,13 @@ void Visualisation::DrawCursorPixel(int x, int y, color background)
 	cout << ' ';
 	set_cursor_pos(x, y);
 }
-void Visualisation::DrawVisitor(int x, int y)
+void Visualisation::DrawVisitor(int xCoord, int yCoord, color foreground, const wstring visitorSymbol)
 {
-	char visitorSymbol = 'a';
-	set_cursor_pos(x, y);
-	cout << visitorSymbol;
+	set_color(foreground);
+	set_cursor_pos(xCoord, yCoord);
+	_setmode(_fileno(stdout), _O_U16TEXT);
+	wcout << visitorSymbol;
+	_setmode(_fileno(stdout), _O_TEXT);
 	set_color(cYELLOW);
 }
 void Visualisation::DrawConstruction(int leftX, int topY, int rightX, int bottomY, const wstring constructionSymbol, color foreground, const wstring entranceSymbol,

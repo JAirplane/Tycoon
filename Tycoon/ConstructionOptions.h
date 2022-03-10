@@ -27,6 +27,7 @@ public:
 	virtual const int GetPlayingFieldHeightAdd() const;
 	virtual const int GetInfoPanelHeightAdd() const;
 	virtual const int GetConstructionInfoButtonHeightAdd() const;
+	virtual const int GetVisitorHeightAdd() const;
 	///////////////Width Addition Constants///////////////
 	virtual const int GetIceCreamShopWidthAdd() const;
 	virtual const int GetRoadWidthAdd() const;
@@ -38,6 +39,7 @@ public:
 	virtual const int GetInfoPanelWidthAdd() const;
 	virtual const int GetInfoPanelButtonWidthAdd() const;
 	virtual const int GetConstructionInfoButtonWidthAdd() const;
+	virtual const int GetVisitorWidthAdd() const;
 	///////////////Cost Initialisation Constants///////////////
 	virtual const int GetIceCreamShopCost() const;
 	virtual const int GetRoadCost() const;
@@ -151,6 +153,9 @@ public:
 	virtual color GetConstructionInfoScreenIconBorderBackgroundColor() const;
 	virtual color GetConstructionInfoScreenIconLetterColor() const;
 	virtual color GetConstructionInfoScreenIconShadingColor() const;
+	//
+	virtual color GetVisitorForegroundColor() const;
+	virtual color GetVisitorBackgroundColor() const;
 	///////////////PlayingField Symbol Constants///////////////
 	virtual const wstring GetVerticalPlayingField() const;
 	virtual const wstring GetHorizontalPlayingField() const;
@@ -249,6 +254,8 @@ public:
 	virtual const wstring GetMenuIconUpperRightSymbol() const;
 	virtual const wstring GetMenuIconBottomLeftSymbol() const;
 	virtual const wstring GetMenuIconBottomRightSymbol() const;
+	//
+	virtual const wstring GetVisitorSymbol() const;
 	///////////////Indent Constants///////////////
 	virtual const int GetInfoPanelAboveIndent() const;
 	virtual const int GetInfoPanelBottomIndent() const;

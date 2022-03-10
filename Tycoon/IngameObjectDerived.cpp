@@ -35,7 +35,7 @@ color Construction::GetBackgroundColor() const
 	{
 		if (!GetRoadConnectionStatus())
 		{
-			background = GetDescriptor()->GetNotConnectedBackgroundColor();
+			background = GetDescriptor()->GetBackgroundColor();
 		}
 		else
 		{
@@ -592,9 +592,9 @@ void Road::EraseObject(int cameraLeftX, int cameraTopY, int cameraRightX, int ca
 	GetPainter()->ErasePixel(GetUpperLeft().Get_x(), GetUpperLeft().Get_y());
 }
 ///////////////Visitor Class///////////////
-void Visitor::VisitorMove(int x, int y)
+void Visitor::VisitorMove(PointCoord destination)
 {
-	SetUpperLeft(PointCoord(x, y));
+	SetUpperLeft(destination);
 }
 void Visitor::DrawObject(int mask, int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY) const
 {

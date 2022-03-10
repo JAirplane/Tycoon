@@ -1,15 +1,13 @@
 #pragma once
-#include "ObjectContainers.h"
+#include "VisitorManager.h"
 /////////////Construction Manager has all the information about Construction/////////////
-class ConstructionManager
+class ConstructionManager : public IngameObjectManager
 {
 private:
-	Cursor* cursor_ptr;
 	ConstructionDescriptor* describe_ptr;
 public:
-	ConstructionManager(Cursor* c_ptr, ConstructionDescriptor* descriptor_ptr)
+	ConstructionManager(ConstructionDescriptor* descriptor_ptr)
 	{
-		cursor_ptr = c_ptr;
 		describe_ptr = descriptor_ptr;
 	}
 	~ConstructionManager()

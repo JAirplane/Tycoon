@@ -45,6 +45,10 @@ const int ConstructionOptions::GetConstructionInfoButtonHeightAdd() const
 {
 	return 2;
 }
+const int ConstructionOptions::GetVisitorHeightAdd() const
+{
+	return 0;
+}
 ///////////////Width Addition Constants///////////////
 const int ConstructionOptions::GetIceCreamShopWidthAdd() const
 {
@@ -85,6 +89,10 @@ const int ConstructionOptions::GetInfoPanelButtonWidthAdd() const
 const int ConstructionOptions::GetConstructionInfoButtonWidthAdd() const
 {
 	return 12;
+}
+const int ConstructionOptions::GetVisitorWidthAdd() const
+{
+	return 0;
 }
 ///////////////Cost Initialisation Constants///////////////
 const int ConstructionOptions::GetIceCreamShopCost() const
@@ -464,6 +472,15 @@ color ConstructionOptions::GetConstructionInfoScreenIconShadingColor() const
 {
 	return cBLACK;
 }
+//
+color ConstructionOptions::GetVisitorForegroundColor() const
+{
+	return cYELLOW;
+}
+color ConstructionOptions::GetVisitorBackgroundColor() const
+{
+	return cBLACK;
+}
 ///////////////PlayingField Symbol Constants///////////////
 const wstring ConstructionOptions::GetVerticalPlayingField() const
 {
@@ -807,6 +824,11 @@ const wstring ConstructionOptions::GetMenuIconBottomLeftSymbol() const
 const wstring ConstructionOptions::GetMenuIconBottomRightSymbol() const
 {
 	return wstring(L"\u255D");
+}
+//
+const wstring ConstructionOptions::GetVisitorSymbol() const
+{
+	return L"\u263A";
 }
 ///////////////Empty Border Rectangle Symbol///////////////
 const wstring ConstructionOptions::GetEmptyRectangleBorderSymbol() const

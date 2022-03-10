@@ -1,13 +1,5 @@
 #include "ConstructionDescriptor.h"
 /////////////ConstructionDescriptor Class contains all necessary data about Constructions/////////////
-int ConstructionDescriptor::GetConstructionHeightAdd() const
-{
-	return constructionHeightAddition;
-}
-int ConstructionDescriptor::GetConstructionWidthAdd() const
-{
-	return constructionWidthAddition;
-}
 int ConstructionDescriptor::GetConstructionCost() const
 {
 	return constructionCost;
@@ -16,7 +8,7 @@ string ConstructionDescriptor::GetDescription() const
 {
 	return description;
 }
-wstring ConstructionDescriptor::GetIconSymbol()
+wstring ConstructionDescriptor::GetIconSymbol() const
 {
 	return iconSymbol;
 }
@@ -24,19 +16,11 @@ int ConstructionDescriptor::GetDailyExpences() const
 {
 	return dailyExpences;
 }
-color ConstructionDescriptor::GetForegroundColor()
-{
-	return foreground;
-}
-color ConstructionDescriptor::GetConnectedBackgroundColor()
+color ConstructionDescriptor::GetConnectedBackgroundColor() const
 {
 	return backgroundConnected;
 }
-color ConstructionDescriptor::GetNotConnectedBackgroundColor()
-{
-	return backgroundNotConnected;
-}
-color ConstructionDescriptor::GetChosenBackgroundColor()
+color ConstructionDescriptor::GetChosenBackgroundColor() const
 {
 	return backgroundChoosen;
 }

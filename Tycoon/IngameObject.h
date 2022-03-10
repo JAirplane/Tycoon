@@ -10,7 +10,6 @@ public:
 	{
 		draw_ptr = paint_ptr;
 	}
-	virtual ConstructionDescriptor* GetDescriptor() const;
 	Visualisation* GetPainter() const;
 	virtual void DrawObject(int mask = 0, int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const = 0;
 	virtual void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const = 0;

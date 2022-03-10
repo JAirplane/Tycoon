@@ -75,6 +75,7 @@ void GameManagement::CreateMenuAndElements()
 		ConstructionOptions::GetAllOptions()->GetRoadIconSymbol(), ConstructionOptions::GetAllOptions()->GetRoadForegroundColor(),
 		ConstructionOptions::GetAllOptions()->GetRoadConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetRoadNotConnectedBackgroundColor(),
 		ConstructionOptions::GetAllOptions()->GetRoadChosenBackgroundColor());
+	menu_ptr->CreateVisitorManager();
 }
 void GameManagement::CreateInfoPanel()
 {

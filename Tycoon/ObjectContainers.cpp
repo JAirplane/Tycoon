@@ -57,18 +57,13 @@ void AllObjects::AddObject(Road* obj_ptr)
 	}
 	roads.push_back(obj_ptr);
 }
-void AllObjects::AddObject(Visitor* obj_ptr, int position, bool isPreliminary)
+void AllObjects::AddObject(Visitor* obj_ptr)
 {
-	if (visitors.size() < position || position == -1)
+	if (obj_ptr == nullptr)
 	{
-		visitors.push_back(obj_ptr);
+		throw MyException("AllObjects::AddObject(Road* obj_ptr) received nullptr argument.");
 	}
-	else
-	{
-		list<Visitor*>::iterator iter = visitors.begin();
-		iter = next(iter, position);
-		visitors.insert(iter, obj_ptr);
-	}
+	visitors.push_back(obj_ptr);
 }
 void AllObjects::AddPreliminaryElement(Construction* preliminary_ptr)
 {
@@ -449,9 +444,9 @@ void AllObjects::VisitorAppear()
 		int pee = 100;
 		Visitor* visitor_ptr;
 		IngameObject* vis_ptr;
-		vis_ptr = visitor_ptr = new Visitor(startVisitorPoint, food, pee, draw_ptr);
+		//vis_ptr = visitor_ptr = new Visitor(startVisitorPoint, draw_ptr);
 		visitors.push_back(visitor_ptr);
-		draw_ptr->DrawVisitor((visitor_ptr->GetUpperLeft()).Get_x(), (visitor_ptr->GetUpperLeft()).Get_y());
+		//draw_ptr->DrawVisitor((visitor_ptr->GetUpperLeft()).Get_x(), (visitor_ptr->GetUpperLeft()).Get_y());
 	}
 	cursor_ptr->SetCursorConsoleLocation();
 }
@@ -473,7 +468,7 @@ void AllObjects::DisplayVisitors()
 	for (iter = visitors.begin(); iter != visitors.end(); iter++)
 	{
 		PointCoord upperLeftVisitor = (*iter)->GetUpperLeft();
-		draw_ptr->DrawVisitor(upperLeftVisitor.Get_x(), upperLeftVisitor.Get_y());
+		//draw_ptr->DrawVisitor(upperLeftVisitor.Get_x(), upperLeftVisitor.Get_y());
 	}
 }
 void AllObjects::DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr)

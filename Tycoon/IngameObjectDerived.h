@@ -15,8 +15,8 @@ public:
 	Construction(PointCoord upperLeft, ConstructionDescriptor* description_ptr, Visualisation* paint_ptr) : IngameObject(upperLeft, paint_ptr)
 	{
 		describe_ptr = description_ptr;
-		SetHeightAddition(describe_ptr->GetConstructionHeightAdd());
-		SetWidthAddition(describe_ptr->GetConstructionWidthAdd());
+		SetHeightAddition(describe_ptr->GetHeightAdd());
+		SetWidthAddition(describe_ptr->GetWidthAdd());
 		connectedToRoad = false;
 		isChosen = false;
 		visitorsCount = 0;
@@ -64,10 +64,10 @@ private:
 public:
 	Building(PointCoord upperLeft, ConstructionDescriptor* manager_ptr, Visualisation* paint_ptr) : Construction(upperLeft, manager_ptr, paint_ptr)
 	{
-		SetHeightAddition(manager_ptr->GetConstructionHeightAdd());
-		SetWidthAddition(manager_ptr->GetConstructionWidthAdd());
-		this->entranceHeightAdd = manager_ptr->GetConstructionHeightAdd();
-		this->entranceWidthAdd = manager_ptr->GetConstructionWidthAdd() / 2;
+		SetHeightAddition(manager_ptr->GetHeightAdd());
+		SetWidthAddition(manager_ptr->GetWidthAdd());
+		this->entranceHeightAdd = manager_ptr->GetHeightAdd();
+		this->entranceWidthAdd = manager_ptr->GetWidthAdd() / 2;
 		overallProfit = 0;
 		exitDirection = Direction::Down;
 	}
@@ -103,8 +103,8 @@ private:
 public:
 	Road(PointCoord upperLeft, ConstructionDescriptor* manager_ptr, Visualisation* paint_ptr) : Construction(upperLeft, manager_ptr, paint_ptr)
 	{
-		SetHeightAddition(GetDescriptor()->GetConstructionHeightAdd());
-		SetWidthAddition(GetDescriptor()->GetConstructionWidthAdd());
+		SetHeightAddition(GetDescriptor()->GetHeightAdd());
+		SetWidthAddition(GetDescriptor()->GetWidthAdd());
 		graphStatus = false;
 	}
 	~Road() {}
@@ -134,17 +134,19 @@ public:
 class Visitor : public IngameObject
 {
 private:
+	VisitorDescriptor* description_ptr;
 	int foodCapacity;
 	int needToPee;
 public:
-	Visitor(PointCoord upperLeft, int foodCapacity, int needToPee, Visualisation* paint_ptr) : IngameObject(upperLeft, paint_ptr)
+	Visitor(PointCoord upperLeft, Visualisation* paint_ptr, VisitorDescriptor* describe_ptr) : IngameObject(upperLeft, paint_ptr)
 	{
-		this->foodCapacity = foodCapacity;
-		this->needToPee = needToPee;
+		description_ptr = describe_ptr;
+		foodCapacity = 100;
+		needToPee = 100;
 	}
 	~Visitor()
 	{}
-	void VisitorMove(int _x, int _y);
+	void VisitorMove(PointCoord destination);
 	void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const override;
 	void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
 	//GlobalObject* CreateObject(PointCoord _point) override;
