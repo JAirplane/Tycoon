@@ -45,10 +45,6 @@ const int ConstructionOptions::GetConstructionInfoButtonHeightAdd() const
 {
 	return 2;
 }
-const int ConstructionOptions::GetVisitorHeightAdd() const
-{
-	return 0;
-}
 ///////////////Width Addition Constants///////////////
 const int ConstructionOptions::GetIceCreamShopWidthAdd() const
 {
@@ -89,10 +85,6 @@ const int ConstructionOptions::GetInfoPanelButtonWidthAdd() const
 const int ConstructionOptions::GetConstructionInfoButtonWidthAdd() const
 {
 	return 12;
-}
-const int ConstructionOptions::GetVisitorWidthAdd() const
-{
-	return 0;
 }
 ///////////////Cost Initialisation Constants///////////////
 const int ConstructionOptions::GetIceCreamShopCost() const

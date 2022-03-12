@@ -45,7 +45,6 @@ public:
 		}
 	}
 	void CreateParkEntrance(const PlayingField* playingField_ptr, ConstructionDescriptor* descriptor_ptr, Visualisation* draw_ptr);
-	void DrawParkEntrance(const Camera* camera_ptr);
 	//
 	const list<Building*>& GetAllBuildings() const;
 	const list<Road*>& GetAllRoads() const;
@@ -65,6 +64,7 @@ public:
 	bool BuildingsImposition(IngameObject* object_ptr) const;
 	bool RoadsImposition(PointCoord point) const;
 	bool RoadsImposition(IngameObject* object_ptr) const;
+	bool EntranceRoadsImposition(PointCoord point) const;
 	bool VisitorsImposition(PointCoord point) const;
 	bool VisitorsImposition(IngameObject* object_ptr) const;
 	bool ObjectImposition(PointCoord point, PlayingField* field_ptr) const;
@@ -73,12 +73,12 @@ public:
 	void EraseObjects(Camera* camera_ptr);
 	void ShiftBuildings(Direction shiftDirection, int shiftValue = 1);
 	void ShiftRoads(Direction shiftDirection, int shiftValue = 1);
+	void ShiftEntranceRoads(Direction shiftDirection, int shiftValue = 1);
 	void ShiftVisitors(Direction shiftDirection, int shiftValue = 1);
 	void DisplayBuildings(Camera* camera_ptr, PlayingField* field_ptr) const;
-	void VisitorAppear();
-	bool LocationCheck(PointCoord);
 	void DisplayVisitors();
 	void DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr);
+	void DisplayParkEntrance(const Camera* camera_ptr);
 	Construction* FindConstruction(PointCoord location) const; //checks if location is on road or building
 	void DeleteConstruction(Construction* forDeleting, function<bool(Construction*)> IsEqual);
 };

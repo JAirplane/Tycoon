@@ -14,7 +14,7 @@ void GameManagement::CreateAllObjects()
 	allObjects_ptr = new AllObjects(cursor_ptr, draw_ptr);
 	for (auto menuItem : menu_ptr->GetMenuItems())
 	{
-		if (static_cast<RoadManager*>(menuItem->GetManager()))
+		if (dynamic_cast<RoadManager*>(menuItem->GetManager()) != nullptr)
 		{
 			allObjects_ptr->CreateParkEntrance(field_ptr, menuItem->GetManager()->GetDescriptor(), draw_ptr);
 			return;
@@ -251,7 +251,6 @@ void GameManagement::DisplayPlayingField()
 		field_ptr->GetBorder()->GetBorderSymbols()->GetUpperLeftSymbol(), field_ptr->GetBorder()->GetBorderSymbols()->GetUpperRightSymbol(),
 		field_ptr->GetBorder()->GetBorderSymbols()->GetBottomLeftSymbol(), field_ptr->GetBorder()->GetBorderSymbols()->GetBottomRightSymbol(),
 		ConstructionOptions::GetAllOptions()->GetPlayingFieldBorderForegroundColor());
-	allObjects_ptr->DrawParkEntrance(camera_ptr);
 	ReturnCursorToCamera();
 	DrawCursor();
 }
@@ -273,6 +272,7 @@ void GameManagement::DisplayAllObjects()
 {
 	allObjects_ptr->DisplayBuildings(camera_ptr, field_ptr);
 	allObjects_ptr->DisplayRoads(camera_ptr, field_ptr);
+	allObjects_ptr->DisplayParkEntrance(camera_ptr);
 	allObjects_ptr->DisplayVisitors();
 	ReturnCursorToCamera();
 	DrawCursor();
@@ -346,20 +346,21 @@ void GameManagement::GameProcess()
 				if (shiftDirection != Direction::None)
 				{
 					cursor_ptr->CursorShift(shiftDirection);
+					if (allObjects_ptr->GetPreliminaryElement() != nullptr)
+					{
+						allObjects_ptr->GetPreliminaryElement()->ShiftObject(shiftDirection);
+					}
 					if (shifting)
 					{
 						allObjects_ptr->EraseObjects(camera_ptr);
 						ErasePlayingField();
-						if (allObjects_ptr->GetPreliminaryElement() != nullptr)
-						{
-							allObjects_ptr->GetPreliminaryElement()->ShiftObject(shiftDirection);
-						}
 						allObjects_ptr->ShiftBuildings(shiftDirection);
 						allObjects_ptr->ShiftRoads(shiftDirection);
+						allObjects_ptr->ShiftEntranceRoads(shiftDirection);
 						allObjects_ptr->ShiftVisitors(shiftDirection);
 						field_ptr->Shift(shiftDirection);
-						DisplayAllObjects();
 						DisplayPlayingField();
+						DisplayAllObjects();
 					}
 					DrawCursor();
 				}
@@ -430,6 +431,7 @@ void GameManagement::S_Key()
 	Direction shiftDirection = menu_ptr->ChangeMenuSide(camera_ptr);
 	allObjects_ptr->ShiftBuildings(shiftDirection, menu_ptr->GetWidthAddition());
 	allObjects_ptr->ShiftRoads(shiftDirection, menu_ptr->GetWidthAddition());
+	allObjects_ptr->ShiftEntranceRoads(shiftDirection, menu_ptr->GetWidthAddition());
 	allObjects_ptr->ShiftVisitors(shiftDirection, menu_ptr->GetWidthAddition());
 	field_ptr->Shift(shiftDirection, menu_ptr->GetWidthAddition());
 	EraseScreen();
@@ -727,19 +729,27 @@ void GameManagement::EnterKey_InfoPanel()
 			Construction* chosen_ptr = infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetChosenConstruction();
 			if(chosen_ptr != nullptr)
 			{
-				function<bool (Construction*)> IsEqual = [chosen_ptr](Construction* element)
+				if (dynamic_cast<UnbreakableRoad*>(chosen_ptr) == nullptr)
 				{
-					return (chosen_ptr == element);
-				};
-				chosen_ptr->EraseObject(camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(),
-					camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(), camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
-				PointCoord redrawPoint = chosen_ptr->GetRedrawNeiboursPoint();
-				allObjects_ptr->DeleteConstruction(chosen_ptr, IsEqual);
-				infoPanel_ptr->ClearChoosenConstruction();
-				Construction::RedrawNeibours(redrawPoint, allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), allObjects_ptr->GetPreliminaryElement(), camera_ptr);
-				infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->
-					SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
-				infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->ClearContent();
+					function<bool(Construction*)> IsEqual = [chosen_ptr](Construction* element)
+					{
+						return (chosen_ptr == element);
+					};
+					chosen_ptr->EraseObject(camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(),
+						camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(), camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
+					PointCoord redrawPoint = chosen_ptr->GetRedrawNeiboursPoint();
+					allObjects_ptr->DeleteConstruction(chosen_ptr, IsEqual);
+					infoPanel_ptr->ClearChoosenConstruction();
+					Construction::RedrawNeibours(redrawPoint, allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), allObjects_ptr->GetPreliminaryElement(), camera_ptr);
+					infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->
+						SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+					infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->ClearContent();
+				}
+				else
+				{
+					UserMessageNotify("Can't break construction");
+				}
+				
 				infoPanel_ptr->EndInteractionDisplayRule();
 				ReturnCursorToCamera();
 				DrawCursor();

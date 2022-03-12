@@ -22,6 +22,7 @@ int main()
 		GameMaster.DisplayMenu();
 		GameMaster.DisplayInfoPanel();
 		GameMaster.DisplayPlayingField();
+		GameMaster.DisplayAllObjects();
 	}
 	catch (MyException& somethingOccured)
 	{

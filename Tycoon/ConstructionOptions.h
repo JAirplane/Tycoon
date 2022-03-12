@@ -27,7 +27,6 @@ public:
 	virtual const int GetPlayingFieldHeightAdd() const;
 	virtual const int GetInfoPanelHeightAdd() const;
 	virtual const int GetConstructionInfoButtonHeightAdd() const;
-	virtual const int GetVisitorHeightAdd() const;
 	///////////////Width Addition Constants///////////////
 	virtual const int GetIceCreamShopWidthAdd() const;
 	virtual const int GetRoadWidthAdd() const;
@@ -39,7 +38,6 @@ public:
 	virtual const int GetInfoPanelWidthAdd() const;
 	virtual const int GetInfoPanelButtonWidthAdd() const;
 	virtual const int GetConstructionInfoButtonWidthAdd() const;
-	virtual const int GetVisitorWidthAdd() const;
 	///////////////Cost Initialisation Constants///////////////
 	virtual const int GetIceCreamShopCost() const;
 	virtual const int GetRoadCost() const;

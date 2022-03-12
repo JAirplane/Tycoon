@@ -34,7 +34,7 @@ public:
 	virtual PointCoord GetPotentialConnectedRoadPoint() const;
 	virtual wstring GetEntranceSymbol() const;
 	bool GetRoadConnectionStatus() const;
-	void SetRoadConnectionStatus(bool connected);
+	virtual void SetRoadConnectionStatus(bool connected);
 	bool GetChosenStatus() const;
 	void SetChosenStatus(bool chosen);
 	virtual int GetProfit() const = 0;
@@ -119,7 +119,7 @@ public:
 	PointCoord GetEntrancePoint() const override;
 	PointCoord GetRedrawNeiboursPoint() const override;
 	int GetMaskPartPreliminaryRoad(const Construction* preliminary_ptr) const;
-	int GetMaskPartRealRoads(const list<Road*>& allRoads) const;
+	virtual int GetMaskPartRealRoads(const list<Road*>& allRoads) const;
 	int GetNeibourRoadMask(const list<Road*>& allRoads, const Construction* preliminary_ptr) const override;
 	int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
 	void IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
@@ -129,6 +129,17 @@ public:
 	void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const override;
 	void DrawObject(const wstring drawingSymbol) const;
 	void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
+	virtual bool IsBreakable() const;
+};
+class UnbreakableRoad : public Road
+{
+public:
+	UnbreakableRoad(PointCoord upperLeft, ConstructionDescriptor* manager_ptr, Visualisation* paint_ptr) : Road(upperLeft, manager_ptr, paint_ptr)
+		{}
+	~UnbreakableRoad() {}
+	bool IsBreakable() const override;
+	void SetRoadConnectionStatus(bool connected) override;
+	int GetMaskPartRealRoads(const list<Road*>& allRoads) const override;
 };
 /////////////People are looking for some fun!/////////////
 class Visitor : public IngameObject

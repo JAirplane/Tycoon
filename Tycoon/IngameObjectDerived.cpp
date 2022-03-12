@@ -591,6 +591,42 @@ void Road::EraseObject(int cameraLeftX, int cameraTopY, int cameraRightX, int ca
 {
 	GetPainter()->ErasePixel(GetUpperLeft().Get_x(), GetUpperLeft().Get_y());
 }
+bool Road::IsBreakable() const
+{
+	return true;
+}
+///////////////UnbreakableRoad Class///////////////
+bool UnbreakableRoad::IsBreakable() const
+{
+	return false;
+}
+void UnbreakableRoad::SetRoadConnectionStatus(bool connected)
+{
+	Construction::SetRoadConnectionStatus(true); //this roads are always connected
+}
+int UnbreakableRoad::GetMaskPartRealRoads(const list<Road*>& allRoads) const
+{
+	PointCoord leftLocation(GetUpperLeft().Get_x() - 1, GetUpperLeft().Get_y());
+	PointCoord rightLocation(GetUpperLeft().Get_x() + 1, GetUpperLeft().Get_y());
+	PointCoord downLocation(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() + 1);
+	PointCoord upLocation(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() - 1);
+	int roadEnvironmentMask = 0;
+	list<Road*>::const_iterator roadIter;
+	for (roadIter = allRoads.begin(); roadIter != allRoads.end(); roadIter++)
+	{
+		if ((*roadIter)->GetUpperLeft() == leftLocation)
+		{
+			roadEnvironmentMask |= int(roadMask::LEFT);
+		}
+		if ((*roadIter)->GetUpperLeft() == rightLocation)
+		{
+			roadEnvironmentMask |= int(roadMask::RIGHT);
+		}
+	}
+	roadEnvironmentMask |= int(roadMask::TOP);
+	roadEnvironmentMask |= int(roadMask::BOTTOM);
+	return roadEnvironmentMask;
+}
 ///////////////Visitor Class///////////////
 VisitorDescriptor* Visitor::GetDescriptor() const
 {

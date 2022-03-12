@@ -44,6 +44,7 @@ public:
 	//
 	vector<MenuElement*> GetMenuItems() const;
 	GameStats* GetGameStats() const;
+	VisitorManager* GetVisitorManager() const;
 	MenuStatus GetCurrentSide() const;
 	bool GetHideMenuStatus() const;
 	void SetHideMenuStatus(bool hideFlag);
@@ -55,6 +56,7 @@ public:
 	MenuElement* GetNextMenuElement(MenuElement* currentElement, IconsPosition upperOrLower) const;
 	void MenuElementsShift(IconsPosition upperOrLower);
 	Construction* CreatePreliminaryObject(AllObjects* allObjects_ptr, Camera* camera_ptr) const;
+	Visitor* CreateVisitor(const PlayingField* field_ptr, AllObjects* container_ptr) const;
 	void MenuElementRedrawBorder(int elementTopY, color newColor);
 	MenuElement* MenuNavigation(MenuElement* currentElement, IconsPosition upperOrLower);
 };

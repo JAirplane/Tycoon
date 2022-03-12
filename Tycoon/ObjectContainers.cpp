@@ -16,13 +16,23 @@ void AllObjects::CreateParkEntrance(const PlayingField* playingField_ptr, Constr
 	}
 	for (int yAdd = 3; yAdd >= 0; yAdd--)
 	{
-		Road* road_ptr = new Road(PointCoord(playingField_ptr->GetHalfXAxis(), playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() + yAdd),
-			descriptor_ptr, draw_ptr);
-		road_ptr->SetRoadConnectionStatus(true);
-		outOfPlayingFieldEntrance.push_back(road_ptr);
+		for (int xAdd = 0; xAdd <= 1; xAdd++)
+		{
+			Road* road_ptr = new Road(PointCoord(playingField_ptr->GetHalfXAxis() + xAdd, playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() + yAdd),
+				descriptor_ptr, draw_ptr);
+			road_ptr->SetRoadConnectionStatus(true);
+			outOfPlayingFieldEntrance.push_back(road_ptr);
+		}
+	}
+	for (int xAdd = 0; xAdd <= 1; xAdd++)
+	{
+		UnbreakableRoad* undestractableRoad_ptr = new UnbreakableRoad(PointCoord(playingField_ptr->GetHalfXAxis() + xAdd,
+			playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() - 1), descriptor_ptr, draw_ptr);
+		undestractableRoad_ptr->SetRoadConnectionStatus(true);
+		roads.push_back(undestractableRoad_ptr);
 	}
 }
-void AllObjects::DrawParkEntrance(const Camera* camera_ptr)
+void AllObjects::DisplayParkEntrance(const Camera* camera_ptr)
 {
 	for (auto road : outOfPlayingFieldEntrance)
 	{
@@ -261,6 +271,17 @@ bool AllObjects::RoadsImposition(IngameObject* object_ptr) const
 	}
 	return false;
 }
+bool AllObjects::EntranceRoadsImposition(PointCoord point) const
+{
+	for (auto entranceRoad : outOfPlayingFieldEntrance)
+	{
+		if (point == entranceRoad->GetUpperLeft())
+		{
+			return true;
+		}
+	}
+	return false;
+}
 bool AllObjects::VisitorsImposition(PointCoord point) const
 {
 	list<Visitor*>::const_iterator visitorIter;
@@ -318,6 +339,10 @@ bool AllObjects::ObjectImposition(PointCoord point, PlayingField* field_ptr) con
 		return true;
 	}
 	if (RoadsImposition(point))
+	{
+		return true;
+	}
+	if (EntranceRoadsImposition(point))
 	{
 		return true;
 	}
@@ -396,6 +421,15 @@ void AllObjects::EraseObjects(Camera* camera_ptr)
 			draw_ptr->ErasePixel(leftX, topY);
 		}
 	}
+	for (auto entranceRoad : outOfPlayingFieldEntrance)
+	{
+		int leftX = entranceRoad->GetUpperLeft().Get_x();
+		int topY = entranceRoad->GetUpperLeft().Get_y();
+		if (leftX < cameraRightX && topY < cameraBottomY && leftX > cameraLeftX && topY > cameraTopY)
+		{
+			draw_ptr->ErasePixel(leftX, topY);
+		}
+	}
 	for (visitorIter = visitors.begin(); visitorIter != visitors.end(); visitorIter++)
 	{
 		int leftX = (*visitorIter)->GetUpperLeft().Get_x();
@@ -422,6 +456,13 @@ void AllObjects::ShiftRoads(Direction shiftDirection, int shiftValue)
 		(*roadIter)->ShiftObject(shiftDirection, shiftValue); //already has an exception inside
 	}
 }
+void AllObjects::ShiftEntranceRoads(Direction shiftDirection, int shiftValue)
+{
+	for (auto entranceRoad : outOfPlayingFieldEntrance)
+	{
+		entranceRoad->ShiftObject(shiftDirection, shiftValue);
+	}
+}
 void AllObjects::ShiftVisitors(Direction shiftDirection, int shiftValue)
 {
 	list<Visitor*>::iterator visitorIter;
@@ -444,35 +485,6 @@ void AllObjects::DisplayBuildings(Camera* camera_ptr, PlayingField* field_ptr) c
 			(*buildingIter)->DrawObject(0, cameraLeftX, cameraTopY, cameraRightX, cameraBottomY);
 		}
 	}
-}
-void AllObjects::VisitorAppear(const PlayingField* field_ptr)
-{
-	int randomX = rand() % 2 + 1; //2 possible cells to appear
-	int constY = field_ptr->GetUpperLeft().Get_y() + field_ptr->GetWidthAddition() + 3; // 3 pixels lower than playingfield's bottom y
-	PointCoord startVisitorPoint(randomX, constY);
-	if (LocationCheck(startVisitorPoint))
-	{
-		int food = 100;
-		int pee = 100;
-		Visitor* visitor_ptr;
-		IngameObject* vis_ptr;
-		//vis_ptr = visitor_ptr = new Visitor(startVisitorPoint, draw_ptr);
-		visitors.push_back(visitor_ptr);
-		//draw_ptr->DrawVisitor((visitor_ptr->GetUpperLeft()).Get_x(), (visitor_ptr->GetUpperLeft()).Get_y());
-	}
-	cursor_ptr->SetCursorConsoleLocation();
-}
-bool AllObjects::LocationCheck(PointCoord point)
-{
-	list< Visitor* >::iterator iter;
-	for (iter = visitors.begin(); iter != visitors.end(); iter++)
-	{
-		if (point == (*iter)->GetUpperLeft())
-		{
-			return 0;
-		}
-	}
-	return 1;
 }
 void AllObjects::DisplayVisitors()
 {
@@ -524,5 +536,5 @@ Construction* AllObjects::FindConstruction(PointCoord location) const
 void AllObjects::DeleteConstruction(Construction* forDeleting, function<bool(Construction*)> IsEqual)
 {
 	buildings.remove_if(IsEqual);
-	roads.remove_if(IsEqual); //not quite correct?
+	roads.remove_if(IsEqual);
 }

@@ -133,6 +133,10 @@ vector<MenuElement*> Menu::GetMenuItems() const
 {
 	return menuItems;
 }
+VisitorManager* Menu::GetVisitorManager() const
+{
+	return visitorsCreator_ptr;
+}
 MenuStatus Menu::GetCurrentSide() const
 {
 	return currentSide;
@@ -391,4 +395,19 @@ Construction* Menu::CreatePreliminaryObject(AllObjects* allObjects_ptr, Camera* 
 		}
 	}
 	return nullptr;
+}
+Visitor* Menu::CreateVisitor(const PlayingField* field_ptr, AllObjects* container_ptr) const
+{
+	if (field_ptr == nullptr)
+	{
+		throw MyException("Menu::CreateVisitor(const PlayingField* field_ptr, AllObjects* container_ptr) const playingfield is nullptr");
+	}
+	if (container_ptr == nullptr)
+	{
+		throw MyException("Menu::CreateVisitor(const PlayingField* field_ptr, AllObjects* container_ptr) const container_ptr is nullptr");
+	}
+	int randomX = rand() % 2; //2 possible cells to appear
+	int constY = field_ptr->GetUpperLeft().Get_y() + field_ptr->GetWidthAddition() + 3; // 3 pixels lower than playingfield's bottom y
+	PointCoord startVisitorPoint(field_ptr->GetHalfXAxis() + randomX, constY);
+	Visitor* newVisitor = visitorsCreator_ptr->CreateVisitor(startVisitorPoint, GetDrawPointer(), container_ptr);
 }
