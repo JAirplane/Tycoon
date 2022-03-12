@@ -190,7 +190,7 @@ wstring Building::GetEntranceSymbol() const
 }
 void Building::CopyEntrance(Construction* preliminary_ptr)
 {
-	if(preliminary_ptr == nullptr)
+	if (preliminary_ptr == nullptr)
 	{
 		throw MyException("Building::CopyEntrance(Construction* preliminary_ptr) received nullptr argument.");
 	}
@@ -229,7 +229,7 @@ void Building::Connected(const list<Road*>& allRoads, const list<Building*>& all
 	SetRoadConnectionStatus(false);
 }
 void Building::IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
-	{}
+{}
 int Building::GetProfit() const
 {
 	return overallProfit;
@@ -503,7 +503,7 @@ void Road::Connected(const list<Road*>& allRoads, const list<Building*>& allBuil
 	list<Road*>::const_iterator roadIter;
 	for (roadIter = allRoads.begin(); roadIter != allRoads.end(); roadIter++)
 	{
-		if ((*roadIter)->GetUpperLeft() == leftLocation || (*roadIter)->GetUpperLeft() == rightLocation || 
+		if ((*roadIter)->GetUpperLeft() == leftLocation || (*roadIter)->GetUpperLeft() == rightLocation ||
 			(*roadIter)->GetUpperLeft() == downLocation || (*roadIter)->GetUpperLeft() == upLocation)
 		{
 			SetRoadConnectionStatus(true);
@@ -518,7 +518,7 @@ void Road::Connected(const list<Road*>& allRoads, const list<Building*>& allBuil
 			return;
 		}
 	}
-	if(preliminary_ptr != nullptr)
+	if (preliminary_ptr != nullptr)
 	{
 		Direction exit = preliminary_ptr->GetExitDirection();
 		if (exit == Direction::None)
@@ -592,15 +592,19 @@ void Road::EraseObject(int cameraLeftX, int cameraTopY, int cameraRightX, int ca
 	GetPainter()->ErasePixel(GetUpperLeft().Get_x(), GetUpperLeft().Get_y());
 }
 ///////////////Visitor Class///////////////
+VisitorDescriptor* Visitor::GetDescriptor() const
+{
+	return description_ptr;
+}
 void Visitor::VisitorMove(PointCoord destination)
 {
 	SetUpperLeft(destination);
 }
 void Visitor::DrawObject(int mask, int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY) const
 {
-
+	GetPainter()->DrawVisitor(GetUpperLeft().Get_x(), GetUpperLeft().Get_y(), description_ptr->GetForegroundColor(), description_ptr->GetBackgroundColor(), description_ptr->GetVisitorSymbol());
 }
 void Visitor::EraseObject(int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY) const
 {
-
+	GetPainter()->ErasePixel(GetUpperLeft().Get_x(), GetUpperLeft().Get_y());
 }

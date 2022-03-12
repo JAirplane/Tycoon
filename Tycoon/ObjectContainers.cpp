@@ -2,6 +2,18 @@
 /////////////Containers of All Objects in the Game/////////////
 void AllObjects::CreateParkEntrance(const PlayingField* playingField_ptr, ConstructionDescriptor* descriptor_ptr, Visualisation* draw_ptr)
 {
+	if (playingField_ptr == nullptr)
+	{
+		throw MyException("CreateParkEntrance(const PlayingField* playingField_ptr, ConstructionDescriptor* descriptor_ptr, Visualisation* draw_ptr) playingfield is nullptr");
+	}
+	if (draw_ptr == nullptr)
+	{
+		throw MyException("CreateParkEntrance(const PlayingField* playingField_ptr, ConstructionDescriptor* descriptor_ptr, Visualisation* draw_ptr) draw_ptr is nullptr");
+	}
+	if (!static_cast<RoadDescriptor*>(descriptor_ptr))
+	{
+		throw MyException("CreateParkEntrance(const PlayingField* playingField_ptr, ConstructionDescriptor* descriptor_ptr, Visualisation* draw_ptr) bad descriptor");
+	}
 	for (int yAdd = 3; yAdd >= 0; yAdd--)
 	{
 		Road* road_ptr = new Road(PointCoord(playingField_ptr->GetHalfXAxis(), playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() + yAdd),
@@ -43,7 +55,7 @@ size_t AllObjects::GetVisitorsQuantity() const
 }
 void AllObjects::AddObject(Building* obj_ptr)
 {
-	if(obj_ptr == nullptr)
+	if (obj_ptr == nullptr)
 	{
 		throw MyException("AllObjects::AddObject(Building* obj_ptr) received nullptr argument.");
 	}
@@ -51,7 +63,7 @@ void AllObjects::AddObject(Building* obj_ptr)
 }
 void AllObjects::AddObject(Road* obj_ptr)
 {
-	if(obj_ptr == nullptr)
+	if (obj_ptr == nullptr)
 	{
 		throw MyException("AllObjects::AddObject(Road* obj_ptr) received nullptr argument.");
 	}
@@ -67,11 +79,11 @@ void AllObjects::AddObject(Visitor* obj_ptr)
 }
 void AllObjects::AddPreliminaryElement(Construction* preliminary_ptr)
 {
-	if(preliminary_ptr == nullptr)
+	if (preliminary_ptr == nullptr)
 	{
 		throw MyException("AllObjects::AddPreliminaryElement(Construction* preliminary_ptr) received nullptr argument.");
 	}
-	if(preliminaryConstruction_ptr == nullptr)
+	if (preliminaryConstruction_ptr == nullptr)
 	{
 		preliminaryConstruction_ptr = preliminary_ptr;
 	}
@@ -105,7 +117,7 @@ void AllObjects::ErasePreliminaryElement(Camera* camera_ptr, PlayingField* field
 }
 bool AllObjects::RectangleImposition(PointCoord point, const MyRectangle* rect_ptr) const
 {
-	if(rect_ptr == nullptr)
+	if (rect_ptr == nullptr)
 	{
 		throw MyException("AllObjects::RectangleImposition(PointCoord point, MyRectangle* rect_ptr) received nullptr argument rect_ptr.");
 	}
@@ -122,11 +134,11 @@ bool AllObjects::RectangleImposition(PointCoord point, const MyRectangle* rect_p
 }
 bool AllObjects::RectangleImposition(IngameObject* object_ptr, const MyRectangle* rect_ptr) const
 {
-	if(rect_ptr == nullptr)
+	if (rect_ptr == nullptr)
 	{
 		throw MyException("AllObjects::RectangleImposition(IngameObject* object_ptr, MyRectangle* rect_ptr) received nullptr argument rect_ptr.");
 	}
-	if(object_ptr == nullptr)
+	if (object_ptr == nullptr)
 	{
 		throw MyException("AllObjects::RectangleImposition(IngameObject* object_ptr, MyRectangle* rect_ptr) received nullptr argument object_ptr.");
 	}
@@ -168,7 +180,7 @@ bool AllObjects::BuildingsImposition(PointCoord point) const
 }
 bool AllObjects::BuildingsImposition(IngameObject* object_ptr) const
 {
-	if(object_ptr == nullptr)
+	if (object_ptr == nullptr)
 	{
 		throw MyException("AllObjects::BuildingsImposition(IngameObject* object_ptr) received nullptr argument object_ptr.");
 	}
@@ -217,7 +229,7 @@ bool AllObjects::RoadsImposition(PointCoord point) const
 }
 bool AllObjects::RoadsImposition(IngameObject* object_ptr) const
 {
-	if(object_ptr == nullptr)
+	if (object_ptr == nullptr)
 	{
 		throw MyException("AllObjects::RoadsImposition(IngameObject* object_ptr) received nullptr argument object_ptr.");
 	}
@@ -263,7 +275,7 @@ bool AllObjects::VisitorsImposition(PointCoord point) const
 }
 bool AllObjects::VisitorsImposition(IngameObject* object_ptr) const
 {
-	if(object_ptr == nullptr)
+	if (object_ptr == nullptr)
 	{
 		throw MyException("AllObjects::VisitorsImposition(IngameObject* object_ptr) received nullptr argument object_ptr.");
 	}
@@ -297,19 +309,19 @@ bool AllObjects::VisitorsImposition(IngameObject* object_ptr) const
 }
 bool AllObjects::ObjectImposition(PointCoord point, PlayingField* field_ptr) const
 {
-	if(RectangleImposition(point, field_ptr))
+	if (RectangleImposition(point, field_ptr))
 	{
 		return true;
 	}
-	if(BuildingsImposition(point))
+	if (BuildingsImposition(point))
 	{
 		return true;
 	}
-	if(RoadsImposition(point))
+	if (RoadsImposition(point))
 	{
 		return true;
 	}
-	if(VisitorsImposition(point))
+	if (VisitorsImposition(point))
 	{
 		return true;
 	}
@@ -317,23 +329,23 @@ bool AllObjects::ObjectImposition(PointCoord point, PlayingField* field_ptr) con
 }
 bool AllObjects::ObjectImposition(IngameObject* object_ptr, const Camera* camera_ptr, const PlayingField* field_ptr) const
 {
-	if(RectangleImposition(object_ptr, camera_ptr))
+	if (RectangleImposition(object_ptr, camera_ptr))
 	{
 		return true;
 	}
-	if(RectangleImposition(object_ptr, field_ptr))
+	if (RectangleImposition(object_ptr, field_ptr))
 	{
 		return true;
 	}
-	if(BuildingsImposition(object_ptr))
+	if (BuildingsImposition(object_ptr))
 	{
 		return true;
 	}
-	if(RoadsImposition(object_ptr))
+	if (RoadsImposition(object_ptr))
 	{
 		return true;
 	}
-	if(VisitorsImposition(object_ptr))
+	if (VisitorsImposition(object_ptr))
 	{
 		return true;
 	}
@@ -433,10 +445,10 @@ void AllObjects::DisplayBuildings(Camera* camera_ptr, PlayingField* field_ptr) c
 		}
 	}
 }
-void AllObjects::VisitorAppear()
+void AllObjects::VisitorAppear(const PlayingField* field_ptr)
 {
-	int randomX = rand() % 5 + 1; //5 possible cells to appear
-	const int constY = 80; //80 is example, depends on entrance in a world map, but const
+	int randomX = rand() % 2 + 1; //2 possible cells to appear
+	int constY = field_ptr->GetUpperLeft().Get_y() + field_ptr->GetWidthAddition() + 3; // 3 pixels lower than playingfield's bottom y
 	PointCoord startVisitorPoint(randomX, constY);
 	if (LocationCheck(startVisitorPoint))
 	{
@@ -488,11 +500,11 @@ Construction* AllObjects::FindConstruction(PointCoord location) const
 	list<Building*>::const_iterator buildingIter;
 	for (buildingIter = buildings.begin(); buildingIter != buildings.end(); buildingIter++)
 	{
-		for(int yCoord = (*buildingIter)->GetUpperLeft().Get_y(); yCoord <= (*buildingIter)->GetUpperLeft().Get_y() + (*buildingIter)->GetHeightAddition(); yCoord++)
+		for (int yCoord = (*buildingIter)->GetUpperLeft().Get_y(); yCoord <= (*buildingIter)->GetUpperLeft().Get_y() + (*buildingIter)->GetHeightAddition(); yCoord++)
 		{
-			for(int xCoord = (*buildingIter)->GetUpperLeft().Get_x(); xCoord <= (*buildingIter)->GetUpperLeft().Get_x() + (*buildingIter)->GetWidthAddition(); xCoord++)
+			for (int xCoord = (*buildingIter)->GetUpperLeft().Get_x(); xCoord <= (*buildingIter)->GetUpperLeft().Get_x() + (*buildingIter)->GetWidthAddition(); xCoord++)
 			{
-				if(PointCoord(xCoord, yCoord) == location)
+				if (PointCoord(xCoord, yCoord) == location)
 				{
 					return (*buildingIter);
 				}
@@ -502,10 +514,10 @@ Construction* AllObjects::FindConstruction(PointCoord location) const
 	list<Road*>::const_iterator roadIter;
 	for (roadIter = roads.begin(); roadIter != roads.end(); roadIter++)
 	{
-		if((*roadIter)->GetUpperLeft() == location)
-				{
-					return (*roadIter);
-				}
+		if ((*roadIter)->GetUpperLeft() == location)
+		{
+			return (*roadIter);
+		}
 	}
 	return nullptr;
 }
