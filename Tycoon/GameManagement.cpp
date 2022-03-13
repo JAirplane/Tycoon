@@ -318,52 +318,120 @@ void GameManagement::ClearChosenElementAndInfoPanelRedraw()
 	infoPanel_ptr->EraseInfoPanelMessage();
 	infoPanel_ptr->DisplayInfoPanelMessage("Press 'i' to get to the InfoPanel");
 }
+void GameManagement::UserActionsCycle(chrono::milliseconds& lastLaunch)
+{
+	lastLaunch = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch());
+	if (_kbhit() != 0)
+	{
+		int key = _getch();
+		if (key == 0 || key == 224)
+		{
+			key = _getch();
+		}
+		//cout << key;
+		UserActions(key);
+	}
+	Direction shiftDirection = camera_ptr->CursorIsOnCameraBorder();
+	bool shifting = camera_ptr->IsShift(field_ptr, shiftDirection);
+	if (shiftDirection != Direction::None)
+	{
+		cursor_ptr->CursorShift(shiftDirection);
+		if (allObjects_ptr->GetPreliminaryElement() != nullptr)
+		{
+			allObjects_ptr->GetPreliminaryElement()->ShiftObject(shiftDirection);
+		}
+		if (shifting)
+		{
+			allObjects_ptr->EraseObjects(camera_ptr);
+			ErasePlayingField();
+			allObjects_ptr->ShiftBuildings(shiftDirection);
+			allObjects_ptr->ShiftRoads(shiftDirection);
+			allObjects_ptr->ShiftEntranceRoads(shiftDirection);
+			allObjects_ptr->ShiftVisitors(shiftDirection);
+			field_ptr->Shift(shiftDirection);
+			DisplayPlayingField();
+			DisplayAllObjects();
+		}
+		DrawCursor();
+	}
+}
+void GameManagement::VisitorCreationCycle(chrono::milliseconds& lastLaunch)
+{
+	lastLaunch = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch());
+	switch (menu_ptr->GetGameStats()->parkLevel)
+	{
+	case 0:
+	{
+		if (menu_ptr->GetGameStats()->visitorsCounter < 8)
+		{
+			menu_ptr->CreateVisitor(field_ptr, allObjects_ptr);
+		}
+		return;
+	}
+	case 1:
+	{
+		if (menu_ptr->GetGameStats()->visitorsCounter < 16)
+		{
+			menu_ptr->CreateVisitor(field_ptr, allObjects_ptr);
+		}
+		return;
+	}
+	case 2:
+	{
+		if (menu_ptr->GetGameStats()->visitorsCounter < 24)
+		{
+			menu_ptr->CreateVisitor(field_ptr, allObjects_ptr);
+		}
+		return;
+	}
+	case 3:
+	{
+		if (menu_ptr->GetGameStats()->visitorsCounter < 32)
+		{
+			menu_ptr->CreateVisitor(field_ptr, allObjects_ptr);
+		}
+		return;
+	}
+	case 4:
+	{
+		if (menu_ptr->GetGameStats()->visitorsCounter < 40)
+		{
+			menu_ptr->CreateVisitor(field_ptr, allObjects_ptr);
+		}
+		return;
+	}
+	case 5:
+	{
+		if (menu_ptr->GetGameStats()->visitorsCounter < 48)
+		{
+			menu_ptr->CreateVisitor(field_ptr, allObjects_ptr);
+		}
+		return;
+	}
+	default: {throw MyException("GameManagement::VisitorCreationCycle(chrono::milliseconds& lastLaunch, chrono::milliseconds& visitorCreationDelay) bad park level"); }
+	}
+}
 void GameManagement::GameProcess()
 {
+	srand(static_cast<unsigned int>(time(0)));
 	char ch = 'a';
-	const int userActionDelay = 16;
-	chrono::milliseconds userActionStartTime = chrono::milliseconds(0);
-	chrono::milliseconds cycleEndTime = chrono::milliseconds(17);
+	chrono::milliseconds userActionDelay = chrono::milliseconds(16);
+	chrono::milliseconds userActionsLastLaunch = chrono::milliseconds(0);
+	chrono::milliseconds visitorCreationDelay = chrono::milliseconds((rand() % 3 + 1) * 1000);
+	chrono::milliseconds visitorCreationLastLaunch = chrono::milliseconds(0);
+	chrono::milliseconds allCycleLastEnding = chrono::milliseconds(17);
 	while (true)
 	{
 		try
 		{
-			if (cycleEndTime - userActionStartTime > chrono::milliseconds(16))
+			if (allCycleLastEnding - userActionsLastLaunch > userActionDelay)
 			{
-				userActionStartTime = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch());
-				if (_kbhit() != 0)
-				{
-					int key = _getch();
-					if (key == 0 || key == 224)
-					{
-						key = _getch();
-					}
-					//cout << key;
-					UserActions(key);
-				}
-				Direction shiftDirection = camera_ptr->CursorIsOnCameraBorder();
-				bool shifting = camera_ptr->IsShift(field_ptr, shiftDirection);
-				if (shiftDirection != Direction::None)
-				{
-					cursor_ptr->CursorShift(shiftDirection);
-					if (allObjects_ptr->GetPreliminaryElement() != nullptr)
-					{
-						allObjects_ptr->GetPreliminaryElement()->ShiftObject(shiftDirection);
-					}
-					if (shifting)
-					{
-						allObjects_ptr->EraseObjects(camera_ptr);
-						ErasePlayingField();
-						allObjects_ptr->ShiftBuildings(shiftDirection);
-						allObjects_ptr->ShiftRoads(shiftDirection);
-						allObjects_ptr->ShiftEntranceRoads(shiftDirection);
-						allObjects_ptr->ShiftVisitors(shiftDirection);
-						field_ptr->Shift(shiftDirection);
-						DisplayPlayingField();
-						DisplayAllObjects();
-					}
-					DrawCursor();
-				}
+				UserActionsCycle(userActionsLastLaunch);
+			}
+			if (allCycleLastEnding - visitorCreationLastLaunch > visitorCreationDelay)
+			{
+				visitorCreationDelay = chrono::milliseconds((rand() % 3 + 1) * 1000);
+				VisitorCreationCycle(visitorCreationLastLaunch);
 			}
 		}
 		catch(MyException& somethingOccured)
@@ -376,7 +444,7 @@ void GameManagement::GameProcess()
 			logFile.open("Logs.txt", ios_base::out | ios_base::app );
 			logFile << standardException.what() << endl;
 		}
-		cycleEndTime = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch());
+		allCycleLastEnding = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch());
 	}
 }
 void GameManagement::H_Key()
@@ -625,6 +693,7 @@ void GameManagement::EnterKey_Camera()
 				menu_ptr->GetGameStats()->DrawContent();
 				MenuElement* elementOfPreliminary = menu_ptr->GetMenuElement(preliminary_ptr->GetDescriptor()->GetMenuElementLocation().Get_y());
 				Construction* realObject_ptr = elementOfPreliminary->GetManager()->CreateConstruction(cursor_ptr->GetCursorConsoleLocation(), draw_ptr, allObjects_ptr);
+				menu_ptr->ParkLevelCheck(allObjects_ptr);
 				int mask = realObject_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
 				realObject_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), nullptr, camera_ptr);
 				realObject_ptr->Connected(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);

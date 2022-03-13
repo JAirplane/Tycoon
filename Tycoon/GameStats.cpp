@@ -29,6 +29,21 @@ void GameStats::SetAmountOfMoney(int amount)
 		moneyAmount = amount;
 	}
 }
+int GameStats::GetCurrentParkLevel() const
+{
+	return currentParkLevel;
+}
+void GameStats::SetCurrentParkLevel(int lvl)
+{
+	if (lvl > 5)
+	{
+		currentParkLevel = 5;
+	}
+	else
+	{
+		currentParkLevel = lvl;
+	}
+}
 void GameStats::DrawContent()
 {
 	string moneyMsg = "Money amount: ";

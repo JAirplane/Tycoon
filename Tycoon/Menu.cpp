@@ -407,7 +407,35 @@ Visitor* Menu::CreateVisitor(const PlayingField* field_ptr, AllObjects* containe
 		throw MyException("Menu::CreateVisitor(const PlayingField* field_ptr, AllObjects* container_ptr) const container_ptr is nullptr");
 	}
 	int randomX = rand() % 2; //2 possible cells to appear
-	int constY = field_ptr->GetUpperLeft().Get_y() + field_ptr->GetWidthAddition() + 3; // 3 pixels lower than playingfield's bottom y
+	int constY = field_ptr->GetUpperLeft().Get_y() + field_ptr->GetWidthAddition() + 3; // 3 pixels lower than playingfield's bottom yCoord
 	PointCoord startVisitorPoint(field_ptr->GetHalfXAxis() + randomX, constY);
 	Visitor* newVisitor = visitorsCreator_ptr->CreateVisitor(startVisitorPoint, GetDrawPointer(), container_ptr);
+}
+void Menu::ParkLevelCheck(const AllObjects* container_ptr)
+{
+	int buildingsQuantity = static_cast<int>(container_ptr->GetAllBuildings().size());
+	if (buildingsQuantity <= 5)
+	{
+		gameStats_ptr->parkLevel = 0;
+	}
+	else if (buildingsQuantity > 5 && buildingsQuantity <= 10)
+	{
+		gameStats_ptr->parkLevel = 1;
+	}
+	else if (buildingsQuantity > 10 && buildingsQuantity <= 15)
+	{
+		gameStats_ptr->parkLevel = 2;
+	}
+	else if (buildingsQuantity > 15 && buildingsQuantity <= 20)
+	{
+		gameStats_ptr->parkLevel = 3;
+	}
+	else if (buildingsQuantity > 20 && buildingsQuantity <= 25)
+	{
+		gameStats_ptr->parkLevel = 4;
+	}
+	else
+	{
+		gameStats_ptr->parkLevel = 5;
+	}
 }

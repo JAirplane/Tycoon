@@ -161,6 +161,5 @@ public:
 	void VisitorMove(PointCoord destination);
 	void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const override;
 	void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
-	//GlobalObject* CreateObject(PointCoord _point) override;
 };
 /////////////End of Constructions Classes/////////////

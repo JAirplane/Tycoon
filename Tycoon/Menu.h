@@ -59,4 +59,5 @@ public:
 	Visitor* CreateVisitor(const PlayingField* field_ptr, AllObjects* container_ptr) const;
 	void MenuElementRedrawBorder(int elementTopY, color newColor);
 	MenuElement* MenuNavigation(MenuElement* currentElement, IconsPosition upperOrLower);
+	void ParkLevelCheck(const AllObjects* container_ptr);
 };

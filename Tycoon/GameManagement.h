@@ -74,6 +74,9 @@ public:
 	//
 	void ErasePreliminaryElementAndMenuRedraw();
 	void ClearChosenElementAndInfoPanelRedraw();
+	//
+	void UserActionsCycle(chrono::milliseconds& lastLaunch);
+	void VisitorCreationCycle(chrono::milliseconds& lastLaunch);
 	void GameProcess();
 	//
 	void H_Key();
