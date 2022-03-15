@@ -85,6 +85,11 @@ void Construction::RedrawNeibours(PointCoord centralPoint, const list<Road*>& al
 		}
 	}
 }
+void Construction::DrawObject(const wstring drawingSymbol) const
+{
+	GetPainter()->DrawConstruction(GetUpperLeft().Get_x(), GetUpperLeft().Get_y(), GetUpperLeft().Get_x() + GetWidthAddition(), GetUpperLeft().Get_y() + GetHeightAddition(),
+		drawingSymbol, GetDescriptor()->GetForegroundColor(), GetBackgroundColor());
+}
 int Construction::GetVisitorsCount() const
 {
 	return visitorsCount;
@@ -584,8 +589,7 @@ void Road::DrawObject(int mask, int cameraLeftX, int cameraTopY, int cameraRight
 }
 void Road::DrawObject(const wstring drawingSymbol) const
 {
-	GetPainter()->DrawConstruction(GetUpperLeft().Get_x(), GetUpperLeft().Get_y(), GetUpperLeft().Get_x() + GetWidthAddition(), GetUpperLeft().Get_y() + GetHeightAddition(),
-		drawingSymbol, GetDescriptor()->GetForegroundColor(), GetBackgroundColor());
+	this->Construction::DrawObject(drawingSymbol);
 }
 void Road::EraseObject(int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY) const
 {
@@ -632,6 +636,30 @@ VisitorDescriptor* Visitor::GetDescriptor() const
 {
 	return description_ptr;
 }
+int Visitor::GetFoorCapacity() const
+{
+	return foodCapacity;
+}
+void Visitor::SetFoodCapacity(int foodCapacity)
+{
+	this->foodCapacity = foodCapacity;
+}
+int Visitor::GetNeedToPee() const
+{
+	return needToPee;
+}
+void Visitor::SetNeedToPee(int newNeed)
+{
+	needToPee = newNeed;
+}
+MovementStatus Visitor::GetMovementPurpose() const
+{
+	return CurrentPurpose;
+}
+void Visitor::SetMovementPurpose(MovementStatus newPurpose)
+{
+	CurrentPurpose = newPurpose;
+}
 void Visitor::VisitorMove(PointCoord destination)
 {
 	SetUpperLeft(destination);
@@ -643,4 +671,8 @@ void Visitor::DrawObject(int mask, int cameraLeftX, int cameraTopY, int cameraRi
 void Visitor::EraseObject(int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY) const
 {
 	GetPainter()->ErasePixel(GetUpperLeft().Get_x(), GetUpperLeft().Get_y());
+}
+void Visitor::MakeAStep(Construction* destinationRoadTile)
+{
+	this->SetUpperLeft(destinationRoadTile->GetUpperLeft());
 }

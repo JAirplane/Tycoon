@@ -80,5 +80,11 @@ public:
 	void DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr);
 	void DisplayParkEntrance(const Camera* camera_ptr);
 	Construction* FindConstruction(PointCoord location) const; //checks if location is on road or building
+	Construction* FindOutOfPlayingFieldConstruction(PointCoord location) const;
 	void DeleteConstruction(Construction* forDeleting, function<bool(Construction*)> IsEqual);
+	void DeleteVisitor(Visitor* forDeleting, function<bool(Visitor*)> IsEqual);
+	//
+	void MoveInOneStep(Visitor* person, const Camera* camera_ptr);
+	void MoveOutOneStep(Visitor* person, Construction* visitorLocationRoad, const Camera* camera_ptr, const PlayingField* field_ptr);
+	void AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr);
 };

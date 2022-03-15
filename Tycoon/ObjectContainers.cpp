@@ -533,8 +533,151 @@ Construction* AllObjects::FindConstruction(PointCoord location) const
 	}
 	return nullptr;
 }
+Construction* AllObjects::FindOutOfPlayingFieldConstruction(PointCoord location) const
+{
+	for (auto construction : outOfPlayingFieldEntrance)
+	{
+		if (construction->GetUpperLeft() == location)
+		{
+			return construction;
+		}
+	}
+	return nullptr;
+}
 void AllObjects::DeleteConstruction(Construction* forDeleting, function<bool(Construction*)> IsEqual)
 {
 	buildings.remove_if(IsEqual);
 	roads.remove_if(IsEqual);
+}
+void AllObjects::DeleteVisitor(Visitor* forDeleting, function<bool(Visitor*)> IsEqual)
+{
+	visitors.remove_if(IsEqual);
+}
+void AllObjects::MoveInOneStep(Visitor* person, const Camera* camera_ptr)
+{
+	Construction* visitorLocationRoad = FindOutOfPlayingFieldConstruction(person->GetUpperLeft());
+	if (visitorLocationRoad == nullptr)
+	{
+		throw MyException("AllObjects::MoveInOneStep(Visitor* person) road not found (nullptr) or person bad position");
+	}
+	else
+	{
+		if (!RectangleImposition(visitorLocationRoad, camera_ptr))
+		{
+			visitorLocationRoad->DrawObject(wstring(L"\u2551"));
+		}
+		Construction* destinationRoad = FindOutOfPlayingFieldConstruction(PointCoord(person->GetUpperLeft().Get_x(), person->GetUpperLeft().Get_y() - 1));
+		if (destinationRoad == nullptr) 
+		{
+			destinationRoad = FindConstruction(PointCoord(person->GetUpperLeft().Get_x(), person->GetUpperLeft().Get_y() - 1));
+			if (destinationRoad == nullptr)
+			{
+				throw MyException("AllObjects::AllVisitorsStep() road not found (nullptr) or person bad position");
+			}
+			person->SetMovementPurpose(MovementStatus::WalkInThePark);
+		}
+		person->MakeAStep(destinationRoad);
+		if (!RectangleImposition(person, camera_ptr))
+		{
+			person->DrawObject();
+		}
+	}
+}
+void AllObjects::MoveOutOneStep(Visitor* person, Construction* visitorLocationRoad, const Camera* camera_ptr, const PlayingField* field_ptr)
+{
+	if (visitorLocationRoad == nullptr)
+	{
+		throw MyException("AllObjects::MoveOutOneStep(Visitor* person, Construction* visitorLocationRoad, const Camera* camera_ptr) road is nullptr");
+	}
+	if (person == nullptr)
+	{
+		throw MyException("AllObjects::MoveOutOneStep(Visitor* person, Construction* visitorLocationRoad, const Camera* camera_ptr) person is nullptr");
+	}
+	Construction* destinationRoad = FindOutOfPlayingFieldConstruction(PointCoord(person->GetUpperLeft().Get_x(), person->GetUpperLeft().Get_y() + 1));
+	if (destinationRoad == nullptr)
+	{
+		function<bool(Visitor*)> IsEqual = [person](Visitor* everyVisitor)
+		{
+			return (person == everyVisitor);
+		};
+		DeleteVisitor(person, IsEqual);
+		if (!RectangleImposition(visitorLocationRoad, camera_ptr))
+		{
+			visitorLocationRoad->DrawObject(wstring(L"\u2551"));
+		}
+		return;
+	}
+	else
+	{
+		if (!RectangleImposition(visitorLocationRoad, camera_ptr))
+		{
+			if (RectangleImposition(visitorLocationRoad, field_ptr))
+			{
+				int mask = visitorLocationRoad->GetEnvironmentMask(roads, buildings, preliminaryConstruction_ptr);
+				visitorLocationRoad->DrawObject(mask);
+			}
+			else
+			{
+				visitorLocationRoad->DrawObject(wstring(L"\u2551"));
+			}
+		}
+		person->MakeAStep(destinationRoad);
+		if (!RectangleImposition(person, camera_ptr))
+		{
+			person->DrawObject();
+		}
+	}
+}
+void AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr)
+{
+	if (camera_ptr == nullptr)
+	{
+		throw MyException("AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) camera is nullptr");
+	}
+	if (field_ptr == nullptr)
+	{
+		throw MyException("AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) playingfield is nullptr");
+	}
+	for (auto visitor : visitors)
+	{
+		if (visitor->GetMovementPurpose() == MovementStatus::MovingIn)
+		{
+			MoveInOneStep(visitor, camera_ptr);
+		}
+		else if (visitor->GetMovementPurpose() == MovementStatus::WalkInThePark)
+		{
+			//TODO
+		}
+		else if (visitor->GetMovementPurpose() == MovementStatus::MovingOut)
+		{
+			Construction* visitorLocationRoad = FindOutOfPlayingFieldConstruction(visitor->GetUpperLeft());
+			if (visitorLocationRoad == nullptr)
+			{
+				visitorLocationRoad = FindConstruction(visitor->GetUpperLeft());
+				if (visitorLocationRoad == nullptr)
+				{
+					throw MyException("AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) road not found (nullptr) or person bad position");
+				}
+				else
+				{
+					if (dynamic_cast<UnbreakableRoad*>(visitorLocationRoad))
+					{
+						MoveOutOneStep(visitor, visitorLocationRoad, camera_ptr, field_ptr);
+					}
+					else
+					{
+						//TODO
+					}
+				}
+			}
+			else
+			{
+				MoveOutOneStep(visitor, visitorLocationRoad, camera_ptr, field_ptr);
+			}
+		}
+		else
+		{
+			throw MyException("AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) unknown visitor MovementStatus");
+		}
+	}
 }

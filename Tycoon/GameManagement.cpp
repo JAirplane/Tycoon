@@ -411,6 +411,11 @@ void GameManagement::VisitorCreationCycle(chrono::milliseconds& lastLaunch)
 	default: {throw MyException("GameManagement::VisitorCreationCycle(chrono::milliseconds& lastLaunch, chrono::milliseconds& visitorCreationDelay) bad park level"); }
 	}
 }
+void GameManagement::VisitorStepCycle(chrono::milliseconds& lastLaunch)
+{
+	lastLaunch = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch());
+	allObjects_ptr->AllVisitorsStep(camera_ptr, field_ptr);
+}
 void GameManagement::GameProcess()
 {
 	srand(static_cast<unsigned int>(time(0)));
@@ -419,6 +424,8 @@ void GameManagement::GameProcess()
 	chrono::milliseconds userActionsLastLaunch = chrono::milliseconds(0);
 	chrono::milliseconds visitorCreationDelay = chrono::milliseconds((rand() % 3 + 1) * 1000);
 	chrono::milliseconds visitorCreationLastLaunch = chrono::milliseconds(0);
+	chrono::milliseconds visitorsStepDelay = chrono::milliseconds(5000);
+	chrono::milliseconds visitorsStepLastLaunch = chrono::milliseconds(0);
 	chrono::milliseconds allCycleLastEnding = chrono::milliseconds(17);
 	while (true)
 	{
@@ -432,6 +439,10 @@ void GameManagement::GameProcess()
 			{
 				visitorCreationDelay = chrono::milliseconds((rand() % 3 + 1) * 1000);
 				VisitorCreationCycle(visitorCreationLastLaunch);
+			}
+			if (allCycleLastEnding - visitorsStepLastLaunch > visitorsStepDelay)
+			{
+				VisitorStepCycle(visitorsStepLastLaunch);
 			}
 		}
 		catch(MyException& somethingOccured)

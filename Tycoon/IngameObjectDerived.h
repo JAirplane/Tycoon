@@ -46,7 +46,8 @@ public:
 	virtual int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
 	virtual void IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
 	virtual void Connected(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
-	void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const = 0;
+	virtual void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const = 0;
+	virtual void DrawObject(const wstring drawingSymbol) const;
 	void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const = 0;
 	virtual void RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr, const Camera* camera_ptr) = 0;
 	static void RedrawNeibours(PointCoord centralPoint, const list<Road*>& allRoads, const list<Building*>& allBuildings,
@@ -127,7 +128,7 @@ public:
 	void DefineGraphStatus(int mask); // use NeibourRoadMask here!
 	void RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr, const Camera* camera_ptr) override;
 	void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const override;
-	void DrawObject(const wstring drawingSymbol) const;
+	void DrawObject(const wstring drawingSymbol) const override;
 	void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
 	virtual bool IsBreakable() const;
 };
@@ -135,7 +136,7 @@ class UnbreakableRoad : public Road
 {
 public:
 	UnbreakableRoad(PointCoord upperLeft, ConstructionDescriptor* manager_ptr, Visualisation* paint_ptr) : Road(upperLeft, manager_ptr, paint_ptr)
-		{}
+	{}
 	~UnbreakableRoad() {}
 	bool IsBreakable() const override;
 	void SetRoadConnectionStatus(bool connected) override;
@@ -148,18 +149,29 @@ private:
 	VisitorDescriptor* description_ptr;
 	int foodCapacity;
 	int needToPee;
+	MovementStatus CurrentPurpose;
 public:
 	Visitor(PointCoord upperLeft, Visualisation* paint_ptr, VisitorDescriptor* describe_ptr) : IngameObject(upperLeft, paint_ptr)
 	{
 		description_ptr = describe_ptr;
 		foodCapacity = 100;
 		needToPee = 100;
+		CurrentPurpose = MovementStatus::MovingIn;
 	}
 	~Visitor()
 	{}
 	VisitorDescriptor* GetDescriptor() const;
+	int GetFoorCapacity() const;
+	void SetFoodCapacity(int foodCapacity);
+	int GetNeedToPee() const;
+	void SetNeedToPee(int newNeed);
+	MovementStatus GetMovementPurpose() const;
+	void SetMovementPurpose(MovementStatus newPurpose);
+	__declspec(property(get = GetFoorCapacity, put = SetFoodCapacity)) int starvation;
+	__declspec(property(get = GetNeedToPee, put = SetNeedToPee)) int toiletNeed;
 	void VisitorMove(PointCoord destination);
 	void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const override;
 	void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
+	void MakeAStep(Construction* destinationRoadTile);
 };
 /////////////End of Constructions Classes/////////////

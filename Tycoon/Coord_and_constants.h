@@ -34,12 +34,20 @@ enum class InfoPanelContentType
 	Controls,
 	SystemMessagesAndConstructionInfo,
 };
+/////////////Interface zones/////////////
 enum class CursorLocation
 {
 	Unknown,
 	Camera,
 	Menu,
 	InfoPanel,
+};
+/////////////Visitor Movement Status/////////////
+enum class MovementStatus
+{
+	MovingIn,
+	WalkInThePark,
+	MovingOut,
 };
 ///////////////All Possible Types of Mask///////////////
 const int none = int(roadMask::NONE);

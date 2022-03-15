@@ -4,3 +4,13 @@ GameManagement::Arrows_Menu() incorrect direction.
 GameManagement::Arrows_Menu() incorrect direction.
 GameManagement::Arrows_Menu() incorrect direction.
 GameManagement::Arrows_Menu() incorrect direction.
+AllObjects::MoveInOneStep(Visitor* person) road not found (nullptr) or person bad position
+AllObjects::MoveInOneStep(Visitor* person) road not found (nullptr) or person bad position
+AllObjects::MoveInOneStep(Visitor* person) road not found (nullptr) or person bad position
+AllObjects::MoveInOneStep(Visitor* person) road not found (nullptr) or person bad position
+AllObjects::MoveInOneStep(Visitor* person) road not found (nullptr) or person bad position
+AllObjects::MoveInOneStep(Visitor* person) road not found (nullptr) or person bad position
+AllObjects::MoveInOneStep(Visitor* person) road not found (nullptr) or person bad position
+AllObjects::MoveInOneStep(Visitor* person) road not found (nullptr) or person bad position
+AllObjects::MoveInOneStep(Visitor* person) road not found (nullptr) or person bad position
+AllObjects::MoveInOneStep(Visitor* person) road not found (nullptr) or person bad position
