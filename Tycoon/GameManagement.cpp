@@ -9,6 +9,10 @@ void GameManagement::CreateDrawPointer()
 {
 	draw_ptr = new Visualisation();
 }
+void GameManagement::CreateRoadGraph()
+{
+	graph_ptr = new RoadGraph();
+}
 void GameManagement::CreateAllObjects()
 {
 	allObjects_ptr = new AllObjects(cursor_ptr, draw_ptr);
@@ -19,6 +23,10 @@ void GameManagement::CreateAllObjects()
 			allObjects_ptr->CreateParkEntrance(field_ptr, menuItem->GetManager()->GetDescriptor(), draw_ptr);
 			return;
 		}
+	}
+	for (auto road : allObjects_ptr->GetAllRoads())
+	{
+		graph_ptr->AddRootNode(road);
 	}
 	throw MyException("GameManagement::CreateAllObjects() failed to find RoadManager* from menu elements");
 }
@@ -358,6 +366,10 @@ void GameManagement::UserActionsCycle(chrono::milliseconds& lastLaunch)
 void GameManagement::VisitorCreationCycle(chrono::milliseconds& lastLaunch)
 {
 	lastLaunch = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch());
+	if (allObjects_ptr->GetAllBuildings().empty())
+	{
+		return;
+	}
 	switch (menu_ptr->GetGameStats()->parkLevel)
 	{
 	case 0:
@@ -422,7 +434,7 @@ void GameManagement::GameProcess()
 	char ch = 'a';
 	chrono::milliseconds userActionDelay = chrono::milliseconds(16);
 	chrono::milliseconds userActionsLastLaunch = chrono::milliseconds(0);
-	chrono::milliseconds visitorCreationDelay = chrono::milliseconds((rand() % 3 + 1) * 1000);
+	chrono::milliseconds visitorCreationDelay = chrono::milliseconds((rand() % 8 + 1) * 1000);
 	chrono::milliseconds visitorCreationLastLaunch = chrono::milliseconds(0);
 	chrono::milliseconds visitorsStepDelay = chrono::milliseconds(5000);
 	chrono::milliseconds visitorsStepLastLaunch = chrono::milliseconds(0);
@@ -709,6 +721,10 @@ void GameManagement::EnterKey_Camera()
 				realObject_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), nullptr, camera_ptr);
 				realObject_ptr->Connected(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
 				realObject_ptr->IsGraph(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
+				if (realObject_ptr->GetGraphStatus())
+				{
+					graph_ptr->AddRootNode(dynamic_cast<const Road*>(realObject_ptr));
+				}
 				realObject_ptr->DrawObject(mask, camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(),
 					camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(), camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
 				cursor_ptr->CursorMovement(PointCoord(realObject_ptr->GetUpperLeft().Get_x() + realObject_ptr->GetWidthAddition() + 1,

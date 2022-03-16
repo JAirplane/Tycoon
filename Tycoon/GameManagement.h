@@ -7,6 +7,7 @@ class GameManagement: public MessageSubjectInterface, public ConstructionInfoSub
 private:
 	Cursor* cursor_ptr;
 	Visualisation* draw_ptr;
+	RoadGraph* graph_ptr;
 	AllObjects* allObjects_ptr;
 	Camera* camera_ptr;
 	PlayingField* field_ptr;
@@ -20,6 +21,7 @@ public:
 	{
 		cursor_ptr = nullptr;
 		draw_ptr = nullptr;
+		graph_ptr = nullptr;
 		allObjects_ptr = nullptr;
 		camera_ptr = nullptr;
 		field_ptr = nullptr;
@@ -29,16 +31,18 @@ public:
 	~GameManagement()
 	{
 		delete cursor_ptr;
-		delete camera_ptr;
 		delete draw_ptr;
+		delete graph_ptr;
 		delete allObjects_ptr;
-		delete menu_ptr;
+		delete camera_ptr;
 		delete field_ptr;
+		delete menu_ptr;
 		delete infoPanel_ptr;
 	}
 	// create game elements
 	virtual void CreateCursor();
 	virtual void CreateDrawPointer();
+	virtual void CreateRoadGraph();
 	virtual void CreateAllObjects();
 	virtual void CreateCamera();
 	virtual void CreatePlayingField();

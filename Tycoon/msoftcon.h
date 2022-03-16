@@ -6,6 +6,7 @@
 #define _INC_WCONSOLE    //twice in the same source file
 
 #include <windows.h>     //for Windows console functions
+#undef max
 #include <conio.h>       //for kbhit(), getche()
 #include <math.h>        //for sin, cos
 

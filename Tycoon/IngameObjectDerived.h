@@ -39,6 +39,7 @@ public:
 	void SetChosenStatus(bool chosen);
 	virtual int GetProfit() const = 0;
 	virtual int GetVisitorsCount() const;
+	virtual bool GetGraphStatus() const;
 	//
 	color GetBackgroundColor() const;
 	virtual int RotateConstruction() = 0;
@@ -113,7 +114,7 @@ public:
 	int GetEntranceWidthAdd() const override;
 	Direction GetExitDirection() const override;
 	int RotateConstruction() override;
-	bool GetGraphStatus() const;
+	bool GetGraphStatus() const override;
 	void SetGraphStatus(bool status);
 	int GetProfit() const;
 	bool RoadIsAnEntrance(const list<Building*>& allBuildings);
@@ -139,6 +140,7 @@ public:
 	{}
 	~UnbreakableRoad() {}
 	bool IsBreakable() const override;
+	void IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
 	void SetRoadConnectionStatus(bool connected) override;
 	int GetMaskPartRealRoads(const list<Road*>& allRoads) const override;
 };
@@ -147,6 +149,8 @@ class Visitor : public IngameObject
 {
 private:
 	VisitorDescriptor* description_ptr;
+	Road* destination_ptr;
+	Road* lastVisitedGraph_ptr;
 	int foodCapacity;
 	int needToPee;
 	MovementStatus CurrentPurpose;
@@ -154,6 +158,8 @@ public:
 	Visitor(PointCoord upperLeft, Visualisation* paint_ptr, VisitorDescriptor* describe_ptr) : IngameObject(upperLeft, paint_ptr)
 	{
 		description_ptr = describe_ptr;
+		destination_ptr = nullptr;
+		lastVisitedGraph_ptr = nullptr;
 		foodCapacity = 100;
 		needToPee = 100;
 		CurrentPurpose = MovementStatus::MovingIn;
@@ -161,6 +167,10 @@ public:
 	~Visitor()
 	{}
 	VisitorDescriptor* GetDescriptor() const;
+	const Road* GetDestination() const;
+	void SetDestination(Road* pathClue);
+	const Road* GetLastVisitedGraph() const;
+	void SetLastVisitedGraph(Road* lastNode);
 	int GetFoorCapacity() const;
 	void SetFoodCapacity(int foodCapacity);
 	int GetNeedToPee() const;

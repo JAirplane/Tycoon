@@ -410,6 +410,9 @@ Visitor* Menu::CreateVisitor(const PlayingField* field_ptr, AllObjects* containe
 	int constY = field_ptr->GetUpperLeft().Get_y() + field_ptr->GetHeightAddition() + 3; // 3 pixels lower than playingfield's bottom yCoord
 	PointCoord startVisitorPoint(field_ptr->GetHalfXAxis() + randomX, constY);
 	Visitor* newVisitor = visitorsCreator_ptr->CreateVisitor(startVisitorPoint, GetDrawPointer(), container_ptr);
+	++gameStats_ptr->visitorsCounter;
+	gameStats_ptr->ClearContent();
+	gameStats_ptr->DrawContent();
 	return newVisitor;
 }
 void Menu::ParkLevelCheck(const AllObjects* container_ptr)

@@ -29,6 +29,7 @@ void AllObjects::CreateParkEntrance(const PlayingField* playingField_ptr, Constr
 		UnbreakableRoad* undestractableRoad_ptr = new UnbreakableRoad(PointCoord(playingField_ptr->GetHalfXAxis() + xAdd,
 			playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() - 1), descriptor_ptr, draw_ptr);
 		undestractableRoad_ptr->SetRoadConnectionStatus(true);
+		undestractableRoad_ptr->IsGraph(roads, buildings, preliminaryConstruction_ptr);
 		roads.push_back(undestractableRoad_ptr);
 	}
 }

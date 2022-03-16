@@ -27,6 +27,10 @@ wstring Construction::GetEntranceSymbol() const
 color Construction::GetBackgroundColor() const
 {
 	color background = cBLACK;
+	if (GetGraphStatus())
+	{
+		return cRED;
+	}
 	if (GetChosenStatus()) // GetChosenStatus() has an exception
 	{
 		background = GetDescriptor()->GetChosenBackgroundColor();
@@ -47,6 +51,10 @@ color Construction::GetBackgroundColor() const
 PointCoord Construction::GetPotentialConnectedRoadPoint() const
 {
 	return PointCoord(0, 0);
+}
+bool Construction::GetGraphStatus() const
+{
+	return false;
 }
 void Construction::RedrawNeibours(PointCoord centralPoint, const list<Road*>& allRoads, const list<Building*>& allBuildings,
 	const Construction* preliminary_ptr, const Camera* camera_ptr)
@@ -604,6 +612,10 @@ bool UnbreakableRoad::IsBreakable() const
 {
 	return false;
 }
+void UnbreakableRoad::IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
+{
+	Road::SetGraphStatus(true);
+}
 void UnbreakableRoad::SetRoadConnectionStatus(bool connected)
 {
 	Construction::SetRoadConnectionStatus(true); //this roads are always connected
@@ -635,6 +647,22 @@ int UnbreakableRoad::GetMaskPartRealRoads(const list<Road*>& allRoads) const
 VisitorDescriptor* Visitor::GetDescriptor() const
 {
 	return description_ptr;
+}
+const Road* Visitor::GetDestination() const
+{
+	return destination_ptr;
+}
+void Visitor::SetDestination(Road* pathClue)
+{
+	destination_ptr = pathClue;
+}
+const Road* Visitor::GetLastVisitedGraph() const
+{
+	return lastVisitedGraph_ptr;
+}
+void Visitor::SetLastVisitedGraph(Road* lastNode)
+{
+	lastVisitedGraph_ptr = lastNode;
 }
 int Visitor::GetFoorCapacity() const
 {

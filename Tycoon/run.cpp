@@ -1,6 +1,5 @@
 #pragma once
 #include <iostream>
-#include <windows.h>
 #include "msoftcon.h"
 #include "drawheader.h"
 #include "GameManagement.h"
@@ -12,6 +11,7 @@ int main()
 	{
 		GameMaster.CreateCursor();
 		GameMaster.CreateDrawPointer();
+		GameMaster.CreateRoadGraph();
 		GameMaster.CreateCamera();
 		GameMaster.CreatePlayingField();
 		GameMaster.CreateMenuAndElements();

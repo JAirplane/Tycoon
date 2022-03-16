@@ -97,6 +97,7 @@ public:
 	void SetCoord(int x, int y);
 	void SetCoord(PointCoord point);
 	bool operator == (PointCoord point);
+	bool operator != (PointCoord point);
 };
 class NumberOfDigits
 {

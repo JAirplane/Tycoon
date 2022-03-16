@@ -22,6 +22,10 @@ bool PointCoord::operator == (PointCoord point)
 {
 	return (xCoord == point.xCoord && yCoord == point.yCoord);
 }
+bool PointCoord::operator != (PointCoord point)
+{
+	return (xCoord != point.xCoord || yCoord != point.yCoord);
+}
 //
 NumberOfDigits* NumberOfDigits::GetDigitsCounter()
 {

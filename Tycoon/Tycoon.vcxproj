@@ -208,6 +208,7 @@
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="RectangleBorder.cpp" />
     <ClCompile Include="RoadDescriptor.cpp" />
+    <ClCompile Include="RoadGraph.cpp" />
     <ClCompile Include="run.cpp" />
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Camera.cpp" />
