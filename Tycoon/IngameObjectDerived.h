@@ -1,9 +1,10 @@
 #pragma once
 #include "IngameObject.h"
-#include <list>
 /////////////Parent Class of Every Construction Type/////////////
 class Road;
 class Building;
+class GraphStatusSubjectInterface;
+class GraphStatusObserverInterface;
 class Construction : public IngameObject
 {
 private:
@@ -98,10 +99,12 @@ public:
 	void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
 };
 /////////////One Pixel of Road/////////////
-class Road : public Construction
+class Road : public Construction, public GraphStatusSubjectInterface
 {
 private:
 	bool graphStatus;
+	//
+	list<GraphStatusObserverInterface*> graphStatusObservers;
 public:
 	Road(PointCoord upperLeft, ConstructionDescriptor* manager_ptr, Visualisation* paint_ptr) : Construction(upperLeft, manager_ptr, paint_ptr)
 	{
@@ -110,6 +113,11 @@ public:
 		graphStatus = false;
 	}
 	~Road() {}
+	//
+	void GraphStatusAttach(GraphStatusObserverInterface* observer) override;
+	void GraphStatusDetach(GraphStatusObserverInterface* observer) override;
+	void GraphStatusNotify(const list<Road*>& roads) override;
+	//
 	int GetEntranceHeightAdd() const override;
 	int GetEntranceWidthAdd() const override;
 	Direction GetExitDirection() const override;

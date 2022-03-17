@@ -152,6 +152,8 @@
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="drawheader.h" />
     <ClInclude Include="GameStats.h" />
+    <ClInclude Include="GraphStatusObserverInterface.h" />
+    <ClInclude Include="GraphStatusSubjectInterface.h" />
     <ClInclude Include="InfoPanel.h" />
     <ClInclude Include="IngameObject.h" />
     <ClInclude Include="IngameObjectDescriptor.h" />

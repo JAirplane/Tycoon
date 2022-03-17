@@ -314,6 +314,30 @@ void Building::EraseObject(int cameraLeftX, int cameraTopY, int cameraRightX, in
 	}
 }
 ///////////////Road Class: Construction derived///////////////
+void Road::GraphStatusAttach(GraphStatusObserverInterface* observer)
+{
+	if (observer == nullptr)
+	{
+		throw MyException("Road::GraphStatusAttach(GraphStatusObserverInterface* observer) received nullptr.");
+	}
+	graphStatusObservers.push_back(observer);
+}
+void Road::GraphStatusDetach(GraphStatusObserverInterface* observer)
+{
+	if (observer == nullptr)
+	{
+		throw MyException("Road::GraphStatusDetach(GraphStatusObserverInterface* observer) received nullptr.");
+	}
+	graphStatusObservers.remove(observer);
+}
+void Road::GraphStatusNotify(const list<Road*>& roads) //notifies if graphStatus changed, so it can be as true as false
+{
+	for (auto observer : graphStatusObservers)
+	{
+		observer->GraphStatusUpdate(this, roads);
+	}
+}
+//
 int Road::GetEntranceHeightAdd() const
 {
 	return 0;

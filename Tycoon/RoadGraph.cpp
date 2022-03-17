@@ -28,6 +28,17 @@ void SideNode::ResetPathCapacity()
 	empty.swap(pathFromRoot);
 }
 //Class RootNode : Node Derived
+SideNode* RootNode::GetSideNode(Direction sideNodeDirection)
+{
+	switch (sideNodeDirection)
+	{
+	case Direction::Left: {return leftVertex; }
+	case Direction::Up: {return topVertex; }
+	case Direction::Right: {return rightVertex; }
+	case Direction::Down: {return bottomVertex; }
+	default: {throw MyException("RootNode::GetSideNode(Direction sideNodeDirection) bad direction"); }
+	}
+}
 SideNode* RootNode::CreateSideNode(Direction side, const Road* vertex_ptr)
 {
 	if (vertex_ptr == nullptr)
@@ -54,7 +65,7 @@ void RootNode::DeleteSideNode(Direction side)
 	default: {throw MyException("RootNode::DeleteSideNode(Direction side) bad Direction."); }
 	}
 }
-void RootNode::DeleteSideNode(const Road* vertex_ptr)
+Direction RootNode::DeleteSideNode(const Road* vertex_ptr)
 {
 	if (vertex_ptr == nullptr)
 	{
@@ -64,25 +75,29 @@ void RootNode::DeleteSideNode(const Road* vertex_ptr)
 	{
 		delete leftVertex;
 		leftVertex = nullptr;
+		return Direction::Left;
 	}
 	else if (vertex_ptr->GetUpperLeft() == topVertex->GetVertex()->GetUpperLeft())
 	{
 		delete topVertex;
 		topVertex = nullptr;
+		return Direction::Up;
 	}
 	else if (vertex_ptr->GetUpperLeft() == rightVertex->GetVertex()->GetUpperLeft())
 	{
 		delete rightVertex;
 		rightVertex = nullptr;
+		return Direction::Right;
 	}
 	else if (vertex_ptr->GetUpperLeft() == bottomVertex->GetVertex()->GetUpperLeft())
 	{
 		delete bottomVertex;
 		bottomVertex = nullptr;
+		return Direction::Down;
 	}
 	else
 	{
-		throw MyException("RootNode::DeleteSideNode(Construction* vertex_ptr) deletion failed.");
+		return Direction::None;
 	}
 }
 PointCoord RootNode::GetFirstPathElementCoord(Direction pathDirection) const
@@ -116,14 +131,56 @@ bool RootNode::AddSideNode(const Road* pathElement, vector<const Road*>& path, i
 	}
 }
 //Class RoadGraph
-void RoadGraph::CreateRootNode(const Road* vertex_ptr)
+void RoadGraph::GraphStatusUpdate(Road* graphStatusChanged_ptr, const list<Road*>& roads)
 {
-	if (vertex_ptr == nullptr)
+	if (graphStatusChanged_ptr->GetGraphStatus())
 	{
-		throw MyException("RoadGraph::CreateRootNode(Construction* vertex_ptr) got nullptr Construction*.");
+		RootNode* newRoot_ptr = AddRootNode(graphStatusChanged_ptr);
+		FillAllPathes(newRoot_ptr, roads);
+		for (auto rootNode : graph)
+		{
+			if (rootNode->GetVertex() == newRoot_ptr->GetSideNode(Direction::Left)->GetVertex() && rootNode != newRoot_ptr)
+			{
+				FillPathToSideNode(rootNode, Direction::Right, roads);
+			}
+			if (rootNode->GetVertex() == newRoot_ptr->GetSideNode(Direction::Up)->GetVertex() && rootNode != newRoot_ptr)
+			{
+				FillPathToSideNode(rootNode, Direction::Down, roads);
+			}
+			if (rootNode->GetVertex() == newRoot_ptr->GetSideNode(Direction::Right)->GetVertex() && rootNode != newRoot_ptr)
+			{
+				FillPathToSideNode(rootNode, Direction::Left, roads);
+			}
+			if (rootNode->GetVertex() == newRoot_ptr->GetSideNode(Direction::Down)->GetVertex() && rootNode != newRoot_ptr)
+			{
+				FillPathToSideNode(rootNode, Direction::Up, roads);
+			}
+		}
 	}
+	else
+	{
+		int sideNodeDeletedCounter = 0;
+		for (auto rootNode : graph)
+		{
+			Direction deletedSideNode = rootNode->DeleteSideNode(graphStatusChanged_ptr);
+			if (deletedSideNode != Direction::None)
+			{
+				++sideNodeDeletedCounter;
+				FillPathToSideNode(rootNode, deletedSideNode, roads);
+			}
+			if (sideNodeDeletedCounter == 4)
+			{
+				break;
+			}
+		}
+		DeleteRootNode(graphStatusChanged_ptr);
+	}
+}
+RootNode* RoadGraph::CreateRootNode(const Road* vertex_ptr)
+{
 	RootNode* root_ptr = new RootNode(vertex_ptr);
 	graph.push_back(root_ptr);
+	return root_ptr;
 }
 void RoadGraph::DeleteRootNode(const Road* vertex_ptr)
 {
@@ -137,7 +194,7 @@ void RoadGraph::DeleteRootNode(const Road* vertex_ptr)
 	};
 	graph.remove_if(IsEqual);
 }
-void RoadGraph::AddRootNode(const Road* vertex_ptr)
+RootNode* RoadGraph::AddRootNode(const Road* vertex_ptr)
 {
 	if (vertex_ptr == nullptr)
 	{
@@ -154,13 +211,14 @@ void RoadGraph::AddRootNode(const Road* vertex_ptr)
 			throw MyException("RoadGraph::AddRootNode(Construction* vertex_ptr) addition of existing element.");
 		}
 	}
-	CreateRootNode(vertex_ptr);
+	RootNode* root_ptr = CreateRootNode(vertex_ptr);
+	return root_ptr;
 }
 const Road* RoadGraph::FindNextPathPoint(PointCoord leftPoint, PointCoord upperPoint, PointCoord rightPoint, PointCoord downPoint, PointCoord previousPathElement, const list<Road*>& roads)
 {
 	if (roads.empty())
 	{
-		throw MyException("RoadGraph::FillPathToSideNode(const RootNode* node_ptr, Direction pathDirection, const list<Road*>& roads) got empty road list.");
+		throw MyException("RoadGraph::FindNextPathPoint(PointCoord leftPoint, PointCoord upperPoint, PointCoord rightPoint, PointCoord downPoint, PointCoord previousPathElement, const list<Road*>& roads) got empty road list.");
 	}
 	for (auto roadElement : roads)
 	{
@@ -208,7 +266,7 @@ void RoadGraph::FillPathToSideNode(RootNode* node_ptr, Direction pathDirection, 
 	}
 	else
 	{
-		throw MyException("RoadGraph::FillPathToSideNode(const RootNode* node_ptr, Direction pathDirection, const list<Road*>& roads) path ends without side node.");
+		return; //means there is no path in this direction from rootNode
 	}
 	for (auto roadElement : roads)
 	{

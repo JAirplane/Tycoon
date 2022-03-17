@@ -115,7 +115,7 @@ void GameManagement::ChosenConstructionDetach(ConstructionInfoObserverInterface*
 }
 void GameManagement::ChosenConstructionNotify(Construction* choosenConstruction_ptr)
 {
-	if(choosenConstruction_ptr == nullptr)
+	if (choosenConstruction_ptr == nullptr)
 	{
 		throw MyException("GameManagement::ChosenConstructionNotify() received nullptr.");
 	}
@@ -123,10 +123,10 @@ void GameManagement::ChosenConstructionNotify(Construction* choosenConstruction_
 	{
 		choosenConstruction_ptr->SetChosenStatus(true);
 		list<ConstructionInfoObserverInterface*>::iterator observerIter = choosenConstructionObservers.begin();
-		while (observerIter != choosenConstructionObservers.end()) 
+		while (observerIter != choosenConstructionObservers.end())
 		{
-		  (*observerIter)->ChosenConstructionUpdate(choosenConstruction_ptr);
-		  ++observerIter;
+			(*observerIter)->ChosenConstructionUpdate(choosenConstruction_ptr);
+			++observerIter;
 		}
 	}
 }
@@ -141,17 +141,17 @@ void GameManagement::UserMessageDetach(MessageObserverInterface* observer)
 }
 void GameManagement::UserMessageNotify(const string message)
 {
-	if(message.empty())
+	if (message.empty())
 	{
 		throw MyException("GameManagement::UserMessageNotify() received empty message.");
 	}
 	else
 	{
 		list<MessageObserverInterface*>::iterator observerIter = userMessageObservers.begin();
-		while (observerIter != userMessageObservers.end()) 
+		while (observerIter != userMessageObservers.end())
 		{
-		  (*observerIter)->UserMessageUpdate(message);
-		  ++observerIter;
+			(*observerIter)->UserMessageUpdate(message);
+			++observerIter;
 		}
 	}
 }
@@ -457,14 +457,14 @@ void GameManagement::GameProcess()
 				VisitorStepCycle(visitorsStepLastLaunch);
 			}
 		}
-		catch(MyException& somethingOccured)
+		catch (MyException& somethingOccured)
 		{
 			somethingOccured.AddToLogFile();
 		}
-		catch(exception& standardException)
+		catch (exception& standardException)
 		{
 			ofstream logFile;
-			logFile.open("Logs.txt", ios_base::out | ios_base::app );
+			logFile.open("Logs.txt", ios_base::out | ios_base::app);
 			logFile << standardException.what() << endl;
 		}
 		allCycleLastEnding = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch());
@@ -476,23 +476,23 @@ void GameManagement::H_Key()
 	{
 		switch (GetCursorArea())
 		{
-			case CursorLocation::Camera: {break; }
-			case CursorLocation::Menu:
-			{
-				MenuElement* current_ptr = menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y());
-				current_ptr->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor());
-				break;
-			}
-			case CursorLocation::InfoPanel:
-			{
-				infoPanel_ptr->EndInteractionDisplayRule();
-				break;
-			}
-			default:
-			{
-				ReturnCursorToCamera();
-				break;
-			}
+		case CursorLocation::Camera: {break; }
+		case CursorLocation::Menu:
+		{
+			MenuElement* current_ptr = menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y());
+			current_ptr->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor());
+			break;
+		}
+		case CursorLocation::InfoPanel:
+		{
+			infoPanel_ptr->EndInteractionDisplayRule();
+			break;
+		}
+		default:
+		{
+			ReturnCursorToCamera();
+			break;
+		}
 		}
 		HideInterface();
 	}
@@ -540,11 +540,11 @@ void GameManagement::R_Key()
 		Construction* preliminary_ptr = allObjects_ptr->GetPreliminaryElement();
 		if (preliminary_ptr != nullptr)
 		{
-			if(!allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
+			if (!allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
 			{
 				PointCoord preliminaryElementNeibourRedraw = preliminary_ptr->GetRedrawNeiboursPoint();
 				int rotateRes = preliminary_ptr->RotateConstruction();
-				if(rotateRes == 0)
+				if (rotateRes == 0)
 				{
 					UserMessageNotify("Rotation failed");
 				}
@@ -615,26 +615,26 @@ void GameManagement::I_Key()
 {
 	switch (GetCursorArea())
 	{
-		case CursorLocation::Camera:
-		{
-			IKey_Camera();
-			return;
-		}
-		case CursorLocation::Menu:
-		{
-			IKey_Menu();
-			return;
-		}
-		case CursorLocation::InfoPanel:
-		{
-			IKey_InfoPanel();
-			return;
-		}
-		default:
-		{
-			ReturnCursorToCamera();
-			return;
-		}
+	case CursorLocation::Camera:
+	{
+		IKey_Camera();
+		return;
+	}
+	case CursorLocation::Menu:
+	{
+		IKey_Menu();
+		return;
+	}
+	case CursorLocation::InfoPanel:
+	{
+		IKey_InfoPanel();
+		return;
+	}
+	default:
+	{
+		ReturnCursorToCamera();
+		return;
+	}
 	}
 }
 void GameManagement::TabKey_Camera()
@@ -680,26 +680,26 @@ void GameManagement::Tab_Key()
 {
 	switch (GetCursorArea())
 	{
-		case CursorLocation::Camera:
-		{
-			TabKey_Camera();
-			return;
-		}
-		case CursorLocation::Menu:
-		{
-			TabKey_Menu();
-			return;
-		}
-		case CursorLocation::InfoPanel:
-		{
-			TabKey_InfoPanel();
-			return;
-		}
-		default:
-		{
-			ReturnCursorToCamera();
-			return; 
-		}
+	case CursorLocation::Camera:
+	{
+		TabKey_Camera();
+		return;
+	}
+	case CursorLocation::Menu:
+	{
+		TabKey_Menu();
+		return;
+	}
+	case CursorLocation::InfoPanel:
+	{
+		TabKey_InfoPanel();
+		return;
+	}
+	default:
+	{
+		ReturnCursorToCamera();
+		return;
+	}
 	}
 }
 void GameManagement::EnterKey_Camera()
@@ -707,7 +707,7 @@ void GameManagement::EnterKey_Camera()
 	Construction* preliminary_ptr = allObjects_ptr->GetPreliminaryElement();
 	if (preliminary_ptr != nullptr)
 	{
-		if(!allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
+		if (!allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
 		{
 			if (preliminary_ptr->GetDescriptor()->GetConstructionCost() < menu_ptr->GetGameStats()->amountOfMoney)
 			{
@@ -715,7 +715,7 @@ void GameManagement::EnterKey_Camera()
 				menu_ptr->GetGameStats()->ClearContent();
 				menu_ptr->GetGameStats()->DrawContent();
 				MenuElement* elementOfPreliminary = menu_ptr->GetMenuElement(preliminary_ptr->GetDescriptor()->GetMenuElementLocation().Get_y());
-				Construction* realObject_ptr = elementOfPreliminary->GetManager()->CreateConstruction(cursor_ptr->GetCursorConsoleLocation(), draw_ptr, allObjects_ptr);
+				Construction* realObject_ptr = elementOfPreliminary->GetManager()->CreateConstruction(cursor_ptr->GetCursorConsoleLocation(), draw_ptr, allObjects_ptr, graph_ptr);
 				menu_ptr->ParkLevelCheck(allObjects_ptr);
 				int mask = realObject_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
 				realObject_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), nullptr, camera_ptr);
@@ -755,7 +755,7 @@ void GameManagement::EnterKey_Camera()
 		Construction* previousChoice_ptr = infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetChosenConstruction();
 		infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->DeselectConstruction(camera_ptr, field_ptr, allObjects_ptr);
 		Construction* userChoice_ptr = allObjects_ptr->FindConstruction(cursor_ptr->GetCursorConsoleLocation());
-		if(userChoice_ptr == nullptr)
+		if (userChoice_ptr == nullptr)
 		{
 			UserMessageNotify("No construction found");
 		}
@@ -823,7 +823,7 @@ void GameManagement::EnterKey_InfoPanel()
 		if (cursor_ptr->GetCursorConsoleLocation() == PointCoord(buttonHalfX, topY))
 		{
 			Construction* chosen_ptr = infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetChosenConstruction();
-			if(chosen_ptr != nullptr)
+			if (chosen_ptr != nullptr)
 			{
 				if (dynamic_cast<UnbreakableRoad*>(chosen_ptr) == nullptr)
 				{
@@ -845,7 +845,7 @@ void GameManagement::EnterKey_InfoPanel()
 				{
 					UserMessageNotify("Can't break construction");
 				}
-				
+
 				infoPanel_ptr->EndInteractionDisplayRule();
 				ReturnCursorToCamera();
 				DrawCursor();
@@ -861,26 +861,26 @@ void GameManagement::Enter_Key()
 {
 	switch (GetCursorArea())
 	{
-		case CursorLocation::Camera:
-		{
-			EnterKey_Camera();
-			return;
-		}
-		case CursorLocation::Menu:
-		{
-			EnterKey_Menu();
-			return;
-		}
-		case CursorLocation::InfoPanel:
-		{
-			EnterKey_InfoPanel();
-			return;
-		}
-		default:
-		{
-			ReturnCursorToCamera();
-			return;
-		} 
+	case CursorLocation::Camera:
+	{
+		EnterKey_Camera();
+		return;
+	}
+	case CursorLocation::Menu:
+	{
+		EnterKey_Menu();
+		return;
+	}
+	case CursorLocation::InfoPanel:
+	{
+		EnterKey_InfoPanel();
+		return;
+	}
+	default:
+	{
+		ReturnCursorToCamera();
+		return;
+	}
 	}
 }
 
@@ -942,7 +942,7 @@ void GameManagement::Arrows_PlayingField(Direction arrowDir)
 	case Direction::Up: {changeY = -1; break; }
 	case Direction::Right: {changeX = 1; break; }
 	case Direction::Down: {changeY = 1; break; }
-	default: {throw MyException("GameManagement::Arrows_PlayingField() incorrect direction.");} 
+	default: {throw MyException("GameManagement::Arrows_PlayingField() incorrect direction."); }
 	}
 	Construction* preliminary_ptr = allObjects_ptr->GetPreliminaryElement();
 	if (preliminary_ptr != nullptr)
@@ -1060,6 +1060,6 @@ void GameManagement::UserActions(int key)
 	case 9: { Tab_Key(); return; }		//tab key used to navigate between interface elements
 	case 13: { Enter_Key(); return; }	//enter key: usual enter key functional
 	case 27: { Esc_Key(); return; }	//esc cancel choices, usual functional as well
-	default: {UserMessageNotify("Unknown command"); return;} //TODO another exception
+	default: {UserMessageNotify("Unknown command"); return; } //TODO another exception
 	}
 }

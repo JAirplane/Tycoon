@@ -2,7 +2,7 @@
 #include <vector>
 #include <typeinfo>
 #include <functional>
-#include "IngameObjectDerived.h"
+#include "ObserverInterface.h"
 /////////////Containers of All Objects in the Game/////////////
 class AllObjects
 {

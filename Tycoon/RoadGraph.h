@@ -52,13 +52,14 @@ public:
 		delete rightVertex;
 		delete bottomVertex;
 	}
+	SideNode* GetSideNode(Direction sideNodeDirection);
 	SideNode* CreateSideNode(Direction side, const Road* vertex_ptr);
 	bool AddSideNode(const Road* pathElement, vector<const Road*>& path, int& distance, Direction pathDirection);
 	void DeleteSideNode(Direction side);
-	void DeleteSideNode(const Road* vertex_ptr);
+	Direction DeleteSideNode(const Road* vertex_ptr);
 	PointCoord GetFirstPathElementCoord(Direction pathDirection) const;
 };
-class RoadGraph
+class RoadGraph : public GraphStatusObserverInterface
 {
 private:
 	list<RootNode*> graph;
@@ -72,9 +73,11 @@ public:
 			delete element;
 		}
 	}
-	void CreateRootNode(const Road* vertex_ptr);
+	void GraphStatusUpdate(Road* graphStatusChanged_ptr, const list<Road*>& roads) override;
+	//
+	RootNode* CreateRootNode(const Road* vertex_ptr);
 	void DeleteRootNode(const Road* vertex_ptr);
-	void AddRootNode(const Road* vertex_ptr);
+	RootNode* AddRootNode(const Road* vertex_ptr);
 	RootNode* FindRootNode(const Road* vertex_ptr);
 	const Road* FindNextPathPoint(PointCoord leftPoint, PointCoord upperPoint, PointCoord rightPoint, PointCoord downPoint, PointCoord previousPathElement, const list<Road*>& roads);
 	void FillPathToSideNode(RootNode* node_ptr, Direction pathDirection, const list<Road*>& roads);

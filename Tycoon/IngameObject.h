@@ -1,5 +1,5 @@
 #pragma once
-#include "Camera.h"
+#include "GraphStatusObserverInterface.h"
 /////////////Parent Class of Every Object in Game/////////////
 class IngameObject : public GlobalObject
 {
