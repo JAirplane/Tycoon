@@ -6,5 +6,5 @@ class GraphStatusObserverInterface
 {
 public:
 	virtual ~GraphStatusObserverInterface() {};
-	virtual void GraphStatusUpdate(Road* graphStatusChanged_ptr, const list<Road*>& roads) = 0;
+	virtual void GraphStatusUpdate(Road* graphStatusChanged_ptr) = 0;
 };

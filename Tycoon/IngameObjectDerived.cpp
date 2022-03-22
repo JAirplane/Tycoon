@@ -330,11 +330,11 @@ void Road::GraphStatusDetach(GraphStatusObserverInterface* observer)
 	}
 	graphStatusObservers.remove(observer);
 }
-void Road::GraphStatusNotify(const list<Road*>& roads) //notifies if graphStatus changed, so it can be as true as false
+void Road::GraphStatusNotify() //notifies if graphStatus changed, so it can be as true as false
 {
 	for (auto observer : graphStatusObservers)
 	{
-		observer->GraphStatusUpdate(this, roads);
+		observer->GraphStatusUpdate(this);
 	}
 }
 //

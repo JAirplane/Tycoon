@@ -2,9 +2,9 @@
 #include <vector>
 #include <typeinfo>
 #include <functional>
-#include "ObserverInterface.h"
+#include "RoadGraph.h"
 /////////////Containers of All Objects in the Game/////////////
-class AllObjects
+class AllObjects : public GraphStatusObserverInterface
 {
 private:
 	Cursor* cursor_ptr;
@@ -14,12 +14,14 @@ private:
 	list<Visitor*> visitors;
 	Construction* preliminaryConstruction_ptr;
 	vector<Road*> outOfPlayingFieldEntrance;
+	RoadGraph* graph_ptr;
 public:
 	AllObjects(Cursor* c_ptr, Visualisation* paint_ptr)
 	{
 		cursor_ptr = c_ptr;
 		draw_ptr = paint_ptr;
 		preliminaryConstruction_ptr = nullptr;
+		graph_ptr = new RoadGraph();
 	}
 	~AllObjects()
 	{
@@ -43,8 +45,12 @@ public:
 		{
 			delete parkEntrance;
 		}
+		delete graph_ptr;
 	}
 	void CreateParkEntrance(const PlayingField* playingField_ptr, ConstructionDescriptor* descriptor_ptr, Visualisation* draw_ptr);
+	//
+
+	void GraphStatusUpdate(Road* graphStatusChanged_ptr) override;
 	//
 	const list<Building*>& GetAllBuildings() const;
 	const list<Road*>& GetAllRoads() const;
@@ -79,10 +85,16 @@ public:
 	void DisplayVisitors();
 	void DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr);
 	void DisplayParkEntrance(const Camera* camera_ptr);
+	//
+	Road* FindRoad(PointCoord location) const;
+	Building* FindBuilding(PointCoord location) const;
 	Construction* FindConstruction(PointCoord location) const; //checks if location is on road or building
 	Construction* FindOutOfPlayingFieldConstruction(PointCoord location) const;
 	void DeleteConstruction(Construction* forDeleting, function<bool(Construction*)> IsEqual);
 	void DeleteVisitor(Visitor* forDeleting, function<bool(Visitor*)> IsEqual);
+	//
+	const Road* FindNextPathPoint(PointCoord point, PointCoord previousPathElement);
+	vector<PointCoord> FindPathToTheNearestNode(PointCoord location, Direction dir);
 	//
 	void MoveInOneStep(Visitor* person, const Camera* camera_ptr);
 	void MoveOutOneStep(Visitor* person, Construction* visitorLocationRoad, const Camera* camera_ptr, const PlayingField* field_ptr);

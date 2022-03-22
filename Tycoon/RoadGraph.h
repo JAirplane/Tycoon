@@ -1,86 +1,79 @@
 #pragma once
 #include <vector>
 #include <limits>
-#include "ObjectContainers.h"
+#include "IngameObjectDerived.h"
 class Node
 {
 private:
-	const Road* roadVertex;
+	int index;
+	PointCoord nodeLocation;
 public:
-	Node(const Road* vertex) : roadVertex(vertex)
-	{}
-	~Node()
-	{}
-	const Road* GetVertex() const;
+	Node(PointCoord location) : nodeLocation(location)
+	{
+		index = -1; //means no index assignment
+	}
+	~Node() {}
+	int GetNodeIndex() const;
+	void SetNodeIndex(int newIndex);
+	PointCoord GetNodeLocation() const;
+	void SetNodeLocation(PointCoord anotherLocation);
+	__declspec(property(get = GetNodeIndex, put = SetNodeIndex)) int nodeIndex;
+	__declspec(property(get = GetNodeLocation, put = SetNodeLocation)) PointCoord nodePoint;
 };
-class SideNode : public Node
+class Edge
 {
 private:
-	int distanceToRoot;
-	vector<const Road*> pathFromRoot;
+	int startingNodeIndex;
+	int endingNodeIndex;
 public:
-	SideNode(const Road* vertex) : Node(vertex)
-	{
-		distanceToRoot = 0; //range between two different nodes
-	}
-	~SideNode()
+	Edge(int start, int end) : startingNodeIndex(start), endingNodeIndex(end)
 	{}
-	int GetDistanceToRoot() const;
-	void AddPath(vector<const Road*> path, int distance);
-	void ClearPath(); // do not free the memory, just left the vector empty
-	void ResetPathCapacity();
+	~Edge() {}
+	int GetStartingIndex() const;
+	void SetStartingIndex(int newIndex);
+	int GetEndingIndex() const;
+	void SetEndingIndex(int newIndex);
+	__declspec(property(get = GetStartingIndex, put = SetStartingIndex)) int startingIndex;
+	__declspec(property(get = GetEndingIndex, put = SetEndingIndex)) int endingIndex;
 };
-class RootNode : public Node
+class RoadGraph
 {
 private:
-	SideNode* leftVertex;
-	SideNode* topVertex;
-	SideNode* rightVertex;
-	SideNode* bottomVertex;
-public:
-	RootNode(const Road* vertex) : Node(vertex)
-	{
-		leftVertex = nullptr;
-		topVertex = nullptr;
-		rightVertex = nullptr;
-		bottomVertex = nullptr;
-	}
-	~RootNode()
-	{
-		delete leftVertex;
-		delete topVertex;
-		delete rightVertex;
-		delete bottomVertex;
-	}
-	SideNode* GetSideNode(Direction sideNodeDirection);
-	SideNode* CreateSideNode(Direction side, const Road* vertex_ptr);
-	bool AddSideNode(const Road* pathElement, vector<const Road*>& path, int& distance, Direction pathDirection);
-	void DeleteSideNode(Direction side);
-	Direction DeleteSideNode(const Road* vertex_ptr);
-	PointCoord GetFirstPathElementCoord(Direction pathDirection) const;
-};
-class RoadGraph : public GraphStatusObserverInterface
-{
-private:
-	list<RootNode*> graph;
+	list<Node*> allNodes;
+	list<Edge*> allEdges;
 public:
 	RoadGraph()
 	{}
 	~RoadGraph()
 	{
-		for (auto& element : graph)
+		for (auto everyNode : allNodes)
 		{
-			delete element;
+			delete everyNode;
+		}
+		for (auto everyEdge : allEdges)
+		{
+			delete everyEdge;
 		}
 	}
-	void GraphStatusUpdate(Road* graphStatusChanged_ptr, const list<Road*>& roads) override;
+	Node* AddNode(PointCoord location);
+	void DeleteNode(PointCoord location);
+	void DeleteNode(int index);
+	Edge* AddEdge(PointCoord startPoint, PointCoord endPoint);
+	void DeleteEdge(int startIndex, int endIndex);
+	void DeleteEdges(int index);
+	Node* FindNode(PointCoord location);
+	Node* FindNode(int index);
+	Edge* FindEdge(int startIndex, int endIndex);
+	void UpdateAllIndices();
+
+
 	//
-	RootNode* CreateRootNode(const Road* vertex_ptr);
-	void DeleteRootNode(const Road* vertex_ptr);
-	RootNode* AddRootNode(const Road* vertex_ptr);
-	RootNode* FindRootNode(const Road* vertex_ptr);
-	const Road* FindNextPathPoint(PointCoord leftPoint, PointCoord upperPoint, PointCoord rightPoint, PointCoord downPoint, PointCoord previousPathElement, const list<Road*>& roads);
-	void FillPathToSideNode(RootNode* node_ptr, Direction pathDirection, const list<Road*>& roads);
-	void FillAllPathes(RootNode* node_ptr, const list<Road*>& roads);
-	vector<Road*> GetNodesToDestination(PointCoord currentLocation, Road* destination) const;
+	//RootNode* CreateRootNode(const Road* vertex_ptr);
+	//void DeleteRootNode(const Road* vertex_ptr);
+	//RootNode* AddRootNode(const Road* vertex_ptr);
+	//RootNode* FindRootNode(const Road* vertex_ptr);
+	//const Road* FindNextPathPoint(PointCoord leftPoint, PointCoord upperPoint, PointCoord rightPoint, PointCoord downPoint, PointCoord previousPathElement, const list<Road*>& roads);
+	//void FillPathToSideNode(RootNode* node_ptr, Direction pathDirection, const list<Road*>& roads);
+	//void FillAllPathes(RootNode* node_ptr, const list<Road*>& roads);
+	//vector<Road*> GetNodesToDestination(PointCoord currentLocation, Road* destination) const;
 };

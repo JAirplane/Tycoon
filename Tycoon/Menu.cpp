@@ -26,7 +26,11 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 	PointCoord elementLocation(0, 0);
 	if (menuItems.empty())
 	{
-		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, GetUpperLeft().Get_y() + 1);
+		if (gameStats_ptr == nullptr)
+		{
+			throw MyException("Menu::CreateMenuElement(args...) tried to create menu element with gameStats == nullptr");
+		}
+		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, gameStats_ptr->GetUpperLeft().Get_y() + gameStats_ptr->GetHeightAddition() + 1);
 	}
 	else
 	{

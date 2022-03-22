@@ -116,7 +116,7 @@ public:
 	//
 	void GraphStatusAttach(GraphStatusObserverInterface* observer) override;
 	void GraphStatusDetach(GraphStatusObserverInterface* observer) override;
-	void GraphStatusNotify(const list<Road*>& roads) override;
+	void GraphStatusNotify() override;
 	//
 	int GetEntranceHeightAdd() const override;
 	int GetEntranceWidthAdd() const override;

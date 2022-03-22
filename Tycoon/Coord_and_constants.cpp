@@ -26,6 +26,17 @@ bool PointCoord::operator != (PointCoord point)
 {
 	return (xCoord != point.xCoord || yCoord != point.yCoord);
 }
+PointCoord PointCoord::GetSideCoord(Direction dir) const
+{
+	switch (dir)
+	{
+	case Direction::Left: {return PointCoord(this->Get_x() - 1, this->Get_y()); }
+	case Direction::Up: {return PointCoord(this->Get_x(), this->Get_y() - 1); }
+	case Direction::Right: {return PointCoord(this->Get_x() + 1, this->Get_y()); }
+	case Direction::Down: {return PointCoord(this->Get_x(), this->Get_y() + 1); }
+	default: {throw MyException("PointCoord::GetSideCoord(Direction dir) const bad direction"); }
+	}
+}
 //
 NumberOfDigits* NumberOfDigits::GetDigitsCounter()
 {

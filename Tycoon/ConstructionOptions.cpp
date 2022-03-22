@@ -5,6 +5,14 @@ const int ConstructionOptions::GetIceCreamShopHeightAdd() const
 {
 	return 1;
 }
+const int ConstructionOptions::GetToiletHeightAdd() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetFoodCourtHeightAdd() const
+{
+	return 1;
+}
 const int ConstructionOptions::GetMenuElementHeightAdd() const
 {
 	return 5;
@@ -50,6 +58,14 @@ const int ConstructionOptions::GetIceCreamShopWidthAdd() const
 {
 	return 1;
 }
+const int ConstructionOptions::GetToiletWidthAdd() const
+{
+	return 1;
+}
+const int ConstructionOptions::GetFoodCourtWidthAdd() const
+{
+	return 3;
+}
 const int ConstructionOptions::GetRoadWidthAdd() const
 {
 	return 0;
@@ -89,7 +105,15 @@ const int ConstructionOptions::GetConstructionInfoButtonWidthAdd() const
 ///////////////Cost Initialisation Constants///////////////
 const int ConstructionOptions::GetIceCreamShopCost() const
 {
-	return 250;
+	return 150;
+}
+const int ConstructionOptions::GetToiletCost() const
+{
+	return 50;
+}
+const int ConstructionOptions::GetFoodCourtCost() const
+{
+	return 200;
 }
 const int ConstructionOptions::GetRoadCost() const
 {
@@ -98,16 +122,32 @@ const int ConstructionOptions::GetRoadCost() const
 ///////////////Daily Expences Initialisation Constants///////////////
 const int ConstructionOptions::GetIceCreamShopExpences() const
 {
+	return 15;
+}
+const int ConstructionOptions::GetToiletExpences() const
+{
+	return 5;
+}
+const int ConstructionOptions::GetFoodCourtExpences() const
+{
 	return 20;
 }
 ///////////////Description Initialisation Constants///////////////
 const string ConstructionOptions::GetIceCreamShopDescription() const
 {
-	return "Ice cream! Everybody loves it!";
+	return "Ice cream shop: satisfies hunger";
+}
+const string ConstructionOptions::GetToiletDescription() const
+{
+	return "Toilet: visitors leaves without it";
+}
+const string ConstructionOptions::GetFoodCourtDescription() const
+{
+	return "Food Court: satisfies hunger";
 }
 const string ConstructionOptions::GetRoadDescription() const
 {
-	return "visitors can walk roads only";
+	return "Road: Visitors walk roads only";
 }
 const string ConstructionOptions::GetArrowsDescription() const
 {
@@ -140,8 +180,15 @@ const string ConstructionOptions::GetRKeyDescription() const
 ///////////////Building Symbol Constants///////////////
 const wstring ConstructionOptions::GetIceCreamShopSymbol() const
 {
-	wstring symbol = L"\u25D9";
-	return symbol;
+	return L"\u25D9";
+}
+const wstring ConstructionOptions::GetFoodCourtSymbol() const
+{
+	return L"\u00A9";
+}
+const wstring ConstructionOptions::GetToiletSymbol() const
+{
+	return L"\u25BC";
 }
 ///////////////Initialisation Coord Constants///////////////
 const PointCoord ConstructionOptions::GetCameraInitialUpperLeft() const
@@ -159,13 +206,19 @@ const PointCoord ConstructionOptions::GetInfoPanelUpperLeft() const
 ///////////////Building's Icon Symbol Constants///////////////
 const wstring ConstructionOptions::GetIceCreamShopIconSymbol() const
 {
-	wstring symbol = L"\u25D9";
-	return symbol;
+	return L"\u25D9";
+}
+const wstring ConstructionOptions::GetFoodCourtIconSymbol() const
+{
+	return L"\u00A9";
+}
+const wstring ConstructionOptions::GetToiletIconSymbol() const
+{
+	return L"\u25BC";
 }
 const wstring ConstructionOptions::GetRoadIconSymbol() const
 {
-	wstring symbol = L"\u2016";
-	return symbol;
+	return L"\u2016";
 }
 ///////////////Color Construction Constants///////////////
 color ConstructionOptions::GetIceCreamShopForegroundColor() const
@@ -181,6 +234,40 @@ color ConstructionOptions::GetIceCreamShopNotConnectedBackgroundColor() const
 	return color::cBLACK;
 }
 color ConstructionOptions::GetIceCreamShopChosenBackgroundColor() const
+{
+	return color::cRED;
+}
+//
+color ConstructionOptions::GetFoodCourtForegroundColor() const
+{
+	return color::cGREEN;
+}
+color ConstructionOptions::GetFoodCourtConnectedBackgroundColor() const
+{
+	return color::cDARK_CYAN;
+}
+color ConstructionOptions::GetFoodCourtNotConnectedBackgroundColor() const
+{
+	return color::cBLACK;
+}
+color ConstructionOptions::GetFoodCourtChosenBackgroundColor() const
+{
+	return color::cRED;
+}
+//
+color ConstructionOptions::GetToiletForegroundColor() const
+{
+	return color::cBLUE;
+}
+color ConstructionOptions::GetToiletConnectedBackgroundColor() const
+{
+	return color::cDARK_CYAN;
+}
+color ConstructionOptions::GetToiletNotConnectedBackgroundColor() const
+{
+	return color::cBLACK;
+}
+color ConstructionOptions::GetToiletChosenBackgroundColor() const
 {
 	return color::cRED;
 }

@@ -508,7 +508,7 @@ void AllObjects::DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr)
 		}
 	}
 }
-Construction* AllObjects::FindConstruction(PointCoord location) const
+Building* AllObjects::FindBuilding(PointCoord location) const
 {
 	list<Building*>::const_iterator buildingIter;
 	for (buildingIter = buildings.begin(); buildingIter != buildings.end(); buildingIter++)
@@ -524,6 +524,10 @@ Construction* AllObjects::FindConstruction(PointCoord location) const
 			}
 		}
 	}
+	return nullptr;
+}
+Road* AllObjects::FindRoad(PointCoord location) const
+{
 	list<Road*>::const_iterator roadIter;
 	for (roadIter = roads.begin(); roadIter != roads.end(); roadIter++)
 	{
@@ -531,6 +535,20 @@ Construction* AllObjects::FindConstruction(PointCoord location) const
 		{
 			return (*roadIter);
 		}
+	}
+	return nullptr;
+}
+Construction* AllObjects::FindConstruction(PointCoord location) const
+{
+	Road* desiredRoad_ptr = FindRoad(location);
+	if (desiredRoad_ptr != nullptr)
+	{
+		return desiredRoad_ptr;
+	}
+	Building* desiredBuilding_ptr = FindBuilding(location);
+	if (desiredBuilding_ptr != nullptr)
+	{
+		return desiredBuilding_ptr;
 	}
 	return nullptr;
 }
@@ -554,6 +572,125 @@ void AllObjects::DeleteVisitor(Visitor* forDeleting, function<bool(Visitor*)> Is
 {
 	visitors.remove_if(IsEqual);
 }
+//GetSideCoord
+const Road* AllObjects::FindNextPathPoint(PointCoord point, PointCoord previousPathElement)
+{
+	for (auto roadElement : roads)
+	{
+		if ((roadElement->GetUpperLeft() == point.GetSideCoord(Direction::Left) || roadElement->GetUpperLeft() == point.GetSideCoord(Direction::Up) ||
+			roadElement->GetUpperLeft() == point.GetSideCoord(Direction::Right) || roadElement->GetUpperLeft() == point.GetSideCoord(Direction::Down)) &&
+			roadElement->GetUpperLeft() != previousPathElement)
+		{
+			return roadElement;
+		}
+	}
+	return nullptr;
+}
+vector<PointCoord> AllObjects::FindPathToTheNearestNode(PointCoord location, Direction pathDirection)
+{
+	vector<PointCoord> wayToNearestNode;
+	if (FindRoad(location) == nullptr)
+	{
+		throw MyException("AllObjects::FindPathToTheNearestNode(PointCoord location, Direction pathDirection) no road at this location");
+	}
+	if (pathDirection == Direction::None)
+	{
+		throw MyException("AllObjects::FindPathToTheNearestNode(PointCoord location, Direction pathDirection) bad direction");
+	}
+	const Road* pathElement = FindRoad(location.GetSideCoord(pathDirection));
+	PointCoord previousPathElement = location;
+	if (pathElement != nullptr)
+	{
+		wayToNearestNode.push_back(pathElement->GetUpperLeft());
+		if (pathElement->GetGraphStatus())
+		{
+			return wayToNearestNode;
+		}
+	}
+	else
+	{
+		return wayToNearestNode; //returns empty vector if there is no path in fact
+	}
+	while (true)
+	{
+		PointCoord elementLocation = pathElement->GetUpperLeft();
+		pathElement = FindNextPathPoint(elementLocation, previousPathElement);
+		if (pathElement != nullptr)
+		{
+			wayToNearestNode.push_back(pathElement->GetUpperLeft());
+			if (pathElement->GetGraphStatus())
+			{
+				return wayToNearestNode;
+			}
+			previousPathElement = wayToNearestNode.rbegin()[1]; //being here means that we add at least two elements to our path vector
+		}
+	}
+}
+void AllObjects::GraphStatusUpdate(Road* graphStatusChanged_ptr)
+{
+	if (graphStatusChanged_ptr->GetGraphStatus())
+	{
+		vector<PointCoord> path;
+		Node* newNode_ptr = graph_ptr->AddNode(graphStatusChanged_ptr->GetUpperLeft());
+		int onlyRealRoadsMask = graphStatusChanged_ptr->GetMaskPartRealRoads(roads);
+		if (onlyRealRoadsMask & leftside)
+		{
+			path = FindPathToTheNearestNode(newNode_ptr->nodePoint, Direction::Left);
+		}
+		if (onlyRealRoadsMask & topside)
+		{
+			FindPathToTheNearestNode(newNode_ptr->nodePoint, Direction::Up);
+		}
+		if (onlyRealRoadsMask & rightside)
+		{
+			FindPathToTheNearestNode(newNode_ptr->nodePoint, Direction::Right);
+		}
+		if (onlyRealRoadsMask & bottomside)
+		{
+			FindPathToTheNearestNode(newNode_ptr->nodePoint, Direction::Down);
+		}
+
+		/*FillAllPathes(newRoot_ptr, roads);
+		for (auto rootNode : graph)
+		{
+			if (rootNode->GetVertex() == newRoot_ptr->GetSideNode(Direction::Left)->GetVertex() && rootNode != newRoot_ptr)
+			{
+				FillPathToSideNode(rootNode, Direction::Right, roads);
+			}
+			if (rootNode->GetVertex() == newRoot_ptr->GetSideNode(Direction::Up)->GetVertex() && rootNode != newRoot_ptr)
+			{
+				FillPathToSideNode(rootNode, Direction::Down, roads);
+			}
+			if (rootNode->GetVertex() == newRoot_ptr->GetSideNode(Direction::Right)->GetVertex() && rootNode != newRoot_ptr)
+			{
+				FillPathToSideNode(rootNode, Direction::Left, roads);
+			}
+			if (rootNode->GetVertex() == newRoot_ptr->GetSideNode(Direction::Down)->GetVertex() && rootNode != newRoot_ptr)
+			{
+				FillPathToSideNode(rootNode, Direction::Up, roads);
+			}
+		}*/
+	}
+	else
+	{
+		/*int sideNodeDeletedCounter = 0;
+		for (auto rootNode : graph)
+		{
+			Direction deletedSideNode = rootNode->DeleteSideNode(graphStatusChanged_ptr->GetVertex());
+			if (DeleteSideNode() != Direction::None)
+			{
+				++sideNodeDeletedCounter;
+				FillPathToSideNode(rootNode, deletedSideNode, roads);
+			}
+			if (sideNodeDeletedCounter == 4)
+			{
+				break;
+			}
+		}
+		DeleteRootNode(graphStatusChanged_ptr);*/
+	}
+}
+
 void AllObjects::MoveInOneStep(Visitor* person, const Camera* camera_ptr)
 {
 	Construction* visitorLocationRoad = FindOutOfPlayingFieldConstruction(person->GetUpperLeft());
@@ -568,7 +705,7 @@ void AllObjects::MoveInOneStep(Visitor* person, const Camera* camera_ptr)
 			visitorLocationRoad->DrawObject(wstring(L"\u2551"));
 		}
 		Construction* destinationRoad = FindOutOfPlayingFieldConstruction(PointCoord(person->GetUpperLeft().Get_x(), person->GetUpperLeft().Get_y() - 1));
-		if (destinationRoad == nullptr) 
+		if (destinationRoad == nullptr)
 		{
 			destinationRoad = FindConstruction(PointCoord(person->GetUpperLeft().Get_x(), person->GetUpperLeft().Get_y() - 1));
 			if (destinationRoad == nullptr)

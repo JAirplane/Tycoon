@@ -96,6 +96,7 @@ public:
 	int Get_y() const;
 	void SetCoord(int x, int y);
 	void SetCoord(PointCoord point);
+	PointCoord GetSideCoord(Direction dir) const;
 	bool operator == (PointCoord point);
 	bool operator != (PointCoord point);
 };

@@ -15,4 +15,3 @@ public:
 	}
 	Visitor* CreateVisitor(PointCoord upperLeft, Visualisation* paint_ptr, AllObjects* allObjects_ptr);
 };
-

@@ -8,7 +8,7 @@ public:
 		ConstructionManager(bd_ptr)
 	{}
 	~BuildingManager() {}
-	Construction* CreateConstruction(PointCoord upperLeft, Visualisation* paint_ptr, AllObjects* allObjects_ptr, GraphStatusObserverInterface* observer) override;
+	Construction* CreateConstruction(PointCoord upperLeft, Visualisation* paint_ptr, AllObjects* allObjects_ptr) override;
 	Construction* CreatePreliminaryConstruction(PointCoord upperLeft, Visualisation* paint_ptr, AllObjects* allObjects_ptr) override;
 };
 class RoadManager : public ConstructionManager
@@ -18,6 +18,6 @@ public:
 		ConstructionManager(bd_ptr)
 	{}
 	~RoadManager() {}
-	Construction* CreateConstruction(PointCoord upperLeft, Visualisation* paint_ptr, AllObjects* allObjects_ptr, GraphStatusObserverInterface* observer) override;
+	Construction* CreateConstruction(PointCoord upperLeft, Visualisation* paint_ptr, AllObjects* allObjects_ptr) override;
 	Construction* CreatePreliminaryConstruction(PointCoord upperLeft, Visualisation* paint_ptr, AllObjects* allObjects_ptr) override;
 };

@@ -17,6 +17,8 @@ public:
 	static ConstructionOptions* GetAllOptions();
 	///////////////Height Addition Constants///////////////
 	virtual const int GetIceCreamShopHeightAdd() const;
+	virtual const int GetToiletHeightAdd() const;
+	virtual const int GetFoodCourtHeightAdd() const;
 	virtual const int GetMenuElementHeightAdd() const; //height of 1 element of menu
 	virtual const int GetMenuIconHeightAdd() const;
 	virtual const int GetGameStatsHeightAdd() const;
@@ -29,6 +31,8 @@ public:
 	virtual const int GetConstructionInfoButtonHeightAdd() const;
 	///////////////Width Addition Constants///////////////
 	virtual const int GetIceCreamShopWidthAdd() const;
+	virtual const int GetToiletWidthAdd() const;
+	virtual const int GetFoodCourtWidthAdd() const;
 	virtual const int GetRoadWidthAdd() const;
 	virtual const int GetVisitorWidthAdd() const;
 	virtual const int GetCameraWidthAdd() const;
@@ -40,12 +44,19 @@ public:
 	virtual const int GetConstructionInfoButtonWidthAdd() const;
 	///////////////Cost Initialisation Constants///////////////
 	virtual const int GetIceCreamShopCost() const;
+	virtual const int GetToiletCost() const;
+	virtual const int GetFoodCourtCost() const;
 	virtual const int GetRoadCost() const;
 	///////////////Daily Expences Initialisation Constants///////////////
 	virtual const int GetIceCreamShopExpences() const;
+	virtual const int GetToiletExpences() const;
+	virtual const int GetFoodCourtExpences() const;
 	///////////////Description Initialisation Constants///////////////
 	virtual const string GetIceCreamShopDescription() const;
+	virtual const string GetToiletDescription() const;
+	virtual const string GetFoodCourtDescription() const;
 	virtual const string GetRoadDescription() const;
+	//
 	virtual const string GetArrowsDescription() const;
 	virtual const string GetTabDescription() const;
 	virtual const string GetEnterDescription() const;
@@ -55,18 +66,32 @@ public:
 	virtual const string GetRKeyDescription() const;
 	///////////////Building Symbol Constants///////////////
 	virtual const wstring GetIceCreamShopSymbol() const;
+	virtual const wstring GetFoodCourtSymbol() const;
+	virtual const wstring GetToiletSymbol() const;
 	///////////////Initialisation Coord Constants///////////////
 	virtual const PointCoord GetCameraInitialUpperLeft() const;
 	virtual const PointCoord GetPlayingFieldUpperLeft() const;
 	virtual const PointCoord GetInfoPanelUpperLeft() const;
 	///////////////Constructions's Icon Symbol Constants///////////////
 	virtual const wstring GetIceCreamShopIconSymbol() const;
+	virtual const wstring GetToiletIconSymbol() const;
+	virtual const wstring GetFoodCourtIconSymbol() const;
 	virtual const wstring GetRoadIconSymbol() const;
 	///////////////Color Constants///////////////
 	virtual color GetIceCreamShopForegroundColor() const;
 	virtual color GetIceCreamShopConnectedBackgroundColor() const;
 	virtual color GetIceCreamShopNotConnectedBackgroundColor() const;
 	virtual color GetIceCreamShopChosenBackgroundColor() const;
+	//
+	virtual color GetFoodCourtForegroundColor() const;
+	virtual color GetFoodCourtConnectedBackgroundColor() const;
+	virtual color GetFoodCourtNotConnectedBackgroundColor() const;
+	virtual color GetFoodCourtChosenBackgroundColor() const;
+	//
+	virtual color GetToiletForegroundColor() const;
+	virtual color GetToiletConnectedBackgroundColor() const;
+	virtual color GetToiletNotConnectedBackgroundColor() const;
+	virtual color GetToiletChosenBackgroundColor() const;
 	//
 	virtual color GetRoadForegroundColor() const;
 	virtual color GetRoadConnectedBackgroundColor() const;
