@@ -40,13 +40,13 @@ public:
 	void SetChosenStatus(bool chosen);
 	virtual int GetProfit() const = 0;
 	virtual int GetVisitorsCount() const;
-	virtual bool GetGraphStatus() const;
+	virtual bool GetNodeStatus() const;
 	//
 	color GetBackgroundColor() const;
 	virtual int RotateConstruction() = 0;
 	virtual int GetNeibourRoadMask(const list<Road*>& allRoads, const Construction* preliminary_ptr) const = 0;
 	virtual int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
-	virtual void IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
+	virtual bool IsNode(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
 	virtual void Connected(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
 	virtual void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const = 0;
 	virtual void DrawObject(const wstring drawingSymbol) const;
@@ -89,7 +89,7 @@ public:
 	wstring GetEntranceSymbol() const override;
 	void CopyEntrance(Construction* preliminary_ptr);
 	int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
-	void IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
+	bool IsNode(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
 	void Connected(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
 	int GetProfit() const;
 	void SetProfit(int profit);
@@ -122,8 +122,8 @@ public:
 	int GetEntranceWidthAdd() const override;
 	Direction GetExitDirection() const override;
 	int RotateConstruction() override;
-	bool GetGraphStatus() const override;
-	void SetGraphStatus(bool status);
+	bool GetNodeStatus() const override;
+	void SetNodeStatus(bool status);
 	int GetProfit() const;
 	bool RoadIsAnEntrance(const list<Building*>& allBuildings);
 	PointCoord GetEntrancePoint() const override;
@@ -132,7 +132,7 @@ public:
 	virtual int GetMaskPartRealRoads(const list<Road*>& allRoads) const;
 	int GetNeibourRoadMask(const list<Road*>& allRoads, const Construction* preliminary_ptr) const override;
 	int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
-	void IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
+	bool IsNode(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
 	void Connected(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
 	void DefineGraphStatus(int mask); // use NeibourRoadMask here!
 	void RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr, const Camera* camera_ptr) override;
@@ -148,7 +148,7 @@ public:
 	{}
 	~UnbreakableRoad() {}
 	bool IsBreakable() const override;
-	void IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
+	bool IsNode(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
 	void SetRoadConnectionStatus(bool connected) override;
 	int GetMaskPartRealRoads(const list<Road*>& allRoads) const override;
 };

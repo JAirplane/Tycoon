@@ -27,7 +27,7 @@ wstring Construction::GetEntranceSymbol() const
 color Construction::GetBackgroundColor() const
 {
 	color background = cBLACK;
-	if (GetGraphStatus())
+	if (GetNodeStatus())
 	{
 		return cRED;
 	}
@@ -52,7 +52,7 @@ PointCoord Construction::GetPotentialConnectedRoadPoint() const
 {
 	return PointCoord(0, 0);
 }
-bool Construction::GetGraphStatus() const
+bool Construction::GetNodeStatus() const
 {
 	return false;
 }
@@ -77,7 +77,7 @@ void Construction::RedrawNeibours(PointCoord centralPoint, const list<Road*>& al
 			(*roadIter)->Connected(allRoads, allBuildings, preliminary_ptr);
 			if (preliminary_ptr == nullptr)
 			{
-				(*roadIter)->IsGraph(allRoads, allBuildings, preliminary_ptr);
+				(*roadIter)->IsNode(allRoads, allBuildings, preliminary_ptr);
 			}
 			(*roadIter)->DrawObject(mask);
 		}
@@ -241,8 +241,10 @@ void Building::Connected(const list<Road*>& allRoads, const list<Building*>& all
 	}
 	SetRoadConnectionStatus(false);
 }
-void Building::IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
-{}
+bool Building::IsNode(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
+{
+	return false;
+}
 int Building::GetProfit() const
 {
 	return overallProfit;
@@ -263,7 +265,7 @@ void Building::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>
 			(*roadIter)->Connected(allRoads, allBuildings, preliminary_ptr);
 			if (preliminary_ptr == nullptr)
 			{
-				(*roadIter)->IsGraph(allRoads, allBuildings, preliminary_ptr);
+				(*roadIter)->IsNode(allRoads, allBuildings, preliminary_ptr);
 			}
 			(*roadIter)->DrawObject(mask);
 		}
@@ -354,11 +356,11 @@ int Road::RotateConstruction()
 {
 	return -1;
 }
-bool Road::GetGraphStatus() const
+bool Road::GetNodeStatus() const
 {
 	return graphStatus;
 }
-void Road::SetGraphStatus(bool graphStatus)
+void Road::SetNodeStatus(bool graphStatus)
 {
 	this->graphStatus = graphStatus;
 }
@@ -370,16 +372,16 @@ void Road::DefineGraphStatus(int mask) // use NeibourRoadMask here!
 {
 	switch (mask)
 	{
-	case leftside: { SetGraphStatus(true); return; }
-	case topside: { SetGraphStatus(true); return; }
-	case rightside: { SetGraphStatus(true); return; }
-	case bottomside: { SetGraphStatus(true); return; }
-	case right_T: { SetGraphStatus(true); return; }
-	case left_T: { SetGraphStatus(true); return; }
-	case top_T: { SetGraphStatus(true); return; }
-	case bottom_T: { SetGraphStatus(true); return; }
-	case cross: { SetGraphStatus(true); return; }
-	default: { SetGraphStatus(false); return; }
+	case leftside: { SetNodeStatus(true); return; }
+	case topside: { SetNodeStatus(true); return; }
+	case rightside: { SetNodeStatus(true); return; }
+	case bottomside: { SetNodeStatus(true); return; }
+	case right_T: { SetNodeStatus(true); return; }
+	case left_T: { SetNodeStatus(true); return; }
+	case top_T: { SetNodeStatus(true); return; }
+	case bottom_T: { SetNodeStatus(true); return; }
+	case cross: { SetNodeStatus(true); return; }
+	default: { SetNodeStatus(false); return; }
 	}
 }
 bool Road::RoadIsAnEntrance(const list<Building*>& allBuildings)
@@ -521,15 +523,27 @@ int Road::GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>&
 	}
 	return roadEnvironmentMask;
 }
-void Road::IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
+bool Road::IsNode(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
 {
+	bool previousNodeStatus = GetNodeStatus();
 	if (RoadIsAnEntrance(allBuildings))
 	{
-		SetGraphStatus(true);
-		return;
+		SetNodeStatus(true);
 	}
-	int mask = GetNeibourRoadMask(allRoads, preliminary_ptr);
-	DefineGraphStatus(mask);
+	else
+	{
+		int mask = GetNeibourRoadMask(allRoads, preliminary_ptr);
+		DefineGraphStatus(mask);
+	}
+	bool newNodeStatus = GetNodeStatus();
+	if (previousNodeStatus == newNodeStatus)
+	{
+		return false;
+	}
+	else
+	{
+		return true;
+	}
 }
 void Road::Connected(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
 {
@@ -580,10 +594,6 @@ void Road::Connected(const list<Road*>& allRoads, const list<Building*>& allBuil
 }
 void Road::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr, const Camera* camera_ptr)
 {
-	PointCoord leftLocation(GetUpperLeft().Get_x() - 1, GetUpperLeft().Get_y());
-	PointCoord rightLocation(GetUpperLeft().Get_x() + 1, GetUpperLeft().Get_y());
-	PointCoord downLocation(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() + 1);
-	PointCoord upLocation(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() - 1);
 	int cameraLeftX = camera_ptr->GetUpperLeft().Get_x();
 	int cameraTopY = camera_ptr->GetUpperLeft().Get_y();
 	int cameraRightX = cameraLeftX + camera_ptr->GetWidthAddition();
@@ -591,13 +601,13 @@ void Road::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& al
 	list<Road*>::const_iterator roadIter;
 	for (roadIter = allRoads.begin(); roadIter != allRoads.end(); roadIter++)
 	{
-		if ((*roadIter)->GetUpperLeft() == leftLocation || (*roadIter)->GetUpperLeft() == rightLocation ||
-			(*roadIter)->GetUpperLeft() == downLocation || (*roadIter)->GetUpperLeft() == upLocation)
+		if ((*roadIter)->GetUpperLeft() == GetUpperLeft().GetSideCoord(Direction::Left) || (*roadIter)->GetUpperLeft() == GetUpperLeft().GetSideCoord(Direction::Right) ||
+			(*roadIter)->GetUpperLeft() == GetUpperLeft().GetSideCoord(Direction::Down) || (*roadIter)->GetUpperLeft() == GetUpperLeft().GetSideCoord(Direction::Up))
 		{
 			int mask = (*roadIter)->GetEnvironmentMask(allRoads, allBuildings, preliminary_ptr);
 			if (preliminary_ptr == nullptr)
 			{
-				(*roadIter)->IsGraph(allRoads, allBuildings, preliminary_ptr);
+				bool nodeStatusChanged = (*roadIter)->IsNode(allRoads, allBuildings, preliminary_ptr);
 			}
 			(*roadIter)->Connected(allRoads, allBuildings, preliminary_ptr);
 			(*roadIter)->DrawObject(mask);
@@ -636,9 +646,10 @@ bool UnbreakableRoad::IsBreakable() const
 {
 	return false;
 }
-void UnbreakableRoad::IsGraph(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
+bool UnbreakableRoad::IsNode(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
 {
-	Road::SetGraphStatus(true);
+	Road::SetNodeStatus(true);
+	return false;
 }
 void UnbreakableRoad::SetRoadConnectionStatus(bool connected)
 {

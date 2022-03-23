@@ -730,11 +730,11 @@ void GameManagement::EnterKey_Camera()
 				int mask = realObject_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
 				realObject_ptr->RedrawNeibours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), nullptr, camera_ptr);
 				realObject_ptr->Connected(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
-				realObject_ptr->IsGraph(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
-				/*if (realObject_ptr->GetGraphStatus())
+				bool isNodeStatusChanged = realObject_ptr->IsNode(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
+				if (isNodeStatusChanged && dynamic_cast<Road*>(realObject_ptr))
 				{
-					graph_ptr->AddRootNode(dynamic_cast<const Road*>(realObject_ptr));
-				}*/
+					allObjects_ptr->GraphStatusUpdate(dynamic_cast<Road*>(realObject_ptr));
+				}
 				realObject_ptr->DrawObject(mask, camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(),
 					camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(), camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
 				cursor_ptr->CursorMovement(PointCoord(realObject_ptr->GetUpperLeft().Get_x() + realObject_ptr->GetWidthAddition() + 1,

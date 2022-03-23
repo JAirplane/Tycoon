@@ -95,6 +95,8 @@ public:
 	//
 	const Road* FindNextPathPoint(PointCoord point, PointCoord previousPathElement);
 	vector<PointCoord> FindPathToTheNearestNode(PointCoord location, Direction dir);
+	Edge* UpdateEdge(Node* updated_ptr, Direction side);
+	vector<int> UpdateEdges(Node* updated_ptr, int realRoadMask); //it returns indices of the neibour nodes
 	//
 	void MoveInOneStep(Visitor* person, const Camera* camera_ptr);
 	void MoveOutOneStep(Visitor* person, Construction* visitorLocationRoad, const Camera* camera_ptr, const PlayingField* field_ptr);

@@ -1,4 +1,5 @@
 #include "RoadGraph.h"
+
 //Class Node
 int Node::GetNodeIndex() const
 {
@@ -43,7 +44,7 @@ Node* RoadGraph::AddNode(PointCoord location)
 		allNodes.push_back(newNode_ptr);
 		return newNode_ptr;
 	}
-	return nullptr;
+	throw MyException("RoadGraph::AddNode(PointCoord location) addition of existed node");
 }
 void RoadGraph::DeleteNode(PointCoord location)
 {
@@ -61,18 +62,28 @@ void RoadGraph::DeleteNode(int index)
 	};
 	allNodes.remove_if(IsEqual);
 }
+Edge* RoadGraph::AddEdge(int startIndex, int endIndex)
+{
+	if (FindEdge(startIndex, endIndex) == nullptr)
+	{
+		Edge* newEdge = new Edge(startIndex, endIndex);
+		allEdges.push_back(newEdge);
+		return newEdge;
+	}
+	return nullptr;
+}
 Edge* RoadGraph::AddEdge(PointCoord startPoint, PointCoord endPoint)
 {
-	if (FindNode(startPoint) == nullptr)
-	{
-		throw MyException("RoadGraph::AddEdge(PointCoord startPoint, PointCoord endPoint) startPoint is nullptr");
-	}
-	if (FindNode(startPoint) == nullptr)
-	{
-		throw MyException("RoadGraph::AddEdge(PointCoord startPoint, PointCoord endPoint) endPoint is nullptr");
-	}
 	Node* startNode = FindNode(startPoint);
 	Node* endNode = FindNode(endPoint);
+	if (startNode == nullptr)
+	{
+		throw MyException("RoadGraph::AddEdge(PointCoord startPoint, PointCoord endPoint) startNode is nullptr");
+	}
+	if (endNode == nullptr)
+	{
+		throw MyException("RoadGraph::AddEdge(PointCoord startPoint, PointCoord endPoint) endNode is nullptr");
+	}
 	if (FindEdge(startNode->nodeIndex, endNode->nodeIndex) == nullptr)
 	{
 		Edge* newEdge = new Edge(FindNode(startPoint)->nodeIndex, FindNode(endPoint)->nodeIndex);
@@ -89,7 +100,7 @@ void RoadGraph::DeleteEdge(int startIndex, int endIndex)
 	};
 	allEdges.remove_if(IsEqual);
 }
-void RoadGraph::DeleteEdges(int index) //we need only begining or ending to delete edge as node no longer exist
+void RoadGraph::DeleteEdges(int index) //we need only begining or ending to delete all edges associated with specific node
 {
 	auto IsEqual = [index](Edge* element) -> bool
 	{
@@ -129,6 +140,24 @@ Edge* RoadGraph::FindEdge(int startIndex, int endIndex)
 		}
 	}
 	return nullptr;
+}
+vector<int> RoadGraph::FindNeibourNodeIndices(int nodeIndex)
+{
+	vector<int> indices;
+	for (auto someEdge : allEdges)
+	{
+		if (someEdge->startingIndex == nodeIndex)
+		{
+			indices.push_back(someEdge->endingIndex);
+		}
+		if (someEdge->endingIndex == nodeIndex)
+		{
+			indices.push_back(someEdge->startingIndex);
+		}
+	}
+	sort(indices.begin(), indices.end());
+	indices.erase(unique(indices.begin(), indices.end()), indices.end());
+	return indices;
 }
 void RoadGraph::UpdateAllIndices()
 {

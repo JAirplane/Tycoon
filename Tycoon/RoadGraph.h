@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
 #include <limits>
+#include <algorithm>
 #include "IngameObjectDerived.h"
 class Node
 {
@@ -59,11 +60,13 @@ public:
 	void DeleteNode(PointCoord location);
 	void DeleteNode(int index);
 	Edge* AddEdge(PointCoord startPoint, PointCoord endPoint);
+	Edge* AddEdge(int startIndex, int endIndex);
 	void DeleteEdge(int startIndex, int endIndex);
 	void DeleteEdges(int index);
 	Node* FindNode(PointCoord location);
 	Node* FindNode(int index);
 	Edge* FindEdge(int startIndex, int endIndex);
+	vector<int> FindNeibourNodeIndices(int nodeIndex);
 	void UpdateAllIndices();
 
 
