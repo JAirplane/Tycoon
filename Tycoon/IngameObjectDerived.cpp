@@ -211,15 +211,11 @@ void Building::CopyEntrance(Construction* preliminary_ptr)
 	SetEntranceWidthAdd(preliminary_ptr->GetEntranceWidthAdd());
 	SetExitDirection(preliminary_ptr->GetExitDirection());
 }
-int Building::GetNeibourRoadMask(const list<Road*>& allRoads, const Construction* preliminary_ptr) const
-{
-	return -1;
-}
 int Building::GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
 {
 	return 0;
 }
-void Building::Connected(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
+bool Building::Connected(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
 {
 	PointCoord potentialRoad = GetPotentialConnectedRoadPoint();
 	list<Road*>::const_iterator roadIter;
@@ -228,7 +224,7 @@ void Building::Connected(const list<Road*>& allRoads, const list<Building*>& all
 		if ((*roadIter)->GetUpperLeft() == potentialRoad)
 		{
 			SetRoadConnectionStatus(true);
-			return;
+			return true;
 		}
 	}
 	if (preliminary_ptr != nullptr)
@@ -236,10 +232,11 @@ void Building::Connected(const list<Road*>& allRoads, const list<Building*>& all
 		if (preliminary_ptr->GetUpperLeft() == potentialRoad && preliminary_ptr->GetExitDirection() == Direction::None)
 		{
 			SetRoadConnectionStatus(true);
-			return;
+			return true;
 		}
 	}
 	SetRoadConnectionStatus(false);
+	return false;
 }
 bool Building::IsNode(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
 {
@@ -253,7 +250,36 @@ void Building::SetProfit(int profit)
 {
 	overallProfit = profit;
 }
-void Building::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr, const Camera* camera_ptr)
+vector<Construction*> Building::GetNeibourRoads(const list<Road*>& allRoads) const
+{
+	vector<Construction*> neibourRoads;
+	for (auto everyRoad : allRoads)
+	{
+		if (everyRoad->GetUpperLeft() == GetPotentialConnectedRoadPoint())
+		{
+			neibourRoads.push_back(everyRoad);
+			break;
+		}
+	}
+	return neibourRoads;
+}
+vector<Construction*> Building::GetNeibourBuildings(const list<Building*>& allBuildings) const
+{
+	return vector<Construction*>();
+}
+Construction* Building::PreliminaryNeibour(Construction* preliminary_ptr) const
+{
+	if (preliminary_ptr != nullptr)
+	{
+		if (dynamic_cast<Road*>(preliminary_ptr) && this->GetPotentialConnectedRoadPoint() == preliminary_ptr->GetUpperLeft())
+		{
+			return preliminary_ptr;
+		}
+	}
+	return nullptr;
+	
+}
+void Building::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, Construction* preliminary_ptr, const Camera* camera_ptr)
 {
 	PointCoord potentialRoad = GetPotentialConnectedRoadPoint();
 	list<Road*>::const_iterator roadIter;
@@ -368,7 +394,7 @@ int Road::GetProfit() const
 {
 	return -1;
 }
-void Road::DefineGraphStatus(int mask) // use NeibourRoadMask here!
+void Road::DefineNodeStatus(int mask) // use NeibourRoadMask here!
 {
 	switch (mask)
 	{
@@ -405,32 +431,46 @@ PointCoord Road::GetRedrawNeiboursPoint() const
 {
 	return GetUpperLeft();
 }
-int Road::GetMaskPartPreliminaryRoad(const Construction* preliminary_ptr) const
+int Road::GetMaskWithConstruction(const Construction* someConstruction_ptr) const
 {
-	PointCoord leftLocation(GetUpperLeft().Get_x() - 1, GetUpperLeft().Get_y());
-	PointCoord rightLocation(GetUpperLeft().Get_x() + 1, GetUpperLeft().Get_y());
-	PointCoord downLocation(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() + 1);
-	PointCoord upLocation(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() - 1);
 	int roadEnvironmentMask = 0;
-	if (preliminary_ptr != nullptr)
+	if (someConstruction_ptr != nullptr)
 	{
-		PointCoord preliminaryUpperLeft(0, 0);
-		if (preliminary_ptr->GetExitDirection() == Direction::None)
+		if (someConstruction_ptr->GetExitDirection() == Direction::None)
 		{
-			preliminaryUpperLeft = preliminary_ptr->GetUpperLeft();
-			if (preliminaryUpperLeft == leftLocation)
+			if (someConstruction_ptr->GetUpperLeft() == GetUpperLeft().GetSideCoord(Direction::Left))
 			{
 				roadEnvironmentMask |= int(roadMask::LEFT);
 			}
-			if (preliminaryUpperLeft == rightLocation)
+			if (someConstruction_ptr->GetUpperLeft() == GetUpperLeft().GetSideCoord(Direction::Right))
 			{
 				roadEnvironmentMask |= int(roadMask::RIGHT);
 			}
-			if (preliminaryUpperLeft == upLocation)
+			if (someConstruction_ptr->GetUpperLeft() == GetUpperLeft().GetSideCoord(Direction::Up))
 			{
 				roadEnvironmentMask |= int(roadMask::TOP);
 			}
-			if (preliminaryUpperLeft == downLocation)
+			if (someConstruction_ptr->GetUpperLeft() == GetUpperLeft().GetSideCoord(Direction::Down))
+			{
+				roadEnvironmentMask |= int(roadMask::BOTTOM);
+			}
+		}
+		else
+		{
+			PointCoord preliminaryConstructionEntrance = someConstruction_ptr->GetEntrancePoint();
+			if (preliminaryConstructionEntrance == GetUpperLeft().GetSideCoord(Direction::Left) && someConstruction_ptr->GetExitDirection() == Direction::Right)
+			{
+				roadEnvironmentMask |= int(roadMask::LEFT);
+			}
+			if (preliminaryConstructionEntrance == GetUpperLeft().GetSideCoord(Direction::Right) && someConstruction_ptr->GetExitDirection() == Direction::Left)
+			{
+				roadEnvironmentMask |= int(roadMask::RIGHT);
+			}
+			if (preliminaryConstructionEntrance == GetUpperLeft().GetSideCoord(Direction::Up) && someConstruction_ptr->GetExitDirection() == Direction::Down)
+			{
+				roadEnvironmentMask |= int(roadMask::TOP);
+			}
+			if (preliminaryConstructionEntrance == GetUpperLeft().GetSideCoord(Direction::Down) && someConstruction_ptr->GetExitDirection() == Direction::Up)
 			{
 				roadEnvironmentMask |= int(roadMask::BOTTOM);
 			}
@@ -438,147 +478,83 @@ int Road::GetMaskPartPreliminaryRoad(const Construction* preliminary_ptr) const
 	}
 	return roadEnvironmentMask;
 }
-int Road::GetMaskPartRealRoads(const list<Road*>& allRoads) const
+int Road::GetMaskWithRealRoads(const list<Road*>& allRoads) const
 {
-	PointCoord leftLocation(GetUpperLeft().Get_x() - 1, GetUpperLeft().Get_y());
-	PointCoord rightLocation(GetUpperLeft().Get_x() + 1, GetUpperLeft().Get_y());
-	PointCoord downLocation(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() + 1);
-	PointCoord upLocation(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() - 1);
 	int roadEnvironmentMask = 0;
 	list<Road*>::const_iterator roadIter;
 	for (roadIter = allRoads.begin(); roadIter != allRoads.end(); roadIter++)
 	{
-		if ((*roadIter)->GetUpperLeft() == leftLocation)
-		{
-			roadEnvironmentMask |= int(roadMask::LEFT);
-		}
-		if ((*roadIter)->GetUpperLeft() == rightLocation)
-		{
-			roadEnvironmentMask |= int(roadMask::RIGHT);
-		}
-		if ((*roadIter)->GetUpperLeft() == upLocation)
-		{
-			roadEnvironmentMask |= int(roadMask::TOP);
-		}
-		if ((*roadIter)->GetUpperLeft() == downLocation)
-		{
-			roadEnvironmentMask |= int(roadMask::BOTTOM);
-		}
+		roadEnvironmentMask |= this->GetMaskWithConstruction((*roadIter));
 	}
 	return roadEnvironmentMask;
 }
-int Road::GetNeibourRoadMask(const list<Road*>& allRoads, const Construction* preliminary_ptr) const
+int Road::GetMaskWithRealBuildings(const list<Building*>& allBuildings) const
 {
-	int roadEnvironmentMask = GetMaskPartPreliminaryRoad(preliminary_ptr);
-	roadEnvironmentMask |= GetMaskPartRealRoads(allRoads);
+	int roadEnvironmentMask = 0;
+	for (auto everyBuilding : allBuildings)
+	{
+		this->GetMaskWithConstruction(everyBuilding);
+	}
 	return roadEnvironmentMask;
 }
 int Road::GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
 {
-	PointCoord leftLocation(GetUpperLeft().Get_x() - 1, GetUpperLeft().Get_y());
-	PointCoord rightLocation(GetUpperLeft().Get_x() + 1, GetUpperLeft().Get_y());
-	PointCoord downLocation(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() + 1);
-	PointCoord upLocation(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() - 1);
-	int roadEnvironmentMask = GetNeibourRoadMask(allRoads, preliminary_ptr);
-	if (preliminary_ptr != nullptr && preliminary_ptr->GetExitDirection() != Direction::None)
-	{
-		PointCoord preliminaryConstructionEntrance = preliminary_ptr->GetEntrancePoint();
-		if (preliminaryConstructionEntrance == leftLocation && preliminary_ptr->GetExitDirection() == Direction::Right)
-		{
-			roadEnvironmentMask |= int(roadMask::LEFT);
-		}
-		if (preliminaryConstructionEntrance == rightLocation && preliminary_ptr->GetExitDirection() == Direction::Left)
-		{
-			roadEnvironmentMask |= int(roadMask::RIGHT);
-		}
-		if (preliminaryConstructionEntrance == upLocation && preliminary_ptr->GetExitDirection() == Direction::Down)
-		{
-			roadEnvironmentMask |= int(roadMask::TOP);
-		}
-		if (preliminaryConstructionEntrance == downLocation && preliminary_ptr->GetExitDirection() == Direction::Up)
-		{
-			roadEnvironmentMask |= int(roadMask::BOTTOM);
-		}
-	}
-	list<Building*>::const_iterator buildingIter;
-	for (buildingIter = allBuildings.begin(); buildingIter != allBuildings.end(); buildingIter++)
-	{
-		PointCoord entrance = (*buildingIter)->GetEntrancePoint();
-		if (entrance == leftLocation && (*buildingIter)->GetExitDirection() == Direction::Right)
-		{
-			roadEnvironmentMask |= int(roadMask::LEFT);
-		}
-		if (entrance == rightLocation && (*buildingIter)->GetExitDirection() == Direction::Left)
-		{
-			roadEnvironmentMask |= int(roadMask::RIGHT);
-		}
-		if (entrance == upLocation && (*buildingIter)->GetExitDirection() == Direction::Down)
-		{
-			roadEnvironmentMask |= int(roadMask::TOP);
-		}
-		if (entrance == downLocation && (*buildingIter)->GetExitDirection() == Direction::Up)
-		{
-			roadEnvironmentMask |= int(roadMask::BOTTOM);
-		}
-	}
+	int roadEnvironmentMask = GetMaskWithRealRoads(allRoads);
+	roadEnvironmentMask |= GetMaskWithConstruction(preliminary_ptr);
+	roadEnvironmentMask |= GetMaskWithRealBuildings(allBuildings);
 	return roadEnvironmentMask;
 }
 bool Road::IsNode(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
 {
-	bool previousNodeStatus = GetNodeStatus();
-	if (RoadIsAnEntrance(allBuildings))
+	if (this != preliminary_ptr)
 	{
-		SetNodeStatus(true);
+		bool previousNodeStatus = GetNodeStatus();
+		if (RoadIsAnEntrance(allBuildings))
+		{
+			SetNodeStatus(true);
+		}
+		else
+		{
+			int mask = GetMaskWithRealRoads(allRoads);
+			DefineNodeStatus(mask);
+		}
+		bool newNodeStatus = GetNodeStatus();
+		if (previousNodeStatus == newNodeStatus)
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
 	}
 	else
 	{
-		int mask = GetNeibourRoadMask(allRoads, preliminary_ptr);
-		DefineGraphStatus(mask);
-	}
-	bool newNodeStatus = GetNodeStatus();
-	if (previousNodeStatus == newNodeStatus)
-	{
-		return false;
-	}
-	else
-	{
-		return true;
+		return false; //preliminary construction never become a node
 	}
 }
-void Road::Connected(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
+bool Road::Connected(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
 {
-	PointCoord leftLocation(GetUpperLeft().Get_x() - 1, GetUpperLeft().Get_y());
-	PointCoord rightLocation(GetUpperLeft().Get_x() + 1, GetUpperLeft().Get_y());
-	PointCoord downLocation(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() + 1);
-	PointCoord upLocation(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() - 1);
-	list<Road*>::const_iterator roadIter;
-	for (roadIter = allRoads.begin(); roadIter != allRoads.end(); roadIter++)
+	if (!GetNeibourRoads(allRoads).empty())
 	{
-		if ((*roadIter)->GetUpperLeft() == leftLocation || (*roadIter)->GetUpperLeft() == rightLocation ||
-			(*roadIter)->GetUpperLeft() == downLocation || (*roadIter)->GetUpperLeft() == upLocation)
-		{
-			SetRoadConnectionStatus(true);
-			return;
-		}
+		SetRoadConnectionStatus(true);
+		return true;
 	}
-	for (Building* building : allBuildings)
+	if (!GetNeibourBuildings(allBuildings).empty())
 	{
-		if (building->GetPotentialConnectedRoadPoint() == GetUpperLeft())
-		{
-			SetRoadConnectionStatus(true);
-			return;
-		}
+		SetRoadConnectionStatus(true);
+		return true;
 	}
-	if (preliminary_ptr != nullptr)
+	if (preliminary_ptr != nullptr && this != preliminary_ptr)
 	{
 		Direction exit = preliminary_ptr->GetExitDirection();
 		if (exit == Direction::None)
 		{
-			if (preliminary_ptr->GetUpperLeft() == leftLocation || preliminary_ptr->GetUpperLeft() == rightLocation ||
-				preliminary_ptr->GetUpperLeft() == downLocation || preliminary_ptr->GetUpperLeft() == upLocation)
+			if (preliminary_ptr->GetUpperLeft() == GetUpperLeft().GetSideCoord(Direction::Left) || preliminary_ptr->GetUpperLeft() == GetUpperLeft().GetSideCoord(Direction::Right) ||
+				preliminary_ptr->GetUpperLeft() == GetUpperLeft().GetSideCoord(Direction::Down) || preliminary_ptr->GetUpperLeft() == GetUpperLeft().GetSideCoord(Direction::Up))
 			{
 				SetRoadConnectionStatus(true);
-				return;
+				return true;
 			}
 		}
 		else
@@ -586,41 +562,78 @@ void Road::Connected(const list<Road*>& allRoads, const list<Building*>& allBuil
 			if (preliminary_ptr->GetPotentialConnectedRoadPoint() == GetUpperLeft())
 			{
 				SetRoadConnectionStatus(true);
-				return;
+				return true;
 			}
 		}
 	}
 	SetRoadConnectionStatus(false);
+	return false;
 }
-void Road::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr, const Camera* camera_ptr)
+vector<Construction*> Road::GetNeibourRoads(const list<Road*>& allRoads) const
 {
-	int cameraLeftX = camera_ptr->GetUpperLeft().Get_x();
-	int cameraTopY = camera_ptr->GetUpperLeft().Get_y();
-	int cameraRightX = cameraLeftX + camera_ptr->GetWidthAddition();
-	int cameraBottomY = cameraTopY + camera_ptr->GetHeightAddition();
-	list<Road*>::const_iterator roadIter;
-	for (roadIter = allRoads.begin(); roadIter != allRoads.end(); roadIter++)
+	vector<Construction*> neibourRoads;
+	for (auto everyRoad : allRoads)
 	{
-		if ((*roadIter)->GetUpperLeft() == GetUpperLeft().GetSideCoord(Direction::Left) || (*roadIter)->GetUpperLeft() == GetUpperLeft().GetSideCoord(Direction::Right) ||
-			(*roadIter)->GetUpperLeft() == GetUpperLeft().GetSideCoord(Direction::Down) || (*roadIter)->GetUpperLeft() == GetUpperLeft().GetSideCoord(Direction::Up))
+		if (everyRoad->GetUpperLeft() == GetUpperLeft().GetSideCoord(Direction::Left) || everyRoad->GetUpperLeft() == GetUpperLeft().GetSideCoord(Direction::Right) ||
+			everyRoad->GetUpperLeft() == GetUpperLeft().GetSideCoord(Direction::Down) || everyRoad->GetUpperLeft() == GetUpperLeft().GetSideCoord(Direction::Up))
 		{
-			int mask = (*roadIter)->GetEnvironmentMask(allRoads, allBuildings, preliminary_ptr);
-			if (preliminary_ptr == nullptr)
-			{
-				bool nodeStatusChanged = (*roadIter)->IsNode(allRoads, allBuildings, preliminary_ptr);
-			}
-			(*roadIter)->Connected(allRoads, allBuildings, preliminary_ptr);
-			(*roadIter)->DrawObject(mask);
+			neibourRoads.push_back(everyRoad);
 		}
 	}
-	list<Building*>::const_iterator buildingIter;
-	for (buildingIter = allBuildings.begin(); buildingIter != allBuildings.end(); buildingIter++)
+	return neibourRoads;
+}
+vector<Construction*> Road::GetNeibourBuildings(const list<Building*>& allBuildings) const
+{
+	vector<Construction*> neibourBuildings;
+	for (auto everyBuilding : allBuildings)
 	{
-		PointCoord potentialRoad = (*buildingIter)->GetPotentialConnectedRoadPoint();
-		if (GetUpperLeft() == potentialRoad)
+		if (GetUpperLeft() == everyBuilding->GetPotentialConnectedRoadPoint())
 		{
-			(*buildingIter)->Connected(allRoads, allBuildings, preliminary_ptr);
-			(*buildingIter)->DrawObject(0, cameraLeftX, cameraTopY, cameraRightX, cameraBottomY);
+			neibourBuildings.push_back(everyBuilding);
+		}
+	}
+	return neibourBuildings;
+}
+Construction* Road::PreliminaryNeibour(Construction* preliminary_ptr) const
+{
+	if (preliminary_ptr == nullptr)
+	{
+		return nullptr;
+	}
+	else
+	{
+		int maskWithPreliminary = GetMaskWithConstruction(preliminary_ptr);
+		if (maskWithPreliminary != 0)
+		{
+			return preliminary_ptr;
+		}
+		else
+		{
+			return nullptr;
+		}
+	}
+}
+void Road::RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, Construction* preliminary_ptr, const Camera* camera_ptr)
+{
+	vector<Construction*> neibours = this->GetNeibourRoads(allRoads);
+	vector<Construction*> neibourBuildings = this->GetNeibourBuildings(allBuildings);
+	neibours.insert(neibours.end(), neibourBuildings.begin(), neibourBuildings.end());
+	if (preliminary_ptr != nullptr)
+	{
+		neibours.push_back(this->PreliminaryNeibour(preliminary_ptr));
+	}
+	for (auto everyNeibour : neibours)
+	{
+		if (everyNeibour != nullptr)
+		{
+			if (everyNeibour != preliminary_ptr)
+			{
+				bool nodeStatusChanged = everyNeibour->IsNode(allRoads, allBuildings, preliminary_ptr);
+			}
+			int mask = everyNeibour->GetEnvironmentMask(allRoads, allBuildings, preliminary_ptr);
+			everyNeibour->Connected(allRoads, allBuildings, preliminary_ptr);
+			everyNeibour->DrawObject(mask, camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(),
+				camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(), camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
 		}
 	}
 }
@@ -655,25 +668,11 @@ void UnbreakableRoad::SetRoadConnectionStatus(bool connected)
 {
 	Construction::SetRoadConnectionStatus(true); //this roads are always connected
 }
-int UnbreakableRoad::GetMaskPartRealRoads(const list<Road*>& allRoads) const
+int UnbreakableRoad::GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
 {
-	PointCoord leftLocation(GetUpperLeft().Get_x() - 1, GetUpperLeft().Get_y());
-	PointCoord rightLocation(GetUpperLeft().Get_x() + 1, GetUpperLeft().Get_y());
-	PointCoord downLocation(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() + 1);
-	PointCoord upLocation(GetUpperLeft().Get_x(), GetUpperLeft().Get_y() - 1);
-	int roadEnvironmentMask = 0;
-	list<Road*>::const_iterator roadIter;
-	for (roadIter = allRoads.begin(); roadIter != allRoads.end(); roadIter++)
-	{
-		if ((*roadIter)->GetUpperLeft() == leftLocation)
-		{
-			roadEnvironmentMask |= int(roadMask::LEFT);
-		}
-		if ((*roadIter)->GetUpperLeft() == rightLocation)
-		{
-			roadEnvironmentMask |= int(roadMask::RIGHT);
-		}
-	}
+	int roadEnvironmentMask = GetMaskWithRealRoads(allRoads);
+	roadEnvironmentMask |= GetMaskWithConstruction(preliminary_ptr);
+	roadEnvironmentMask |= GetMaskWithRealBuildings(allBuildings);
 	roadEnvironmentMask |= int(roadMask::TOP);
 	roadEnvironmentMask |= int(roadMask::BOTTOM);
 	return roadEnvironmentMask;

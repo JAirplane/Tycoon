@@ -699,7 +699,7 @@ vector<int> AllObjects::UpdateEdges(Node* updated_ptr, int realRoadMask)
 }
 void AllObjects::GraphStatusUpdate(Road* graphStatusChanged_ptr)
 {
-	int realRoadMask = graphStatusChanged_ptr->GetMaskPartRealRoads(roads);
+	int realRoadMask = graphStatusChanged_ptr->GetMaskWithRealRoads(roads);
 	if (graphStatusChanged_ptr->GetNodeStatus())
 	{
 		Node* newNode_ptr = graph_ptr->AddNode(graphStatusChanged_ptr->GetUpperLeft());
@@ -717,7 +717,7 @@ void AllObjects::GraphStatusUpdate(Road* graphStatusChanged_ptr)
 				throw MyException("AllObjects::GraphStatusUpdate(Road* graphStatusChanged_ptr) neibourRoad doesn't exist");
 			}
 			graph_ptr->DeleteEdges(neibourNode->nodeIndex);
-			int neibourRoadMask = neibourRoad->GetMaskPartRealRoads(roads);
+			int neibourRoadMask = neibourRoad->GetMaskWithRealRoads(roads);
 			UpdateEdges(neibourNode, neibourRoadMask);
 		}
 	}
@@ -742,7 +742,7 @@ void AllObjects::GraphStatusUpdate(Road* graphStatusChanged_ptr)
 			{
 				throw MyException("AllObjects::GraphStatusUpdate(Road* graphStatusChanged_ptr) neibourRoad doesn't exist");
 			}
-			int neibourRoadMask = neibourRoad->GetMaskPartRealRoads(roads);
+			int neibourRoadMask = neibourRoad->GetMaskWithRealRoads(roads);
 			UpdateEdges(neibourNode, neibourRoadMask);
 		}
 		graph_ptr->DeleteNode(forDeleting->nodeIndex);

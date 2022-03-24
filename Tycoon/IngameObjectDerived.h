@@ -1,5 +1,6 @@
 #pragma once
 #include "IngameObject.h"
+#include <vector>
 /////////////Parent Class of Every Construction Type/////////////
 class Road;
 class Building;
@@ -44,14 +45,17 @@ public:
 	//
 	color GetBackgroundColor() const;
 	virtual int RotateConstruction() = 0;
-	virtual int GetNeibourRoadMask(const list<Road*>& allRoads, const Construction* preliminary_ptr) const = 0;
 	virtual int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
 	virtual bool IsNode(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
-	virtual void Connected(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
+	virtual bool Connected(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
 	virtual void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const = 0;
 	virtual void DrawObject(const wstring drawingSymbol) const;
 	void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const = 0;
-	virtual void RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr, const Camera* camera_ptr) = 0;
+	//
+	virtual vector<Construction*> GetNeibourRoads(const list<Road*>& allRoads) const = 0;
+	virtual vector<Construction*> GetNeibourBuildings(const list<Building*>& allBuildings) const = 0;
+	virtual Construction* PreliminaryNeibour(Construction* preliminary_ptr) const = 0;
+	virtual void RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, Construction* preliminary_ptr, const Camera* camera_ptr) = 0;
 	static void RedrawNeibours(PointCoord centralPoint, const list<Road*>& allRoads, const list<Building*>& allBuildings,
 		const Construction* preliminary_ptr, const Camera* camera_ptr);
 	void SetVisitorsCount(int visitorsCount);
@@ -83,17 +87,19 @@ public:
 	void SetExitDirection(Direction exit);
 	PointCoord GetEntrancePoint() const override;
 	int RotateConstruction() override; // returns -1 if rotation failed
-	int GetNeibourRoadMask(const list<Road*>& allRoads, const Construction* preliminary_ptr) const override;
 	PointCoord GetRedrawNeiboursPoint() const override;
 	PointCoord GetPotentialConnectedRoadPoint() const;
 	wstring GetEntranceSymbol() const override;
 	void CopyEntrance(Construction* preliminary_ptr);
 	int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
 	bool IsNode(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
-	void Connected(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
+	bool Connected(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
 	int GetProfit() const;
 	void SetProfit(int profit);
-	void RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr, const Camera* camera_ptr) override;
+	vector<Construction*> GetNeibourRoads(const list<Road*>& allRoads) const override;
+	vector<Construction*> GetNeibourBuildings(const list<Building*>& allBuildings) const override;
+	Construction* PreliminaryNeibour(Construction* preliminary_ptr) const override;
+	void RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, Construction* preliminary_ptr, const Camera* camera_ptr) override;
 	void CorrectBuildingCoordsForDraw(int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY, int& leftX, int& topY, int& rightX, int& bottomY) const;
 	void DrawObject(int mask = 0, int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
 	void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
@@ -128,14 +134,19 @@ public:
 	bool RoadIsAnEntrance(const list<Building*>& allBuildings);
 	PointCoord GetEntrancePoint() const override;
 	PointCoord GetRedrawNeiboursPoint() const override;
-	int GetMaskPartPreliminaryRoad(const Construction* preliminary_ptr) const;
-	virtual int GetMaskPartRealRoads(const list<Road*>& allRoads) const;
-	int GetNeibourRoadMask(const list<Road*>& allRoads, const Construction* preliminary_ptr) const override;
+	//
+	int GetMaskWithConstruction(const Construction* someConstruction_ptr) const;
+	virtual int GetMaskWithRealRoads(const list<Road*>& allRoads) const;
+	int GetMaskWithRealBuildings(const list<Building*>& allBuildings) const;
 	int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
+	//
 	bool IsNode(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
-	void Connected(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
-	void DefineGraphStatus(int mask); // use NeibourRoadMask here!
-	void RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr, const Camera* camera_ptr) override;
+	bool Connected(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
+	void DefineNodeStatus(int mask); // use NeibourRoadMask here!
+	vector<Construction*> GetNeibourRoads(const list<Road*>& allRoads) const override;
+	vector<Construction*> GetNeibourBuildings(const list<Building*>& allBuildings) const override;
+	Construction* PreliminaryNeibour(Construction* preliminary_ptr) const override;
+	void RedrawNeibours(const list<Road*>& allRoads, const list<Building*>& allBuildings, Construction* preliminary_ptr, const Camera* camera_ptr) override;
 	void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const override;
 	void DrawObject(const wstring drawingSymbol) const override;
 	void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
@@ -150,7 +161,7 @@ public:
 	bool IsBreakable() const override;
 	bool IsNode(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
 	void SetRoadConnectionStatus(bool connected) override;
-	int GetMaskPartRealRoads(const list<Road*>& allRoads) const override;
+	int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr);
 };
 /////////////People are looking for some fun!/////////////
 class Visitor : public IngameObject

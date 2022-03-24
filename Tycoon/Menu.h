@@ -1,6 +1,5 @@
 #pragma once
 #include "GameStats.h"
-#include <vector>
 class Menu : public MyRectangle
 {
 private:
