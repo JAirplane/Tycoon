@@ -29,8 +29,8 @@ void AllObjects::CreateParkEntrance(const PlayingField* playingField_ptr, Constr
 		UnbreakableRoad* undestractableRoad_ptr = new UnbreakableRoad(PointCoord(playingField_ptr->GetHalfXAxis() + xAdd,
 			playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() - 1), descriptor_ptr, draw_ptr);
 		undestractableRoad_ptr->SetRoadConnectionStatus(true);
-		undestractableRoad_ptr->IsNode(roads, buildings, preliminaryConstruction_ptr);
-		GraphStatusUpdate(undestractableRoad_ptr);
+		undestractableRoad_ptr->GraphStatusAttach(this->GetGraph());
+		undestractableRoad_ptr->GraphStatusNotify(true);
 		roads.push_back(undestractableRoad_ptr);
 	}
 }
@@ -52,6 +52,10 @@ const list<Building*>& AllObjects::GetAllBuildings() const
 const list<Road*>& AllObjects::GetAllRoads() const
 {
 	return roads;
+}
+RoadGraph* AllObjects::GetGraph() const
+{
+	return graph_ptr;
 }
 size_t AllObjects::GetBuildingsQuantity() const
 {
@@ -117,10 +121,10 @@ void AllObjects::ErasePreliminaryElement(Camera* camera_ptr, PlayingField* field
 			draw_ptr->EraseConstruction(preliminaryConstruction_ptr->GetUpperLeft().Get_x(), preliminaryConstruction_ptr->GetUpperLeft().Get_y(),
 				preliminaryConstruction_ptr->GetUpperLeft().Get_x() + preliminaryConstruction_ptr->GetWidthAddition(),
 				preliminaryConstruction_ptr->GetUpperLeft().Get_y() + preliminaryConstruction_ptr->GetHeightAddition());
-			PointCoord preliminaryElementNeibourRedraw = preliminaryConstruction_ptr->GetRedrawNeiboursPoint();
+			PointCoord preliminaryElementNeibourRedraw = preliminaryConstruction_ptr->GetRedrawNeighboursPoint();
 			delete preliminaryConstruction_ptr;
 			preliminaryConstruction_ptr = nullptr;
-			Construction::RedrawNeibours(preliminaryElementNeibourRedraw, roads, buildings, preliminaryConstruction_ptr, camera_ptr);
+			Construction::RedrawNeighbours(preliminaryElementNeibourRedraw, roads, buildings, preliminaryConstruction_ptr, camera_ptr);
 			return;
 		}
 		delete preliminaryConstruction_ptr;
@@ -572,181 +576,6 @@ void AllObjects::DeleteConstruction(Construction* forDeleting, function<bool(Con
 void AllObjects::DeleteVisitor(Visitor* forDeleting, function<bool(Visitor*)> IsEqual)
 {
 	visitors.remove_if(IsEqual);
-}
-//GetSideCoord
-const Road* AllObjects::FindNextPathPoint(PointCoord point, PointCoord previousPathElement)
-{
-	for (auto roadElement : roads)
-	{
-		if ((roadElement->GetUpperLeft() == point.GetSideCoord(Direction::Left) || roadElement->GetUpperLeft() == point.GetSideCoord(Direction::Up) ||
-			roadElement->GetUpperLeft() == point.GetSideCoord(Direction::Right) || roadElement->GetUpperLeft() == point.GetSideCoord(Direction::Down)) &&
-			roadElement->GetUpperLeft() != previousPathElement)
-		{
-			return roadElement;
-		}
-	}
-	return nullptr;
-}
-vector<PointCoord> AllObjects::FindPathToTheNearestNode(PointCoord location, Direction pathDirection)
-{
-	vector<PointCoord> wayToNearestNode;
-	if (FindRoad(location) == nullptr)
-	{
-		throw MyException("AllObjects::FindPathToTheNearestNode(PointCoord location, Direction pathDirection) no road at this location");
-	}
-	if (pathDirection == Direction::None)
-	{
-		throw MyException("AllObjects::FindPathToTheNearestNode(PointCoord location, Direction pathDirection) bad direction");
-	}
-	const Road* pathElement = FindRoad(location.GetSideCoord(pathDirection));
-	PointCoord previousPathElement = location;
-	if (pathElement != nullptr)
-	{
-		wayToNearestNode.push_back(pathElement->GetUpperLeft());
-		if (pathElement->GetNodeStatus())
-		{
-			return wayToNearestNode;
-		}
-	}
-	else
-	{
-		return wayToNearestNode; //returns empty vector if there is no path in fact
-	}
-	while (true)
-	{
-		if (pathElement != nullptr)
-		{
-			PointCoord elementLocation = pathElement->GetUpperLeft();
-			pathElement = FindNextPathPoint(elementLocation, previousPathElement);
-			if (pathElement != nullptr)
-			{
-				wayToNearestNode.push_back(pathElement->GetUpperLeft());
-				if (pathElement->GetNodeStatus())
-				{
-					return wayToNearestNode;
-				}
-				previousPathElement = wayToNearestNode.rbegin()[1]; //being here means that we add at least two elements to our path vector
-			}
-		}
-		else
-		{
-			throw MyException("AllObjects::FindPathToTheNearestNode(PointCoord location, Direction pathDirection) pathElement become nullptr in a while cycle");
-		}
-	}
-}
-Edge* AllObjects::UpdateEdge(Node* updated_ptr, Direction side)
-{
-	if (side == Direction::None)
-	{
-		throw MyException("AllObjects::UpdateEdge(PointCoord startNodeLocation, Direction side) bad direction");
-	}
-	vector<PointCoord> path = FindPathToTheNearestNode(updated_ptr->nodePoint, side);
-	if (!path.empty())
-	{
-		Node* pathEndNode = graph_ptr->FindNode(path.back());
-		Edge* newEdge = graph_ptr->AddEdge(updated_ptr->nodeIndex, pathEndNode->nodeIndex);
-		return newEdge;
-	}
-	else
-	{
-		return nullptr;
-	}
-}
-vector<int> AllObjects::UpdateEdges(Node* updated_ptr, int realRoadMask)
-{
-	if (updated_ptr == nullptr)
-	{
-		throw MyException("AllObjects::UpdateEdges(Node* updated_ptr) got nullptr node.");
-	}
-	else
-	{
-		vector<int> edgeEndIndices;
-		Edge* createdEdge = nullptr;
-		if (realRoadMask & leftside)
-		{
-			createdEdge = UpdateEdge(updated_ptr, Direction::Left);
-			if (createdEdge != nullptr)
-			{
-				edgeEndIndices.push_back(createdEdge->endingIndex);
-			}
-		}
-		if (realRoadMask & topside)
-		{
-			createdEdge = UpdateEdge(updated_ptr, Direction::Up);
-			if (createdEdge != nullptr)
-			{
-				edgeEndIndices.push_back(createdEdge->endingIndex);
-			}
-		}
-		if (realRoadMask & rightside)
-		{
-			createdEdge = UpdateEdge(updated_ptr, Direction::Right);
-			if (createdEdge != nullptr)
-			{
-				edgeEndIndices.push_back(createdEdge->endingIndex);
-			}
-		}
-		if (realRoadMask & bottomside)
-		{
-			createdEdge = UpdateEdge(updated_ptr, Direction::Down);
-			if (createdEdge != nullptr)
-			{
-				edgeEndIndices.push_back(createdEdge->endingIndex);
-			}
-		}
-		return edgeEndIndices;
-	}
-}
-void AllObjects::GraphStatusUpdate(Road* graphStatusChanged_ptr)
-{
-	int realRoadMask = graphStatusChanged_ptr->GetMaskWithRealRoads(roads);
-	if (graphStatusChanged_ptr->GetNodeStatus())
-	{
-		Node* newNode_ptr = graph_ptr->AddNode(graphStatusChanged_ptr->GetUpperLeft());
-		vector<int> neibourNodeIndices = UpdateEdges(newNode_ptr, realRoadMask);
-		for (int index : neibourNodeIndices)
-		{
-			Node* neibourNode = graph_ptr->FindNode(index);
-			Road* neibourRoad = FindRoad(neibourNode->nodePoint);
-			if (neibourNode == nullptr)
-			{
-				throw MyException("AllObjects::GraphStatusUpdate(Road* graphStatusChanged_ptr) neibourNode doesn't exist");
-			}
-			if (neibourRoad == nullptr)
-			{
-				throw MyException("AllObjects::GraphStatusUpdate(Road* graphStatusChanged_ptr) neibourRoad doesn't exist");
-			}
-			graph_ptr->DeleteEdges(neibourNode->nodeIndex);
-			int neibourRoadMask = neibourRoad->GetMaskWithRealRoads(roads);
-			UpdateEdges(neibourNode, neibourRoadMask);
-		}
-	}
-	else
-	{
-		Node* forDeleting = graph_ptr->FindNode(graphStatusChanged_ptr->GetUpperLeft());
-		if (forDeleting == nullptr)
-		{
-			throw MyException("AllObjects::GraphStatusUpdate(Road* graphStatusChanged_ptr) forDeleting doesn't exist");
-		}
-		vector<int> neibourNodeIndices = graph_ptr->FindNeibourNodeIndices(forDeleting->nodeIndex);
-		graph_ptr->DeleteEdges(forDeleting->nodeIndex);
-		for (int nodeIndex : neibourNodeIndices)
-		{
-			Node* neibourNode = graph_ptr->FindNode(graphStatusChanged_ptr->GetUpperLeft());
-			Road* neibourRoad = FindRoad(neibourNode->nodePoint);
-			if (neibourNode == nullptr)
-			{
-				throw MyException("AllObjects::GraphStatusUpdate(Road* graphStatusChanged_ptr) neibourNode doesn't exist");
-			}
-			if (neibourRoad == nullptr)
-			{
-				throw MyException("AllObjects::GraphStatusUpdate(Road* graphStatusChanged_ptr) neibourRoad doesn't exist");
-			}
-			int neibourRoadMask = neibourRoad->GetMaskWithRealRoads(roads);
-			UpdateEdges(neibourNode, neibourRoadMask);
-		}
-		graph_ptr->DeleteNode(forDeleting->nodeIndex);
-	}
 }
 //
 void AllObjects::MoveInOneStep(Visitor* person, const Camera* camera_ptr)

@@ -30,4 +30,3 @@ public:
 	virtual void ChosenConstructionDetach(ConstructionInfoObserverInterface* observer) = 0;
 	virtual void ChosenConstructionNotify(Construction* choosenConstruction_ptr) = 0;
 };
-

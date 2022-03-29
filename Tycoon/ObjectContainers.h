@@ -3,7 +3,7 @@
 #include <functional>
 #include "RoadGraph.h"
 /////////////Containers of All Objects in the Game/////////////
-class AllObjects : public GraphStatusObserverInterface
+class AllObjects
 {
 private:
 	Cursor* cursor_ptr;
@@ -48,11 +48,9 @@ public:
 	}
 	void CreateParkEntrance(const PlayingField* playingField_ptr, ConstructionDescriptor* descriptor_ptr, Visualisation* draw_ptr);
 	//
-
-	void GraphStatusUpdate(Road* graphStatusChanged_ptr) override;
-	//
 	const list<Building*>& GetAllBuildings() const;
 	const list<Road*>& GetAllRoads() const;
+	RoadGraph* GetGraph() const;
 	size_t GetBuildingsQuantity() const;
 	size_t GetRoadsQuantity() const;
 	size_t GetVisitorsQuantity() const;
@@ -91,11 +89,6 @@ public:
 	Construction* FindOutOfPlayingFieldConstruction(PointCoord location) const;
 	void DeleteConstruction(Construction* forDeleting, function<bool(Construction*)> IsEqual);
 	void DeleteVisitor(Visitor* forDeleting, function<bool(Visitor*)> IsEqual);
-	//
-	const Road* FindNextPathPoint(PointCoord point, PointCoord previousPathElement);
-	vector<PointCoord> FindPathToTheNearestNode(PointCoord location, Direction dir);
-	Edge* UpdateEdge(Node* updated_ptr, Direction side);
-	vector<int> UpdateEdges(Node* updated_ptr, int realRoadMask); //it returns indices of the neibour nodes
 	//
 	void MoveInOneStep(Visitor* person, const Camera* camera_ptr);
 	void MoveOutOneStep(Visitor* person, Construction* visitorLocationRoad, const Camera* camera_ptr, const PlayingField* field_ptr);

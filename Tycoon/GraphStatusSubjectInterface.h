@@ -9,5 +9,5 @@ public:
 	virtual ~GraphStatusSubjectInterface() {};
 	virtual void GraphStatusAttach(GraphStatusObserverInterface* observer) = 0;
 	virtual void GraphStatusDetach(GraphStatusObserverInterface* observer) = 0;
-	virtual void GraphStatusNotify() = 0;
+	virtual void GraphStatusNotify(bool addOrDelete) = 0;
 };

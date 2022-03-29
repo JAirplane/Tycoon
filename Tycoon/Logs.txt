@@ -17,3 +17,6 @@ AllObjects::MoveInOneStep(Visitor* person) road not found (nullptr) or person ba
 AllObjects::FindPathToTheNearestNode(PointCoord location, Direction pathDirection) no road at this location
 AllObjects::FindPathToTheNearestNode(PointCoord location, Direction pathDirection) no road at this location
 AllObjects::FindPathToTheNearestNode(PointCoord location, Direction pathDirection) no road at this location
+AllObjects::FindPathToTheNearestNode(PointCoord location, Direction pathDirection) no road at this location
+AllObjects::FindPathToTheNearestNode(PointCoord location, Direction pathDirection) no road at this location
+AllObjects::FindPathToTheNearestNode(PointCoord location, Direction pathDirection) no road at this location

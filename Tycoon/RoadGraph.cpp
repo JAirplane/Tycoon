@@ -1,14 +1,6 @@
 #include "RoadGraph.h"
 
 //Class Node
-int Node::GetNodeIndex() const
-{
-	return index;
-}
-void Node::SetNodeIndex(int newIndex)
-{
-	index = newIndex;
-}
 PointCoord Node::GetNodeLocation() const
 {
 	return nodeLocation;
@@ -17,97 +9,29 @@ void Node::SetNodeLocation(PointCoord anotherLocation)
 {
 	nodeLocation = anotherLocation;
 }
-//Class Edge
-int Edge::GetStartingIndex() const
+Node* Node::GetNeighbourNode(Direction side)
 {
-	return startingNodeIndex;
+	switch (side)
+	{
+	case Direction::Left: {return leftNeighbour; }
+	case Direction::Up: {return aboveNeighbour; }
+	case Direction::Right: {return rightNeighbour; }
+	case Direction::Down: {return bottomNeighbour; }
+	default: {throw MyException("Node::GetNeighbourNode(Direction side) bad direction"); }
+	}
 }
-void Edge::SetStartingIndex(int newIndex)
+void Node::SetNeighbourNode(Node* neighbour, Direction side)
 {
-	startingNodeIndex = newIndex;
-}
-int Edge::GetEndingIndex() const
-{
-	return endingNodeIndex;
-}
-void Edge::SetEndingIndex(int newIndex)
-{
-	endingNodeIndex = newIndex;
+	switch (side)
+	{
+	case Direction::Left: {leftNeighbour = neighbour; }
+	case Direction::Up: {aboveNeighbour = neighbour; }
+	case Direction::Right: {rightNeighbour = neighbour; }
+	case Direction::Down: {bottomNeighbour = neighbour; }
+	default: {throw MyException("Node::GetNeighbourNode(Direction side) bad direction"); }
+	}
 }
 //Class RoadGraph
-Node* RoadGraph::AddNode(PointCoord location)
-{
-	if (FindNode(location) == nullptr)
-	{
-		Node* newNode_ptr = new Node(location);
-		newNode_ptr->nodeIndex = allNodes.size() + 1;
-		allNodes.push_back(newNode_ptr);
-		return newNode_ptr;
-	}
-	throw MyException("RoadGraph::AddNode(PointCoord location) addition of existed node");
-}
-void RoadGraph::DeleteNode(PointCoord location)
-{
-	auto IsEqual = [&](Node* element) -> bool
-	{
-		return location == element->nodePoint;
-	};
-	allNodes.remove_if(IsEqual);
-}
-void RoadGraph::DeleteNode(int index)
-{
-	auto IsEqual = [index](Node* element) -> bool
-	{
-		return index == element->nodeIndex;
-	};
-	allNodes.remove_if(IsEqual);
-}
-Edge* RoadGraph::AddEdge(int startIndex, int endIndex)
-{
-	if (FindEdge(startIndex, endIndex) == nullptr)
-	{
-		Edge* newEdge = new Edge(startIndex, endIndex);
-		allEdges.push_back(newEdge);
-		return newEdge;
-	}
-	return nullptr;
-}
-Edge* RoadGraph::AddEdge(PointCoord startPoint, PointCoord endPoint)
-{
-	Node* startNode = FindNode(startPoint);
-	Node* endNode = FindNode(endPoint);
-	if (startNode == nullptr)
-	{
-		throw MyException("RoadGraph::AddEdge(PointCoord startPoint, PointCoord endPoint) startNode is nullptr");
-	}
-	if (endNode == nullptr)
-	{
-		throw MyException("RoadGraph::AddEdge(PointCoord startPoint, PointCoord endPoint) endNode is nullptr");
-	}
-	if (FindEdge(startNode->nodeIndex, endNode->nodeIndex) == nullptr)
-	{
-		Edge* newEdge = new Edge(FindNode(startPoint)->nodeIndex, FindNode(endPoint)->nodeIndex);
-		allEdges.push_back(newEdge);
-		return newEdge;
-	}
-	return nullptr;
-}
-void RoadGraph::DeleteEdge(int startIndex, int endIndex)
-{
-	auto IsEqual = [=](Edge* element) -> bool
-	{
-		return (startIndex == element->startingIndex && endIndex == element->endingIndex);
-	};
-	allEdges.remove_if(IsEqual);
-}
-void RoadGraph::DeleteEdges(int index) //we need only begining or ending to delete all edges associated with specific node
-{
-	auto IsEqual = [index](Edge* element) -> bool
-	{
-		return (index == element->startingIndex || index == element->endingIndex);
-	};
-	allEdges.remove_if(IsEqual);
-}
 Node* RoadGraph::FindNode(PointCoord location)
 {
 	for (auto someNode : allNodes)
@@ -119,140 +43,143 @@ Node* RoadGraph::FindNode(PointCoord location)
 	}
 	return nullptr;
 }
-Node* RoadGraph::FindNode(int index)
+void RoadGraph::SetNeighbourhood(Node* someNode_ptr, Direction side)
 {
-	for (auto someNode : allNodes)
+	if (someNode_ptr == nullptr)
 	{
-		if (someNode->nodeIndex == index)
-		{
-			return someNode;
-		}
+		throw MyException("RoadGraph::SetNeighbourhood(Node* someNode_ptr, Direction side) got nullptr node");
 	}
-	return nullptr;
-}
-Edge* RoadGraph::FindEdge(int startIndex, int endIndex)
-{
-	for (auto someEdge : allEdges)
+	Node* neighbour = FindNode(someNode_ptr->nodePoint.GetSideCoord(side));
+	if (neighbour == nullptr)
 	{
-		if (someEdge->startingIndex == startIndex && someEdge->endingIndex == endIndex)
-		{
-			return someEdge;
-		}
+		return;
 	}
-	return nullptr;
-}
-vector<int> RoadGraph::FindNeibourNodeIndices(int nodeIndex)
-{
-	vector<int> indices;
-	for (auto someEdge : allEdges)
+	someNode_ptr->SetNeighbourNode(neighbour, side);
+	switch (side)
 	{
-		if (someEdge->startingIndex == nodeIndex)
-		{
-			indices.push_back(someEdge->endingIndex);
-		}
-		if (someEdge->endingIndex == nodeIndex)
-		{
-			indices.push_back(someEdge->startingIndex);
-		}
+	case Direction::Left: {neighbour->SetNeighbourNode(someNode_ptr, Direction::Right); return; }
+	case Direction::Up: {neighbour->SetNeighbourNode(someNode_ptr, Direction::Down); return; }
+	case Direction::Right: {neighbour->SetNeighbourNode(someNode_ptr, Direction::Left); return; }
+	case Direction::Down: {neighbour->SetNeighbourNode(someNode_ptr, Direction::Up); return; }
+	default: {throw MyException("RoadGraph::SetNeighbourhood(Node* someNode_ptr, Direction side) bad direction"); }
 	}
-	sort(indices.begin(), indices.end());
-	indices.erase(unique(indices.begin(), indices.end()), indices.end());
-	return indices;
 }
-void RoadGraph::UpdateAllIndices()
+Node* RoadGraph::AddNode(PointCoord location)
 {
-	int newIndex = 1;
+	if (FindNode(location) == nullptr)
+	{
+		Node* newNode_ptr = new Node(location);
+		allNodes.push_back(newNode_ptr);
+		SetNeighbourhood(newNode_ptr, Direction::Left);
+		SetNeighbourhood(newNode_ptr, Direction::Up);
+		SetNeighbourhood(newNode_ptr, Direction::Right);
+		SetNeighbourhood(newNode_ptr, Direction::Down);
+		return newNode_ptr;
+	}
+	throw MyException("RoadGraph::AddNode(PointCoord location) addition of existed node");
+
+}
+void RoadGraph::DeleteNode(PointCoord location)
+{
+	Node* forDeleting = FindNode(location);
+	if (forDeleting == nullptr)
+	{
+		throw MyException("RoadGraph::DeleteNode(PointCoord location) no node found");
+	}
+	if (forDeleting->GetNeighbourNode(Direction::Left) != nullptr)
+	{
+		forDeleting->GetNeighbourNode(Direction::Left)->SetNeighbourNode(nullptr, Direction::Left);
+	}
+	if (forDeleting->GetNeighbourNode(Direction::Up) != nullptr)
+	{
+		forDeleting->GetNeighbourNode(Direction::Up)->SetNeighbourNode(nullptr, Direction::Up);
+	}
+	if (forDeleting->GetNeighbourNode(Direction::Right) != nullptr)
+	{
+		forDeleting->GetNeighbourNode(Direction::Right)->SetNeighbourNode(nullptr, Direction::Right);
+	}
+	if (forDeleting->GetNeighbourNode(Direction::Down) != nullptr)
+	{
+		forDeleting->GetNeighbourNode(Direction::Down)->SetNeighbourNode(nullptr, Direction::Down);
+	}
+	delete forDeleting;
+}
+//
+void RoadGraph::GraphStatusUpdate(PointCoord nodeLocation, bool addOrDelete)
+{
+	if (addOrDelete)
+	{
+		AddNode(nodeLocation);
+	}
+	else
+	{
+		DeleteNode(nodeLocation);
+	}
+}
+void RoadGraph::EraseAllNodes()
+{
 	for (auto everyNode : allNodes)
 	{
-		int oldIndex = everyNode->nodeIndex;
-		everyNode->nodeIndex = newIndex;
-		for (auto everyEdge : allEdges)
-		{
-			if (everyEdge->startingIndex == oldIndex)
-			{
-				everyEdge->startingIndex = newIndex;
-			}
-			else if (everyEdge->endingIndex == oldIndex)
-			{
-				everyEdge->endingIndex = newIndex;
-			}
-			else { break; }
-		}
-		++newIndex;
+		delete everyNode;
 	}
 }
-
-
-//void RoadGraph::GraphStatusUpdate(Road* graphStatusChanged_ptr, const list<Road*>& roads)
-//{
-//	if (graphStatusChanged_ptr->GetGraphStatus())
-//	{
-//		RootNode* newRoot_ptr = AddRootNode(graphStatusChanged_ptr);
-//		FillAllPathes(newRoot_ptr, roads);
-//		for (auto rootNode : graph)
-//		{
-//			if (rootNode->GetVertex() == newRoot_ptr->GetSideNode(Direction::Left)->GetVertex() && rootNode != newRoot_ptr)
-//			{
-//				FillPathToSideNode(rootNode, Direction::Right, roads);
-//			}
-//			if (rootNode->GetVertex() == newRoot_ptr->GetSideNode(Direction::Up)->GetVertex() && rootNode != newRoot_ptr)
-//			{
-//				FillPathToSideNode(rootNode, Direction::Down, roads);
-//			}
-//			if (rootNode->GetVertex() == newRoot_ptr->GetSideNode(Direction::Right)->GetVertex() && rootNode != newRoot_ptr)
-//			{
-//				FillPathToSideNode(rootNode, Direction::Left, roads);
-//			}
-//			if (rootNode->GetVertex() == newRoot_ptr->GetSideNode(Direction::Down)->GetVertex() && rootNode != newRoot_ptr)
-//			{
-//				FillPathToSideNode(rootNode, Direction::Up, roads);
-//			}
-//		}
-//	}
-//	else
-//	{
-//		int sideNodeDeletedCounter = 0;
-//		for (auto rootNode : graph)
-//		{
-//			Direction deletedSideNode = rootNode->DeleteSideNode(graphStatusChanged_ptr->GetVertex());
-//			if (DeleteSideNode() != Direction::None)
-//			{
-//				++sideNodeDeletedCounter;
-//				FillPathToSideNode(rootNode, deletedSideNode, roads);
-//			}
-//			if (sideNodeDeletedCounter == 4)
-//			{
-//				break;
-//			}
-//		}
-//		DeleteRootNode(graphStatusChanged_ptr);
-//	}
-//}
-// void RoadGraph::FillAllPathes(RootNode* node_ptr, const list<Road*>& roads)
-// {
-	// if (node_ptr == nullptr)
-	// {
-		// throw MyException("RoadGraph::FillPathToSideNodes(const RootNode* node_ptr, const list<Road*>& roads) got RootNode nullptr.");
-	// }
-	// if (roads.empty())
-	// {
-		// throw MyException("RoadGraph::FillPathToSideNodes(const RootNode* node_ptr, const list<Road*>& roads) got empty road list.");
-	// }
-	// int mask = node_ptr->GetVertex()->GetMaskPartRealRoads(roads);
-	// if (mask & leftside)
-	// {
-		// FillPathToSideNode(node_ptr, Direction::Left, roads);
-	// }
-	// if (mask & topside)
-	// {
-		// FillPathToSideNode(node_ptr, Direction::Up, roads);
-	// }
-	// if (mask & rightside)
-	// {
-		// FillPathToSideNode(node_ptr, Direction::Right, roads);
-	// }
-	// if (mask & bottomside)
-	// {
-		// FillPathToSideNode(node_ptr, Direction::Down, roads);
-	// }
-// }
+void RoadGraph::BuildGraph(vector<PointCoord> allRoadsLocations)
+{
+	for (PointCoord everyRoadLocation : allRoadsLocations)
+	{
+		AddNode(everyRoadLocation);
+	}
+}
+int RoadGraph::GetNodePosition(Node* someNode) const
+{
+	if (someNode == nullptr)
+	{
+		return -1;
+	}
+	int index = 0;
+	for (auto everyNode : allNodes)
+	{
+		if (everyNode == someNode)
+		{
+			return index;
+		}
+		++index;
+	}
+	throw MyException("RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph");
+}
+vector<vector<int> > RoadGraph::GetWeightMatrix()
+{
+	vector<vector<int> > matrix;
+	int graphSize = allNodes.size();
+	matrix.resize(graphSize);
+	for (auto& column : matrix)
+	{
+		column.resize(graphSize, 0);
+	}
+	int neighbourNodeIndex = 0;
+	auto node = allNodes.begin();
+	for (auto& column : matrix)
+	{
+		neighbourNodeIndex = GetNodePosition((*node)->GetNeighbourNode(Direction::Left));
+		if (neighbourNodeIndex != -1)
+		{
+			column.at(neighbourNodeIndex) = 1;
+		}
+		neighbourNodeIndex = GetNodePosition((*node)->GetNeighbourNode(Direction::Up));
+		if (neighbourNodeIndex != -1)
+		{
+			column.at(neighbourNodeIndex) = 1;
+		}
+		neighbourNodeIndex = GetNodePosition((*node)->GetNeighbourNode(Direction::Right));
+		if (neighbourNodeIndex != -1)
+		{
+			column.at(neighbourNodeIndex) = 1;
+		}
+		neighbourNodeIndex = GetNodePosition((*node)->GetNeighbourNode(Direction::Down));
+		if (neighbourNodeIndex != -1)
+		{
+			column.at(neighbourNodeIndex) = 1;
+		}
+		advance(node, 1);
+	}
+}
