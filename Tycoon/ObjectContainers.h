@@ -51,9 +51,6 @@ public:
 	const list<Building*>& GetAllBuildings() const;
 	const list<Road*>& GetAllRoads() const;
 	RoadGraph* GetGraph() const;
-	size_t GetBuildingsQuantity() const;
-	size_t GetRoadsQuantity() const;
-	size_t GetVisitorsQuantity() const;
 	void AddObject(Building* obj_ptr);
 	void AddObject(Road* obj_ptr);
 	void AddObject(Visitor* obj_ptr);
@@ -61,8 +58,6 @@ public:
 	Construction* GetPreliminaryElement() const;
 	void ErasePreliminaryElement(Camera* camera_ptr, PlayingField* field_ptr);
 	//
-	bool RectangleImposition(PointCoord point, const MyRectangle* rect_ptr) const;
-	bool RectangleImposition(IngameObject* object_ptr, const MyRectangle* rect_ptr) const;
 	bool BuildingsImposition(PointCoord point) const;
 	bool BuildingsImposition(IngameObject* object_ptr) const;
 	bool RoadsImposition(PointCoord point) const;

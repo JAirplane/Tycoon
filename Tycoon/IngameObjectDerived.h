@@ -44,6 +44,7 @@ public:
 	//
 	color GetBackgroundColor() const;
 	virtual int RotateConstruction() = 0;
+	virtual void CopyRotationProperties(Construction* another_ptr);
 	virtual int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
 	virtual bool Connected(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) = 0;
 	virtual void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const = 0;
@@ -89,6 +90,7 @@ public:
 	PointCoord GetPotentialConnectedRoadPoint() const;
 	wstring GetEntranceSymbol() const override;
 	void CopyEntrance(Construction* preliminary_ptr);
+	void CopyRotationProperties(Construction* another_ptr) override;
 	int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
 	bool Connected(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
 	int GetProfit() const;

@@ -24,10 +24,10 @@ void Node::SetNeighbourNode(Node* neighbour, Direction side)
 {
 	switch (side)
 	{
-	case Direction::Left: {leftNeighbour = neighbour; }
-	case Direction::Up: {aboveNeighbour = neighbour; }
-	case Direction::Right: {rightNeighbour = neighbour; }
-	case Direction::Down: {bottomNeighbour = neighbour; }
+	case Direction::Left: {leftNeighbour = neighbour; return; }
+	case Direction::Up: {aboveNeighbour = neighbour; return; }
+	case Direction::Right: {rightNeighbour = neighbour; return; }
+	case Direction::Down: {bottomNeighbour = neighbour; return; }
 	default: {throw MyException("Node::GetNeighbourNode(Direction side) bad direction"); }
 	}
 }
@@ -147,6 +147,14 @@ int RoadGraph::GetNodePosition(Node* someNode) const
 	}
 	throw MyException("RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph");
 }
+void RoadGraph::SetWeight(Node* someNode, Direction neighbourSide, vector<int>& column)
+{
+	int neighbourNodeIndex = GetNodePosition(someNode->GetNeighbourNode(neighbourSide));
+	if (neighbourNodeIndex != -1)
+	{
+		column.at(neighbourNodeIndex) = 1;
+	}
+}
 vector<vector<int> > RoadGraph::GetWeightMatrix()
 {
 	vector<vector<int> > matrix;
@@ -156,30 +164,14 @@ vector<vector<int> > RoadGraph::GetWeightMatrix()
 	{
 		column.resize(graphSize, 0);
 	}
-	int neighbourNodeIndex = 0;
 	auto node = allNodes.begin();
 	for (auto& column : matrix)
 	{
-		neighbourNodeIndex = GetNodePosition((*node)->GetNeighbourNode(Direction::Left));
-		if (neighbourNodeIndex != -1)
-		{
-			column.at(neighbourNodeIndex) = 1;
-		}
-		neighbourNodeIndex = GetNodePosition((*node)->GetNeighbourNode(Direction::Up));
-		if (neighbourNodeIndex != -1)
-		{
-			column.at(neighbourNodeIndex) = 1;
-		}
-		neighbourNodeIndex = GetNodePosition((*node)->GetNeighbourNode(Direction::Right));
-		if (neighbourNodeIndex != -1)
-		{
-			column.at(neighbourNodeIndex) = 1;
-		}
-		neighbourNodeIndex = GetNodePosition((*node)->GetNeighbourNode(Direction::Down));
-		if (neighbourNodeIndex != -1)
-		{
-			column.at(neighbourNodeIndex) = 1;
-		}
+		SetWeight((*node), Direction::Left, column);
+		SetWeight((*node), Direction::Up, column);
+		SetWeight((*node), Direction::Right, column);
+		SetWeight((*node), Direction::Down, column);
 		advance(node, 1);
 	}
+	return matrix;
 }

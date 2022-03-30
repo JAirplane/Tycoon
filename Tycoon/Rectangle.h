@@ -39,4 +39,6 @@ public:
 	virtual void DrawBorder() const;
 	virtual void EraseBorder() const;
 	void ClearContent();
+	bool IsLocationOnTheBorder(PointCoord location) const;
+	bool IsObjectOnTheBorder(GlobalObject* object_ptr) const;
 };

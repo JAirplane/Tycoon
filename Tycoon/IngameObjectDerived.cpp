@@ -60,13 +60,13 @@ void Construction::RedrawNeighbours(PointCoord centralPoint, const list<Road*>& 
 			neighbours.push_back(everyRoad);
 		}
 	}
-	if (preliminary_ptr != nullptr)
-	{
-		if (preliminary_ptr->GetPotentialConnectedRoadPoint() == centralPoint)
-		{
-			neighbours.push_back(preliminary_ptr);
-		}
-	}
+	//if (preliminary_ptr != nullptr)
+	//{
+	//	if (centralPoint == preliminary_ptr->GetPotentialConnectedRoadPoint())
+	//	{
+	//		neighbours.push_back(preliminary_ptr);
+	//	}
+	//}
 	for (auto everyBuilding : allBuildings)
 	{
 		if (centralPoint == everyBuilding->GetPotentialConnectedRoadPoint())
@@ -81,6 +81,11 @@ void Construction::RedrawNeighbours(PointCoord centralPoint, const list<Road*>& 
 		everyNeighbour->DrawObject(mask, camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(),
 			camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(), camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
 	}
+}
+void Construction::CopyRotationProperties(Construction* another_ptr)
+{
+	this->SetWidthAddition(another_ptr->GetWidthAddition());
+	this->SetHeightAddition(another_ptr->GetHeightAddition());
 }
 void Construction::DrawObject(const wstring drawingSymbol) const
 {
@@ -199,6 +204,11 @@ void Building::CopyEntrance(Construction* preliminary_ptr)
 	SetEntranceHeightAdd(preliminary_ptr->GetEntranceHeightAdd());
 	SetEntranceWidthAdd(preliminary_ptr->GetEntranceWidthAdd());
 	SetExitDirection(preliminary_ptr->GetExitDirection());
+}
+void Building::CopyRotationProperties(Construction* another_ptr)
+{
+	Construction::CopyRotationProperties(another_ptr);
+	this->CopyEntrance(another_ptr);
 }
 int Building::GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
 {
@@ -339,7 +349,7 @@ void Road::GraphStatusDetach(GraphStatusObserverInterface* observer)
 	}
 	graphStatusObservers.remove(observer);
 }
-void Road::GraphStatusNotify(bool addOrDelete) //notifies if graphStatus changed, so it can be as true as false
+void Road::GraphStatusNotify(bool addOrDelete) // true to adding node, false - to remove
 {
 	for (auto observer : graphStatusObservers)
 	{
@@ -546,10 +556,10 @@ void Road::RedrawNeighbours(const list<Road*>& allRoads, const list<Building*>& 
 	vector<Construction*> neighbours = this->GetNeighbourRoads(allRoads);
 	vector<Construction*> neighbourBuildings = this->GetNeighbourBuildings(allBuildings);
 	neighbours.insert(neighbours.end(), neighbourBuildings.begin(), neighbourBuildings.end());
-	if (preliminary_ptr != nullptr)
+	/*if (preliminary_ptr != nullptr)
 	{
 		neighbours.push_back(this->PreliminaryNeighbour(preliminary_ptr));
-	}
+	}*/
 	for (auto everyNeighbour : neighbours)
 	{
 		if (everyNeighbour != nullptr)

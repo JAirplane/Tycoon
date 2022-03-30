@@ -563,11 +563,14 @@ void GameManagement::R_Key()
 				else
 				{
 					Construction::RedrawNeighbours(preliminaryElementNeibourRedraw, allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr, camera_ptr);
-					preliminary_ptr->Connected(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
-					int mask = preliminary_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
-					preliminary_ptr->DrawObject(mask, camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(),
-						camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(), camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
-					preliminary_ptr->RedrawNeighbours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr, camera_ptr);
+					if (!allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
+					{
+						preliminary_ptr->Connected(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
+						int mask = preliminary_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
+						preliminary_ptr->DrawObject(mask, camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(),
+							camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(), camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
+						preliminary_ptr->RedrawNeighbours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr, camera_ptr);
+					}
 				}
 				cursor_ptr->CursorMovement(preliminary_ptr->GetUpperLeft());
 			}
@@ -585,6 +588,26 @@ void GameManagement::R_Key()
 	{
 		UserMessageNotify("'R' key do nothing here");
 	}
+}
+void GameManagement::Z_Key()
+{
+	int xCoord = menu_ptr->GetUpperLeft().Get_x() + menu_ptr->GetWidthAddition() + 1;
+	int yCoord = menu_ptr->GetUpperLeft().Get_y();
+	set_cursor_pos(xCoord, yCoord);
+	vector<vector<int> > matrix = allObjects_ptr->GetGraph()->GetWeightMatrix();
+	int xIndex = 0;
+	int yIndex = 0;
+	for (yIndex; yIndex < matrix.size(); yIndex++)
+	{
+		for (xIndex; xIndex < matrix.size(); xIndex++)
+		{
+			cout << matrix.at(yIndex)[xIndex] << " ";
+		}
+		++yCoord;
+		set_cursor_pos(xCoord, yCoord);
+		xIndex = 0;
+	}
+	
 }
 void GameManagement::IKey_Camera()
 {
@@ -726,6 +749,7 @@ void GameManagement::EnterKey_Camera()
 				menu_ptr->GetGameStats()->DrawContent();
 				MenuElement* elementOfPreliminary = menu_ptr->GetMenuElement(preliminary_ptr->GetDescriptor()->GetMenuElementLocation().Get_y());
 				Construction* realObject_ptr = elementOfPreliminary->GetManager()->CreateConstruction(cursor_ptr->GetCursorConsoleLocation(), draw_ptr, allObjects_ptr);
+				realObject_ptr->CopyRotationProperties(preliminary_ptr);
 				menu_ptr->ParkLevelCheck(allObjects_ptr);
 				int mask = realObject_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
 				realObject_ptr->Connected(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
@@ -830,7 +854,7 @@ void GameManagement::EnterKey_InfoPanel()
 			Construction* chosen_ptr = infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetChosenConstruction();
 			if (chosen_ptr != nullptr)
 			{
-				if (dynamic_cast<UnbreakableRoad*>(chosen_ptr) == nullptr)
+				if (!dynamic_cast<UnbreakableRoad*>(chosen_ptr))
 				{
 					function<bool(Construction*)> IsEqual = [chosen_ptr](Construction* element)
 					{
@@ -1066,6 +1090,7 @@ void GameManagement::UserActions(int key)
 	case 9: { Tab_Key(); return; }		//tab key used to navigate between interface elements
 	case 13: { Enter_Key(); return; }	//enter key: usual enter key functional
 	case 27: { Esc_Key(); return; }	//esc cancel choices, usual functional as well
+	case 122: {Z_Key(); return; }
 	default: {UserMessageNotify("Unknown command"); return; } //TODO another exception
 	}
 }

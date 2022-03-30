@@ -88,6 +88,8 @@ public:
 	void S_Key();
 	void R_Key();
 	//
+	void Z_Key(); //display matrix
+	//
 	void IKey_Camera();
 	void IKey_Menu();
 	void IKey_InfoPanel();

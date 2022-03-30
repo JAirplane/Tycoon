@@ -49,5 +49,6 @@ public:
 	void EraseAllNodes();
 	void BuildGraph(vector<PointCoord> allRoadsLocations);
 	int GetNodePosition(Node* someNode) const;
+	void SetWeight(Node* someNode, Direction neighbourSide, vector<int>& column);
 	vector<vector<int> > GetWeightMatrix();
 };

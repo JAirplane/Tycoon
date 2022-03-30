@@ -20,3 +20,9 @@ AllObjects::FindPathToTheNearestNode(PointCoord location, Direction pathDirectio
 AllObjects::FindPathToTheNearestNode(PointCoord location, Direction pathDirection) no road at this location
 AllObjects::FindPathToTheNearestNode(PointCoord location, Direction pathDirection) no road at this location
 AllObjects::FindPathToTheNearestNode(PointCoord location, Direction pathDirection) no road at this location
+Node::GetNeighbourNode(Direction side) bad direction
+Node::GetNeighbourNode(Direction side) bad direction
+Node::GetNeighbourNode(Direction side) bad direction
+GameManagement::Arrows_Menu() incorrect direction.
+GameManagement::Arrows_Menu() incorrect direction.
+GameManagement::Arrows_Menu() incorrect direction.

@@ -2,7 +2,7 @@
 ///////////////Rectangle///////////////
 BorderAppearance* MyRectangle::GetBorder() const
 {
-	if(border_ptr == nullptr)
+	if (border_ptr == nullptr)
 	{
 		throw MyException("MyRectangle::GetBorder() border_ptr is nullptr.");
 	}
@@ -18,7 +18,7 @@ color MyRectangle::GetShadingColor() const
 }
 Visualisation* MyRectangle::GetDrawPointer() const
 {
-	if(draw_ptr == nullptr)
+	if (draw_ptr == nullptr)
 	{
 		throw MyException("MyRectangle::GetDrawPointer() draw_ptr is nullptr.");
 	}
@@ -26,7 +26,7 @@ Visualisation* MyRectangle::GetDrawPointer() const
 }
 Cursor* MyRectangle::GetCursor() const
 {
-	if(cursor_ptr == nullptr)
+	if (cursor_ptr == nullptr)
 	{
 		throw MyException("MyRectangle::GetCursor() cursor_ptr is nullptr.");
 	}
@@ -75,4 +75,37 @@ void MyRectangle::ClearContent()
 		}
 		leftX = GetUpperLeft().Get_x() + 1;
 	}
+}
+bool MyRectangle::IsLocationOnTheBorder(PointCoord location) const
+{
+	if (((GetUpperLeft().Get_x() == location.Get_x() || GetUpperLeft().Get_x() + GetWidthAddition() == location.Get_x()) && GetUpperLeft().Get_y() <= location.Get_y() &&
+		GetUpperLeft().Get_y() + GetHeightAddition() >= location.Get_y()) || ((GetUpperLeft().Get_y() == location.Get_y() || GetUpperLeft().Get_y() + GetHeightAddition() == location.Get_y()) &&
+			GetUpperLeft().Get_x() <= location.Get_x() && GetUpperLeft().Get_x() + GetWidthAddition() >= location.Get_x()))
+	{
+		return true;
+	}
+	return false;
+}
+bool MyRectangle::IsObjectOnTheBorder(GlobalObject* object_ptr) const
+{
+	if (object_ptr == nullptr)
+	{
+		throw MyException("MyRectangle::IsObjectOnTheBorder(IngameObject* object_ptr) received nullptr argument object_ptr.");
+	}
+	int xCoord = object_ptr->GetUpperLeft().Get_x();
+	int yCoord = object_ptr->GetUpperLeft().Get_y();
+	int objectHeightAdd = object_ptr->GetHeightAddition();
+	int objectWidthAdd = object_ptr->GetWidthAddition();
+	for (yCoord; yCoord <= object_ptr->GetUpperLeft().Get_y() + objectHeightAdd; yCoord++)
+	{
+		for (xCoord; xCoord <= object_ptr->GetUpperLeft().Get_x() + objectWidthAdd; xCoord++)
+		{
+			if (yCoord <= GetUpperLeft().Get_y() || yCoord >= GetUpperLeft().Get_y() + GetHeightAddition() || xCoord <= GetUpperLeft().Get_x() || xCoord >= GetUpperLeft().Get_x() + GetWidthAddition())
+			{
+				return true;
+			}
+		}
+		xCoord = object_ptr->GetUpperLeft().Get_x();
+	}
+	return false;
 }

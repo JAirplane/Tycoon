@@ -417,6 +417,7 @@ Visitor* Menu::CreateVisitor(const PlayingField* field_ptr, AllObjects* containe
 	++gameStats_ptr->visitorsCounter;
 	gameStats_ptr->ClearContent();
 	gameStats_ptr->DrawContent();
+	newVisitor->DrawObject();
 	return newVisitor;
 }
 void Menu::ParkLevelCheck(const AllObjects* container_ptr)
