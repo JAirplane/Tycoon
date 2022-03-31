@@ -150,6 +150,7 @@
     <ClInclude Include="ControlsScreen_InfoPanel.h" />
     <ClInclude Include="Coord_and_constants.h" />
     <ClInclude Include="Cursor.h" />
+    <ClInclude Include="Dijkstra.h" />
     <ClInclude Include="drawheader.h" />
     <ClInclude Include="GameStats.h" />
     <ClInclude Include="GraphStatusObserverInterface.h" />
@@ -191,6 +192,7 @@
     <ClCompile Include="ControlsScreen_InfoPanel.cpp" />
     <ClCompile Include="Coord_and_constants.cpp" />
     <ClCompile Include="Cursor.cpp" />
+    <ClCompile Include="Dijkstra.cpp" />
     <ClCompile Include="draw.cpp" />
     <ClCompile Include="GameStats.cpp" />
     <ClCompile Include="InfoPanel.cpp" />

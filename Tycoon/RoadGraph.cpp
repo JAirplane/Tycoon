@@ -88,21 +88,21 @@ void RoadGraph::DeleteNode(PointCoord location)
 	}
 	if (forDeleting->GetNeighbourNode(Direction::Left) != nullptr)
 	{
-		forDeleting->GetNeighbourNode(Direction::Left)->SetNeighbourNode(nullptr, Direction::Left);
+		forDeleting->GetNeighbourNode(Direction::Left)->SetNeighbourNode(nullptr, Direction::Right);
 	}
 	if (forDeleting->GetNeighbourNode(Direction::Up) != nullptr)
 	{
-		forDeleting->GetNeighbourNode(Direction::Up)->SetNeighbourNode(nullptr, Direction::Up);
+		forDeleting->GetNeighbourNode(Direction::Up)->SetNeighbourNode(nullptr, Direction::Down);
 	}
 	if (forDeleting->GetNeighbourNode(Direction::Right) != nullptr)
 	{
-		forDeleting->GetNeighbourNode(Direction::Right)->SetNeighbourNode(nullptr, Direction::Right);
+		forDeleting->GetNeighbourNode(Direction::Right)->SetNeighbourNode(nullptr, Direction::Left);
 	}
 	if (forDeleting->GetNeighbourNode(Direction::Down) != nullptr)
 	{
-		forDeleting->GetNeighbourNode(Direction::Down)->SetNeighbourNode(nullptr, Direction::Down);
+		forDeleting->GetNeighbourNode(Direction::Down)->SetNeighbourNode(nullptr, Direction::Up);
 	}
-	delete forDeleting;
+	allNodes.remove(forDeleting);
 }
 //
 void RoadGraph::GraphStatusUpdate(PointCoord nodeLocation, bool addOrDelete)

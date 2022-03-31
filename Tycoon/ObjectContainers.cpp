@@ -416,10 +416,10 @@ void AllObjects::DisplayBuildings(Camera* camera_ptr, PlayingField* field_ptr) c
 void AllObjects::DisplayVisitors()
 {
 	list< Visitor* >::iterator iter;
-		for (iter = visitors.begin(); iter != visitors.end(); iter++)
-		{
-			(*iter)->DrawObject();
-		}
+	for (iter = visitors.begin(); iter != visitors.end(); iter++)
+	{
+		(*iter)->DrawObject();
+	}
 }
 void AllObjects::DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr)
 {
@@ -490,8 +490,28 @@ Construction* AllObjects::FindOutOfPlayingFieldConstruction(PointCoord location)
 }
 void AllObjects::DeleteConstruction(Construction* forDeleting, function<bool(Construction*)> IsEqual)
 {
-	buildings.remove_if(IsEqual);
-	roads.remove_if(IsEqual);
+	if (forDeleting == nullptr)
+	{
+		throw MyException("AllObjects::DeleteConstruction(Construction* forDeleting, function<bool(Construction*)> IsEqual) got nullptr construction");
+	}
+	auto buildingIter = find(buildings.begin(), buildings.end(), forDeleting);
+	if (buildingIter == buildings.end())
+	{
+		auto roadIter = find(roads.begin(), roads.end(), forDeleting);
+		if (roadIter == roads.end())
+		{
+			throw MyException("AllObjects::DeleteConstruction(Construction* forDeleting, function<bool(Construction*)> IsEqual) construction is out of containers");
+		}
+		else
+		{
+			(*roadIter)->GraphStatusNotify(false);
+			roads.remove_if(IsEqual);
+		}
+	}
+	else
+	{
+		buildings.remove_if(IsEqual);
+	}
 }
 void AllObjects::DeleteVisitor(Visitor* forDeleting, function<bool(Visitor*)> IsEqual)
 {

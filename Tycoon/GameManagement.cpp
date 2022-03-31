@@ -593,10 +593,24 @@ void GameManagement::Z_Key()
 {
 	int xCoord = menu_ptr->GetUpperLeft().Get_x() + menu_ptr->GetWidthAddition() + 1;
 	int yCoord = menu_ptr->GetUpperLeft().Get_y();
+	set_color(cBLACK);
 	set_cursor_pos(xCoord, yCoord);
+	for (yCoord; yCoord < menu_ptr->GetUpperLeft().Get_y() + 20; yCoord++)
+	{
+		for (xCoord; xCoord < menu_ptr->GetUpperLeft().Get_x() + menu_ptr->GetWidthAddition() + 1 + 20; xCoord++)
+		{
+			cout << " ";
+		}
+		xCoord = menu_ptr->GetUpperLeft().Get_x() + menu_ptr->GetWidthAddition() + 1;
+		set_cursor_pos(xCoord, yCoord);
+	}
 	vector<vector<int> > matrix = allObjects_ptr->GetGraph()->GetWeightMatrix();
+	xCoord = menu_ptr->GetUpperLeft().Get_x() + menu_ptr->GetWidthAddition() + 1;
+	yCoord = menu_ptr->GetUpperLeft().Get_y();
 	int xIndex = 0;
 	int yIndex = 0;
+	set_color(cWHITE);
+	set_cursor_pos(xCoord, yCoord);
 	for (yIndex; yIndex < matrix.size(); yIndex++)
 	{
 		for (xIndex; xIndex < matrix.size(); xIndex++)
@@ -607,7 +621,6 @@ void GameManagement::Z_Key()
 		set_cursor_pos(xCoord, yCoord);
 		xIndex = 0;
 	}
-	
 }
 void GameManagement::IKey_Camera()
 {

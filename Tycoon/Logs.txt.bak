@@ -1,0 +1,93 @@
+GameManagement::GetCursorArea() bad cursor area.
+GameManagement::Arrows_Menu() incorrect direction.
+GameManagement::Arrows_Menu() incorrect direction.
+GameManagement::Arrows_Menu() incorrect direction.
+GameManagement::Arrows_Menu() incorrect direction.
+GameManagement::Arrows_Menu() incorrect direction.
+AllObjects::MoveInOneStep(Visitor* person) road not found (nullptr) or person bad position
+AllObjects::MoveInOneStep(Visitor* person) road not found (nullptr) or person bad position
+AllObjects::MoveInOneStep(Visitor* person) road not found (nullptr) or person bad position
+AllObjects::MoveInOneStep(Visitor* person) road not found (nullptr) or person bad position
+AllObjects::MoveInOneStep(Visitor* person) road not found (nullptr) or person bad position
+AllObjects::MoveInOneStep(Visitor* person) road not found (nullptr) or person bad position
+AllObjects::MoveInOneStep(Visitor* person) road not found (nullptr) or person bad position
+AllObjects::MoveInOneStep(Visitor* person) road not found (nullptr) or person bad position
+AllObjects::MoveInOneStep(Visitor* person) road not found (nullptr) or person bad position
+AllObjects::MoveInOneStep(Visitor* person) road not found (nullptr) or person bad position
+AllObjects::FindPathToTheNearestNode(PointCoord location, Direction pathDirection) no road at this location
+AllObjects::FindPathToTheNearestNode(PointCoord location, Direction pathDirection) no road at this location
+AllObjects::FindPathToTheNearestNode(PointCoord location, Direction pathDirection) no road at this location
+AllObjects::FindPathToTheNearestNode(PointCoord location, Direction pathDirection) no road at this location
+AllObjects::FindPathToTheNearestNode(PointCoord location, Direction pathDirection) no road at this location
+AllObjects::FindPathToTheNearestNode(PointCoord location, Direction pathDirection) no road at this location
+Node::GetNeighbourNode(Direction side) bad direction
+Node::GetNeighbourNode(Direction side) bad direction
+Node::GetNeighbourNode(Direction side) bad direction
+GameManagement::Arrows_Menu() incorrect direction.
+GameManagement::Arrows_Menu() incorrect direction.
+GameManagement::Arrows_Menu() incorrect direction.
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
+RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph

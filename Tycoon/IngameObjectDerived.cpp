@@ -60,13 +60,6 @@ void Construction::RedrawNeighbours(PointCoord centralPoint, const list<Road*>& 
 			neighbours.push_back(everyRoad);
 		}
 	}
-	//if (preliminary_ptr != nullptr)
-	//{
-	//	if (centralPoint == preliminary_ptr->GetPotentialConnectedRoadPoint())
-	//	{
-	//		neighbours.push_back(preliminary_ptr);
-	//	}
-	//}
 	for (auto everyBuilding : allBuildings)
 	{
 		if (centralPoint == everyBuilding->GetPotentialConnectedRoadPoint())
