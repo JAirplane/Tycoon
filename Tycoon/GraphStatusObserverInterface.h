@@ -6,5 +6,6 @@ class GraphStatusObserverInterface
 {
 public:
 	virtual ~GraphStatusObserverInterface() {};
-	virtual void GraphStatusUpdate(PointCoord nodeLocation, bool addOrDelete) = 0;
+	virtual void GraphStatusUpdate(vector<pair<pair<int, int>, Direction> > neighbourLinks) = 0;
+	virtual void GraphStatusUpdate(int index) = 0;
 };

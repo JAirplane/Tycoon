@@ -28,10 +28,11 @@ void AllObjects::CreateParkEntrance(const PlayingField* playingField_ptr, Constr
 	{
 		UnbreakableRoad* undestractableRoad_ptr = new UnbreakableRoad(PointCoord(playingField_ptr->GetHalfXAxis() + xAdd,
 			playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() - 1), descriptor_ptr, draw_ptr);
+		roads.push_back(undestractableRoad_ptr);
 		undestractableRoad_ptr->SetRoadConnectionStatus(true);
 		undestractableRoad_ptr->GraphStatusAttach(graph_ptr);
-		undestractableRoad_ptr->GraphStatusNotify(true);
-		roads.push_back(undestractableRoad_ptr);
+		auto roadEdges = GetRoadEdges(undestractableRoad_ptr);
+		undestractableRoad_ptr->GraphStatusNotify(roadEdges);
 	}
 }
 void AllObjects::DisplayParkEntrance(const Camera* camera_ptr)
@@ -504,7 +505,12 @@ void AllObjects::DeleteConstruction(Construction* forDeleting, function<bool(Con
 		}
 		else
 		{
-			(*roadIter)->GraphStatusNotify(false);
+			int index = ElementIndexSearcher::indexSearcher->GetElementIndex(roads, (*roadIter));
+			if (index == -1)
+			{
+				throw MyException("AllObjects::DeleteConstruction(Construction* forDeleting, function<bool(Construction*)> IsEqual) no node with such index");
+			}
+			(*roadIter)->GraphStatusNotify(index);
 			roads.remove_if(IsEqual);
 		}
 	}
@@ -516,6 +522,35 @@ void AllObjects::DeleteConstruction(Construction* forDeleting, function<bool(Con
 void AllObjects::DeleteVisitor(Visitor* forDeleting, function<bool(Visitor*)> IsEqual)
 {
 	visitors.remove_if(IsEqual);
+}
+//
+void AllObjects::AddEdge(int mainRoadIndex, PointCoord location, Direction side, vector<pair<pair<int, int>, Direction> >& roadEdges) const
+{
+	Road* neighbour = FindRoad(location.GetSideCoord(side));
+	if (neighbour != nullptr)
+	{
+		int neighbourIndex = ElementIndexSearcher::indexSearcher->GetElementIndex(roads, neighbour);
+		auto edge = make_pair(mainRoadIndex, neighbourIndex);
+		roadEdges.push_back(make_pair(edge, side));
+	}
+}
+vector<pair<pair<int, int>, Direction> > AllObjects::GetRoadEdges(Road* someRoad) const
+{
+	vector<pair<pair<int, int>, Direction> > roadEdges;
+	int mainRoadIndex = ElementIndexSearcher::indexSearcher->GetElementIndex(roads, someRoad);
+	if (mainRoadIndex == -1)
+	{
+		throw MyException("AllObjects::GetRoadEdges(Road* someRoad) const road is out of roads container");
+	}
+	AddEdge(mainRoadIndex, someRoad->GetUpperLeft(), Direction::Left, roadEdges);
+	AddEdge(mainRoadIndex, someRoad->GetUpperLeft(), Direction::Up, roadEdges);
+	AddEdge(mainRoadIndex, someRoad->GetUpperLeft(), Direction::Right, roadEdges);
+	AddEdge(mainRoadIndex, someRoad->GetUpperLeft(), Direction::Down, roadEdges);
+	if (roadEdges.empty())
+	{
+		roadEdges.push_back(make_pair(make_pair(mainRoadIndex, -1), Direction::None));
+	}
+	return roadEdges;
 }
 //
 void AllObjects::MoveInOneStep(Visitor* person, const Camera* camera_ptr)
@@ -539,7 +574,7 @@ void AllObjects::MoveInOneStep(Visitor* person, const Camera* camera_ptr)
 			{
 				throw MyException("AllObjects::AllVisitorsStep() road not found (nullptr) or person bad position");
 			}
-			person->SetMovementPurpose(MovementStatus::WalkInThePark);
+			//person->SetMovementPurpose(MovementStatus::WalkInThePark);
 		}
 		person->MakeAStep(destinationRoad);
 		if (!camera_ptr->IsObjectOnTheBorder(person))
@@ -605,44 +640,44 @@ void AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* f
 	}
 	for (auto visitor : visitors)
 	{
-		if (visitor->GetMovementPurpose() == MovementStatus::MovingIn)
-		{
-			MoveInOneStep(visitor, camera_ptr);
-		}
-		else if (visitor->GetMovementPurpose() == MovementStatus::WalkInThePark)
-		{
-			//TODO
-		}
-		else if (visitor->GetMovementPurpose() == MovementStatus::MovingOut)
-		{
-			Construction* visitorLocationRoad = FindOutOfPlayingFieldConstruction(visitor->GetUpperLeft());
-			if (visitorLocationRoad == nullptr)
-			{
-				visitorLocationRoad = FindConstruction(visitor->GetUpperLeft());
-				if (visitorLocationRoad == nullptr)
-				{
-					throw MyException("AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) road not found (nullptr) or person bad position");
-				}
-				else
-				{
-					if (dynamic_cast<UnbreakableRoad*>(visitorLocationRoad))
-					{
-						MoveOutOneStep(visitor, visitorLocationRoad, camera_ptr, field_ptr);
-					}
-					else
-					{
-						//TODO
-					}
-				}
-			}
-			else
-			{
-				MoveOutOneStep(visitor, visitorLocationRoad, camera_ptr, field_ptr);
-			}
-		}
+		//if (visitor->GetMovementPurpose() == MovementStatus::MovingIn)
+		//{
+		//	MoveInOneStep(visitor, camera_ptr);
+		//}
+		//else if (visitor->GetMovementPurpose() == MovementStatus::WalkInThePark)
+		//{
+		//	//TODO
+		//}
+		//else if (visitor->GetMovementPurpose() == MovementStatus::MovingOut)
+		//{
+		//	Construction* visitorLocationRoad = FindOutOfPlayingFieldConstruction(visitor->GetUpperLeft());
+		//	if (visitorLocationRoad == nullptr)
+		//	{
+		//		visitorLocationRoad = FindConstruction(visitor->GetUpperLeft());
+		//		if (visitorLocationRoad == nullptr)
+		//		{
+		//			throw MyException("AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) road not found (nullptr) or person bad position");
+		//		}
+		//		else
+		//		{
+		//			if (dynamic_cast<UnbreakableRoad*>(visitorLocationRoad))
+		//			{
+		//				MoveOutOneStep(visitor, visitorLocationRoad, camera_ptr, field_ptr);
+		//			}
+		//			else
+		//			{
+		//				//TODO
+		//			}
+		//		}
+		//	}
+		//	else
+		//	{
+		//		MoveOutOneStep(visitor, visitorLocationRoad, camera_ptr, field_ptr);
+		//	}
+		/*}
 		else
 		{
 			throw MyException("AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) unknown visitor MovementStatus");
-		}
+		}*/
 	}
 }

@@ -1,6 +1,0 @@
-RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
-RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
-RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
-RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph
-GameManagement::Arrows_Menu() incorrect direction.
-RoadGraph::GetNodePosition(Node* someNode) const someNode is out of graph

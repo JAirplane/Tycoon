@@ -1,6 +1,5 @@
 #pragma once
 #include "IngameObject.h"
-#include <vector>
 /////////////Parent Class of Every Construction Type/////////////
 class Road;
 class Building;
@@ -118,7 +117,8 @@ public:
 	//
 	void GraphStatusAttach(GraphStatusObserverInterface* observer) override;
 	void GraphStatusDetach(GraphStatusObserverInterface* observer) override;
-	void GraphStatusNotify(bool addOrDelete) override;
+	void GraphStatusNotify(vector<pair<pair<int, int>, Direction> > edges) override;
+	void GraphStatusNotify(int roadIndex) override;
 	//
 	int GetEntranceHeightAdd() const override;
 	int GetEntranceWidthAdd() const override;
@@ -159,8 +159,7 @@ class Visitor : public IngameObject
 {
 private:
 	VisitorDescriptor* description_ptr;
-	Road* destination_ptr;
-	Road* lastVisitedGraph_ptr;
+	Building* destination_ptr;
 	int foodCapacity;
 	int needToPee;
 	MovementStatus CurrentPurpose;
@@ -169,7 +168,6 @@ public:
 	{
 		description_ptr = describe_ptr;
 		destination_ptr = nullptr;
-		lastVisitedGraph_ptr = nullptr;
 		foodCapacity = 100;
 		needToPee = 100;
 		CurrentPurpose = MovementStatus::MovingIn;
@@ -177,21 +175,16 @@ public:
 	~Visitor()
 	{}
 	VisitorDescriptor* GetDescriptor() const;
-	const Road* GetDestination() const;
-	void SetDestination(Road* pathClue);
-	const Road* GetLastVisitedGraph() const;
-	void SetLastVisitedGraph(Road* lastNode);
 	int GetFoorCapacity() const;
 	void SetFoodCapacity(int foodCapacity);
 	int GetNeedToPee() const;
 	void SetNeedToPee(int newNeed);
-	MovementStatus GetMovementPurpose() const;
-	void SetMovementPurpose(MovementStatus newPurpose);
 	__declspec(property(get = GetFoorCapacity, put = SetFoodCapacity)) int starvation;
 	__declspec(property(get = GetNeedToPee, put = SetNeedToPee)) int toiletNeed;
 	void VisitorMove(PointCoord destination);
 	void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const override;
 	void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
 	void MakeAStep(Construction* destinationRoadTile);
+	Building* ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix);
 };
 /////////////End of Constructions Classes/////////////

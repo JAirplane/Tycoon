@@ -1,5 +1,5 @@
 #pragma once
-#include "Coord_and_constants.h"
+#include "ElementIndexSearcher.h"
 #include <string>
 /////////////Construction Options Class : Singleton pattern/////////////
 class ConstructionOptions
@@ -68,6 +68,18 @@ public:
 	virtual const wstring GetIceCreamShopSymbol() const;
 	virtual const wstring GetFoodCourtSymbol() const;
 	virtual const wstring GetToiletSymbol() const;
+	///////////////Toilet Need Constants///////////////
+	virtual const bool GetIceCreamShopToiletNeed() const;
+	virtual const bool GetFoodCourtToiletNeed() const;
+	virtual const bool GetToiletToiletNeed() const;
+	///////////////Hunger Satisfaction Constants///////////////
+	virtual const int GetIceCreamShopHungerSatisfaction() const;
+	virtual const int GetFoodCourtHungerSatisfaction() const;
+	virtual const int GetToiletHungerSatisfaction() const;
+	///////////////Visit Price Constants///////////////
+	virtual const int GetIceCreamShopVisitPrice() const;
+	virtual const int GetFoodCourtVisitPrice() const;
+	virtual const int GetToiletVisitPrice() const;
 	///////////////Initialisation Coord Constants///////////////
 	virtual const PointCoord GetCameraInitialUpperLeft() const;
 	virtual const PointCoord GetPlayingFieldUpperLeft() const;

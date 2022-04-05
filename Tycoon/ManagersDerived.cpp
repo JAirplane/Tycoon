@@ -19,7 +19,8 @@ Construction* RoadManager::CreateConstruction(PointCoord upperLeft, Visualisatio
 	Road* road_ptr = new Road(upperLeft, GetDescriptor(), paint_ptr);
 	road_ptr->GraphStatusAttach(allObjects_ptr->GetGraph());
 	allObjects_ptr->AddObject(road_ptr);
-	road_ptr->GraphStatusNotify(true);
+	auto roadEdges = allObjects_ptr->GetRoadEdges(road_ptr);
+	road_ptr->GraphStatusNotify(roadEdges);
 	return road_ptr;
 }
 Construction* RoadManager::CreatePreliminaryConstruction(PointCoord upperLeft, Visualisation* paint_ptr, AllObjects* allObjects_ptr)

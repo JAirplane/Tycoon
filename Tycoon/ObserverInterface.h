@@ -1,5 +1,5 @@
 #pragma once
-#include "Dijkstra.h"
+#include "IngameObjectDerived.h"
 //notifies observers about some events with a string message
 class MessageObserverInterface
 {

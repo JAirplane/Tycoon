@@ -1,4 +1,5 @@
 #include "IngameObjectDerived.h"
+#include <functional>
 ///////////////Construction Class: GlobalObject derived///////////////
 ConstructionDescriptor* Construction::GetDescriptor() const //no setter here
 {
@@ -342,11 +343,18 @@ void Road::GraphStatusDetach(GraphStatusObserverInterface* observer)
 	}
 	graphStatusObservers.remove(observer);
 }
-void Road::GraphStatusNotify(bool addOrDelete) // true to adding node, false - to remove
+void Road::GraphStatusNotify(vector<pair<pair<int, int>, Direction> > edges) // true to adding node, false - to remove
 {
 	for (auto observer : graphStatusObservers)
 	{
-		observer->GraphStatusUpdate(this->GetUpperLeft(), addOrDelete);
+		observer->GraphStatusUpdate(edges);
+	}
+}
+void Road::GraphStatusNotify(int roadIndex)
+{
+	for (auto observer : graphStatusObservers)
+	{
+		observer->GraphStatusUpdate(roadIndex);
 	}
 }
 //
@@ -604,22 +612,6 @@ VisitorDescriptor* Visitor::GetDescriptor() const
 {
 	return description_ptr;
 }
-const Road* Visitor::GetDestination() const
-{
-	return destination_ptr;
-}
-void Visitor::SetDestination(Road* pathClue)
-{
-	destination_ptr = pathClue;
-}
-const Road* Visitor::GetLastVisitedGraph() const
-{
-	return lastVisitedGraph_ptr;
-}
-void Visitor::SetLastVisitedGraph(Road* lastNode)
-{
-	lastVisitedGraph_ptr = lastNode;
-}
 int Visitor::GetFoorCapacity() const
 {
 	return foodCapacity;
@@ -636,14 +628,6 @@ void Visitor::SetNeedToPee(int newNeed)
 {
 	needToPee = newNeed;
 }
-MovementStatus Visitor::GetMovementPurpose() const
-{
-	return CurrentPurpose;
-}
-void Visitor::SetMovementPurpose(MovementStatus newPurpose)
-{
-	CurrentPurpose = newPurpose;
-}
 void Visitor::VisitorMove(PointCoord destination)
 {
 	SetUpperLeft(destination);
@@ -659,4 +643,32 @@ void Visitor::EraseObject(int cameraLeftX, int cameraTopY, int cameraRightX, int
 void Visitor::MakeAStep(Construction* destinationRoadTile)
 {
 	this->SetUpperLeft(destinationRoadTile->GetUpperLeft());
+}
+Building* Visitor::ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix)
+{
+	function<bool(Construction*)> IsEqual = [this](Construction* element)
+	{
+		return (this->GetUpperLeft() == element->GetUpperLeft());
+	};
+	auto visitorRoad = find_if(allRoads.begin(), allRoads.end(), IsEqual);
+	if (visitorRoad == allRoads.end())
+	{
+		throw MyException("Visitor::ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix) visitor isn't on road");
+	}
+	int roadIndex = ElementIndexSearcher::indexSearcher->GetElementIndex(allRoads, (*visitorRoad));
+	vector<int> distances = DijkstraAlgorithm::dijkstra->GetDistances(weightMatrix, roadIndex);
+	srand(static_cast<unsigned int>(time(0)));
+	if (toiletNeed < 25)
+	{
+		Building* nearestToilet = nullptr;
+		for (auto building : allBuildings)
+		{
+			if (building->GetDescriptor()->GetRestorationOfToiletNeed())
+			{
+
+			}
+		}
+	}
+	return nullptr;
+	/*else if ()*/
 }

@@ -6,13 +6,13 @@
 class Node
 {
 private:
-	PointCoord nodeLocation;
+	int objectIndex;
 	Node* leftNeighbour;
 	Node* aboveNeighbour;
 	Node* rightNeighbour;
 	Node* bottomNeighbour;
 public:
-	Node(PointCoord location) : nodeLocation(location)
+	Node(int index) : objectIndex(index)
 	{
 		leftNeighbour = nullptr;
 		aboveNeighbour = nullptr;
@@ -20,11 +20,11 @@ public:
 		bottomNeighbour = nullptr;
 	}
 	~Node() {}
-	PointCoord GetNodeLocation() const;
-	void SetNodeLocation(PointCoord anotherLocation);
+	int GetIndex() const;
+	void SetIndex(int index);
 	Node* GetNeighbourNode(Direction side);
 	void SetNeighbourNode(Node* neibour, Direction side);
-	__declspec(property(get = GetNodeLocation, put = SetNodeLocation)) PointCoord nodePoint;
+	__declspec(property(get = GetIndex, put = SetIndex)) int indexOfObject;
 };
 class RoadGraph : public GraphStatusObserverInterface
 {
@@ -40,14 +40,17 @@ public:
 			delete everyNode;
 		}
 	}
-	void GraphStatusUpdate(PointCoord nodeLocation, bool addOrDelete) override;
+	void GraphStatusUpdate(vector<pair<pair<int, int>, Direction> > neighbourLinks) override;
+	void GraphStatusUpdate(int index) override;
 	//
-	Node* FindNode(PointCoord location);
-	void SetNeighbourhood(Node* someNode_ptr, Direction side);
-	Node* AddNode(PointCoord location);
-	void DeleteNode(PointCoord location);
+	Node* FindNode(int index) const;
+	void SetNeighbourhood(pair<pair<int, int>, Direction> roadEdge);
+	void SetNeighbourhoodEverySide(vector<pair<pair<int, int>, Direction> > neighbourLinks);
+	Node* CreateNode(int index);
+	Node* AddNode(vector<pair<pair<int, int>, Direction> > neighbourLinks);
+	void DeleteNode(int index);
 	void EraseAllNodes();
-	void BuildGraph(vector<PointCoord> allRoadsLocations);
+	void BuildGraph(vector<pair<pair<int, int>, Direction> > neighbourLinks);
 	int GetNodePosition(Node* someNode) const;
 	void SetWeight(Node* someNode, Direction neighbourSide, vector<int>& column);
 	vector<vector<int> > GetWeightMatrix();

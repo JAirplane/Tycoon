@@ -220,6 +220,45 @@ const wstring ConstructionOptions::GetRoadIconSymbol() const
 {
 	return L"\u2016";
 }
+///////////////Toilet Need Constants///////////////
+const bool ConstructionOptions::GetIceCreamShopToiletNeed() const
+{
+	return false;
+}
+const bool ConstructionOptions::GetFoodCourtToiletNeed() const
+{
+	return true;
+}
+const bool ConstructionOptions::GetToiletToiletNeed() const
+{
+	return true;
+}
+///////////////Hunger Satisfaction Constants///////////////
+const int ConstructionOptions::GetIceCreamShopHungerSatisfaction() const
+{
+	return 25;
+}
+const int ConstructionOptions::GetFoodCourtHungerSatisfaction() const
+{
+	return 100;
+}
+const int ConstructionOptions::GetToiletHungerSatisfaction() const
+{
+	return 0;
+}
+///////////////Visit Price Constants///////////////
+const int ConstructionOptions::GetIceCreamShopVisitPrice() const
+{
+	return 15;
+}
+const int ConstructionOptions::GetFoodCourtVisitPrice() const
+{
+	return 25;
+}
+const int ConstructionOptions::GetToiletVisitPrice() const
+{
+	return 5;
+}
 ///////////////Color Construction Constants///////////////
 color ConstructionOptions::GetIceCreamShopForegroundColor() const
 {

@@ -11,7 +11,8 @@ private:
 	ConstructionManager* CreateManager(PointCoord managerLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
 		color backgroundNotConnected, color backgroundChosen);
 	ConstructionManager* CreateManager(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
-		color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int dailyExpences = 0, int constructionheightAdd = 0, int constructionwidthAdd = 0);
+		color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, bool restoreToiletNeed, int satisfactionOfHunger, int visitPrice,
+		int dailyExpences = 0, int constructionheightAdd = 0, int constructionwidthAdd = 0);
 public:
 	Menu(Visualisation* draw_ptr, Cursor* cursor_ptr, PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* menuBorbder_ptr,
 		color letterColor, color shadingColor) : MyRectangle(upperLeft, heightAdd, widthAdd, menuBorbder_ptr, letterColor, shadingColor, draw_ptr, cursor_ptr)
@@ -34,7 +35,8 @@ public:
 		color backgroundNotConnected, color backgroundChosen);
 	// create building element
 	void CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
-		color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int dailyExpences = 0, int constructionheightAdd = 0, int constructionwidthAdd = 0);
+		color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, bool restoreToiletNeed, int satisfactionOfHunger, int visitPrice,
+		int dailyExpences = 0, int constructionheightAdd = 0, int constructionwidthAdd = 0);
 	// create game stats
 	virtual void CreateGameStats();
 	virtual void CreateVisitorManager();

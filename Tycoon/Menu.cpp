@@ -10,10 +10,11 @@ ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int con
 }
 // for buildings
 ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
-	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
+	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, bool restoreToiletNeed, int satisfactionOfHunger, int visitPrice, int dailyExpences,
+	int constructionHeightAdd, int constructionWidthAdd)
 {
-	ConstructionDescriptor* buildingDesc_ptr = new BuildingDescriptor(menuElementLocation, constructionCost, description, iconSymbol,
-		foreground, backgroundConnected, backgroundNotConnected, backgroundChosen, buildingSymbol, dailyExpences, constructionHeightAdd, constructionWidthAdd);
+	ConstructionDescriptor* buildingDesc_ptr = new BuildingDescriptor(menuElementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected,
+		backgroundNotConnected, backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, dailyExpences, constructionHeightAdd, constructionWidthAdd);
 	return new BuildingManager(buildingDesc_ptr);
 }
 // create road element
@@ -47,7 +48,8 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 }
 // create menu element
 void Menu::CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
-	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
+	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, bool restoreToiletNeed, int satisfactionOfHunger, int visitPrice,
+	int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
 {
 	BorderAppearance* elementBorder_ptr = CreateElementBorder();
 	color menuElementLetterColor = ConstructionOptions::GetAllOptions()->GetMenuElementLetterColor();
@@ -69,7 +71,7 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 	int elementWidthAdd = GetWidthAddition() - 4;
 	MyRectangle* menuIcon_ptr = CreateIcon(elementLocation);
 	ConstructionManager* manager_ptr = CreateManager(elementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected, backgroundNotConnected,
-		backgroundChosen, buildingSymbol, dailyExpences, constructionHeightAdd, constructionWidthAdd);
+		backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, dailyExpences, constructionHeightAdd, constructionWidthAdd);
 	MenuElement* element_ptr = new MenuElement(GetDrawPointer(), GetCursor(), elementLocation, elementHeightAdd, elementWidthAdd, elementBorder_ptr, menuElementLetterColor,
 		menuElementShadingColor, menuIcon_ptr, manager_ptr);
 	menuItems.push_back(element_ptr);
@@ -178,7 +180,7 @@ Direction Menu::ChangeMenuSide(Camera* camera_ptr)
 	gameStats_ptr->SetUpperLeft(PointCoord(GetUpperLeft().Get_x() + 1, GetUpperLeft().Get_y() + 1));
 	int _x = GetUpperLeft().Get_x() + 2;
 	int _y = gameStats_ptr->GetUpperLeft().Get_y() + 1;
-	if(menuItems.empty())
+	if (menuItems.empty())
 	{
 		throw MyException("Menu::ChangeMenuSide(Camera* camera_ptr) menu elements container is empty.");
 	}
@@ -203,7 +205,7 @@ void Menu::ShowMenuItems()
 	int topY = GetUpperLeft().Get_y();
 	int rightX = GetUpperLeft().Get_x() + GetWidthAddition();
 	int bottomY = GetUpperLeft().Get_x() + GetHeightAddition();
-	if(menuItems.empty())
+	if (menuItems.empty())
 	{
 		throw MyException("Menu::ShowMenuItems() menu elements container is empty.");
 	}
@@ -222,7 +224,7 @@ void Menu::ShowMenuItems()
 }
 MenuElement* Menu::GetMenuElement(int yCoord) const
 {
-	if(menuItems.empty())
+	if (menuItems.empty())
 	{
 		throw MyException("Menu::GetMenuElement(int yCoord) menu elements container is empty.");
 	}
@@ -238,7 +240,7 @@ MenuElement* Menu::GetMenuElement(int yCoord) const
 }
 MenuElement* Menu::GetUpperVisibleMenuElement() const
 {
-	if(menuItems.empty())
+	if (menuItems.empty())
 	{
 		throw MyException("Menu::GetUpperVisibleMenuElement() menu elements container is empty.");
 	}
@@ -255,11 +257,11 @@ MenuElement* Menu::GetUpperVisibleMenuElement() const
 //this method returns next upper/lower menu element before/after "currentIcon" coord
 MenuElement* Menu::GetNextMenuElement(MenuElement* currentElement, IconsPosition upperOrLower) const
 {
-	if(menuItems.empty())
+	if (menuItems.empty())
 	{
 		throw MyException("Menu::GetNextMenuElement(MenuElement* currentElement, IconsPosition upperOrLower) menu elements container is empty.");
 	}
-	if(currentElement == nullptr)
+	if (currentElement == nullptr)
 	{
 		throw MyException("Menu::GetNextMenuElement(MenuElement* currentElement, IconsPosition upperOrLower) currentElement is nullptr.");
 	}
@@ -308,7 +310,7 @@ MenuElement* Menu::GetNextMenuElement(MenuElement* currentElement, IconsPosition
 }
 void Menu::MenuElementsShift(IconsPosition upperOrLower)
 {
-	if(menuItems.empty())
+	if (menuItems.empty())
 	{
 		throw MyException("Menu::MenuElementsShift(IconsPosition upperOrLower) menu elements container is empty.");
 	}
@@ -383,7 +385,7 @@ void Menu::MenuElementRedrawBorder(int elementTopY, color newColor)
 }
 Construction* Menu::CreatePreliminaryObject(AllObjects* allObjects_ptr, Camera* camera_ptr) const
 {
-	if(menuItems.empty())
+	if (menuItems.empty())
 	{
 		throw MyException("Menu::MenuElementsShift(IconsPosition upperOrLower) menu elements container is empty.");
 	}

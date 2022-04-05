@@ -85,6 +85,9 @@ public:
 	void DeleteConstruction(Construction* forDeleting, function<bool(Construction*)> IsEqual);
 	void DeleteVisitor(Visitor* forDeleting, function<bool(Visitor*)> IsEqual);
 	//
+	void AddEdge(int mainRoadIndex, PointCoord location, Direction side, vector<pair<pair<int, int>, Direction> >& roadEdges) const;
+	vector<pair<pair<int, int>, Direction> > GetRoadEdges(Road* someRoad) const;
+	//
 	void MoveInOneStep(Visitor* person, const Camera* camera_ptr);
 	void MoveOutOneStep(Visitor* person, Construction* visitorLocationRoad, const Camera* camera_ptr, const PlayingField* field_ptr);
 	void AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr);

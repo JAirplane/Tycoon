@@ -52,3 +52,4 @@ vector<int> DijkstraAlgorithm::GetDistances(vector<vector<int> > weightMatrix, i
 	}
 	return distances;
 }
+DijkstraAlgorithm* DijkstraAlgorithm::dijkstra = new DijkstraAlgorithm();
