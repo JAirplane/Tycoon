@@ -94,6 +94,10 @@ void Construction::SetVisitorsCount(int visitorsCount)
 {
 	this->visitorsCount = visitorsCount;
 }
+bool Construction::IsBreakable() const
+{
+	return true;
+}
 ///////////////Building Class: Construction derived///////////////
 int Building::GetEntranceHeightAdd() const
 {
@@ -557,10 +561,6 @@ void Road::RedrawNeighbours(const list<Road*>& allRoads, const list<Building*>& 
 	vector<Construction*> neighbours = this->GetNeighbourRoads(allRoads);
 	vector<Construction*> neighbourBuildings = this->GetNeighbourBuildings(allBuildings);
 	neighbours.insert(neighbours.end(), neighbourBuildings.begin(), neighbourBuildings.end());
-	/*if (preliminary_ptr != nullptr)
-	{
-		neighbours.push_back(this->PreliminaryNeighbour(preliminary_ptr));
-	}*/
 	for (auto everyNeighbour : neighbours)
 	{
 		if (everyNeighbour != nullptr)
@@ -585,10 +585,6 @@ void Road::EraseObject(int cameraLeftX, int cameraTopY, int cameraRightX, int ca
 {
 	GetPainter()->ErasePixel(GetUpperLeft().Get_x(), GetUpperLeft().Get_y());
 }
-bool Road::IsBreakable() const
-{
-	return true;
-}
 ///////////////UnbreakableRoad Class///////////////
 bool UnbreakableRoad::IsBreakable() const
 {
@@ -603,6 +599,18 @@ int UnbreakableRoad::GetEnvironmentMask(const list<Road*>& allRoads, const list<
 	int roadEnvironmentMask = GetMaskWithRealRoads(allRoads);
 	roadEnvironmentMask |= GetMaskWithConstruction(preliminary_ptr);
 	roadEnvironmentMask |= GetMaskWithRealBuildings(allBuildings);
+	roadEnvironmentMask |= int(roadMask::TOP);
+	roadEnvironmentMask |= int(roadMask::BOTTOM);
+	return roadEnvironmentMask;
+}
+///////////////Visible Outside Playingfield Road Class///////////////
+bool VisibleOutsidePlayingfieldRoad::VisibleOutsidePlayingfield() const
+{
+	return true;
+}
+int VisibleOutsidePlayingfieldRoad::GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
+{
+	int roadEnvironmentMask = 0;
 	roadEnvironmentMask |= int(roadMask::TOP);
 	roadEnvironmentMask |= int(roadMask::BOTTOM);
 	return roadEnvironmentMask;
@@ -644,29 +652,97 @@ void Visitor::MakeAStep(Construction* destinationRoadTile)
 {
 	this->SetUpperLeft(destinationRoadTile->GetUpperLeft());
 }
+Building* Visitor::FindNearestDestination(const vector<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances) const
+{
+	if (allBuildings.empty())
+	{
+		throw MyException("Visitor::FindNearestToilet(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances) building container is empty");
+	}
+	if (allRoads.empty())
+	{
+		throw MyException("Visitor::FindNearestToilet(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances) roads container is empty");
+	}
+	if (distances.empty())
+	{
+		throw MyException("Visitor::FindNearestToilet(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances) distances container is empty");
+	}
+	Building* nearestOne = nullptr;
+	int lowestDistance = numeric_limits<int>::max();
+	for (auto building : allBuildings)
+	{
+		if (building->GetRoadConnectionStatus())
+		{
+			Road* connectedToBuildingRoad = FindByPoint::elementSearcherByPoint->GetElementByPoint(allRoads, building->GetPotentialConnectedRoadPoint());
+			if (connectedToBuildingRoad == nullptr)
+			{
+				throw MyException("Visitor::ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix) no road found near building entrance");
+			}
+			int index = ElementIndexSearcher::indexSearcher->GetElementIndex(allRoads, connectedToBuildingRoad);
+			if (index == -1)
+			{
+				throw MyException("Visitor::ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix) road is out of container");
+			}
+			if (lowestDistance > distances.at(index))
+			{
+				lowestDistance = distances.at(index);
+				nearestOne = building;
+			}
+		}
+	}
+	return nearestOne;
+}
 Building* Visitor::ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix)
 {
-	function<bool(Construction*)> IsEqual = [this](Construction* element)
-	{
-		return (this->GetUpperLeft() == element->GetUpperLeft());
-	};
-	auto visitorRoad = find_if(allRoads.begin(), allRoads.end(), IsEqual);
-	if (visitorRoad == allRoads.end())
+	auto visitorRoad = FindByPoint::elementSearcherByPoint->GetElementByPoint(allRoads, this->GetUpperLeft());
+	if (visitorRoad == nullptr)
 	{
 		throw MyException("Visitor::ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix) visitor isn't on road");
 	}
-	int roadIndex = ElementIndexSearcher::indexSearcher->GetElementIndex(allRoads, (*visitorRoad));
+	int roadIndex = ElementIndexSearcher::indexSearcher->GetElementIndex(allRoads, visitorRoad);
+	if (roadIndex == -1)
+	{
+		throw MyException("Visitor::ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix) road is out of container");
+	}
 	vector<int> distances = DijkstraAlgorithm::dijkstra->GetDistances(weightMatrix, roadIndex);
 	srand(static_cast<unsigned int>(time(0)));
 	if (toiletNeed < 25)
 	{
-		Building* nearestToilet = nullptr;
-		for (auto building : allBuildings)
+		vector<Building*> toilets;
+		for (auto everyBuilding : allBuildings)
 		{
-			if (building->GetDescriptor()->GetRestorationOfToiletNeed())
+			if (everyBuilding->GetDescriptor()->GetRestorationOfToiletNeed())
 			{
-
+				toilets.push_back(everyBuilding);
 			}
+		}
+		Building* nearestToilet = FindNearestDestination(toilets, allRoads, distances);
+		if (nearestToilet == nullptr)
+		{
+			return;
+		}
+		else
+		{
+			destination_ptr = nearestToilet;
+		}
+	}
+	else if (foodCapacity < 25)
+	{
+		vector<Building*> placesToEat;
+		for (auto everyBuilding : allBuildings)
+		{
+			if (everyBuilding->GetDescriptor()->GetSatisfactionOfHunger() != 0)
+			{
+				placesToEat.push_back(everyBuilding);
+			}
+		}
+		Building* nearestPlaceToEat = FindNearestDestination(placesToEat, allRoads, distances);
+		if (nearestPlaceToEat == nullptr)
+		{
+			return;
+		}
+		else
+		{
+			destination_ptr = nearestPlaceToEat;
 		}
 	}
 	return nullptr;

@@ -153,6 +153,7 @@
     <ClInclude Include="Dijkstra.h" />
     <ClInclude Include="drawheader.h" />
     <ClInclude Include="ElementIndexSearcher.h" />
+    <ClInclude Include="FindByPoint.h" />
     <ClInclude Include="GameStats.h" />
     <ClInclude Include="GraphStatusObserverInterface.h" />
     <ClInclude Include="GraphStatusSubjectInterface.h" />
@@ -196,6 +197,7 @@
     <ClCompile Include="Dijkstra.cpp" />
     <ClCompile Include="draw.cpp" />
     <ClCompile Include="ElementIndexSearcher.cpp" />
+    <ClCompile Include="FindByPoint.cpp" />
     <ClCompile Include="GameStats.cpp" />
     <ClCompile Include="InfoPanel.cpp" />
     <ClCompile Include="IngameObject.cpp" />

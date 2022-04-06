@@ -40,5 +40,5 @@ public:
 	virtual void EraseBorder() const;
 	void ClearContent();
 	bool IsLocationOnTheBorder(PointCoord location) const;
-	bool IsObjectOnTheBorder(GlobalObject* object_ptr) const;
+	bool IsObjectInsideTheRectangle(GlobalObject* object_ptr) const;
 };

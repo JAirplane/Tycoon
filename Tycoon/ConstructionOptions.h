@@ -1,5 +1,5 @@
 #pragma once
-#include "ElementIndexSearcher.h"
+#include "FindByPoint.h"
 #include <string>
 /////////////Construction Options Class : Singleton pattern/////////////
 class ConstructionOptions

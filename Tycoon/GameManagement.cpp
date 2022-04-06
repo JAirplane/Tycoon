@@ -289,7 +289,6 @@ void GameManagement::DisplayAllObjects()
 {
 	allObjects_ptr->DisplayBuildings(camera_ptr, field_ptr);
 	allObjects_ptr->DisplayRoads(camera_ptr, field_ptr);
-	allObjects_ptr->DisplayParkEntrance(camera_ptr);
 	allObjects_ptr->DisplayVisitors();
 	ReturnCursorToCamera();
 	DrawCursor();
@@ -363,7 +362,6 @@ void GameManagement::UserActionsCycle(chrono::milliseconds& lastLaunch)
 			ErasePlayingField();
 			allObjects_ptr->ShiftBuildings(shiftDirection);
 			allObjects_ptr->ShiftRoads(shiftDirection);
-			allObjects_ptr->ShiftEntranceRoads(shiftDirection);
 			allObjects_ptr->ShiftVisitors(shiftDirection);
 			field_ptr->Shift(shiftDirection);
 			DisplayPlayingField();
@@ -531,7 +529,6 @@ void GameManagement::S_Key()
 	Direction shiftDirection = menu_ptr->ChangeMenuSide(camera_ptr);
 	allObjects_ptr->ShiftBuildings(shiftDirection, menu_ptr->GetWidthAddition());
 	allObjects_ptr->ShiftRoads(shiftDirection, menu_ptr->GetWidthAddition());
-	allObjects_ptr->ShiftEntranceRoads(shiftDirection, menu_ptr->GetWidthAddition());
 	allObjects_ptr->ShiftVisitors(shiftDirection, menu_ptr->GetWidthAddition());
 	field_ptr->Shift(shiftDirection, menu_ptr->GetWidthAddition());
 	EraseScreen();
@@ -866,7 +863,7 @@ void GameManagement::EnterKey_InfoPanel()
 			Construction* chosen_ptr = infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetChosenConstruction();
 			if (chosen_ptr != nullptr)
 			{
-				if (!dynamic_cast<UnbreakableRoad*>(chosen_ptr))
+				if (chosen_ptr->IsBreakable())
 				{
 					function<bool(Construction*)> IsEqual = [chosen_ptr](Construction* element)
 					{

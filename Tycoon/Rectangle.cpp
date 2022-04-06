@@ -86,11 +86,11 @@ bool MyRectangle::IsLocationOnTheBorder(PointCoord location) const
 	}
 	return false;
 }
-bool MyRectangle::IsObjectOnTheBorder(GlobalObject* object_ptr) const
+bool MyRectangle::IsObjectInsideTheRectangle(GlobalObject* object_ptr) const
 {
 	if (object_ptr == nullptr)
 	{
-		throw MyException("MyRectangle::IsObjectOnTheBorder(IngameObject* object_ptr) received nullptr argument object_ptr.");
+		throw MyException("MyRectangle::IsObjectInsideTheRectangle(IngameObject* object_ptr) received nullptr argument object_ptr.");
 	}
 	int xCoord = object_ptr->GetUpperLeft().Get_x();
 	int yCoord = object_ptr->GetUpperLeft().Get_y();
@@ -102,10 +102,10 @@ bool MyRectangle::IsObjectOnTheBorder(GlobalObject* object_ptr) const
 		{
 			if (yCoord <= GetUpperLeft().Get_y() || yCoord >= GetUpperLeft().Get_y() + GetHeightAddition() || xCoord <= GetUpperLeft().Get_x() || xCoord >= GetUpperLeft().Get_x() + GetWidthAddition())
 			{
-				return true;
+				return false;
 			}
 		}
 		xCoord = object_ptr->GetUpperLeft().Get_x();
 	}
-	return false;
+	return true;
 }

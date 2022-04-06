@@ -26,4 +26,5 @@ public:
 	void SetWidthAddition(const int widthAdd);
 	int GetHalfXAxis() const;
 	int GetHalfYAxis() const;
+	virtual bool VisibleOutsidePlayingfield() const;
 };

@@ -32,3 +32,7 @@ int GlobalObject::GetHalfYAxis() const
 {
 	return GetUpperLeft().Get_y() + GetHeightAddition() / 2;
 }
+bool GlobalObject::VisibleOutsidePlayingfield() const
+{
+	return false;
+}

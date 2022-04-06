@@ -57,6 +57,7 @@ public:
 	static void RedrawNeighbours(PointCoord centralPoint, const list<Road*>& allRoads, const list<Building*>& allBuildings,
 		Construction* preliminary_ptr, const Camera* camera_ptr);
 	void SetVisitorsCount(int visitorsCount);
+	virtual bool IsBreakable() const;
 };
 /////////////Parent Class of buildings/////////////
 class Building : public Construction
@@ -142,7 +143,6 @@ public:
 	void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const override;
 	void DrawObject(const wstring drawingSymbol) const override;
 	void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
-	virtual bool IsBreakable() const;
 };
 class UnbreakableRoad : public Road
 {
@@ -154,6 +154,15 @@ public:
 	void SetRoadConnectionStatus(bool connected) override;
 	int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr);
 };
+class VisibleOutsidePlayingfieldRoad : public UnbreakableRoad
+{
+public:
+	VisibleOutsidePlayingfieldRoad(PointCoord upperLeft, ConstructionDescriptor* manager_ptr, Visualisation* paint_ptr) : UnbreakableRoad(upperLeft, manager_ptr, paint_ptr)
+	{}
+	~VisibleOutsidePlayingfieldRoad() {}
+	bool VisibleOutsidePlayingfield() const override;
+	int GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
+};
 /////////////People are looking for some fun!/////////////
 class Visitor : public IngameObject
 {
@@ -162,7 +171,6 @@ private:
 	Building* destination_ptr;
 	int foodCapacity;
 	int needToPee;
-	MovementStatus CurrentPurpose;
 public:
 	Visitor(PointCoord upperLeft, Visualisation* paint_ptr, VisitorDescriptor* describe_ptr) : IngameObject(upperLeft, paint_ptr)
 	{
@@ -170,7 +178,6 @@ public:
 		destination_ptr = nullptr;
 		foodCapacity = 100;
 		needToPee = 100;
-		CurrentPurpose = MovementStatus::MovingIn;
 	}
 	~Visitor()
 	{}
@@ -185,6 +192,7 @@ public:
 	void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const override;
 	void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
 	void MakeAStep(Construction* destinationRoadTile);
+	Building* FindNearestDestination(const vector<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances) const;
 	Building* ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix);
 };
 /////////////End of Constructions Classes/////////////

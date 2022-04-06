@@ -18,10 +18,13 @@ void AllObjects::CreateParkEntrance(const PlayingField* playingField_ptr, Constr
 	{
 		for (int xAdd = 0; xAdd <= 1; xAdd++)
 		{
-			Road* road_ptr = new Road(PointCoord(playingField_ptr->GetHalfXAxis() + xAdd, playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() + yAdd),
-				descriptor_ptr, draw_ptr);
+			VisibleOutsidePlayingfieldRoad* road_ptr = new VisibleOutsidePlayingfieldRoad(PointCoord(playingField_ptr->GetHalfXAxis() + xAdd,
+				playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() + yAdd), descriptor_ptr, draw_ptr);
+			roads.push_back(road_ptr);
 			road_ptr->SetRoadConnectionStatus(true);
-			outOfPlayingFieldEntrance.push_back(road_ptr);
+			road_ptr->GraphStatusAttach(graph_ptr);
+			auto roadEdges = GetRoadEdges(road_ptr);
+			road_ptr->GraphStatusNotify(roadEdges);
 		}
 	}
 	for (int xAdd = 0; xAdd <= 1; xAdd++)
@@ -33,16 +36,6 @@ void AllObjects::CreateParkEntrance(const PlayingField* playingField_ptr, Constr
 		undestractableRoad_ptr->GraphStatusAttach(graph_ptr);
 		auto roadEdges = GetRoadEdges(undestractableRoad_ptr);
 		undestractableRoad_ptr->GraphStatusNotify(roadEdges);
-	}
-}
-void AllObjects::DisplayParkEntrance(const Camera* camera_ptr)
-{
-	for (auto road : outOfPlayingFieldEntrance)
-	{
-		if (!camera_ptr->IsObjectOnTheBorder(road))
-		{
-			road->DrawObject(wstring(L"\u2551"));
-		}
 	}
 }
 //
@@ -214,17 +207,6 @@ bool AllObjects::RoadsImposition(IngameObject* object_ptr) const
 	}
 	return false;
 }
-bool AllObjects::EntranceRoadsImposition(PointCoord point) const
-{
-	for (auto entranceRoad : outOfPlayingFieldEntrance)
-	{
-		if (point == entranceRoad->GetUpperLeft())
-		{
-			return true;
-		}
-	}
-	return false;
-}
 bool AllObjects::VisitorsImposition(PointCoord point) const
 {
 	list<Visitor*>::const_iterator visitorIter;
@@ -285,10 +267,6 @@ bool AllObjects::ObjectImposition(PointCoord point, PlayingField* field_ptr) con
 	{
 		return true;
 	}
-	if (EntranceRoadsImposition(point))
-	{
-		return true;
-	}
 	if (VisitorsImposition(point))
 	{
 		return true;
@@ -297,11 +275,11 @@ bool AllObjects::ObjectImposition(PointCoord point, PlayingField* field_ptr) con
 }
 bool AllObjects::ObjectImposition(IngameObject* object_ptr, const Camera* camera_ptr, const PlayingField* field_ptr) const
 {
-	if (camera_ptr->IsObjectOnTheBorder(object_ptr))
+	if (!camera_ptr->IsObjectInsideTheRectangle(object_ptr))
 	{
 		return true;
 	}
-	if (field_ptr->IsObjectOnTheBorder(object_ptr))
+	if (!field_ptr->IsObjectInsideTheRectangle(object_ptr) && !object_ptr->VisibleOutsidePlayingfield())
 	{
 		return true;
 	}
@@ -349,15 +327,6 @@ void AllObjects::EraseObjects(Camera* camera_ptr)
 			draw_ptr->ErasePixel(leftX, topY);
 		}
 	}
-	for (auto entranceRoad : outOfPlayingFieldEntrance)
-	{
-		int leftX = entranceRoad->GetUpperLeft().Get_x();
-		int topY = entranceRoad->GetUpperLeft().Get_y();
-		if (leftX < cameraRightX && topY < cameraBottomY && leftX > cameraLeftX && topY > cameraTopY)
-		{
-			draw_ptr->ErasePixel(leftX, topY);
-		}
-	}
 	for (visitorIter = visitors.begin(); visitorIter != visitors.end(); visitorIter++)
 	{
 		int leftX = (*visitorIter)->GetUpperLeft().Get_x();
@@ -384,13 +353,6 @@ void AllObjects::ShiftRoads(Direction shiftDirection, int shiftValue)
 		(*roadIter)->ShiftObject(shiftDirection, shiftValue); //already has an exception inside
 	}
 }
-void AllObjects::ShiftEntranceRoads(Direction shiftDirection, int shiftValue)
-{
-	for (auto entranceRoad : outOfPlayingFieldEntrance)
-	{
-		entranceRoad->ShiftObject(shiftDirection, shiftValue);
-	}
-}
 void AllObjects::ShiftVisitors(Direction shiftDirection, int shiftValue)
 {
 	list<Visitor*>::iterator visitorIter;
@@ -408,7 +370,7 @@ void AllObjects::DisplayBuildings(Camera* camera_ptr, PlayingField* field_ptr) c
 	list<Building*>::const_iterator buildingIter;
 	for (buildingIter = buildings.begin(); buildingIter != buildings.end(); buildingIter++)
 	{
-		if (!field_ptr->IsObjectOnTheBorder(*buildingIter))
+		if (field_ptr->IsObjectInsideTheRectangle(*buildingIter) || (*buildingIter)->VisibleOutsidePlayingfield())
 		{
 			(*buildingIter)->DrawObject(0, cameraLeftX, cameraTopY, cameraRightX, cameraBottomY);
 		}
@@ -434,58 +396,17 @@ void AllObjects::DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr)
 		}
 	}
 }
-Building* AllObjects::FindBuilding(PointCoord location) const
-{
-	list<Building*>::const_iterator buildingIter;
-	for (buildingIter = buildings.begin(); buildingIter != buildings.end(); buildingIter++)
-	{
-		for (int yCoord = (*buildingIter)->GetUpperLeft().Get_y(); yCoord <= (*buildingIter)->GetUpperLeft().Get_y() + (*buildingIter)->GetHeightAddition(); yCoord++)
-		{
-			for (int xCoord = (*buildingIter)->GetUpperLeft().Get_x(); xCoord <= (*buildingIter)->GetUpperLeft().Get_x() + (*buildingIter)->GetWidthAddition(); xCoord++)
-			{
-				if (PointCoord(xCoord, yCoord) == location)
-				{
-					return (*buildingIter);
-				}
-			}
-		}
-	}
-	return nullptr;
-}
-Road* AllObjects::FindRoad(PointCoord location) const
-{
-	list<Road*>::const_iterator roadIter;
-	for (roadIter = roads.begin(); roadIter != roads.end(); roadIter++)
-	{
-		if ((*roadIter)->GetUpperLeft() == location)
-		{
-			return (*roadIter);
-		}
-	}
-	return nullptr;
-}
 Construction* AllObjects::FindConstruction(PointCoord location) const
 {
-	Road* desiredRoad_ptr = FindRoad(location);
+	Road* desiredRoad_ptr = FindByPoint::elementSearcherByPoint->GetElementByPoint(roads, location);
 	if (desiredRoad_ptr != nullptr)
 	{
 		return desiredRoad_ptr;
 	}
-	Building* desiredBuilding_ptr = FindBuilding(location);
+	Building* desiredBuilding_ptr = FindByPoint::elementSearcherByPoint->GetElementByPoint(buildings, location);
 	if (desiredBuilding_ptr != nullptr)
 	{
 		return desiredBuilding_ptr;
-	}
-	return nullptr;
-}
-Construction* AllObjects::FindOutOfPlayingFieldConstruction(PointCoord location) const
-{
-	for (auto construction : outOfPlayingFieldEntrance)
-	{
-		if (construction->GetUpperLeft() == location)
-		{
-			return construction;
-		}
 	}
 	return nullptr;
 }
@@ -526,7 +447,7 @@ void AllObjects::DeleteVisitor(Visitor* forDeleting, function<bool(Visitor*)> Is
 //
 void AllObjects::AddEdge(int mainRoadIndex, PointCoord location, Direction side, vector<pair<pair<int, int>, Direction> >& roadEdges) const
 {
-	Road* neighbour = FindRoad(location.GetSideCoord(side));
+	Road* neighbour = FindByPoint::elementSearcherByPoint->GetElementByPoint(roads, location.GetSideCoord(side));
 	if (neighbour != nullptr)
 	{
 		int neighbourIndex = ElementIndexSearcher::indexSearcher->GetElementIndex(roads, neighbour);
@@ -553,81 +474,6 @@ vector<pair<pair<int, int>, Direction> > AllObjects::GetRoadEdges(Road* someRoad
 	return roadEdges;
 }
 //
-void AllObjects::MoveInOneStep(Visitor* person, const Camera* camera_ptr)
-{
-	Construction* visitorLocationRoad = FindOutOfPlayingFieldConstruction(person->GetUpperLeft());
-	if (visitorLocationRoad == nullptr)
-	{
-		throw MyException("AllObjects::MoveInOneStep(Visitor* person) road not found (nullptr) or person bad position");
-	}
-	else
-	{
-		if (!camera_ptr->IsObjectOnTheBorder(visitorLocationRoad))
-		{
-			visitorLocationRoad->DrawObject(wstring(L"\u2551"));
-		}
-		Construction* destinationRoad = FindOutOfPlayingFieldConstruction(PointCoord(person->GetUpperLeft().Get_x(), person->GetUpperLeft().Get_y() - 1));
-		if (destinationRoad == nullptr)
-		{
-			destinationRoad = FindConstruction(PointCoord(person->GetUpperLeft().Get_x(), person->GetUpperLeft().Get_y() - 1));
-			if (destinationRoad == nullptr)
-			{
-				throw MyException("AllObjects::AllVisitorsStep() road not found (nullptr) or person bad position");
-			}
-			//person->SetMovementPurpose(MovementStatus::WalkInThePark);
-		}
-		person->MakeAStep(destinationRoad);
-		if (!camera_ptr->IsObjectOnTheBorder(person))
-		{
-			person->DrawObject();
-		}
-	}
-}
-void AllObjects::MoveOutOneStep(Visitor* person, Construction* visitorLocationRoad, const Camera* camera_ptr, const PlayingField* field_ptr)
-{
-	if (visitorLocationRoad == nullptr)
-	{
-		throw MyException("AllObjects::MoveOutOneStep(Visitor* person, Construction* visitorLocationRoad, const Camera* camera_ptr) road is nullptr");
-	}
-	if (person == nullptr)
-	{
-		throw MyException("AllObjects::MoveOutOneStep(Visitor* person, Construction* visitorLocationRoad, const Camera* camera_ptr) person is nullptr");
-	}
-	Construction* destinationRoad = FindOutOfPlayingFieldConstruction(PointCoord(person->GetUpperLeft().Get_x(), person->GetUpperLeft().Get_y() + 1));
-	if (destinationRoad == nullptr)
-	{
-		function<bool(Visitor*)> IsEqual = [person](Visitor* everyVisitor)
-		{
-			return (person == everyVisitor);
-		};
-		DeleteVisitor(person, IsEqual);
-		if (!camera_ptr->IsObjectOnTheBorder(visitorLocationRoad))
-		{
-			visitorLocationRoad->DrawObject(wstring(L"\u2551"));
-		}
-		return;
-	}
-	else
-	{
-		if (!camera_ptr->IsObjectOnTheBorder(visitorLocationRoad))
-		{
-			if (field_ptr->IsObjectOnTheBorder(visitorLocationRoad))
-			{
-				int mask = visitorLocationRoad->GetEnvironmentMask(roads, buildings, preliminaryConstruction_ptr);
-				visitorLocationRoad->DrawObject(mask);
-			}
-			else
-			{
-				visitorLocationRoad->DrawObject(wstring(L"\u2551"));
-			}
-		}
-		person->MakeAStep(destinationRoad);
-		if (!camera_ptr->IsObjectOnTheBorder(person))
-		{
-			person->DrawObject();
-		}
-	}
-}
 void AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr)
 {
 	if (camera_ptr == nullptr)
