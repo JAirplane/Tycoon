@@ -1,4 +1,6 @@
 #pragma once
+#include <memory>
+#include <functional>
 #include "IngameObject.h"
 /////////////Parent Class of Every Construction Type/////////////
 class Road;
@@ -193,6 +195,7 @@ public:
 	void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
 	void MakeAStep(Construction* destinationRoadTile);
 	Building* FindNearestDestination(const vector<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances) const;
+	vector<Building*> ChooseFromBuildings(_Mem_fn<bool (ConstructionDescriptor::*)() const> buildingProperty, const list<Building*>& allBuildings) const;
 	Building* ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix);
 };
 /////////////End of Constructions Classes/////////////

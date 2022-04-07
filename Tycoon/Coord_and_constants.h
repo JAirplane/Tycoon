@@ -42,13 +42,6 @@ enum class CursorLocation
 	Menu,
 	InfoPanel,
 };
-/////////////Visitor Movement Status/////////////
-enum class MovementStatus
-{
-	MovingIn,
-	WalkInThePark,
-	MovingOut,
-};
 ///////////////All Possible Types of Mask///////////////
 const int none = int(roadMask::NONE);
 const int leftside = int(roadMask::LEFT);

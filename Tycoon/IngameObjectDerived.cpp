@@ -691,6 +691,18 @@ Building* Visitor::FindNearestDestination(const vector<Building*>& allBuildings,
 	}
 	return nearestOne;
 }
+vector<Building*> Visitor::ChooseFromBuildings(_Mem_fn<bool (ConstructionDescriptor::*)() const> buildingProperty, const list<Building*>& allBuildings) const
+{
+	vector<Building*> buildingsWithProperty;
+	for (auto everyBuilding : allBuildings)
+	{
+		if (buildingProperty(everyBuilding->GetDescriptor()))
+		{
+			buildingsWithProperty.push_back(everyBuilding);
+		}
+	}
+	return buildingsWithProperty;
+}
 Building* Visitor::ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix)
 {
 	auto visitorRoad = FindByPoint::elementSearcherByPoint->GetElementByPoint(allRoads, this->GetUpperLeft());
@@ -704,25 +716,25 @@ Building* Visitor::ChooseDestination(const list<Building*>& allBuildings, const 
 		throw MyException("Visitor::ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix) road is out of container");
 	}
 	vector<int> distances = DijkstraAlgorithm::dijkstra->GetDistances(weightMatrix, roadIndex);
-	srand(static_cast<unsigned int>(time(0)));
+	Building* nearestDestination = nullptr;
 	if (toiletNeed < 25)
 	{
-		vector<Building*> toilets;
-		for (auto everyBuilding : allBuildings)
+		vector<Building*> toilets = this->ChooseFromBuildings(mem_fn(ConstructionDescriptor::GetRestorationOfToiletNeed), allBuildings);
+		if (!toilets.empty())
 		{
-			if (everyBuilding->GetDescriptor()->GetRestorationOfToiletNeed())
+			nearestDestination = FindNearestDestination(toilets, allRoads, distances);
+			if (nearestDestination == nullptr)
 			{
-				toilets.push_back(everyBuilding);
+				return;
 			}
-		}
-		Building* nearestToilet = FindNearestDestination(toilets, allRoads, distances);
-		if (nearestToilet == nullptr)
-		{
-			return;
+			else
+			{
+				destination_ptr = nearestDestination;
+			}
 		}
 		else
 		{
-			destination_ptr = nearestToilet;
+			return;
 		}
 	}
 	else if (foodCapacity < 25)
