@@ -16,4 +16,4 @@ int Level::GetVisitorMoneyFormulaValue() const
 	return visitorMoneyFormulaValue;
 }
 //Park Level Constants
-
+ParkLevelConstants* ParkLevelConstants::parkConstants = new ParkLevelConstants();
