@@ -3,7 +3,7 @@ wstring BuildingDescriptor::GetConstructionSymbol(int mask)
 {
 	return buildingSymbol;
 }
-bool BuildingDescriptor::GetRestorationOfToiletNeed() const
+int BuildingDescriptor::GetRestorationOfToiletNeed() const
 {
 	return restoreToiletNeed;
 }
@@ -14,4 +14,8 @@ int BuildingDescriptor::GetSatisfactionOfHunger() const
 int BuildingDescriptor::GetVisitPrice() const
 {
 	return visitPrice;
+}
+int BuildingDescriptor::GetEntertainmentValue() const
+{
+	return entertainmentValue;
 }

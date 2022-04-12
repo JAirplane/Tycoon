@@ -77,21 +77,23 @@ void GameManagement::CreateMenuAndElements()
 		ConstructionOptions::GetAllOptions()->GetToiletIconSymbol(), ConstructionOptions::GetAllOptions()->GetToiletForegroundColor(),
 		ConstructionOptions::GetAllOptions()->GetToiletConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetToiletNotConnectedBackgroundColor(),
 		ConstructionOptions::GetAllOptions()->GetToiletChosenBackgroundColor(), ConstructionOptions::GetAllOptions()->GetToiletSymbol(), ConstructionOptions::GetAllOptions()->GetToiletToiletNeed(),
-		ConstructionOptions::GetAllOptions()->GetToiletHungerSatisfaction(), ConstructionOptions::GetAllOptions()->GetToiletVisitPrice(), ConstructionOptions::GetAllOptions()->GetToiletExpences(),
-		ConstructionOptions::GetAllOptions()->GetToiletHeightAdd(), ConstructionOptions::GetAllOptions()->GetToiletWidthAdd());
+		ConstructionOptions::GetAllOptions()->GetToiletHungerSatisfaction(), ConstructionOptions::GetAllOptions()->GetToiletVisitPrice(), ConstructionOptions::GetAllOptions()->GetToiletEntertainmentCost(),
+		ConstructionOptions::GetAllOptions()->GetToiletExpences(), ConstructionOptions::GetAllOptions()->GetToiletHeightAdd(), ConstructionOptions::GetAllOptions()->GetToiletWidthAdd());
 	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetIceCreamShopCost(),
 		ConstructionOptions::GetAllOptions()->GetIceCreamShopDescription(), ConstructionOptions::GetAllOptions()->GetIceCreamShopIconSymbol(),
 		ConstructionOptions::GetAllOptions()->GetIceCreamShopForegroundColor(), ConstructionOptions::GetAllOptions()->GetIceCreamShopConnectedBackgroundColor(),
 		ConstructionOptions::GetAllOptions()->GetIceCreamShopNotConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetIceCreamShopChosenBackgroundColor(),
 		ConstructionOptions::GetAllOptions()->GetIceCreamShopSymbol(), ConstructionOptions::GetAllOptions()->GetIceCreamShopToiletNeed(),
 		ConstructionOptions::GetAllOptions()->GetIceCreamShopHungerSatisfaction(), ConstructionOptions::GetAllOptions()->GetIceCreamShopVisitPrice(),
-		ConstructionOptions::GetAllOptions()->GetIceCreamShopExpences(), ConstructionOptions::GetAllOptions()->GetIceCreamShopHeightAdd(), ConstructionOptions::GetAllOptions()->GetIceCreamShopWidthAdd());
+		ConstructionOptions::GetAllOptions()->GetIceCreamShopEntertainmentCost(), ConstructionOptions::GetAllOptions()->GetIceCreamShopExpences(),
+		ConstructionOptions::GetAllOptions()->GetIceCreamShopHeightAdd(), ConstructionOptions::GetAllOptions()->GetIceCreamShopWidthAdd());
 	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetFoodCourtCost(), ConstructionOptions::GetAllOptions()->GetFoodCourtDescription(),
 		ConstructionOptions::GetAllOptions()->GetFoodCourtIconSymbol(), ConstructionOptions::GetAllOptions()->GetFoodCourtForegroundColor(),
 		ConstructionOptions::GetAllOptions()->GetFoodCourtConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetFoodCourtNotConnectedBackgroundColor(),
 		ConstructionOptions::GetAllOptions()->GetFoodCourtChosenBackgroundColor(), ConstructionOptions::GetAllOptions()->GetFoodCourtSymbol(), ConstructionOptions::GetAllOptions()->GetFoodCourtToiletNeed(),
 		ConstructionOptions::GetAllOptions()->GetFoodCourtHungerSatisfaction(), ConstructionOptions::GetAllOptions()->GetFoodCourtVisitPrice(),
-		ConstructionOptions::GetAllOptions()->GetFoodCourtExpences(), ConstructionOptions::GetAllOptions()->GetFoodCourtHeightAdd(), ConstructionOptions::GetAllOptions()->GetFoodCourtWidthAdd());
+		ConstructionOptions::GetAllOptions()->GetFoodCourtEntertainmentCost(), ConstructionOptions::GetAllOptions()->GetFoodCourtExpences(),
+		ConstructionOptions::GetAllOptions()->GetFoodCourtHeightAdd(), ConstructionOptions::GetAllOptions()->GetFoodCourtWidthAdd());
 	menu_ptr->CreateVisitorManager();
 }
 void GameManagement::CreateInfoPanel()

@@ -32,9 +32,10 @@ public:
 	color GetConnectedBackgroundColor() const;
 	color GetChosenBackgroundColor() const;
 	virtual wstring GetConstructionSymbol(int mask = 0) = 0;
-	virtual bool GetRestorationOfToiletNeed() const;
+	virtual int GetRestorationOfToiletNeed() const;
 	virtual int GetSatisfactionOfHunger() const;
 	virtual int GetVisitPrice() const;
+	virtual int GetEntertainmentValue() const;
 	PointCoord GetMenuElementLocation() const;
 	void SetMenuElementLocation(PointCoord mLocation);
 };

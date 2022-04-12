@@ -9,6 +9,7 @@ int main()
 	GameManagement GameMaster;
 	try
 	{
+		//ParkLevelConstants::CreateParkConstants();
 		GameMaster.CreateCursor();
 		GameMaster.CreateDrawPointer();
 		GameMaster.CreateRoadGraph();

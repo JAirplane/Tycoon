@@ -330,6 +330,18 @@ void Building::EraseObject(int cameraLeftX, int cameraTopY, int cameraRightX, in
 		GetPainter()->EraseConstruction(leftX, topY, rightX, bottomY);
 	}
 }
+vector<Building*> Building::ChooseFromBuildings(_Mem_fn<int (ConstructionDescriptor::*)() const> buildingProperty, const list<Building*>& allBuildings)
+{
+	vector<Building*> buildingsWithProperty;
+	for (auto everyBuilding : allBuildings)
+	{
+		if (buildingProperty(everyBuilding->GetDescriptor()) != 0)
+		{
+			buildingsWithProperty.push_back(everyBuilding);
+		}
+	}
+	return buildingsWithProperty;
+}
 ///////////////Road Class: Construction derived///////////////
 void Road::GraphStatusAttach(GraphStatusObserverInterface* observer)
 {
@@ -636,6 +648,14 @@ void Visitor::SetNeedToPee(int newNeed)
 {
 	needToPee = newNeed;
 }
+int Visitor::GetMoneyAmount() const
+{
+	return moneyAmount;
+}
+void Visitor::SetMoneyAmount(int money)
+{
+	moneyAmount = money;
+}
 void Visitor::VisitorMove(PointCoord destination)
 {
 	SetUpperLeft(destination);
@@ -691,18 +711,6 @@ Building* Visitor::FindNearestDestination(const vector<Building*>& allBuildings,
 	}
 	return nearestOne;
 }
-vector<Building*> Visitor::ChooseFromBuildings(_Mem_fn<bool (ConstructionDescriptor::*)() const> buildingProperty, const list<Building*>& allBuildings) const
-{
-	vector<Building*> buildingsWithProperty;
-	for (auto everyBuilding : allBuildings)
-	{
-		if (buildingProperty(everyBuilding->GetDescriptor()))
-		{
-			buildingsWithProperty.push_back(everyBuilding);
-		}
-	}
-	return buildingsWithProperty;
-}
 Building* Visitor::ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix)
 {
 	auto visitorRoad = FindByPoint::elementSearcherByPoint->GetElementByPoint(allRoads, this->GetUpperLeft());
@@ -717,46 +725,26 @@ Building* Visitor::ChooseDestination(const list<Building*>& allBuildings, const 
 	}
 	vector<int> distances = DijkstraAlgorithm::dijkstra->GetDistances(weightMatrix, roadIndex);
 	Building* nearestDestination = nullptr;
+	vector<Building*> buildingsChoosenByProperty;
 	if (toiletNeed < 25)
 	{
-		vector<Building*> toilets = this->ChooseFromBuildings(mem_fn(ConstructionDescriptor::GetRestorationOfToiletNeed), allBuildings);
-		if (!toilets.empty())
-		{
-			nearestDestination = FindNearestDestination(toilets, allRoads, distances);
-			if (nearestDestination == nullptr)
-			{
-				return;
-			}
-			else
-			{
-				destination_ptr = nearestDestination;
-			}
-		}
-		else
-		{
-			return;
-		}
+		buildingsChoosenByProperty = Building::ChooseFromBuildings(mem_fn(&ConstructionDescriptor::GetRestorationOfToiletNeed), allBuildings);
 	}
 	else if (foodCapacity < 25)
 	{
-		vector<Building*> placesToEat;
-		for (auto everyBuilding : allBuildings)
+		buildingsChoosenByProperty = Building::ChooseFromBuildings(mem_fn(&ConstructionDescriptor::GetSatisfactionOfHunger), allBuildings);
+	}
+	else
+	{
+		buildingsChoosenByProperty = Building::ChooseFromBuildings(mem_fn(&ConstructionDescriptor::GetEntertainmentValue), allBuildings);
+	}
+	if (!buildingsChoosenByProperty.empty())
+	{
+		nearestDestination = FindNearestDestination(buildingsChoosenByProperty, allRoads, distances);
+		if (nearestDestination != nullptr)
 		{
-			if (everyBuilding->GetDescriptor()->GetSatisfactionOfHunger() != 0)
-			{
-				placesToEat.push_back(everyBuilding);
-			}
-		}
-		Building* nearestPlaceToEat = FindNearestDestination(placesToEat, allRoads, distances);
-		if (nearestPlaceToEat == nullptr)
-		{
-			return;
-		}
-		else
-		{
-			destination_ptr = nearestPlaceToEat;
+			destination_ptr = nearestDestination;
 		}
 	}
 	return nullptr;
-	/*else if ()*/
 }

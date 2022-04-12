@@ -104,6 +104,7 @@ public:
 	void CorrectBuildingCoordsForDraw(int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY, int& leftX, int& topY, int& rightX, int& bottomY) const;
 	void DrawObject(int mask = 0, int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
 	void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
+	static vector<Building*> ChooseFromBuildings(_Mem_fn<int (ConstructionDescriptor::*)() const> buildingProperty, const list<Building*>& allBuildings);
 };
 /////////////One Pixel of Road/////////////
 class Road : public Construction, public GraphStatusSubjectInterface
@@ -173,13 +174,24 @@ private:
 	Building* destination_ptr;
 	int foodCapacity;
 	int needToPee;
+	int moneyAmount;
 public:
-	Visitor(PointCoord upperLeft, Visualisation* paint_ptr, VisitorDescriptor* describe_ptr) : IngameObject(upperLeft, paint_ptr)
+	Visitor(PointCoord upperLeft, Visualisation* paint_ptr, VisitorDescriptor* describe_ptr, int currentParkLevel) : IngameObject(upperLeft, paint_ptr)
 	{
 		description_ptr = describe_ptr;
 		destination_ptr = nullptr;
 		foodCapacity = 100;
 		needToPee = 100;
+		moneyAmount = 0;
+		switch (currentParkLevel)
+		{
+		case 0: {moneyAmount = rand() % 50 + 50; break; }
+		case 1: {moneyAmount = rand() % 100 + 100; break; }
+		case 2: {moneyAmount = rand() % 150 + 150; break; }
+		case 3: {moneyAmount = rand() % 200 + 200; break; }
+		case 4: {moneyAmount = rand() % 250 + 250; break; }
+		case 5: {moneyAmount = rand() % 300 + 300; break; }
+		}
 	}
 	~Visitor()
 	{}
@@ -188,14 +200,16 @@ public:
 	void SetFoodCapacity(int foodCapacity);
 	int GetNeedToPee() const;
 	void SetNeedToPee(int newNeed);
+	int GetMoneyAmount() const;
+	void SetMoneyAmount(int money);
 	__declspec(property(get = GetFoorCapacity, put = SetFoodCapacity)) int starvation;
 	__declspec(property(get = GetNeedToPee, put = SetNeedToPee)) int toiletNeed;
+	__declspec(property(get = GetMoneyAmount, put = SetMoneyAmount)) int visitorCash;
 	void VisitorMove(PointCoord destination);
 	void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const override;
 	void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
 	void MakeAStep(Construction* destinationRoadTile);
 	Building* FindNearestDestination(const vector<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances) const;
-	vector<Building*> ChooseFromBuildings(_Mem_fn<bool (ConstructionDescriptor::*)() const> buildingProperty, const list<Building*>& allBuildings) const;
 	Building* ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix);
 };
 /////////////End of Constructions Classes/////////////

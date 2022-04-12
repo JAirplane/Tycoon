@@ -13,5 +13,5 @@ public:
 	{
 		delete description_ptr;
 	}
-	Visitor* CreateVisitor(PointCoord upperLeft, Visualisation* paint_ptr, AllObjects* allObjects_ptr);
+	Visitor* CreateVisitor(PointCoord upperLeft, Visualisation* paint_ptr, AllObjects* allObjects_ptr, int parkLevel);
 };

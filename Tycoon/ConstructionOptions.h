@@ -69,9 +69,9 @@ public:
 	virtual const wstring GetFoodCourtSymbol() const;
 	virtual const wstring GetToiletSymbol() const;
 	///////////////Toilet Need Constants///////////////
-	virtual const bool GetIceCreamShopToiletNeed() const;
-	virtual const bool GetFoodCourtToiletNeed() const;
-	virtual const bool GetToiletToiletNeed() const;
+	virtual const int GetIceCreamShopToiletNeed() const;
+	virtual const int GetFoodCourtToiletNeed() const;
+	virtual const int GetToiletToiletNeed() const;
 	///////////////Hunger Satisfaction Constants///////////////
 	virtual const int GetIceCreamShopHungerSatisfaction() const;
 	virtual const int GetFoodCourtHungerSatisfaction() const;
@@ -80,6 +80,10 @@ public:
 	virtual const int GetIceCreamShopVisitPrice() const;
 	virtual const int GetFoodCourtVisitPrice() const;
 	virtual const int GetToiletVisitPrice() const;
+	///////////////Entertainment Constants///////////////
+	virtual const int GetIceCreamShopEntertainmentCost() const;
+	virtual const int GetFoodCourtEntertainmentCost() const;
+	virtual const int GetToiletEntertainmentCost() const;
 	///////////////Initialisation Coord Constants///////////////
 	virtual const PointCoord GetCameraInitialUpperLeft() const;
 	virtual const PointCoord GetPlayingFieldUpperLeft() const;

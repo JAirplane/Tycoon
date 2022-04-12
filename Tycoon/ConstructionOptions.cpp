@@ -221,17 +221,17 @@ const wstring ConstructionOptions::GetRoadIconSymbol() const
 	return L"\u2016";
 }
 ///////////////Toilet Need Constants///////////////
-const bool ConstructionOptions::GetIceCreamShopToiletNeed() const
+const int ConstructionOptions::GetIceCreamShopToiletNeed() const
 {
-	return false;
+	return 0;
 }
-const bool ConstructionOptions::GetFoodCourtToiletNeed() const
+const int ConstructionOptions::GetFoodCourtToiletNeed() const
 {
-	return true;
+	return 100;
 }
-const bool ConstructionOptions::GetToiletToiletNeed() const
+const int ConstructionOptions::GetToiletToiletNeed() const
 {
-	return true;
+	return 100;
 }
 ///////////////Hunger Satisfaction Constants///////////////
 const int ConstructionOptions::GetIceCreamShopHungerSatisfaction() const
@@ -258,6 +258,19 @@ const int ConstructionOptions::GetFoodCourtVisitPrice() const
 const int ConstructionOptions::GetToiletVisitPrice() const
 {
 	return 5;
+}
+///////////////Entertainment Constants///////////////
+const int ConstructionOptions::GetIceCreamShopEntertainmentCost() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetFoodCourtEntertainmentCost() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetToiletEntertainmentCost() const
+{
+	return 0;
 }
 ///////////////Color Construction Constants///////////////
 color ConstructionOptions::GetIceCreamShopForegroundColor() const

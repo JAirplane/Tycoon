@@ -32,15 +32,19 @@ void ConstructionDescriptor::SetMenuElementLocation(PointCoord Location)
 {
 	menuElementLocation = Location;
 }
-bool ConstructionDescriptor::GetRestorationOfToiletNeed() const
+int ConstructionDescriptor::GetRestorationOfToiletNeed() const
 {
-	return false;
+	return 0;
 }
 int ConstructionDescriptor::GetSatisfactionOfHunger() const
 {
 	return 0;
 }
 int ConstructionDescriptor::GetVisitPrice() const
+{
+	return 0;
+}
+int ConstructionDescriptor::GetEntertainmentValue() const
 {
 	return 0;
 }

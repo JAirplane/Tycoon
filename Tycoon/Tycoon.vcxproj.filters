@@ -141,6 +141,9 @@
     <ClInclude Include="FindByPoint.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="ParkLevelConstants.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="GameManagement.cpp">
@@ -258,6 +261,12 @@
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
     <ClCompile Include="FindByPoint.cpp">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\pugixml-1.12\src\pugixml.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="ParkLevelConstants.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
   </ItemGroup>

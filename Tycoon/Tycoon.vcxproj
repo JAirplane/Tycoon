@@ -117,6 +117,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\Users\eugen\source\repos\pugixml-1.12\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -171,6 +172,7 @@
     <ClInclude Include="msoftcon.h" />
     <ClInclude Include="MyException.h" />
     <ClInclude Include="ObserverInterface.h" />
+    <ClInclude Include="ParkLevelConstants.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="ObjectContainers.h" />
     <ClInclude Include="PlayingField.h" />
@@ -184,6 +186,7 @@
     <ClInclude Include="VisitorManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\pugixml-1.12\src\pugixml.cpp" />
     <ClCompile Include="Alphabet.cpp" />
     <ClCompile Include="BuildingDescriptor.cpp" />
     <ClCompile Include="Button.cpp" />
@@ -212,6 +215,7 @@
     <ClCompile Include="msoftcon.cpp" />
     <ClCompile Include="MyException.cpp" />
     <ClCompile Include="ObjectContainers.cpp" />
+    <ClCompile Include="ParkLevelConstants.cpp" />
     <ClCompile Include="PlayingField.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="RectangleBorder.cpp" />

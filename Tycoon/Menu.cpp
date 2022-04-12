@@ -10,11 +10,11 @@ ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int con
 }
 // for buildings
 ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
-	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, bool restoreToiletNeed, int satisfactionOfHunger, int visitPrice, int dailyExpences,
-	int constructionHeightAdd, int constructionWidthAdd)
+	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int restoreToiletNeed, int satisfactionOfHunger, int visitPrice, int enetrtainmentValue,
+	int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
 {
 	ConstructionDescriptor* buildingDesc_ptr = new BuildingDescriptor(menuElementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected,
-		backgroundNotConnected, backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, dailyExpences, constructionHeightAdd, constructionWidthAdd);
+		backgroundNotConnected, backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, enetrtainmentValue, dailyExpences, constructionHeightAdd, constructionWidthAdd);
 	return new BuildingManager(buildingDesc_ptr);
 }
 // create road element
@@ -46,9 +46,9 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 		menuElementShadingColor, menuIcon_ptr, manager_ptr);
 	menuItems.push_back(element_ptr);
 }
-// create menu element
+// create building element
 void Menu::CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
-	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, bool restoreToiletNeed, int satisfactionOfHunger, int visitPrice,
+	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int restoreToiletNeed, int satisfactionOfHunger, int visitPrice, int entertainmentValue,
 	int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
 {
 	BorderAppearance* elementBorder_ptr = CreateElementBorder();
@@ -71,7 +71,7 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 	int elementWidthAdd = GetWidthAddition() - 4;
 	MyRectangle* menuIcon_ptr = CreateIcon(elementLocation);
 	ConstructionManager* manager_ptr = CreateManager(elementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected, backgroundNotConnected,
-		backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, dailyExpences, constructionHeightAdd, constructionWidthAdd);
+		backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, entertainmentValue, dailyExpences, constructionHeightAdd, constructionWidthAdd);
 	MenuElement* element_ptr = new MenuElement(GetDrawPointer(), GetCursor(), elementLocation, elementHeightAdd, elementWidthAdd, elementBorder_ptr, menuElementLetterColor,
 		menuElementShadingColor, menuIcon_ptr, manager_ptr);
 	menuItems.push_back(element_ptr);
@@ -415,7 +415,7 @@ Visitor* Menu::CreateVisitor(const PlayingField* field_ptr, AllObjects* containe
 	int randomX = rand() % 2; //2 possible cells to appear
 	int constY = field_ptr->GetUpperLeft().Get_y() + field_ptr->GetHeightAddition() + 3; // 3 pixels lower than playingfield's bottom yCoord
 	PointCoord startVisitorPoint(field_ptr->GetHalfXAxis() + randomX, constY);
-	Visitor* newVisitor = visitorsCreator_ptr->CreateVisitor(startVisitorPoint, GetDrawPointer(), container_ptr);
+	Visitor* newVisitor = visitorsCreator_ptr->CreateVisitor(startVisitorPoint, GetDrawPointer(), container_ptr, gameStats_ptr->parkLevel);
 	++gameStats_ptr->visitorsCounter;
 	gameStats_ptr->ClearContent();
 	gameStats_ptr->DrawContent();
@@ -448,5 +448,60 @@ void Menu::ParkLevelCheck(const AllObjects* container_ptr)
 	else
 	{
 		gameStats_ptr->parkLevel = 5;
+	}
+}
+void Menu::VisitorAddition(const PlayingField* field_ptr, AllObjects* container_ptr) const
+{
+	switch (gameStats_ptr->parkLevel)
+	{
+	case 0:
+	{
+		if (gameStats_ptr->visitorsCounter < 8)
+		{
+			CreateVisitor(field_ptr, container_ptr);
+		}
+		return;
+	}
+	case 1:
+	{
+		if (gameStats_ptr->visitorsCounter < 16)
+		{
+			CreateVisitor(field_ptr, container_ptr);
+		}
+		return;
+	}
+	case 2:
+	{
+		if (gameStats_ptr->visitorsCounter < 24)
+		{
+			CreateVisitor(field_ptr, container_ptr);
+		}
+		return;
+	}
+	case 3:
+	{
+		if (gameStats_ptr->visitorsCounter < 32)
+		{
+			CreateVisitor(field_ptr, container_ptr);
+		}
+		return;
+	}
+	case 4:
+	{
+		if (gameStats_ptr->visitorsCounter < 40)
+		{
+			CreateVisitor(field_ptr, container_ptr);
+		}
+		return;
+	}
+	case 5:
+	{
+		if (gameStats_ptr->visitorsCounter < 48)
+		{
+			CreateVisitor(field_ptr, container_ptr);
+		}
+		return;
+	}
+	default: {throw MyException("GameManagement::VisitorCreationCycle(chrono::milliseconds& lastLaunch, chrono::milliseconds& visitorCreationDelay) bad park level"); }
 	}
 }
