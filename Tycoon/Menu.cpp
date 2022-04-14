@@ -11,10 +11,11 @@ ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int con
 // for buildings
 ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
 	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int restoreToiletNeed, int satisfactionOfHunger, int visitPrice, int enetrtainmentValue,
-	int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
+	int isExit, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
 {
 	ConstructionDescriptor* buildingDesc_ptr = new BuildingDescriptor(menuElementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected,
-		backgroundNotConnected, backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, enetrtainmentValue, dailyExpences, constructionHeightAdd, constructionWidthAdd);
+		backgroundNotConnected, backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, enetrtainmentValue, isExit,
+		dailyExpences, constructionHeightAdd, constructionWidthAdd);
 	return new BuildingManager(buildingDesc_ptr);
 }
 // create road element
@@ -49,7 +50,7 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 // create building element
 void Menu::CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
 	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int restoreToiletNeed, int satisfactionOfHunger, int visitPrice, int entertainmentValue,
-	int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
+	int isExit, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
 {
 	BorderAppearance* elementBorder_ptr = CreateElementBorder();
 	color menuElementLetterColor = ConstructionOptions::GetAllOptions()->GetMenuElementLetterColor();
@@ -71,7 +72,7 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 	int elementWidthAdd = GetWidthAddition() - 4;
 	MyRectangle* menuIcon_ptr = CreateIcon(elementLocation);
 	ConstructionManager* manager_ptr = CreateManager(elementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected, backgroundNotConnected,
-		backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, entertainmentValue, dailyExpences, constructionHeightAdd, constructionWidthAdd);
+		backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, entertainmentValue, isExit, dailyExpences, constructionHeightAdd, constructionWidthAdd);
 	MenuElement* element_ptr = new MenuElement(GetDrawPointer(), GetCursor(), elementLocation, elementHeightAdd, elementWidthAdd, elementBorder_ptr, menuElementLetterColor,
 		menuElementShadingColor, menuIcon_ptr, manager_ptr);
 	menuItems.push_back(element_ptr);
@@ -402,11 +403,15 @@ Construction* Menu::CreatePreliminaryObject(AllObjects* allObjects_ptr, Camera* 
 	}
 	return nullptr;
 }
-Visitor* Menu::CreateVisitor(const PlayingField* field_ptr, AllObjects* container_ptr) const
+Visitor* Menu::CreateVisitor(const PlayingField* field_ptr, const Camera* camera_ptr, AllObjects* container_ptr) const
 {
 	if (field_ptr == nullptr)
 	{
 		throw MyException("Menu::CreateVisitor(const PlayingField* field_ptr, AllObjects* container_ptr) const playingfield is nullptr");
+	}
+	if (camera_ptr == nullptr)
+	{
+		throw MyException("Menu::CreateVisitor(const PlayingField* field_ptr, AllObjects* container_ptr) const camera is nullptr");
 	}
 	if (container_ptr == nullptr)
 	{
@@ -419,29 +424,32 @@ Visitor* Menu::CreateVisitor(const PlayingField* field_ptr, AllObjects* containe
 	++gameStats_ptr->visitorsCounter;
 	gameStats_ptr->ClearContent();
 	gameStats_ptr->DrawContent();
-	newVisitor->DrawObject();
+	if (camera_ptr->IsObjectInsideTheRectangle(newVisitor))
+	{
+		newVisitor->DrawObject();
+	}
 	return newVisitor;
 }
 void Menu::ParkLevelCheck(const AllObjects* container_ptr)
 {
 	int buildingsQuantity = static_cast<int>(container_ptr->GetAllBuildings().size());
-	if (buildingsQuantity <= 5)
+	if (buildingsQuantity <= ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(0)->maximumBuildings)
 	{
 		gameStats_ptr->parkLevel = 0;
 	}
-	else if (buildingsQuantity > 5 && buildingsQuantity <= 10)
+	else if (buildingsQuantity <= ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(1)->maximumBuildings)
 	{
 		gameStats_ptr->parkLevel = 1;
 	}
-	else if (buildingsQuantity > 10 && buildingsQuantity <= 15)
+	else if (buildingsQuantity <= ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(2)->maximumBuildings)
 	{
 		gameStats_ptr->parkLevel = 2;
 	}
-	else if (buildingsQuantity > 15 && buildingsQuantity <= 20)
+	else if (buildingsQuantity <= ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(3)->maximumBuildings)
 	{
 		gameStats_ptr->parkLevel = 3;
 	}
-	else if (buildingsQuantity > 20 && buildingsQuantity <= 25)
+	else if (buildingsQuantity <= ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(4)->maximumBuildings)
 	{
 		gameStats_ptr->parkLevel = 4;
 	}
@@ -450,55 +458,55 @@ void Menu::ParkLevelCheck(const AllObjects* container_ptr)
 		gameStats_ptr->parkLevel = 5;
 	}
 }
-void Menu::VisitorAddition(const PlayingField* field_ptr, AllObjects* container_ptr) const
+void Menu::VisitorAddition(const PlayingField* field_ptr, const Camera* camera_ptr, AllObjects* container_ptr) const
 {
 	switch (gameStats_ptr->parkLevel)
 	{
 	case 0:
 	{
-		if (gameStats_ptr->visitorsCounter < 8)
+		if (gameStats_ptr->visitorsCounter < ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(0)->maximumVisitors)
 		{
-			CreateVisitor(field_ptr, container_ptr);
+			CreateVisitor(field_ptr, camera_ptr, container_ptr);
 		}
 		return;
 	}
 	case 1:
 	{
-		if (gameStats_ptr->visitorsCounter < 16)
+		if (gameStats_ptr->visitorsCounter < ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(1)->maximumVisitors)
 		{
-			CreateVisitor(field_ptr, container_ptr);
+			CreateVisitor(field_ptr, camera_ptr, container_ptr);
 		}
 		return;
 	}
 	case 2:
 	{
-		if (gameStats_ptr->visitorsCounter < 24)
+		if (gameStats_ptr->visitorsCounter < ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(2)->maximumVisitors)
 		{
-			CreateVisitor(field_ptr, container_ptr);
+			CreateVisitor(field_ptr, camera_ptr, container_ptr);
 		}
 		return;
 	}
 	case 3:
 	{
-		if (gameStats_ptr->visitorsCounter < 32)
+		if (gameStats_ptr->visitorsCounter < ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(3)->maximumVisitors)
 		{
-			CreateVisitor(field_ptr, container_ptr);
+			CreateVisitor(field_ptr, camera_ptr, container_ptr);
 		}
 		return;
 	}
 	case 4:
 	{
-		if (gameStats_ptr->visitorsCounter < 40)
+		if (gameStats_ptr->visitorsCounter < ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(4)->maximumVisitors)
 		{
-			CreateVisitor(field_ptr, container_ptr);
+			CreateVisitor(field_ptr, camera_ptr, container_ptr);
 		}
 		return;
 	}
 	case 5:
 	{
-		if (gameStats_ptr->visitorsCounter < 48)
+		if (gameStats_ptr->visitorsCounter < ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(5)->maximumVisitors)
 		{
-			CreateVisitor(field_ptr, container_ptr);
+			CreateVisitor(field_ptr, camera_ptr, container_ptr);
 		}
 		return;
 	}

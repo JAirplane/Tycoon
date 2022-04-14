@@ -1,5 +1,24 @@
 #include "ObjectContainers.h"
 /////////////Containers of All Objects in the Game/////////////
+void AllObjects::CreateExit(const PlayingField* playingField_ptr, Visualisation* draw_ptr)
+{
+	ConstructionDescriptor* exitDescriptor = new BuildingDescriptor(PointCoord(numeric_limits<int>::max(), numeric_limits<int>::max()),
+		ConstructionOptions::GetAllOptions()->GetExitCost(), ConstructionOptions::GetAllOptions()->GetExitDescription(), ConstructionOptions::GetAllOptions()->GetExitIconSymbol(),
+		ConstructionOptions::GetAllOptions()->GetExitForegroundColor(), ConstructionOptions::GetAllOptions()->GetExitConnectedBackgroundColor(),
+		ConstructionOptions::GetAllOptions()->GetExitNotConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetExitChosenBackgroundColor(),
+		ConstructionOptions::GetAllOptions()->GetExitSymbol(), ConstructionOptions::GetAllOptions()->GetExitToiletNeed(),
+		ConstructionOptions::GetAllOptions()->GetExitHungerSatisfaction(), ConstructionOptions::GetAllOptions()->GetExitVisitPrice(),
+		ConstructionOptions::GetAllOptions()->GetExitEntertainmentCost(), ConstructionOptions::GetAllOptions()->GetExitIsExit(),
+		ConstructionOptions::GetAllOptions()->GetExitExpences(), ConstructionOptions::GetAllOptions()->GetExitHeightAdd(), ConstructionOptions::GetAllOptions()->GetExitWidthAdd());
+	Building* exit1 = new Building(PointCoord(playingField_ptr->GetHalfXAxis(), playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() + 4),
+		exitDescriptor, draw_ptr);
+	exit1->SetExitDirection(Direction::Up);
+	Building* exit2 = new Building(PointCoord(playingField_ptr->GetHalfXAxis() + 1, playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() + 4),
+		exitDescriptor, draw_ptr);
+	exit2->SetExitDirection(Direction::Up);
+	this->AddObject(exit1);
+	this->AddObject(exit2);
+}
 void AllObjects::CreateParkEntrance(const PlayingField* playingField_ptr, ConstructionDescriptor* descriptor_ptr, Visualisation* draw_ptr)
 {
 	if (playingField_ptr == nullptr)
@@ -14,6 +33,7 @@ void AllObjects::CreateParkEntrance(const PlayingField* playingField_ptr, Constr
 	{
 		throw MyException("CreateParkEntrance(const PlayingField* playingField_ptr, ConstructionDescriptor* descriptor_ptr, Visualisation* draw_ptr) bad descriptor");
 	}
+	this->CreateExit(playingField_ptr, draw_ptr);
 	for (int yAdd = 3; yAdd >= 0; yAdd--)
 	{
 		for (int xAdd = 0; xAdd <= 1; xAdd++)

@@ -51,7 +51,9 @@ public:
 	void DeleteNode(int index);
 	void EraseAllNodes();
 	void BuildGraph(vector<pair<pair<int, int>, Direction> > neighbourLinks);
-	int GetNodePosition(Node* someNode) const;
+	void UpdateIndices(int index); //all indicies after "index" are decremented
 	void SetWeight(Node* someNode, Direction neighbourSide, vector<int>& column);
 	vector<vector<int> > GetWeightMatrix();
+	bool FindNextPathIndex(vector<int>& pathIndices, vector<int> distances, Node*& current, int& currentDistance, int side = 4);
+	vector<int> GetPathIndices(vector<int> distances, int destinationIndex);
 };

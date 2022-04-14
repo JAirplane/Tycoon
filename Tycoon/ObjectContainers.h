@@ -41,6 +41,7 @@ public:
 		delete preliminaryConstruction_ptr;
 		delete graph_ptr;
 	}
+	void CreateExit(const PlayingField* playingField_ptr, Visualisation* draw_ptr);
 	void CreateParkEntrance(const PlayingField* playingField_ptr, ConstructionDescriptor* descriptor_ptr, Visualisation* draw_ptr);
 	//
 	const list<Building*>& GetAllBuildings() const;

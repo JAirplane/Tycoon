@@ -260,7 +260,7 @@ vector<Construction*> Building::GetNeighbourBuildings(const list<Building*>& all
 {
 	return vector<Construction*>();
 }
-Construction* Building::PreliminaryNeighbour(Construction* preliminary_ptr) const
+Construction* Building::GetPreliminaryNeighbour(Construction* preliminary_ptr) const
 {
 	if (preliminary_ptr != nullptr)
 	{
@@ -270,7 +270,6 @@ Construction* Building::PreliminaryNeighbour(Construction* preliminary_ptr) cons
 		}
 	}
 	return nullptr;
-
 }
 void Building::RedrawNeighbours(const list<Road*>& allRoads, const list<Building*>& allBuildings, Construction* preliminary_ptr, const Camera* camera_ptr)
 {
@@ -549,7 +548,7 @@ vector<Construction*> Road::GetNeighbourBuildings(const list<Building*>& allBuil
 	}
 	return neibourBuildings;
 }
-Construction* Road::PreliminaryNeighbour(Construction* preliminary_ptr) const
+Construction* Road::GetPreliminaryNeighbour(Construction* preliminary_ptr) const
 {
 	if (preliminary_ptr == nullptr)
 	{
@@ -672,9 +671,9 @@ void Visitor::MakeAStep(Construction* destinationRoadTile)
 {
 	this->SetUpperLeft(destinationRoadTile->GetUpperLeft());
 }
-Building* Visitor::FindNearestDestination(const vector<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances) const
+Building* Visitor::FindNearestDestination(const vector<Building*>& suitableBuildings, const list<Road*>& allRoads, vector<int> distances) const
 {
-	if (allBuildings.empty())
+	if (suitableBuildings.empty())
 	{
 		throw MyException("Visitor::FindNearestToilet(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances) building container is empty");
 	}
@@ -688,7 +687,7 @@ Building* Visitor::FindNearestDestination(const vector<Building*>& allBuildings,
 	}
 	Building* nearestOne = nullptr;
 	int lowestDistance = numeric_limits<int>::max();
-	for (auto building : allBuildings)
+	for (auto building : suitableBuildings)
 	{
 		if (building->GetRoadConnectionStatus())
 		{
@@ -711,7 +710,36 @@ Building* Visitor::FindNearestDestination(const vector<Building*>& allBuildings,
 	}
 	return nearestOne;
 }
-Building* Visitor::ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix)
+void Visitor::SetDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances)
+{
+	vector<Building*> buildingsChoosenByProperty;
+	if (toiletNeed < 10 || foodCapacity < 10)
+	{
+		buildingsChoosenByProperty = Building::ChooseFromBuildings(mem_fn(&ConstructionDescriptor::GetIsExit), allBuildings);
+	}
+	else if (toiletNeed < 25)
+	{
+		buildingsChoosenByProperty = Building::ChooseFromBuildings(mem_fn(&ConstructionDescriptor::GetRestorationOfToiletNeed), allBuildings);
+	}
+	else if (foodCapacity < 25)
+	{
+		buildingsChoosenByProperty = Building::ChooseFromBuildings(mem_fn(&ConstructionDescriptor::GetSatisfactionOfHunger), allBuildings);
+	}
+	else
+	{
+		buildingsChoosenByProperty = Building::ChooseFromBuildings(mem_fn(&ConstructionDescriptor::GetEntertainmentValue), allBuildings);
+		if (!buildingsChoosenByProperty.empty())
+		{
+			destination_ptr = buildingsChoosenByProperty.at(rand() % (buildingsChoosenByProperty.size() - 1));
+		}
+		return;
+	}
+	if (!buildingsChoosenByProperty.empty())
+	{
+		destination_ptr = FindNearestDestination(buildingsChoosenByProperty, allRoads, distances);
+	}
+}
+void Visitor::ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix)
 {
 	auto visitorRoad = FindByPoint::elementSearcherByPoint->GetElementByPoint(allRoads, this->GetUpperLeft());
 	if (visitorRoad == nullptr)
@@ -724,27 +752,5 @@ Building* Visitor::ChooseDestination(const list<Building*>& allBuildings, const 
 		throw MyException("Visitor::ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix) road is out of container");
 	}
 	vector<int> distances = DijkstraAlgorithm::dijkstra->GetDistances(weightMatrix, roadIndex);
-	Building* nearestDestination = nullptr;
-	vector<Building*> buildingsChoosenByProperty;
-	if (toiletNeed < 25)
-	{
-		buildingsChoosenByProperty = Building::ChooseFromBuildings(mem_fn(&ConstructionDescriptor::GetRestorationOfToiletNeed), allBuildings);
-	}
-	else if (foodCapacity < 25)
-	{
-		buildingsChoosenByProperty = Building::ChooseFromBuildings(mem_fn(&ConstructionDescriptor::GetSatisfactionOfHunger), allBuildings);
-	}
-	else
-	{
-		buildingsChoosenByProperty = Building::ChooseFromBuildings(mem_fn(&ConstructionDescriptor::GetEntertainmentValue), allBuildings);
-	}
-	if (!buildingsChoosenByProperty.empty())
-	{
-		nearestDestination = FindNearestDestination(buildingsChoosenByProperty, allRoads, distances);
-		if (nearestDestination != nullptr)
-		{
-			destination_ptr = nearestDestination;
-		}
-	}
-	return nullptr;
+	this->SetDestination(allBuildings, allRoads, distances);
 }

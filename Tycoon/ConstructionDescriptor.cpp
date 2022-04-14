@@ -48,3 +48,7 @@ int ConstructionDescriptor::GetEntertainmentValue() const
 {
 	return 0;
 }
+int ConstructionDescriptor::GetIsExit() const
+{
+	return 0;
+}

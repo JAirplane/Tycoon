@@ -36,6 +36,7 @@ public:
 	virtual int GetSatisfactionOfHunger() const;
 	virtual int GetVisitPrice() const;
 	virtual int GetEntertainmentValue() const;
+	virtual int GetIsExit() const;
 	PointCoord GetMenuElementLocation() const;
 	void SetMenuElementLocation(PointCoord mLocation);
 };

@@ -54,7 +54,7 @@ public:
 	//
 	virtual vector<Construction*> GetNeighbourRoads(const list<Road*>& allRoads) const = 0;
 	virtual vector<Construction*> GetNeighbourBuildings(const list<Building*>& allBuildings) const = 0;
-	virtual Construction* PreliminaryNeighbour(Construction* preliminary_ptr) const = 0;
+	virtual Construction* GetPreliminaryNeighbour(Construction* preliminary_ptr) const = 0;
 	virtual void RedrawNeighbours(const list<Road*>& allRoads, const list<Building*>& allBuildings, Construction* preliminary_ptr, const Camera* camera_ptr) = 0;
 	static void RedrawNeighbours(PointCoord centralPoint, const list<Road*>& allRoads, const list<Building*>& allBuildings,
 		Construction* preliminary_ptr, const Camera* camera_ptr);
@@ -99,7 +99,7 @@ public:
 	void SetProfit(int profit);
 	vector<Construction*> GetNeighbourRoads(const list<Road*>& allRoads) const override;
 	vector<Construction*> GetNeighbourBuildings(const list<Building*>& allBuildings) const override;
-	Construction* PreliminaryNeighbour(Construction* preliminary_ptr) const override;
+	Construction* GetPreliminaryNeighbour(Construction* preliminary_ptr) const override;
 	void RedrawNeighbours(const list<Road*>& allRoads, const list<Building*>& allBuildings, Construction* preliminary_ptr, const Camera* camera_ptr) override;
 	void CorrectBuildingCoordsForDraw(int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY, int& leftX, int& topY, int& rightX, int& bottomY) const;
 	void DrawObject(int mask = 0, int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
@@ -141,7 +141,7 @@ public:
 	bool Connected(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr) override;
 	vector<Construction*> GetNeighbourRoads(const list<Road*>& allRoads) const override;
 	vector<Construction*> GetNeighbourBuildings(const list<Building*>& allBuildings) const override;
-	Construction* PreliminaryNeighbour(Construction* preliminary_ptr) const override;
+	Construction* GetPreliminaryNeighbour(Construction* preliminary_ptr) const override;
 	void RedrawNeighbours(const list<Road*>& allRoads, const list<Building*>& allBuildings, Construction* preliminary_ptr, const Camera* camera_ptr) override;
 	void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const override;
 	void DrawObject(const wstring drawingSymbol) const override;
@@ -185,12 +185,19 @@ public:
 		moneyAmount = 0;
 		switch (currentParkLevel)
 		{
-		case 0: {moneyAmount = rand() % 50 + 50; break; }
-		case 1: {moneyAmount = rand() % 100 + 100; break; }
-		case 2: {moneyAmount = rand() % 150 + 150; break; }
-		case 3: {moneyAmount = rand() % 200 + 200; break; }
-		case 4: {moneyAmount = rand() % 250 + 250; break; }
-		case 5: {moneyAmount = rand() % 300 + 300; break; }
+		case 0: {moneyAmount = rand() % ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(0)->moneyFormulaValue +
+			ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(0)->moneyFormulaValue; break; }
+		case 1: {moneyAmount = rand() % ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(1)->moneyFormulaValue +
+			ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(1)->moneyFormulaValue; break; }
+		case 2: {moneyAmount = rand() % ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(2)->moneyFormulaValue +
+			ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(2)->moneyFormulaValue; break; }
+		case 3: {moneyAmount = rand() % ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(3)->moneyFormulaValue +
+			ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(3)->moneyFormulaValue; break; }
+		case 4: {moneyAmount = rand() % ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(4)->moneyFormulaValue +
+			ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(4)->moneyFormulaValue; break; }
+		case 5: {moneyAmount = rand() % ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(5)->moneyFormulaValue +
+			ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(5)->moneyFormulaValue; break; }
+		default: {throw MyException("Visitor(PointCoord upperLeft, Visualisation* paint_ptr, VisitorDescriptor* describe_ptr, int currentParkLevel) bad park level"); }
 		}
 	}
 	~Visitor()
@@ -210,6 +217,7 @@ public:
 	void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
 	void MakeAStep(Construction* destinationRoadTile);
 	Building* FindNearestDestination(const vector<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances) const;
-	Building* ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix);
+	void SetDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances);
+	void ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix);
 };
 /////////////End of Constructions Classes/////////////

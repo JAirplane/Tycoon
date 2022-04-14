@@ -13,6 +13,10 @@ const int ConstructionOptions::GetFoodCourtHeightAdd() const
 {
 	return 1;
 }
+const int ConstructionOptions::GetExitHeightAdd() const
+{
+	return 0;
+}
 const int ConstructionOptions::GetMenuElementHeightAdd() const
 {
 	return 5;
@@ -66,6 +70,10 @@ const int ConstructionOptions::GetFoodCourtWidthAdd() const
 {
 	return 3;
 }
+const int ConstructionOptions::GetExitWidthAdd() const
+{
+	return 0;
+}
 const int ConstructionOptions::GetRoadWidthAdd() const
 {
 	return 0;
@@ -115,6 +123,10 @@ const int ConstructionOptions::GetFoodCourtCost() const
 {
 	return 200;
 }
+const int ConstructionOptions::GetExitCost() const
+{
+	return 0;
+}
 const int ConstructionOptions::GetRoadCost() const
 {
 	return 20;
@@ -132,6 +144,10 @@ const int ConstructionOptions::GetFoodCourtExpences() const
 {
 	return 20;
 }
+const int ConstructionOptions::GetExitExpences() const
+{
+	return 0;
+}
 ///////////////Description Initialisation Constants///////////////
 const string ConstructionOptions::GetIceCreamShopDescription() const
 {
@@ -144,6 +160,10 @@ const string ConstructionOptions::GetToiletDescription() const
 const string ConstructionOptions::GetFoodCourtDescription() const
 {
 	return "Food Court: satisfies hunger";
+}
+const string ConstructionOptions::GetExitDescription() const
+{
+	return " ";
 }
 const string ConstructionOptions::GetRoadDescription() const
 {
@@ -190,6 +210,10 @@ const wstring ConstructionOptions::GetToiletSymbol() const
 {
 	return L"\u25BC";
 }
+const wstring ConstructionOptions::GetExitSymbol() const
+{
+	return L" ";
+}
 ///////////////Initialisation Coord Constants///////////////
 const PointCoord ConstructionOptions::GetCameraInitialUpperLeft() const
 {
@@ -216,6 +240,10 @@ const wstring ConstructionOptions::GetToiletIconSymbol() const
 {
 	return L"\u25BC";
 }
+const wstring ConstructionOptions::GetExitIconSymbol() const
+{
+	return L" ";
+}
 const wstring ConstructionOptions::GetRoadIconSymbol() const
 {
 	return L"\u2016";
@@ -233,6 +261,10 @@ const int ConstructionOptions::GetToiletToiletNeed() const
 {
 	return 100;
 }
+const int ConstructionOptions::GetExitToiletNeed() const
+{
+	return 0;
+}
 ///////////////Hunger Satisfaction Constants///////////////
 const int ConstructionOptions::GetIceCreamShopHungerSatisfaction() const
 {
@@ -243,6 +275,10 @@ const int ConstructionOptions::GetFoodCourtHungerSatisfaction() const
 	return 100;
 }
 const int ConstructionOptions::GetToiletHungerSatisfaction() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetExitHungerSatisfaction() const
 {
 	return 0;
 }
@@ -259,6 +295,10 @@ const int ConstructionOptions::GetToiletVisitPrice() const
 {
 	return 5;
 }
+const int ConstructionOptions::GetExitVisitPrice() const
+{
+	return 0;
+}
 ///////////////Entertainment Constants///////////////
 const int ConstructionOptions::GetIceCreamShopEntertainmentCost() const
 {
@@ -271,6 +311,27 @@ const int ConstructionOptions::GetFoodCourtEntertainmentCost() const
 const int ConstructionOptions::GetToiletEntertainmentCost() const
 {
 	return 0;
+}
+const int ConstructionOptions::GetExitEntertainmentCost() const
+{
+	return 0;
+}
+///////////////Is Building Exit Constants///////////////
+const int ConstructionOptions::GetIceCreamShopIsExit() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetFoodCourtIsExit() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetToiletIsExit() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetExitIsExit() const
+{
+	return 1;
 }
 ///////////////Color Construction Constants///////////////
 color ConstructionOptions::GetIceCreamShopForegroundColor() const
@@ -322,6 +383,23 @@ color ConstructionOptions::GetToiletNotConnectedBackgroundColor() const
 color ConstructionOptions::GetToiletChosenBackgroundColor() const
 {
 	return color::cRED;
+}
+//
+color ConstructionOptions::GetExitForegroundColor() const
+{
+	return color::cBLACK;
+}
+color ConstructionOptions::GetExitConnectedBackgroundColor() const
+{
+	return color::cBLACK;
+}
+color ConstructionOptions::GetExitNotConnectedBackgroundColor() const
+{
+	return color::cBLACK;
+}
+color ConstructionOptions::GetExitChosenBackgroundColor() const
+{
+	return color::cBLACK;
 }
 //
 color ConstructionOptions::GetRoadForegroundColor() const

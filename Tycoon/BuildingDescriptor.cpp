@@ -19,3 +19,7 @@ int BuildingDescriptor::GetEntertainmentValue() const
 {
 	return entertainmentValue;
 }
+int BuildingDescriptor::GetIsExit() const
+{
+	return isExit;
+}

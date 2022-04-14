@@ -32,44 +32,39 @@ class ParkLevelConstants
 public:
 	ParkLevelConstants()
 	{
-		try 
+		pugi::xml_document doc;
+		pugi::xml_parse_result result = doc.load_file("ParkLevelConstants.xml");
+		if (!result)
 		{
-			pugi::xml_document doc;
-			pugi::xml_parse_result result = doc.load_file("ParkLevelConstants.xml");
-			if (!result)
-			{
-				string msg = "XML [ParkLevelConstants.xml] parsed with errors. ";
-				msg.append("Error description: ");
-				msg.append(result.description());
-				cout << msg;
-				throw MyException(msg);
-			}
-			pugi::xml_node levels = doc.child("parkLevels");
-			for (pugi::xml_node level = levels.child("level"); level; level = level.next_sibling("level"))
-			{
-				int lvlNumber = level.attribute("lvlNumber").as_int();
-				int maxBuildings = atoi(level.child_value("maxBuildingsQuantity"));
-				int maxVisitors = atoi(level.child_value("maxVisitorsQuantity"));
-				int visitorMoneyFormulaValue = atoi(level.child_value("visitorMoneyFormulaConstant"));
-				Level* levelConstant = new Level(lvlNumber, maxBuildings, maxVisitors, visitorMoneyFormulaValue);
-				lvls.push_back(levelConstant);
-			}
-			for (auto lvl : lvls)
-			{
-				cout << lvl->level << " " << lvl->maximumBuildings << " " << lvl->maximumVisitors << " " << lvl->moneyFormulaValue << endl;
-			}
-			system("pause");
+			string msg = "XML [ParkLevelConstants.xml] parsed with errors. ";
+			msg.append("Error description: ");
+			msg.append(result.description());
+			cout << msg;
+			throw MyException(msg);
 		}
-		catch (MyException& somethingOccured)
+		pugi::xml_node levels = doc.child("parkLevels");
+		for (pugi::xml_node level = levels.child("level"); level; level = level.next_sibling("level"))
 		{
-			somethingOccured.AddToLogFile();
+			int lvlNumber = level.attribute("lvlNumber").as_int();
+			int maxBuildings = atoi(level.child_value("maxBuildingsQuantity"));
+			int maxVisitors = atoi(level.child_value("maxVisitorsQuantity"));
+			int visitorMoneyFormulaValue = atoi(level.child_value("visitorMoneyFormulaConstant"));
+			Level* levelConstant = new Level(lvlNumber, maxBuildings, maxVisitors, visitorMoneyFormulaValue);
+			lvls.push_back(levelConstant);
 		}
 	}
 	~ParkLevelConstants()
 	{
-
+		for (auto lvl : lvls)
+		{
+			delete lvl;
+		}
 	}
-		
+	ParkLevelConstants(ParkLevelConstants& other) = delete;
+	void operator=(const ParkLevelConstants&) = delete;
+	static ParkLevelConstants* UploadParkConstants();
+	static const ParkLevelConstants* GetConstantsPointer();
+	const vector<Level*> GetAllConstants() const;
 protected:
 	static ParkLevelConstants* parkConstants;
 private:

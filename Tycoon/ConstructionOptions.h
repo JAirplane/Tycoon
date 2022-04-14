@@ -19,6 +19,7 @@ public:
 	virtual const int GetIceCreamShopHeightAdd() const;
 	virtual const int GetToiletHeightAdd() const;
 	virtual const int GetFoodCourtHeightAdd() const;
+	virtual const int GetExitHeightAdd() const;
 	virtual const int GetMenuElementHeightAdd() const; //height of 1 element of menu
 	virtual const int GetMenuIconHeightAdd() const;
 	virtual const int GetGameStatsHeightAdd() const;
@@ -33,6 +34,7 @@ public:
 	virtual const int GetIceCreamShopWidthAdd() const;
 	virtual const int GetToiletWidthAdd() const;
 	virtual const int GetFoodCourtWidthAdd() const;
+	virtual const int GetExitWidthAdd() const;
 	virtual const int GetRoadWidthAdd() const;
 	virtual const int GetVisitorWidthAdd() const;
 	virtual const int GetCameraWidthAdd() const;
@@ -46,15 +48,18 @@ public:
 	virtual const int GetIceCreamShopCost() const;
 	virtual const int GetToiletCost() const;
 	virtual const int GetFoodCourtCost() const;
+	virtual const int GetExitCost() const;
 	virtual const int GetRoadCost() const;
 	///////////////Daily Expences Initialisation Constants///////////////
 	virtual const int GetIceCreamShopExpences() const;
 	virtual const int GetToiletExpences() const;
 	virtual const int GetFoodCourtExpences() const;
+	virtual const int GetExitExpences() const;
 	///////////////Description Initialisation Constants///////////////
 	virtual const string GetIceCreamShopDescription() const;
 	virtual const string GetToiletDescription() const;
 	virtual const string GetFoodCourtDescription() const;
+	virtual const string GetExitDescription() const;
 	virtual const string GetRoadDescription() const;
 	//
 	virtual const string GetArrowsDescription() const;
@@ -68,22 +73,32 @@ public:
 	virtual const wstring GetIceCreamShopSymbol() const;
 	virtual const wstring GetFoodCourtSymbol() const;
 	virtual const wstring GetToiletSymbol() const;
+	virtual const wstring GetExitSymbol() const;
 	///////////////Toilet Need Constants///////////////
 	virtual const int GetIceCreamShopToiletNeed() const;
 	virtual const int GetFoodCourtToiletNeed() const;
 	virtual const int GetToiletToiletNeed() const;
+	virtual const int GetExitToiletNeed() const;
 	///////////////Hunger Satisfaction Constants///////////////
 	virtual const int GetIceCreamShopHungerSatisfaction() const;
 	virtual const int GetFoodCourtHungerSatisfaction() const;
 	virtual const int GetToiletHungerSatisfaction() const;
+	virtual const int GetExitHungerSatisfaction() const;
 	///////////////Visit Price Constants///////////////
 	virtual const int GetIceCreamShopVisitPrice() const;
 	virtual const int GetFoodCourtVisitPrice() const;
 	virtual const int GetToiletVisitPrice() const;
+	virtual const int GetExitVisitPrice() const;
 	///////////////Entertainment Constants///////////////
 	virtual const int GetIceCreamShopEntertainmentCost() const;
 	virtual const int GetFoodCourtEntertainmentCost() const;
 	virtual const int GetToiletEntertainmentCost() const;
+	virtual const int GetExitEntertainmentCost() const;
+	///////////////Is Building Exit Constants///////////////
+	virtual const int GetIceCreamShopIsExit() const;
+	virtual const int GetFoodCourtIsExit() const;
+	virtual const int GetToiletIsExit() const;
+	virtual const int GetExitIsExit() const;
 	///////////////Initialisation Coord Constants///////////////
 	virtual const PointCoord GetCameraInitialUpperLeft() const;
 	virtual const PointCoord GetPlayingFieldUpperLeft() const;
@@ -92,6 +107,7 @@ public:
 	virtual const wstring GetIceCreamShopIconSymbol() const;
 	virtual const wstring GetToiletIconSymbol() const;
 	virtual const wstring GetFoodCourtIconSymbol() const;
+	virtual const wstring GetExitIconSymbol() const;
 	virtual const wstring GetRoadIconSymbol() const;
 	///////////////Color Constants///////////////
 	virtual color GetIceCreamShopForegroundColor() const;
@@ -108,6 +124,11 @@ public:
 	virtual color GetToiletConnectedBackgroundColor() const;
 	virtual color GetToiletNotConnectedBackgroundColor() const;
 	virtual color GetToiletChosenBackgroundColor() const;
+	//
+	virtual color GetExitForegroundColor() const;
+	virtual color GetExitConnectedBackgroundColor() const;
+	virtual color GetExitNotConnectedBackgroundColor() const;
+	virtual color GetExitChosenBackgroundColor() const;
 	//
 	virtual color GetRoadForegroundColor() const;
 	virtual color GetRoadConnectedBackgroundColor() const;

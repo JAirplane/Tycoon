@@ -134,6 +134,7 @@ void RoadGraph::GraphStatusUpdate(vector<pair<pair<int, int>, Direction> > neigh
 void RoadGraph::GraphStatusUpdate(int index)
 {
 	DeleteNode(index);
+	UpdateIndices(index);
 }
 void RoadGraph::EraseAllNodes()
 {
@@ -157,6 +158,16 @@ void RoadGraph::BuildGraph(vector<pair<pair<int, int>, Direction> > neighbourLin
 		CreateNode(link.first.first);
 	}
 	SetNeighbourhoodEverySide(neighbourLinks);
+}
+void RoadGraph::UpdateIndices(int index)
+{
+	for (auto everyNode : allNodes)
+	{
+		if (everyNode->indexOfObject > index)
+		{
+			--everyNode->indexOfObject;
+		}
+	}
 }
 void RoadGraph::SetWeight(Node* someNode, Direction neighbourSide, vector<int>& column)
 {
@@ -188,4 +199,50 @@ vector<vector<int> > RoadGraph::GetWeightMatrix()
 		++nodeIndex;
 	}
 	return matrix;
+}
+bool RoadGraph::FindNextPathIndex(vector<int>& pathIndices, vector<int> distances, Node*& current, int& currentDistance, int side)
+{
+	Node* neighbour = current->GetNeighbourNode((Direction)side);
+	if (neighbour != nullptr)
+	{
+		if (distances.at(neighbour->indexOfObject) == currentDistance - 1)
+		{
+			--currentDistance;
+			pathIndices.push_back(neighbour->indexOfObject);
+			current = neighbour;
+			return true;
+		}
+		else
+		{
+			if (side > 1)
+			{
+				--side;
+				if (FindNextPathIndex(pathIndices, distances, current, currentDistance, side))
+				{
+					return true;
+				}
+			}
+		}
+	}
+	return false;
+}
+vector<int> RoadGraph::GetPathIndices(vector<int> distances, int destinationIndex)
+{
+	if (distances.empty())
+	{
+		throw MyException("RoadGraph::GetPathIndices(vector<int> distances, int destinationIndex) distances is empty");
+	}
+	Node* last = FindNode(destinationIndex);
+	if (last == nullptr)
+	{
+		throw MyException("RoadGraph::GetPathIndices(vector<int> distances, int destinationIndex) bad destination index");
+	}
+	vector<int> pathIndices;
+	pathIndices.push_back(destinationIndex);
+	int distance = distances.at(destinationIndex);
+	while (distance != 0)
+	{
+		FindNextPathIndex(pathIndices, distances, last, distance);
+	}
+	return pathIndices;
 }

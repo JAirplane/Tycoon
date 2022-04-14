@@ -379,58 +379,7 @@ void GameManagement::VisitorCreationCycle(chrono::milliseconds& lastLaunch)
 	{
 		return;
 	}
-	switch (menu_ptr->GetGameStats()->parkLevel)
-	{
-	case 0:
-	{
-		if (menu_ptr->GetGameStats()->visitorsCounter < 8)
-		{
-			menu_ptr->CreateVisitor(field_ptr, allObjects_ptr);
-		}
-		return;
-	}
-	case 1:
-	{
-		if (menu_ptr->GetGameStats()->visitorsCounter < 16)
-		{
-			menu_ptr->CreateVisitor(field_ptr, allObjects_ptr);
-		}
-		return;
-	}
-	case 2:
-	{
-		if (menu_ptr->GetGameStats()->visitorsCounter < 24)
-		{
-			menu_ptr->CreateVisitor(field_ptr, allObjects_ptr);
-		}
-		return;
-	}
-	case 3:
-	{
-		if (menu_ptr->GetGameStats()->visitorsCounter < 32)
-		{
-			menu_ptr->CreateVisitor(field_ptr, allObjects_ptr);
-		}
-		return;
-	}
-	case 4:
-	{
-		if (menu_ptr->GetGameStats()->visitorsCounter < 40)
-		{
-			menu_ptr->CreateVisitor(field_ptr, allObjects_ptr);
-		}
-		return;
-	}
-	case 5:
-	{
-		if (menu_ptr->GetGameStats()->visitorsCounter < 48)
-		{
-			menu_ptr->CreateVisitor(field_ptr, allObjects_ptr);
-		}
-		return;
-	}
-	default: {throw MyException("GameManagement::VisitorCreationCycle(chrono::milliseconds& lastLaunch, chrono::milliseconds& visitorCreationDelay) bad park level"); }
-	}
+	menu_ptr->VisitorAddition(field_ptr, camera_ptr, allObjects_ptr);
 }
 void GameManagement::VisitorStepCycle(chrono::milliseconds& lastLaunch)
 {
@@ -988,16 +937,21 @@ void GameManagement::Arrows_PlayingField(Direction arrowDir)
 	Construction* preliminary_ptr = allObjects_ptr->GetPreliminaryElement();
 	if (preliminary_ptr != nullptr)
 	{
-		if (!allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
+		PointCoord preliminaryElementNeibourRedraw = preliminary_ptr->GetRedrawNeighboursPoint();
+		bool imposition = allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr);
+		if (!imposition)
 		{
 			preliminary_ptr->EraseObject(camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(), camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(),
 				camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
 		}
-		PointCoord preliminaryElementNeibourRedraw = preliminary_ptr->GetRedrawNeighboursPoint();
 		cursor_ptr->CursorMovement(PointCoord(preliminary_ptr->GetUpperLeft().Get_x() + changeX, preliminary_ptr->GetUpperLeft().Get_y() + changeY));
 		preliminary_ptr->SetUpperLeft(cursor_ptr->GetCursorConsoleLocation());
-		Construction::RedrawNeighbours(preliminaryElementNeibourRedraw, allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr, camera_ptr);
-		if (!allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr))
+		if (!imposition)
+		{
+			Construction::RedrawNeighbours(preliminaryElementNeibourRedraw, allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr, camera_ptr);
+		}
+		imposition = allObjects_ptr->ObjectImposition(preliminary_ptr, camera_ptr, field_ptr);
+		if (!imposition)
 		{
 			int mask = preliminary_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr);
 			preliminary_ptr->RedrawNeighbours(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), preliminary_ptr, camera_ptr);
