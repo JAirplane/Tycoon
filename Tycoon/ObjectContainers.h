@@ -78,5 +78,7 @@ public:
 	void AddEdge(int mainRoadIndex, PointCoord location, Direction side, vector<pair<pair<int, int>, Direction> >& roadEdges) const;
 	vector<pair<pair<int, int>, Direction> > GetRoadEdges(Road* someRoad) const;
 	//
+	void ClearVisitorPathes(int roadIndex);
+	void ClearVisitorPathes(Construction* destination);
 	void AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr);
 };

@@ -661,7 +661,8 @@ void Visitor::VisitorMove(PointCoord destination)
 }
 void Visitor::DrawObject(int mask, int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY) const
 {
-	GetPainter()->DrawVisitor(GetUpperLeft().Get_x(), GetUpperLeft().Get_y(), description_ptr->GetForegroundColor(), description_ptr->GetBackgroundColor(), description_ptr->GetVisitorSymbol());
+	GetPainter()->DrawVisitor(GetUpperLeft().Get_x(), GetUpperLeft().Get_y(), description_ptr->GetForegroundColor(),
+		description_ptr->GetBackgroundColor(), description_ptr->GetVisitorSymbol());
 }
 void Visitor::EraseObject(int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY) const
 {
@@ -671,7 +672,7 @@ void Visitor::MakeAStep(Construction* destinationRoadTile)
 {
 	this->SetUpperLeft(destinationRoadTile->GetUpperLeft());
 }
-Building* Visitor::FindNearestDestination(const vector<Building*>& suitableBuildings, const list<Road*>& allRoads, vector<int> distances) const
+pair<Building*, int> Visitor::FindNearestDestination(const vector<Building*>& suitableBuildings, const list<Road*>& allRoads, vector<int> distances) const
 {
 	if (suitableBuildings.empty())
 	{
@@ -687,30 +688,36 @@ Building* Visitor::FindNearestDestination(const vector<Building*>& suitableBuild
 	}
 	Building* nearestOne = nullptr;
 	int lowestDistance = numeric_limits<int>::max();
+	int desiredRoadIndex = -1;
 	for (auto building : suitableBuildings)
 	{
 		if (building->GetRoadConnectionStatus())
 		{
-			Road* connectedToBuildingRoad = FindByPoint::elementSearcherByPoint->GetElementByPoint(allRoads, building->GetPotentialConnectedRoadPoint());
+			Road* connectedToBuildingRoad = FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(allRoads, building->GetPotentialConnectedRoadPoint());
 			if (connectedToBuildingRoad == nullptr)
 			{
 				throw MyException("Visitor::ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix) no road found near building entrance");
 			}
-			int index = ElementIndexSearcher::indexSearcher->GetElementIndex(allRoads, connectedToBuildingRoad);
-			if (index == -1)
+			int roadIndex = ElementIndexSearcher::GetElementIndexSearcher()->GetElementIndex(allRoads, connectedToBuildingRoad);
+			if (roadIndex == -1)
 			{
 				throw MyException("Visitor::ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix) road is out of container");
 			}
-			if (lowestDistance > distances.at(index))
+			if (lowestDistance > distances.at(roadIndex))
 			{
-				lowestDistance = distances.at(index);
+				lowestDistance = distances.at(roadIndex);
 				nearestOne = building;
+				desiredRoadIndex = roadIndex;
 			}
 		}
 	}
-	return nearestOne;
+	return pair<Building*, int>(nearestOne, desiredRoadIndex);
 }
-void Visitor::SetDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances)
+Building* Visitor::GetDestination() const
+{
+	return destination_ptr;
+}
+int Visitor::SetDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances)
 {
 	vector<Building*> buildingsChoosenByProperty;
 	if (toiletNeed < 10 || foodCapacity < 10)
@@ -731,26 +738,76 @@ void Visitor::SetDestination(const list<Building*>& allBuildings, const list<Roa
 		if (!buildingsChoosenByProperty.empty())
 		{
 			destination_ptr = buildingsChoosenByProperty.at(rand() % (buildingsChoosenByProperty.size() - 1));
+			Road* connectedToBuildingRoad = FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(allRoads, destination_ptr->GetPotentialConnectedRoadPoint());
+			return ElementIndexSearcher::GetElementIndexSearcher()->GetElementIndex(allRoads, connectedToBuildingRoad);
 		}
-		return;
+		return -1;
 	}
 	if (!buildingsChoosenByProperty.empty())
 	{
-		destination_ptr = FindNearestDestination(buildingsChoosenByProperty, allRoads, distances);
+		pair<Building*, int> result = FindNearestDestination(buildingsChoosenByProperty, allRoads, distances);
+		if (result.first == nullptr)
+		{
+			throw MyException("Visitor::SetDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances) destination pointer is nullptr");
+		}
+		destination_ptr = result.first;
+		return result.second;
 	}
+	return -1;
 }
-void Visitor::ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix)
+pair<vector<int>, int> Visitor::ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix)
 {
-	auto visitorRoad = FindByPoint::elementSearcherByPoint->GetElementByPoint(allRoads, this->GetUpperLeft());
+	auto visitorRoad = FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(allRoads, this->GetUpperLeft());
 	if (visitorRoad == nullptr)
 	{
 		throw MyException("Visitor::ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix) visitor isn't on road");
 	}
-	int roadIndex = ElementIndexSearcher::indexSearcher->GetElementIndex(allRoads, visitorRoad);
+	int roadIndex = ElementIndexSearcher::GetElementIndexSearcher()->GetElementIndex(allRoads, visitorRoad);
 	if (roadIndex == -1)
 	{
 		throw MyException("Visitor::ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix) road is out of container");
 	}
 	vector<int> distances = DijkstraAlgorithm::dijkstra->GetDistances(weightMatrix, roadIndex);
-	this->SetDestination(allBuildings, allRoads, distances);
+	int destinationRoadIndex = this->SetDestination(allBuildings, allRoads, distances);
+	return pair<vector<int>, int>(distances, destinationRoadIndex);
+}
+void Visitor::ClearDestination()
+{
+	destination_ptr = nullptr;
+}
+const vector<int> Visitor::GetPath() const
+{
+	return pathIndices;
+}
+void Visitor::SetPath(vector<int> newPath)
+{
+	pathIndices = newPath;
+}
+void Visitor::ClearPath()
+{
+	pathIndices.clear();
+}
+int Visitor::GetNextPathIndex(int currentIndex)
+{
+	if (pathIndices.empty())
+	{
+		throw MyException("Visitor::GetNextPathIndex(int currentIndex) empty path container");
+	}
+	if (currentIndex == pathIndices.front())
+	{
+		return -1; // means that the visitor has finished the path
+	}
+	auto reverseIter = pathIndices.rbegin();
+	for (reverseIter; reverseIter != pathIndices.rend(); reverseIter++)
+	{
+		if ((*reverseIter) == currentIndex)
+		{
+			auto nextElement = next(reverseIter, 1);
+			if (nextElement != pathIndices.rend())
+			{
+				return (*nextElement);
+			}
+		}
+	}
+	throw MyException("Visitor::GetNextPathIndex(int currentIndex) failed to find next index");
 }

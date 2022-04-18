@@ -2,13 +2,16 @@
 #include "ElementIndexSearcher.h"
 class FindByPoint
 {
-public:
+protected:
 	static FindByPoint* elementSearcherByPoint;
+public:
 	FindByPoint() {}
 	~FindByPoint()
 	{
 		delete elementSearcherByPoint;
 	}
+	static FindByPoint* CreateElementSearcherByPoint();
+	static FindByPoint* GetElementSearcherByPoint();
 	template <class T>
 	static T* GetElementByPoint(list<T*> container, PointCoord location);
 	template <class T>

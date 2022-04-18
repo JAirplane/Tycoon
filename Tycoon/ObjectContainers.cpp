@@ -418,12 +418,12 @@ void AllObjects::DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr)
 }
 Construction* AllObjects::FindConstruction(PointCoord location) const
 {
-	Road* desiredRoad_ptr = FindByPoint::elementSearcherByPoint->GetElementByPoint(roads, location);
+	Road* desiredRoad_ptr = FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(roads, location);
 	if (desiredRoad_ptr != nullptr)
 	{
 		return desiredRoad_ptr;
 	}
-	Building* desiredBuilding_ptr = FindByPoint::elementSearcherByPoint->GetElementByPoint(buildings, location);
+	Building* desiredBuilding_ptr = FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(buildings, location);
 	if (desiredBuilding_ptr != nullptr)
 	{
 		return desiredBuilding_ptr;
@@ -446,17 +446,19 @@ void AllObjects::DeleteConstruction(Construction* forDeleting, function<bool(Con
 		}
 		else
 		{
-			int index = ElementIndexSearcher::indexSearcher->GetElementIndex(roads, (*roadIter));
+			int index = ElementIndexSearcher::GetElementIndexSearcher()->GetElementIndex(roads, (*roadIter));
 			if (index == -1)
 			{
 				throw MyException("AllObjects::DeleteConstruction(Construction* forDeleting, function<bool(Construction*)> IsEqual) no node with such index");
 			}
+			ClearVisitorPathes(index);
 			(*roadIter)->GraphStatusNotify(index);
 			roads.remove_if(IsEqual);
 		}
 	}
 	else
 	{
+		ClearVisitorPathes(forDeleting);
 		buildings.remove_if(IsEqual);
 	}
 }
@@ -467,10 +469,10 @@ void AllObjects::DeleteVisitor(Visitor* forDeleting, function<bool(Visitor*)> Is
 //
 void AllObjects::AddEdge(int mainRoadIndex, PointCoord location, Direction side, vector<pair<pair<int, int>, Direction> >& roadEdges) const
 {
-	Road* neighbour = FindByPoint::elementSearcherByPoint->GetElementByPoint(roads, location.GetSideCoord(side));
+	Road* neighbour = FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(roads, location.GetSideCoord(side));
 	if (neighbour != nullptr)
 	{
-		int neighbourIndex = ElementIndexSearcher::indexSearcher->GetElementIndex(roads, neighbour);
+		int neighbourIndex = ElementIndexSearcher::GetElementIndexSearcher()->GetElementIndex(roads, neighbour);
 		auto edge = make_pair(mainRoadIndex, neighbourIndex);
 		roadEdges.push_back(make_pair(edge, side));
 	}
@@ -478,7 +480,7 @@ void AllObjects::AddEdge(int mainRoadIndex, PointCoord location, Direction side,
 vector<pair<pair<int, int>, Direction> > AllObjects::GetRoadEdges(Road* someRoad) const
 {
 	vector<pair<pair<int, int>, Direction> > roadEdges;
-	int mainRoadIndex = ElementIndexSearcher::indexSearcher->GetElementIndex(roads, someRoad);
+	int mainRoadIndex = ElementIndexSearcher::GetElementIndexSearcher()->GetElementIndex(roads, someRoad);
 	if (mainRoadIndex == -1)
 	{
 		throw MyException("AllObjects::GetRoadEdges(Road* someRoad) const road is out of roads container");
@@ -494,6 +496,29 @@ vector<pair<pair<int, int>, Direction> > AllObjects::GetRoadEdges(Road* someRoad
 	return roadEdges;
 }
 //
+void AllObjects::ClearVisitorPathes(int roadIndex)
+{
+	for (auto visitor : visitors)
+	{
+		auto result = find(visitor->GetPath().begin(), visitor->GetPath().end(), roadIndex);
+		if (result != visitor->GetPath().end())
+		{
+			visitor->ClearDestination();
+			visitor->ClearPath();
+		}
+	}
+}
+void AllObjects::ClearVisitorPathes(Construction* destination)
+{
+	for (auto visitor : visitors)
+	{
+		if (destination == visitor->GetDestination())
+		{
+			visitor->ClearDestination();
+			visitor->ClearPath();
+		}
+	}
+}
 void AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr)
 {
 	if (camera_ptr == nullptr)
@@ -506,44 +531,35 @@ void AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* f
 	}
 	for (auto visitor : visitors)
 	{
-		//if (visitor->GetMovementPurpose() == MovementStatus::MovingIn)
-		//{
-		//	MoveInOneStep(visitor, camera_ptr);
-		//}
-		//else if (visitor->GetMovementPurpose() == MovementStatus::WalkInThePark)
-		//{
-		//	//TODO
-		//}
-		//else if (visitor->GetMovementPurpose() == MovementStatus::MovingOut)
-		//{
-		//	Construction* visitorLocationRoad = FindOutOfPlayingFieldConstruction(visitor->GetUpperLeft());
-		//	if (visitorLocationRoad == nullptr)
-		//	{
-		//		visitorLocationRoad = FindConstruction(visitor->GetUpperLeft());
-		//		if (visitorLocationRoad == nullptr)
-		//		{
-		//			throw MyException("AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) road not found (nullptr) or person bad position");
-		//		}
-		//		else
-		//		{
-		//			if (dynamic_cast<UnbreakableRoad*>(visitorLocationRoad))
-		//			{
-		//				MoveOutOneStep(visitor, visitorLocationRoad, camera_ptr, field_ptr);
-		//			}
-		//			else
-		//			{
-		//				//TODO
-		//			}
-		//		}
-		//	}
-		//	else
-		//	{
-		//		MoveOutOneStep(visitor, visitorLocationRoad, camera_ptr, field_ptr);
-		//	}
-		/*}
+		if (visitor->GetDestination() == nullptr)
+		{
+			pair<vector<int>, int> result = visitor->ChooseDestination(buildings, roads, graph_ptr->GetWeightMatrix());
+			if (result.second != -1)
+			{
+				visitor->SetPath(graph_ptr->GetPathIndices(result.first, result.second));
+			}
+		}
 		else
 		{
-			throw MyException("AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) unknown visitor MovementStatus");
-		}*/
+			Road* currentRoad = FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(roads, visitor->GetUpperLeft());
+			if (currentRoad == nullptr)
+			{
+				throw MyException("AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point");
+			}
+			int currentRoadIndex = ElementIndexSearcher::GetElementIndexSearcher()->GetElementIndex(roads, currentRoad);
+			int nextRoadIndex = visitor->GetNextPathIndex(currentRoadIndex);
+			if (nextRoadIndex == -1)
+			{
+				//TODO
+			}
+			else
+			{
+				auto roadIter = roads.begin();
+				advance(roadIter, nextRoadIndex);
+				visitor->MakeAStep(*roadIter);
+			}
+			currentRoad->DrawObject(currentRoad->GetEnvironmentMask(roads, buildings, preliminaryConstruction_ptr));
+			visitor->DrawObject();
+		}
 	}
 }

@@ -1,1 +1,5 @@
-invalid vector subscript
+
+RoadGraph::GetPathIndices(vector<int> distances, int destinationIndex) bad destination index
+RoadGraph::GetPathIndices(vector<int> distances, int destinationIndex) bad destination index
+RoadGraph::GetPathIndices(vector<int> distances, int destinationIndex) bad destination index
+RoadGraph::GetPathIndices(vector<int> distances, int destinationIndex) bad destination index

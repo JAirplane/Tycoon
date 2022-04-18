@@ -3,13 +3,17 @@
 #include "Dijkstra.h"
 class ElementIndexSearcher
 {
-public:
+protected:
 	static ElementIndexSearcher* indexSearcher;
+public:
+	
 	ElementIndexSearcher() {}
 	~ElementIndexSearcher()
 	{
 		delete indexSearcher;
 	}
+	static ElementIndexSearcher* CreateIndexSearcher();
+	static ElementIndexSearcher* GetElementIndexSearcher();
 	template <class T>
 	static int GetElementIndex(list<T*> container, T* element);
 };

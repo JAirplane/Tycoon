@@ -2,7 +2,7 @@
 int DijkstraAlgorithm::GetClosestUnvisitedVertexIndex(vector<int> distances, vector<bool> visitedVertices)
 {
 	int dimension = distances.size();
-	if (dimension == visitedVertices.size())
+	if (dimension != visitedVertices.size())
 	{
 		throw MyException("DijkstraAlgorithm::GetClosestUnvisitedVertexIndex(vector<int> distances, vector<bool> visitedVertices) dimension of vector args is different");
 	}

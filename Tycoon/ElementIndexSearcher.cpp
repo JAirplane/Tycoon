@@ -1,2 +1,10 @@
 #include "ElementIndexSearcher.h"
-ElementIndexSearcher* ElementIndexSearcher::indexSearcher = new ElementIndexSearcher();
+ElementIndexSearcher* ElementIndexSearcher::CreateIndexSearcher()
+{
+	return new ElementIndexSearcher();
+}
+ElementIndexSearcher* ElementIndexSearcher::GetElementIndexSearcher()
+{
+	return indexSearcher;
+}
+ElementIndexSearcher* ElementIndexSearcher::indexSearcher = ElementIndexSearcher::CreateIndexSearcher();

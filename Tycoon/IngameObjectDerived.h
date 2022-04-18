@@ -172,6 +172,7 @@ class Visitor : public IngameObject
 private:
 	VisitorDescriptor* description_ptr;
 	Building* destination_ptr;
+	vector<int> pathIndices;
 	int foodCapacity;
 	int needToPee;
 	int moneyAmount;
@@ -216,8 +217,15 @@ public:
 	void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const override;
 	void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
 	void MakeAStep(Construction* destinationRoadTile);
-	Building* FindNearestDestination(const vector<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances) const;
-	void SetDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances);
-	void ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix);
+	pair<Building*, int> FindNearestDestination(const vector<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances) const; // returns destination building and 
+	// destination road index
+	Building* GetDestination() const;
+	int SetDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances); // returns destination road index
+	pair<vector<int>, int> ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix); // returns distances and destination road index
+	void ClearDestination();
+	const vector<int> GetPath() const;
+	void SetPath(vector<int> newPath);
+	void ClearPath();
+	int GetNextPathIndex(int currentIndex);
 };
 /////////////End of Constructions Classes/////////////
