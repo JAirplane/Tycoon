@@ -13,6 +13,10 @@ const int ConstructionOptions::GetFoodCourtHeightAdd() const
 {
 	return 1;
 }
+const int ConstructionOptions::GetCarouselHeightAdd() const
+{
+	return 2;
+}
 const int ConstructionOptions::GetExitHeightAdd() const
 {
 	return 0;
@@ -70,6 +74,10 @@ const int ConstructionOptions::GetFoodCourtWidthAdd() const
 {
 	return 3;
 }
+const int ConstructionOptions::GetCarouselWidthAdd() const
+{
+	return 2;
+}
 const int ConstructionOptions::GetExitWidthAdd() const
 {
 	return 0;
@@ -123,6 +131,10 @@ const int ConstructionOptions::GetFoodCourtCost() const
 {
 	return 200;
 }
+const int ConstructionOptions::GetCarouselCost() const
+{
+	return 300;
+}
 const int ConstructionOptions::GetExitCost() const
 {
 	return 0;
@@ -144,6 +156,10 @@ const int ConstructionOptions::GetFoodCourtExpences() const
 {
 	return 20;
 }
+const int ConstructionOptions::GetCarouselExpences() const
+{
+	return 20;
+}
 const int ConstructionOptions::GetExitExpences() const
 {
 	return 0;
@@ -160,6 +176,10 @@ const string ConstructionOptions::GetToiletDescription() const
 const string ConstructionOptions::GetFoodCourtDescription() const
 {
 	return "Food Court: satisfies hunger";
+}
+const string ConstructionOptions::GetCarouselDescription() const
+{
+	return "Carousel: relaxing attraction";
 }
 const string ConstructionOptions::GetExitDescription() const
 {
@@ -206,6 +226,10 @@ const wstring ConstructionOptions::GetFoodCourtSymbol() const
 {
 	return L"\u00A9";
 }
+const wstring ConstructionOptions::GetCarouselSymbol() const
+{
+	return L"\u03A9";
+}
 const wstring ConstructionOptions::GetToiletSymbol() const
 {
 	return L"\u25BC";
@@ -236,6 +260,10 @@ const wstring ConstructionOptions::GetFoodCourtIconSymbol() const
 {
 	return L"\u00A9";
 }
+const wstring ConstructionOptions::GetCarouselIconSymbol() const
+{
+	return L"\u03A9";
+}
 const wstring ConstructionOptions::GetToiletIconSymbol() const
 {
 	return L"\u25BC";
@@ -257,6 +285,10 @@ const int ConstructionOptions::GetFoodCourtToiletNeed() const
 {
 	return 100;
 }
+const int ConstructionOptions::GetCarouselToiletNeed() const
+{
+	return 0;
+}
 const int ConstructionOptions::GetToiletToiletNeed() const
 {
 	return 100;
@@ -273,6 +305,10 @@ const int ConstructionOptions::GetIceCreamShopHungerSatisfaction() const
 const int ConstructionOptions::GetFoodCourtHungerSatisfaction() const
 {
 	return 100;
+}
+const int ConstructionOptions::GetCarouselHungerSatisfaction() const
+{
+	return 0;
 }
 const int ConstructionOptions::GetToiletHungerSatisfaction() const
 {
@@ -291,6 +327,10 @@ const int ConstructionOptions::GetFoodCourtVisitPrice() const
 {
 	return 25;
 }
+const int ConstructionOptions::GetCarouselVisitPrice() const
+{
+	return 50;
+}
 const int ConstructionOptions::GetToiletVisitPrice() const
 {
 	return 5;
@@ -300,19 +340,23 @@ const int ConstructionOptions::GetExitVisitPrice() const
 	return 0;
 }
 ///////////////Entertainment Constants///////////////
-const int ConstructionOptions::GetIceCreamShopEntertainmentCost() const
+const int ConstructionOptions::GetIceCreamShopEntertainmentValue() const
 {
 	return 0;
 }
-const int ConstructionOptions::GetFoodCourtEntertainmentCost() const
+const int ConstructionOptions::GetFoodCourtEntertainmentValue() const
 {
 	return 0;
 }
-const int ConstructionOptions::GetToiletEntertainmentCost() const
+const int ConstructionOptions::GetCarouselEntertainmentValue() const
+{
+	return 1;
+}
+const int ConstructionOptions::GetToiletEntertainmentValue() const
 {
 	return 0;
 }
-const int ConstructionOptions::GetExitEntertainmentCost() const
+const int ConstructionOptions::GetExitEntertainmentValue() const
 {
 	return 0;
 }
@@ -322,6 +366,10 @@ const int ConstructionOptions::GetIceCreamShopIsExit() const
 	return 0;
 }
 const int ConstructionOptions::GetFoodCourtIsExit() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetCarouselIsExit() const
 {
 	return 0;
 }
@@ -366,6 +414,23 @@ color ConstructionOptions::GetFoodCourtNotConnectedBackgroundColor() const
 color ConstructionOptions::GetFoodCourtChosenBackgroundColor() const
 {
 	return color::cRED;
+}
+//
+color ConstructionOptions::GetCarouselForegroundColor() const
+{
+	return cYELLOW;
+}
+color ConstructionOptions::GetCarouselConnectedBackgroundColor() const
+{
+	return cBLUE;
+}
+color ConstructionOptions::GetCarouselNotConnectedBackgroundColor() const
+{
+	return cBLACK;
+}
+color ConstructionOptions::GetCarouselChosenBackgroundColor() const
+{
+	return cRED;
 }
 //
 color ConstructionOptions::GetToiletForegroundColor() const

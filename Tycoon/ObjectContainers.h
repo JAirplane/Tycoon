@@ -67,9 +67,9 @@ public:
 	void ShiftBuildings(Direction shiftDirection, int shiftValue = 1);
 	void ShiftRoads(Direction shiftDirection, int shiftValue = 1);
 	void ShiftVisitors(Direction shiftDirection, int shiftValue = 1);
-	void DisplayBuildings(Camera* camera_ptr, PlayingField* field_ptr) const;
-	void DisplayVisitors();
-	void DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr);
+	void DisplayBuildings(const Camera* camera_ptr, const PlayingField* field_ptr) const;
+	void DisplayVisitors(const Camera* camera_ptr);
+	void DisplayRoads(const Camera* camera_ptr, const PlayingField* field_ptr);
 	//
 	Construction* FindConstruction(PointCoord location) const; //checks if location is on road or building
 	void DeleteConstruction(Construction* forDeleting, function<bool(Construction*)> IsEqual);

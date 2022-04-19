@@ -476,7 +476,7 @@ int Road::GetMaskWithRealBuildings(const list<Building*>& allBuildings) const
 	int roadEnvironmentMask = 0;
 	for (auto everyBuilding : allBuildings)
 	{
-		this->GetMaskWithConstruction(everyBuilding);
+		roadEnvironmentMask |= this->GetMaskWithConstruction(everyBuilding);
 	}
 	return roadEnvironmentMask;
 }

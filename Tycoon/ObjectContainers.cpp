@@ -8,7 +8,7 @@ void AllObjects::CreateExit(const PlayingField* playingField_ptr, Visualisation*
 		ConstructionOptions::GetAllOptions()->GetExitNotConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetExitChosenBackgroundColor(),
 		ConstructionOptions::GetAllOptions()->GetExitSymbol(), ConstructionOptions::GetAllOptions()->GetExitToiletNeed(),
 		ConstructionOptions::GetAllOptions()->GetExitHungerSatisfaction(), ConstructionOptions::GetAllOptions()->GetExitVisitPrice(),
-		ConstructionOptions::GetAllOptions()->GetExitEntertainmentCost(), ConstructionOptions::GetAllOptions()->GetExitIsExit(),
+		ConstructionOptions::GetAllOptions()->GetExitEntertainmentValue(), ConstructionOptions::GetAllOptions()->GetExitIsExit(),
 		ConstructionOptions::GetAllOptions()->GetExitExpences(), ConstructionOptions::GetAllOptions()->GetExitHeightAdd(), ConstructionOptions::GetAllOptions()->GetExitWidthAdd());
 	Building* exit1 = new Building(PointCoord(playingField_ptr->GetHalfXAxis(), playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() + 4),
 		exitDescriptor, draw_ptr);
@@ -381,7 +381,7 @@ void AllObjects::ShiftVisitors(Direction shiftDirection, int shiftValue)
 		(*visitorIter)->ShiftObject(shiftDirection, shiftValue); //already has an exception inside
 	}
 }
-void AllObjects::DisplayBuildings(Camera* camera_ptr, PlayingField* field_ptr) const
+void AllObjects::DisplayBuildings(const Camera* camera_ptr, const PlayingField* field_ptr) const
 {
 	int cameraLeftX = camera_ptr->GetUpperLeft().Get_x();
 	int cameraRightX = cameraLeftX + camera_ptr->GetWidthAddition();
@@ -396,15 +396,18 @@ void AllObjects::DisplayBuildings(Camera* camera_ptr, PlayingField* field_ptr) c
 		}
 	}
 }
-void AllObjects::DisplayVisitors()
+void AllObjects::DisplayVisitors(const Camera* camera_ptr)
 {
-	list< Visitor* >::iterator iter;
-	for (iter = visitors.begin(); iter != visitors.end(); iter++)
+	list< Visitor* >::iterator visitorIter;
+	for (visitorIter = visitors.begin(); visitorIter != visitors.end(); visitorIter++)
 	{
-		(*iter)->DrawObject();
+		if (camera_ptr->IsObjectInsideTheRectangle(*visitorIter))
+		{
+			(*visitorIter)->DrawObject();
+		}
 	}
 }
-void AllObjects::DisplayRoads(Camera* camera_ptr, PlayingField* field_ptr)
+void AllObjects::DisplayRoads(const Camera* camera_ptr, const PlayingField* field_ptr)
 {
 	list<Road*>::iterator iter;
 	for (iter = roads.begin(); iter != roads.end(); iter++)
