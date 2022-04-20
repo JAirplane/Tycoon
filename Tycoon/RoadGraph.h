@@ -54,6 +54,6 @@ public:
 	void UpdateIndices(int index); //all indicies after "index" are decremented
 	void SetWeight(Node* someNode, Direction neighbourSide, vector<int>& column);
 	vector<vector<int> > GetWeightMatrix();
-	bool FindNextPathIndex(vector<int>& pathIndices, vector<int> distances, Node*& current, int& currentDistance, int side = 4);
+	void FindNextPathIndex(vector<int>& pathIndices, vector<int> distances, Node*& current, int& currentDistance, int side = 4);
 	vector<int> GetPathIndices(vector<int> distances, int destinationIndex);
 };

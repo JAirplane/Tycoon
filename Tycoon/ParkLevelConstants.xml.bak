@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <parkLevels>
 	<level lvlNumber="0">
-		<maxBuildingsQuantity>7</maxBuildingsQuantity>
+		<maxBuildingsQuantity>5</maxBuildingsQuantity>
 		<maxVisitorsQuantity>8</maxVisitorsQuantity>
 		<visitorMoneyFormulaConstant>50</visitorMoneyFormulaConstant>
 	</level>
 	<level lvlNumber="1">
-		<maxBuildingsQuantity>12</maxBuildingsQuantity>
+		<maxBuildingsQuantity>10</maxBuildingsQuantity>
 		<maxVisitorsQuantity>16</maxVisitorsQuantity>
 		<visitorMoneyFormulaConstant>100</visitorMoneyFormulaConstant>
 	</level>
 	<level lvlNumber="2">
-		<maxBuildingsQuantity>17</maxBuildingsQuantity>
+		<maxBuildingsQuantity>15</maxBuildingsQuantity>
 		<maxVisitorsQuantity>24</maxVisitorsQuantity>
 		<visitorMoneyFormulaConstant>150</visitorMoneyFormulaConstant>
 	</level>
 	<level lvlNumber="3">
-		<maxBuildingsQuantity>22</maxBuildingsQuantity>
+		<maxBuildingsQuantity>20</maxBuildingsQuantity>
 		<maxVisitorsQuantity>32</maxVisitorsQuantity>
 		<visitorMoneyFormulaConstant>200</visitorMoneyFormulaConstant>
 	</level>
 	<level lvlNumber="4">
-		<maxBuildingsQuantity>27</maxBuildingsQuantity>
+		<maxBuildingsQuantity>25</maxBuildingsQuantity>
 		<maxVisitorsQuantity>40</maxVisitorsQuantity>
 		<visitorMoneyFormulaConstant>250</visitorMoneyFormulaConstant>
 	</level>

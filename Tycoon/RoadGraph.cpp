@@ -200,31 +200,29 @@ vector<vector<int> > RoadGraph::GetWeightMatrix()
 	}
 	return matrix;
 }
-bool RoadGraph::FindNextPathIndex(vector<int>& pathIndices, vector<int> distances, Node*& current, int& currentDistance, int side)
+void RoadGraph::FindNextPathIndex(vector<int>& pathIndices, vector<int> distances, Node*& current, int& currentDistance, int side)
 {
 	Node* neighbour = current->GetNeighbourNode((Direction)side);
-	if (neighbour != nullptr)
+	if (neighbour != nullptr && distances.at(neighbour->indexOfObject) == currentDistance - 1)
 	{
-		if (distances.at(neighbour->indexOfObject) == currentDistance - 1)
+		--currentDistance;
+		pathIndices.push_back(neighbour->indexOfObject);
+		current = neighbour;
+		return;
+ 	}
+	else
+	{
+		if (side > 1)
 		{
-			--currentDistance;
-			pathIndices.push_back(neighbour->indexOfObject);
-			current = neighbour;
-			return true;
+			--side;
+			FindNextPathIndex(pathIndices, distances, current, currentDistance, side);
+			return;
 		}
 		else
 		{
-			if (side > 1)
-			{
-				--side;
-				if (FindNextPathIndex(pathIndices, distances, current, currentDistance, side))
-				{
-					return true;
-				}
-			}
+			throw MyException("RoadGraph::FindNextPathIndex(vector<int>& pathIndices, vector<int> distances, Node*& current, int& currentDistance, int side) next path node was not found");
 		}
 	}
-	return false;
 }
 vector<int> RoadGraph::GetPathIndices(vector<int> distances, int destinationIndex)
 {

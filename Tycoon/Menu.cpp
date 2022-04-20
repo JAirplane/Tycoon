@@ -202,25 +202,19 @@ void Menu::ShowStats()
 }
 void Menu::ShowMenuItems()
 {
-	int leftX = GetUpperLeft().Get_x();
-	int topY = GetUpperLeft().Get_y();
-	int rightX = GetUpperLeft().Get_x() + GetWidthAddition();
-	int bottomY = GetUpperLeft().Get_x() + GetHeightAddition();
+	int bottomY = GetUpperLeft().Get_y() + GetHeightAddition();
 	if (menuItems.empty())
 	{
 		throw MyException("Menu::ShowMenuItems() menu elements container is empty.");
 	}
 	vector<MenuElement*>::iterator menuElementIter;
-	for (menuElementIter = menuItems.begin(); menuElementIter != menuItems.end() && (topY + (*menuElementIter)->GetHeightAddition()) < bottomY; menuElementIter++)
+	for (menuElementIter = menuItems.begin(); menuElementIter != menuItems.end(); menuElementIter++)
 	{
-		(*menuElementIter)->DrawBorder();
-		(*menuElementIter)->GetIcon()->DrawBorder();
-		(*menuElementIter)->GetDrawPointer()->DrawMenuElementContent((*menuElementIter)->GetIcon()->GetUpperLeft().Get_x() + 1,
-			(*menuElementIter)->GetIcon()->GetUpperLeft().Get_y() + 1, (*menuElementIter)->GetManager()->GetDescriptor()->GetConstructionCost(),
-			(*menuElementIter)->GetManager()->GetDescriptor()->GetDailyExpences(), (*menuElementIter)->GetManager()->GetDescriptor()->GetIconSymbol(),
-			(*menuElementIter)->GetManager()->GetDescriptor()->GetDescription(), (*menuElementIter)->GetManager()->GetDescriptor()->GetForegroundColor(),
-			(*menuElementIter)->GetManager()->GetDescriptor()->GetConnectedBackgroundColor());
-		topY += (*menuElementIter)->GetHeightAddition() + 1;
+		if ((*menuElementIter)->GetUpperLeft().Get_y() + (*menuElementIter)->GetHeightAddition() < bottomY &&
+			(*menuElementIter)->GetUpperLeft().Get_y() > gameStats_ptr->GetUpperLeft().Get_y() + gameStats_ptr->GetHeightAddition())
+		{
+			(*menuElementIter)->Draw();
+		}
 	}
 }
 MenuElement* Menu::GetMenuElement(int yCoord) const
@@ -315,42 +309,14 @@ void Menu::MenuElementsShift(IconsPosition upperOrLower)
 	{
 		throw MyException("Menu::MenuElementsShift(IconsPosition upperOrLower) menu elements container is empty.");
 	}
-	vector<MenuElement*>::iterator menuElementIter;
-	switch (upperOrLower)
+	for (auto menuElement : menuItems)
 	{
-	case IconsPosition::UPPER:
-	{
-		for (menuElementIter = menuItems.begin(); menuElementIter != menuItems.end(); menuElementIter++)
-		{
-			(*menuElementIter)->SetUpperLeft(PointCoord((*menuElementIter)->GetUpperLeft().Get_x(),
-				(*menuElementIter)->GetUpperLeft().Get_y() + (*menuElementIter)->GetHeightAddition() + 1));
-			(*menuElementIter)->GetIcon()->SetUpperLeft(PointCoord((*menuElementIter)->GetUpperLeft().Get_x() + 1,
-				(*menuElementIter)->GetUpperLeft().Get_y() + (*menuElementIter)->GetHeightAddition() + 2));
-			(*menuElementIter)->GetManager()->GetDescriptor()->SetMenuElementLocation(PointCoord((*menuElementIter)->GetUpperLeft().Get_x(),
-				(*menuElementIter)->GetUpperLeft().Get_y() + (*menuElementIter)->GetHeightAddition() + 1));
-		}
-	}
-	case IconsPosition::LOWER:
-	{
-		for (menuElementIter = menuItems.begin(); menuElementIter != menuItems.end(); menuElementIter++)
-		{
-			(*menuElementIter)->SetUpperLeft(PointCoord((*menuElementIter)->GetUpperLeft().Get_x(),
-				(*menuElementIter)->GetUpperLeft().Get_y() - (*menuElementIter)->GetHeightAddition() - 1));
-			(*menuElementIter)->GetIcon()->SetUpperLeft(PointCoord((*menuElementIter)->GetUpperLeft().Get_x() + 1,
-				(*menuElementIter)->GetUpperLeft().Get_y() - (*menuElementIter)->GetHeightAddition()));
-			(*menuElementIter)->GetManager()->GetDescriptor()->SetMenuElementLocation(PointCoord((*menuElementIter)->GetUpperLeft().Get_x(),
-				(*menuElementIter)->GetUpperLeft().Get_y() - (*menuElementIter)->GetHeightAddition() - 1));
-		}
-	}
-	default: {throw MyException("Menu::MenuElementsShift(IconsPosition upperOrLower) bas IconsPosition argument."); }
+		menuElement->Shift(upperOrLower);
 	}
 }
 MenuElement* Menu::MenuNavigation(MenuElement* currentElement, IconsPosition upperOrLower)
 {
 	MenuElement* nearest = GetNextMenuElement(currentElement, upperOrLower);
-	PointCoord menuUpperLeft = GetUpperLeft();
-	int menuHeight = GetHeightAddition();
-	int menuWidth = GetWidthAddition();
 	if (nearest == nullptr)
 	{
 		return nearest;
@@ -359,18 +325,18 @@ MenuElement* Menu::MenuNavigation(MenuElement* currentElement, IconsPosition upp
 	{
 		currentElement->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor());
 		nearest->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementActiveColor());
-		if (nearest->GetUpperLeft().Get_y() + nearest->GetHeightAddition() < GetUpperLeft().Get_y() + GetHeightAddition() ||
-			nearest->GetUpperLeft().Get_y() > GetUpperLeft().Get_y())
-		{
-			currentElement->DrawBorder();
-			nearest->DrawBorder();
-		}
-		else
+		if (nearest->GetUpperLeft().Get_y() + nearest->GetHeightAddition() >= GetUpperLeft().Get_y() + GetHeightAddition() ||
+			nearest->GetUpperLeft().Get_y() <= gameStats_ptr->GetUpperLeft().Get_y() + gameStats_ptr->GetHeightAddition())
 		{
 			MenuElementsShift(upperOrLower);
 			ClearContent();
 			ShowStats();
 			ShowMenuItems();
+		}
+		else
+		{
+			currentElement->DrawBorder();
+			nearest->DrawBorder();
 		}
 		return nearest;
 	}

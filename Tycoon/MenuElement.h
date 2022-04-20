@@ -25,4 +25,6 @@ public:
 	}
 	MyRectangle* GetIcon() const;
 	ConstructionManager* GetManager() const;
+	void Draw() const;
+	void Shift(IconsPosition upperOrLower);
 };

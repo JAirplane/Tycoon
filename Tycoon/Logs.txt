@@ -1,2 +1,5 @@
 GameManagement::Arrows_Menu() incorrect direction.
 GameManagement::Arrows_Menu() incorrect direction.
+Menu::MenuElementsShift(IconsPosition upperOrLower) bas IconsPosition argument.
+Menu::MenuElementsShift(IconsPosition upperOrLower) bas IconsPosition argument.
+Menu::MenuElementsShift(IconsPosition upperOrLower) bad IconsPosition argument.

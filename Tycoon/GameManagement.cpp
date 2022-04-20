@@ -387,7 +387,7 @@ void GameManagement::UserActionsCycle(chrono::milliseconds& lastLaunch)
 void GameManagement::VisitorCreationCycle(chrono::milliseconds& lastLaunch)
 {
 	lastLaunch = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch());
-	if (allObjects_ptr->GetAllBuildings().empty())
+	if (allObjects_ptr->GetAllBuildings().size() <= 2)
 	{
 		return;
 	}
@@ -406,7 +406,7 @@ void GameManagement::GameProcess()
 	chrono::milliseconds userActionsLastLaunch = chrono::milliseconds(0);
 	chrono::milliseconds visitorCreationDelay = chrono::milliseconds((rand() % 8 + 1) * 1000);
 	chrono::milliseconds visitorCreationLastLaunch = chrono::milliseconds(0);
-	chrono::milliseconds visitorsStepDelay = chrono::milliseconds(5000);
+	chrono::milliseconds visitorsStepDelay = chrono::milliseconds(2000);
 	chrono::milliseconds visitorsStepLastLaunch = chrono::milliseconds(0);
 	chrono::milliseconds allCycleLastEnding = chrono::milliseconds(17);
 	while (true)
@@ -419,7 +419,7 @@ void GameManagement::GameProcess()
 			}
 			if (allCycleLastEnding - visitorCreationLastLaunch > visitorCreationDelay)
 			{
-				visitorCreationDelay = chrono::milliseconds((rand() % 3 + 1) * 1000);
+				visitorCreationDelay = chrono::milliseconds((rand() % 3 + 1) * 5000);
 				VisitorCreationCycle(visitorCreationLastLaunch);
 			}
 			if (allCycleLastEnding - visitorsStepLastLaunch > visitorsStepDelay)

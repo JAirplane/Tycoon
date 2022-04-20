@@ -737,7 +737,7 @@ int Visitor::SetDestination(const list<Building*>& allBuildings, const list<Road
 		buildingsChoosenByProperty = Building::ChooseFromBuildings(mem_fn(&ConstructionDescriptor::GetEntertainmentValue), allBuildings);
 		if (!buildingsChoosenByProperty.empty())
 		{
-			destination_ptr = buildingsChoosenByProperty.at(rand() % (buildingsChoosenByProperty.size() - 1));
+			destination_ptr = buildingsChoosenByProperty.at(rand() % buildingsChoosenByProperty.size());
 			Road* connectedToBuildingRoad = FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(allRoads, destination_ptr->GetPotentialConnectedRoadPoint());
 			return ElementIndexSearcher::GetElementIndexSearcher()->GetElementIndex(allRoads, connectedToBuildingRoad);
 		}
