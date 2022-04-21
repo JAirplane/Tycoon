@@ -544,25 +544,39 @@ void AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* f
 		}
 		else
 		{
-			Road* currentRoad = FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(roads, visitor->GetUpperLeft());
-			if (currentRoad == nullptr)
+			if (!visitor->GetPath().empty())
 			{
-				throw MyException("AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point");
-			}
-			int currentRoadIndex = ElementIndexSearcher::GetElementIndexSearcher()->GetElementIndex(roads, currentRoad);
-			int nextRoadIndex = visitor->GetNextPathIndex(currentRoadIndex);
-			if (nextRoadIndex == -1)
-			{
-				//TODO
+				Road* currentRoad = FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(roads, visitor->GetUpperLeft());
+				if (currentRoad == nullptr)
+				{
+					throw MyException("Visitor::GetNextPathIndex(const list<Road*>& allRoads) no road on visitor's point");
+				}
+				int nextRoadIndex = visitor->GetNextPathIndex(roads, currentRoad);
+				if (nextRoadIndex == -1)
+				{
+					visitor->GoInside();
+				}
+				else
+				{
+					visitor->MakeAStep(nextRoadIndex, roads, camera_ptr);
+				}
+				if (camera_ptr->IsObjectInsideTheRectangle(currentRoad) && !VisitorsImposition(currentRoad))
+				{
+					currentRoad->DrawObject(currentRoad->GetEnvironmentMask(roads, buildings, preliminaryConstruction_ptr));
+				}
 			}
 			else
 			{
-				auto roadIter = roads.begin();
-				advance(roadIter, nextRoadIndex);
-				visitor->MakeAStep(*roadIter);
+				--visitor->buildingVisiting;
+				if (visitor->buildingVisiting == 0)
+				{
+					visitor->GoOutside(roads, visitors);
+					if (camera_ptr->IsObjectInsideTheRectangle(visitor))
+					{
+						visitor->DrawObject();
+					}
+				}
 			}
-			currentRoad->DrawObject(currentRoad->GetEnvironmentMask(roads, buildings, preliminaryConstruction_ptr));
-			visitor->DrawObject();
 		}
 	}
 }

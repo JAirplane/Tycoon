@@ -11,10 +11,10 @@ ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int con
 // for buildings
 ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
 	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int restoreToiletNeed, int satisfactionOfHunger, int visitPrice, int enetrtainmentValue,
-	int isExit, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
+	int isExit, int maxVisitors, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
 {
 	ConstructionDescriptor* buildingDesc_ptr = new BuildingDescriptor(menuElementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected,
-		backgroundNotConnected, backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, enetrtainmentValue, isExit,
+		backgroundNotConnected, backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, enetrtainmentValue, isExit, maxVisitors,
 		dailyExpences, constructionHeightAdd, constructionWidthAdd);
 	return new BuildingManager(buildingDesc_ptr);
 }
@@ -50,7 +50,7 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 // create building element
 void Menu::CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
 	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int restoreToiletNeed, int satisfactionOfHunger, int visitPrice, int entertainmentValue,
-	int isExit, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
+	int isExit, int maxVisitors, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
 {
 	BorderAppearance* elementBorder_ptr = CreateElementBorder();
 	color menuElementLetterColor = ConstructionOptions::GetAllOptions()->GetMenuElementLetterColor();
@@ -72,7 +72,8 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 	int elementWidthAdd = GetWidthAddition() - 4;
 	MyRectangle* menuIcon_ptr = CreateIcon(elementLocation);
 	ConstructionManager* manager_ptr = CreateManager(elementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected, backgroundNotConnected,
-		backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, entertainmentValue, isExit, dailyExpences, constructionHeightAdd, constructionWidthAdd);
+		backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, entertainmentValue, isExit, maxVisitors,
+		dailyExpences, constructionHeightAdd, constructionWidthAdd);
 	MenuElement* element_ptr = new MenuElement(GetDrawPointer(), GetCursor(), elementLocation, elementHeightAdd, elementWidthAdd, elementBorder_ptr, menuElementLetterColor,
 		menuElementShadingColor, menuIcon_ptr, manager_ptr);
 	menuItems.push_back(element_ptr);

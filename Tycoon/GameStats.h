@@ -11,7 +11,7 @@ public:
 		Cursor* cur_ptr) : MyRectangle(upperLeft, heightAdd, widthAdd, borderApp_ptr, letterColor, backgroundColor, vis_ptr, cur_ptr)
 	{
 		currentVisitors = 0;
-		moneyAmount = 1000;
+		moneyAmount = 2000;
 		currentParkLevel = 0;
 	}
 	~GameStats()	{}

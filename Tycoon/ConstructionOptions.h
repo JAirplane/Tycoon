@@ -110,6 +110,12 @@ public:
 	virtual const int GetCarouselIsExit() const;
 	virtual const int GetToiletIsExit() const;
 	virtual const int GetExitIsExit() const;
+	///////////////Max Visitors Constants///////////////
+	virtual const int GetIceCreamShopMaxVisitors() const;
+	virtual const int GetFoodCourtMaxVisitors() const;
+	virtual const int GetCarouselMaxVisitors() const;
+	virtual const int GetToiletMaxVisitors() const;
+	virtual const int GetExitMaxVisitors() const;
 	///////////////Initialisation Coord Constants///////////////
 	virtual const PointCoord GetCameraInitialUpperLeft() const;
 	virtual const PointCoord GetPlayingFieldUpperLeft() const;

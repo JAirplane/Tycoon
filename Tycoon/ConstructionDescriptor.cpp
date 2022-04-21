@@ -52,3 +52,7 @@ int ConstructionDescriptor::GetIsExit() const
 {
 	return 0;
 }
+int ConstructionDescriptor::GetMaxVisitors() const
+{
+	return 0;
+}

@@ -381,6 +381,27 @@ const int ConstructionOptions::GetExitIsExit() const
 {
 	return 1;
 }
+///////////////Max Visitors Constants///////////////
+const int ConstructionOptions::GetIceCreamShopMaxVisitors() const
+{
+	return 4;
+}
+const int ConstructionOptions::GetFoodCourtMaxVisitors() const
+{
+	return 8;
+}
+const int ConstructionOptions::GetCarouselMaxVisitors() const
+{
+	return 4;
+}
+const int ConstructionOptions::GetToiletMaxVisitors() const
+{
+	return 2;
+}
+const int ConstructionOptions::GetExitMaxVisitors() const
+{
+	return 100;
+}
 ///////////////Color Construction Constants///////////////
 color ConstructionOptions::GetIceCreamShopForegroundColor() const
 {

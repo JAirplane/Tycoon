@@ -23,3 +23,7 @@ int BuildingDescriptor::GetIsExit() const
 {
 	return isExit;
 }
+int BuildingDescriptor::GetMaxVisitors() const
+{
+	return maxVisitors;
+}

@@ -69,6 +69,7 @@ private:
 	int entranceWidthAdd;
 	Direction exitDirection;
 	int overallProfit;
+	int visitorsInside;
 public:
 	Building(PointCoord upperLeft, ConstructionDescriptor* manager_ptr, Visualisation* paint_ptr) : Construction(upperLeft, manager_ptr, paint_ptr)
 	{
@@ -77,9 +78,13 @@ public:
 		this->entranceHeightAdd = manager_ptr->GetHeightAdd();
 		this->entranceWidthAdd = manager_ptr->GetWidthAdd() / 2;
 		overallProfit = 0;
+		visitorsInside = 0;
 		exitDirection = Direction::Down;
 	}
 	~Building() {}
+	int GetVisitorsInside() const;
+	void SetVisitorsInside(int visitorsValue);
+	__declspec(property(get = GetVisitorsInside, put = SetVisitorsInside)) int visitorsCounter;
 	int GetEntranceHeightAdd() const override;
 	void SetEntranceHeightAdd(int heightAdd);
 	int GetEntranceWidthAdd() const override;
@@ -172,6 +177,8 @@ class Visitor : public IngameObject
 private:
 	VisitorDescriptor* description_ptr;
 	Building* destination_ptr;
+	Building* previousVisitedBuilding;
+	int insideBuilding;
 	vector<int> pathIndices;
 	int foodCapacity;
 	int needToPee;
@@ -181,6 +188,8 @@ public:
 	{
 		description_ptr = describe_ptr;
 		destination_ptr = nullptr;
+		previousVisitedBuilding = nullptr;
+		insideBuilding = 0;
 		foodCapacity = 100;
 		needToPee = 100;
 		moneyAmount = 0;
@@ -210,13 +219,18 @@ public:
 	void SetNeedToPee(int newNeed);
 	int GetMoneyAmount() const;
 	void SetMoneyAmount(int money);
+	int GetInsideBuildingValue() const;
+	void SetInsideBuildingValue(int periodsInsideBuilding);
 	__declspec(property(get = GetFoorCapacity, put = SetFoodCapacity)) int starvation;
 	__declspec(property(get = GetNeedToPee, put = SetNeedToPee)) int toiletNeed;
 	__declspec(property(get = GetMoneyAmount, put = SetMoneyAmount)) int visitorCash;
+	__declspec(property(get = GetInsideBuildingValue, put = SetInsideBuildingValue)) int buildingVisiting;
 	void VisitorMove(PointCoord destination);
 	void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const override;
 	void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
-	void MakeAStep(Construction* destinationRoadTile);
+	void MakeAStep(int destinationRoadIndex, const list<Road*>& allRoads, const Camera* camera_ptr);
+	bool GoInside();
+	void GoOutside(const list<Road*>& allRoads, list<Visitor*> allVisitors);
 	pair<Building*, int> FindNearestDestination(const vector<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances) const; // returns destination building and 
 	// destination road index
 	Building* GetDestination() const;
@@ -226,6 +240,6 @@ public:
 	const vector<int> GetPath() const;
 	void SetPath(vector<int> newPath);
 	void ClearPath();
-	int GetNextPathIndex(int currentIndex);
+	int GetNextPathIndex(const list<Road*>& allRoads, Road* currentRoad);
 };
 /////////////End of Constructions Classes/////////////
