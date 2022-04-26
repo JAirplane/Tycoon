@@ -46,6 +46,7 @@ public:
 	//
 	const list<Building*>& GetAllBuildings() const;
 	const list<Road*>& GetAllRoads() const;
+	const list<Visitor*>& GetAllVisitors() const;
 	RoadGraph* GetGraph() const;
 	void AddObject(Building* obj_ptr);
 	void AddObject(Road* obj_ptr);

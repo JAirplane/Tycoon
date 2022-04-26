@@ -1,5 +1,6 @@
 #pragma once
 #include "ElementIndexSearcher.h"
+class Visitor;
 class FindByPoint
 {
 protected:

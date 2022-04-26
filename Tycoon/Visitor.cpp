@@ -61,15 +61,15 @@ void Visitor::MakeAStep(int destinationRoadIndex, const list<Road*>& allRoads, c
 }
 bool Visitor::GoInside()
 {
-	if (this->GetDestination()->GetDescriptor()->GetIsExit())
-	{
-		return true; // means that visitor should be deleted
-	}
 	pathIndices.clear();
 	if (this->GetDestination()->GetDescriptor()->GetMaxVisitors() > this->GetDestination()->visitorsCounter)
 	{
-		++this->GetDestination()->visitorsCounter;
 		this->SetUpperLeft(this->GetDestination()->GetUpperLeft());
+		if (this->GetDestination()->GetDescriptor()->GetIsExit())
+		{
+			return true; // means that visitor should be deleted
+		}
+		++this->GetDestination()->visitorsCounter;
 		this->buildingVisiting = 10;
 		this->visitorCash -= this->GetDestination()->GetDescriptor()->GetVisitPrice();
 	}

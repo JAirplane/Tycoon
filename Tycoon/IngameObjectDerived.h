@@ -5,6 +5,7 @@
 /////////////Parent Class of Every Construction Type/////////////
 class Road;
 class Building;
+class Visitor;
 class GraphStatusSubjectInterface;
 class GraphStatusObserverInterface;
 class Construction : public IngameObject
@@ -55,9 +56,10 @@ public:
 	virtual vector<Construction*> GetNeighbourRoads(const list<Road*>& allRoads) const = 0;
 	virtual vector<Construction*> GetNeighbourBuildings(const list<Building*>& allBuildings) const = 0;
 	virtual Construction* GetPreliminaryNeighbour(Construction* preliminary_ptr) const = 0;
-	virtual void RedrawNeighbours(const list<Road*>& allRoads, const list<Building*>& allBuildings, Construction* preliminary_ptr, const Camera* camera_ptr) = 0;
+	virtual void RedrawNeighbours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const list<Visitor*>& allVisitors,
+		Construction* preliminary_ptr, const Camera* camera_ptr) = 0;
 	static void RedrawNeighbours(PointCoord centralPoint, const list<Road*>& allRoads, const list<Building*>& allBuildings,
-		Construction* preliminary_ptr, const Camera* camera_ptr);
+		const list<Visitor*>& allVisitors, Construction* preliminary_ptr, const Camera* camera_ptr);
 	void SetVisitorsCount(int visitorsCount);
 	virtual bool IsBreakable() const;
 };
@@ -105,7 +107,8 @@ public:
 	vector<Construction*> GetNeighbourRoads(const list<Road*>& allRoads) const override;
 	vector<Construction*> GetNeighbourBuildings(const list<Building*>& allBuildings) const override;
 	Construction* GetPreliminaryNeighbour(Construction* preliminary_ptr) const override;
-	void RedrawNeighbours(const list<Road*>& allRoads, const list<Building*>& allBuildings, Construction* preliminary_ptr, const Camera* camera_ptr) override;
+	void RedrawNeighbours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const list<Visitor*>& allVisitors,
+		Construction* preliminary_ptr, const Camera* camera_ptr) override;
 	void CorrectBuildingCoordsForDraw(int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY, int& leftX, int& topY, int& rightX, int& bottomY) const;
 	void DrawObject(int mask = 0, int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
 	void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
@@ -147,7 +150,8 @@ public:
 	vector<Construction*> GetNeighbourRoads(const list<Road*>& allRoads) const override;
 	vector<Construction*> GetNeighbourBuildings(const list<Building*>& allBuildings) const override;
 	Construction* GetPreliminaryNeighbour(Construction* preliminary_ptr) const override;
-	void RedrawNeighbours(const list<Road*>& allRoads, const list<Building*>& allBuildings, Construction* preliminary_ptr, const Camera* camera_ptr) override;
+	void RedrawNeighbours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const list<Visitor*>& allVisitors,
+		Construction* preliminary_ptr, const Camera* camera_ptr) override;
 	void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const override;
 	void DrawObject(const wstring drawingSymbol) const override;
 	void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;

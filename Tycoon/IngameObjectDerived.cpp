@@ -50,7 +50,7 @@ PointCoord Construction::GetPotentialConnectedRoadPoint() const
 	return PointCoord(0, 0);
 }
 void Construction::RedrawNeighbours(PointCoord centralPoint, const list<Road*>& allRoads, const list<Building*>& allBuildings,
-	Construction* preliminary_ptr, const Camera* camera_ptr)
+	const list<Visitor*>& allVisitors, Construction* preliminary_ptr, const Camera* camera_ptr)
 {
 	vector<Construction*> neighbours;
 	for (auto everyRoad : allRoads)
@@ -70,10 +70,13 @@ void Construction::RedrawNeighbours(PointCoord centralPoint, const list<Road*>& 
 	}
 	for (auto everyNeighbour : neighbours)
 	{
-		int mask = everyNeighbour->GetEnvironmentMask(allRoads, allBuildings, preliminary_ptr);
-		everyNeighbour->Connected(allRoads, allBuildings, preliminary_ptr);
-		everyNeighbour->DrawObject(mask, camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(),
-			camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(), camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
+		if (!FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(allVisitors, everyNeighbour->GetUpperLeft()))
+		{
+			int mask = everyNeighbour->GetEnvironmentMask(allRoads, allBuildings, preliminary_ptr);
+			everyNeighbour->Connected(allRoads, allBuildings, preliminary_ptr);
+			everyNeighbour->DrawObject(mask, camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(),
+				camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(), camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
+		}
 	}
 }
 void Construction::CopyRotationProperties(Construction* another_ptr)
@@ -293,13 +296,15 @@ Construction* Building::GetPreliminaryNeighbour(Construction* preliminary_ptr) c
 	}
 	return nullptr;
 }
-void Building::RedrawNeighbours(const list<Road*>& allRoads, const list<Building*>& allBuildings, Construction* preliminary_ptr, const Camera* camera_ptr)
+void Building::RedrawNeighbours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const list<Visitor*>& allVisitors,
+	Construction* preliminary_ptr, const Camera* camera_ptr)
 {
 	PointCoord potentialRoad = GetPotentialConnectedRoadPoint();
 	list<Road*>::const_iterator roadIter;
 	for (roadIter = allRoads.begin(); roadIter != allRoads.end(); roadIter++)
 	{
-		if ((*roadIter)->GetUpperLeft() == potentialRoad)
+		if ((*roadIter)->GetUpperLeft() == potentialRoad &&
+			FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(allVisitors, (*roadIter)->GetUpperLeft()) == nullptr)
 		{
 			int mask = (*roadIter)->GetEnvironmentMask(allRoads, allBuildings, preliminary_ptr);
 			(*roadIter)->Connected(allRoads, allBuildings, preliminary_ptr);
@@ -589,14 +594,15 @@ Construction* Road::GetPreliminaryNeighbour(Construction* preliminary_ptr) const
 		}
 	}
 }
-void Road::RedrawNeighbours(const list<Road*>& allRoads, const list<Building*>& allBuildings, Construction* preliminary_ptr, const Camera* camera_ptr)
+void Road::RedrawNeighbours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const list<Visitor*>& allVisitors,
+	Construction* preliminary_ptr, const Camera* camera_ptr)
 {
 	vector<Construction*> neighbours = this->GetNeighbourRoads(allRoads);
 	vector<Construction*> neighbourBuildings = this->GetNeighbourBuildings(allBuildings);
 	neighbours.insert(neighbours.end(), neighbourBuildings.begin(), neighbourBuildings.end());
 	for (auto everyNeighbour : neighbours)
 	{
-		if (everyNeighbour != nullptr)
+		if (everyNeighbour != nullptr && !FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(allVisitors, everyNeighbour->GetUpperLeft()))
 		{
 			int mask = everyNeighbour->GetEnvironmentMask(allRoads, allBuildings, preliminary_ptr);
 			everyNeighbour->Connected(allRoads, allBuildings, preliminary_ptr);

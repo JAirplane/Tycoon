@@ -70,6 +70,10 @@ const list<Road*>& AllObjects::GetAllRoads() const
 {
 	return roads;
 }
+const list<Visitor*>& AllObjects::GetAllVisitors() const
+{
+	return visitors;
+}
 RoadGraph* AllObjects::GetGraph() const
 {
 	return graph_ptr;
@@ -129,7 +133,7 @@ void AllObjects::ErasePreliminaryElement(Camera* camera_ptr, PlayingField* field
 			PointCoord preliminaryElementNeibourRedraw = preliminaryConstruction_ptr->GetRedrawNeighboursPoint();
 			delete preliminaryConstruction_ptr;
 			preliminaryConstruction_ptr = nullptr;
-			Construction::RedrawNeighbours(preliminaryElementNeibourRedraw, roads, buildings, preliminaryConstruction_ptr, camera_ptr);
+			Construction::RedrawNeighbours(preliminaryElementNeibourRedraw, roads, buildings, visitors, preliminaryConstruction_ptr, camera_ptr);
 			return;
 		}
 		delete preliminaryConstruction_ptr;
@@ -404,7 +408,7 @@ void AllObjects::DisplayVisitors(const Camera* camera_ptr)
 	list< Visitor* >::iterator visitorIter;
 	for (visitorIter = visitors.begin(); visitorIter != visitors.end(); visitorIter++)
 	{
-		if (camera_ptr->IsObjectInsideTheRectangle(*visitorIter))
+		if (camera_ptr->IsObjectInsideTheRectangle(*visitorIter) && !BuildingsImposition(*visitorIter))
 		{
 			(*visitorIter)->DrawObject();
 		}
@@ -563,6 +567,7 @@ vector<Visitor*> AllObjects::AllVisitorsStep(const Camera* camera_ptr, const Pla
 					if (exitAchieved)
 					{
 						forDeleting.push_back(visitor);
+						statistics->NumberOfVisitors -= 1;
 					}
 				}
 				else
@@ -583,6 +588,7 @@ vector<Visitor*> AllObjects::AllVisitorsStep(const Camera* camera_ptr, const Pla
 					if (noConnectedRoad)
 					{
 						forDeleting.push_back(visitor);
+						statistics->NumberOfVisitors -= 1;
 					}
 					if (camera_ptr->IsObjectInsideTheRectangle(visitor))
 					{
