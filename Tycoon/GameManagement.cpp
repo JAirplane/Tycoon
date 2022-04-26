@@ -395,11 +395,15 @@ void GameManagement::VisitorCreationCycle(chrono::milliseconds& lastLaunch)
 		return;
 	}
 	menu_ptr->VisitorAddition(field_ptr, camera_ptr, allObjects_ptr);
+	menu_ptr->UpdateStatsDisplay();
 }
 void GameManagement::VisitorStepCycle(chrono::milliseconds& lastLaunch)
 {
 	lastLaunch = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch());
-	allObjects_ptr->AllVisitorsStep(camera_ptr, field_ptr);
+	int lowestEntertainmentPrice = menu_ptr->GetLowestEntertainmentVisitPrice();
+	vector<Visitor*> forDeleting = allObjects_ptr->AllVisitorsStep(camera_ptr, field_ptr, menu_ptr->GetGameStats(), lowestEntertainmentPrice);
+	allObjects_ptr->DeleteVisitors(forDeleting);
+	menu_ptr->UpdateStatsDisplay();
 }
 void GameManagement::GameProcess()
 {
@@ -409,7 +413,7 @@ void GameManagement::GameProcess()
 	chrono::milliseconds userActionsLastLaunch = chrono::milliseconds(0);
 	chrono::milliseconds visitorCreationDelay = chrono::milliseconds((rand() % 8 + 1) * 1000);
 	chrono::milliseconds visitorCreationLastLaunch = chrono::milliseconds(0);
-	chrono::milliseconds visitorsStepDelay = chrono::milliseconds(2000);
+	chrono::milliseconds visitorsStepDelay = chrono::milliseconds(1000);
 	chrono::milliseconds visitorsStepLastLaunch = chrono::milliseconds(0);
 	chrono::milliseconds allCycleLastEnding = chrono::milliseconds(17);
 	while (true)

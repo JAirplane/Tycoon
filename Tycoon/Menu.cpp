@@ -201,6 +201,16 @@ void Menu::ShowStats()
 	gameStats_ptr->DrawBorder();
 	gameStats_ptr->DrawContent();
 }
+void Menu::UpdateStatsDisplay()
+{
+	if (gameStats_ptr->previousNumberOfVisitors != gameStats_ptr->NumberOfVisitors || gameStats_ptr->previousAmountOfMoney != gameStats_ptr->amountOfMoney)
+	{
+		gameStats_ptr->ClearContent();
+		gameStats_ptr->DrawContent();
+		gameStats_ptr->SetPreviousAmountOfMoney();
+		gameStats_ptr->SetPreviousVisitorsNumber();
+	}
+}
 void Menu::ShowMenuItems()
 {
 	int bottomY = GetUpperLeft().Get_y() + GetHeightAddition();
@@ -388,9 +398,7 @@ Visitor* Menu::CreateVisitor(const PlayingField* field_ptr, const Camera* camera
 	int constY = field_ptr->GetUpperLeft().Get_y() + field_ptr->GetHeightAddition() + 3; // 3 pixels lower than playingfield's bottom yCoord
 	PointCoord startVisitorPoint(field_ptr->GetHalfXAxis() + randomX, constY);
 	Visitor* newVisitor = visitorsCreator_ptr->CreateVisitor(startVisitorPoint, GetDrawPointer(), container_ptr, gameStats_ptr->parkLevel);
-	++gameStats_ptr->visitorsCounter;
-	gameStats_ptr->ClearContent();
-	gameStats_ptr->DrawContent();
+	++gameStats_ptr->NumberOfVisitors;
 	if (camera_ptr->IsObjectInsideTheRectangle(newVisitor))
 	{
 		newVisitor->DrawObject();
@@ -431,7 +439,7 @@ void Menu::VisitorAddition(const PlayingField* field_ptr, const Camera* camera_p
 	{
 	case 0:
 	{
-		if (gameStats_ptr->visitorsCounter < ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(0)->maximumVisitors)
+		if (gameStats_ptr->NumberOfVisitors < ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(0)->maximumVisitors)
 		{
 			CreateVisitor(field_ptr, camera_ptr, container_ptr);
 		}
@@ -439,7 +447,7 @@ void Menu::VisitorAddition(const PlayingField* field_ptr, const Camera* camera_p
 	}
 	case 1:
 	{
-		if (gameStats_ptr->visitorsCounter < ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(1)->maximumVisitors)
+		if (gameStats_ptr->NumberOfVisitors < ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(1)->maximumVisitors)
 		{
 			CreateVisitor(field_ptr, camera_ptr, container_ptr);
 		}
@@ -447,7 +455,7 @@ void Menu::VisitorAddition(const PlayingField* field_ptr, const Camera* camera_p
 	}
 	case 2:
 	{
-		if (gameStats_ptr->visitorsCounter < ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(2)->maximumVisitors)
+		if (gameStats_ptr->NumberOfVisitors < ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(2)->maximumVisitors)
 		{
 			CreateVisitor(field_ptr, camera_ptr, container_ptr);
 		}
@@ -455,7 +463,7 @@ void Menu::VisitorAddition(const PlayingField* field_ptr, const Camera* camera_p
 	}
 	case 3:
 	{
-		if (gameStats_ptr->visitorsCounter < ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(3)->maximumVisitors)
+		if (gameStats_ptr->NumberOfVisitors < ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(3)->maximumVisitors)
 		{
 			CreateVisitor(field_ptr, camera_ptr, container_ptr);
 		}
@@ -463,7 +471,7 @@ void Menu::VisitorAddition(const PlayingField* field_ptr, const Camera* camera_p
 	}
 	case 4:
 	{
-		if (gameStats_ptr->visitorsCounter < ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(4)->maximumVisitors)
+		if (gameStats_ptr->NumberOfVisitors < ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(4)->maximumVisitors)
 		{
 			CreateVisitor(field_ptr, camera_ptr, container_ptr);
 		}
@@ -471,7 +479,7 @@ void Menu::VisitorAddition(const PlayingField* field_ptr, const Camera* camera_p
 	}
 	case 5:
 	{
-		if (gameStats_ptr->visitorsCounter < ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(5)->maximumVisitors)
+		if (gameStats_ptr->NumberOfVisitors < ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(5)->maximumVisitors)
 		{
 			CreateVisitor(field_ptr, camera_ptr, container_ptr);
 		}
@@ -479,4 +487,20 @@ void Menu::VisitorAddition(const PlayingField* field_ptr, const Camera* camera_p
 	}
 	default: {throw MyException("GameManagement::VisitorCreationCycle(chrono::milliseconds& lastLaunch, chrono::milliseconds& visitorCreationDelay) bad park level"); }
 	}
+}
+int Menu::GetLowestEntertainmentVisitPrice() const
+{
+	int lowestPrice = numeric_limits<int>::max();
+	for (auto menuElement : menuItems)
+	{
+		if (menuElement->GetManager()->GetDescriptor()->GetEntertainmentValue() != 0)
+		{
+			int visitPrice = menuElement->GetManager()->GetDescriptor()->GetVisitPrice();
+			if (visitPrice < lowestPrice)
+			{
+				lowestPrice = visitPrice;
+			}
+		}
+	}
+	return lowestPrice;
 }

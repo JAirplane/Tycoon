@@ -1,18 +1,34 @@
 #include "GameStats.h"
-int GameStats::GetCurrentVisitors() const
+int GameStats::GetPreviousVisitorsNumber() const
 {
-	return currentVisitors;
+	return previousVisitorsNumber;
 }
-void GameStats::SetCurrentVisitors(int quantity)
+void GameStats::SetPreviousVisitorsNumber()
+{
+	previousVisitorsNumber = currentVisitorsNumber;
+}
+int GameStats::GetCurrentVisitorsNumber() const
+{
+	return currentVisitorsNumber;
+}
+void GameStats::SetCurrentVisitorsNumber(int quantity)
 {
 	if (quantity > 9999)
 	{
-		currentVisitors = 9999;
+		currentVisitorsNumber = 9999;
 	}
 	else
 	{
-		currentVisitors = quantity;
+		currentVisitorsNumber = quantity;
 	}
+}
+int GameStats::GetPreviousAmountOfMoney() const
+{
+	return previousMoneyAmount;
+}
+void GameStats::SetPreviousAmountOfMoney()
+{
+	previousMoneyAmount = moneyAmount;
 }
 int GameStats::GetAmountOfMoney() const
 {
@@ -49,12 +65,12 @@ void GameStats::DrawContent()
 	string moneyMsg = "Money amount: ";
 	string visitorsMsg = "Visitors: ";
 	int moneyDigits = NumberOfDigits::GetDigitsCounter()->GetNumberOfDigits(amountOfMoney);
-	int visitorsDigits = NumberOfDigits::GetDigitsCounter()->GetNumberOfDigits(visitorsCounter);
+	int visitorsDigits = NumberOfDigits::GetDigitsCounter()->GetNumberOfDigits(NumberOfVisitors);
 	int xCoordAdditionMoney = (GetWidthAddition() + 1 - static_cast<int>(moneyMsg.length() + moneyDigits)) / 2;
 	int xCoordAdditionVisitors = (GetWidthAddition() + 1 - static_cast<int>(visitorsMsg.length() + visitorsDigits)) / 2;
 	set_cursor_pos(GetUpperLeft().Get_x() + xCoordAdditionMoney, GetUpperLeft().Get_y() + 1);
 	set_color(GetTextColor(), GetShadingColor());
 	cout << "Money amount: " << amountOfMoney;
 	set_cursor_pos(GetUpperLeft().Get_x() + xCoordAdditionVisitors, GetUpperLeft().Get_y() + 2);
-	cout << "Visitors: " << visitorsCounter;
+	cout << "Visitors: " << NumberOfVisitors;
 }

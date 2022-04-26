@@ -1,5 +1,39 @@
-
-RoadGraph::GetPathIndices(vector<int> distances, int destinationIndex) bad destination index
-RoadGraph::GetPathIndices(vector<int> distances, int destinationIndex) bad destination index
-RoadGraph::GetPathIndices(vector<int> distances, int destinationIndex) bad destination index
-RoadGraph::GetPathIndices(vector<int> distances, int destinationIndex) bad destination index
+GameManagement::Arrows_Menu() incorrect direction.
+GameManagement::Arrows_Menu() incorrect direction.
+Menu::MenuElementsShift(IconsPosition upperOrLower) bas IconsPosition argument.
+Menu::MenuElementsShift(IconsPosition upperOrLower) bas IconsPosition argument.
+Menu::MenuElementsShift(IconsPosition upperOrLower) bad IconsPosition argument.
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point
+AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) no road on visitor's point

@@ -1,5 +1,5 @@
 #pragma once
-#include "IngameObjectDerived.h"
+#include "Visitor.h"
 //notifies observers about some events with a string message
 class MessageObserverInterface
 {

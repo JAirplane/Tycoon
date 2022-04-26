@@ -1,7 +1,7 @@
 #pragma once
 #include <typeinfo>
 #include <functional>
-#include "RoadGraph.h"
+#include "GameStats.h"
 /////////////Containers of All Objects in the Game/////////////
 class AllObjects
 {
@@ -80,5 +80,6 @@ public:
 	//
 	void ClearVisitorPathes(int roadIndex);
 	void ClearVisitorPathes(Construction* destination);
-	void AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr);
+	vector<Visitor*> AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr, GameStats* statistics, int lowestEntertainmentPrice);
+	void DeleteVisitors(vector<Visitor*>& forDeleting);
 };

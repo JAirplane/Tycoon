@@ -17,6 +17,10 @@ const int ConstructionOptions::GetCarouselHeightAdd() const
 {
 	return 2;
 }
+const int ConstructionOptions::GetDumboRideHeightAdd() const
+{
+	return 2;
+}
 const int ConstructionOptions::GetExitHeightAdd() const
 {
 	return 0;
@@ -78,6 +82,10 @@ const int ConstructionOptions::GetCarouselWidthAdd() const
 {
 	return 2;
 }
+const int ConstructionOptions::GetDumboRideWidthAdd() const
+{
+	return 2;
+}
 const int ConstructionOptions::GetExitWidthAdd() const
 {
 	return 0;
@@ -135,6 +143,10 @@ const int ConstructionOptions::GetCarouselCost() const
 {
 	return 300;
 }
+const int ConstructionOptions::GetDumboRideCost() const
+{
+	return 200;
+}
 const int ConstructionOptions::GetExitCost() const
 {
 	return 0;
@@ -146,7 +158,7 @@ const int ConstructionOptions::GetRoadCost() const
 ///////////////Daily Expences Initialisation Constants///////////////
 const int ConstructionOptions::GetIceCreamShopExpences() const
 {
-	return 15;
+	return 10;
 }
 const int ConstructionOptions::GetToiletExpences() const
 {
@@ -154,11 +166,15 @@ const int ConstructionOptions::GetToiletExpences() const
 }
 const int ConstructionOptions::GetFoodCourtExpences() const
 {
-	return 20;
+	return 15;
 }
 const int ConstructionOptions::GetCarouselExpences() const
 {
 	return 20;
+}
+const int ConstructionOptions::GetDumboRideExpences() const
+{
+	return 15;
 }
 const int ConstructionOptions::GetExitExpences() const
 {
@@ -180,6 +196,10 @@ const string ConstructionOptions::GetFoodCourtDescription() const
 const string ConstructionOptions::GetCarouselDescription() const
 {
 	return "Carousel: relaxing attraction";
+}
+const string ConstructionOptions::GetDumboRideDescription() const
+{
+	return "Dumbo Elephant: kiddie ride";
 }
 const string ConstructionOptions::GetExitDescription() const
 {
@@ -230,6 +250,10 @@ const wstring ConstructionOptions::GetCarouselSymbol() const
 {
 	return L"\u03A9";
 }
+const wstring ConstructionOptions::GetDumboRideSymbol() const
+{
+	return L"\u266B";
+}
 const wstring ConstructionOptions::GetToiletSymbol() const
 {
 	return L"\u25BC";
@@ -250,6 +274,156 @@ const PointCoord ConstructionOptions::GetPlayingFieldUpperLeft() const
 const PointCoord ConstructionOptions::GetInfoPanelUpperLeft() const
 {
 	return PointCoord(1, 36);
+}
+///////////////Toilet Need Constants///////////////
+const int ConstructionOptions::GetIceCreamShopToiletNeed() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetFoodCourtToiletNeed() const
+{
+	return 100;
+}
+const int ConstructionOptions::GetCarouselToiletNeed() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetDumboRideToiletNeed() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetToiletToiletNeed() const
+{
+	return 100;
+}
+const int ConstructionOptions::GetExitToiletNeed() const
+{
+	return 0;
+}
+///////////////Hunger Satisfaction Constants///////////////
+const int ConstructionOptions::GetIceCreamShopHungerSatisfaction() const
+{
+	return 25;
+}
+const int ConstructionOptions::GetFoodCourtHungerSatisfaction() const
+{
+	return 100;
+}
+const int ConstructionOptions::GetCarouselHungerSatisfaction() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetDumboRideHungerSatisfaction() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetToiletHungerSatisfaction() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetExitHungerSatisfaction() const
+{
+	return 0;
+}
+///////////////Visit Price Constants///////////////
+const int ConstructionOptions::GetIceCreamShopVisitPrice() const
+{
+	return 10;
+}
+const int ConstructionOptions::GetFoodCourtVisitPrice() const
+{
+	return 15;
+}
+const int ConstructionOptions::GetCarouselVisitPrice() const
+{
+	return 20;
+}
+const int ConstructionOptions::GetDumboRideVisitPrice() const
+{
+	return 15;
+}
+const int ConstructionOptions::GetToiletVisitPrice() const
+{
+	return 5;
+}
+const int ConstructionOptions::GetExitVisitPrice() const
+{
+	return 0;
+}
+///////////////Entertainment Constants///////////////
+const int ConstructionOptions::GetIceCreamShopEntertainmentValue() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetFoodCourtEntertainmentValue() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetCarouselEntertainmentValue() const
+{
+	return 1;
+}
+const int ConstructionOptions::GetDumboRideEntertainmentValue() const
+{
+	return 1;
+}
+const int ConstructionOptions::GetToiletEntertainmentValue() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetExitEntertainmentValue() const
+{
+	return 0;
+}
+///////////////Is Building Exit Constants///////////////
+const int ConstructionOptions::GetIceCreamShopIsExit() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetFoodCourtIsExit() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetCarouselIsExit() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetDumboRideIsExit() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetToiletIsExit() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetExitIsExit() const
+{
+	return 1;
+}
+///////////////Max Visitors Constants///////////////
+const int ConstructionOptions::GetIceCreamShopMaxVisitors() const
+{
+	return 4;
+}
+const int ConstructionOptions::GetFoodCourtMaxVisitors() const
+{
+	return 8;
+}
+const int ConstructionOptions::GetCarouselMaxVisitors() const
+{
+	return 4;
+}
+const int ConstructionOptions::GetDumboRideMaxVisitors() const
+{
+	return 4;
+}
+const int ConstructionOptions::GetToiletMaxVisitors() const
+{
+	return 2;
+}
+const int ConstructionOptions::GetExitMaxVisitors() const
+{
+	return 100;
 }
 ///////////////Building's Icon Symbol Constants///////////////
 const wstring ConstructionOptions::GetIceCreamShopIconSymbol() const
@@ -275,132 +449,6 @@ const wstring ConstructionOptions::GetExitIconSymbol() const
 const wstring ConstructionOptions::GetRoadIconSymbol() const
 {
 	return L"\u2016";
-}
-///////////////Toilet Need Constants///////////////
-const int ConstructionOptions::GetIceCreamShopToiletNeed() const
-{
-	return 0;
-}
-const int ConstructionOptions::GetFoodCourtToiletNeed() const
-{
-	return 100;
-}
-const int ConstructionOptions::GetCarouselToiletNeed() const
-{
-	return 0;
-}
-const int ConstructionOptions::GetToiletToiletNeed() const
-{
-	return 100;
-}
-const int ConstructionOptions::GetExitToiletNeed() const
-{
-	return 0;
-}
-///////////////Hunger Satisfaction Constants///////////////
-const int ConstructionOptions::GetIceCreamShopHungerSatisfaction() const
-{
-	return 25;
-}
-const int ConstructionOptions::GetFoodCourtHungerSatisfaction() const
-{
-	return 100;
-}
-const int ConstructionOptions::GetCarouselHungerSatisfaction() const
-{
-	return 0;
-}
-const int ConstructionOptions::GetToiletHungerSatisfaction() const
-{
-	return 0;
-}
-const int ConstructionOptions::GetExitHungerSatisfaction() const
-{
-	return 0;
-}
-///////////////Visit Price Constants///////////////
-const int ConstructionOptions::GetIceCreamShopVisitPrice() const
-{
-	return 15;
-}
-const int ConstructionOptions::GetFoodCourtVisitPrice() const
-{
-	return 25;
-}
-const int ConstructionOptions::GetCarouselVisitPrice() const
-{
-	return 50;
-}
-const int ConstructionOptions::GetToiletVisitPrice() const
-{
-	return 5;
-}
-const int ConstructionOptions::GetExitVisitPrice() const
-{
-	return 0;
-}
-///////////////Entertainment Constants///////////////
-const int ConstructionOptions::GetIceCreamShopEntertainmentValue() const
-{
-	return 0;
-}
-const int ConstructionOptions::GetFoodCourtEntertainmentValue() const
-{
-	return 0;
-}
-const int ConstructionOptions::GetCarouselEntertainmentValue() const
-{
-	return 1;
-}
-const int ConstructionOptions::GetToiletEntertainmentValue() const
-{
-	return 0;
-}
-const int ConstructionOptions::GetExitEntertainmentValue() const
-{
-	return 0;
-}
-///////////////Is Building Exit Constants///////////////
-const int ConstructionOptions::GetIceCreamShopIsExit() const
-{
-	return 0;
-}
-const int ConstructionOptions::GetFoodCourtIsExit() const
-{
-	return 0;
-}
-const int ConstructionOptions::GetCarouselIsExit() const
-{
-	return 0;
-}
-const int ConstructionOptions::GetToiletIsExit() const
-{
-	return 0;
-}
-const int ConstructionOptions::GetExitIsExit() const
-{
-	return 1;
-}
-///////////////Max Visitors Constants///////////////
-const int ConstructionOptions::GetIceCreamShopMaxVisitors() const
-{
-	return 4;
-}
-const int ConstructionOptions::GetFoodCourtMaxVisitors() const
-{
-	return 8;
-}
-const int ConstructionOptions::GetCarouselMaxVisitors() const
-{
-	return 4;
-}
-const int ConstructionOptions::GetToiletMaxVisitors() const
-{
-	return 2;
-}
-const int ConstructionOptions::GetExitMaxVisitors() const
-{
-	return 100;
 }
 ///////////////Color Construction Constants///////////////
 color ConstructionOptions::GetIceCreamShopForegroundColor() const

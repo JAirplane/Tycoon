@@ -1,6 +1,5 @@
 #pragma once
-
-#include "GameStats.h"
+#include "MenuElement.h"
 class Menu : public MyRectangle
 {
 private:
@@ -52,6 +51,7 @@ public:
 	void SetHideMenuStatus(bool hideFlag);
 	Direction ChangeMenuSide(Camera* camera_ptr);
 	void ShowStats();
+	void UpdateStatsDisplay();
 	void ShowMenuItems();
 	MenuElement* GetMenuElement(int yCoord) const;
 	MenuElement* GetUpperVisibleMenuElement() const;
@@ -63,4 +63,5 @@ public:
 	void MenuElementRedrawBorder(int elementTopY, color newColor);
 	MenuElement* MenuNavigation(MenuElement* currentElement, IconsPosition upperOrLower);
 	void ParkLevelCheck(const AllObjects* container_ptr);
+	int GetLowestEntertainmentVisitPrice() const;
 };

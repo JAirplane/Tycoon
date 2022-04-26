@@ -20,6 +20,7 @@ public:
 	virtual const int GetToiletHeightAdd() const;
 	virtual const int GetFoodCourtHeightAdd() const;
 	virtual const int GetCarouselHeightAdd() const;
+	virtual const int GetDumboRideHeightAdd() const;
 	virtual const int GetExitHeightAdd() const;
 	virtual const int GetMenuElementHeightAdd() const; //height of 1 element of menu
 	virtual const int GetMenuIconHeightAdd() const;
@@ -36,6 +37,7 @@ public:
 	virtual const int GetToiletWidthAdd() const;
 	virtual const int GetFoodCourtWidthAdd() const;
 	virtual const int GetCarouselWidthAdd() const;
+	virtual const int GetDumboRideWidthAdd() const;
 	virtual const int GetExitWidthAdd() const;
 	virtual const int GetRoadWidthAdd() const;
 	virtual const int GetVisitorWidthAdd() const;
@@ -51,6 +53,7 @@ public:
 	virtual const int GetToiletCost() const;
 	virtual const int GetFoodCourtCost() const;
 	virtual const int GetCarouselCost() const;
+	virtual const int GetDumboRideCost() const;
 	virtual const int GetExitCost() const;
 	virtual const int GetRoadCost() const;
 	///////////////Daily Expences Initialisation Constants///////////////
@@ -58,12 +61,14 @@ public:
 	virtual const int GetToiletExpences() const;
 	virtual const int GetFoodCourtExpences() const;
 	virtual const int GetCarouselExpences() const;
+	virtual const int GetDumboRideExpences() const;
 	virtual const int GetExitExpences() const;
 	///////////////Description Initialisation Constants///////////////
 	virtual const string GetIceCreamShopDescription() const;
 	virtual const string GetToiletDescription() const;
 	virtual const string GetFoodCourtDescription() const;
 	virtual const string GetCarouselDescription() const;
+	virtual const string GetDumboRideDescription() const;
 	virtual const string GetExitDescription() const;
 	virtual const string GetRoadDescription() const;
 	//
@@ -78,42 +83,49 @@ public:
 	virtual const wstring GetIceCreamShopSymbol() const;
 	virtual const wstring GetFoodCourtSymbol() const;
 	virtual const wstring GetCarouselSymbol() const;
+	virtual const wstring GetDumboRideSymbol() const;
 	virtual const wstring GetToiletSymbol() const;
 	virtual const wstring GetExitSymbol() const;
 	///////////////Toilet Need Constants///////////////
 	virtual const int GetIceCreamShopToiletNeed() const;
 	virtual const int GetFoodCourtToiletNeed() const;
 	virtual const int GetCarouselToiletNeed() const;
+	virtual const int GetDumboRideToiletNeed() const;
 	virtual const int GetToiletToiletNeed() const;
 	virtual const int GetExitToiletNeed() const;
 	///////////////Hunger Satisfaction Constants///////////////
 	virtual const int GetIceCreamShopHungerSatisfaction() const;
 	virtual const int GetFoodCourtHungerSatisfaction() const;
 	virtual const int GetCarouselHungerSatisfaction() const;
+	virtual const int GetDumboRideHungerSatisfaction() const;
 	virtual const int GetToiletHungerSatisfaction() const;
 	virtual const int GetExitHungerSatisfaction() const;
 	///////////////Visit Price Constants///////////////
 	virtual const int GetIceCreamShopVisitPrice() const;
 	virtual const int GetFoodCourtVisitPrice() const;
 	virtual const int GetCarouselVisitPrice() const;
+	virtual const int GetDumboRideVisitPrice() const;
 	virtual const int GetToiletVisitPrice() const;
 	virtual const int GetExitVisitPrice() const;
 	///////////////Entertainment Constants///////////////
 	virtual const int GetIceCreamShopEntertainmentValue() const;
 	virtual const int GetFoodCourtEntertainmentValue() const;
 	virtual const int GetCarouselEntertainmentValue() const;
+	virtual const int GetDumboRideEntertainmentValue() const;
 	virtual const int GetToiletEntertainmentValue() const;
 	virtual const int GetExitEntertainmentValue() const;
 	///////////////Is Building Exit Constants///////////////
 	virtual const int GetIceCreamShopIsExit() const;
 	virtual const int GetFoodCourtIsExit() const;
 	virtual const int GetCarouselIsExit() const;
+	virtual const int GetDumboRideIsExit() const;
 	virtual const int GetToiletIsExit() const;
 	virtual const int GetExitIsExit() const;
 	///////////////Max Visitors Constants///////////////
 	virtual const int GetIceCreamShopMaxVisitors() const;
 	virtual const int GetFoodCourtMaxVisitors() const;
 	virtual const int GetCarouselMaxVisitors() const;
+	virtual const int GetDumboRideMaxVisitors() const;
 	virtual const int GetToiletMaxVisitors() const;
 	virtual const int GetExitMaxVisitors() const;
 	///////////////Initialisation Coord Constants///////////////

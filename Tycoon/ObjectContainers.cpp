@@ -9,13 +9,16 @@ void AllObjects::CreateExit(const PlayingField* playingField_ptr, Visualisation*
 		ConstructionOptions::GetAllOptions()->GetExitSymbol(), ConstructionOptions::GetAllOptions()->GetExitToiletNeed(),
 		ConstructionOptions::GetAllOptions()->GetExitHungerSatisfaction(), ConstructionOptions::GetAllOptions()->GetExitVisitPrice(),
 		ConstructionOptions::GetAllOptions()->GetExitEntertainmentValue(), ConstructionOptions::GetAllOptions()->GetExitIsExit(),
-		ConstructionOptions::GetAllOptions()->GetExitExpences(), ConstructionOptions::GetAllOptions()->GetExitHeightAdd(), ConstructionOptions::GetAllOptions()->GetExitWidthAdd());
+		ConstructionOptions::GetAllOptions()->GetExitMaxVisitors(), ConstructionOptions::GetAllOptions()->GetExitExpences(),
+		ConstructionOptions::GetAllOptions()->GetExitHeightAdd(), ConstructionOptions::GetAllOptions()->GetExitWidthAdd());
 	Building* exit1 = new Building(PointCoord(playingField_ptr->GetHalfXAxis(), playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() + 4),
 		exitDescriptor, draw_ptr);
 	exit1->SetExitDirection(Direction::Up);
 	Building* exit2 = new Building(PointCoord(playingField_ptr->GetHalfXAxis() + 1, playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() + 4),
 		exitDescriptor, draw_ptr);
 	exit2->SetExitDirection(Direction::Up);
+	exit1->SetRoadConnectionStatus(true);
+	exit2->SetRoadConnectionStatus(true);
 	this->AddObject(exit1);
 	this->AddObject(exit2);
 }
@@ -522,7 +525,7 @@ void AllObjects::ClearVisitorPathes(Construction* destination)
 		}
 	}
 }
-void AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr)
+vector<Visitor*> AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr, GameStats* statistics, int lowestEntertainmentPrice)
 {
 	if (camera_ptr == nullptr)
 	{
@@ -532,11 +535,12 @@ void AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* f
 	{
 		throw MyException("AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) playingfield is nullptr");
 	}
+	vector<Visitor*> forDeleting;
 	for (auto visitor : visitors)
 	{
 		if (visitor->GetDestination() == nullptr)
 		{
-			pair<vector<int>, int> result = visitor->ChooseDestination(buildings, roads, graph_ptr->GetWeightMatrix());
+			pair<vector<int>, int> result = visitor->ChooseDestination(buildings, roads, graph_ptr->GetWeightMatrix(), lowestEntertainmentPrice);
 			if (result.second != -1)
 			{
 				visitor->SetPath(graph_ptr->GetPathIndices(result.first, result.second));
@@ -554,7 +558,12 @@ void AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* f
 				int nextRoadIndex = visitor->GetNextPathIndex(roads, currentRoad);
 				if (nextRoadIndex == -1)
 				{
-					visitor->GoInside();
+					statistics->amountOfMoney += visitor->GetDestination()->GetDescriptor()->GetVisitPrice();
+					bool exitAchieved = visitor->GoInside();
+					if (exitAchieved)
+					{
+						forDeleting.push_back(visitor);
+					}
 				}
 				else
 				{
@@ -570,13 +579,32 @@ void AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* f
 				--visitor->buildingVisiting;
 				if (visitor->buildingVisiting == 0)
 				{
-					visitor->GoOutside(roads, visitors);
+					bool noConnectedRoad = visitor->GoOutside(roads, visitors);
+					if (noConnectedRoad)
+					{
+						forDeleting.push_back(visitor);
+					}
 					if (camera_ptr->IsObjectInsideTheRectangle(visitor))
 					{
 						visitor->DrawObject();
 					}
 				}
 			}
+		}
+	}
+	return forDeleting;
+}
+void AllObjects::DeleteVisitors(vector<Visitor*>& forDeleting)
+{
+	if (!forDeleting.empty())
+	{
+		for (auto visitor : forDeleting)
+		{
+			function<bool(Visitor*)> IsEqual = [visitor](Visitor* element)
+			{
+				return (visitor == element);
+			};
+			DeleteVisitor(visitor, IsEqual);
 		}
 	}
 }
