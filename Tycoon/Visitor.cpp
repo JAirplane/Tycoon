@@ -49,7 +49,7 @@ void Visitor::EraseObject(int cameraLeftX, int cameraTopY, int cameraRightX, int
 {
 	GetPainter()->ErasePixel(GetUpperLeft().Get_x(), GetUpperLeft().Get_y());
 }
-void Visitor::MakeAStep(int destinationRoadIndex, const list<Road*>& allRoads, const Camera* camera_ptr)
+void Visitor::MakeAStep(int destinationRoadIndex, const list<Construction*>& allRoads, const Camera* camera_ptr)
 {
 	auto roadIter = allRoads.begin();
 	advance(roadIter, destinationRoadIndex);
@@ -75,12 +75,12 @@ bool Visitor::GoInside()
 	}
 	return false;
 }
-bool Visitor::GoOutside(const list<Road*>& allRoads, list<Visitor*> allVisitors)
+bool Visitor::GoOutside(const list<Construction*>& allRoads, list<Visitor*> allVisitors)
 {
 	--destination_ptr->visitorsCounter;
 	previousVisitedBuilding = destination_ptr;
 	destination_ptr = nullptr;
-	Road* entranceRoad = FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(allRoads, previousVisitedBuilding->GetPotentialConnectedRoadPoint());
+	Construction* entranceRoad = FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(allRoads, previousVisitedBuilding->GetPotentialConnectedRoadPoint());
 	if (entranceRoad == nullptr)
 	{
 		return true; //if user has deleted road connected to building while visitor is inside, visitor disappear. GameStats should be changed further
@@ -91,28 +91,28 @@ bool Visitor::GoOutside(const list<Road*>& allRoads, list<Visitor*> allVisitors)
 		return false;
 	}
 }
-pair<Building*, int> Visitor::FindNearestDestination(const vector<Building*>& suitableBuildings, const list<Road*>& allRoads, vector<int> distances) const
+pair<Construction*, int> Visitor::FindNearestDestination(const vector<Construction*>& suitableBuildings, const list<Construction*>& allRoads, vector<int> distances) const
 {
 	if (suitableBuildings.empty())
 	{
-		throw MyException("Visitor::FindNearestToilet(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances) building container is empty");
+		throw MyException("Visitor::FindNearestDestination(const vector<Construction*>& suitableBuildings, const list<Construction*>& allRoads, vector<int> distances) building container is empty");
 	}
 	if (allRoads.empty())
 	{
-		throw MyException("Visitor::FindNearestToilet(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances) roads container is empty");
+		throw MyException("Visitor::FindNearestDestination(const vector<Construction*>& suitableBuildings, const list<Construction*>& allRoads, vector<int> distances) roads container is empty");
 	}
 	if (distances.empty())
 	{
-		throw MyException("Visitor::FindNearestToilet(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances) distances container is empty");
+		throw MyException("Visitor::FindNearestDestination(const vector<Construction*>& suitableBuildings, const list<Construction*>& allRoads, vector<int> distances) distances container is empty");
 	}
-	Building* nearestOne = nullptr;
+	Construction* nearestBuilding = nullptr;
 	int lowestDistance = numeric_limits<int>::max();
 	int desiredRoadIndex = -1;
 	for (auto building : suitableBuildings)
 	{
 		if (building->GetRoadConnectionStatus())
 		{
-			Road* connectedToBuildingRoad = FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(allRoads, building->GetPotentialConnectedRoadPoint());
+			Construction* connectedToBuildingRoad = FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(allRoads, building->GetPotentialConnectedRoadPoint());
 			if (connectedToBuildingRoad == nullptr)
 			{
 				continue;
@@ -120,25 +120,25 @@ pair<Building*, int> Visitor::FindNearestDestination(const vector<Building*>& su
 			int roadIndex = ElementIndexSearcher::GetElementIndexSearcher()->GetElementIndex(allRoads, connectedToBuildingRoad);
 			if (roadIndex == -1)
 			{
-				throw MyException("Visitor::ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix) road is out of container");
+				throw MyException("Visitor::FindNearestDestination(const vector<Construction*>& suitableBuildings, const list<Construction*>& allRoads, vector<int> distances) road is out of container");
 			}
 			if (lowestDistance > distances.at(roadIndex))
 			{
 				lowestDistance = distances.at(roadIndex);
-				nearestOne = building;
+				nearestBuilding = building;
 				desiredRoadIndex = roadIndex;
 			}
 		}
 	}
-	return pair<Building*, int>(nearestOne, desiredRoadIndex);
+	return pair<Construction*, int>(nearestBuilding, desiredRoadIndex);
 }
-Building* Visitor::GetDestination() const
+Construction* Visitor::GetDestination() const
 {
 	return destination_ptr;
 }
-int Visitor::SetDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances, int lowestEntertainmentPrice)
+int Visitor::SetDestination(const list<Construction*>& allBuildings, const list<Construction*>& allRoads, vector<int> distances, int lowestEntertainmentPrice)
 {
-	vector<Building*> buildingsChoosenByProperty;
+	vector<Construction*> buildingsChoosenByProperty;
 	if (toiletNeed < 10 || foodCapacity < 10 || this->visitorCash < lowestEntertainmentPrice)
 	{
 		buildingsChoosenByProperty = Building::ChooseFromBuildings(mem_fn(&ConstructionDescriptor::GetIsExit), allBuildings);
@@ -156,12 +156,12 @@ int Visitor::SetDestination(const list<Building*>& allBuildings, const list<Road
 		buildingsChoosenByProperty = Building::ChooseFromBuildings(mem_fn(&ConstructionDescriptor::GetEntertainmentValue), allBuildings);
 		if (!buildingsChoosenByProperty.empty())
 		{
-			Building* chosen_ptr = buildingsChoosenByProperty.at(rand() % buildingsChoosenByProperty.size());
+			Construction* chosen_ptr = buildingsChoosenByProperty.at(rand() % buildingsChoosenByProperty.size());
 			if (chosen_ptr == nullptr)
 			{
-				throw MyException("Visitor::SetDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances) chosen buildings is nullptr");
+				throw MyException("Visitor::SetDestination(const list<Construction*>& allBuildings, const list<Construction*>& allRoads, vector<int> distances, int lowestEntertainmentPrice) chosen buildings is nullptr");
 			}
-			Road* connectedToBuildingRoad = FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(allRoads, chosen_ptr->GetPotentialConnectedRoadPoint());
+			Construction* connectedToBuildingRoad = FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(allRoads, chosen_ptr->GetPotentialConnectedRoadPoint());
 			int connectedToBuildingRoadIndex = ElementIndexSearcher::GetElementIndexSearcher()->GetElementIndex(allRoads, connectedToBuildingRoad);
 			if (distances.at(connectedToBuildingRoadIndex) != numeric_limits<int>::max() && chosen_ptr != previousVisitedBuilding &&
 				this->visitorCash >= chosen_ptr->GetDescriptor()->GetVisitPrice())
@@ -174,7 +174,7 @@ int Visitor::SetDestination(const list<Building*>& allBuildings, const list<Road
 	}
 	if (!buildingsChoosenByProperty.empty())
 	{
-		pair<Building*, int> result = FindNearestDestination(buildingsChoosenByProperty, allRoads, distances);
+		pair<Construction*, int> result = FindNearestDestination(buildingsChoosenByProperty, allRoads, distances);
 		if (result.first != nullptr)
 		{
 			destination_ptr = result.first;
@@ -183,17 +183,18 @@ int Visitor::SetDestination(const list<Building*>& allBuildings, const list<Road
 	}
 	return -1;
 }
-pair<vector<int>, int> Visitor::ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix, int lowestEntertainmentPrice)
+pair<vector<int>, int> Visitor::ChooseDestination(const list<Construction*>& allBuildings, const list<Construction*>& allRoads,
+	vector<vector<int> > weightMatrix, int lowestEntertainmentPrice)
 {
 	auto visitorRoad = FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(allRoads, this->GetUpperLeft());
 	if (visitorRoad == nullptr)
 	{
-		throw MyException("Visitor::ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix) visitor isn't on road");
+		throw MyException("Visitor::ChooseDestination(const list<Construction*>& allBuildings, const list<Construction*>& allRoads, vector<vector<int> > weightMatrix, int lowestEntertainmentPrice) visitor isn't on road");
 	}
 	int roadIndex = ElementIndexSearcher::GetElementIndexSearcher()->GetElementIndex(allRoads, visitorRoad);
 	if (roadIndex == -1)
 	{
-		throw MyException("Visitor::ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix) road is out of container");
+		throw MyException("Visitor::ChooseDestination(const list<Construction*>& allBuildings, const list<Construction*>& allRoads, vector<vector<int> > weightMatrix, int lowestEntertainmentPrice) road is out of container");
 	}
 	vector<int> distances = DijkstraAlgorithm::dijkstra->GetDistances(weightMatrix, roadIndex);
 	int destinationRoadIndex = this->SetDestination(allBuildings, allRoads, distances, lowestEntertainmentPrice);
@@ -215,15 +216,15 @@ void Visitor::ClearPath()
 {
 	pathIndices.clear();
 }
-int Visitor::GetNextPathIndex(const list<Road*>& allRoads, Road* currentRoad)
+int Visitor::GetNextPathIndex(const list<Construction*>& allRoads, Construction* currentRoad)
 {
 	if (allRoads.empty())
 	{
-		throw MyException("Visitor::GetNextPathIndex(const list<Road*>& allRoads) empty roads container");
+		throw MyException("Visitor::GetNextPathIndex(const list<Construction*>& allRoads, Construction* currentRoad) empty roads container");
 	}
 	if (pathIndices.empty())
 	{
-		throw MyException("Visitor::GetNextPathIndex(const list<Road*>& allRoads) empty path container");
+		throw MyException("Visitor::GetNextPathIndex(const list<Construction*>& allRoads, Construction* currentRoad) empty path container");
 	}
 	int currentRoadIndex = ElementIndexSearcher::GetElementIndexSearcher()->GetElementIndex(allRoads, currentRoad);
 	if (currentRoadIndex == pathIndices.front())
@@ -242,5 +243,5 @@ int Visitor::GetNextPathIndex(const list<Road*>& allRoads, Road* currentRoad)
 			}
 		}
 	}
-	throw MyException("Visitor::GetNextPathIndex(int currentIndex) failed to find next index");
+	throw MyException("Visitor::GetNextPathIndex(const list<Construction*>& allRoads, Construction* currentRoad) failed to find next index");
 }

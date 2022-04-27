@@ -438,6 +438,10 @@ const wstring ConstructionOptions::GetCarouselIconSymbol() const
 {
 	return L"\u03A9";
 }
+const wstring ConstructionOptions::GetDumboRideIconSymbol() const
+{
+	return L"\u266B";
+}
 const wstring ConstructionOptions::GetToiletIconSymbol() const
 {
 	return L"\u25BC";
@@ -487,19 +491,36 @@ color ConstructionOptions::GetFoodCourtChosenBackgroundColor() const
 //
 color ConstructionOptions::GetCarouselForegroundColor() const
 {
-	return cYELLOW;
+	return color::cYELLOW;
 }
 color ConstructionOptions::GetCarouselConnectedBackgroundColor() const
 {
-	return cBLUE;
+	return color::cBLUE;
 }
 color ConstructionOptions::GetCarouselNotConnectedBackgroundColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 color ConstructionOptions::GetCarouselChosenBackgroundColor() const
 {
-	return cRED;
+	return color::cRED;
+}
+//
+color ConstructionOptions::GetDumboRideForegroundColor() const
+{
+	return color::cDARK_MAGENTA;
+}
+color ConstructionOptions::GetDumboRideConnectedBackgroundColor() const
+{
+	return color::cDARK_CYAN;
+}
+color ConstructionOptions::GetDumboRideNotConnectedBackgroundColor() const
+{
+	return color::cBLACK;
+}
+color ConstructionOptions::GetDumboRideChosenBackgroundColor() const
+{
+	return color::cRED;
 }
 //
 color ConstructionOptions::GetToiletForegroundColor() const

@@ -31,7 +31,7 @@ public:
 	int GetDailyExpences() const;
 	color GetConnectedBackgroundColor() const;
 	color GetChosenBackgroundColor() const;
-	virtual wstring GetConstructionSymbol(int mask = 0) = 0;
+	virtual wstring GetConstructionSymbol(int mask = 0) const = 0;
 	virtual int GetRestorationOfToiletNeed() const;
 	virtual int GetSatisfactionOfHunger() const;
 	virtual int GetVisitPrice() const;

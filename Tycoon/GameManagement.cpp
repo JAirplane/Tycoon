@@ -20,7 +20,7 @@ void GameManagement::CreateAllObjects()
 	{
 		if (dynamic_cast<RoadManager*>(menuItem->GetManager()) != nullptr)
 		{
-			allObjects_ptr->CreateParkEntrance(field_ptr, menuItem->GetManager()->GetDescriptor(), draw_ptr);
+			menu_ptr->CreateParkEntrance(field_ptr, draw_ptr, menuItem->GetManager()->GetDescriptor(), allObjects_ptr);
 			return;
 		}
 	}
@@ -109,6 +109,15 @@ void GameManagement::CreateMenuAndElements()
 		ConstructionOptions::GetAllOptions()->GetCarouselIsExit(), ConstructionOptions::GetAllOptions()->GetCarouselMaxVisitors(),
 		ConstructionOptions::GetAllOptions()->GetCarouselExpences(), ConstructionOptions::GetAllOptions()->GetCarouselHeightAdd(),
 		ConstructionOptions::GetAllOptions()->GetCarouselWidthAdd());
+	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetDumboRideCost(), ConstructionOptions::GetAllOptions()->GetDumboRideDescription(),
+		ConstructionOptions::GetAllOptions()->GetDumboRideIconSymbol(), ConstructionOptions::GetAllOptions()->GetDumboRideForegroundColor(),
+		ConstructionOptions::GetAllOptions()->GetDumboRideConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetDumboRideNotConnectedBackgroundColor(),
+		ConstructionOptions::GetAllOptions()->GetDumboRideChosenBackgroundColor(), ConstructionOptions::GetAllOptions()->GetDumboRideSymbol(),
+		ConstructionOptions::GetAllOptions()->GetDumboRideToiletNeed(), ConstructionOptions::GetAllOptions()->GetDumboRideHungerSatisfaction(),
+		ConstructionOptions::GetAllOptions()->GetDumboRideVisitPrice(), ConstructionOptions::GetAllOptions()->GetDumboRideEntertainmentValue(),
+		ConstructionOptions::GetAllOptions()->GetDumboRideIsExit(), ConstructionOptions::GetAllOptions()->GetDumboRideMaxVisitors(),
+		ConstructionOptions::GetAllOptions()->GetDumboRideExpences(), ConstructionOptions::GetAllOptions()->GetDumboRideHeightAdd(),
+		ConstructionOptions::GetAllOptions()->GetDumboRideWidthAdd());
 	menu_ptr->CreateVisitorManager();
 }
 void GameManagement::CreateInfoPanel()

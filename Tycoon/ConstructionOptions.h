@@ -137,6 +137,7 @@ public:
 	virtual const wstring GetToiletIconSymbol() const;
 	virtual const wstring GetFoodCourtIconSymbol() const;
 	virtual const wstring GetCarouselIconSymbol() const;
+	virtual const wstring GetDumboRideIconSymbol() const;
 	virtual const wstring GetExitIconSymbol() const;
 	virtual const wstring GetRoadIconSymbol() const;
 	///////////////Color Constants///////////////
@@ -154,6 +155,11 @@ public:
 	virtual color GetCarouselConnectedBackgroundColor() const;
 	virtual color GetCarouselNotConnectedBackgroundColor() const;
 	virtual color GetCarouselChosenBackgroundColor() const;
+	//
+	virtual color GetDumboRideForegroundColor() const;
+	virtual color GetDumboRideConnectedBackgroundColor() const;
+	virtual color GetDumboRideNotConnectedBackgroundColor() const;
+	virtual color GetDumboRideChosenBackgroundColor() const;
 	//
 	virtual color GetToiletForegroundColor() const;
 	virtual color GetToiletConnectedBackgroundColor() const;

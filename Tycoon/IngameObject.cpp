@@ -1,6 +1,6 @@
 #include "IngameObject.h"
 /////////////Parent Class of Every Object in Game/////////////
-Visualisation* IngameObject::GetPainter() const
+const Visualisation* IngameObject::GetPainter() const
 {
 	return draw_ptr;
 }

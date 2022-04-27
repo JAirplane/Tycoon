@@ -1,6 +1,5 @@
 #pragma once
 #include "ElementIndexSearcher.h"
-class Visitor;
 class FindByPoint
 {
 protected:
@@ -14,12 +13,12 @@ public:
 	static FindByPoint* CreateElementSearcherByPoint();
 	static FindByPoint* GetElementSearcherByPoint();
 	template <class T>
-	static T* GetElementByPoint(list<T*> container, PointCoord location);
+	static T* GetElementByPoint(const list<T*> container, PointCoord location);
 	template <class T>
-	static T* GetElementByPoint(vector<T*> container, PointCoord location);
+	static T* GetElementByPoint(const vector<T*> container, PointCoord location);
 };
 template <class T>
-T* FindByPoint::GetElementByPoint(list<T*> container, PointCoord location)
+T* FindByPoint::GetElementByPoint(const list<T*> container, PointCoord location)
 {
 	for (auto element : container)
 	{
@@ -37,7 +36,7 @@ T* FindByPoint::GetElementByPoint(list<T*> container, PointCoord location)
 	return nullptr;
 }
 template <class T>
-T* FindByPoint::GetElementByPoint(vector<T*> container, PointCoord location)
+T* FindByPoint::GetElementByPoint(const vector<T*> container, PointCoord location)
 {
 	for (auto element : container)
 	{

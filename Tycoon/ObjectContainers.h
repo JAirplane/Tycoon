@@ -8,8 +8,8 @@ class AllObjects
 private:
 	Cursor* cursor_ptr;
 	Visualisation* draw_ptr;
-	list<Building*> buildings;
-	list<Road*> roads;
+	list<Construction*> buildings;
+	list<Construction*> roads;
 	list<Visitor*> visitors;
 	Construction* preliminaryConstruction_ptr;
 	RoadGraph* graph_ptr;
@@ -23,12 +23,12 @@ public:
 	}
 	~AllObjects()
 	{
-		list<Building*>::iterator buildingIter;
+		list<Construction*>::iterator buildingIter;
 		for (buildingIter = buildings.begin(); buildingIter != buildings.end(); buildingIter++)
 		{
 			delete (*buildingIter);
 		}
-		list<Road*>::iterator roadIter;
+		list<Construction*>::iterator roadIter;
 		for (roadIter = roads.begin(); roadIter != roads.end(); roadIter++)
 		{
 			delete (*roadIter);
@@ -42,10 +42,9 @@ public:
 		delete graph_ptr;
 	}
 	void CreateExit(const PlayingField* playingField_ptr, Visualisation* draw_ptr);
-	void CreateParkEntrance(const PlayingField* playingField_ptr, ConstructionDescriptor* descriptor_ptr, Visualisation* draw_ptr);
 	//
-	const list<Building*>& GetAllBuildings() const;
-	const list<Road*>& GetAllRoads() const;
+	const list<Construction*>& GetAllBuildings() const;
+	const list<Construction*>& GetAllRoads() const;
 	const list<Visitor*>& GetAllVisitors() const;
 	RoadGraph* GetGraph() const;
 	void AddObject(Building* obj_ptr);
@@ -56,13 +55,13 @@ public:
 	void ErasePreliminaryElement(Camera* camera_ptr, PlayingField* field_ptr);
 	//
 	bool BuildingsImposition(PointCoord point) const;
-	bool BuildingsImposition(IngameObject* object_ptr) const;
+	bool BuildingsImposition(const IngameObject* object_ptr) const;
 	bool RoadsImposition(PointCoord point) const;
-	bool RoadsImposition(IngameObject* object_ptr) const;
+	bool RoadsImposition(const IngameObject* object_ptr) const;
 	bool VisitorsImposition(PointCoord point) const;
-	bool VisitorsImposition(IngameObject* object_ptr) const;
+	bool VisitorsImposition(const IngameObject* object_ptr) const;
 	bool ObjectImposition(PointCoord point, PlayingField* field_ptr) const;
-	bool ObjectImposition(IngameObject* object_ptr, const Camera* camera_ptr, const PlayingField* field_ptr) const;
+	bool ObjectImposition(const IngameObject* object_ptr, const Camera* camera_ptr, const PlayingField* field_ptr) const;
 	//
 	void EraseObjects(Camera* camera_ptr);
 	void ShiftBuildings(Direction shiftDirection, int shiftValue = 1);
@@ -77,7 +76,7 @@ public:
 	void DeleteVisitor(Visitor* forDeleting, function<bool(Visitor*)> IsEqual);
 	//
 	void AddEdge(int mainRoadIndex, PointCoord location, Direction side, vector<pair<pair<int, int>, Direction> >& roadEdges) const;
-	vector<pair<pair<int, int>, Direction> > GetRoadEdges(Road* someRoad) const;
+	vector<pair<pair<int, int>, Direction> > GetRoadEdges(const Construction* someRoad) const;
 	//
 	void ClearVisitorPathes(int roadIndex);
 	void ClearVisitorPathes(Construction* destination);

@@ -1,7 +1,12 @@
 #include "IngameObjectDerived.h"
 #include <functional>
 ///////////////Construction Class: GlobalObject derived///////////////
-ConstructionDescriptor* Construction::GetDescriptor() const //no setter here
+void Construction::GraphStatusAttach(GraphStatusObserverInterface* observer) {}
+void Construction::GraphStatusDetach(GraphStatusObserverInterface* observer) {}
+void Construction::GraphStatusNotify(vector<pair<pair<int, int>, Direction> > edges) {}
+void Construction::GraphStatusNotify(int constructionIndex) {}
+//
+const ConstructionDescriptor* Construction::GetDescriptor() const //no setter here
 {
 	return describe_ptr;
 }
@@ -49,7 +54,7 @@ PointCoord Construction::GetPotentialConnectedRoadPoint() const
 {
 	return PointCoord(0, 0);
 }
-void Construction::RedrawNeighbours(PointCoord centralPoint, const list<Road*>& allRoads, const list<Building*>& allBuildings,
+void Construction::RedrawNeighbours(PointCoord centralPoint, const list<Construction*>& allRoads, const list<Construction*>& allBuildings,
 	const list<Visitor*>& allVisitors, Construction* preliminary_ptr, const Camera* camera_ptr)
 {
 	vector<Construction*> neighbours;
@@ -83,6 +88,10 @@ void Construction::CopyRotationProperties(Construction* another_ptr)
 {
 	this->SetWidthAddition(another_ptr->GetWidthAddition());
 	this->SetHeightAddition(another_ptr->GetHeightAddition());
+}
+void Construction::CorrectConstructionCoordsForDraw(int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY, int& leftX, int& topY, int& rightX, int& bottomY) const
+{
+	//do nothing
 }
 void Construction::DrawObject(const wstring drawingSymbol) const
 {
@@ -233,14 +242,14 @@ void Building::CopyRotationProperties(Construction* another_ptr)
 	Construction::CopyRotationProperties(another_ptr);
 	this->CopyEntrance(another_ptr);
 }
-int Building::GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
+int Building::GetEnvironmentMask(const list<Construction*>& allRoads, const list<Construction*>& allBuildings, const Construction* preliminary_ptr)
 {
 	return 0;
 }
-bool Building::Connected(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
+bool Building::Connected(const list<Construction*>& allRoads, const list<Construction*>& allBuildings, const Construction* preliminary_ptr)
 {
 	PointCoord potentialRoad = GetPotentialConnectedRoadPoint();
-	list<Road*>::const_iterator roadIter;
+	list<Construction*>::const_iterator roadIter;
 	for (roadIter = allRoads.begin(); roadIter != allRoads.end(); roadIter++)
 	{
 		if ((*roadIter)->GetUpperLeft() == potentialRoad)
@@ -268,7 +277,7 @@ void Building::SetProfit(int profit)
 {
 	overallProfit = profit;
 }
-vector<Construction*> Building::GetNeighbourRoads(const list<Road*>& allRoads) const
+vector<Construction*> Building::GetNeighbourRoads(const list<Construction*>& allRoads) const
 {
 	vector<Construction*> neibourRoads;
 	for (auto everyRoad : allRoads)
@@ -281,7 +290,7 @@ vector<Construction*> Building::GetNeighbourRoads(const list<Road*>& allRoads) c
 	}
 	return neibourRoads;
 }
-vector<Construction*> Building::GetNeighbourBuildings(const list<Building*>& allBuildings) const
+vector<Construction*> Building::GetNeighbourBuildings(const list<Construction*>& allBuildings) const
 {
 	return vector<Construction*>();
 }
@@ -296,11 +305,11 @@ Construction* Building::GetPreliminaryNeighbour(Construction* preliminary_ptr) c
 	}
 	return nullptr;
 }
-void Building::RedrawNeighbours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const list<Visitor*>& allVisitors,
+void Building::RedrawNeighbours(const list<Construction*>& allRoads, const list<Construction*>& allBuildings, const list<Visitor*>& allVisitors,
 	Construction* preliminary_ptr, const Camera* camera_ptr)
 {
 	PointCoord potentialRoad = GetPotentialConnectedRoadPoint();
-	list<Road*>::const_iterator roadIter;
+	list<Construction*>::const_iterator roadIter;
 	for (roadIter = allRoads.begin(); roadIter != allRoads.end(); roadIter++)
 	{
 		if ((*roadIter)->GetUpperLeft() == potentialRoad &&
@@ -312,7 +321,7 @@ void Building::RedrawNeighbours(const list<Road*>& allRoads, const list<Building
 		}
 	}
 }
-void Building::CorrectBuildingCoordsForDraw(int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY, int& leftX, int& topY, int& rightX, int& bottomY) const
+void Building::CorrectConstructionCoordsForDraw(int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY, int& leftX, int& topY, int& rightX, int& bottomY) const
 {
 	if (leftX <= cameraLeftX && rightX > cameraLeftX)
 	{
@@ -337,7 +346,7 @@ void Building::DrawObject(int mask, int cameraLeftX, int cameraTopY, int cameraR
 	int topY = GetUpperLeft().Get_y();
 	int rightX = GetUpperLeft().Get_x() + GetWidthAddition();
 	int bottomY = GetUpperLeft().Get_y() + GetHeightAddition();
-	CorrectBuildingCoordsForDraw(cameraLeftX, cameraTopY, cameraRightX, cameraBottomY, leftX, topY, rightX, bottomY);
+	CorrectConstructionCoordsForDraw(cameraLeftX, cameraTopY, cameraRightX, cameraBottomY, leftX, topY, rightX, bottomY);
 	if (leftX < cameraRightX && topY < cameraBottomY && rightX > cameraLeftX && bottomY > cameraTopY)
 	{
 		GetPainter()->DrawConstruction(leftX, topY, rightX, bottomY, GetDescriptor()->GetConstructionSymbol(), GetDescriptor()->GetForegroundColor(),
@@ -350,15 +359,15 @@ void Building::EraseObject(int cameraLeftX, int cameraTopY, int cameraRightX, in
 	int topY = GetUpperLeft().Get_y();
 	int rightX = GetUpperLeft().Get_x() + GetWidthAddition();
 	int bottomY = GetUpperLeft().Get_y() + GetHeightAddition();
-	CorrectBuildingCoordsForDraw(cameraLeftX, cameraTopY, cameraRightX, cameraBottomY, leftX, topY, rightX, bottomY);
+	CorrectConstructionCoordsForDraw(cameraLeftX, cameraTopY, cameraRightX, cameraBottomY, leftX, topY, rightX, bottomY);
 	if (leftX < cameraRightX && topY < cameraBottomY && rightX > cameraLeftX && bottomY > cameraTopY)
 	{
 		GetPainter()->EraseConstruction(leftX, topY, rightX, bottomY);
 	}
 }
-vector<Building*> Building::ChooseFromBuildings(_Mem_fn<int (ConstructionDescriptor::*)() const> buildingProperty, const list<Building*>& allBuildings)
+vector<Construction*> Building::ChooseFromBuildings(_Mem_fn<int (ConstructionDescriptor::*)() const> buildingProperty, const list<Construction*>& allBuildings)
 {
-	vector<Building*> buildingsWithProperty;
+	vector<Construction*> buildingsWithProperty;
 	for (auto everyBuilding : allBuildings)
 	{
 		if (buildingProperty(everyBuilding->GetDescriptor()) != 0)
@@ -408,10 +417,20 @@ int Road::GetEntranceWidthAdd() const
 {
 	return 0;
 }
+//
+int Road::GetVisitorsInside() const
+{
+	return 0;
+}
+void Road::SetVisitorsInside(int visitorsValue)
+{}
+//
 Direction Road::GetExitDirection() const
 {
 	return Direction::None;
 }
+void Road::SetExitDirection(Direction exit)
+{}
 int Road::RotateConstruction()
 {
 	return -1;
@@ -488,17 +507,17 @@ int Road::GetMaskWithConstruction(const Construction* someConstruction_ptr) cons
 	}
 	return roadEnvironmentMask;
 }
-int Road::GetMaskWithRealRoads(const list<Road*>& allRoads) const
+int Road::GetMaskWithRealRoads(const list<Construction*>& allRoads) const
 {
 	int roadEnvironmentMask = 0;
-	list<Road*>::const_iterator roadIter;
+	list<Construction*>::const_iterator roadIter;
 	for (roadIter = allRoads.begin(); roadIter != allRoads.end(); roadIter++)
 	{
 		roadEnvironmentMask |= this->GetMaskWithConstruction((*roadIter));
 	}
 	return roadEnvironmentMask;
 }
-int Road::GetMaskWithRealBuildings(const list<Building*>& allBuildings) const
+int Road::GetMaskWithRealBuildings(const list<Construction*>& allBuildings) const
 {
 	int roadEnvironmentMask = 0;
 	for (auto everyBuilding : allBuildings)
@@ -507,14 +526,14 @@ int Road::GetMaskWithRealBuildings(const list<Building*>& allBuildings) const
 	}
 	return roadEnvironmentMask;
 }
-int Road::GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
+int Road::GetEnvironmentMask(const list<Construction*>& allRoads, const list<Construction*>& allBuildings, const Construction* preliminary_ptr)
 {
 	int roadEnvironmentMask = GetMaskWithRealRoads(allRoads);
 	roadEnvironmentMask |= GetMaskWithConstruction(preliminary_ptr);
 	roadEnvironmentMask |= GetMaskWithRealBuildings(allBuildings);
 	return roadEnvironmentMask;
 }
-bool Road::Connected(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
+bool Road::Connected(const list<Construction*>& allRoads, const list<Construction*>& allBuildings, const Construction* preliminary_ptr)
 {
 	if (!GetNeighbourRoads(allRoads).empty())
 	{
@@ -550,7 +569,7 @@ bool Road::Connected(const list<Road*>& allRoads, const list<Building*>& allBuil
 	SetRoadConnectionStatus(false);
 	return false;
 }
-vector<Construction*> Road::GetNeighbourRoads(const list<Road*>& allRoads) const
+vector<Construction*> Road::GetNeighbourRoads(const list<Construction*>& allRoads) const
 {
 	vector<Construction*> neibourRoads;
 	for (auto everyRoad : allRoads)
@@ -563,7 +582,7 @@ vector<Construction*> Road::GetNeighbourRoads(const list<Road*>& allRoads) const
 	}
 	return neibourRoads;
 }
-vector<Construction*> Road::GetNeighbourBuildings(const list<Building*>& allBuildings) const
+vector<Construction*> Road::GetNeighbourBuildings(const list<Construction*>& allBuildings) const
 {
 	vector<Construction*> neibourBuildings;
 	for (auto everyBuilding : allBuildings)
@@ -594,7 +613,7 @@ Construction* Road::GetPreliminaryNeighbour(Construction* preliminary_ptr) const
 		}
 	}
 }
-void Road::RedrawNeighbours(const list<Road*>& allRoads, const list<Building*>& allBuildings, const list<Visitor*>& allVisitors,
+void Road::RedrawNeighbours(const list<Construction*>& allRoads, const list<Construction*>& allBuildings, const list<Visitor*>& allVisitors,
 	Construction* preliminary_ptr, const Camera* camera_ptr)
 {
 	vector<Construction*> neighbours = this->GetNeighbourRoads(allRoads);
@@ -633,7 +652,7 @@ void UnbreakableRoad::SetRoadConnectionStatus(bool connected)
 {
 	Construction::SetRoadConnectionStatus(true); //this roads are always connected
 }
-int UnbreakableRoad::GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
+int UnbreakableRoad::GetEnvironmentMask(const list<Construction*>& allRoads, const list<Construction*>& allBuildings, const Construction* preliminary_ptr)
 {
 	int roadEnvironmentMask = GetMaskWithRealRoads(allRoads);
 	roadEnvironmentMask |= GetMaskWithConstruction(preliminary_ptr);
@@ -647,7 +666,7 @@ bool VisibleOutsidePlayingfieldRoad::VisibleOutsidePlayingfield() const
 {
 	return true;
 }
-int VisibleOutsidePlayingfieldRoad::GetEnvironmentMask(const list<Road*>& allRoads, const list<Building*>& allBuildings, const Construction* preliminary_ptr)
+int VisibleOutsidePlayingfieldRoad::GetEnvironmentMask(const list<Construction*>& allRoads, const list<Construction*>& allBuildings, const Construction* preliminary_ptr)
 {
 	int roadEnvironmentMask = 0;
 	roadEnvironmentMask |= int(roadMask::TOP);

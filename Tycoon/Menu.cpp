@@ -108,6 +108,60 @@ MyRectangle* Menu::CreateIcon(PointCoord elementLocation)
 		menuIconLetterColor, menuIconShadingColor, GetDrawPointer(), GetCursor());
 	return menuIcon_ptr;
 }
+//
+void Menu::CreateExit(const PlayingField* playingField_ptr, const Visualisation* draw_ptr, ConstructionDescriptor* descriptor_ptr, AllObjects* container) const
+{
+	ConstructionDescriptor* exitDescriptor = new BuildingDescriptor(PointCoord(numeric_limits<int>::max(), numeric_limits<int>::max()),
+		ConstructionOptions::GetAllOptions()->GetExitCost(), ConstructionOptions::GetAllOptions()->GetExitDescription(), ConstructionOptions::GetAllOptions()->GetExitIconSymbol(),
+		ConstructionOptions::GetAllOptions()->GetExitForegroundColor(), ConstructionOptions::GetAllOptions()->GetExitConnectedBackgroundColor(),
+		ConstructionOptions::GetAllOptions()->GetExitNotConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetExitChosenBackgroundColor(),
+		ConstructionOptions::GetAllOptions()->GetExitSymbol(), ConstructionOptions::GetAllOptions()->GetExitToiletNeed(),
+		ConstructionOptions::GetAllOptions()->GetExitHungerSatisfaction(), ConstructionOptions::GetAllOptions()->GetExitVisitPrice(),
+		ConstructionOptions::GetAllOptions()->GetExitEntertainmentValue(), ConstructionOptions::GetAllOptions()->GetExitIsExit(),
+		ConstructionOptions::GetAllOptions()->GetExitMaxVisitors(), ConstructionOptions::GetAllOptions()->GetExitExpences(),
+		ConstructionOptions::GetAllOptions()->GetExitHeightAdd(), ConstructionOptions::GetAllOptions()->GetExitWidthAdd());
+	ConstructionManager* exitManager = new BuildingManager(descriptor_ptr);
+	Construction* exit1 = exitManager->CreateConstruction(PointCoord(playingField_ptr->GetHalfXAxis(),
+		playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() + 4), draw_ptr, container);
+	exit1->SetExitDirection(Direction::Up);
+	Construction* exit2 = exitManager->CreateConstruction(PointCoord(playingField_ptr->GetHalfXAxis() + 1,
+		playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() + 4), draw_ptr, container);
+	exit2->SetExitDirection(Direction::Up);
+	exit1->SetRoadConnectionStatus(true);
+	exit2->SetRoadConnectionStatus(true);
+}
+void Menu::CreateParkEntrance(const PlayingField* playingField_ptr, const Visualisation* draw_ptr, ConstructionDescriptor* descriptor_ptr, AllObjects* container) const
+{
+	if (playingField_ptr == nullptr)
+	{
+		throw MyException("CreateParkEntrance(const PlayingField* playingField_ptr, ConstructionDescriptor* descriptor_ptr, Visualisation* draw_ptr, AllObjects* container) playingfield is nullptr");
+	}
+	if (draw_ptr == nullptr)
+	{
+		throw MyException("CreateParkEntrance(const PlayingField* playingField_ptr, ConstructionDescriptor* descriptor_ptr, Visualisation* draw_ptr, AllObjects* container) draw_ptr is nullptr");
+	}
+	this->CreateExit(playingField_ptr, draw_ptr, descriptor_ptr, container);
+	ConstructionManager* visibleRoadManager = new VisibleOutsideRoadManager(descriptor_ptr);
+	for (int yAdd = 3; yAdd >= 0; yAdd--)
+	{
+		for (int xAdd = 0; xAdd <= 1; xAdd++)
+		{
+			Construction* visibleOutsideCameraRoad = visibleRoadManager->CreateConstruction(PointCoord(playingField_ptr->GetHalfXAxis() + xAdd,
+				playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() + yAdd), draw_ptr, container);
+			visibleOutsideCameraRoad->SetRoadConnectionStatus(true);
+		}
+	}
+	delete visibleRoadManager;
+	ConstructionManager* unbreakableRoadManager = new UnbreakableRoadManager(descriptor_ptr);
+	for (int xAdd = 0; xAdd <= 1; xAdd++)
+	{
+		Construction* undestractableRoad = unbreakableRoadManager->CreateConstruction(PointCoord(playingField_ptr->GetHalfXAxis() + xAdd,
+			playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() - 1), draw_ptr, container);
+		undestractableRoad->SetRoadConnectionStatus(true);
+	}
+	delete unbreakableRoadManager;
+}
+//
 void Menu::CreateGameStats()
 {
 	RectangleSymbols* gameStatsSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetGameStatsVerticalSymbol(),

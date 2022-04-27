@@ -1,5 +1,5 @@
 #include "RoadDescriptor.h"
-wstring RoadDescriptor::GetConstructionSymbol(int mask)
+wstring RoadDescriptor::GetConstructionSymbol(int mask) const
 {
 	switch (mask)
 	{

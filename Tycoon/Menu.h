@@ -43,6 +43,9 @@ public:
 	BorderAppearance* CreateElementBorder();
 	MyRectangle* CreateIcon(PointCoord elementLocation);
 	//
+	void CreateExit(const PlayingField* playingField_ptr, const Visualisation* draw_ptr, ConstructionDescriptor* descriptor_ptr, AllObjects* container) const;
+	void CreateParkEntrance(const PlayingField* playingField_ptr, const Visualisation* draw_ptr, ConstructionDescriptor* descriptor_ptr, AllObjects* container) const;
+	//
 	vector<MenuElement*> GetMenuItems() const;
 	GameStats* GetGameStats() const;
 	VisitorManager* GetVisitorManager() const;

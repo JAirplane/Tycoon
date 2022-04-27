@@ -86,7 +86,7 @@ bool MyRectangle::IsLocationOnTheBorder(PointCoord location) const
 	}
 	return false;
 }
-bool MyRectangle::IsObjectInsideTheRectangle(GlobalObject* object_ptr) const
+bool MyRectangle::IsObjectInsideTheRectangle(const GlobalObject* object_ptr) const
 {
 	if (object_ptr == nullptr)
 	{

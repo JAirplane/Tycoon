@@ -3,7 +3,7 @@
 using namespace std;
 ///////////////////drawMap Class///////////////////
 void Visualisation::DrawRectangle(int leftX, int topY, int rightX, int bottomY, wstring vertical, wstring horizontal, wstring upperLeft,
-	wstring upperRight, wstring bottomLeft, wstring bottomRight, color foreground, color background)
+	wstring upperRight, wstring bottomLeft, wstring bottomRight, color foreground, color background) const
 {
 	_setmode(_fileno(stdout), _O_U16TEXT);
 	set_color(foreground, background);
@@ -39,7 +39,7 @@ void Visualisation::DrawRectangle(int leftX, int topY, int rightX, int bottomY, 
 	set_color(cYELLOW);
 }
 void Visualisation::DrawPartOfRectangle(int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY, int leftX, int topY, int rightX, int bottomY,
-	wstring vertical, wstring horizontal, wstring upperLeft, wstring upperRight, wstring bottomLeft, wstring bottomRight, color foreground, color background)
+	wstring vertical, wstring horizontal, wstring upperLeft, wstring upperRight, wstring bottomLeft, wstring bottomRight, color foreground, color background) const
 {
 	_setmode(_fileno(stdout), _O_U16TEXT);
 	set_color(foreground, background);
@@ -116,7 +116,7 @@ void Visualisation::DrawPartOfRectangle(int cameraLeftX, int cameraTopY, int cam
 	_setmode(_fileno(stdout), _O_TEXT);
 	set_color(cYELLOW);
 }
-void Visualisation::ErasePartOfRectangle(int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY, int leftX, int topY, int rightX, int bottomY)
+void Visualisation::ErasePartOfRectangle(int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY, int leftX, int topY, int rightX, int bottomY) const
 {
 	set_color(cBLACK);
 	if (leftX > cameraLeftX && leftX < cameraRightX)
@@ -164,20 +164,20 @@ void Visualisation::ErasePartOfRectangle(int cameraLeftX, int cameraTopY, int ca
 		}
 	}
 }
-void Visualisation::ErasePixel(int x, int y)
+void Visualisation::ErasePixel(int x, int y) const
 {
 	set_color(cBLACK);
 	set_cursor_pos(x, y);
 	cout << ' ';
 }
-void Visualisation::DrawCursorPixel(int x, int y, color background)
+void Visualisation::DrawCursorPixel(int x, int y, color background) const
 {
 	set_cursor_pos(x, y);
 	set_color(cBLACK, background);
 	cout << ' ';
 	set_cursor_pos(x, y);
 }
-void Visualisation::DrawVisitor(int xCoord, int yCoord, color foreground, color background, const wstring visitorSymbol)
+void Visualisation::DrawVisitor(int xCoord, int yCoord, color foreground, color background, const wstring visitorSymbol) const
 {
 	set_color(foreground, background);
 	set_cursor_pos(xCoord, yCoord);
@@ -187,7 +187,7 @@ void Visualisation::DrawVisitor(int xCoord, int yCoord, color foreground, color 
 	set_color(cYELLOW);
 }
 void Visualisation::DrawConstruction(int leftX, int topY, int rightX, int bottomY, const wstring constructionSymbol, color foreground, const wstring entranceSymbol,
-	int entranceHeightAdd, int entranceWidthAdd, color background)
+	int entranceHeightAdd, int entranceWidthAdd, color background) const
 {
 	set_color(foreground, background);
 	_setmode(_fileno(stdout), _O_U16TEXT);
@@ -207,7 +207,7 @@ void Visualisation::DrawConstruction(int leftX, int topY, int rightX, int bottom
 	set_color(cYELLOW);
 	_setmode(_fileno(stdout), _O_TEXT);
 }
-void Visualisation::DrawConstruction(int leftX, int topY, int rightX, int bottomY, const wstring constructionSymbol, color foreground, color background)
+void Visualisation::DrawConstruction(int leftX, int topY, int rightX, int bottomY, const wstring constructionSymbol, color foreground, color background) const
 {
 	set_color(foreground, background);
 	_setmode(_fileno(stdout), _O_U16TEXT);
@@ -222,7 +222,7 @@ void Visualisation::DrawConstruction(int leftX, int topY, int rightX, int bottom
 	set_color(cYELLOW);
 	_setmode(_fileno(stdout), _O_TEXT);
 }
-void Visualisation::EraseConstruction(int leftX, int topY, int rightX, int bottomY)
+void Visualisation::EraseConstruction(int leftX, int topY, int rightX, int bottomY) const
 {
 	for (int j = topY; j <= bottomY; j++)
 	{
@@ -233,7 +233,7 @@ void Visualisation::EraseConstruction(int leftX, int topY, int rightX, int botto
 	}
 }
 void Visualisation::DrawMenuElementContent(int leftX, int topY, int constructionCost, int dailySpend, const wstring iconSymbol,
-	string description, color foregroundIcon, color backgroundIcon) //icon border
+	string description, color foregroundIcon, color backgroundIcon) const//icon border
 {
 	DrawConstruction(leftX, topY, leftX + 1, topY + 1, iconSymbol, foregroundIcon, backgroundIcon);
 	set_cursor_pos(leftX + 3, topY);
@@ -248,7 +248,7 @@ void Visualisation::DrawMenuElementContent(int leftX, int topY, int construction
 	}
 	set_color(cYELLOW);
 }
-void Visualisation::WriteMessage(int initialX, int initialY, string message, color letterColor, color background)
+void Visualisation::WriteMessage(int initialX, int initialY, string message, color letterColor, color background) const
 {
 	set_color(letterColor, background);
 	set_cursor_pos(initialX, initialY);

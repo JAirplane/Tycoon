@@ -15,10 +15,10 @@ public:
 	static ElementIndexSearcher* CreateIndexSearcher();
 	static ElementIndexSearcher* GetElementIndexSearcher();
 	template <class T>
-	static int GetElementIndex(list<T*> container, T* element);
+	static int GetElementIndex(const list<T*> container, const T* element);
 };
 template <class T>
-int ElementIndexSearcher::GetElementIndex(list<T*> container, T* element)
+int ElementIndexSearcher::GetElementIndex(const list<T*> container, const T* element)
 {
 	int index = 0;
 	for (T* everyElement : container)

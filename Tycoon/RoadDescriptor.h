@@ -8,5 +8,5 @@ public:
 		ConstructionDescriptor(managerLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected, backgroundNotConnected, backgroundChoosen)
 		{}
 	~RoadDescriptor() {}
-	wstring GetConstructionSymbol(int mask = 0) override;
+	wstring GetConstructionSymbol(int mask = 0) const override;
 };

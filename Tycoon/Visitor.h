@@ -1,12 +1,13 @@
 #pragma once
 #include "IngameObjectDerived.h"
 /////////////People are looking for some fun!/////////////
+class Construction;
 class Visitor : public IngameObject
 {
 private:
 	VisitorDescriptor* description_ptr;
-	Building* destination_ptr;
-	Building* previousVisitedBuilding;
+	Construction* destination_ptr;
+	Construction* previousVisitedBuilding;
 	int insideBuilding;
 	vector<int> pathIndices;
 	int foodCapacity;
@@ -57,18 +58,20 @@ public:
 	void VisitorMove(PointCoord destination);
 	void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const override;
 	void EraseObject(int cameraLeftX = 0, int cameraTopY = 0, int cameraRightX = 0, int cameraBottomY = 0) const override;
-	void MakeAStep(int destinationRoadIndex, const list<Road*>& allRoads, const Camera* camera_ptr);
+	void MakeAStep(int destinationRoadIndex, const list<Construction*>& allRoads, const Camera* camera_ptr);
 	bool GoInside();
-	bool GoOutside(const list<Road*>& allRoads, list<Visitor*> allVisitors);
-	pair<Building*, int> FindNearestDestination(const vector<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances) const; // returns destination building and 
-		// destination road index
-	Building* GetDestination() const;
-	int SetDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<int> distances, int lowestEntertainmentPrice); // returns destination road index
-	pair<vector<int>, int> ChooseDestination(const list<Building*>& allBuildings, const list<Road*>& allRoads, vector<vector<int> > weightMatrix, int lowestEntertainmentPrice);
+	bool GoOutside(const list<Construction*>& allRoads, list<Visitor*> allVisitors);
+	pair<Construction*, int> FindNearestDestination(const vector<Construction*>& allBuildings, const list<Construction*>& allRoads, vector<int> distances) const;
+	// returns destination building and destination road index
+	Construction* GetDestination() const;
+	int SetDestination(const list<Construction*>& allBuildings, const list<Construction*>& allRoads,
+		vector<int> distances, int lowestEntertainmentPrice); // returns destination road index
+	pair<vector<int>, int> ChooseDestination(const list<Construction*>& allBuildings, const list<Construction*>& allRoads,
+		vector<vector<int> > weightMatrix, int lowestEntertainmentPrice);
 	// returns distances and destination road index
 	void ClearDestination();
 	const vector<int> GetPath() const;
 	void SetPath(vector<int> newPath);
 	void ClearPath();
-	int GetNextPathIndex(const list<Road*>& allRoads, Road* currentRoad);
+	int GetNextPathIndex(const list<Construction*>& allRoads, Construction* currentRoad);
 };
