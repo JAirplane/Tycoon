@@ -69,6 +69,21 @@ bool Visitor::GoInside()
 		{
 			return true; // means that visitor should be deleted
 		}
+		if (this->GetDestination()->GetDescriptor()->GetRestorationOfToiletNeed() != 0)
+		{
+			this->toiletNeed = 100;
+		}
+		if (this->GetDestination()->GetDescriptor()->GetSatisfactionOfHunger() != 0)
+		{
+			if (this->starvation + this->GetDestination()->GetDescriptor()->GetSatisfactionOfHunger() > 100)
+			{
+				this->starvation = 100;
+			}
+			else
+			{
+				this->starvation += this->GetDestination()->GetDescriptor()->GetSatisfactionOfHunger();
+			}
+		}
 		++this->GetDestination()->visitorsCounter;
 		this->buildingVisiting = 10;
 		this->visitorCash -= this->GetDestination()->GetDescriptor()->GetVisitPrice();

@@ -29,6 +29,8 @@ public:
 		{
 			delete (*elementsIter);
 		}
+		delete visitorsCreator_ptr;
+		delete gameStats_ptr;
 	}
 	// create road element
 	void CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,

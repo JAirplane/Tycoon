@@ -142,8 +142,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Alphabet.h" />
+    <ClInclude Include="Building.h" />
     <ClInclude Include="BuildingDescriptor.h" />
     <ClInclude Include="Button.h" />
+    <ClInclude Include="Construction.h" />
     <ClInclude Include="ConstructionDescriptor.h" />
     <ClInclude Include="ConstructionInfoScreen.h" />
     <ClInclude Include="ConstructionManager.h" />
@@ -164,7 +166,7 @@
     <ClInclude Include="IngameObjectManager.h" />
     <ClInclude Include="ManagersDerived.h" />
     <ClInclude Include="GlobalObject.h" />
-    <ClInclude Include="IngameObjectDerived.h" />
+    <ClInclude Include="Road.h" />
     <ClInclude Include="GameManagement.h" />
     <ClInclude Include="MenuElement.h" />
     <ClInclude Include="MenuScreen_InfoPanel.h" />
@@ -189,8 +191,10 @@
   <ItemGroup>
     <ClCompile Include="..\..\pugixml-1.12\src\pugixml.cpp" />
     <ClCompile Include="Alphabet.cpp" />
+    <ClCompile Include="Building.cpp" />
     <ClCompile Include="BuildingDescriptor.cpp" />
     <ClCompile Include="Button.cpp" />
+    <ClCompile Include="Construction.cpp" />
     <ClCompile Include="ConstructionDescriptor.cpp" />
     <ClCompile Include="ConstructionInfoScreen.cpp" />
     <ClCompile Include="ConstructionManager.cpp" />
@@ -208,7 +212,7 @@
     <ClCompile Include="IngameObjectDescriptor.cpp" />
     <ClCompile Include="ManagersDerived.cpp" />
     <ClCompile Include="GlobalObject.cpp" />
-    <ClCompile Include="IngameObjectDerived.cpp" />
+    <ClCompile Include="Road.cpp" />
     <ClCompile Include="GameManagement.cpp" />
     <ClCompile Include="MenuElement.cpp" />
     <ClCompile Include="MenuSceen_InfoPanel.cpp" />

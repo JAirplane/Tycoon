@@ -129,6 +129,7 @@ void Menu::CreateExit(const PlayingField* playingField_ptr, const Visualisation*
 	exit2->SetExitDirection(Direction::Up);
 	exit1->SetRoadConnectionStatus(true);
 	exit2->SetRoadConnectionStatus(true);
+	delete exitManager;
 }
 void Menu::CreateParkEntrance(const PlayingField* playingField_ptr, const Visualisation* draw_ptr, ConstructionDescriptor* descriptor_ptr, AllObjects* container) const
 {

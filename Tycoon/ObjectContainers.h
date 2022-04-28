@@ -71,6 +71,9 @@ public:
 	void DisplayVisitors(const Camera* camera_ptr);
 	void DisplayRoads(const Camera* camera_ptr, const PlayingField* field_ptr);
 	//
+	void RedrawNeighbours(PointCoord centralPoint, const Camera* camera_ptr);
+	void RedrawNeighbours(const Construction* centralConstruction, const Camera* camera_ptr);
+	//
 	Construction* FindConstruction(PointCoord location) const; //checks if location is on road or building
 	void DeleteConstruction(Construction* forDeleting, function<bool(Construction*)> IsEqual);
 	void DeleteVisitor(Visitor* forDeleting, function<bool(Visitor*)> IsEqual);
@@ -82,4 +85,6 @@ public:
 	void ClearVisitorPathes(Construction* destination);
 	vector<Visitor*> AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr, GameStats* statistics, int lowestEntertainmentPrice);
 	void DeleteVisitors(vector<Visitor*>& forDeleting);
+	void VisitorsFoodCapacityReduction();
+	void VisitorsToiletNeedReduction();
 };
