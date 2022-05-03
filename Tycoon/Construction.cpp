@@ -9,6 +9,14 @@ const ConstructionDescriptor* Construction::GetDescriptor() const //no setter he
 {
 	return describe_ptr;
 }
+int Construction::GetOverallVisitors() const
+{
+	return overallVisitors;
+}
+void Construction::SetOverallVisitors(int overallVisitors)
+{
+	this->overallVisitors = overallVisitors;
+}
 bool Construction::GetRoadConnectionStatus() const
 {
 	return connectedToRoad;
@@ -67,15 +75,19 @@ void Construction::DrawObject(const wstring drawingSymbol) const
 	GetPainter()->DrawConstruction(GetUpperLeft().Get_x(), GetUpperLeft().Get_y(), GetUpperLeft().Get_x() + GetWidthAddition(), GetUpperLeft().Get_y() + GetHeightAddition(),
 		drawingSymbol, GetDescriptor()->GetForegroundColor(), GetBackgroundColor());
 }
-int Construction::GetVisitorsCount() const
-{
-	return visitorsCount;
-}
-void Construction::SetVisitorsCount(int visitorsCount)
-{
-	this->visitorsCount = visitorsCount;
-}
 bool Construction::IsBreakable() const
 {
 	return true;
+}
+vector<Construction*> Construction::ChooseFromBuildings(_Mem_fn<int (ConstructionDescriptor::*)() const> buildingProperty, const list<Construction*>& allBuildings)
+{
+	vector<Construction*> buildingsWithProperty;
+	for (auto everyBuilding : allBuildings)
+	{
+		if (buildingProperty(everyBuilding->GetDescriptor()) != 0 && everyBuilding->GetRoadConnectionStatus())
+		{
+			buildingsWithProperty.push_back(everyBuilding);
+		}
+	}
+	return buildingsWithProperty;
 }

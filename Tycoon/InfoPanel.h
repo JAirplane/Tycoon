@@ -46,6 +46,7 @@ public:
 	void ShowMenuScreen();
 	void ShowControls();
 	void ShowMessagesScreen();
+	void UpdateConstructionInfo() const;
 	void SwitchContent(InfoPanelContentType choosenContent);
 	void GetToInfoPanelDisplayRule();
 	void EndInteractionDisplayRule();

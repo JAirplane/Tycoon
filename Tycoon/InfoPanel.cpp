@@ -196,6 +196,14 @@ void InfoPanel::ShowMessagesScreen()
 	}
 	messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->DisplayConstructionInfo();
 }
+void InfoPanel::UpdateConstructionInfo() const
+{
+	if (currentScreen == InfoPanelContentType::SystemMessagesAndConstructionInfo && messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetChosenConstruction() != nullptr)
+	{
+		messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->ClearChosenConstructionStatistic();
+		messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->ShowChosenConstructionStatistic();
+	}
+}
 void InfoPanel::SwitchContent(InfoPanelContentType choosenContent)
 {
 	ClearContent();

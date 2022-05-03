@@ -41,8 +41,6 @@ public:
 		delete preliminaryConstruction_ptr;
 		delete graph_ptr;
 	}
-	void CreateExit(const PlayingField* playingField_ptr, Visualisation* draw_ptr);
-	//
 	const list<Construction*>& GetAllBuildings() const;
 	const list<Construction*>& GetAllRoads() const;
 	const list<Visitor*>& GetAllVisitors() const;
@@ -75,8 +73,10 @@ public:
 	void RedrawNeighbours(const Construction* centralConstruction, const Camera* camera_ptr);
 	//
 	Construction* FindConstruction(PointCoord location) const; //checks if location is on road or building
-	void DeleteConstruction(Construction* forDeleting, function<bool(Construction*)> IsEqual);
+	void DeleteConstruction(Construction* forDeleting, function<bool(Construction*)> IsEqual, GameStats* statistic);
 	void DeleteVisitor(Visitor* forDeleting, function<bool(Visitor*)> IsEqual);
+	void DeleteVisitors(vector<Visitor*>& forDeleting, GameStats* statistic);
+	void DeleteVisitorsInsideBuilding(const Construction* someBuilding, GameStats* statistic);
 	//
 	void AddEdge(int mainRoadIndex, PointCoord location, Direction side, vector<pair<pair<int, int>, Direction> >& roadEdges) const;
 	vector<pair<pair<int, int>, Direction> > GetRoadEdges(const Construction* someRoad) const;
@@ -84,7 +84,6 @@ public:
 	void ClearVisitorPathes(int roadIndex);
 	void ClearVisitorPathes(Construction* destination);
 	vector<Visitor*> AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr, GameStats* statistics, int lowestEntertainmentPrice);
-	void DeleteVisitors(vector<Visitor*>& forDeleting);
 	void VisitorsFoodCapacityReduction();
 	void VisitorsToiletNeedReduction();
 };

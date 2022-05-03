@@ -176,6 +176,7 @@ void Visualisation::DrawCursorPixel(int x, int y, color background) const
 	set_color(cBLACK, background);
 	cout << ' ';
 	set_cursor_pos(x, y);
+	set_color(cBLACK, cBLACK);
 }
 void Visualisation::DrawVisitor(int xCoord, int yCoord, color foreground, color background, const wstring visitorSymbol) const
 {

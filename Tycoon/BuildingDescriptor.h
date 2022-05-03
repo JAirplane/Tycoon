@@ -10,10 +10,11 @@ private:
 	int entertainmentValue;
 	int isExit;
 	int maxVisitors;
+	int visitTime;
 public:
 	BuildingDescriptor(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
 		color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int restoreToiletNeed, int satisfactionOfHunger, int visitPrice, int entertainmentValue,
-		int isExit, int maxVisitors, int dailyExpences = 0, int constructionHeightAdd = 0, int constructionWidthAdd = 0) :
+		int isExit, int maxVisitors, int visitTime, int dailyExpences = 0, int constructionHeightAdd = 0, int constructionWidthAdd = 0) :
 		ConstructionDescriptor(menuElementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected,
 			backgroundNotConnected, backgroundChosen, dailyExpences, constructionHeightAdd, constructionWidthAdd)
 	{
@@ -24,6 +25,7 @@ public:
 		this->entertainmentValue = entertainmentValue;
 		this->isExit = isExit;
 		this->maxVisitors = maxVisitors;
+		this->visitTime = visitTime;
 	}
 	~BuildingDescriptor() {}
 	wstring GetConstructionSymbol(int mask = 0) const override;
@@ -33,4 +35,5 @@ public:
 	int GetEntertainmentValue() const override;
 	int GetIsExit() const override;
 	int GetMaxVisitors() const override;
+	int GetVisitTime() const override;
 };

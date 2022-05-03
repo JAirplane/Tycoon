@@ -56,3 +56,7 @@ int ConstructionDescriptor::GetMaxVisitors() const
 {
 	return 0;
 }
+int ConstructionDescriptor::GetVisitTime() const
+{
+	return 0;
+}

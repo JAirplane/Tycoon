@@ -131,7 +131,7 @@ void Building::CopyRotationProperties(Construction* another_ptr)
 	Construction::CopyRotationProperties(another_ptr);
 	this->CopyEntrance(another_ptr);
 }
-int Building::GetEnvironmentMask(const list<Construction*>& allRoads, const list<Construction*>& allBuildings, const Construction* preliminary_ptr)
+int Building::GetEnvironmentMask(const list<Construction*>& allRoads, const list<Construction*>& allBuildings, const Construction* preliminary_ptr) const
 {
 	return 0;
 }
@@ -227,15 +227,10 @@ void Building::EraseObject(int cameraLeftX, int cameraTopY, int cameraRightX, in
 		GetPainter()->EraseConstruction(leftX, topY, rightX, bottomY);
 	}
 }
-vector<Construction*> Building::ChooseFromBuildings(_Mem_fn<int (ConstructionDescriptor::*)() const> buildingProperty, const list<Construction*>& allBuildings)
+void Building::Redraw_VisitorCheck(const Camera* cam_ptr, const list<Construction*>& allRoads, const list<Construction*>& allBuildings,
+	const list<Visitor*>& allVisitors, const Construction* preliminary_ptr) const
 {
-	vector<Construction*> buildingsWithProperty;
-	for (auto everyBuilding : allBuildings)
-	{
-		if (buildingProperty(everyBuilding->GetDescriptor()) != 0)
-		{
-			buildingsWithProperty.push_back(everyBuilding);
-		}
-	}
-	return buildingsWithProperty;
+	int mask = this->GetEnvironmentMask(allRoads, allBuildings, preliminary_ptr);
+	this->DrawObject(mask, cam_ptr->GetUpperLeft().Get_x(), cam_ptr->GetUpperLeft().Get_y(), cam_ptr->GetUpperLeft().Get_x() + cam_ptr->GetWidthAddition(),
+		cam_ptr->GetUpperLeft().Get_y() + cam_ptr->GetHeightAddition());
 }

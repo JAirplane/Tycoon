@@ -61,6 +61,8 @@ int Road::GetProfit() const
 {
 	return -1;
 }
+void Road::SetProfit(int profit)
+{}
 bool Road::RoadIsAnEntrance(const list<Building*>& allBuildings)
 {
 	list<Building*>::const_iterator buildingIter;
@@ -148,7 +150,7 @@ int Road::GetMaskWithRealBuildings(const list<Construction*>& allBuildings) cons
 	}
 	return roadEnvironmentMask;
 }
-int Road::GetEnvironmentMask(const list<Construction*>& allRoads, const list<Construction*>& allBuildings, const Construction* preliminary_ptr)
+int Road::GetEnvironmentMask(const list<Construction*>& allRoads, const list<Construction*>& allBuildings, const Construction* preliminary_ptr) const
 {
 	int roadEnvironmentMask = GetMaskWithRealRoads(allRoads);
 	roadEnvironmentMask |= GetMaskWithConstruction(preliminary_ptr);
@@ -229,6 +231,16 @@ void Road::EraseObject(int cameraLeftX, int cameraTopY, int cameraRightX, int ca
 {
 	GetPainter()->ErasePixel(GetUpperLeft().Get_x(), GetUpperLeft().Get_y());
 }
+void Road::Redraw_VisitorCheck(const Camera* cam_ptr, const list<Construction*>& allRoads, const list<Construction*>& allBuildings,
+	const list<Visitor*>& allVisitors, const Construction* preliminary_ptr) const
+{
+	if (FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(allVisitors, this->GetUpperLeft()) == nullptr)
+	{
+		int mask = this->GetEnvironmentMask(allRoads, allBuildings, preliminary_ptr);
+		this->DrawObject(mask, cam_ptr->GetUpperLeft().Get_x(), cam_ptr->GetUpperLeft().Get_y(), cam_ptr->GetUpperLeft().Get_x() + cam_ptr->GetWidthAddition(),
+			cam_ptr->GetUpperLeft().Get_y() + cam_ptr->GetHeightAddition());
+	}
+}
 ///////////////UnbreakableRoad Class///////////////
 bool UnbreakableRoad::IsBreakable() const
 {
@@ -238,7 +250,7 @@ void UnbreakableRoad::SetRoadConnectionStatus(bool connected)
 {
 	Construction::SetRoadConnectionStatus(true); //this roads are always connected
 }
-int UnbreakableRoad::GetEnvironmentMask(const list<Construction*>& allRoads, const list<Construction*>& allBuildings, const Construction* preliminary_ptr)
+int UnbreakableRoad::GetEnvironmentMask(const list<Construction*>& allRoads, const list<Construction*>& allBuildings, const Construction* preliminary_ptr) const
 {
 	int roadEnvironmentMask = GetMaskWithRealRoads(allRoads);
 	roadEnvironmentMask |= GetMaskWithConstruction(preliminary_ptr);
@@ -252,7 +264,7 @@ bool VisibleOutsidePlayingfieldRoad::VisibleOutsidePlayingfield() const
 {
 	return true;
 }
-int VisibleOutsidePlayingfieldRoad::GetEnvironmentMask(const list<Construction*>& allRoads, const list<Construction*>& allBuildings, const Construction* preliminary_ptr)
+int VisibleOutsidePlayingfieldRoad::GetEnvironmentMask(const list<Construction*>& allRoads, const list<Construction*>& allBuildings, const Construction* preliminary_ptr) const
 {
 	int roadEnvironmentMask = 0;
 	roadEnvironmentMask |= int(roadMask::TOP);

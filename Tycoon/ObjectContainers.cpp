@@ -1,28 +1,5 @@
 #include "ObjectContainers.h"
 /////////////Containers of All Objects in the Game/////////////
-void AllObjects::CreateExit(const PlayingField* playingField_ptr, Visualisation* draw_ptr)
-{
-	ConstructionDescriptor* exitDescriptor = new BuildingDescriptor(PointCoord(numeric_limits<int>::max(), numeric_limits<int>::max()),
-		ConstructionOptions::GetAllOptions()->GetExitCost(), ConstructionOptions::GetAllOptions()->GetExitDescription(), ConstructionOptions::GetAllOptions()->GetExitIconSymbol(),
-		ConstructionOptions::GetAllOptions()->GetExitForegroundColor(), ConstructionOptions::GetAllOptions()->GetExitConnectedBackgroundColor(),
-		ConstructionOptions::GetAllOptions()->GetExitNotConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetExitChosenBackgroundColor(),
-		ConstructionOptions::GetAllOptions()->GetExitSymbol(), ConstructionOptions::GetAllOptions()->GetExitToiletNeed(),
-		ConstructionOptions::GetAllOptions()->GetExitHungerSatisfaction(), ConstructionOptions::GetAllOptions()->GetExitVisitPrice(),
-		ConstructionOptions::GetAllOptions()->GetExitEntertainmentValue(), ConstructionOptions::GetAllOptions()->GetExitIsExit(),
-		ConstructionOptions::GetAllOptions()->GetExitMaxVisitors(), ConstructionOptions::GetAllOptions()->GetExitExpences(),
-		ConstructionOptions::GetAllOptions()->GetExitHeightAdd(), ConstructionOptions::GetAllOptions()->GetExitWidthAdd());
-	Building* exit1 = new Building(PointCoord(playingField_ptr->GetHalfXAxis(), playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() + 4),
-		exitDescriptor, draw_ptr);
-	exit1->SetExitDirection(Direction::Up);
-	Building* exit2 = new Building(PointCoord(playingField_ptr->GetHalfXAxis() + 1, playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() + 4),
-		exitDescriptor, draw_ptr);
-	exit2->SetExitDirection(Direction::Up);
-	exit1->SetRoadConnectionStatus(true);
-	exit2->SetRoadConnectionStatus(true);
-	this->AddObject(exit1);
-	this->AddObject(exit2);
-}
-//
 const list<Construction*>& AllObjects::GetAllBuildings() const
 {
 	return buildings;
@@ -132,20 +109,16 @@ bool AllObjects::BuildingsImposition(const IngameObject* object_ptr) const
 	{
 		for (xCoord; xCoord <= object_ptr->GetUpperLeft().Get_x() + objectWidthAdd; xCoord++)
 		{
-			if (yCoord == object_ptr->GetUpperLeft().Get_y() || yCoord == object_ptr->GetUpperLeft().Get_y() + objectHeightAdd,
-				xCoord == object_ptr->GetUpperLeft().Get_x() || xCoord == object_ptr->GetUpperLeft().Get_x() + objectWidthAdd)
+			for (buildingIter = buildings.begin(); buildingIter != buildings.end(); buildingIter++)
 			{
-				for (buildingIter = buildings.begin(); buildingIter != buildings.end(); buildingIter++)
+				if (object_ptr != (*buildingIter))
 				{
-					if (object_ptr != (*buildingIter))
+					PointCoord upperLeft = (*buildingIter)->GetUpperLeft();
+					int heightAdd = (*buildingIter)->GetHeightAddition();
+					int widthAdd = (*buildingIter)->GetWidthAddition();
+					if (xCoord >= upperLeft.Get_x() && xCoord <= (upperLeft.Get_x() + widthAdd) && yCoord >= upperLeft.Get_y() && yCoord <= (upperLeft.Get_y() + heightAdd))
 					{
-						PointCoord upperLeft = (*buildingIter)->GetUpperLeft();
-						int heightAdd = (*buildingIter)->GetHeightAddition();
-						int widthAdd = (*buildingIter)->GetWidthAddition();
-						if (xCoord >= upperLeft.Get_x() && xCoord <= (upperLeft.Get_x() + widthAdd) && yCoord >= upperLeft.Get_y() && yCoord <= (upperLeft.Get_y() + heightAdd))
-						{
-							return true;
-						}
+						return true;
 					}
 				}
 			}
@@ -409,13 +382,8 @@ void AllObjects::RedrawNeighbours(PointCoord centralPoint, const Camera* camera_
 	}
 	for (auto everyNeighbour : neighbours)
 	{
-		if (FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(visitors, everyNeighbour->GetUpperLeft()) == nullptr)
-		{
-			int mask = everyNeighbour->GetEnvironmentMask(roads, buildings, preliminaryConstruction_ptr);
-			everyNeighbour->Connected(roads, buildings, preliminaryConstruction_ptr);
-			everyNeighbour->DrawObject(mask, camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(),
-				camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(), camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
-		}
+		everyNeighbour->Connected(roads, buildings, preliminaryConstruction_ptr);
+		everyNeighbour->Redraw_VisitorCheck(camera_ptr, roads, buildings, visitors, preliminaryConstruction_ptr);
 	}
 }
 void AllObjects::RedrawNeighbours(const Construction* centralConstruction, const Camera* camera_ptr)
@@ -449,7 +417,7 @@ Construction* AllObjects::FindConstruction(PointCoord location) const
 	}
 	return nullptr;
 }
-void AllObjects::DeleteConstruction(Construction* forDeleting, function<bool(Construction*)> IsEqual)
+void AllObjects::DeleteConstruction(Construction* forDeleting, function<bool(Construction*)> IsEqual, GameStats* statistic)
 {
 	if (forDeleting == nullptr)
 	{
@@ -478,12 +446,42 @@ void AllObjects::DeleteConstruction(Construction* forDeleting, function<bool(Con
 	else
 	{
 		ClearVisitorPathes(forDeleting);
+		DeleteVisitorsInsideBuilding(forDeleting, statistic);
 		buildings.remove_if(IsEqual);
 	}
 }
 void AllObjects::DeleteVisitor(Visitor* forDeleting, function<bool(Visitor*)> IsEqual)
 {
 	visitors.remove_if(IsEqual);
+}
+void AllObjects::DeleteVisitors(vector<Visitor*>& forDeleting, GameStats* statistic)
+{
+	if (!forDeleting.empty())
+	{
+		for (auto visitor : forDeleting)
+		{
+			function<bool(Visitor*)> IsEqual = [visitor](Visitor* element)
+			{
+				return (visitor == element);
+			};
+			DeleteVisitor(visitor, IsEqual);
+			--statistic->NumberOfVisitors;
+		}
+	}
+}
+void AllObjects::DeleteVisitorsInsideBuilding(const Construction* someBuilding, GameStats* statistic)
+{
+	if (someBuilding == nullptr)
+	{
+		throw MyException("AllObjects::DeleteVisitorsInsideBuilding(const Construction* someBuilding) received nullptr someBuilding");
+	}
+	if (statistic == nullptr)
+	{
+		throw MyException("AllObjects::DeleteVisitorsInsideBuilding(const Construction* someBuilding) received nullptr statistic");
+	}
+	vector<Visitor*> forDeleting;
+	forDeleting = FindByPoint::GetElementSearcherByPoint()->GetAllElementsByPoint(visitors, someBuilding->GetUpperLeft());
+	this->DeleteVisitors(forDeleting, statistic);
 }
 //
 void AllObjects::AddEdge(int mainRoadIndex, PointCoord location, Direction side, vector<pair<pair<int, int>, Direction> >& roadEdges) const
@@ -519,8 +517,9 @@ void AllObjects::ClearVisitorPathes(int roadIndex)
 {
 	for (auto visitor : visitors)
 	{
-		auto result = find(visitor->GetPath().begin(), visitor->GetPath().end(), roadIndex);
-		if (result != visitor->GetPath().end())
+		const vector<int> visitorPath = visitor->GetPath();
+		auto result = find(visitorPath.begin(), visitorPath.end(), roadIndex);
+		if (result != visitorPath.end())
 		{
 			visitor->ClearDestination();
 			visitor->ClearPath();
@@ -576,7 +575,6 @@ vector<Visitor*> AllObjects::AllVisitorsStep(const Camera* camera_ptr, const Pla
 					if (exitAchieved)
 					{
 						forDeleting.push_back(visitor);
-						statistics->NumberOfVisitors -= 1;
 					}
 				}
 				else
@@ -597,31 +595,19 @@ vector<Visitor*> AllObjects::AllVisitorsStep(const Camera* camera_ptr, const Pla
 					if (noConnectedRoad)
 					{
 						forDeleting.push_back(visitor);
-						statistics->NumberOfVisitors -= 1;
 					}
-					if (camera_ptr->IsObjectInsideTheRectangle(visitor))
+					else
 					{
-						visitor->DrawObject();
+						if (camera_ptr->IsObjectInsideTheRectangle(visitor))
+						{
+							visitor->DrawObject();
+						}
 					}
 				}
 			}
 		}
 	}
 	return forDeleting;
-}
-void AllObjects::DeleteVisitors(vector<Visitor*>& forDeleting)
-{
-	if (!forDeleting.empty())
-	{
-		for (auto visitor : forDeleting)
-		{
-			function<bool(Visitor*)> IsEqual = [visitor](Visitor* element)
-			{
-				return (visitor == element);
-			};
-			DeleteVisitor(visitor, IsEqual);
-		}
-	}
 }
 void AllObjects::VisitorsFoodCapacityReduction()
 {

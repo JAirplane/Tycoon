@@ -11,10 +11,10 @@ ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int con
 // for buildings
 ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
 	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int restoreToiletNeed, int satisfactionOfHunger, int visitPrice, int enetrtainmentValue,
-	int isExit, int maxVisitors, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
+	int isExit, int maxVisitors, int visitTime, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
 {
 	ConstructionDescriptor* buildingDesc_ptr = new BuildingDescriptor(menuElementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected,
-		backgroundNotConnected, backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, enetrtainmentValue, isExit, maxVisitors,
+		backgroundNotConnected, backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, enetrtainmentValue, isExit, maxVisitors, visitTime,
 		dailyExpences, constructionHeightAdd, constructionWidthAdd);
 	return new BuildingManager(buildingDesc_ptr);
 }
@@ -50,7 +50,7 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 // create building element
 void Menu::CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
 	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int restoreToiletNeed, int satisfactionOfHunger, int visitPrice, int entertainmentValue,
-	int isExit, int maxVisitors, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
+	int isExit, int maxVisitors, int visitTime, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
 {
 	BorderAppearance* elementBorder_ptr = CreateElementBorder();
 	color menuElementLetterColor = ConstructionOptions::GetAllOptions()->GetMenuElementLetterColor();
@@ -72,7 +72,7 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 	int elementWidthAdd = GetWidthAddition() - 4;
 	MyRectangle* menuIcon_ptr = CreateIcon(elementLocation);
 	ConstructionManager* manager_ptr = CreateManager(elementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected, backgroundNotConnected,
-		backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, entertainmentValue, isExit, maxVisitors,
+		backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, entertainmentValue, isExit, maxVisitors, visitTime,
 		dailyExpences, constructionHeightAdd, constructionWidthAdd);
 	MenuElement* element_ptr = new MenuElement(GetDrawPointer(), GetCursor(), elementLocation, elementHeightAdd, elementWidthAdd, elementBorder_ptr, menuElementLetterColor,
 		menuElementShadingColor, menuIcon_ptr, manager_ptr);
@@ -109,7 +109,7 @@ MyRectangle* Menu::CreateIcon(PointCoord elementLocation)
 	return menuIcon_ptr;
 }
 //
-void Menu::CreateExit(const PlayingField* playingField_ptr, const Visualisation* draw_ptr, ConstructionDescriptor* descriptor_ptr, AllObjects* container) const
+void Menu::CreateExit(const PlayingField* playingField_ptr, const Visualisation* draw_ptr, AllObjects* container)
 {
 	ConstructionDescriptor* exitDescriptor = new BuildingDescriptor(PointCoord(numeric_limits<int>::max(), numeric_limits<int>::max()),
 		ConstructionOptions::GetAllOptions()->GetExitCost(), ConstructionOptions::GetAllOptions()->GetExitDescription(), ConstructionOptions::GetAllOptions()->GetExitIconSymbol(),
@@ -120,7 +120,7 @@ void Menu::CreateExit(const PlayingField* playingField_ptr, const Visualisation*
 		ConstructionOptions::GetAllOptions()->GetExitEntertainmentValue(), ConstructionOptions::GetAllOptions()->GetExitIsExit(),
 		ConstructionOptions::GetAllOptions()->GetExitMaxVisitors(), ConstructionOptions::GetAllOptions()->GetExitExpences(),
 		ConstructionOptions::GetAllOptions()->GetExitHeightAdd(), ConstructionOptions::GetAllOptions()->GetExitWidthAdd());
-	ConstructionManager* exitManager = new BuildingManager(descriptor_ptr);
+	exitManager = new BuildingManager(exitDescriptor);
 	Construction* exit1 = exitManager->CreateConstruction(PointCoord(playingField_ptr->GetHalfXAxis(),
 		playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() + 4), draw_ptr, container);
 	exit1->SetExitDirection(Direction::Up);
@@ -129,9 +129,8 @@ void Menu::CreateExit(const PlayingField* playingField_ptr, const Visualisation*
 	exit2->SetExitDirection(Direction::Up);
 	exit1->SetRoadConnectionStatus(true);
 	exit2->SetRoadConnectionStatus(true);
-	delete exitManager;
 }
-void Menu::CreateParkEntrance(const PlayingField* playingField_ptr, const Visualisation* draw_ptr, ConstructionDescriptor* descriptor_ptr, AllObjects* container) const
+void Menu::CreateParkEntrance(const PlayingField* playingField_ptr, const Visualisation* draw_ptr, ConstructionDescriptor* descriptor_ptr, AllObjects* container)
 {
 	if (playingField_ptr == nullptr)
 	{
@@ -141,26 +140,24 @@ void Menu::CreateParkEntrance(const PlayingField* playingField_ptr, const Visual
 	{
 		throw MyException("CreateParkEntrance(const PlayingField* playingField_ptr, ConstructionDescriptor* descriptor_ptr, Visualisation* draw_ptr, AllObjects* container) draw_ptr is nullptr");
 	}
-	this->CreateExit(playingField_ptr, draw_ptr, descriptor_ptr, container);
-	ConstructionManager* visibleRoadManager = new VisibleOutsideRoadManager(descriptor_ptr);
+	this->CreateExit(playingField_ptr, draw_ptr, container);
+	visibleOutsideCameraRoadManager = new VisibleOutsideRoadManager(descriptor_ptr);
 	for (int yAdd = 3; yAdd >= 0; yAdd--)
 	{
 		for (int xAdd = 0; xAdd <= 1; xAdd++)
 		{
-			Construction* visibleOutsideCameraRoad = visibleRoadManager->CreateConstruction(PointCoord(playingField_ptr->GetHalfXAxis() + xAdd,
+			Construction* visibleOutsideCameraRoad = visibleOutsideCameraRoadManager->CreateConstruction(PointCoord(playingField_ptr->GetHalfXAxis() + xAdd,
 				playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() + yAdd), draw_ptr, container);
 			visibleOutsideCameraRoad->SetRoadConnectionStatus(true);
 		}
 	}
-	delete visibleRoadManager;
-	ConstructionManager* unbreakableRoadManager = new UnbreakableRoadManager(descriptor_ptr);
+	unbreakableRoadManager = new UnbreakableRoadManager(descriptor_ptr);
 	for (int xAdd = 0; xAdd <= 1; xAdd++)
 	{
-		Construction* undestractableRoad = unbreakableRoadManager->CreateConstruction(PointCoord(playingField_ptr->GetHalfXAxis() + xAdd,
+		Construction* undestructableRoad = unbreakableRoadManager->CreateConstruction(PointCoord(playingField_ptr->GetHalfXAxis() + xAdd,
 			playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() - 1), draw_ptr, container);
-		undestractableRoad->SetRoadConnectionStatus(true);
+		undestructableRoad->SetRoadConnectionStatus(true);
 	}
-	delete unbreakableRoadManager;
 }
 //
 void Menu::CreateGameStats()
@@ -199,6 +196,18 @@ vector<MenuElement*> Menu::GetMenuItems() const
 VisitorManager* Menu::GetVisitorManager() const
 {
 	return visitorsCreator_ptr;
+}
+ConstructionManager* Menu::GetExitManager() const
+{
+	return exitManager;
+}
+ConstructionManager* Menu::GetVisibleOutsideCameraRoadManager() const
+{
+	return visibleOutsideCameraRoadManager;
+}
+ConstructionManager* Menu::GetUnbreakableRoadManager() const
+{
+	return unbreakableRoadManager;
 }
 MenuStatus Menu::GetCurrentSide() const
 {

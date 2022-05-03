@@ -1,13 +1,15 @@
 #pragma once
+#include <functional>
 #include "IngameObject.h"
 /////////////Parent Class of Every Construction Type/////////////
+class Visitor;
 class Construction : public IngameObject, public GraphStatusSubjectInterface
 {
 private:
 	const ConstructionDescriptor* describe_ptr;
 	bool connectedToRoad;
 	bool isChosen;
-	int visitorsCount;
+	int overallVisitors;
 public:
 	Construction(PointCoord upperLeft, const ConstructionDescriptor* description_ptr, const Visualisation* paint_ptr) : IngameObject(upperLeft, paint_ptr)
 	{
@@ -16,7 +18,7 @@ public:
 		SetWidthAddition(describe_ptr->GetWidthAdd());
 		connectedToRoad = false;
 		isChosen = false;
-		visitorsCount = 0;
+		overallVisitors = 0;
 	}
 	~Construction()
 	{}
@@ -34,6 +36,13 @@ public:
 	virtual void SetVisitorsInside(int visitorsValue) = 0;
 	__declspec(property(get = GetVisitorsInside, put = SetVisitorsInside)) int visitorsCounter;
 	//
+	int GetOverallVisitors() const;
+	void SetOverallVisitors(int overallVisitors);
+	__declspec(property(get = GetOverallVisitors, put = SetOverallVisitors)) int allTimeVisited;
+	//
+	virtual int GetProfit() const = 0;
+	virtual void SetProfit(int profit) = 0;
+	__declspec(property(get = GetProfit, put = SetProfit)) int overallRevenue;
 	virtual PointCoord GetEntrancePoint() const = 0;
 	virtual PointCoord GetRedrawNeighboursPoint() const = 0;
 	virtual Direction GetExitDirection() const = 0;
@@ -44,13 +53,11 @@ public:
 	virtual void SetRoadConnectionStatus(bool connected);
 	bool GetChosenStatus() const;
 	void SetChosenStatus(bool chosen);
-	virtual int GetProfit() const = 0;
-	virtual int GetVisitorsCount() const;
 	//
 	color GetBackgroundColor() const;
 	virtual int RotateConstruction() = 0;
 	virtual void CopyRotationProperties(Construction* another_ptr);
-	virtual int GetEnvironmentMask(const list<Construction*>& allRoads, const list<Construction*>& allBuildings, const Construction* preliminary_ptr) = 0;
+	virtual int GetEnvironmentMask(const list<Construction*>& allRoads, const list<Construction*>& allBuildings, const Construction* preliminary_ptr) const = 0;
 	virtual bool Connected(const list<Construction*>& allRoads, const list<Construction*>& allBuildings, const Construction* preliminary_ptr) = 0;
 	virtual void CorrectConstructionCoordsForDraw(int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY, int& leftX, int& topY, int& rightX, int& bottomY) const;
 	virtual void DrawObject(int mask = 0, int leftX = 0, int topY = 0, int rightX = 0, int bottomY = 0) const = 0;
@@ -59,6 +66,9 @@ public:
 	//
 	virtual vector<Construction*> GetNeighbourRoads(const list<Construction*>& allRoads) const = 0;
 	virtual vector<Construction*> GetNeighbourBuildings(const list<Construction*>& allBuildings) const = 0;
-	void SetVisitorsCount(int visitorsCount);
+	//
 	virtual bool IsBreakable() const;
+	virtual void Redraw_VisitorCheck(const Camera* cam_ptr, const list<Construction*>& allRoads, const list<Construction*>& allBuildings,
+		const list<Visitor*>& allVisitors, const Construction* preliminary_ptr) const = 0;
+	static vector<Construction*> ChooseFromBuildings(_Mem_fn<int (ConstructionDescriptor::*)() const> buildingProperty, const list<Construction*>& allBuildings);
 };

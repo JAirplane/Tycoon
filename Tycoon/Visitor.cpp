@@ -64,6 +64,8 @@ bool Visitor::GoInside()
 	pathIndices.clear();
 	if (this->GetDestination()->GetDescriptor()->GetMaxVisitors() > this->GetDestination()->visitorsCounter)
 	{
+		this->GetDestination()->allTimeVisited += 1;
+		this->GetDestination()->overallRevenue += this->GetDestination()->GetDescriptor()->GetVisitPrice();
 		this->SetUpperLeft(this->GetDestination()->GetUpperLeft());
 		if (this->GetDestination()->GetDescriptor()->GetIsExit())
 		{
@@ -85,7 +87,7 @@ bool Visitor::GoInside()
 			}
 		}
 		++this->GetDestination()->visitorsCounter;
-		this->buildingVisiting = 10;
+		this->buildingVisiting = this->GetDestination()->GetDescriptor()->GetVisitTime();
 		this->visitorCash -= this->GetDestination()->GetDescriptor()->GetVisitPrice();
 	}
 	return false;
@@ -156,19 +158,19 @@ int Visitor::SetDestination(const list<Construction*>& allBuildings, const list<
 	vector<Construction*> buildingsChoosenByProperty;
 	if (toiletNeed < 10 || foodCapacity < 10 || this->visitorCash < lowestEntertainmentPrice)
 	{
-		buildingsChoosenByProperty = Building::ChooseFromBuildings(mem_fn(&ConstructionDescriptor::GetIsExit), allBuildings);
+		buildingsChoosenByProperty = Construction::ChooseFromBuildings(mem_fn(&ConstructionDescriptor::GetIsExit), allBuildings);
 	}
 	else if (toiletNeed < 25)
 	{
-		buildingsChoosenByProperty = Building::ChooseFromBuildings(mem_fn(&ConstructionDescriptor::GetRestorationOfToiletNeed), allBuildings);
+		buildingsChoosenByProperty = Construction::ChooseFromBuildings(mem_fn(&ConstructionDescriptor::GetRestorationOfToiletNeed), allBuildings);
 	}
 	else if (foodCapacity < 25)
 	{
-		buildingsChoosenByProperty = Building::ChooseFromBuildings(mem_fn(&ConstructionDescriptor::GetSatisfactionOfHunger), allBuildings);
+		buildingsChoosenByProperty = Construction::ChooseFromBuildings(mem_fn(&ConstructionDescriptor::GetSatisfactionOfHunger), allBuildings);
 	}
 	else
 	{
-		buildingsChoosenByProperty = Building::ChooseFromBuildings(mem_fn(&ConstructionDescriptor::GetEntertainmentValue), allBuildings);
+		buildingsChoosenByProperty = Construction::ChooseFromBuildings(mem_fn(&ConstructionDescriptor::GetEntertainmentValue), allBuildings);
 		if (!buildingsChoosenByProperty.empty())
 		{
 			Construction* chosen_ptr = buildingsChoosenByProperty.at(rand() % buildingsChoosenByProperty.size());

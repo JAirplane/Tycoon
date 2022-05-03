@@ -27,3 +27,7 @@ int BuildingDescriptor::GetMaxVisitors() const
 {
 	return maxVisitors;
 }
+int BuildingDescriptor::GetVisitTime() const
+{
+	return visitTime;
+}

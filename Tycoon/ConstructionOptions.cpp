@@ -21,6 +21,22 @@ const int ConstructionOptions::GetDumboRideHeightAdd() const
 {
 	return 2;
 }
+const int ConstructionOptions::GetFerrisWheelHeightAdd() const
+{
+	return 1;
+}
+const int ConstructionOptions::GetRollerCoasterHeightAdd() const
+{
+	return 3;
+}
+const int ConstructionOptions::GetBumperCarsHeightAdd() const
+{
+	return 3;
+}
+const int ConstructionOptions::GetLogRidesHeightAdd() const
+{
+	return 2;
+}
 const int ConstructionOptions::GetExitHeightAdd() const
 {
 	return 0;
@@ -47,11 +63,11 @@ const int ConstructionOptions::GetVisitorHeightAdd() const
 }
 const int ConstructionOptions::GetCameraHeightAdd() const
 {
-	return 34;
+	return 35;
 }
 const int ConstructionOptions::GetMenuHeightAdd() const
 {
-	return 34;
+	return 35;
 }
 const int ConstructionOptions::GetPlayingFieldHeightAdd() const
 {
@@ -85,6 +101,22 @@ const int ConstructionOptions::GetCarouselWidthAdd() const
 const int ConstructionOptions::GetDumboRideWidthAdd() const
 {
 	return 2;
+}
+const int ConstructionOptions::GetFerrisWheelWidthAdd() const
+{
+	return 2;
+}
+const int ConstructionOptions::GetRollerCoasterWidthAdd() const
+{
+	return 5;
+}
+const int ConstructionOptions::GetBumperCarsWidthAdd() const
+{
+	return 4;
+}
+const int ConstructionOptions::GetLogRidesWidthAdd() const
+{
+	return 3;
 }
 const int ConstructionOptions::GetExitWidthAdd() const
 {
@@ -147,6 +179,18 @@ const int ConstructionOptions::GetDumboRideCost() const
 {
 	return 200;
 }
+const int ConstructionOptions::GetFerrisWheelCost() const
+{
+	return 700;
+}
+const int ConstructionOptions::GetRollerCoasterCost() const
+{
+	return 1000;
+}
+const int ConstructionOptions::GetBumperCarsCost() const
+{
+	return 500;
+}
 const int ConstructionOptions::GetExitCost() const
 {
 	return 0;
@@ -176,6 +220,18 @@ const int ConstructionOptions::GetDumboRideExpences() const
 {
 	return 15;
 }
+const int ConstructionOptions::GetFerrisWheelExpences() const
+{
+	return 30;
+}
+const int ConstructionOptions::GetRollerCoasterExpences() const
+{
+	return 45;
+}
+const int ConstructionOptions::GetBumperCarsExpences() const
+{
+	return 40;
+}
 const int ConstructionOptions::GetExitExpences() const
 {
 	return 0;
@@ -200,6 +256,18 @@ const string ConstructionOptions::GetCarouselDescription() const
 const string ConstructionOptions::GetDumboRideDescription() const
 {
 	return "Dumbo Elephant: kiddie ride";
+}
+const string ConstructionOptions::GetFerrisWheelDescription() const
+{
+	return "Ferris Wheel: breathtaking views";
+}
+const string ConstructionOptions::GetRollerCoasterDescription() const
+{
+	return "Roller Coaster: extrime ride!";
+}
+const string ConstructionOptions::GetBumperCarsDescription() const
+{
+	return "Bumper Cars: slam them all!";
 }
 const string ConstructionOptions::GetExitDescription() const
 {
@@ -254,6 +322,18 @@ const wstring ConstructionOptions::GetDumboRideSymbol() const
 {
 	return L"\u266B";
 }
+const wstring ConstructionOptions::GetFerrisWheelSymbol() const
+{
+	return L"\u2666";
+}
+const wstring ConstructionOptions::GetRollerCoasterSymbol() const
+{
+	return L"\u00A5";
+}
+const wstring ConstructionOptions::GetBumperCarsSymbol() const
+{
+	return L"\u03A7";
+}
 const wstring ConstructionOptions::GetToiletSymbol() const
 {
 	return L"\u25BC";
@@ -273,7 +353,7 @@ const PointCoord ConstructionOptions::GetPlayingFieldUpperLeft() const
 }
 const PointCoord ConstructionOptions::GetInfoPanelUpperLeft() const
 {
-	return PointCoord(1, 36);
+	return PointCoord(1, 37);
 }
 ///////////////Toilet Need Constants///////////////
 const int ConstructionOptions::GetIceCreamShopToiletNeed() const
@@ -289,6 +369,18 @@ const int ConstructionOptions::GetCarouselToiletNeed() const
 	return 0;
 }
 const int ConstructionOptions::GetDumboRideToiletNeed() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetFerrisWheelToiletNeed() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetRollerCoasterToiletNeed() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetBumperCarsToiletNeed() const
 {
 	return 0;
 }
@@ -317,6 +409,18 @@ const int ConstructionOptions::GetDumboRideHungerSatisfaction() const
 {
 	return 0;
 }
+const int ConstructionOptions::GetFerrisWheelHungerSatisfaction() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetRollerCoasterHungerSatisfaction() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetBumperCarsHungerSatisfaction() const
+{
+	return 0;
+}
 const int ConstructionOptions::GetToiletHungerSatisfaction() const
 {
 	return 0;
@@ -328,23 +432,35 @@ const int ConstructionOptions::GetExitHungerSatisfaction() const
 ///////////////Visit Price Constants///////////////
 const int ConstructionOptions::GetIceCreamShopVisitPrice() const
 {
-	return 10;
+	return 5;
 }
 const int ConstructionOptions::GetFoodCourtVisitPrice() const
 {
-	return 15;
+	return 7;
 }
 const int ConstructionOptions::GetCarouselVisitPrice() const
 {
-	return 20;
+	return 12;
 }
 const int ConstructionOptions::GetDumboRideVisitPrice() const
 {
-	return 15;
+	return 10;
+}
+const int ConstructionOptions::GetFerrisWheelVisitPrice() const
+{
+	return 20;
+}
+const int ConstructionOptions::GetRollerCoasterVisitPrice() const
+{
+	return 30;
+}
+const int ConstructionOptions::GetBumperCarsVisitPrice() const
+{
+	return 10;
 }
 const int ConstructionOptions::GetToiletVisitPrice() const
 {
-	return 5;
+	return 3;
 }
 const int ConstructionOptions::GetExitVisitPrice() const
 {
@@ -364,6 +480,18 @@ const int ConstructionOptions::GetCarouselEntertainmentValue() const
 	return 1;
 }
 const int ConstructionOptions::GetDumboRideEntertainmentValue() const
+{
+	return 1;
+}
+const int ConstructionOptions::GetFerrisWheelEntertainmentValue() const
+{
+	return 1;
+}
+const int ConstructionOptions::GetRollerCoasterEntertainmentValue() const
+{
+	return 1;
+}
+const int ConstructionOptions::GetBumperCarsEntertainmentValue() const
 {
 	return 1;
 }
@@ -392,6 +520,18 @@ const int ConstructionOptions::GetDumboRideIsExit() const
 {
 	return 0;
 }
+const int ConstructionOptions::GetFerrisWheelIsExit() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetRollerCoasterIsExit() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetBumperCarsIsExit() const
+{
+	return 0;
+}
 const int ConstructionOptions::GetToiletIsExit() const
 {
 	return 0;
@@ -417,6 +557,18 @@ const int ConstructionOptions::GetDumboRideMaxVisitors() const
 {
 	return 4;
 }
+const int ConstructionOptions::GetFerrisWheelMaxVisitors() const
+{
+	return 6;
+}
+const int ConstructionOptions::GetRollerCoasterMaxVisitors() const
+{
+	return 5;
+}
+const int ConstructionOptions::GetBumperCarsMaxVisitors() const
+{
+	return 8;
+}
 const int ConstructionOptions::GetToiletMaxVisitors() const
 {
 	return 2;
@@ -424,6 +576,43 @@ const int ConstructionOptions::GetToiletMaxVisitors() const
 const int ConstructionOptions::GetExitMaxVisitors() const
 {
 	return 100;
+}
+///////////////Visit Time Constants - Number of VisitorStepCycle///////////////
+const int ConstructionOptions::GetIceCreamShopVisitTime() const
+{
+	return 10;
+}
+const int ConstructionOptions::GetFoodCourtVisitTime() const
+{
+	return 15;
+}
+const int ConstructionOptions::GetCarouselVisitTime() const
+{
+	return 15;
+}
+const int ConstructionOptions::GetDumboRideVisitTime() const
+{
+	return 15;
+}
+const int ConstructionOptions::GetFerrisWheelVisitTime() const
+{
+	return 25;
+}
+const int ConstructionOptions::GetRollerCoasterVisitTime() const
+{
+	return 16;
+}
+const int ConstructionOptions::GetBumperCarsVisitTime() const
+{
+	return 30;
+}
+const int ConstructionOptions::GetToiletVisitTime() const
+{
+	return 5;
+}
+const int ConstructionOptions::GetExitVisitTime() const
+{
+	return 1;
 }
 ///////////////Building's Icon Symbol Constants///////////////
 const wstring ConstructionOptions::GetIceCreamShopIconSymbol() const
@@ -441,6 +630,18 @@ const wstring ConstructionOptions::GetCarouselIconSymbol() const
 const wstring ConstructionOptions::GetDumboRideIconSymbol() const
 {
 	return L"\u266B";
+}
+const wstring ConstructionOptions::GetFerrisWheelIconSymbol() const
+{
+	return L"\u2666";
+}
+const wstring ConstructionOptions::GetRollerCoasterIconSymbol() const
+{
+	return L"\u00A5";
+}
+const wstring ConstructionOptions::GetBumperCarsIconSymbol() const
+{
+	return L"\u03A7";
 }
 const wstring ConstructionOptions::GetToiletIconSymbol() const
 {
@@ -519,6 +720,57 @@ color ConstructionOptions::GetDumboRideNotConnectedBackgroundColor() const
 	return color::cBLACK;
 }
 color ConstructionOptions::GetDumboRideChosenBackgroundColor() const
+{
+	return color::cRED;
+}
+//
+color ConstructionOptions::GetFerrisWheelForegroundColor() const
+{
+	return color::cWHITE;
+}
+color ConstructionOptions::GetFerrisWheelConnectedBackgroundColor() const
+{
+	return color::cDARK_CYAN;
+}
+color ConstructionOptions::GetFerrisWheelNotConnectedBackgroundColor() const
+{
+	return color::cBLACK;
+}
+color ConstructionOptions::GetFerrisWheelChosenBackgroundColor() const
+{
+	return color::cRED;
+}
+//
+color ConstructionOptions::GetRollerCoasterForegroundColor() const
+{
+	return color::cBROWN;
+}
+color ConstructionOptions::GetRollerCoasterConnectedBackgroundColor() const
+{
+	return color::cDARK_CYAN;
+}
+color ConstructionOptions::GetRollerCoasterNotConnectedBackgroundColor() const
+{
+	return color::cBLACK;
+}
+color ConstructionOptions::GetRollerCoasterChosenBackgroundColor() const
+{
+	return color::cRED;
+}
+//
+color ConstructionOptions::GetBumperCarsForegroundColor() const
+{
+	return color::cDARK_GREEN;
+}
+color ConstructionOptions::GetBumperCarsConnectedBackgroundColor() const
+{
+	return color::cDARK_CYAN;
+}
+color ConstructionOptions::GetBumperCarsNotConnectedBackgroundColor() const
+{
+	return color::cBLACK;
+}
+color ConstructionOptions::GetBumperCarsChosenBackgroundColor() const
 {
 	return color::cRED;
 }

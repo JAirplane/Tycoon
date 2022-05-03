@@ -27,6 +27,8 @@ public:
 	void SetChosenConstruction(Construction* choice_ptr);
 	//
 	void ClearChosenConstruction(); //do not free memory
-	void DeselectConstruction(const Camera* cam_ptr, const PlayingField* field_ptr, const AllObjects* allObjects_ptr);
+	void DeselectConstruction(const Camera* cam_ptr, const AllObjects* allObjects_ptr);
+	void ClearChosenConstructionStatistic();
+	void ShowChosenConstructionStatistic();
 	void DisplayConstructionInfo();
 };

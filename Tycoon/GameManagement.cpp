@@ -80,8 +80,8 @@ void GameManagement::CreateMenuAndElements()
 		ConstructionOptions::GetAllOptions()->GetToiletToiletNeed(), ConstructionOptions::GetAllOptions()->GetToiletHungerSatisfaction(),
 		ConstructionOptions::GetAllOptions()->GetToiletVisitPrice(), ConstructionOptions::GetAllOptions()->GetToiletEntertainmentValue(),
 		ConstructionOptions::GetAllOptions()->GetToiletIsExit(), ConstructionOptions::GetAllOptions()->GetToiletMaxVisitors(),
-		ConstructionOptions::GetAllOptions()->GetToiletExpences(), ConstructionOptions::GetAllOptions()->GetToiletHeightAdd(),
-		ConstructionOptions::GetAllOptions()->GetToiletWidthAdd());
+		ConstructionOptions::GetAllOptions()->GetToiletVisitTime(), ConstructionOptions::GetAllOptions()->GetToiletExpences(),
+		ConstructionOptions::GetAllOptions()->GetToiletHeightAdd(), ConstructionOptions::GetAllOptions()->GetToiletWidthAdd());
 	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetIceCreamShopCost(),
 		ConstructionOptions::GetAllOptions()->GetIceCreamShopDescription(), ConstructionOptions::GetAllOptions()->GetIceCreamShopIconSymbol(),
 		ConstructionOptions::GetAllOptions()->GetIceCreamShopForegroundColor(), ConstructionOptions::GetAllOptions()->GetIceCreamShopConnectedBackgroundColor(),
@@ -89,8 +89,9 @@ void GameManagement::CreateMenuAndElements()
 		ConstructionOptions::GetAllOptions()->GetIceCreamShopSymbol(), ConstructionOptions::GetAllOptions()->GetIceCreamShopToiletNeed(),
 		ConstructionOptions::GetAllOptions()->GetIceCreamShopHungerSatisfaction(), ConstructionOptions::GetAllOptions()->GetIceCreamShopVisitPrice(),
 		ConstructionOptions::GetAllOptions()->GetIceCreamShopEntertainmentValue(), ConstructionOptions::GetAllOptions()->GetIceCreamShopIsExit(),
-		ConstructionOptions::GetAllOptions()->GetIceCreamShopMaxVisitors(), ConstructionOptions::GetAllOptions()->GetIceCreamShopExpences(),
-		ConstructionOptions::GetAllOptions()->GetIceCreamShopHeightAdd(), ConstructionOptions::GetAllOptions()->GetIceCreamShopWidthAdd());
+		ConstructionOptions::GetAllOptions()->GetIceCreamShopMaxVisitors(), ConstructionOptions::GetAllOptions()->GetIceCreamShopVisitTime(),
+		ConstructionOptions::GetAllOptions()->GetIceCreamShopExpences(), ConstructionOptions::GetAllOptions()->GetIceCreamShopHeightAdd(),
+		ConstructionOptions::GetAllOptions()->GetIceCreamShopWidthAdd());
 	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetFoodCourtCost(), ConstructionOptions::GetAllOptions()->GetFoodCourtDescription(),
 		ConstructionOptions::GetAllOptions()->GetFoodCourtIconSymbol(), ConstructionOptions::GetAllOptions()->GetFoodCourtForegroundColor(),
 		ConstructionOptions::GetAllOptions()->GetFoodCourtConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetFoodCourtNotConnectedBackgroundColor(),
@@ -98,8 +99,8 @@ void GameManagement::CreateMenuAndElements()
 		ConstructionOptions::GetAllOptions()->GetFoodCourtToiletNeed(), ConstructionOptions::GetAllOptions()->GetFoodCourtHungerSatisfaction(),
 		ConstructionOptions::GetAllOptions()->GetFoodCourtVisitPrice(), ConstructionOptions::GetAllOptions()->GetFoodCourtEntertainmentValue(),
 		ConstructionOptions::GetAllOptions()->GetFoodCourtIsExit(), ConstructionOptions::GetAllOptions()->GetFoodCourtMaxVisitors(),
-		ConstructionOptions::GetAllOptions()->GetFoodCourtExpences(), ConstructionOptions::GetAllOptions()->GetFoodCourtHeightAdd(),
-		ConstructionOptions::GetAllOptions()->GetFoodCourtWidthAdd());
+		ConstructionOptions::GetAllOptions()->GetFoodCourtVisitTime(), ConstructionOptions::GetAllOptions()->GetFoodCourtExpences(),
+		ConstructionOptions::GetAllOptions()->GetFoodCourtHeightAdd(), ConstructionOptions::GetAllOptions()->GetFoodCourtWidthAdd());
 	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetCarouselCost(), ConstructionOptions::GetAllOptions()->GetCarouselDescription(),
 		ConstructionOptions::GetAllOptions()->GetCarouselIconSymbol(), ConstructionOptions::GetAllOptions()->GetCarouselForegroundColor(),
 		ConstructionOptions::GetAllOptions()->GetCarouselConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetCarouselNotConnectedBackgroundColor(),
@@ -107,8 +108,8 @@ void GameManagement::CreateMenuAndElements()
 		ConstructionOptions::GetAllOptions()->GetCarouselToiletNeed(), ConstructionOptions::GetAllOptions()->GetCarouselHungerSatisfaction(),
 		ConstructionOptions::GetAllOptions()->GetCarouselVisitPrice(), ConstructionOptions::GetAllOptions()->GetCarouselEntertainmentValue(),
 		ConstructionOptions::GetAllOptions()->GetCarouselIsExit(), ConstructionOptions::GetAllOptions()->GetCarouselMaxVisitors(),
-		ConstructionOptions::GetAllOptions()->GetCarouselExpences(), ConstructionOptions::GetAllOptions()->GetCarouselHeightAdd(),
-		ConstructionOptions::GetAllOptions()->GetCarouselWidthAdd());
+		ConstructionOptions::GetAllOptions()->GetCarouselVisitTime(), ConstructionOptions::GetAllOptions()->GetCarouselExpences(),
+		ConstructionOptions::GetAllOptions()->GetCarouselHeightAdd(), ConstructionOptions::GetAllOptions()->GetCarouselWidthAdd());
 	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetDumboRideCost(), ConstructionOptions::GetAllOptions()->GetDumboRideDescription(),
 		ConstructionOptions::GetAllOptions()->GetDumboRideIconSymbol(), ConstructionOptions::GetAllOptions()->GetDumboRideForegroundColor(),
 		ConstructionOptions::GetAllOptions()->GetDumboRideConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetDumboRideNotConnectedBackgroundColor(),
@@ -116,8 +117,35 @@ void GameManagement::CreateMenuAndElements()
 		ConstructionOptions::GetAllOptions()->GetDumboRideToiletNeed(), ConstructionOptions::GetAllOptions()->GetDumboRideHungerSatisfaction(),
 		ConstructionOptions::GetAllOptions()->GetDumboRideVisitPrice(), ConstructionOptions::GetAllOptions()->GetDumboRideEntertainmentValue(),
 		ConstructionOptions::GetAllOptions()->GetDumboRideIsExit(), ConstructionOptions::GetAllOptions()->GetDumboRideMaxVisitors(),
-		ConstructionOptions::GetAllOptions()->GetDumboRideExpences(), ConstructionOptions::GetAllOptions()->GetDumboRideHeightAdd(),
-		ConstructionOptions::GetAllOptions()->GetDumboRideWidthAdd());
+		ConstructionOptions::GetAllOptions()->GetDumboRideVisitTime(), ConstructionOptions::GetAllOptions()->GetDumboRideExpences(),
+		ConstructionOptions::GetAllOptions()->GetDumboRideHeightAdd(), ConstructionOptions::GetAllOptions()->GetDumboRideWidthAdd());
+	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetFerrisWheelCost(), ConstructionOptions::GetAllOptions()->GetFerrisWheelDescription(),
+		ConstructionOptions::GetAllOptions()->GetFerrisWheelIconSymbol(), ConstructionOptions::GetAllOptions()->GetFerrisWheelForegroundColor(),
+		ConstructionOptions::GetAllOptions()->GetFerrisWheelConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetFerrisWheelNotConnectedBackgroundColor(),
+		ConstructionOptions::GetAllOptions()->GetFerrisWheelChosenBackgroundColor(), ConstructionOptions::GetAllOptions()->GetFerrisWheelSymbol(),
+		ConstructionOptions::GetAllOptions()->GetFerrisWheelToiletNeed(), ConstructionOptions::GetAllOptions()->GetFerrisWheelHungerSatisfaction(),
+		ConstructionOptions::GetAllOptions()->GetFerrisWheelVisitPrice(), ConstructionOptions::GetAllOptions()->GetFerrisWheelEntertainmentValue(),
+		ConstructionOptions::GetAllOptions()->GetFerrisWheelIsExit(), ConstructionOptions::GetAllOptions()->GetFerrisWheelMaxVisitors(),
+		ConstructionOptions::GetAllOptions()->GetFerrisWheelVisitTime(), ConstructionOptions::GetAllOptions()->GetFerrisWheelExpences(),
+		ConstructionOptions::GetAllOptions()->GetFerrisWheelHeightAdd(), ConstructionOptions::GetAllOptions()->GetFerrisWheelWidthAdd());
+	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetRollerCoasterCost(), ConstructionOptions::GetAllOptions()->GetRollerCoasterDescription(),
+		ConstructionOptions::GetAllOptions()->GetRollerCoasterIconSymbol(), ConstructionOptions::GetAllOptions()->GetRollerCoasterForegroundColor(),
+		ConstructionOptions::GetAllOptions()->GetRollerCoasterConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetRollerCoasterNotConnectedBackgroundColor(),
+		ConstructionOptions::GetAllOptions()->GetRollerCoasterChosenBackgroundColor(), ConstructionOptions::GetAllOptions()->GetRollerCoasterSymbol(),
+		ConstructionOptions::GetAllOptions()->GetRollerCoasterToiletNeed(), ConstructionOptions::GetAllOptions()->GetRollerCoasterHungerSatisfaction(),
+		ConstructionOptions::GetAllOptions()->GetRollerCoasterVisitPrice(), ConstructionOptions::GetAllOptions()->GetRollerCoasterEntertainmentValue(),
+		ConstructionOptions::GetAllOptions()->GetRollerCoasterIsExit(), ConstructionOptions::GetAllOptions()->GetRollerCoasterMaxVisitors(),
+		ConstructionOptions::GetAllOptions()->GetRollerCoasterVisitTime(), ConstructionOptions::GetAllOptions()->GetRollerCoasterExpences(),
+		ConstructionOptions::GetAllOptions()->GetRollerCoasterHeightAdd(), ConstructionOptions::GetAllOptions()->GetRollerCoasterWidthAdd());
+	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetBumperCarsCost(), ConstructionOptions::GetAllOptions()->GetBumperCarsDescription(),
+		ConstructionOptions::GetAllOptions()->GetBumperCarsIconSymbol(), ConstructionOptions::GetAllOptions()->GetBumperCarsForegroundColor(),
+		ConstructionOptions::GetAllOptions()->GetBumperCarsConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetBumperCarsNotConnectedBackgroundColor(),
+		ConstructionOptions::GetAllOptions()->GetBumperCarsChosenBackgroundColor(), ConstructionOptions::GetAllOptions()->GetBumperCarsSymbol(),
+		ConstructionOptions::GetAllOptions()->GetBumperCarsToiletNeed(), ConstructionOptions::GetAllOptions()->GetBumperCarsHungerSatisfaction(),
+		ConstructionOptions::GetAllOptions()->GetBumperCarsVisitPrice(), ConstructionOptions::GetAllOptions()->GetBumperCarsEntertainmentValue(),
+		ConstructionOptions::GetAllOptions()->GetBumperCarsIsExit(), ConstructionOptions::GetAllOptions()->GetBumperCarsMaxVisitors(),
+		ConstructionOptions::GetAllOptions()->GetBumperCarsVisitTime(), ConstructionOptions::GetAllOptions()->GetBumperCarsExpences(),
+		ConstructionOptions::GetAllOptions()->GetBumperCarsHeightAdd(), ConstructionOptions::GetAllOptions()->GetBumperCarsWidthAdd());
 	menu_ptr->CreateVisitorManager();
 }
 void GameManagement::CreateInfoPanel()
@@ -348,7 +376,7 @@ void GameManagement::ClearChosenElementAndInfoPanelRedraw()
 	Construction* chosen_ptr = infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetChosenConstruction();
 	if (chosen_ptr != nullptr)
 	{
-		infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->DeselectConstruction(camera_ptr, field_ptr, allObjects_ptr);
+		infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->DeselectConstruction(camera_ptr, allObjects_ptr);
 		if (infoPanel_ptr->GetCurrentContent() == InfoPanelContentType::SystemMessagesAndConstructionInfo)
 		{
 			infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->
@@ -411,8 +439,9 @@ void GameManagement::VisitorStepCycle(chrono::milliseconds& lastLaunch)
 	lastLaunch = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch());
 	int lowestEntertainmentPrice = menu_ptr->GetLowestEntertainmentVisitPrice();
 	vector<Visitor*> forDeleting = allObjects_ptr->AllVisitorsStep(camera_ptr, field_ptr, menu_ptr->GetGameStats(), lowestEntertainmentPrice);
-	allObjects_ptr->DeleteVisitors(forDeleting);
+	allObjects_ptr->DeleteVisitors(forDeleting, menu_ptr->GetGameStats());
 	menu_ptr->UpdateStatsDisplay();
+	infoPanel_ptr->UpdateConstructionInfo();
 }
 void GameManagement::VisitorStatusReductionCycle(chrono::milliseconds& lastLaunch)
 {
@@ -507,7 +536,7 @@ void GameManagement::S_Key()
 	}
 	if (infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetChosenConstruction() != nullptr)
 	{
-		infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->DeselectConstruction(camera_ptr, field_ptr, allObjects_ptr);
+		infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->DeselectConstruction(camera_ptr, allObjects_ptr);
 	}
 	if (GetCursorArea() == CursorLocation::Menu)
 	{
@@ -780,8 +809,7 @@ void GameManagement::EnterKey_Camera()
 	}
 	else
 	{
-		Construction* previousChoice_ptr = infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetChosenConstruction();
-		infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->DeselectConstruction(camera_ptr, field_ptr, allObjects_ptr);
+		infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->DeselectConstruction(camera_ptr, allObjects_ptr);
 		Construction* userChoice_ptr = allObjects_ptr->FindConstruction(cursor_ptr->GetCursorConsoleLocation());
 		if (userChoice_ptr == nullptr)
 		{
@@ -790,16 +818,15 @@ void GameManagement::EnterKey_Camera()
 		else
 		{
 			ChosenConstructionNotify(userChoice_ptr);
-			int mask = userChoice_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), allObjects_ptr->GetPreliminaryElement());
-			userChoice_ptr->DrawObject(mask, camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(),
-				camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(), camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
+			userChoice_ptr->Redraw_VisitorCheck(camera_ptr, allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(),
+				allObjects_ptr->GetAllVisitors(), allObjects_ptr->GetPreliminaryElement());
 			cursor_ptr->CursorMovement(userChoice_ptr->GetUpperLeft());
 		}
 	}
 }
 void GameManagement::EnterKey_Menu()
 {
-	infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->DeselectConstruction(camera_ptr, field_ptr, allObjects_ptr);
+	infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->DeselectConstruction(camera_ptr, allObjects_ptr);
 	if (infoPanel_ptr->GetCurrentContent() == InfoPanelContentType::SystemMessagesAndConstructionInfo)
 	{
 		infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->ClearContent();
@@ -862,7 +889,7 @@ void GameManagement::EnterKey_InfoPanel()
 					chosen_ptr->EraseObject(camera_ptr->GetUpperLeft().Get_x(), camera_ptr->GetUpperLeft().Get_y(),
 						camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition(), camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition());
 					PointCoord redrawPoint = chosen_ptr->GetRedrawNeighboursPoint();
-					allObjects_ptr->DeleteConstruction(chosen_ptr, IsEqual);
+					allObjects_ptr->DeleteConstruction(chosen_ptr, IsEqual, menu_ptr->GetGameStats());
 					infoPanel_ptr->ClearChoosenConstruction();
 					allObjects_ptr->RedrawNeighbours(redrawPoint, camera_ptr);
 					infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->

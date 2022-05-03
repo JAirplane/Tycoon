@@ -57,15 +57,11 @@ void ConstructionInfoScreen::ClearChosenConstruction()
 {
 	chosen_ptr = nullptr;
 }
-void ConstructionInfoScreen::DeselectConstruction(const Camera* cam_ptr, const PlayingField* field_ptr, const AllObjects* allObjects_ptr)
+void ConstructionInfoScreen::DeselectConstruction(const Camera* cam_ptr, const AllObjects* allObjects_ptr)
 {
 	if (cam_ptr == nullptr)
 	{
 		throw MyException("ConstructionInfoScreen::DeselectConstruction(Camera* cam_ptr, int environmentMask) received nullptr camera");
-	}
-	if (field_ptr == nullptr)
-	{
-		throw MyException("ConstructionInfoScreen::DeselectConstruction(Camera* cam_ptr, int environmentMask) received nullptr playingfield");
 	}
 	if (allObjects_ptr == nullptr)
 	{
@@ -74,15 +70,37 @@ void ConstructionInfoScreen::DeselectConstruction(const Camera* cam_ptr, const P
 	if (chosen_ptr != nullptr)
 	{
 		chosen_ptr->SetChosenStatus(false);
-		if (!allObjects_ptr->ObjectImposition(chosen_ptr, cam_ptr, field_ptr))
+		if (cam_ptr->IsObjectInsideTheRectangle(chosen_ptr))
 		{
-			chosen_ptr->EraseObject(cam_ptr->GetUpperLeft().Get_x(), cam_ptr->GetUpperLeft().Get_y(), cam_ptr->GetUpperLeft().Get_x() + cam_ptr->GetWidthAddition(),
-				cam_ptr->GetUpperLeft().Get_y() + cam_ptr->GetHeightAddition());
-			int mask = chosen_ptr->GetEnvironmentMask(allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(), allObjects_ptr->GetPreliminaryElement());
-			chosen_ptr->DrawObject(mask, cam_ptr->GetUpperLeft().Get_x(), cam_ptr->GetUpperLeft().Get_y(), cam_ptr->GetUpperLeft().Get_x() + cam_ptr->GetWidthAddition(),
-				cam_ptr->GetUpperLeft().Get_y() + cam_ptr->GetHeightAddition());
+			chosen_ptr->Redraw_VisitorCheck(cam_ptr, allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllBuildings(),
+				allObjects_ptr->GetAllVisitors(), allObjects_ptr->GetPreliminaryElement());
 		}
-		ClearChosenConstruction();
+		this->ClearChosenConstruction();
+	}
+}
+void ConstructionInfoScreen::ClearChosenConstructionStatistic()
+{
+	int xCoord = constructionIcon_ptr->GetUpperLeft().Get_x() + constructionIcon_ptr->GetWidthAddition() + 2;
+	int yCoord = constructionIcon_ptr->GetUpperLeft().Get_y() + 1;
+	for (yCoord; yCoord < constructionIcon_ptr->GetUpperLeft().Get_y() + 3; yCoord++)
+	{
+		for (xCoord; xCoord < deconstruct_ptr->GetUpperLeft().Get_x(); xCoord++)
+		{
+			set_cursor_pos(xCoord, yCoord);
+			cout << " ";
+		}
+	}
+}
+void ConstructionInfoScreen::ShowChosenConstructionStatistic()
+{
+	set_cursor_pos(constructionIcon_ptr->GetUpperLeft().Get_x() + constructionIcon_ptr->GetWidthAddition() + 2, constructionIcon_ptr->GetUpperLeft().Get_y() + 1);
+	set_color(GetTextColor(), GetShadingColor());
+	cout << "Visitors: " << chosen_ptr->allTimeVisited;
+	int profit = chosen_ptr->overallRevenue;
+	if (profit != -1)
+	{
+		set_cursor_pos(constructionIcon_ptr->GetUpperLeft().Get_x() + constructionIcon_ptr->GetWidthAddition() + 2, constructionIcon_ptr->GetUpperLeft().Get_y() + 2);
+		cout << "Overall profit: " << chosen_ptr->overallRevenue;
 	}
 }
 void ConstructionInfoScreen::DisplayConstructionInfo()
@@ -95,15 +113,7 @@ void ConstructionInfoScreen::DisplayConstructionInfo()
 			constructionIcon_ptr->GetUpperLeft().Get_y() + constructionIcon_ptr->GetHeightAddition() - 1, chosen_ptr->GetDescriptor()->GetIconSymbol(),
 			chosen_ptr->GetDescriptor()->GetForegroundColor(), chosen_ptr->GetDescriptor()->GetConnectedBackgroundColor());
 		deconstruct_ptr->Display();
-		set_cursor_pos(constructionIcon_ptr->GetUpperLeft().Get_x() + constructionIcon_ptr->GetWidthAddition() + 2, constructionIcon_ptr->GetUpperLeft().Get_y() + 1);
-		set_color(GetTextColor(), GetShadingColor());
-		cout << "Visitors: " << chosen_ptr->GetVisitorsCount();
-		int profit = chosen_ptr->GetProfit();
-		if (profit != -1)
-		{
-			set_cursor_pos(constructionIcon_ptr->GetUpperLeft().Get_x() + constructionIcon_ptr->GetWidthAddition() + 2, constructionIcon_ptr->GetUpperLeft().Get_y() + 2);
-			cout << "Overall profit: " << chosen_ptr->GetProfit();
-		}
+		this->ShowChosenConstructionStatistic();
 	}
 	else
 	{
