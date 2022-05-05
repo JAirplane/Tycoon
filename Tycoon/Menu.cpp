@@ -260,7 +260,7 @@ Direction Menu::ChangeMenuSide(Camera* camera_ptr)
 	}
 	return shiftDirection;
 }
-void Menu::ShowStats()
+void Menu::ShowStats() const
 {
 	gameStats_ptr->DrawBorder();
 	gameStats_ptr->DrawContent();
@@ -275,14 +275,14 @@ void Menu::UpdateStatsDisplay()
 		gameStats_ptr->SetPreviousVisitorsNumber();
 	}
 }
-void Menu::ShowMenuItems()
+void Menu::ShowMenuItems() const
 {
 	int bottomY = GetUpperLeft().Get_y() + GetHeightAddition();
 	if (menuItems.empty())
 	{
 		throw MyException("Menu::ShowMenuItems() menu elements container is empty.");
 	}
-	vector<MenuElement*>::iterator menuElementIter;
+	vector<MenuElement*>::const_iterator menuElementIter;
 	for (menuElementIter = menuItems.begin(); menuElementIter != menuItems.end(); menuElementIter++)
 	{
 		if ((*menuElementIter)->GetUpperLeft().Get_y() + (*menuElementIter)->GetHeightAddition() < bottomY &&

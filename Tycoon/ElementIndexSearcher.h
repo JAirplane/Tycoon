@@ -6,7 +6,7 @@ class ElementIndexSearcher
 protected:
 	static ElementIndexSearcher* indexSearcher;
 public:
-	
+
 	ElementIndexSearcher() {}
 	~ElementIndexSearcher()
 	{
@@ -15,7 +15,7 @@ public:
 	static ElementIndexSearcher* CreateIndexSearcher();
 	static ElementIndexSearcher* GetElementIndexSearcher();
 	template <class T>
-	static int GetElementIndex(const list<T*> container, const T* element);
+	int GetElementIndex(const list<T*> container, const T* element);
 };
 template <class T>
 int ElementIndexSearcher::GetElementIndex(const list<T*> container, const T* element)

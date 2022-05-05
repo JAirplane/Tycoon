@@ -215,7 +215,7 @@ bool AllObjects::VisitorsImposition(const IngameObject* object_ptr) const
 	}
 	return false;
 }
-bool AllObjects::ObjectImposition(PointCoord point, PlayingField* field_ptr) const
+bool AllObjects::ObjectImposition(PointCoord point, const PlayingField* field_ptr) const
 {
 	if (field_ptr->IsLocationOnTheBorder(point))
 	{
@@ -338,9 +338,9 @@ void AllObjects::DisplayBuildings(const Camera* camera_ptr, const PlayingField* 
 		}
 	}
 }
-void AllObjects::DisplayVisitors(const Camera* camera_ptr)
+void AllObjects::DisplayVisitors(const Camera* camera_ptr) const
 {
-	list<Visitor*>::iterator visitorIter;
+	list<Visitor*>::const_iterator visitorIter;
 	for (visitorIter = visitors.begin(); visitorIter != visitors.end(); visitorIter++)
 	{
 		if (camera_ptr->IsObjectInsideTheRectangle(*visitorIter) && !BuildingsImposition(*visitorIter))
@@ -349,9 +349,9 @@ void AllObjects::DisplayVisitors(const Camera* camera_ptr)
 		}
 	}
 }
-void AllObjects::DisplayRoads(const Camera* camera_ptr, const PlayingField* field_ptr)
+void AllObjects::DisplayRoads(const Camera* camera_ptr, const PlayingField* field_ptr) const
 {
-	list<Construction*>::iterator iter;
+	list<Construction*>::const_iterator iter;
 	for (iter = roads.begin(); iter != roads.end(); iter++)
 	{
 		if (!ObjectImposition((*iter), camera_ptr, field_ptr))

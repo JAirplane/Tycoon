@@ -9,9 +9,9 @@ void GameManagement::CreateDrawPointer()
 {
 	draw_ptr = new Visualisation();
 }
-void GameManagement::CreateRoadGraph()
+void GameManagement::CreateGameElementsDrawer()
 {
-	graph_ptr = new RoadGraph();
+	gameElementsDrawer = new Display(draw_ptr);
 }
 void GameManagement::CreateAllObjects()
 {
@@ -28,46 +28,67 @@ void GameManagement::CreateAllObjects()
 }
 void GameManagement::CreateCamera()
 {
-	RectangleSymbols* cameraSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetCameraVerticalSymbol(),
-		ConstructionOptions::GetAllOptions()->GetCameraHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetCameraUpperLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetCameraUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetCameraBottomLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetCameraBottomRightSymbol());
-	color cameraBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetCameraBorderForegroundColor();
-	color cameraBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetCameraBorderBackgroundColor();
-	BorderAppearance* cameraBorder_ptr = new BorderAppearance(cameraSymbols_ptr, cameraBorderForegroundColor, cameraBorderBackgroundColor);
-	color cameraLetterColor = ConstructionOptions::GetAllOptions()->GetCameraLetterColor();
-	color cameraShadingColor = ConstructionOptions::GetAllOptions()->GetCameraShadingColor();
-	camera_ptr = new Camera(ConstructionOptions::GetAllOptions()->GetCameraInitialUpperLeft(), ConstructionOptions::GetAllOptions()->GetCameraHeightAdd(),
-		ConstructionOptions::GetAllOptions()->GetCameraWidthAdd(), cameraBorder_ptr, cameraLetterColor, cameraShadingColor, draw_ptr, cursor_ptr);
+	if (draw_ptr == nullptr)
+	{
+		throw MyException("GameManagement::CreateCamera() draw_ptr is nullptr");
+	}
+	if (cursor_ptr == nullptr)
+	{
+		throw MyException("GameManagement::CreateCamera() cursor_ptr is nullptr");
+	}
+	MyRectangle* cameraRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetCameraInitialUpperLeft(),
+		ConstructionOptions::GetAllOptions()->GetCameraHeightAdd(), ConstructionOptions::GetAllOptions()->GetCameraWidthAdd(),
+		ConstructionOptions::GetAllOptions()->GetCameraVerticalSymbol(), ConstructionOptions::GetAllOptions()->GetCameraHorizontalSymbol(),
+		ConstructionOptions::GetAllOptions()->GetCameraUpperLeftSymbol(), ConstructionOptions::GetAllOptions()->GetCameraUpperRightSymbol(),
+		ConstructionOptions::GetAllOptions()->GetCameraBottomLeftSymbol(), ConstructionOptions::GetAllOptions()->GetCameraBottomRightSymbol(),
+		ConstructionOptions::GetAllOptions()->GetCameraBorderForegroundColor(), ConstructionOptions::GetAllOptions()->GetCameraBorderBackgroundColor(),
+		ConstructionOptions::GetAllOptions()->GetCameraLetterColor(), ConstructionOptions::GetAllOptions()->GetCameraShadingColor(), draw_ptr, cursor_ptr);
+	camera_ptr = new Camera(cameraRectangle);
+	delete cameraRectangle;
 }
 void GameManagement::CreatePlayingField()
 {
-	RectangleSymbols* playingFieldSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetVerticalPlayingField(),
-		ConstructionOptions::GetAllOptions()->GetHorizontalPlayingField(), ConstructionOptions::GetAllOptions()->GetUpperLeftPlayingField(),
-		ConstructionOptions::GetAllOptions()->GetUpperRightPlayingField(), ConstructionOptions::GetAllOptions()->GetBottomLeftPlayingField(),
-		ConstructionOptions::GetAllOptions()->GetBottomRightPlayingField());
-	color playingFieldBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetPlayingFieldBorderForegroundColor();
-	color playingFieldBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetPlayingFieldBorderBackgroundColor();
-	BorderAppearance* playingFieldBorder_ptr = new BorderAppearance(playingFieldSymbols_ptr, playingFieldBorderForegroundColor, playingFieldBorderBackgroundColor);
-	color playingFieldLetterColor = ConstructionOptions::GetAllOptions()->GetPlayingFieldLetterColor();
-	color playingFieldShadingColor = ConstructionOptions::GetAllOptions()->GetPlayingFieldShadingColor();
-	field_ptr = new PlayingField(ConstructionOptions::GetAllOptions()->GetPlayingFieldUpperLeft(), ConstructionOptions::GetAllOptions()->GetPlayingFieldHeightAdd(),
-		ConstructionOptions::GetAllOptions()->GetPlayingFieldWidthAdd(), playingFieldBorder_ptr, playingFieldLetterColor, playingFieldShadingColor, draw_ptr, cursor_ptr);
+	if (draw_ptr == nullptr)
+	{
+		throw MyException("GameManagement::CreatePlayingField() draw_ptr is nullptr");
+	}
+	if (cursor_ptr == nullptr)
+	{
+		throw MyException("GameManagement::CreatePlayingField() cursor_ptr is nullptr");
+	}
+	MyRectangle* playingFieldRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetPlayingFieldUpperLeft(),
+		ConstructionOptions::GetAllOptions()->GetPlayingFieldHeightAdd(), ConstructionOptions::GetAllOptions()->GetPlayingFieldWidthAdd(),
+		ConstructionOptions::GetAllOptions()->GetVerticalPlayingField(), ConstructionOptions::GetAllOptions()->GetHorizontalPlayingField(),
+		ConstructionOptions::GetAllOptions()->GetUpperLeftPlayingField(), ConstructionOptions::GetAllOptions()->GetUpperRightPlayingField(),
+		ConstructionOptions::GetAllOptions()->GetBottomLeftPlayingField(), ConstructionOptions::GetAllOptions()->GetBottomRightPlayingField(),
+		ConstructionOptions::GetAllOptions()->GetPlayingFieldBorderForegroundColor(), ConstructionOptions::GetAllOptions()->GetPlayingFieldBorderBackgroundColor(),
+		ConstructionOptions::GetAllOptions()->GetPlayingFieldLetterColor(), ConstructionOptions::GetAllOptions()->GetPlayingFieldShadingColor(), draw_ptr, cursor_ptr);
+	field_ptr = new PlayingField(playingFieldRectangle);
+	delete playingFieldRectangle;
 }
 void GameManagement::CreateMenuAndElements()
 {
+	if (draw_ptr == nullptr)
+	{
+		throw MyException("GameManagement::CreateMenuAndElements() draw_ptr is nullptr");
+	}
+	if (cursor_ptr == nullptr)
+	{
+		throw MyException("GameManagement::CreateMenuAndElements() cursor_ptr is nullptr");
+	}
+	if (camera_ptr == nullptr)
+	{
+		throw MyException("GameManagement::CreateMenuAndElements() camera_ptr is nullptr");
+	}
 	PointCoord menuUpperLeft(camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition() + 1, camera_ptr->GetUpperLeft().Get_y());
-	RectangleSymbols* menuSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMenuVerticalSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMenuHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuUpperLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMenuUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuBottomLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMenuBottomRightSymbol());
-	color menuBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetMenuBorderForegroundColor();
-	color menuBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetMenuBorderBackgroundColor();
-	BorderAppearance* menuBorder = new BorderAppearance(menuSymbols_ptr, menuBorderForegroundColor, menuBorderBackgroundColor);
-	color menuLetterColor = ConstructionOptions::GetAllOptions()->GetMenuLetterColor();
-	color menuShadingColor = ConstructionOptions::GetAllOptions()->GetMenuShadingColor();
-	menu_ptr = new Menu(draw_ptr, cursor_ptr, menuUpperLeft, ConstructionOptions::GetAllOptions()->GetMenuHeightAdd(),
-		ConstructionOptions::GetAllOptions()->GetMenuWidthAdd(), menuBorder, menuLetterColor, menuShadingColor);
+	MyRectangle* menuRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(menuUpperLeft, ConstructionOptions::GetAllOptions()->GetMenuHeightAdd(),
+		ConstructionOptions::GetAllOptions()->GetMenuWidthAdd(), ConstructionOptions::GetAllOptions()->GetMenuVerticalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuHorizontalSymbol(),
+		ConstructionOptions::GetAllOptions()->GetMenuUpperLeftSymbol(), ConstructionOptions::GetAllOptions()->GetMenuUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuBottomLeftSymbol(),
+		ConstructionOptions::GetAllOptions()->GetMenuBottomRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuBorderForegroundColor(),
+		ConstructionOptions::GetAllOptions()->GetMenuBorderBackgroundColor(), ConstructionOptions::GetAllOptions()->GetMenuLetterColor(),
+		ConstructionOptions::GetAllOptions()->GetMenuShadingColor(), draw_ptr, cursor_ptr);
+	menu_ptr = new Menu(menuRectangle);
+	delete menuRectangle; //
 	menu_ptr->CreateGameStats();
 	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetRoadCost(), ConstructionOptions::GetAllOptions()->GetRoadDescription(),
 		ConstructionOptions::GetAllOptions()->GetRoadIconSymbol(), ConstructionOptions::GetAllOptions()->GetRoadForegroundColor(),
@@ -146,26 +167,68 @@ void GameManagement::CreateMenuAndElements()
 		ConstructionOptions::GetAllOptions()->GetBumperCarsIsExit(), ConstructionOptions::GetAllOptions()->GetBumperCarsMaxVisitors(),
 		ConstructionOptions::GetAllOptions()->GetBumperCarsVisitTime(), ConstructionOptions::GetAllOptions()->GetBumperCarsExpences(),
 		ConstructionOptions::GetAllOptions()->GetBumperCarsHeightAdd(), ConstructionOptions::GetAllOptions()->GetBumperCarsWidthAdd());
+	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetLogRideCost(), ConstructionOptions::GetAllOptions()->GetLogRideDescription(),
+		ConstructionOptions::GetAllOptions()->GetLogRideIconSymbol(), ConstructionOptions::GetAllOptions()->GetLogRideForegroundColor(),
+		ConstructionOptions::GetAllOptions()->GetLogRideConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetLogRideNotConnectedBackgroundColor(),
+		ConstructionOptions::GetAllOptions()->GetLogRideChosenBackgroundColor(), ConstructionOptions::GetAllOptions()->GetLogRideSymbol(),
+		ConstructionOptions::GetAllOptions()->GetLogRideToiletNeed(), ConstructionOptions::GetAllOptions()->GetLogRideHungerSatisfaction(),
+		ConstructionOptions::GetAllOptions()->GetLogRideVisitPrice(), ConstructionOptions::GetAllOptions()->GetLogRideEntertainmentValue(),
+		ConstructionOptions::GetAllOptions()->GetLogRideIsExit(), ConstructionOptions::GetAllOptions()->GetLogRideMaxVisitors(),
+		ConstructionOptions::GetAllOptions()->GetLogRideVisitTime(), ConstructionOptions::GetAllOptions()->GetLogRideExpences(),
+		ConstructionOptions::GetAllOptions()->GetLogRideHeightAdd(), ConstructionOptions::GetAllOptions()->GetLogRideWidthAdd());
 	menu_ptr->CreateVisitorManager();
 }
 void GameManagement::CreateInfoPanel()
 {
-	RectangleSymbols* infoPanelBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetInfoPanelVerticalSymbol(),
-		ConstructionOptions::GetAllOptions()->GetInfoPanelHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetInfoPanelUpperLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetInfoPanelUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetInfoPanelBottomLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetInfoPanelBottomRightSymbol());
-	color borderForegroundColor = ConstructionOptions::GetAllOptions()->GetInfoPanelBorderForegroundColor();
-	color borderBackgroundColor = ConstructionOptions::GetAllOptions()->GetInfoPanelBorderBackgroundColor();
-	BorderAppearance* externalBorder = new BorderAppearance(infoPanelBorderSymbols_ptr, borderForegroundColor, borderBackgroundColor);
-	color letterColor = ConstructionOptions::GetAllOptions()->GetInfoPanelTextColor();
-	color shadingColor = ConstructionOptions::GetAllOptions()->GetInfoPanelShadingColor();
-	infoPanel_ptr = new InfoPanel(ConstructionOptions::GetAllOptions()->GetInfoPanelUpperLeft(), ConstructionOptions::GetAllOptions()->GetInfoPanelHeightAdd(),
-		ConstructionOptions::GetAllOptions()->GetInfoPanelWidthAdd(), externalBorder, letterColor, shadingColor, draw_ptr, cursor_ptr);
+	if (draw_ptr == nullptr)
+	{
+		throw MyException("GameManagement::CreateMenuAndElements() draw_ptr is nullptr");
+	}
+	if (cursor_ptr == nullptr)
+	{
+		throw MyException("GameManagement::CreateMenuAndElements() cursor_ptr is nullptr");
+	}
+	MyRectangle* infoPanelRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetInfoPanelUpperLeft(),
+		ConstructionOptions::GetAllOptions()->GetInfoPanelHeightAdd(), ConstructionOptions::GetAllOptions()->GetInfoPanelWidthAdd(),
+		ConstructionOptions::GetAllOptions()->GetInfoPanelVerticalSymbol(), ConstructionOptions::GetAllOptions()->GetInfoPanelHorizontalSymbol(),
+		ConstructionOptions::GetAllOptions()->GetInfoPanelUpperLeftSymbol(), ConstructionOptions::GetAllOptions()->GetInfoPanelUpperRightSymbol(),
+		ConstructionOptions::GetAllOptions()->GetInfoPanelBottomLeftSymbol(), ConstructionOptions::GetAllOptions()->GetInfoPanelBottomRightSymbol(),
+		ConstructionOptions::GetAllOptions()->GetInfoPanelBorderForegroundColor(), ConstructionOptions::GetAllOptions()->GetInfoPanelBorderBackgroundColor(),
+		ConstructionOptions::GetAllOptions()->GetInfoPanelTextColor(), ConstructionOptions::GetAllOptions()->GetInfoPanelShadingColor(), draw_ptr, cursor_ptr);
+	infoPanel_ptr = new InfoPanel(infoPanelRectangle);
+	delete infoPanelRectangle;
 	infoPanel_ptr->CreateMenuScreen();
 	infoPanel_ptr->CreateControlsScreen();
 	infoPanel_ptr->CreateGameMessagesScreen();
 	ChosenConstructionAttach(infoPanel_ptr);
 	UserMessageAttach(infoPanel_ptr);
+}
+void GameManagement::CreateInitialSplashScreen()
+{
+	if (draw_ptr == nullptr)
+	{
+		throw MyException("GameManagement::CreateMenuAndElements() draw_ptr is nullptr");
+	}
+	if (cursor_ptr == nullptr)
+	{
+		throw MyException("GameManagement::CreateMenuAndElements() cursor_ptr is nullptr");
+	}
+	initialSplashScreen_ptr = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetInitialSplashScreenUpperLeft(),
+		camera_ptr->GetHeightAddition() + infoPanel_ptr->GetHeightAddition(), camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition(),
+		ConstructionOptions::GetAllOptions()->GetInitialSplashScreenVerticalSymbol(), ConstructionOptions::GetAllOptions()->GetInitialSplashScreenHorizontalSymbol(),
+		ConstructionOptions::GetAllOptions()->GetInitialSplashScreenUpperLeftSymbol(), ConstructionOptions::GetAllOptions()->GetInitialSplashScreenUpperRightSymbol(),
+		ConstructionOptions::GetAllOptions()->GetInitialSplashScreenBottomLeftSymbol(), ConstructionOptions::GetAllOptions()->GetInitialSplashScreenBottomRightSymbol(),
+		ConstructionOptions::GetAllOptions()->GetInitialSplashScreenBorderForegroundColor(), ConstructionOptions::GetAllOptions()->GetInitialSplashScreenBorderBackgroundColor(),
+		ConstructionOptions::GetAllOptions()->GetInitialSplashScreenLetterColor(), ConstructionOptions::GetAllOptions()->GetInitialSplashScreenShadingColor(), draw_ptr, cursor_ptr);
+}
+//
+void GameManagement::InitialDisplay() const
+{
+	gameElementsDrawer->DisplayCamera(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
+	gameElementsDrawer->DisplayMenu(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
+	gameElementsDrawer->DisplayInfoPanel(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
+	gameElementsDrawer->DisplayPlayingField(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
+	gameElementsDrawer->DisplayAllObjects(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 }
 // notifies InfoPanel if user choose some construction on the playing field
 void GameManagement::ChosenConstructionAttach(ConstructionInfoObserverInterface* observer)
@@ -217,148 +280,6 @@ void GameManagement::UserMessageNotify(const string message)
 			++observerIter;
 		}
 	}
-}
-//
-CursorLocation GameManagement::GetCursorArea()
-{
-	if (cursor_ptr->GetCursorConsoleLocation().Get_x() < (camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition()) &&
-		cursor_ptr->GetCursorConsoleLocation().Get_x() > camera_ptr->GetUpperLeft().Get_x() &&
-		cursor_ptr->GetCursorConsoleLocation().Get_y() < (camera_ptr->GetUpperLeft().Get_y() + camera_ptr->GetHeightAddition()) &&
-		cursor_ptr->GetCursorConsoleLocation().Get_y() > camera_ptr->GetUpperLeft().Get_y())	//this condition checks if the cursor is within the camera borders
-	{
-		return CursorLocation::Camera;
-	}
-	else if (cursor_ptr->GetCursorConsoleLocation().Get_x() < (menu_ptr->GetUpperLeft().Get_x() + menu_ptr->GetWidthAddition()) &&
-		cursor_ptr->GetCursorConsoleLocation().Get_x() > menu_ptr->GetUpperLeft().Get_x() &&
-		cursor_ptr->GetCursorConsoleLocation().Get_y() < (menu_ptr->GetUpperLeft().Get_y() + menu_ptr->GetHeightAddition()) &&
-		cursor_ptr->GetCursorConsoleLocation().Get_y() > menu_ptr->GetUpperLeft().Get_y())		//when the cursor is in the Menu
-	{
-		return CursorLocation::Menu;
-	}
-	else if (cursor_ptr->GetCursorConsoleLocation().Get_x() < (infoPanel_ptr->GetUpperLeft().Get_x() + infoPanel_ptr->GetWidthAddition()) &&
-		cursor_ptr->GetCursorConsoleLocation().Get_x() > infoPanel_ptr->GetUpperLeft().Get_x() &&
-		cursor_ptr->GetCursorConsoleLocation().Get_y() < (infoPanel_ptr->GetUpperLeft().Get_y() + infoPanel_ptr->GetHeightAddition()) &&
-		cursor_ptr->GetCursorConsoleLocation().Get_y() > infoPanel_ptr->GetUpperLeft().Get_y())	//when the cursor is in the InfoPanel
-	{
-		return CursorLocation::InfoPanel;
-	}
-	else
-	{
-		return CursorLocation::Unknown; //probably somewhere on border
-	}
-}
-void GameManagement::ReturnCursorToCamera()
-{
-	if (GetCursorArea() == CursorLocation::Camera)
-	{
-		cursor_ptr->CursorMovement(cursor_ptr->GetCursorConsoleLocation());
-	}
-	else
-	{
-		cursor_ptr->CursorMovement(PointCoord(camera_ptr->GetHalfXAxis(), camera_ptr->GetHalfYAxis()));
-	}
-}
-void GameManagement::DrawCursor()
-{
-	if (!allObjects_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr) && allObjects_ptr->GetPreliminaryElement() == nullptr)
-	{
-		draw_ptr->DrawCursorPixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y(),
-			ConstructionOptions::GetAllOptions()->GetCursorBackgroundColor());
-	}
-}
-void GameManagement::DisplayMenu()
-{
-	menu_ptr->DrawBorder();
-	menu_ptr->ShowMenuItems();
-	menu_ptr->ShowStats();
-	ReturnCursorToCamera();
-	DrawCursor();
-}
-void GameManagement::HideMenu()
-{
-	menu_ptr->ClearContent();
-	menu_ptr->EraseBorder();
-	ReturnCursorToCamera();
-	DrawCursor();
-}
-void GameManagement::DisplayInfoPanel()
-{
-	infoPanel_ptr->DrawBorder();
-	infoPanel_ptr->ShowSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(),
-		ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
-	ReturnCursorToCamera();
-	DrawCursor();
-}
-void GameManagement::HideInfoPanel()
-{
-	infoPanel_ptr->ClearContent();
-	infoPanel_ptr->EraseBorder();
-	ReturnCursorToCamera();
-	DrawCursor();
-}
-void GameManagement::EraseScreen()
-{
-	set_color(color::cBLACK);
-	system("cls");
-}
-void GameManagement::DisplayCamera()
-{
-	camera_ptr->DrawBorder();
-	ReturnCursorToCamera();
-	DrawCursor();
-}
-void GameManagement::DisplayPlayingField()
-{
-	int cameraLeftX = camera_ptr->GetUpperLeft().Get_x();
-	int cameraTopY = camera_ptr->GetUpperLeft().Get_y();
-	int cameraRightX = cameraLeftX + camera_ptr->GetWidthAddition();
-	int cameraBottomY = cameraTopY + camera_ptr->GetHeightAddition();
-	int leftX = field_ptr->GetUpperLeft().Get_x();
-	int topY = field_ptr->GetUpperLeft().Get_y();
-	int rightX = leftX + field_ptr->GetWidthAddition();
-	int bottomY = topY + field_ptr->GetHeightAddition();
-	draw_ptr->DrawPartOfRectangle(cameraLeftX, cameraTopY, cameraRightX, cameraBottomY, leftX, topY, rightX, bottomY,
-		field_ptr->GetBorder()->GetBorderSymbols()->GetVerticalSymbol(), field_ptr->GetBorder()->GetBorderSymbols()->GetHorizontalSymbol(),
-		field_ptr->GetBorder()->GetBorderSymbols()->GetUpperLeftSymbol(), field_ptr->GetBorder()->GetBorderSymbols()->GetUpperRightSymbol(),
-		field_ptr->GetBorder()->GetBorderSymbols()->GetBottomLeftSymbol(), field_ptr->GetBorder()->GetBorderSymbols()->GetBottomRightSymbol(),
-		ConstructionOptions::GetAllOptions()->GetPlayingFieldBorderForegroundColor());
-	ReturnCursorToCamera();
-	DrawCursor();
-}
-void GameManagement::ErasePlayingField()
-{
-	int cameraLeftX = camera_ptr->GetUpperLeft().Get_x();
-	int cameraTopY = camera_ptr->GetUpperLeft().Get_y();
-	int cameraRightX = cameraLeftX + camera_ptr->GetWidthAddition();
-	int cameraBottomY = cameraTopY + camera_ptr->GetHeightAddition();
-	int leftX = field_ptr->GetUpperLeft().Get_x();
-	int topY = field_ptr->GetUpperLeft().Get_y();
-	int rightX = leftX + field_ptr->GetWidthAddition();
-	int bottomY = topY + field_ptr->GetHeightAddition();
-	draw_ptr->ErasePartOfRectangle(cameraLeftX, cameraTopY, cameraRightX, cameraBottomY, leftX, topY, rightX, bottomY);
-	ReturnCursorToCamera();
-	DrawCursor();
-}
-void GameManagement::DisplayAllObjects()
-{
-	allObjects_ptr->DisplayBuildings(camera_ptr, field_ptr);
-	allObjects_ptr->DisplayRoads(camera_ptr, field_ptr);
-	allObjects_ptr->DisplayVisitors(camera_ptr);
-	ReturnCursorToCamera();
-	DrawCursor();
-}
-//
-void GameManagement::HideInterface()
-{
-	HideMenu();
-	HideInfoPanel();
-	menu_ptr->SetHideMenuStatus(1);
-}
-void GameManagement::ShowInterface()
-{
-	DisplayMenu();
-	DisplayInfoPanel();
-	menu_ptr->SetHideMenuStatus(0);
 }
 //
 void GameManagement::ErasePreliminaryElementAndMenuRedraw()
@@ -413,15 +334,15 @@ void GameManagement::UserActionsCycle(chrono::milliseconds& lastLaunch)
 		if (shifting)
 		{
 			allObjects_ptr->EraseObjects(camera_ptr);
-			ErasePlayingField();
+			gameElementsDrawer->ErasePlayingField(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 			allObjects_ptr->ShiftBuildings(shiftDirection);
 			allObjects_ptr->ShiftRoads(shiftDirection);
 			allObjects_ptr->ShiftVisitors(shiftDirection);
 			field_ptr->Shift(shiftDirection);
-			DisplayPlayingField();
-			DisplayAllObjects();
+			gameElementsDrawer->DisplayPlayingField(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
+			gameElementsDrawer->DisplayAllObjects(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 		}
-		DrawCursor();
+		gameElementsDrawer->DrawCursor(cursor_ptr, allObjects_ptr, field_ptr);
 	}
 }
 void GameManagement::VisitorCreationCycle(chrono::milliseconds& lastLaunch)
@@ -501,7 +422,7 @@ void GameManagement::H_Key()
 {
 	if (!menu_ptr->GetHideMenuStatus())
 	{
-		switch (GetCursorArea())
+		switch (cursor_ptr->GetCursorArea(camera_ptr, menu_ptr, infoPanel_ptr))
 		{
 		case CursorLocation::Camera: {break; }
 		case CursorLocation::Menu:
@@ -517,15 +438,15 @@ void GameManagement::H_Key()
 		}
 		default:
 		{
-			ReturnCursorToCamera();
+			cursor_ptr->ReturnToCamera(camera_ptr, menu_ptr, infoPanel_ptr);
 			break;
 		}
 		}
-		HideInterface();
+		gameElementsDrawer->HideInterface(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 	}
 	else
 	{
-		ShowInterface();
+		gameElementsDrawer->ShowInterface(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 	}
 }
 void GameManagement::S_Key()
@@ -538,11 +459,11 @@ void GameManagement::S_Key()
 	{
 		infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->DeselectConstruction(camera_ptr, allObjects_ptr);
 	}
-	if (GetCursorArea() == CursorLocation::Menu)
+	if (cursor_ptr->GetCursorArea(camera_ptr, menu_ptr, infoPanel_ptr) == CursorLocation::Menu)
 	{
 		TabKey_Menu();
 	}
-	if (GetCursorArea() == CursorLocation::InfoPanel)
+	if (cursor_ptr->GetCursorArea(camera_ptr, menu_ptr, infoPanel_ptr) == CursorLocation::InfoPanel)
 	{
 		infoPanel_ptr->EndInteractionDisplayRule();
 	}
@@ -551,16 +472,16 @@ void GameManagement::S_Key()
 	allObjects_ptr->ShiftRoads(shiftDirection, menu_ptr->GetWidthAddition());
 	allObjects_ptr->ShiftVisitors(shiftDirection, menu_ptr->GetWidthAddition());
 	field_ptr->Shift(shiftDirection, menu_ptr->GetWidthAddition());
-	EraseScreen();
-	DisplayCamera();
-	DisplayMenu();
-	DisplayAllObjects();
-	DisplayPlayingField();
-	DisplayInfoPanel();
+	gameElementsDrawer->EraseScreen();
+	gameElementsDrawer->DisplayCamera(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
+	gameElementsDrawer->DisplayMenu(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
+	gameElementsDrawer->DisplayAllObjects(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
+	gameElementsDrawer->DisplayPlayingField(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
+	gameElementsDrawer->DisplayInfoPanel(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 }
 void GameManagement::R_Key()
 {
-	if (GetCursorArea() == CursorLocation::Camera)
+	if (cursor_ptr->GetCursorArea(camera_ptr, menu_ptr, infoPanel_ptr) == CursorLocation::Camera)
 	{
 		Construction* preliminary_ptr = allObjects_ptr->GetPreliminaryElement();
 		if (preliminary_ptr != nullptr)
@@ -652,7 +573,7 @@ void GameManagement::IKey_Camera()
 	}
 	if (menu_ptr->GetHideMenuStatus())
 	{
-		ShowInterface();
+		gameElementsDrawer->ShowInterface(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 	}
 	else
 	{
@@ -669,12 +590,12 @@ void GameManagement::IKey_Menu()
 void GameManagement::IKey_InfoPanel()
 {
 	infoPanel_ptr->EndInteractionDisplayRule();
-	ReturnCursorToCamera();
-	DrawCursor();
+	cursor_ptr->ReturnToCamera(camera_ptr, menu_ptr, infoPanel_ptr);
+	gameElementsDrawer->DrawCursor(cursor_ptr, allObjects_ptr, field_ptr);
 }
 void GameManagement::I_Key()
 {
-	switch (GetCursorArea())
+	switch (cursor_ptr->GetCursorArea(camera_ptr, menu_ptr, infoPanel_ptr))
 	{
 	case CursorLocation::Camera:
 	{
@@ -693,7 +614,7 @@ void GameManagement::I_Key()
 	}
 	default:
 	{
-		ReturnCursorToCamera();
+		cursor_ptr->ReturnToCamera(camera_ptr, menu_ptr, infoPanel_ptr);
 		return;
 	}
 	}
@@ -702,7 +623,7 @@ void GameManagement::TabKey_Camera()
 {
 	if (menu_ptr->GetHideMenuStatus())
 	{
-		ShowInterface();
+		gameElementsDrawer->ShowInterface(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 	}
 	if (allObjects_ptr->GetPreliminaryElement() == nullptr)
 	{
@@ -728,18 +649,18 @@ void GameManagement::TabKey_Menu()
 	MenuElement* currentElement = menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y());
 	currentElement->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor());
 	currentElement->DrawBorder();
-	ReturnCursorToCamera();
-	DrawCursor();
+	cursor_ptr->ReturnToCamera(camera_ptr, menu_ptr, infoPanel_ptr);
+	gameElementsDrawer->DrawCursor(cursor_ptr, allObjects_ptr, field_ptr);
 }
 void GameManagement::TabKey_InfoPanel()
 {
 	infoPanel_ptr->EndInteractionDisplayRule();
-	ReturnCursorToCamera();
-	DrawCursor();
+	cursor_ptr->ReturnToCamera(camera_ptr, menu_ptr, infoPanel_ptr);
+	gameElementsDrawer->DrawCursor(cursor_ptr, allObjects_ptr, field_ptr);
 }
 void GameManagement::Tab_Key()
 {
-	switch (GetCursorArea())
+	switch (cursor_ptr->GetCursorArea(camera_ptr, menu_ptr, infoPanel_ptr))
 	{
 	case CursorLocation::Camera:
 	{
@@ -758,7 +679,7 @@ void GameManagement::Tab_Key()
 	}
 	default:
 	{
-		ReturnCursorToCamera();
+		cursor_ptr->ReturnToCamera(camera_ptr, menu_ptr, infoPanel_ptr);
 		return;
 	}
 	}
@@ -902,8 +823,8 @@ void GameManagement::EnterKey_InfoPanel()
 				}
 
 				infoPanel_ptr->EndInteractionDisplayRule();
-				ReturnCursorToCamera();
-				DrawCursor();
+				cursor_ptr->ReturnToCamera(camera_ptr, menu_ptr, infoPanel_ptr);
+				gameElementsDrawer->DrawCursor(cursor_ptr, allObjects_ptr, field_ptr);
 			}
 		}
 	}
@@ -914,7 +835,7 @@ void GameManagement::EnterKey_InfoPanel()
 }
 void GameManagement::Enter_Key()
 {
-	switch (GetCursorArea())
+	switch (cursor_ptr->GetCursorArea(camera_ptr, menu_ptr, infoPanel_ptr))
 	{
 	case CursorLocation::Camera:
 	{
@@ -933,7 +854,7 @@ void GameManagement::Enter_Key()
 	}
 	default:
 	{
-		ReturnCursorToCamera();
+		cursor_ptr->ReturnToCamera(camera_ptr, menu_ptr, infoPanel_ptr);
 		return;
 	}
 	}
@@ -948,8 +869,8 @@ void GameManagement::EscKey_Camera()
 	}
 	ErasePreliminaryElementAndMenuRedraw();
 	ClearChosenElementAndInfoPanelRedraw();
-	ReturnCursorToCamera();
-	DrawCursor();
+	cursor_ptr->ReturnToCamera(camera_ptr, menu_ptr, infoPanel_ptr);
+	gameElementsDrawer->DrawCursor(cursor_ptr, allObjects_ptr, field_ptr);
 }
 void GameManagement::EscKey_InfoPanel()
 {
@@ -967,7 +888,7 @@ void GameManagement::EscKey_InfoPanel()
 }
 void GameManagement::Esc_Key()
 {
-	switch (GetCursorArea())
+	switch (cursor_ptr->GetCursorArea(camera_ptr, menu_ptr, infoPanel_ptr))
 	{
 	case CursorLocation::Camera:
 	{
@@ -1085,7 +1006,7 @@ void GameManagement::Arrows_InfoPanel(Direction arrowDir)
 }
 void GameManagement::Arrows(Direction arrowDir)
 {
-	switch (GetCursorArea())
+	switch (cursor_ptr->GetCursorArea(camera_ptr, menu_ptr, infoPanel_ptr))
 	{
 	case CursorLocation::Camera:
 	{

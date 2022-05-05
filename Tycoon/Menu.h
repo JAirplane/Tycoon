@@ -30,6 +30,16 @@ public:
 		visibleOutsideCameraRoadManager = nullptr;
 		unbreakableRoadManager = nullptr;
 	}
+	Menu(MyRectangle* someRectangle) : MyRectangle(someRectangle)
+	{
+		gameStats_ptr = nullptr;
+		visitorsCreator_ptr = nullptr;
+		hidden = 0;
+		currentSide = MenuStatus::RIGHT;
+		exitManager = nullptr;
+		visibleOutsideCameraRoadManager = nullptr;
+		unbreakableRoadManager = nullptr;
+	}
 	~Menu()
 	{
 		vector<MenuElement*>::iterator elementsIter;
@@ -69,9 +79,9 @@ public:
 	bool GetHideMenuStatus() const;
 	void SetHideMenuStatus(bool hideFlag);
 	Direction ChangeMenuSide(Camera* camera_ptr);
-	void ShowStats();
+	void ShowStats() const;
 	void UpdateStatsDisplay();
-	void ShowMenuItems();
+	void ShowMenuItems() const;
 	MenuElement* GetMenuElement(int yCoord) const;
 	MenuElement* GetUpperVisibleMenuElement() const;
 	MenuElement* GetNextMenuElement(MenuElement* currentElement, IconsPosition upperOrLower) const;

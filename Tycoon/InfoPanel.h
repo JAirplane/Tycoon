@@ -20,6 +20,13 @@ public:
 		messagesAndInfoScreen_ptr = nullptr;
 		currentScreen = InfoPanelContentType::None;
 	}
+	InfoPanel(MyRectangle* infoPanelRectangle) : MyRectangle(infoPanelRectangle)
+	{
+		mainScreen_ptr = nullptr;
+		gameControlInfo_ptr = nullptr;
+		messagesAndInfoScreen_ptr = nullptr;
+		currentScreen = InfoPanelContentType::None;
+	}
 	~InfoPanel()
 	{
 		delete mainScreen_ptr;

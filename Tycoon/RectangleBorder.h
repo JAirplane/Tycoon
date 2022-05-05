@@ -21,14 +21,14 @@ public:
 		bottomLeftBorderSymbol = bottomLeftSymbol;
 		bottomRightBorderSymbol = bottomRightSymbol;
 	}
-	RectangleSymbols(const RectangleSymbols& symbols_ptr)
+	RectangleSymbols(const RectangleSymbols* symbols_ptr)
 	{
-		verticalBorderSymbol = symbols_ptr.GetVerticalSymbol();
-		horizontalBorderSymbol = symbols_ptr.GetHorizontalSymbol();
-		upperLeftBorderSymbol = symbols_ptr.GetUpperLeftSymbol();
-		upperRightBorderSymbol = symbols_ptr.GetUpperRightSymbol();
-		bottomLeftBorderSymbol = symbols_ptr.GetBottomLeftSymbol();
-		bottomRightBorderSymbol = symbols_ptr.GetBottomRightSymbol();
+		verticalBorderSymbol = symbols_ptr->GetVerticalSymbol();
+		horizontalBorderSymbol = symbols_ptr->GetHorizontalSymbol();
+		upperLeftBorderSymbol = symbols_ptr->GetUpperLeftSymbol();
+		upperRightBorderSymbol = symbols_ptr->GetUpperRightSymbol();
+		bottomLeftBorderSymbol = symbols_ptr->GetBottomLeftSymbol();
+		bottomRightBorderSymbol = symbols_ptr->GetBottomRightSymbol();
 	}
 	~RectangleSymbols() {}
 	wstring GetVerticalSymbol() const;
@@ -46,14 +46,14 @@ private:
 	color borderForegroundColor;
 	color borderBackgroundColor;
 public:
-	BorderAppearance(RectangleSymbols* symbols_ptr, color foreground, color background) : 
+	BorderAppearance(RectangleSymbols* symbols_ptr, color foreground, color background) :
 		borderSymbols_ptr(symbols_ptr), borderForegroundColor(foreground), borderBackgroundColor(background)
-		{}
-	BorderAppearance(const BorderAppearance& borderVisual)
+	{}
+	BorderAppearance(const BorderAppearance* borderVisual)
 	{
-		borderSymbols_ptr = new RectangleSymbols(*(borderVisual.GetBorderSymbols()));
-		borderForegroundColor = borderVisual.GetBorderForegroundColor();
-		borderBackgroundColor = borderVisual.GetBorderBackgroundColor();
+		borderSymbols_ptr = new RectangleSymbols(borderVisual->GetBorderSymbols());
+		borderForegroundColor = borderVisual->GetBorderForegroundColor();
+		borderBackgroundColor = borderVisual->GetBorderBackgroundColor();
 	}
 	~BorderAppearance()
 	{

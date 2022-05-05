@@ -63,7 +63,7 @@ void MyRectangle::EraseBorder() const
 		draw_ptr->ErasePixel(leftX, topY + GetHeightAddition());
 	}
 }
-void MyRectangle::ClearContent()
+void MyRectangle::ClearContent() const
 {
 	int leftX = GetUpperLeft().Get_x() + 1;
 	int topY = GetUpperLeft().Get_y() + 1;

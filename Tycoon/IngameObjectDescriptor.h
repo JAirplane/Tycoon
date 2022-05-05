@@ -1,5 +1,5 @@
 #pragma once
-#include "Cursor.h"
+#include "RectangleBorder.h"
 class IngameObjectDescriptor
 {
 private:

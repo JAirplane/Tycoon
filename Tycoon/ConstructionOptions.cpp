@@ -33,7 +33,7 @@ const int ConstructionOptions::GetBumperCarsHeightAdd() const
 {
 	return 3;
 }
-const int ConstructionOptions::GetLogRidesHeightAdd() const
+const int ConstructionOptions::GetLogRideHeightAdd() const
 {
 	return 2;
 }
@@ -114,7 +114,7 @@ const int ConstructionOptions::GetBumperCarsWidthAdd() const
 {
 	return 4;
 }
-const int ConstructionOptions::GetLogRidesWidthAdd() const
+const int ConstructionOptions::GetLogRideWidthAdd() const
 {
 	return 3;
 }
@@ -185,11 +185,15 @@ const int ConstructionOptions::GetFerrisWheelCost() const
 }
 const int ConstructionOptions::GetRollerCoasterCost() const
 {
-	return 1000;
+	return 1500;
 }
 const int ConstructionOptions::GetBumperCarsCost() const
 {
 	return 500;
+}
+const int ConstructionOptions::GetLogRideCost() const
+{
+	return 1000;
 }
 const int ConstructionOptions::GetExitCost() const
 {
@@ -226,11 +230,15 @@ const int ConstructionOptions::GetFerrisWheelExpences() const
 }
 const int ConstructionOptions::GetRollerCoasterExpences() const
 {
-	return 45;
+	return 70;
 }
 const int ConstructionOptions::GetBumperCarsExpences() const
 {
 	return 40;
+}
+const int ConstructionOptions::GetLogRideExpences() const
+{
+	return 50;
 }
 const int ConstructionOptions::GetExitExpences() const
 {
@@ -268,6 +276,10 @@ const string ConstructionOptions::GetRollerCoasterDescription() const
 const string ConstructionOptions::GetBumperCarsDescription() const
 {
 	return "Bumper Cars: slam them all!";
+}
+const string ConstructionOptions::GetLogRideDescription() const
+{
+	return "Log Ride: get wet and cool off";
 }
 const string ConstructionOptions::GetExitDescription() const
 {
@@ -334,6 +346,10 @@ const wstring ConstructionOptions::GetBumperCarsSymbol() const
 {
 	return L"\u03A7";
 }
+const wstring ConstructionOptions::GetLogRideSymbol() const
+{
+	return L"\u20AA";
+}
 const wstring ConstructionOptions::GetToiletSymbol() const
 {
 	return L"\u25BC";
@@ -354,6 +370,10 @@ const PointCoord ConstructionOptions::GetPlayingFieldUpperLeft() const
 const PointCoord ConstructionOptions::GetInfoPanelUpperLeft() const
 {
 	return PointCoord(1, 37);
+}
+const PointCoord ConstructionOptions::GetInitialSplashScreenUpperLeft() const
+{
+	return PointCoord(1, 1);
 }
 ///////////////Toilet Need Constants///////////////
 const int ConstructionOptions::GetIceCreamShopToiletNeed() const
@@ -381,6 +401,10 @@ const int ConstructionOptions::GetRollerCoasterToiletNeed() const
 	return 0;
 }
 const int ConstructionOptions::GetBumperCarsToiletNeed() const
+{
+	return 0;
+}
+const int ConstructionOptions::GetLogRideToiletNeed() const
 {
 	return 0;
 }
@@ -421,6 +445,10 @@ const int ConstructionOptions::GetBumperCarsHungerSatisfaction() const
 {
 	return 0;
 }
+const int ConstructionOptions::GetLogRideHungerSatisfaction() const
+{
+	return 0;
+}
 const int ConstructionOptions::GetToiletHungerSatisfaction() const
 {
 	return 0;
@@ -458,6 +486,10 @@ const int ConstructionOptions::GetBumperCarsVisitPrice() const
 {
 	return 10;
 }
+const int ConstructionOptions::GetLogRideVisitPrice() const
+{
+	return 25;
+}
 const int ConstructionOptions::GetToiletVisitPrice() const
 {
 	return 3;
@@ -492,6 +524,10 @@ const int ConstructionOptions::GetRollerCoasterEntertainmentValue() const
 	return 1;
 }
 const int ConstructionOptions::GetBumperCarsEntertainmentValue() const
+{
+	return 1;
+}
+const int ConstructionOptions::GetLogRideEntertainmentValue() const
 {
 	return 1;
 }
@@ -532,6 +568,10 @@ const int ConstructionOptions::GetBumperCarsIsExit() const
 {
 	return 0;
 }
+const int ConstructionOptions::GetLogRideIsExit() const
+{
+	return 0;
+}
 const int ConstructionOptions::GetToiletIsExit() const
 {
 	return 0;
@@ -566,6 +606,10 @@ const int ConstructionOptions::GetRollerCoasterMaxVisitors() const
 	return 5;
 }
 const int ConstructionOptions::GetBumperCarsMaxVisitors() const
+{
+	return 8;
+}
+const int ConstructionOptions::GetLogRideMaxVisitors() const
 {
 	return 8;
 }
@@ -606,6 +650,10 @@ const int ConstructionOptions::GetBumperCarsVisitTime() const
 {
 	return 30;
 }
+const int ConstructionOptions::GetLogRideVisitTime() const
+{
+	return 20;
+}
 const int ConstructionOptions::GetToiletVisitTime() const
 {
 	return 5;
@@ -642,6 +690,10 @@ const wstring ConstructionOptions::GetRollerCoasterIconSymbol() const
 const wstring ConstructionOptions::GetBumperCarsIconSymbol() const
 {
 	return L"\u03A7";
+}
+const wstring ConstructionOptions::GetLogRideIconSymbol() const
+{
+	return L"\u20AA";
 }
 const wstring ConstructionOptions::GetToiletIconSymbol() const
 {
@@ -775,6 +827,23 @@ color ConstructionOptions::GetBumperCarsChosenBackgroundColor() const
 	return color::cRED;
 }
 //
+color ConstructionOptions::GetLogRideForegroundColor() const
+{
+	return color::cDARK_MAGENTA;
+}
+color ConstructionOptions::GetLogRideConnectedBackgroundColor() const
+{
+	return color::cDARK_CYAN;
+}
+color ConstructionOptions::GetLogRideNotConnectedBackgroundColor() const
+{
+	return color::cBLACK;
+}
+color ConstructionOptions::GetLogRideChosenBackgroundColor() const
+{
+	return color::cRED;
+}
+//
 color ConstructionOptions::GetToiletForegroundColor() const
 {
 	return color::cBLUE;
@@ -836,15 +905,15 @@ color ConstructionOptions::GetCameraBorderForegroundColor() const
 }
 color ConstructionOptions::GetCameraBorderBackgroundColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 color ConstructionOptions::GetCameraLetterColor() const
 {
-	return cWHITE;
+	return color::cWHITE;
 }
 color ConstructionOptions::GetCameraShadingColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 color ConstructionOptions::GetPlayingFieldBorderForegroundColor() const
 {
@@ -852,15 +921,15 @@ color ConstructionOptions::GetPlayingFieldBorderForegroundColor() const
 }
 color ConstructionOptions::GetPlayingFieldBorderBackgroundColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 color ConstructionOptions::GetPlayingFieldLetterColor() const
 {
-	return cWHITE;
+	return color::cWHITE;
 }
 color ConstructionOptions::GetPlayingFieldShadingColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 //
 color ConstructionOptions::GetInfoPanelBorderForegroundColor() const
@@ -869,20 +938,20 @@ color ConstructionOptions::GetInfoPanelBorderForegroundColor() const
 }
 color ConstructionOptions::GetInfoPanelBorderBackgroundColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 color ConstructionOptions::GetInfoPanelTextColor() const
 {
-	return cCYAN;
+	return color::cCYAN;
 }
 color ConstructionOptions::GetInfoPanelShadingColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 //
 color ConstructionOptions::GetSplashScreenForegroundColor() const
 {
-	return cWHITE;
+	return color::cWHITE;
 }
 color ConstructionOptions::GetSplashScreenBackgroundColor() const
 {
@@ -891,19 +960,19 @@ color ConstructionOptions::GetSplashScreenBackgroundColor() const
 //
 color ConstructionOptions::GetMenuScreenBorderForegroundColor() const
 {
-	return cWHITE;
+	return color::cWHITE;
 }
 color ConstructionOptions::GetMenuScreenBorderBackgroundColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 color ConstructionOptions::GetMenuScreenTextColor() const
 {
-	return cWHITE;
+	return color::cWHITE;
 }
 color ConstructionOptions::GetMenuScreenShadingColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 //
 color ConstructionOptions::GetMenuBorderForegroundColor() const
@@ -912,32 +981,32 @@ color ConstructionOptions::GetMenuBorderForegroundColor() const
 }
 color ConstructionOptions::GetMenuBorderBackgroundColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 color ConstructionOptions::GetMenuLetterColor() const
 {
-	return cWHITE;
+	return color::cWHITE;
 }
 color ConstructionOptions::GetMenuShadingColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 //
 color ConstructionOptions::GetGameStatsBorderForegroundColor() const
 {
-	return cCYAN;
+	return color::cCYAN;
 }
 color ConstructionOptions::GetGameStatsBorderBackgroundColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 color ConstructionOptions::GetGameStatsLetterColor() const
 {
-	return cBLUE;
+	return color::cBLUE;
 }
 color ConstructionOptions::GetGameStatsShadingColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 //
 color ConstructionOptions::GetMenuIconForegroundColor() const
@@ -946,15 +1015,15 @@ color ConstructionOptions::GetMenuIconForegroundColor() const
 }
 color ConstructionOptions::GetMenuIconBackgroundColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 color ConstructionOptions::GetMenuIconLetterColor() const
 {
-	return cWHITE;
+	return color::cWHITE;
 }
 color ConstructionOptions::GetMenuIconShadingColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 //
 color ConstructionOptions::GetMenuElementInactiveColor() const
@@ -971,122 +1040,139 @@ color ConstructionOptions::GetMenuElementUnderConstructionColor() const
 }
 color ConstructionOptions::GetMenuElementBackgroundColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 color ConstructionOptions::GetMenuElementLetterColor() const
 {
-	return cDARK_GRAY;
+	return color::cDARK_GRAY;
 }
 color ConstructionOptions::GetMenuElementShadingColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 //
 color ConstructionOptions::GetButtonBorderActiveColor() const
 {
-	return cGREEN;
+	return color::cGREEN;
 }
 color ConstructionOptions::GetButtonBorderInactiveColor() const
 {
-	return cYELLOW;
+	return color::cYELLOW;
 }
 color ConstructionOptions::GetButtonBorderBackgroundColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 color ConstructionOptions::GetButtonContentForegroundColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 color ConstructionOptions::GetButtonContentBackgroundColor() const
 {
-	return cDARK_CYAN;
+	return color::cDARK_CYAN;
 }
 //
 color ConstructionOptions::GetControlsScreenBorderForegroundColor() const
 {
-	return cWHITE;
+	return color::cWHITE;
 }
 color ConstructionOptions::GetControlsScreenBorderBackgroundColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 color ConstructionOptions::GetControlsScreenLetterColor() const
 {
-	return cDARK_GREEN;
+	return color::cDARK_GREEN;
 }
 color ConstructionOptions::GetControlsScreenShadingColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 //
 color ConstructionOptions::GetMessagesAndInfoScreenBorderForegroundColor() const
 {
-	return cWHITE;
+	return color::cWHITE;
 }
 color ConstructionOptions::GetMessagesAndInfoScreenBorderBackgroundColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 color ConstructionOptions::GetMessagesAndInfoScreenLetterColor() const
 {
-	return cDARK_GREEN;
+	return color::cDARK_GREEN;
 }
 color ConstructionOptions::GetMessagesAndInfoScreenShadingColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 //
 color ConstructionOptions::GetMessagesPartScreenLetterColor() const
 {
-	return cGREEN;
+	return color::cGREEN;
 }
 color ConstructionOptions::GetMessagesPartScreenShadingColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 //
 color ConstructionOptions::GetInfoPartScreenLetterColor() const
 {
-	return cGREEN;
+	return color::cGREEN;
 }
 color ConstructionOptions::GetInfoPartScreenShadingColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 //
 color ConstructionOptions::GetConstructionInfoButtonBorderForegroundColor() const
 {
-	return cYELLOW;
+	return color::cYELLOW;
 }
 color ConstructionOptions::GetConstructionInfoButtonBorderBackgroundColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 color ConstructionOptions::GetConstructionInfoButtonLetterColor() const
 {
-	return cRED;
+	return color::cRED;
 }
 color ConstructionOptions::GetConstructionInfoButtonShadingColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 //
 color ConstructionOptions::GetConstructionInfoScreenIconBorderForegroundColor() const
 {
-	return cYELLOW;
+	return color::cYELLOW;
 }
 color ConstructionOptions::GetConstructionInfoScreenIconBorderBackgroundColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 color ConstructionOptions::GetConstructionInfoScreenIconLetterColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
 }
 color ConstructionOptions::GetConstructionInfoScreenIconShadingColor() const
 {
-	return cBLACK;
+	return color::cBLACK;
+}
+//
+color ConstructionOptions::GetInitialSplashScreenBorderForegroundColor() const
+{
+	return color::cBLUE;
+}
+color ConstructionOptions::GetInitialSplashScreenBorderBackgroundColor() const
+{
+	return color::cBLACK;
+}
+color ConstructionOptions::GetInitialSplashScreenLetterColor() const
+{
+	return color::cGREEN;
+}
+color ConstructionOptions::GetInitialSplashScreenShadingColor() const
+{
+	return color::cBLACK;
 }
 //
 color ConstructionOptions::GetVisitorForegroundColor() const
@@ -1441,6 +1527,31 @@ const wstring ConstructionOptions::GetMenuIconBottomRightSymbol() const
 {
 	return wstring(L"\u255D");
 }
+///////////////Initial Splash Screen Border Symbol Constants///////////////
+const wstring ConstructionOptions::GetInitialSplashScreenVerticalSymbol() const
+{
+	return wstring(L"\u2551");
+}
+const wstring ConstructionOptions::GetInitialSplashScreenHorizontalSymbol() const
+{
+	return wstring(L"\u2550");
+}
+const wstring ConstructionOptions::GetInitialSplashScreenUpperLeftSymbol() const
+{
+	return wstring(L"\u2554");
+}
+const wstring ConstructionOptions::GetInitialSplashScreenUpperRightSymbol() const
+{
+	return wstring(L"\u2557");
+}
+const wstring ConstructionOptions::GetInitialSplashScreenBottomLeftSymbol() const
+{
+	return wstring(L"\u255A");
+}
+const wstring ConstructionOptions::GetInitialSplashScreenBottomRightSymbol() const
+{
+	return wstring(L"\u255D");
+}
 //
 const wstring ConstructionOptions::GetVisitorSymbol() const
 {
@@ -1473,4 +1584,8 @@ ConstructionOptions* ConstructionOptions::GetAllOptions()
 {
 	return constructionParameters;
 }
-ConstructionOptions* ConstructionOptions::constructionParameters = new ConstructionOptions();
+ConstructionOptions* ConstructionOptions::CreateConstructionOptions()
+{
+	return new ConstructionOptions();
+}
+ConstructionOptions* ConstructionOptions::constructionParameters = ConstructionOptions::CreateConstructionOptions();

@@ -1,6 +1,9 @@
 #pragma once
-#include "RectangleBorder.h"
+#include "GlobalObject.h"
 /////////////Cursor Class/////////////
+class Camera;
+class Menu;
+class InfoPanel;
 class Cursor
 {
 private:
@@ -16,8 +19,10 @@ public:
 	}
 	~Cursor()
 	{}
-	PointCoord GetCursorConsoleLocation();
+	PointCoord GetCursorConsoleLocation() const;
 	void SetCursorConsoleLocation();
 	void CursorMovement(PointCoord cursorDestination);
 	void CursorShift(Direction shiftDirection, int shiftValue = 1);
+	CursorLocation GetCursorArea(const GlobalObject* camera_ptr, const GlobalObject* menu_ptr, const GlobalObject* infoPanel_ptr) const;
+	void ReturnToCamera(const GlobalObject* camera_ptr, const GlobalObject* menu_ptr, const GlobalObject* infoPanel_ptr);
 };

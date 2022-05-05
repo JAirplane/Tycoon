@@ -154,6 +154,7 @@
     <ClInclude Include="Coord_and_constants.h" />
     <ClInclude Include="Cursor.h" />
     <ClInclude Include="Dijkstra.h" />
+    <ClInclude Include="Display.h" />
     <ClInclude Include="drawheader.h" />
     <ClInclude Include="ElementIndexSearcher.h" />
     <ClInclude Include="FindByPoint.h" />
@@ -166,6 +167,7 @@
     <ClInclude Include="IngameObjectManager.h" />
     <ClInclude Include="ManagersDerived.h" />
     <ClInclude Include="GlobalObject.h" />
+    <ClInclude Include="RectangleCreator.h" />
     <ClInclude Include="Road.h" />
     <ClInclude Include="GameManagement.h" />
     <ClInclude Include="MenuElement.h" />
@@ -203,6 +205,7 @@
     <ClCompile Include="Coord_and_constants.cpp" />
     <ClCompile Include="Cursor.cpp" />
     <ClCompile Include="Dijkstra.cpp" />
+    <ClCompile Include="Display.cpp" />
     <ClCompile Include="draw.cpp" />
     <ClCompile Include="ElementIndexSearcher.cpp" />
     <ClCompile Include="FindByPoint.cpp" />
@@ -212,6 +215,7 @@
     <ClCompile Include="IngameObjectDescriptor.cpp" />
     <ClCompile Include="ManagersDerived.cpp" />
     <ClCompile Include="GlobalObject.cpp" />
+    <ClCompile Include="RectangleCreator.cpp" />
     <ClCompile Include="Road.cpp" />
     <ClCompile Include="GameManagement.cpp" />
     <ClCompile Include="MenuElement.cpp" />

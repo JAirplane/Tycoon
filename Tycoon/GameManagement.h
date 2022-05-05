@@ -1,18 +1,19 @@
 #pragma once
 #include <chrono>
-#include "InfoPanel.h"
+#include "Display.h"
 /////////////Game Management Class/////////////
-class GameManagement: public MessageSubjectInterface, public ConstructionInfoSubjectInterface
+class GameManagement : public MessageSubjectInterface, public ConstructionInfoSubjectInterface
 {
 private:
 	Cursor* cursor_ptr;
 	Visualisation* draw_ptr;
-	RoadGraph* graph_ptr;
+	Display* gameElementsDrawer;
 	AllObjects* allObjects_ptr;
 	Camera* camera_ptr;
 	PlayingField* field_ptr;
 	Menu* menu_ptr;
 	InfoPanel* infoPanel_ptr;
+	MyRectangle* initialSplashScreen_ptr;
 	//
 	list<ConstructionInfoObserverInterface*> choosenConstructionObservers;
 	list<MessageObserverInterface*> userMessageObservers;
@@ -21,18 +22,19 @@ public:
 	{
 		cursor_ptr = nullptr;
 		draw_ptr = nullptr;
-		graph_ptr = nullptr;
+		gameElementsDrawer = nullptr;
 		allObjects_ptr = nullptr;
 		camera_ptr = nullptr;
 		field_ptr = nullptr;
 		menu_ptr = nullptr;
 		infoPanel_ptr = nullptr;
+		initialSplashScreen_ptr = nullptr;
 	}
 	~GameManagement()
 	{
 		delete cursor_ptr;
 		delete draw_ptr;
-		delete graph_ptr;
+		delete gameElementsDrawer;
 		delete allObjects_ptr;
 		delete camera_ptr;
 		delete field_ptr;
@@ -42,12 +44,14 @@ public:
 	// create game elements
 	virtual void CreateCursor();
 	virtual void CreateDrawPointer();
-	virtual void CreateRoadGraph();
+	virtual void CreateGameElementsDrawer();
 	virtual void CreateAllObjects();
 	virtual void CreateCamera();
 	virtual void CreatePlayingField();
 	virtual void CreateMenuAndElements();
 	virtual void CreateInfoPanel();
+	virtual void CreateInitialSplashScreen();
+	void InitialDisplay() const;
 	// notifies InfoPanel if user choose some construction on the playing field
 	void ChosenConstructionAttach(ConstructionInfoObserverInterface* observer) override;
 	void ChosenConstructionDetach(ConstructionInfoObserverInterface* observer) override;
@@ -56,25 +60,6 @@ public:
 	void UserMessageAttach(MessageObserverInterface* observer) override;
 	void UserMessageDetach(MessageObserverInterface* observer) override;
 	void UserMessageNotify(const string message) override;
-	//
-	CursorLocation GetCursorArea();
-	void ReturnCursorToCamera();
-	void DrawCursor();
-	//
-	
-	// display / erase main game elements
-	void DisplayCamera();
-	void DisplayMenu();
-	void DisplayPlayingField();
-	void DisplayInfoPanel();
-	void HideInfoPanel();
-	void ErasePlayingField();
-	void HideMenu();
-	void EraseScreen();
-	void DisplayAllObjects();
-	//
-	void HideInterface();
-	void ShowInterface();
 	//
 	void ErasePreliminaryElementAndMenuRedraw();
 	void ClearChosenElementAndInfoPanelRedraw();

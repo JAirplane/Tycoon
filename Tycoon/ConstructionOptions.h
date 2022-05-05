@@ -14,6 +14,7 @@ protected:
 public:
 	ConstructionOptions(ConstructionOptions& other) = delete;
 	void operator=(const ConstructionOptions&) = delete;
+	static ConstructionOptions* CreateConstructionOptions();
 	static ConstructionOptions* GetAllOptions();
 	///////////////Height Addition Constants///////////////
 	virtual const int GetIceCreamShopHeightAdd() const;
@@ -24,7 +25,7 @@ public:
 	virtual const int GetFerrisWheelHeightAdd() const;
 	virtual const int GetRollerCoasterHeightAdd() const;
 	virtual const int GetBumperCarsHeightAdd() const;
-	virtual const int GetLogRidesHeightAdd() const;
+	virtual const int GetLogRideHeightAdd() const;
 	virtual const int GetExitHeightAdd() const;
 	virtual const int GetMenuElementHeightAdd() const; //height of 1 element of menu
 	virtual const int GetMenuIconHeightAdd() const;
@@ -45,7 +46,7 @@ public:
 	virtual const int GetFerrisWheelWidthAdd() const;
 	virtual const int GetRollerCoasterWidthAdd() const;
 	virtual const int GetBumperCarsWidthAdd() const;
-	virtual const int GetLogRidesWidthAdd() const;
+	virtual const int GetLogRideWidthAdd() const;
 	virtual const int GetExitWidthAdd() const;
 	virtual const int GetRoadWidthAdd() const;
 	virtual const int GetVisitorWidthAdd() const;
@@ -65,6 +66,7 @@ public:
 	virtual const int GetFerrisWheelCost() const;
 	virtual const int GetRollerCoasterCost() const;
 	virtual const int GetBumperCarsCost() const;
+	virtual const int GetLogRideCost() const;
 	virtual const int GetExitCost() const;
 	virtual const int GetRoadCost() const;
 	///////////////Daily Expences Initialisation Constants///////////////
@@ -76,6 +78,7 @@ public:
 	virtual const int GetFerrisWheelExpences() const;
 	virtual const int GetRollerCoasterExpences() const;
 	virtual const int GetBumperCarsExpences() const;
+	virtual const int GetLogRideExpences() const;
 	virtual const int GetExitExpences() const;
 	///////////////Description Initialisation Constants///////////////
 	virtual const string GetIceCreamShopDescription() const;
@@ -86,6 +89,7 @@ public:
 	virtual const string GetFerrisWheelDescription() const;
 	virtual const string GetRollerCoasterDescription() const;
 	virtual const string GetBumperCarsDescription() const;
+	virtual const string GetLogRideDescription() const;
 	virtual const string GetExitDescription() const;
 	virtual const string GetRoadDescription() const;
 	//
@@ -104,6 +108,7 @@ public:
 	virtual const wstring GetFerrisWheelSymbol() const;
 	virtual const wstring GetRollerCoasterSymbol() const;
 	virtual const wstring GetBumperCarsSymbol() const;
+	virtual const wstring GetLogRideSymbol() const;
 	virtual const wstring GetToiletSymbol() const;
 	virtual const wstring GetExitSymbol() const;
 	///////////////Toilet Need Constants///////////////
@@ -114,6 +119,7 @@ public:
 	virtual const int GetFerrisWheelToiletNeed() const;
 	virtual const int GetRollerCoasterToiletNeed() const;
 	virtual const int GetBumperCarsToiletNeed() const;
+	virtual const int GetLogRideToiletNeed() const;
 	virtual const int GetToiletToiletNeed() const;
 	virtual const int GetExitToiletNeed() const;
 	///////////////Hunger Satisfaction Constants///////////////
@@ -124,6 +130,7 @@ public:
 	virtual const int GetFerrisWheelHungerSatisfaction() const;
 	virtual const int GetRollerCoasterHungerSatisfaction() const;
 	virtual const int GetBumperCarsHungerSatisfaction() const;
+	virtual const int GetLogRideHungerSatisfaction() const;
 	virtual const int GetToiletHungerSatisfaction() const;
 	virtual const int GetExitHungerSatisfaction() const;
 	///////////////Visit Price Constants///////////////
@@ -134,6 +141,7 @@ public:
 	virtual const int GetFerrisWheelVisitPrice() const;
 	virtual const int GetRollerCoasterVisitPrice() const;
 	virtual const int GetBumperCarsVisitPrice() const;
+	virtual const int GetLogRideVisitPrice() const;
 	virtual const int GetToiletVisitPrice() const;
 	virtual const int GetExitVisitPrice() const;
 	///////////////Entertainment Constants///////////////
@@ -144,6 +152,7 @@ public:
 	virtual const int GetFerrisWheelEntertainmentValue() const;
 	virtual const int GetRollerCoasterEntertainmentValue() const;
 	virtual const int GetBumperCarsEntertainmentValue() const;
+	virtual const int GetLogRideEntertainmentValue() const;
 	virtual const int GetToiletEntertainmentValue() const;
 	virtual const int GetExitEntertainmentValue() const;
 	///////////////Is Building Exit Constants///////////////
@@ -154,6 +163,7 @@ public:
 	virtual const int GetFerrisWheelIsExit() const;
 	virtual const int GetRollerCoasterIsExit() const;
 	virtual const int GetBumperCarsIsExit() const;
+	virtual const int GetLogRideIsExit() const;
 	virtual const int GetToiletIsExit() const;
 	virtual const int GetExitIsExit() const;
 	///////////////Max Visitors Constants///////////////
@@ -164,6 +174,7 @@ public:
 	virtual const int GetFerrisWheelMaxVisitors() const;
 	virtual const int GetRollerCoasterMaxVisitors() const;
 	virtual const int GetBumperCarsMaxVisitors() const;
+	virtual const int GetLogRideMaxVisitors() const;
 	virtual const int GetToiletMaxVisitors() const;
 	virtual const int GetExitMaxVisitors() const;
 	///////////////Visit Time Constants///////////////
@@ -174,12 +185,14 @@ public:
 	virtual const int GetFerrisWheelVisitTime() const;
 	virtual const int GetRollerCoasterVisitTime() const;
 	virtual const int GetBumperCarsVisitTime() const;
+	virtual const int GetLogRideVisitTime() const;
 	virtual const int GetToiletVisitTime() const;
 	virtual const int GetExitVisitTime() const;
 	///////////////Initialisation Coord Constants///////////////
 	virtual const PointCoord GetCameraInitialUpperLeft() const;
 	virtual const PointCoord GetPlayingFieldUpperLeft() const;
 	virtual const PointCoord GetInfoPanelUpperLeft() const;
+	virtual const PointCoord GetInitialSplashScreenUpperLeft() const;
 	///////////////Constructions's Icon Symbol Constants///////////////
 	virtual const wstring GetIceCreamShopIconSymbol() const;
 	virtual const wstring GetToiletIconSymbol() const;
@@ -189,6 +202,7 @@ public:
 	virtual const wstring GetFerrisWheelIconSymbol() const;
 	virtual const wstring GetRollerCoasterIconSymbol() const;
 	virtual const wstring GetBumperCarsIconSymbol() const;
+	virtual const wstring GetLogRideIconSymbol() const;
 	virtual const wstring GetExitIconSymbol() const;
 	virtual const wstring GetRoadIconSymbol() const;
 	///////////////Color Constants///////////////
@@ -226,6 +240,11 @@ public:
 	virtual color GetBumperCarsConnectedBackgroundColor() const;
 	virtual color GetBumperCarsNotConnectedBackgroundColor() const;
 	virtual color GetBumperCarsChosenBackgroundColor() const;
+	//
+	virtual color GetLogRideForegroundColor() const;
+	virtual color GetLogRideConnectedBackgroundColor() const;
+	virtual color GetLogRideNotConnectedBackgroundColor() const;
+	virtual color GetLogRideChosenBackgroundColor() const;
 	//
 	virtual color GetToiletForegroundColor() const;
 	virtual color GetToiletConnectedBackgroundColor() const;
@@ -320,6 +339,11 @@ public:
 	virtual color GetConstructionInfoScreenIconBorderBackgroundColor() const;
 	virtual color GetConstructionInfoScreenIconLetterColor() const;
 	virtual color GetConstructionInfoScreenIconShadingColor() const;
+	//
+	virtual color GetInitialSplashScreenBorderForegroundColor() const;
+	virtual color GetInitialSplashScreenBorderBackgroundColor() const;
+	virtual color GetInitialSplashScreenLetterColor() const;
+	virtual color GetInitialSplashScreenShadingColor() const;
 	//
 	virtual color GetVisitorForegroundColor() const;
 	virtual color GetVisitorBackgroundColor() const;
@@ -421,6 +445,13 @@ public:
 	virtual const wstring GetMenuIconUpperRightSymbol() const;
 	virtual const wstring GetMenuIconBottomLeftSymbol() const;
 	virtual const wstring GetMenuIconBottomRightSymbol() const;
+	///////////////Initial Splash Screen Border Symbol Constants///////////////
+	virtual const wstring GetInitialSplashScreenVerticalSymbol() const;
+	virtual const wstring GetInitialSplashScreenHorizontalSymbol() const;
+	virtual const wstring GetInitialSplashScreenUpperLeftSymbol() const;
+	virtual const wstring GetInitialSplashScreenUpperRightSymbol() const;
+	virtual const wstring GetInitialSplashScreenBottomLeftSymbol() const;
+	virtual const wstring GetInitialSplashScreenBottomRightSymbol() const;
 	//
 	virtual const wstring GetVisitorSymbol() const;
 	///////////////Indent Constants///////////////

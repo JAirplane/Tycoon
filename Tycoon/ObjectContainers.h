@@ -58,7 +58,7 @@ public:
 	bool RoadsImposition(const IngameObject* object_ptr) const;
 	bool VisitorsImposition(PointCoord point) const;
 	bool VisitorsImposition(const IngameObject* object_ptr) const;
-	bool ObjectImposition(PointCoord point, PlayingField* field_ptr) const;
+	bool ObjectImposition(PointCoord point, const PlayingField* field_ptr) const;
 	bool ObjectImposition(const IngameObject* object_ptr, const Camera* camera_ptr, const PlayingField* field_ptr) const;
 	//
 	void EraseObjects(Camera* camera_ptr);
@@ -66,8 +66,8 @@ public:
 	void ShiftRoads(Direction shiftDirection, int shiftValue = 1);
 	void ShiftVisitors(Direction shiftDirection, int shiftValue = 1);
 	void DisplayBuildings(const Camera* camera_ptr, const PlayingField* field_ptr) const;
-	void DisplayVisitors(const Camera* camera_ptr);
-	void DisplayRoads(const Camera* camera_ptr, const PlayingField* field_ptr);
+	void DisplayVisitors(const Camera* camera_ptr) const;
+	void DisplayRoads(const Camera* camera_ptr, const PlayingField* field_ptr) const;
 	//
 	void RedrawNeighbours(PointCoord centralPoint, const Camera* camera_ptr);
 	void RedrawNeighbours(const Construction* centralConstruction, const Camera* camera_ptr);

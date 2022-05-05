@@ -11,18 +11,13 @@ int main()
 	{
 		GameMaster.CreateCursor();
 		GameMaster.CreateDrawPointer();
-		GameMaster.CreateRoadGraph();
 		GameMaster.CreateCamera();
 		GameMaster.CreatePlayingField();
 		GameMaster.CreateMenuAndElements();
 		GameMaster.CreateAllObjects();
 		GameMaster.CreateInfoPanel();
 		//
-		GameMaster.DisplayCamera();
-		GameMaster.DisplayMenu();
-		GameMaster.DisplayInfoPanel();
-		GameMaster.DisplayPlayingField();
-		GameMaster.DisplayAllObjects();
+		GameMaster.InitialDisplay();
 	}
 	catch (MyException& somethingOccured)
 	{
