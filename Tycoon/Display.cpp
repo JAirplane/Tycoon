@@ -1,4 +1,13 @@
 #include "Display.h"
+void Display::DisplayInitialScreen(const InitialScreen* startScreen)
+{
+	startScreen->DrawBorder();
+	startScreen->ShowGameTitle();
+	startScreen->ShowAuthor(cGREEN);
+	startScreen->DrawHaveFunIscription(cYELLOW);
+	startScreen->GetPressAnyKey()->DrawBorder();
+	startScreen->PressAnyKeyAnimation();
+}
 void Display::DrawCursor(const Cursor* cursor_ptr, const AllObjects* container_ptr, const PlayingField* field_ptr) const
 {
 	if (!container_ptr->ObjectImposition(cursor_ptr->GetCursorConsoleLocation(), field_ptr) && container_ptr->GetPreliminaryElement() == nullptr)

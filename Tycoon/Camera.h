@@ -9,7 +9,7 @@ public:
 	{}
 	Camera(MyRectangle*& anotherRectangle) : MyRectangle(anotherRectangle)
 	{}
-	~Camera()
+	virtual ~Camera()
 	{}
 	Direction CursorIsOnCameraBorder(); // returns shift direction if cursor is on camera border
 	bool IsShift(PlayingField* field_ptr, Direction shiftDirection);

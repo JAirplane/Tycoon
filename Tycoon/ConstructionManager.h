@@ -10,7 +10,7 @@ public:
 	{
 		describe_ptr = descriptor_ptr;
 	}
-	~ConstructionManager()
+	virtual ~ConstructionManager()
 	{
 		delete describe_ptr;
 	}

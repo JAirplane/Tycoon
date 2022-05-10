@@ -165,6 +165,8 @@
     <ClInclude Include="IngameObject.h" />
     <ClInclude Include="IngameObjectDescriptor.h" />
     <ClInclude Include="IngameObjectManager.h" />
+    <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="StartScreen.h" />
     <ClInclude Include="ManagersDerived.h" />
     <ClInclude Include="GlobalObject.h" />
     <ClInclude Include="RectangleCreator.h" />
@@ -213,6 +215,8 @@
     <ClCompile Include="InfoPanel.cpp" />
     <ClCompile Include="IngameObject.cpp" />
     <ClCompile Include="IngameObjectDescriptor.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="StartScreen.cpp" />
     <ClCompile Include="ManagersDerived.cpp" />
     <ClCompile Include="GlobalObject.cpp" />
     <ClCompile Include="RectangleCreator.cpp" />

@@ -7,6 +7,6 @@ public:
 		color backgroundNotConnected, color backgroundChoosen) :
 		ConstructionDescriptor(managerLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected, backgroundNotConnected, backgroundChoosen)
 		{}
-	~RoadDescriptor() {}
+	virtual ~RoadDescriptor() {}
 	wstring GetConstructionSymbol(int mask = 0) const override;
 };

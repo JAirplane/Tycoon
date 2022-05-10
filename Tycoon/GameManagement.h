@@ -13,7 +13,7 @@ private:
 	PlayingField* field_ptr;
 	Menu* menu_ptr;
 	InfoPanel* infoPanel_ptr;
-	MyRectangle* initialSplashScreen_ptr;
+	InitialScreen* startScreen_ptr;
 	//
 	list<ConstructionInfoObserverInterface*> choosenConstructionObservers;
 	list<MessageObserverInterface*> userMessageObservers;
@@ -28,9 +28,9 @@ public:
 		field_ptr = nullptr;
 		menu_ptr = nullptr;
 		infoPanel_ptr = nullptr;
-		initialSplashScreen_ptr = nullptr;
+		startScreen_ptr = nullptr;
 	}
-	~GameManagement()
+	virtual ~GameManagement()
 	{
 		delete cursor_ptr;
 		delete draw_ptr;
@@ -40,6 +40,7 @@ public:
 		delete field_ptr;
 		delete menu_ptr;
 		delete infoPanel_ptr;
+		delete startScreen_ptr;
 	}
 	// create game elements
 	virtual void CreateCursor();
@@ -50,7 +51,7 @@ public:
 	virtual void CreatePlayingField();
 	virtual void CreateMenuAndElements();
 	virtual void CreateInfoPanel();
-	virtual void CreateInitialSplashScreen();
+	virtual void CreateStartScreen();
 	void InitialDisplay() const;
 	// notifies InfoPanel if user choose some construction on the playing field
 	void ChosenConstructionAttach(ConstructionInfoObserverInterface* observer) override;

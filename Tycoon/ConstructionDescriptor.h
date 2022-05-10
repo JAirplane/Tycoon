@@ -24,7 +24,7 @@ public:
 		this->backgroundConnected = backgroundConnected;
 		this->backgroundChoosen = backgroundChoosen;
 	}
-	~ConstructionDescriptor() {}
+	virtual ~ConstructionDescriptor() {}
 	int GetConstructionCost() const;
 	string GetDescription() const;
 	wstring GetIconSymbol() const;

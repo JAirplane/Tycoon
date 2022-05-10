@@ -18,7 +18,7 @@ public:
 		moneyAmount = 2000;
 		currentParkLevel = 0;
 	}
-	~GameStats()	{}
+	virtual ~GameStats() {}
 	int GetPreviousVisitorsNumber() const;
 	void SetPreviousVisitorsNumber();
 	__declspec(property(get = GetPreviousVisitorsNumber, put = SetPreviousVisitorsNumber)) int previousNumberOfVisitors;

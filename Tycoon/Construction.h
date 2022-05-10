@@ -20,7 +20,7 @@ public:
 		isChosen = false;
 		overallVisitors = 0;
 	}
-	~Construction()
+	virtual ~Construction()
 	{}
 	void GraphStatusAttach(GraphStatusObserverInterface* observer) override;
 	void GraphStatusDetach(GraphStatusObserverInterface* observer) override;

@@ -21,7 +21,7 @@ public:
 		preliminaryConstruction_ptr = nullptr;
 		graph_ptr = new RoadGraph();
 	}
-	~AllObjects()
+	virtual ~AllObjects()
 	{
 		list<Construction*>::iterator buildingIter;
 		for (buildingIter = buildings.begin(); buildingIter != buildings.end(); buildingIter++)

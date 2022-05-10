@@ -40,7 +40,7 @@ public:
 		visibleOutsideCameraRoadManager = nullptr;
 		unbreakableRoadManager = nullptr;
 	}
-	~Menu()
+	virtual ~Menu()
 	{
 		vector<MenuElement*>::iterator elementsIter;
 		for (elementsIter = menuItems.begin(); elementsIter != menuItems.end(); elementsIter++)

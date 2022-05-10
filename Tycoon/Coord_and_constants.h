@@ -71,7 +71,7 @@ public:
 		xCoord = 1;
 		yCoord = 1;
 	}
-	~PointCoord()
+	virtual ~PointCoord()
 	{}
 	PointCoord(int x, int y) : xCoord(x), yCoord(y)
 	{}

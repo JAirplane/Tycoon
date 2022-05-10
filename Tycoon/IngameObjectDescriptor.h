@@ -15,7 +15,7 @@ public:
 		this->foreground = foreground;
 		this->background = background;
 	}
-	~IngameObjectDescriptor() {}
+	virtual ~IngameObjectDescriptor() {}
 	int GetHeightAdd() const;
 	int GetWidthAdd() const;
 	color GetForegroundColor() const;

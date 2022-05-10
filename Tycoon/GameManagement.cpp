@@ -203,7 +203,7 @@ void GameManagement::CreateInfoPanel()
 	ChosenConstructionAttach(infoPanel_ptr);
 	UserMessageAttach(infoPanel_ptr);
 }
-void GameManagement::CreateInitialSplashScreen()
+void GameManagement::CreateStartScreen()
 {
 	if (draw_ptr == nullptr)
 	{
@@ -213,17 +213,34 @@ void GameManagement::CreateInitialSplashScreen()
 	{
 		throw MyException("GameManagement::CreateMenuAndElements() cursor_ptr is nullptr");
 	}
-	initialSplashScreen_ptr = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetInitialSplashScreenUpperLeft(),
+	if (camera_ptr == nullptr)
+	{
+		throw MyException("GameManagement::CreateMenuAndElements() camera_ptr is nullptr");
+	}
+	if (infoPanel_ptr == nullptr)
+	{
+		throw MyException("GameManagement::CreateMenuAndElements() infoPanel_ptr is nullptr");
+	}
+	if (menu_ptr == nullptr)
+	{
+		throw MyException("GameManagement::CreateMenuAndElements() menu_ptr is nullptr");
+	}
+	MyRectangle* startScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetInitialSplashScreenUpperLeft(),
 		camera_ptr->GetHeightAddition() + infoPanel_ptr->GetHeightAddition(), camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition(),
 		ConstructionOptions::GetAllOptions()->GetInitialSplashScreenVerticalSymbol(), ConstructionOptions::GetAllOptions()->GetInitialSplashScreenHorizontalSymbol(),
 		ConstructionOptions::GetAllOptions()->GetInitialSplashScreenUpperLeftSymbol(), ConstructionOptions::GetAllOptions()->GetInitialSplashScreenUpperRightSymbol(),
 		ConstructionOptions::GetAllOptions()->GetInitialSplashScreenBottomLeftSymbol(), ConstructionOptions::GetAllOptions()->GetInitialSplashScreenBottomRightSymbol(),
 		ConstructionOptions::GetAllOptions()->GetInitialSplashScreenBorderForegroundColor(), ConstructionOptions::GetAllOptions()->GetInitialSplashScreenBorderBackgroundColor(),
 		ConstructionOptions::GetAllOptions()->GetInitialSplashScreenLetterColor(), ConstructionOptions::GetAllOptions()->GetInitialSplashScreenShadingColor(), draw_ptr, cursor_ptr);
+	startScreen_ptr = new InitialScreen(startScreenRectangle);
+	startScreen_ptr->CreatePressAnyKey();
 }
 //
 void GameManagement::InitialDisplay() const
 {
+	gameElementsDrawer->DisplayInitialScreen(startScreen_ptr);
+	gameElementsDrawer->EraseScreen();
+	//
 	gameElementsDrawer->DisplayCamera(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 	gameElementsDrawer->DisplayMenu(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 	gameElementsDrawer->DisplayInfoPanel(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);

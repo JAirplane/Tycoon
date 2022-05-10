@@ -20,7 +20,7 @@ public:
 		visitorsInside = 0;
 		exitDirection = Direction::Down;
 	}
-	~Building() {}
+	virtual ~Building() {}
 	int GetVisitorsInside() const override;
 	void SetVisitorsInside(int visitorsValue) override;
 	__declspec(property(get = GetVisitorsInside, put = SetVisitorsInside)) int visitorsCounter;

@@ -12,7 +12,7 @@ public:
 		SetHeightAddition(GetDescriptor()->GetHeightAdd());
 		SetWidthAddition(GetDescriptor()->GetWidthAdd());
 	}
-	~Road() {}
+	virtual ~Road() {}
 	//
 	void GraphStatusAttach(GraphStatusObserverInterface* observer) override;
 	void GraphStatusDetach(GraphStatusObserverInterface* observer) override;
@@ -56,7 +56,7 @@ class UnbreakableRoad : public Road
 public:
 	UnbreakableRoad(PointCoord upperLeft, ConstructionDescriptor* roadData, const Visualisation* paint_ptr) : Road(upperLeft, roadData, paint_ptr)
 	{}
-	~UnbreakableRoad() {}
+	virtual ~UnbreakableRoad() {}
 	bool IsBreakable() const override;
 	void SetRoadConnectionStatus(bool connected) override;
 	int GetEnvironmentMask(const list<Construction*>& allRoads, const list<Construction*>& allBuildings, const Construction* preliminary_ptr) const;
@@ -66,7 +66,7 @@ class VisibleOutsidePlayingfieldRoad : public UnbreakableRoad
 public:
 	VisibleOutsidePlayingfieldRoad(PointCoord upperLeft, ConstructionDescriptor* roadData, const Visualisation* paint_ptr) : UnbreakableRoad(upperLeft, roadData, paint_ptr)
 	{}
-	~VisibleOutsidePlayingfieldRoad() {}
+	virtual ~VisibleOutsidePlayingfieldRoad() {}
 	bool VisibleOutsidePlayingfield() const override;
 	int GetEnvironmentMask(const list<Construction*>& allRoads, const list<Construction*>& allBuildings, const Construction* preliminary_ptr) const override;
 };

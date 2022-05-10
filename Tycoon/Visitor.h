@@ -40,7 +40,7 @@ public:
 		default: {throw MyException("Visitor(PointCoord upperLeft, Visualisation* paint_ptr, VisitorDescriptor* describe_ptr, int currentParkLevel) bad park level"); }
 		}
 	}
-	~Visitor()
+	virtual ~Visitor()
 	{}
 	VisitorDescriptor* GetDescriptor() const;
 	int GetFoorCapacity() const;

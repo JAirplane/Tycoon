@@ -11,11 +11,13 @@ int main()
 	{
 		GameMaster.CreateCursor();
 		GameMaster.CreateDrawPointer();
+		GameMaster.CreateGameElementsDrawer();
 		GameMaster.CreateCamera();
 		GameMaster.CreatePlayingField();
 		GameMaster.CreateMenuAndElements();
 		GameMaster.CreateAllObjects();
 		GameMaster.CreateInfoPanel();
+		GameMaster.CreateStartScreen();
 		//
 		GameMaster.InitialDisplay();
 	}

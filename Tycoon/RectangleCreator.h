@@ -8,7 +8,7 @@ protected:
 	BorderAppearance* CreateBorderAppearance(RectangleSymbols* borderSymbols, color borderForegroundColor, color borderBackgroundColor);
 public:
 	RectangleCreator() {}
-	~RectangleCreator()
+	virtual ~RectangleCreator()
 	{
 		delete rectangleFactory;
 	}

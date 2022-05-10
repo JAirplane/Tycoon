@@ -18,7 +18,7 @@ public:
 		icon_ptr = nullptr;
 		manager_ptr = nullptr;
 	}
-	~MenuElement()
+	virtual ~MenuElement()
 	{
 		delete icon_ptr;
 		delete manager_ptr;

@@ -30,7 +30,7 @@ public:
 		bottomLeftBorderSymbol = symbols_ptr->GetBottomLeftSymbol();
 		bottomRightBorderSymbol = symbols_ptr->GetBottomRightSymbol();
 	}
-	~RectangleSymbols() {}
+	virtual ~RectangleSymbols() {}
 	wstring GetVerticalSymbol() const;
 	wstring GetHorizontalSymbol() const;
 	wstring GetUpperLeftSymbol() const;

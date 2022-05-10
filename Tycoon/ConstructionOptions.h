@@ -37,6 +37,7 @@ public:
 	virtual const int GetPlayingFieldHeightAdd() const;
 	virtual const int GetInfoPanelHeightAdd() const;
 	virtual const int GetConstructionInfoButtonHeightAdd() const;
+	virtual const int GetPressAnyKeyHeightAdd() const;
 	///////////////Width Addition Constants///////////////
 	virtual const int GetIceCreamShopWidthAdd() const;
 	virtual const int GetToiletWidthAdd() const;
@@ -57,6 +58,7 @@ public:
 	virtual const int GetInfoPanelWidthAdd() const;
 	virtual const int GetInfoPanelButtonWidthAdd() const;
 	virtual const int GetConstructionInfoButtonWidthAdd() const;
+	virtual const int GetPressAnyKeyWidthAdd() const;
 	///////////////Cost Initialisation Constants///////////////
 	virtual const int GetIceCreamShopCost() const;
 	virtual const int GetToiletCost() const;
@@ -345,6 +347,11 @@ public:
 	virtual color GetInitialSplashScreenLetterColor() const;
 	virtual color GetInitialSplashScreenShadingColor() const;
 	//
+	virtual color GetPressAnyKeyBorderForegroundColor() const;
+	virtual color GetPressAnyKeyBorderBackgroundColor() const;
+	virtual color GetPressAnyKeyLetterColor() const;
+	virtual color GetPressAnyKeyShadingColor() const;
+	//
 	virtual color GetVisitorForegroundColor() const;
 	virtual color GetVisitorBackgroundColor() const;
 	///////////////PlayingField Symbol Constants///////////////
@@ -452,6 +459,13 @@ public:
 	virtual const wstring GetInitialSplashScreenUpperRightSymbol() const;
 	virtual const wstring GetInitialSplashScreenBottomLeftSymbol() const;
 	virtual const wstring GetInitialSplashScreenBottomRightSymbol() const;
+	//
+	virtual const wstring GetPressAnyKeyVerticalSymbol() const;
+	virtual const wstring GetPressAnyKeyHorizontalSymbol() const;
+	virtual const wstring GetPressAnyKeyUpperLeftSymbol() const;
+	virtual const wstring GetPressAnyKeyUpperRightSymbol() const;
+	virtual const wstring GetPressAnyKeyBottomLeftSymbol() const;
+	virtual const wstring GetPressAnyKeyBottomRightSymbol() const;
 	//
 	virtual const wstring GetVisitorSymbol() const;
 	///////////////Indent Constants///////////////

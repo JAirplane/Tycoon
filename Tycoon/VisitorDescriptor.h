@@ -10,6 +10,6 @@ public:
 	{
 		this->visitorSymbol = visitorSymbol;
 	}
-	~VisitorDescriptor() {}
+	virtual ~VisitorDescriptor() {}
 	wstring GetVisitorSymbol() const;
 };

@@ -3,7 +3,6 @@
 #include <io.h>
 #include "MessagesAndInfoScreen_InfoPanel.h"
 #include "ObserverInterface.h"
-#include "Alphabet.h"
 class InfoPanel : public MyRectangle, public MessageObserverInterface, public ConstructionInfoObserverInterface
 {
 private:
@@ -27,7 +26,7 @@ public:
 		messagesAndInfoScreen_ptr = nullptr;
 		currentScreen = InfoPanelContentType::None;
 	}
-	~InfoPanel()
+	virtual ~InfoPanel()
 	{
 		delete mainScreen_ptr;
 		delete gameControlInfo_ptr;

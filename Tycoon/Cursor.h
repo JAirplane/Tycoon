@@ -17,7 +17,7 @@ public:
 		xShift = 0;
 		yShift = 0;
 	}
-	~Cursor()
+	virtual ~Cursor()
 	{}
 	PointCoord GetCursorConsoleLocation() const;
 	void SetCursorConsoleLocation();

@@ -33,7 +33,7 @@ public:
 		draw_ptr = anotherRectangle->GetDrawPointer();
 		cursor_ptr = anotherRectangle->GetCursor();
 	}
-	~MyRectangle()
+	virtual ~MyRectangle()
 	{
 		delete border_ptr;
 	}

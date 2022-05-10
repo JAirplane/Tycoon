@@ -9,7 +9,7 @@ public:
 	{
 		description_ptr = describe_ptr;
 	}
-	~VisitorManager()
+	virtual ~VisitorManager()
 	{
 		delete description_ptr;
 	}

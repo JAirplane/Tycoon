@@ -5,5 +5,5 @@ class IngameObjectManager
 public:
 	IngameObjectManager()
 	{}
-	~IngameObjectManager() {}
+	virtual ~IngameObjectManager() {}
 };

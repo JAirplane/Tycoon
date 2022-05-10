@@ -81,6 +81,10 @@ const int ConstructionOptions::GetConstructionInfoButtonHeightAdd() const
 {
 	return 2;
 }
+const int ConstructionOptions::GetPressAnyKeyHeightAdd() const
+{
+	return 2;
+}
 ///////////////Width Addition Constants///////////////
 const int ConstructionOptions::GetIceCreamShopWidthAdd() const
 {
@@ -157,6 +161,10 @@ const int ConstructionOptions::GetInfoPanelButtonWidthAdd() const
 const int ConstructionOptions::GetConstructionInfoButtonWidthAdd() const
 {
 	return 12;
+}
+const int ConstructionOptions::GetPressAnyKeyWidthAdd() const
+{
+	return 14;
 }
 ///////////////Cost Initialisation Constants///////////////
 const int ConstructionOptions::GetIceCreamShopCost() const
@@ -846,7 +854,7 @@ color ConstructionOptions::GetLogRideChosenBackgroundColor() const
 //
 color ConstructionOptions::GetToiletForegroundColor() const
 {
-	return color::cBLUE;
+	return color::cBROWN;
 }
 color ConstructionOptions::GetToiletConnectedBackgroundColor() const
 {
@@ -1171,6 +1179,23 @@ color ConstructionOptions::GetInitialSplashScreenLetterColor() const
 	return color::cGREEN;
 }
 color ConstructionOptions::GetInitialSplashScreenShadingColor() const
+{
+	return color::cBLACK;
+}
+//
+color ConstructionOptions::GetPressAnyKeyBorderForegroundColor() const
+{
+	return color::cWHITE;
+}
+color ConstructionOptions::GetPressAnyKeyBorderBackgroundColor() const
+{
+	return color::cRED;
+}
+color ConstructionOptions::GetPressAnyKeyLetterColor() const
+{
+	return color::cBLUE;
+}
+color ConstructionOptions::GetPressAnyKeyShadingColor() const
 {
 	return color::cBLACK;
 }
@@ -1551,6 +1576,31 @@ const wstring ConstructionOptions::GetInitialSplashScreenBottomLeftSymbol() cons
 const wstring ConstructionOptions::GetInitialSplashScreenBottomRightSymbol() const
 {
 	return wstring(L"\u255D");
+}
+//
+const wstring ConstructionOptions::GetPressAnyKeyVerticalSymbol() const
+{
+	return L"*";
+}
+const wstring ConstructionOptions::GetPressAnyKeyHorizontalSymbol() const
+{
+	return L"*";
+}
+const wstring ConstructionOptions::GetPressAnyKeyUpperLeftSymbol() const
+{
+	return L"*";
+}
+const wstring ConstructionOptions::GetPressAnyKeyUpperRightSymbol() const
+{
+	return L"*";
+}
+const wstring ConstructionOptions::GetPressAnyKeyBottomLeftSymbol() const
+{
+	return L"*";
+}
+const wstring ConstructionOptions::GetPressAnyKeyBottomRightSymbol() const
+{
+	return L"*";
 }
 //
 const wstring ConstructionOptions::GetVisitorSymbol() const

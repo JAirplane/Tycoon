@@ -14,7 +14,7 @@ public:
 		constructionIcon_ptr = nullptr;
 		chosen_ptr = nullptr;
 	}
-	~ConstructionInfoScreen()
+	virtual ~ConstructionInfoScreen()
 	{
 		delete deconstruct_ptr;
 		delete constructionIcon_ptr;

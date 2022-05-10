@@ -16,7 +16,7 @@ public:
 		heightAddition = 0;
 		widthAddition = 0;
 	}
-	~GlobalObject()
+	virtual ~GlobalObject()
 	{}
 	PointCoord GetUpperLeft() const;
 	virtual void SetUpperLeft(PointCoord point);

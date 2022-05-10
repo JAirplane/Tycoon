@@ -12,7 +12,7 @@ public:
 		this->maxVisitors = maxVisitors;
 		this->visitorMoneyFormulaValue = visitorMoneyFormulaValue;
 	}
-	~Level() {}
+	virtual ~Level() {}
 	int GetLvlNumber() const;
 	int GetMaxBuildings() const;
 	int GetMaxVisitors() const;
@@ -39,7 +39,6 @@ public:
 			string msg = "XML [ParkLevelConstants.xml] parsed with errors. ";
 			msg.append("Error description: ");
 			msg.append(result.description());
-			cout << msg;
 			throw MyException(msg);
 		}
 		pugi::xml_node levels = doc.child("parkLevels");
@@ -53,7 +52,7 @@ public:
 			lvls.push_back(levelConstant);
 		}
 	}
-	~ParkLevelConstants()
+	virtual ~ParkLevelConstants()
 	{
 		for (auto lvl : lvls)
 		{

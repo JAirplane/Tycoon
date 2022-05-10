@@ -11,6 +11,7 @@ public:
 	{
 		init_graphics();
 	}
+	virtual ~Visualisation() {}
 	void DrawRectangle(int leftX, int topY, int rightX, int bottomY, wstring vertical, wstring horizontal, wstring upperLeft,
 		wstring upperRight, wstring bottomLeft, wstring bottomRight, color foreground, color background = cBLACK) const;
 	void DrawPartOfRectangle(int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY, int leftX, int topY, int rightX, int bottomY,

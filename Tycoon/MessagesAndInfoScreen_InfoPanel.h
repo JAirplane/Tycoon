@@ -13,7 +13,7 @@ public:
 		messagesScreen_ptr = nullptr;
 		constructionInfo_ptr = nullptr;
 	}
-	~MessagesAndInfoScreen()
+	virtual ~MessagesAndInfoScreen()
 	{
 		delete messagesScreen_ptr;
 		delete constructionInfo_ptr;
@@ -30,6 +30,4 @@ public:
 	void DisplayMessage(int initialX, int initialY, string message);
 	void DeleteOldMessages();
 	void DisplayMessages();
-	//
-	
 };

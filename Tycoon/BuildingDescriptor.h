@@ -27,7 +27,7 @@ public:
 		this->maxVisitors = maxVisitors;
 		this->visitTime = visitTime;
 	}
-	~BuildingDescriptor() {}
+	virtual ~BuildingDescriptor() {}
 	wstring GetConstructionSymbol(int mask = 0) const override;
 	int GetRestorationOfToiletNeed() const override;
 	int GetSatisfactionOfHunger() const override;

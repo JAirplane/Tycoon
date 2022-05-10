@@ -13,7 +13,7 @@ public:
 	{
 		errorMessage = error;
 	}
-	~MyException()
+	virtual ~MyException()
 	{}
 	string GetError() const;
 	void AddToLogFile();

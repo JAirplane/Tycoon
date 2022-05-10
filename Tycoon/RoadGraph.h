@@ -19,7 +19,7 @@ public:
 		rightNeighbour = nullptr;
 		bottomNeighbour = nullptr;
 	}
-	~Node() {}
+	virtual ~Node() {}
 	int GetIndex() const;
 	void SetIndex(int index);
 	Node* GetNeighbourNode(Direction side);
@@ -33,7 +33,7 @@ private:
 public:
 	RoadGraph()
 	{}
-	~RoadGraph()
+	virtual ~RoadGraph()
 	{
 		for (auto everyNode : allNodes)
 		{

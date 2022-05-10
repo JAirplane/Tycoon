@@ -1,5 +1,5 @@
 #pragma once
-#include "RectangleCreator.h"
+#include "StartScreen.h"
 /////////////PlayingField Class/////////////
 class PlayingField : public MyRectangle
 {
@@ -9,7 +9,7 @@ public:
 	{}
 	PlayingField(MyRectangle* anotherRectangle) : MyRectangle(anotherRectangle)
 	{}
-	~PlayingField()
+	virtual ~PlayingField()
 	{}
 	void Shift(Direction shiftDirection, int shiftValue = 1);
 };

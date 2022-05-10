@@ -19,7 +19,7 @@ public:
 			title = buttonTitle;
 		}
 	}
-	~Button()
+	virtual ~Button()
 	{}
 	string GetButtonTitle() const;
 	void Display() const;

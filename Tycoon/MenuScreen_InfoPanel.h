@@ -12,7 +12,7 @@ public:
 		messagesAndInfoButton_ptr = nullptr;
 		controlsButton_ptr = nullptr;
 	}
-	~MenuScreen()
+	virtual ~MenuScreen()
 	{
 		delete messagesAndInfoButton_ptr;
 		delete controlsButton_ptr;
