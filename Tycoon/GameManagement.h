@@ -14,6 +14,7 @@ private:
 	Menu* menu_ptr;
 	InfoPanel* infoPanel_ptr;
 	InitialScreen* startScreen_ptr;
+	MainMenu* mainMenu_ptr;
 	//
 	list<ConstructionInfoObserverInterface*> choosenConstructionObservers;
 	list<MessageObserverInterface*> userMessageObservers;
@@ -29,6 +30,7 @@ public:
 		menu_ptr = nullptr;
 		infoPanel_ptr = nullptr;
 		startScreen_ptr = nullptr;
+		mainMenu_ptr = nullptr;
 	}
 	virtual ~GameManagement()
 	{
@@ -41,6 +43,7 @@ public:
 		delete menu_ptr;
 		delete infoPanel_ptr;
 		delete startScreen_ptr;
+		delete mainMenu_ptr;
 	}
 	// create game elements
 	virtual void CreateCursor();
@@ -52,6 +55,7 @@ public:
 	virtual void CreateMenuAndElements();
 	virtual void CreateInfoPanel();
 	virtual void CreateStartScreen();
+	virtual void CreateMainMenu();
 	void InitialDisplay() const;
 	// notifies InfoPanel if user choose some construction on the playing field
 	void ChosenConstructionAttach(ConstructionInfoObserverInterface* observer) override;

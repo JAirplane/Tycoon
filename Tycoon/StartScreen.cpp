@@ -15,36 +15,36 @@ const MyRectangle* InitialScreen::GetPressAnyKey() const
 {
 	return pressAnyKey;
 }
-void InitialScreen::ShowGameTitle() const
+void InitialScreen::ShowGameTitle(color textColor) const
 {
 	GetCursor()->CursorMovement(PointCoord(GetUpperLeft().Get_x() + 9, GetUpperLeft().Get_y() + 10));
-	Alphabet::DrawLetter(Alphabet::Get_F_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x(), GetCursor()->GetCursorConsoleLocation().Get_y());
+	Alphabet::DrawLetter(Alphabet::Get_F_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x(), GetCursor()->GetCursorConsoleLocation().Get_y(), cBLACK, textColor);
 	GetCursor()->SetCursorConsoleLocation();
-	Alphabet::DrawLetter(Alphabet::Get_A_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x(), GetCursor()->GetCursorConsoleLocation().Get_y());
+	Alphabet::DrawLetter(Alphabet::Get_A_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x(), GetCursor()->GetCursorConsoleLocation().Get_y(), cBLACK, textColor);
 	GetCursor()->SetCursorConsoleLocation();
-	Alphabet::DrawLetter(Alphabet::Get_I_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x(), GetCursor()->GetCursorConsoleLocation().Get_y());
+	Alphabet::DrawLetter(Alphabet::Get_I_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x(), GetCursor()->GetCursorConsoleLocation().Get_y(), cBLACK, textColor);
 	GetCursor()->SetCursorConsoleLocation();
-	Alphabet::DrawLetter(Alphabet::Get_R_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x(), GetCursor()->GetCursorConsoleLocation().Get_y());
+	Alphabet::DrawLetter(Alphabet::Get_R_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x(), GetCursor()->GetCursorConsoleLocation().Get_y(), cBLACK, textColor);
 	GetCursor()->SetCursorConsoleLocation();
-	Alphabet::DrawLetter(Alphabet::Get_Y_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x(), GetCursor()->GetCursorConsoleLocation().Get_y());
-	GetCursor()->SetCursorConsoleLocation();
-	//
-	Alphabet::DrawLetter(Alphabet::Get_T_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x() + 3, GetCursor()->GetCursorConsoleLocation().Get_y());
-	GetCursor()->SetCursorConsoleLocation();
-	Alphabet::DrawLetter(Alphabet::Get_A_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x(), GetCursor()->GetCursorConsoleLocation().Get_y());
-	GetCursor()->SetCursorConsoleLocation();
-	Alphabet::DrawLetter(Alphabet::Get_L_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x(), GetCursor()->GetCursorConsoleLocation().Get_y());
-	GetCursor()->SetCursorConsoleLocation();
-	Alphabet::DrawLetter(Alphabet::Get_E_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x(), GetCursor()->GetCursorConsoleLocation().Get_y());
+	Alphabet::DrawLetter(Alphabet::Get_Y_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x(), GetCursor()->GetCursorConsoleLocation().Get_y(), cBLACK, textColor);
 	GetCursor()->SetCursorConsoleLocation();
 	//
-	Alphabet::DrawLetter(Alphabet::Get_P_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x() + 3, GetCursor()->GetCursorConsoleLocation().Get_y());
+	Alphabet::DrawLetter(Alphabet::Get_T_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x() + 3, GetCursor()->GetCursorConsoleLocation().Get_y(), cBLACK, textColor);
 	GetCursor()->SetCursorConsoleLocation();
-	Alphabet::DrawLetter(Alphabet::Get_A_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x(), GetCursor()->GetCursorConsoleLocation().Get_y());
+	Alphabet::DrawLetter(Alphabet::Get_A_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x(), GetCursor()->GetCursorConsoleLocation().Get_y(), cBLACK, textColor);
 	GetCursor()->SetCursorConsoleLocation();
-	Alphabet::DrawLetter(Alphabet::Get_R_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x(), GetCursor()->GetCursorConsoleLocation().Get_y());
+	Alphabet::DrawLetter(Alphabet::Get_L_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x(), GetCursor()->GetCursorConsoleLocation().Get_y(), cBLACK, textColor);
 	GetCursor()->SetCursorConsoleLocation();
-	Alphabet::DrawLetter(Alphabet::Get_K_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x(), GetCursor()->GetCursorConsoleLocation().Get_y());
+	Alphabet::DrawLetter(Alphabet::Get_E_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x(), GetCursor()->GetCursorConsoleLocation().Get_y(), cBLACK, textColor);
+	GetCursor()->SetCursorConsoleLocation();
+	//
+	Alphabet::DrawLetter(Alphabet::Get_P_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x() + 3, GetCursor()->GetCursorConsoleLocation().Get_y(), cBLACK, textColor);
+	GetCursor()->SetCursorConsoleLocation();
+	Alphabet::DrawLetter(Alphabet::Get_A_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x(), GetCursor()->GetCursorConsoleLocation().Get_y(), cBLACK, textColor);
+	GetCursor()->SetCursorConsoleLocation();
+	Alphabet::DrawLetter(Alphabet::Get_R_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x(), GetCursor()->GetCursorConsoleLocation().Get_y(), cBLACK, textColor);
+	GetCursor()->SetCursorConsoleLocation();
+	Alphabet::DrawLetter(Alphabet::Get_K_Matrix(), GetCursor()->GetCursorConsoleLocation().Get_x(), GetCursor()->GetCursorConsoleLocation().Get_y(), cBLACK, textColor);
 	GetCursor()->SetCursorConsoleLocation();
 	set_color(cBLACK);
 }

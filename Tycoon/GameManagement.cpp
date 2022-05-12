@@ -207,23 +207,23 @@ void GameManagement::CreateStartScreen()
 {
 	if (draw_ptr == nullptr)
 	{
-		throw MyException("GameManagement::CreateMenuAndElements() draw_ptr is nullptr");
+		throw MyException("GameManagement::CreateStartScreen() draw_ptr is nullptr");
 	}
 	if (cursor_ptr == nullptr)
 	{
-		throw MyException("GameManagement::CreateMenuAndElements() cursor_ptr is nullptr");
+		throw MyException("GameManagement::CreateStartScreen() cursor_ptr is nullptr");
 	}
 	if (camera_ptr == nullptr)
 	{
-		throw MyException("GameManagement::CreateMenuAndElements() camera_ptr is nullptr");
+		throw MyException("GameManagement::CreateStartScreen() camera_ptr is nullptr");
 	}
 	if (infoPanel_ptr == nullptr)
 	{
-		throw MyException("GameManagement::CreateMenuAndElements() infoPanel_ptr is nullptr");
+		throw MyException("GameManagement::CreateStartScreen() infoPanel_ptr is nullptr");
 	}
 	if (menu_ptr == nullptr)
 	{
-		throw MyException("GameManagement::CreateMenuAndElements() menu_ptr is nullptr");
+		throw MyException("GameManagement::CreateStartScreen() menu_ptr is nullptr");
 	}
 	MyRectangle* startScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetInitialSplashScreenUpperLeft(),
 		camera_ptr->GetHeightAddition() + infoPanel_ptr->GetHeightAddition(), camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition(),
@@ -233,12 +233,50 @@ void GameManagement::CreateStartScreen()
 		ConstructionOptions::GetAllOptions()->GetInitialSplashScreenBorderForegroundColor(), ConstructionOptions::GetAllOptions()->GetInitialSplashScreenBorderBackgroundColor(),
 		ConstructionOptions::GetAllOptions()->GetInitialSplashScreenLetterColor(), ConstructionOptions::GetAllOptions()->GetInitialSplashScreenShadingColor(), draw_ptr, cursor_ptr);
 	startScreen_ptr = new InitialScreen(startScreenRectangle);
+	delete startScreenRectangle;
 	startScreen_ptr->CreatePressAnyKey();
+}
+//
+void GameManagement::CreateMainMenu()
+{
+	if (draw_ptr == nullptr)
+	{
+		throw MyException("GameManagement::CreateMainMenu() draw_ptr is nullptr");
+	}
+	if (cursor_ptr == nullptr)
+	{
+		throw MyException("GameManagement::CreateMainMenu() cursor_ptr is nullptr");
+	}
+	if (camera_ptr == nullptr)
+	{
+		throw MyException("GameManagement::CreateMainMenu() camera_ptr is nullptr");
+	}
+	if (infoPanel_ptr == nullptr)
+	{
+		throw MyException("GameManagement::CreateMainMenu() infoPanel_ptr is nullptr");
+	}
+	if (menu_ptr == nullptr)
+	{
+		throw MyException("GameManagement::CreateMainMenu() menu_ptr is nullptr");
+	}
+	MyRectangle* mainMenuRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetMainMenuUpperLeft(),
+		camera_ptr->GetHeightAddition() + infoPanel_ptr->GetHeightAddition(), camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition(),
+		ConstructionOptions::GetAllOptions()->GetMainMenuVerticalSymbol(), ConstructionOptions::GetAllOptions()->GetMainMenuHorizontalSymbol(),
+		ConstructionOptions::GetAllOptions()->GetMainMenuUpperLeftSymbol(), ConstructionOptions::GetAllOptions()->GetMainMenuUpperRightSymbol(),
+		ConstructionOptions::GetAllOptions()->GetMainMenuBottomLeftSymbol(), ConstructionOptions::GetAllOptions()->GetMainMenuBottomRightSymbol(),
+		ConstructionOptions::GetAllOptions()->GetMainMenuBorderForegroundColor(), ConstructionOptions::GetAllOptions()->GetMainMenuBorderBackgroundColor(),
+		ConstructionOptions::GetAllOptions()->GetMainMenuLetterColor(), ConstructionOptions::GetAllOptions()->GetMainMenuShadingColor(), draw_ptr, cursor_ptr);
+	mainMenu_ptr = new MainMenu(mainMenuRectangle);
+	delete mainMenuRectangle;
+	mainMenu_ptr->CreateButtons();
 }
 //
 void GameManagement::InitialDisplay() const
 {
 	gameElementsDrawer->DisplayInitialScreen(startScreen_ptr);
+	gameElementsDrawer->EraseScreen();
+	//
+	gameElementsDrawer->DisplayMainMenu(mainMenu_ptr);
 	gameElementsDrawer->EraseScreen();
 	//
 	gameElementsDrawer->DisplayCamera(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
@@ -987,7 +1025,7 @@ void GameManagement::Arrows_Menu(Direction arrowDir)
 	{
 	case Direction::Up: {upperOrLower = IconsPosition::UPPER; break; }
 	case Direction::Down: {upperOrLower = IconsPosition::LOWER; break; }
-	default: {throw MyException("GameManagement::Arrows_Menu() incorrect direction."); } //exception
+	default: {throw MyException("GameManagement::Arrows_Menu() incorrect direction."); }
 	}
 	MenuElement* nearest = menu_ptr->MenuNavigation(menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y()), upperOrLower);
 	if (nearest != nullptr)

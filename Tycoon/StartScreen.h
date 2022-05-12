@@ -17,7 +17,7 @@ public:
 	virtual ~InitialScreen() {}
 	void CreatePressAnyKey();
 	const MyRectangle* GetPressAnyKey() const;
-	void ShowGameTitle() const;
+	void ShowGameTitle(color textColor) const;
 	void ShowAuthor(color textColor) const;
 	void DrawHaveFunIscription(color textColor) const;
 	void DrawPressAnyKeyLetter(char letter, PointCoord position, color letterColor) const;

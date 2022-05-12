@@ -2,11 +2,17 @@
 void Display::DisplayInitialScreen(const InitialScreen* startScreen)
 {
 	startScreen->DrawBorder();
-	startScreen->ShowGameTitle();
+	startScreen->ShowGameTitle(startScreen->GetTextColor());
 	startScreen->ShowAuthor(cGREEN);
 	startScreen->DrawHaveFunIscription(cYELLOW);
 	startScreen->GetPressAnyKey()->DrawBorder();
 	startScreen->PressAnyKeyAnimation();
+}
+void Display::DisplayMainMenu(MainMenu* mainMenu_ptr)
+{
+	mainMenu_ptr->DrawBorder();
+	mainMenu_ptr->Display(mainMenu_ptr->GetTextColor());
+	system("pause");
 }
 void Display::DrawCursor(const Cursor* cursor_ptr, const AllObjects* container_ptr, const PlayingField* field_ptr) const
 {

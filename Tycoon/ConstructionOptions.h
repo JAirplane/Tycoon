@@ -38,6 +38,9 @@ public:
 	virtual const int GetInfoPanelHeightAdd() const;
 	virtual const int GetConstructionInfoButtonHeightAdd() const;
 	virtual const int GetPressAnyKeyHeightAdd() const;
+	virtual const int GetNewGameButtonHeightAdd() const;
+	virtual const int GetContinueButtonHeightAdd() const;
+	virtual const int GetExitButtonHeightAdd() const;
 	///////////////Width Addition Constants///////////////
 	virtual const int GetIceCreamShopWidthAdd() const;
 	virtual const int GetToiletWidthAdd() const;
@@ -59,6 +62,9 @@ public:
 	virtual const int GetInfoPanelButtonWidthAdd() const;
 	virtual const int GetConstructionInfoButtonWidthAdd() const;
 	virtual const int GetPressAnyKeyWidthAdd() const;
+	virtual const int GetNewGameButtonWidthAdd() const;
+	virtual const int GetContinueButtonWidthAdd() const;
+	virtual const int GetExitButtonWidthAdd() const;
 	///////////////Cost Initialisation Constants///////////////
 	virtual const int GetIceCreamShopCost() const;
 	virtual const int GetToiletCost() const;
@@ -195,6 +201,7 @@ public:
 	virtual const PointCoord GetPlayingFieldUpperLeft() const;
 	virtual const PointCoord GetInfoPanelUpperLeft() const;
 	virtual const PointCoord GetInitialSplashScreenUpperLeft() const;
+	virtual const PointCoord GetMainMenuUpperLeft() const;
 	///////////////Constructions's Icon Symbol Constants///////////////
 	virtual const wstring GetIceCreamShopIconSymbol() const;
 	virtual const wstring GetToiletIconSymbol() const;
@@ -312,6 +319,7 @@ public:
 	//
 	virtual color GetButtonBorderActiveColor() const;
 	virtual color GetButtonBorderInactiveColor() const;
+	virtual color GetButtonDisabledColor() const;
 	virtual color GetButtonBorderBackgroundColor() const;
 	virtual color GetButtonContentForegroundColor() const;
 	virtual color GetButtonContentBackgroundColor() const;
@@ -351,6 +359,26 @@ public:
 	virtual color GetPressAnyKeyBorderBackgroundColor() const;
 	virtual color GetPressAnyKeyLetterColor() const;
 	virtual color GetPressAnyKeyShadingColor() const;
+	//
+	virtual color GetMainMenuBorderForegroundColor() const;
+	virtual color GetMainMenuBorderBackgroundColor() const;
+	virtual color GetMainMenuLetterColor() const;
+	virtual color GetMainMenuShadingColor() const;
+	//
+	virtual color GetNewGameButtonBorderForegroundColor() const;
+	virtual color GetNewGameButtonBorderBackgroundColor() const;
+	virtual color GetNewGameButtonLetterColor() const;
+	virtual color GetNewGameButtonShadingColor() const;
+	//
+	virtual color GetContinueButtonBorderForegroundColor() const;
+	virtual color GetContinueButtonBorderBackgroundColor() const;
+	virtual color GetContinueButtonLetterColor() const;
+	virtual color GetContinueButtonShadingColor() const;
+	//
+	virtual color GetExitButtonBorderForegroundColor() const;
+	virtual color GetExitButtonBorderBackgroundColor() const;
+	virtual color GetExitButtonLetterColor() const;
+	virtual color GetExitButtonShadingColor() const;
 	//
 	virtual color GetVisitorForegroundColor() const;
 	virtual color GetVisitorBackgroundColor() const;
@@ -416,6 +444,9 @@ public:
 	virtual const string GetControlsButtonTitle() const;
 	virtual const string GetInfoScreenButtonTitle() const;
 	virtual const string GetDeconstructButtonTitle() const;
+	virtual const string GetNewGameButtonTitle() const;
+	virtual const string GetContinueButtonTitle() const;
+	virtual const string GetExitButtonTitle() const;
 	//
 	///////////////Menu Border Symbol Constants///////////////
 	virtual const wstring GetMenuVerticalSymbol() const;
@@ -466,6 +497,34 @@ public:
 	virtual const wstring GetPressAnyKeyUpperRightSymbol() const;
 	virtual const wstring GetPressAnyKeyBottomLeftSymbol() const;
 	virtual const wstring GetPressAnyKeyBottomRightSymbol() const;
+	//
+	virtual const wstring GetMainMenuVerticalSymbol() const;
+	virtual const wstring GetMainMenuHorizontalSymbol() const;
+	virtual const wstring GetMainMenuUpperLeftSymbol() const;
+	virtual const wstring GetMainMenuUpperRightSymbol() const;
+	virtual const wstring GetMainMenuBottomLeftSymbol() const;
+	virtual const wstring GetMainMenuBottomRightSymbol() const;
+	//
+	virtual const wstring GetNewGameButtonVerticalSymbol() const;
+	virtual const wstring GetNewGameButtonHorizontalSymbol() const;
+	virtual const wstring GetNewGameButtonUpperLeftSymbol() const;
+	virtual const wstring GetNewGameButtonUpperRightSymbol() const;
+	virtual const wstring GetNewGameButtonBottomLeftSymbol() const;
+	virtual const wstring GetNewGameButtonBottomRightSymbol() const;
+	//
+	virtual const wstring GetContinueButtonVerticalSymbol() const;
+	virtual const wstring GetContinueButtonHorizontalSymbol() const;
+	virtual const wstring GetContinueButtonUpperLeftSymbol() const;
+	virtual const wstring GetContinueButtonUpperRightSymbol() const;
+	virtual const wstring GetContinueButtonBottomLeftSymbol() const;
+	virtual const wstring GetContinueButtonBottomRightSymbol() const;
+	//
+	virtual const wstring GetExitButtonVerticalSymbol() const;
+	virtual const wstring GetExitButtonHorizontalSymbol() const;
+	virtual const wstring GetExitButtonUpperLeftSymbol() const;
+	virtual const wstring GetExitButtonUpperRightSymbol() const;
+	virtual const wstring GetExitButtonBottomLeftSymbol() const;
+	virtual const wstring GetExitButtonBottomRightSymbol() const;
 	//
 	virtual const wstring GetVisitorSymbol() const;
 	///////////////Indent Constants///////////////

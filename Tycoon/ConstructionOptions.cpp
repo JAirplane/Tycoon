@@ -85,6 +85,18 @@ const int ConstructionOptions::GetPressAnyKeyHeightAdd() const
 {
 	return 2;
 }
+const int ConstructionOptions::GetNewGameButtonHeightAdd() const
+{
+	return 4;
+}
+const int ConstructionOptions::GetContinueButtonHeightAdd() const
+{
+	return 4;
+}
+const int ConstructionOptions::GetExitButtonHeightAdd() const
+{
+	return 4;
+}
 ///////////////Width Addition Constants///////////////
 const int ConstructionOptions::GetIceCreamShopWidthAdd() const
 {
@@ -165,6 +177,18 @@ const int ConstructionOptions::GetConstructionInfoButtonWidthAdd() const
 const int ConstructionOptions::GetPressAnyKeyWidthAdd() const
 {
 	return 14;
+}
+const int ConstructionOptions::GetNewGameButtonWidthAdd() const
+{
+	return 20;
+}
+const int ConstructionOptions::GetContinueButtonWidthAdd() const
+{
+	return 20;
+}
+const int ConstructionOptions::GetExitButtonWidthAdd() const
+{
+	return 20;
 }
 ///////////////Cost Initialisation Constants///////////////
 const int ConstructionOptions::GetIceCreamShopCost() const
@@ -380,6 +404,10 @@ const PointCoord ConstructionOptions::GetInfoPanelUpperLeft() const
 	return PointCoord(1, 37);
 }
 const PointCoord ConstructionOptions::GetInitialSplashScreenUpperLeft() const
+{
+	return PointCoord(1, 1);
+}
+const PointCoord ConstructionOptions::GetMainMenuUpperLeft() const
 {
 	return PointCoord(1, 1);
 }
@@ -1067,6 +1095,10 @@ color ConstructionOptions::GetButtonBorderInactiveColor() const
 {
 	return color::cYELLOW;
 }
+color ConstructionOptions::GetButtonDisabledColor() const
+{
+	return cDARK_GRAY;
+}
 color ConstructionOptions::GetButtonBorderBackgroundColor() const
 {
 	return color::cBLACK;
@@ -1176,7 +1208,7 @@ color ConstructionOptions::GetInitialSplashScreenBorderBackgroundColor() const
 }
 color ConstructionOptions::GetInitialSplashScreenLetterColor() const
 {
-	return color::cGREEN;
+	return color::cBLUE;
 }
 color ConstructionOptions::GetInitialSplashScreenShadingColor() const
 {
@@ -1198,6 +1230,74 @@ color ConstructionOptions::GetPressAnyKeyLetterColor() const
 color ConstructionOptions::GetPressAnyKeyShadingColor() const
 {
 	return color::cBLACK;
+}
+//
+color ConstructionOptions::GetMainMenuBorderForegroundColor() const
+{
+	return color::cBLUE;
+}
+color ConstructionOptions::GetMainMenuBorderBackgroundColor() const
+{
+	return color::cBLACK;
+}
+color ConstructionOptions::GetMainMenuLetterColor() const
+{
+	return color::cGREEN;
+}
+color ConstructionOptions::GetMainMenuShadingColor() const
+{
+	return color::cBLACK;
+}
+//
+color ConstructionOptions::GetNewGameButtonBorderForegroundColor() const
+{
+	return cWHITE;
+}
+color ConstructionOptions::GetNewGameButtonBorderBackgroundColor() const
+{
+	return cBROWN;
+}
+color ConstructionOptions::GetNewGameButtonLetterColor() const
+{
+	return cWHITE;
+}
+color ConstructionOptions::GetNewGameButtonShadingColor() const
+{
+	return cBLACK;
+}
+//
+color ConstructionOptions::GetContinueButtonBorderForegroundColor() const
+{
+	return cWHITE;
+}
+color ConstructionOptions::GetContinueButtonBorderBackgroundColor() const
+{
+	return cBROWN;
+}
+color ConstructionOptions::GetContinueButtonLetterColor() const
+{
+	return cWHITE;
+}
+color ConstructionOptions::GetContinueButtonShadingColor() const
+{
+	return cBLACK;
+}
+//
+color ConstructionOptions::GetExitButtonBorderForegroundColor() const
+{
+	return cWHITE;
+}
+color ConstructionOptions::GetExitButtonBorderBackgroundColor() const
+{
+	return cBROWN;
+}
+color ConstructionOptions::GetExitButtonLetterColor() const
+{
+	return cWHITE;
+}
+color ConstructionOptions::GetExitButtonShadingColor() const
+{
+	return cBLACK;
 }
 //
 color ConstructionOptions::GetVisitorForegroundColor() const
@@ -1477,6 +1577,18 @@ const string ConstructionOptions::GetDeconstructButtonTitle() const
 {
 	return "Deconstruct";
 }
+const string ConstructionOptions::GetNewGameButtonTitle() const
+{
+	return "New Game";
+}
+const string ConstructionOptions::GetContinueButtonTitle() const
+{
+	return "Continue";
+}
+const string ConstructionOptions::GetExitButtonTitle() const
+{
+	return "Exit";
+}
 ///////////////Camera Border Symbol Constants///////////////
 const wstring ConstructionOptions::GetCameraVerticalSymbol() const
 {
@@ -1601,6 +1713,106 @@ const wstring ConstructionOptions::GetPressAnyKeyBottomLeftSymbol() const
 const wstring ConstructionOptions::GetPressAnyKeyBottomRightSymbol() const
 {
 	return L"*";
+}
+//
+const wstring ConstructionOptions::GetMainMenuVerticalSymbol() const
+{
+	return wstring(L"\u2551");
+}
+const wstring ConstructionOptions::GetMainMenuHorizontalSymbol() const
+{
+	return wstring(L"\u2550");
+}
+const wstring ConstructionOptions::GetMainMenuUpperLeftSymbol() const
+{
+	return wstring(L"\u2554");
+}
+const wstring ConstructionOptions::GetMainMenuUpperRightSymbol() const
+{
+	return wstring(L"\u2557");
+}
+const wstring ConstructionOptions::GetMainMenuBottomLeftSymbol() const
+{
+	return wstring(L"\u255A");
+}
+const wstring ConstructionOptions::GetMainMenuBottomRightSymbol() const
+{
+	return wstring(L"\u255D");
+}
+//
+const wstring ConstructionOptions::GetNewGameButtonVerticalSymbol() const
+{
+	return L"#";
+}
+const wstring ConstructionOptions::GetNewGameButtonHorizontalSymbol() const
+{
+	return L"#";
+}
+const wstring ConstructionOptions::GetNewGameButtonUpperLeftSymbol() const
+{
+	return L"#";
+}
+const wstring ConstructionOptions::GetNewGameButtonUpperRightSymbol() const
+{
+	return L"#";
+}
+const wstring ConstructionOptions::GetNewGameButtonBottomLeftSymbol() const
+{
+	return L"#";
+}
+const wstring ConstructionOptions::GetNewGameButtonBottomRightSymbol() const
+{
+	return L"#";
+}
+//
+const wstring ConstructionOptions::GetContinueButtonVerticalSymbol() const
+{
+	return L"#";
+}
+const wstring ConstructionOptions::GetContinueButtonHorizontalSymbol() const
+{
+	return L"#";
+}
+const wstring ConstructionOptions::GetContinueButtonUpperLeftSymbol() const
+{
+	return L"#";
+}
+const wstring ConstructionOptions::GetContinueButtonUpperRightSymbol() const
+{
+	return L"#";
+}
+const wstring ConstructionOptions::GetContinueButtonBottomLeftSymbol() const
+{
+	return L"#";
+}
+const wstring ConstructionOptions::GetContinueButtonBottomRightSymbol() const
+{
+	return L"#";
+}
+//
+const wstring ConstructionOptions::GetExitButtonVerticalSymbol() const
+{
+	return L"#";
+}
+const wstring ConstructionOptions::GetExitButtonHorizontalSymbol() const
+{
+	return L"#";
+}
+const wstring ConstructionOptions::GetExitButtonUpperLeftSymbol() const
+{
+	return L"#";
+}
+const wstring ConstructionOptions::GetExitButtonUpperRightSymbol() const
+{
+	return L"#";
+}
+const wstring ConstructionOptions::GetExitButtonBottomLeftSymbol() const
+{
+	return L"#";
+}
+const wstring ConstructionOptions::GetExitButtonBottomRightSymbol() const
+{
+	return L"#";
 }
 //
 const wstring ConstructionOptions::GetVisitorSymbol() const

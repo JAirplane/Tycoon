@@ -18,6 +18,7 @@ int main()
 		GameMaster.CreateAllObjects();
 		GameMaster.CreateInfoPanel();
 		GameMaster.CreateStartScreen();
+		GameMaster.CreateMainMenu();
 		//
 		GameMaster.InitialDisplay();
 	}
