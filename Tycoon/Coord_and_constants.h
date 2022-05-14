@@ -1,5 +1,4 @@
 #pragma once
-#include "msoftcon.h"
 #include "ParkLevelConstants.h"
 using namespace std;
 ///////////////Enum ShiftDirection///////////////

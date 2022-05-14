@@ -1,53 +1,23 @@
 #include "Menu.h"
 /////////////Side Menu Class/////////////
-//for roads
 ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
-	color backgroundNotConnected, color backgroundChosen)
+	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int restoreToiletNeed, int satisfactionOfHunger, int visitPrice,
+	int enetrtainmentValue, int isExit, int maxVisitors, int visitTime, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
 {
-	ConstructionDescriptor* roadDesc_ptr = new RoadDescriptor(menuElementLocation, constructionCost, description, iconSymbol,
-		foreground, backgroundConnected, backgroundNotConnected, backgroundChosen);
-	return new RoadManager(roadDesc_ptr);
-}
-// for buildings
-ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
-	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int restoreToiletNeed, int satisfactionOfHunger, int visitPrice, int enetrtainmentValue,
-	int isExit, int maxVisitors, int visitTime, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
-{
-	ConstructionDescriptor* buildingDesc_ptr = new BuildingDescriptor(menuElementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected,
-		backgroundNotConnected, backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, enetrtainmentValue, isExit, maxVisitors, visitTime,
-		dailyExpences, constructionHeightAdd, constructionWidthAdd);
-	return new BuildingManager(buildingDesc_ptr);
-}
-// create road element
-void Menu::CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
-	color backgroundNotConnected, color backgroundChosen)
-{
-	BorderAppearance* elementBorder_ptr = CreateElementBorder();
-	color menuElementLetterColor = ConstructionOptions::GetAllOptions()->GetMenuElementLetterColor();
-	color menuElementShadingColor = ConstructionOptions::GetAllOptions()->GetMenuElementShadingColor();
-	PointCoord elementLocation(0, 0);
-	if (menuItems.empty())
+	if (restoreToiletNeed == 0 && satisfactionOfHunger == 0 && enetrtainmentValue == 0 && isExit == 0 && visitTime == 0)
 	{
-		if (gameStats_ptr == nullptr)
-		{
-			throw MyException("Menu::CreateMenuElement(args...) tried to create menu element with gameStats == nullptr");
-		}
-		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, gameStats_ptr->GetUpperLeft().Get_y() + gameStats_ptr->GetHeightAddition() + 1);
+		ConstructionDescriptor* roadDesc_ptr = new RoadDescriptor(menuElementLocation, constructionCost, description, iconSymbol,
+			foreground, backgroundConnected, backgroundNotConnected, backgroundChosen);
+		return new RoadManager(roadDesc_ptr);
 	}
 	else
 	{
-		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, menuItems.back()->GetUpperLeft().Get_y() + menuItems.back()->GetHeightAddition() + 1);
+		ConstructionDescriptor* buildingDesc_ptr = new BuildingDescriptor(menuElementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected,
+			backgroundNotConnected, backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, enetrtainmentValue, isExit, maxVisitors, visitTime,
+			dailyExpences, constructionHeightAdd, constructionWidthAdd);
+		return new BuildingManager(buildingDesc_ptr);
 	}
-	int elementHeightAdd = ConstructionOptions::GetAllOptions()->GetMenuElementHeightAdd();
-	int elementWidthAdd = GetWidthAddition() - 4;
-	MyRectangle* menuIcon_ptr = CreateIcon(elementLocation);
-	ConstructionManager* manager_ptr = CreateManager(elementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected, backgroundNotConnected,
-		backgroundChosen);
-	MenuElement* element_ptr = new MenuElement(GetDrawPointer(), GetCursor(), elementLocation, elementHeightAdd, elementWidthAdd, elementBorder_ptr, menuElementLetterColor,
-		menuElementShadingColor, menuIcon_ptr, manager_ptr);
-	menuItems.push_back(element_ptr);
 }
-// create building element
 void Menu::CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
 	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int restoreToiletNeed, int satisfactionOfHunger, int visitPrice, int entertainmentValue,
 	int isExit, int maxVisitors, int visitTime, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
@@ -60,6 +30,7 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 	{
 		if (gameStats_ptr == nullptr)
 		{
+			delete elementBorder_ptr;
 			throw MyException("Menu::CreateMenuElement(args...) tried to create menu element with gameStats == nullptr");
 		}
 		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, gameStats_ptr->GetUpperLeft().Get_y() + gameStats_ptr->GetHeightAddition() + 1);
@@ -77,6 +48,37 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 	MenuElement* element_ptr = new MenuElement(GetDrawPointer(), GetCursor(), elementLocation, elementHeightAdd, elementWidthAdd, elementBorder_ptr, menuElementLetterColor,
 		menuElementShadingColor, menuIcon_ptr, manager_ptr);
 	menuItems.push_back(element_ptr);
+}
+void Menu::CreateMenuElementConstructionTypeChoice(string constructionType)
+{
+	pugi::xml_document doc;
+	pugi::xml_parse_result result = doc.load_file("ConstructionConstants.xml");
+	if (!result)
+	{
+		string msg = "XML [ParkLevelConstants.xml] parsed with errors. ";
+		msg.append("Error description: ");
+		msg.append(result.description());
+		throw MyException(msg);
+	}
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+	pugi::xml_node constructionConstants = doc.child("constructionConstants");
+	for (pugi::xml_node construction = constructionConstants.child("construction"); construction; construction = construction.next_sibling("construction"))
+	{
+		if (construction.attribute("name").as_string() == constructionType)
+		{
+			this->CreateMenuElement(atoi(construction.child_value("cost")), construction.child_value("description"), converter.from_bytes(construction.child_value("iconSymbol")),
+				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("foregroundColor")),
+				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("backgroundColorConnected")),
+				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("backgroundColorDisconnected")),
+				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("backgroundColorChosen")),
+				converter.from_bytes(construction.child_value("drawingSymbol")), atoi(construction.child_value("hasToilet")), atoi(construction.child_value("satisfiesHunger")),
+				atoi(construction.child_value("visitPrice")), atoi(construction.child_value("entertainmentValue")), atoi(construction.child_value("isExit")),
+				atoi(construction.child_value("maxVisitors")), atoi(construction.child_value("visitTime")), atoi(construction.child_value("dailyExpences")),
+				atoi(construction.child_value("heightAdd")), atoi(construction.child_value("widthAdd")));
+			return;
+		}
+	}
+	throw MyException("Menu::CreateMenuElementConstructionTypeChoice(string constructionType) failed to create menu element");
 }
 BorderAppearance* Menu::CreateElementBorder()
 {

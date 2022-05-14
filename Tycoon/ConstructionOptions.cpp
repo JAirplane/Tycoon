@@ -647,7 +647,7 @@ const int ConstructionOptions::GetBumperCarsMaxVisitors() const
 }
 const int ConstructionOptions::GetLogRideMaxVisitors() const
 {
-	return 8;
+	return 6;
 }
 const int ConstructionOptions::GetToiletMaxVisitors() const
 {
@@ -784,7 +784,7 @@ color ConstructionOptions::GetCarouselForegroundColor() const
 }
 color ConstructionOptions::GetCarouselConnectedBackgroundColor() const
 {
-	return color::cBLUE;
+	return color::cDARK_CYAN;
 }
 color ConstructionOptions::GetCarouselNotConnectedBackgroundColor() const
 {

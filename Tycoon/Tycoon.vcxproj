@@ -188,6 +188,7 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="SplitScreen.h" />
+    <ClInclude Include="StringToColor.h" />
     <ClInclude Include="Visitor.h" />
     <ClInclude Include="VisitorDescriptor.h" />
     <ClInclude Include="VisitorManager.h" />
@@ -238,6 +239,7 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="SplitScreen.cpp" />
+    <ClCompile Include="StringToColor.cpp" />
     <ClCompile Include="Visitor.cpp" />
     <ClCompile Include="VisitorDescriptor.cpp" />
     <ClCompile Include="VisitorManager.cpp" />

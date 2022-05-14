@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include "pugixml.hpp"
-#include "MyException.h"
+#include "StringToColor.h"
 class Level
 {
 public:

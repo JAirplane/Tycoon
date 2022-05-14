@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<constructionConstants>
+	<construction name="iceCreamShop">
+		<heightAdd>1</heightAdd>
+		<widthAdd>1</widthAdd>
+		<cost>150</cost>
+		<dailyExpences>10</dailyExpences>
+		<description>Ice cream shop: satisfies hunger</description>
+		<drawingSymbol>◙</drawingSymbol>
+		<hasToilet>0</hasToilet>
+		<satisfiesHunger>25</satisfiesHunger>
+		<visitPrice>5</visitPrice>
+		<entertainmentValue>0</entertainmentValue>
+		<isExit>0</isExit>
+		<maxVisitors>4</maxVisitors>
+		<visitTime>10</visitTime>
+		<iconSymbol>◙</iconSymbol>
+		<foregroundColor>yellow</foregroundColor>
+		<backgroundColorConnected>dark cyan</backgroundColorConnected>
+		<backgroundColorDisconnected>black</backgroundColorDisconnected>
+		<backgroundColorChosen>red</backgroundColorChosen>
+	</construction>
+	<construction name="toilet">
+		<heightAdd>0</heightAdd>
+		<widthAdd>1</widthAdd>
+		<cost>50</cost>
+		<dailyExpences>5</dailyExpences>
+		<description>Toilet: visitors leaves without it</description>
+		<drawingSymbol>▼</drawingSymbol>
+		<hasToilet>100</hasToilet>
+		<satisfiesHunger>0</satisfiesHunger>
+		<visitPrice>3</visitPrice>
+		<entertainmentValue>0</entertainmentValue>
+		<isExit>0</isExit>
+		<maxVisitors>2</maxVisitors>
+		<visitTime>5</visitTime>
+		<iconSymbol>▼</iconSymbol>
+		<foregroundColor>brown</foregroundColor>
+		<backgroundColorConnected>dark cyan</backgroundColorConnected>
+		<backgroundColorDisconnected>black</backgroundColorDisconnected>
+		<backgroundColorChosen>red</backgroundColorChosen>
+	</construction>
+	<construction name="foodCourt">
+		<heightAdd>1</heightAdd>
+		<widthAdd>3</widthAdd>
+		<cost>200</cost>
+		<dailyExpences>15</dailyExpences>
+		<description>Food Court: satisfies hunger</description>
+		<drawingSymbol>©</drawingSymbol>
+		<hasToilet>100</hasToilet>
+		<satisfiesHunger>100</satisfiesHunger>
+		<visitPrice>7</visitPrice>
+		<entertainmentValue>0</entertainmentValue>
+		<isExit>0</isExit>
+		<maxVisitors>8</maxVisitors>
+		<visitTime>15</visitTime>
+		<iconSymbol>©</iconSymbol>
+		<foregroundColor>green</foregroundColor>
+		<backgroundColorConnected>dark cyan</backgroundColorConnected>
+		<backgroundColorDisconnected>black</backgroundColorDisconnected>
+		<backgroundColorChosen>red</backgroundColorChosen>
+	</construction>
+	<construction name="carousel">
+		<heightAdd>2</heightAdd>
+		<widthAdd>2</widthAdd>
+		<cost>300</cost>
+		<dailyExpences>20</dailyExpences>
+		<description>Carousel: relaxing attraction</description>
+		<drawingSymbol>Ω</drawingSymbol>
+		<hasToilet>0</hasToilet>
+		<satisfiesHunger>0</satisfiesHunger>
+		<visitPrice>12</visitPrice>
+		<entertainmentValue>1</entertainmentValue>
+		<isExit>0</isExit>
+		<maxVisitors>4</maxVisitors>
+		<visitTime>15</visitTime>
+		<iconSymbol>Ω</iconSymbol>
+		<foregroundColor>yellow</foregroundColor>
+		<backgroundColorConnected>dark cyan</backgroundColorConnected>
+		<backgroundColorDisconnected>black</backgroundColorDisconnected>
+		<backgroundColorChosen>red</backgroundColorChosen>
+	</construction>
+	<construction name="dumboRide">
+		<heightAdd>2</heightAdd>
+		<widthAdd>2</widthAdd>
+		<cost>200</cost>
+		<dailyExpences>15</dailyExpences>
+		<description>Dumbo Elephant: kiddie ride</description>
+		<drawingSymbol>♫</drawingSymbol>
+		<hasToilet>0</hasToilet>
+		<satisfiesHunger>0</satisfiesHunger>
+		<visitPrice>10</visitPrice>
+		<entertainmentValue>1</entertainmentValue>
+		<isExit>0</isExit>
+		<maxVisitors>4</maxVisitors>
+		<visitTime>15</visitTime>
+		<iconSymbol>♫</iconSymbol>
+		<foregroundColor>dark magenta</foregroundColor>
+		<backgroundColorConnected>dark cyan</backgroundColorConnected>
+		<backgroundColorDisconnected>black</backgroundColorDisconnected>
+		<backgroundColorChosen>red</backgroundColorChosen>
+	</construction>
+	<construction name="ferrisWheel">
+		<heightAdd>1</heightAdd>
+		<widthAdd>2</widthAdd>
+		<cost>700</cost>
+		<dailyExpences>30</dailyExpences>
+		<description>Ferris Wheel: breathtaking views</description>
+		<drawingSymbol>♦</drawingSymbol>
+		<hasToilet>0</hasToilet>
+		<satisfiesHunger>0</satisfiesHunger>
+		<visitPrice>20</visitPrice>
+		<entertainmentValue>1</entertainmentValue>
+		<isExit>0</isExit>
+		<maxVisitors>6</maxVisitors>
+		<visitTime>25</visitTime>
+		<iconSymbol>♦</iconSymbol>
+		<foregroundColor>white</foregroundColor>
+		<backgroundColorConnected>dark cyan</backgroundColorConnected>
+		<backgroundColorDisconnected>black</backgroundColorDisconnected>
+		<backgroundColorChosen>red</backgroundColorChosen>
+	</construction>
+	<construction name="rollerCoster">
+		<heightAdd>3</heightAdd>
+		<widthAdd>5</widthAdd>
+		<cost>1500</cost>
+		<dailyExpences>70</dailyExpences>
+		<description>Roller Coaster: extrime ride!</description>
+		<drawingSymbol>¥</drawingSymbol>
+		<hasToilet>0</hasToilet>
+		<satisfiesHunger>0</satisfiesHunger>
+		<visitPrice>30</visitPrice>
+		<entertainmentValue>1</entertainmentValue>
+		<isExit>0</isExit>
+		<maxVisitors>5</maxVisitors>
+		<visitTime>20</visitTime>
+		<iconSymbol>¥</iconSymbol>
+		<foregroundColor>brown</foregroundColor>
+		<backgroundColorConnected>dark cyan</backgroundColorConnected>
+		<backgroundColorDisconnected>black</backgroundColorDisconnected>
+		<backgroundColorChosen>red</backgroundColorChosen>
+	</construction>
+	<construction name="bumperCars">
+		<heightAdd>3</heightAdd>
+		<widthAdd>4</widthAdd>
+		<cost>500</cost>
+		<dailyExpences>40</dailyExpences>
+		<description>Bumper Cars: slam them all!</description>
+		<drawingSymbol>Χ</drawingSymbol>
+		<hasToilet>0</hasToilet>
+		<satisfiesHunger>0</satisfiesHunger>
+		<visitPrice>10</visitPrice>
+		<entertainmentValue>1</entertainmentValue>
+		<isExit>0</isExit>
+		<maxVisitors>8</maxVisitors>
+		<visitTime>30</visitTime>
+		<iconSymbol>Χ</iconSymbol>
+		<foregroundColor>dark green</foregroundColor>
+		<backgroundColorConnected>dark cyan</backgroundColorConnected>
+		<backgroundColorDisconnected>black</backgroundColorDisconnected>
+		<backgroundColorChosen>red</backgroundColorChosen>
+	</construction>
+	<construction name="logRide">
+		<heightAdd>2</heightAdd>
+		<widthAdd>3</widthAdd>
+		<cost>1000</cost>
+		<dailyExpences>50</dailyExpences>
+		<description>Log Ride: get wet and cool off</description>
+		<drawingSymbol>₪</drawingSymbol>
+		<hasToilet>0</hasToilet>
+		<satisfiesHunger>0</satisfiesHunger>
+		<visitPrice>25</visitPrice>
+		<entertainmentValue>1</entertainmentValue>
+		<isExit>0</isExit>
+		<maxVisitors>6</maxVisitors>
+		<visitTime>20</visitTime>
+		<iconSymbol>₪</iconSymbol>
+		<foregroundColor>dark magenta</foregroundColor>
+		<backgroundColorConnected>dark cyan</backgroundColorConnected>
+		<backgroundColorDisconnected>black</backgroundColorDisconnected>
+		<backgroundColorChosen>red</backgroundColorChosen>
+	</construction>
+	<construction name="exit">
+		<heightAdd>0</heightAdd>
+		<widthAdd>0</widthAdd>
+		<cost>0</cost>
+		<dailyExpences>0</dailyExpences>
+		<description> </description>
+		<drawingSymbol> </drawingSymbol>
+		<hasToilet>0</hasToilet>
+		<satisfiesHunger>0</satisfiesHunger>
+		<visitPrice>0</visitPrice>
+		<entertainmentValue>0</entertainmentValue>
+		<isExit>1</isExit>
+		<maxVisitors>100</maxVisitors>
+		<visitTime>1</visitTime>
+		<iconSymbol> </iconSymbol>
+		<foregroundColor>black</foregroundColor>
+		<backgroundColorConnected>black</backgroundColorConnected>
+		<backgroundColorDisconnected>black</backgroundColorDisconnected>
+		<backgroundColorChosen>black</backgroundColorChosen>
+	</construction>
+	<construction name="road">
+		<heightAdd>0</heightAdd>
+		<widthAdd>0</widthAdd>
+		<cost>10</cost>
+		<dailyExpences>0</dailyExpences>
+		<description>Road: visitors walk roads only</description>
+		<drawingSymbol> </drawingSymbol>
+		<hasToilet>0</hasToilet>
+		<satisfiesHunger>0</satisfiesHunger>
+		<visitPrice>0</visitPrice>
+		<entertainmentValue>0</entertainmentValue>
+		<isExit>0</isExit>
+		<maxVisitors>0</maxVisitors>
+		<visitTime>0</visitTime>
+		<iconSymbol>‖</iconSymbol>
+		<foregroundColor>green</foregroundColor>
+		<backgroundColorConnected>dark gray</backgroundColorConnected>
+		<backgroundColorDisconnected>black</backgroundColorDisconnected>
+		<backgroundColorChosen>red</backgroundColorChosen>
+	</construction>
+</constructionConstants>

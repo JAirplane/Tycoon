@@ -90,7 +90,17 @@ void GameManagement::CreateMenuAndElements()
 	menu_ptr = new Menu(menuRectangle);
 	delete menuRectangle; //
 	menu_ptr->CreateGameStats();
-	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetRoadCost(), ConstructionOptions::GetAllOptions()->GetRoadDescription(),
+	menu_ptr->CreateMenuElementConstructionTypeChoice("road");
+	menu_ptr->CreateMenuElementConstructionTypeChoice("toilet");
+	menu_ptr->CreateMenuElementConstructionTypeChoice("iceCreamShop");
+	menu_ptr->CreateMenuElementConstructionTypeChoice("foodCourt");
+	menu_ptr->CreateMenuElementConstructionTypeChoice("carousel");
+	menu_ptr->CreateMenuElementConstructionTypeChoice("dumboRide");
+	menu_ptr->CreateMenuElementConstructionTypeChoice("ferrisWheel");
+	menu_ptr->CreateMenuElementConstructionTypeChoice("rollerCoster");
+	menu_ptr->CreateMenuElementConstructionTypeChoice("bumperCars");
+	menu_ptr->CreateMenuElementConstructionTypeChoice("logRide");
+	/*menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetRoadCost(), ConstructionOptions::GetAllOptions()->GetRoadDescription(),
 		ConstructionOptions::GetAllOptions()->GetRoadIconSymbol(), ConstructionOptions::GetAllOptions()->GetRoadForegroundColor(),
 		ConstructionOptions::GetAllOptions()->GetRoadConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetRoadNotConnectedBackgroundColor(),
 		ConstructionOptions::GetAllOptions()->GetRoadChosenBackgroundColor());
@@ -175,7 +185,7 @@ void GameManagement::CreateMenuAndElements()
 		ConstructionOptions::GetAllOptions()->GetLogRideVisitPrice(), ConstructionOptions::GetAllOptions()->GetLogRideEntertainmentValue(),
 		ConstructionOptions::GetAllOptions()->GetLogRideIsExit(), ConstructionOptions::GetAllOptions()->GetLogRideMaxVisitors(),
 		ConstructionOptions::GetAllOptions()->GetLogRideVisitTime(), ConstructionOptions::GetAllOptions()->GetLogRideExpences(),
-		ConstructionOptions::GetAllOptions()->GetLogRideHeightAdd(), ConstructionOptions::GetAllOptions()->GetLogRideWidthAdd());
+		ConstructionOptions::GetAllOptions()->GetLogRideHeightAdd(), ConstructionOptions::GetAllOptions()->GetLogRideWidthAdd());*/
 	menu_ptr->CreateVisitorManager();
 }
 void GameManagement::CreateInfoPanel()

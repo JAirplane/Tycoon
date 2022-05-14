@@ -3,6 +3,7 @@
 #include <iostream>
 #include <exception>
 #include <string>
+#include "msoftcon.h"
 using namespace std;
 class MyException : public exception
 {
