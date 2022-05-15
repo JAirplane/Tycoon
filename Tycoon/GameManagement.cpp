@@ -88,7 +88,7 @@ void GameManagement::CreateMenuAndElements()
 		ConstructionOptions::GetAllOptions()->GetMenuBorderBackgroundColor(), ConstructionOptions::GetAllOptions()->GetMenuLetterColor(),
 		ConstructionOptions::GetAllOptions()->GetMenuShadingColor(), draw_ptr, cursor_ptr);
 	menu_ptr = new Menu(menuRectangle);
-	delete menuRectangle; //
+	delete menuRectangle;
 	menu_ptr->CreateGameStats();
 	menu_ptr->CreateMenuElementConstructionTypeChoice("road");
 	menu_ptr->CreateMenuElementConstructionTypeChoice("toilet");
@@ -97,95 +97,10 @@ void GameManagement::CreateMenuAndElements()
 	menu_ptr->CreateMenuElementConstructionTypeChoice("carousel");
 	menu_ptr->CreateMenuElementConstructionTypeChoice("dumboRide");
 	menu_ptr->CreateMenuElementConstructionTypeChoice("ferrisWheel");
-	menu_ptr->CreateMenuElementConstructionTypeChoice("rollerCoster");
+	menu_ptr->CreateMenuElementConstructionTypeChoice("rollerCoaster");
 	menu_ptr->CreateMenuElementConstructionTypeChoice("bumperCars");
 	menu_ptr->CreateMenuElementConstructionTypeChoice("logRide");
-	/*menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetRoadCost(), ConstructionOptions::GetAllOptions()->GetRoadDescription(),
-		ConstructionOptions::GetAllOptions()->GetRoadIconSymbol(), ConstructionOptions::GetAllOptions()->GetRoadForegroundColor(),
-		ConstructionOptions::GetAllOptions()->GetRoadConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetRoadNotConnectedBackgroundColor(),
-		ConstructionOptions::GetAllOptions()->GetRoadChosenBackgroundColor());
-	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetToiletCost(), ConstructionOptions::GetAllOptions()->GetToiletDescription(),
-		ConstructionOptions::GetAllOptions()->GetToiletIconSymbol(), ConstructionOptions::GetAllOptions()->GetToiletForegroundColor(),
-		ConstructionOptions::GetAllOptions()->GetToiletConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetToiletNotConnectedBackgroundColor(),
-		ConstructionOptions::GetAllOptions()->GetToiletChosenBackgroundColor(), ConstructionOptions::GetAllOptions()->GetToiletSymbol(),
-		ConstructionOptions::GetAllOptions()->GetToiletToiletNeed(), ConstructionOptions::GetAllOptions()->GetToiletHungerSatisfaction(),
-		ConstructionOptions::GetAllOptions()->GetToiletVisitPrice(), ConstructionOptions::GetAllOptions()->GetToiletEntertainmentValue(),
-		ConstructionOptions::GetAllOptions()->GetToiletIsExit(), ConstructionOptions::GetAllOptions()->GetToiletMaxVisitors(),
-		ConstructionOptions::GetAllOptions()->GetToiletVisitTime(), ConstructionOptions::GetAllOptions()->GetToiletExpences(),
-		ConstructionOptions::GetAllOptions()->GetToiletHeightAdd(), ConstructionOptions::GetAllOptions()->GetToiletWidthAdd());
-	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetIceCreamShopCost(),
-		ConstructionOptions::GetAllOptions()->GetIceCreamShopDescription(), ConstructionOptions::GetAllOptions()->GetIceCreamShopIconSymbol(),
-		ConstructionOptions::GetAllOptions()->GetIceCreamShopForegroundColor(), ConstructionOptions::GetAllOptions()->GetIceCreamShopConnectedBackgroundColor(),
-		ConstructionOptions::GetAllOptions()->GetIceCreamShopNotConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetIceCreamShopChosenBackgroundColor(),
-		ConstructionOptions::GetAllOptions()->GetIceCreamShopSymbol(), ConstructionOptions::GetAllOptions()->GetIceCreamShopToiletNeed(),
-		ConstructionOptions::GetAllOptions()->GetIceCreamShopHungerSatisfaction(), ConstructionOptions::GetAllOptions()->GetIceCreamShopVisitPrice(),
-		ConstructionOptions::GetAllOptions()->GetIceCreamShopEntertainmentValue(), ConstructionOptions::GetAllOptions()->GetIceCreamShopIsExit(),
-		ConstructionOptions::GetAllOptions()->GetIceCreamShopMaxVisitors(), ConstructionOptions::GetAllOptions()->GetIceCreamShopVisitTime(),
-		ConstructionOptions::GetAllOptions()->GetIceCreamShopExpences(), ConstructionOptions::GetAllOptions()->GetIceCreamShopHeightAdd(),
-		ConstructionOptions::GetAllOptions()->GetIceCreamShopWidthAdd());
-	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetFoodCourtCost(), ConstructionOptions::GetAllOptions()->GetFoodCourtDescription(),
-		ConstructionOptions::GetAllOptions()->GetFoodCourtIconSymbol(), ConstructionOptions::GetAllOptions()->GetFoodCourtForegroundColor(),
-		ConstructionOptions::GetAllOptions()->GetFoodCourtConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetFoodCourtNotConnectedBackgroundColor(),
-		ConstructionOptions::GetAllOptions()->GetFoodCourtChosenBackgroundColor(), ConstructionOptions::GetAllOptions()->GetFoodCourtSymbol(),
-		ConstructionOptions::GetAllOptions()->GetFoodCourtToiletNeed(), ConstructionOptions::GetAllOptions()->GetFoodCourtHungerSatisfaction(),
-		ConstructionOptions::GetAllOptions()->GetFoodCourtVisitPrice(), ConstructionOptions::GetAllOptions()->GetFoodCourtEntertainmentValue(),
-		ConstructionOptions::GetAllOptions()->GetFoodCourtIsExit(), ConstructionOptions::GetAllOptions()->GetFoodCourtMaxVisitors(),
-		ConstructionOptions::GetAllOptions()->GetFoodCourtVisitTime(), ConstructionOptions::GetAllOptions()->GetFoodCourtExpences(),
-		ConstructionOptions::GetAllOptions()->GetFoodCourtHeightAdd(), ConstructionOptions::GetAllOptions()->GetFoodCourtWidthAdd());
-	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetCarouselCost(), ConstructionOptions::GetAllOptions()->GetCarouselDescription(),
-		ConstructionOptions::GetAllOptions()->GetCarouselIconSymbol(), ConstructionOptions::GetAllOptions()->GetCarouselForegroundColor(),
-		ConstructionOptions::GetAllOptions()->GetCarouselConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetCarouselNotConnectedBackgroundColor(),
-		ConstructionOptions::GetAllOptions()->GetCarouselChosenBackgroundColor(), ConstructionOptions::GetAllOptions()->GetCarouselSymbol(),
-		ConstructionOptions::GetAllOptions()->GetCarouselToiletNeed(), ConstructionOptions::GetAllOptions()->GetCarouselHungerSatisfaction(),
-		ConstructionOptions::GetAllOptions()->GetCarouselVisitPrice(), ConstructionOptions::GetAllOptions()->GetCarouselEntertainmentValue(),
-		ConstructionOptions::GetAllOptions()->GetCarouselIsExit(), ConstructionOptions::GetAllOptions()->GetCarouselMaxVisitors(),
-		ConstructionOptions::GetAllOptions()->GetCarouselVisitTime(), ConstructionOptions::GetAllOptions()->GetCarouselExpences(),
-		ConstructionOptions::GetAllOptions()->GetCarouselHeightAdd(), ConstructionOptions::GetAllOptions()->GetCarouselWidthAdd());
-	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetDumboRideCost(), ConstructionOptions::GetAllOptions()->GetDumboRideDescription(),
-		ConstructionOptions::GetAllOptions()->GetDumboRideIconSymbol(), ConstructionOptions::GetAllOptions()->GetDumboRideForegroundColor(),
-		ConstructionOptions::GetAllOptions()->GetDumboRideConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetDumboRideNotConnectedBackgroundColor(),
-		ConstructionOptions::GetAllOptions()->GetDumboRideChosenBackgroundColor(), ConstructionOptions::GetAllOptions()->GetDumboRideSymbol(),
-		ConstructionOptions::GetAllOptions()->GetDumboRideToiletNeed(), ConstructionOptions::GetAllOptions()->GetDumboRideHungerSatisfaction(),
-		ConstructionOptions::GetAllOptions()->GetDumboRideVisitPrice(), ConstructionOptions::GetAllOptions()->GetDumboRideEntertainmentValue(),
-		ConstructionOptions::GetAllOptions()->GetDumboRideIsExit(), ConstructionOptions::GetAllOptions()->GetDumboRideMaxVisitors(),
-		ConstructionOptions::GetAllOptions()->GetDumboRideVisitTime(), ConstructionOptions::GetAllOptions()->GetDumboRideExpences(),
-		ConstructionOptions::GetAllOptions()->GetDumboRideHeightAdd(), ConstructionOptions::GetAllOptions()->GetDumboRideWidthAdd());
-	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetFerrisWheelCost(), ConstructionOptions::GetAllOptions()->GetFerrisWheelDescription(),
-		ConstructionOptions::GetAllOptions()->GetFerrisWheelIconSymbol(), ConstructionOptions::GetAllOptions()->GetFerrisWheelForegroundColor(),
-		ConstructionOptions::GetAllOptions()->GetFerrisWheelConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetFerrisWheelNotConnectedBackgroundColor(),
-		ConstructionOptions::GetAllOptions()->GetFerrisWheelChosenBackgroundColor(), ConstructionOptions::GetAllOptions()->GetFerrisWheelSymbol(),
-		ConstructionOptions::GetAllOptions()->GetFerrisWheelToiletNeed(), ConstructionOptions::GetAllOptions()->GetFerrisWheelHungerSatisfaction(),
-		ConstructionOptions::GetAllOptions()->GetFerrisWheelVisitPrice(), ConstructionOptions::GetAllOptions()->GetFerrisWheelEntertainmentValue(),
-		ConstructionOptions::GetAllOptions()->GetFerrisWheelIsExit(), ConstructionOptions::GetAllOptions()->GetFerrisWheelMaxVisitors(),
-		ConstructionOptions::GetAllOptions()->GetFerrisWheelVisitTime(), ConstructionOptions::GetAllOptions()->GetFerrisWheelExpences(),
-		ConstructionOptions::GetAllOptions()->GetFerrisWheelHeightAdd(), ConstructionOptions::GetAllOptions()->GetFerrisWheelWidthAdd());
-	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetRollerCoasterCost(), ConstructionOptions::GetAllOptions()->GetRollerCoasterDescription(),
-		ConstructionOptions::GetAllOptions()->GetRollerCoasterIconSymbol(), ConstructionOptions::GetAllOptions()->GetRollerCoasterForegroundColor(),
-		ConstructionOptions::GetAllOptions()->GetRollerCoasterConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetRollerCoasterNotConnectedBackgroundColor(),
-		ConstructionOptions::GetAllOptions()->GetRollerCoasterChosenBackgroundColor(), ConstructionOptions::GetAllOptions()->GetRollerCoasterSymbol(),
-		ConstructionOptions::GetAllOptions()->GetRollerCoasterToiletNeed(), ConstructionOptions::GetAllOptions()->GetRollerCoasterHungerSatisfaction(),
-		ConstructionOptions::GetAllOptions()->GetRollerCoasterVisitPrice(), ConstructionOptions::GetAllOptions()->GetRollerCoasterEntertainmentValue(),
-		ConstructionOptions::GetAllOptions()->GetRollerCoasterIsExit(), ConstructionOptions::GetAllOptions()->GetRollerCoasterMaxVisitors(),
-		ConstructionOptions::GetAllOptions()->GetRollerCoasterVisitTime(), ConstructionOptions::GetAllOptions()->GetRollerCoasterExpences(),
-		ConstructionOptions::GetAllOptions()->GetRollerCoasterHeightAdd(), ConstructionOptions::GetAllOptions()->GetRollerCoasterWidthAdd());
-	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetBumperCarsCost(), ConstructionOptions::GetAllOptions()->GetBumperCarsDescription(),
-		ConstructionOptions::GetAllOptions()->GetBumperCarsIconSymbol(), ConstructionOptions::GetAllOptions()->GetBumperCarsForegroundColor(),
-		ConstructionOptions::GetAllOptions()->GetBumperCarsConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetBumperCarsNotConnectedBackgroundColor(),
-		ConstructionOptions::GetAllOptions()->GetBumperCarsChosenBackgroundColor(), ConstructionOptions::GetAllOptions()->GetBumperCarsSymbol(),
-		ConstructionOptions::GetAllOptions()->GetBumperCarsToiletNeed(), ConstructionOptions::GetAllOptions()->GetBumperCarsHungerSatisfaction(),
-		ConstructionOptions::GetAllOptions()->GetBumperCarsVisitPrice(), ConstructionOptions::GetAllOptions()->GetBumperCarsEntertainmentValue(),
-		ConstructionOptions::GetAllOptions()->GetBumperCarsIsExit(), ConstructionOptions::GetAllOptions()->GetBumperCarsMaxVisitors(),
-		ConstructionOptions::GetAllOptions()->GetBumperCarsVisitTime(), ConstructionOptions::GetAllOptions()->GetBumperCarsExpences(),
-		ConstructionOptions::GetAllOptions()->GetBumperCarsHeightAdd(), ConstructionOptions::GetAllOptions()->GetBumperCarsWidthAdd());
-	menu_ptr->CreateMenuElement(ConstructionOptions::GetAllOptions()->GetLogRideCost(), ConstructionOptions::GetAllOptions()->GetLogRideDescription(),
-		ConstructionOptions::GetAllOptions()->GetLogRideIconSymbol(), ConstructionOptions::GetAllOptions()->GetLogRideForegroundColor(),
-		ConstructionOptions::GetAllOptions()->GetLogRideConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetLogRideNotConnectedBackgroundColor(),
-		ConstructionOptions::GetAllOptions()->GetLogRideChosenBackgroundColor(), ConstructionOptions::GetAllOptions()->GetLogRideSymbol(),
-		ConstructionOptions::GetAllOptions()->GetLogRideToiletNeed(), ConstructionOptions::GetAllOptions()->GetLogRideHungerSatisfaction(),
-		ConstructionOptions::GetAllOptions()->GetLogRideVisitPrice(), ConstructionOptions::GetAllOptions()->GetLogRideEntertainmentValue(),
-		ConstructionOptions::GetAllOptions()->GetLogRideIsExit(), ConstructionOptions::GetAllOptions()->GetLogRideMaxVisitors(),
-		ConstructionOptions::GetAllOptions()->GetLogRideVisitTime(), ConstructionOptions::GetAllOptions()->GetLogRideExpences(),
-		ConstructionOptions::GetAllOptions()->GetLogRideHeightAdd(), ConstructionOptions::GetAllOptions()->GetLogRideWidthAdd());*/
+	//
 	menu_ptr->CreateVisitorManager();
 }
 void GameManagement::CreateInfoPanel()

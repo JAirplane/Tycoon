@@ -113,16 +113,34 @@ MyRectangle* Menu::CreateIcon(PointCoord elementLocation)
 //
 void Menu::CreateExit(const PlayingField* playingField_ptr, const Visualisation* draw_ptr, AllObjects* container)
 {
-	ConstructionDescriptor* exitDescriptor = new BuildingDescriptor(PointCoord(numeric_limits<int>::max(), numeric_limits<int>::max()),
-		ConstructionOptions::GetAllOptions()->GetExitCost(), ConstructionOptions::GetAllOptions()->GetExitDescription(), ConstructionOptions::GetAllOptions()->GetExitIconSymbol(),
-		ConstructionOptions::GetAllOptions()->GetExitForegroundColor(), ConstructionOptions::GetAllOptions()->GetExitConnectedBackgroundColor(),
-		ConstructionOptions::GetAllOptions()->GetExitNotConnectedBackgroundColor(), ConstructionOptions::GetAllOptions()->GetExitChosenBackgroundColor(),
-		ConstructionOptions::GetAllOptions()->GetExitSymbol(), ConstructionOptions::GetAllOptions()->GetExitToiletNeed(),
-		ConstructionOptions::GetAllOptions()->GetExitHungerSatisfaction(), ConstructionOptions::GetAllOptions()->GetExitVisitPrice(),
-		ConstructionOptions::GetAllOptions()->GetExitEntertainmentValue(), ConstructionOptions::GetAllOptions()->GetExitIsExit(),
-		ConstructionOptions::GetAllOptions()->GetExitMaxVisitors(), ConstructionOptions::GetAllOptions()->GetExitExpences(),
-		ConstructionOptions::GetAllOptions()->GetExitHeightAdd(), ConstructionOptions::GetAllOptions()->GetExitWidthAdd());
-	exitManager = new BuildingManager(exitDescriptor);
+	pugi::xml_document doc;
+	pugi::xml_parse_result result = doc.load_file("ConstructionConstants.xml");
+	if (!result)
+	{
+		string msg = "XML [ParkLevelConstants.xml] parsed with errors. ";
+		msg.append("Error description: ");
+		msg.append(result.description());
+		throw MyException(msg);
+	}
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+	pugi::xml_node constructionConstants = doc.child("constructionConstants");
+	for (pugi::xml_node construction = constructionConstants.child("construction"); construction; construction = construction.next_sibling("construction"))
+	{
+		if (construction.attribute("name").as_string() == string("exit"))
+		{
+			exitManager = this->CreateManager(PointCoord(numeric_limits<int>::max(), numeric_limits<int>::max()), atoi(construction.child_value("cost")),
+				construction.child_value("description"), converter.from_bytes(construction.child_value("iconSymbol")),
+				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("foregroundColor")),
+				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("backgroundColorConnected")),
+				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("backgroundColorDisconnected")),
+				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("backgroundColorChosen")),
+				converter.from_bytes(construction.child_value("drawingSymbol")), atoi(construction.child_value("hasToilet")), atoi(construction.child_value("satisfiesHunger")),
+				atoi(construction.child_value("visitPrice")), atoi(construction.child_value("entertainmentValue")), atoi(construction.child_value("isExit")),
+				atoi(construction.child_value("maxVisitors")), atoi(construction.child_value("visitTime")), atoi(construction.child_value("dailyExpences")),
+				atoi(construction.child_value("heightAdd")), atoi(construction.child_value("widthAdd")));
+			break;
+		}
+	}
 	Construction* exit1 = exitManager->CreateConstruction(PointCoord(playingField_ptr->GetHalfXAxis(),
 		playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() + 4), draw_ptr, container);
 	exit1->SetExitDirection(Direction::Up);

@@ -120,7 +120,7 @@
 		<backgroundColorDisconnected>black</backgroundColorDisconnected>
 		<backgroundColorChosen>red</backgroundColorChosen>
 	</construction>
-	<construction name="rollerCoster">
+	<construction name="rollerCoaster">
 		<heightAdd>3</heightAdd>
 		<widthAdd>5</widthAdd>
 		<cost>1500</cost>

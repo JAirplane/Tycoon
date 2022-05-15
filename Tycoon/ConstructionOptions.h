@@ -17,20 +17,9 @@ public:
 	static ConstructionOptions* CreateConstructionOptions();
 	static ConstructionOptions* GetAllOptions();
 	///////////////Height Addition Constants///////////////
-	virtual const int GetIceCreamShopHeightAdd() const;
-	virtual const int GetToiletHeightAdd() const;
-	virtual const int GetFoodCourtHeightAdd() const;
-	virtual const int GetCarouselHeightAdd() const;
-	virtual const int GetDumboRideHeightAdd() const;
-	virtual const int GetFerrisWheelHeightAdd() const;
-	virtual const int GetRollerCoasterHeightAdd() const;
-	virtual const int GetBumperCarsHeightAdd() const;
-	virtual const int GetLogRideHeightAdd() const;
-	virtual const int GetExitHeightAdd() const;
 	virtual const int GetMenuElementHeightAdd() const; //height of 1 element of menu
 	virtual const int GetMenuIconHeightAdd() const;
 	virtual const int GetGameStatsHeightAdd() const;
-	virtual const int GetRoadHeightAdd() const;
 	virtual const int GetVisitorHeightAdd() const;
 	virtual const int GetCameraHeightAdd() const;
 	virtual const int GetMenuHeightAdd() const;
@@ -42,17 +31,6 @@ public:
 	virtual const int GetContinueButtonHeightAdd() const;
 	virtual const int GetExitButtonHeightAdd() const;
 	///////////////Width Addition Constants///////////////
-	virtual const int GetIceCreamShopWidthAdd() const;
-	virtual const int GetToiletWidthAdd() const;
-	virtual const int GetFoodCourtWidthAdd() const;
-	virtual const int GetCarouselWidthAdd() const;
-	virtual const int GetDumboRideWidthAdd() const;
-	virtual const int GetFerrisWheelWidthAdd() const;
-	virtual const int GetRollerCoasterWidthAdd() const;
-	virtual const int GetBumperCarsWidthAdd() const;
-	virtual const int GetLogRideWidthAdd() const;
-	virtual const int GetExitWidthAdd() const;
-	virtual const int GetRoadWidthAdd() const;
 	virtual const int GetVisitorWidthAdd() const;
 	virtual const int GetCameraWidthAdd() const;
 	virtual const int GetMenuWidthAdd() const;
@@ -65,42 +43,7 @@ public:
 	virtual const int GetNewGameButtonWidthAdd() const;
 	virtual const int GetContinueButtonWidthAdd() const;
 	virtual const int GetExitButtonWidthAdd() const;
-	///////////////Cost Initialisation Constants///////////////
-	virtual const int GetIceCreamShopCost() const;
-	virtual const int GetToiletCost() const;
-	virtual const int GetFoodCourtCost() const;
-	virtual const int GetCarouselCost() const;
-	virtual const int GetDumboRideCost() const;
-	virtual const int GetFerrisWheelCost() const;
-	virtual const int GetRollerCoasterCost() const;
-	virtual const int GetBumperCarsCost() const;
-	virtual const int GetLogRideCost() const;
-	virtual const int GetExitCost() const;
-	virtual const int GetRoadCost() const;
-	///////////////Daily Expences Initialisation Constants///////////////
-	virtual const int GetIceCreamShopExpences() const;
-	virtual const int GetToiletExpences() const;
-	virtual const int GetFoodCourtExpences() const;
-	virtual const int GetCarouselExpences() const;
-	virtual const int GetDumboRideExpences() const;
-	virtual const int GetFerrisWheelExpences() const;
-	virtual const int GetRollerCoasterExpences() const;
-	virtual const int GetBumperCarsExpences() const;
-	virtual const int GetLogRideExpences() const;
-	virtual const int GetExitExpences() const;
 	///////////////Description Initialisation Constants///////////////
-	virtual const string GetIceCreamShopDescription() const;
-	virtual const string GetToiletDescription() const;
-	virtual const string GetFoodCourtDescription() const;
-	virtual const string GetCarouselDescription() const;
-	virtual const string GetDumboRideDescription() const;
-	virtual const string GetFerrisWheelDescription() const;
-	virtual const string GetRollerCoasterDescription() const;
-	virtual const string GetBumperCarsDescription() const;
-	virtual const string GetLogRideDescription() const;
-	virtual const string GetExitDescription() const;
-	virtual const string GetRoadDescription() const;
-	//
 	virtual const string GetArrowsDescription() const;
 	virtual const string GetTabDescription() const;
 	virtual const string GetEnterDescription() const;
@@ -108,168 +51,13 @@ public:
 	virtual const string GetHKeyDescription() const;
 	virtual const string GetSKeyDescription() const;
 	virtual const string GetRKeyDescription() const;
-	///////////////Building Symbol Constants///////////////
-	virtual const wstring GetIceCreamShopSymbol() const;
-	virtual const wstring GetFoodCourtSymbol() const;
-	virtual const wstring GetCarouselSymbol() const;
-	virtual const wstring GetDumboRideSymbol() const;
-	virtual const wstring GetFerrisWheelSymbol() const;
-	virtual const wstring GetRollerCoasterSymbol() const;
-	virtual const wstring GetBumperCarsSymbol() const;
-	virtual const wstring GetLogRideSymbol() const;
-	virtual const wstring GetToiletSymbol() const;
-	virtual const wstring GetExitSymbol() const;
-	///////////////Toilet Need Constants///////////////
-	virtual const int GetIceCreamShopToiletNeed() const;
-	virtual const int GetFoodCourtToiletNeed() const;
-	virtual const int GetCarouselToiletNeed() const;
-	virtual const int GetDumboRideToiletNeed() const;
-	virtual const int GetFerrisWheelToiletNeed() const;
-	virtual const int GetRollerCoasterToiletNeed() const;
-	virtual const int GetBumperCarsToiletNeed() const;
-	virtual const int GetLogRideToiletNeed() const;
-	virtual const int GetToiletToiletNeed() const;
-	virtual const int GetExitToiletNeed() const;
-	///////////////Hunger Satisfaction Constants///////////////
-	virtual const int GetIceCreamShopHungerSatisfaction() const;
-	virtual const int GetFoodCourtHungerSatisfaction() const;
-	virtual const int GetCarouselHungerSatisfaction() const;
-	virtual const int GetDumboRideHungerSatisfaction() const;
-	virtual const int GetFerrisWheelHungerSatisfaction() const;
-	virtual const int GetRollerCoasterHungerSatisfaction() const;
-	virtual const int GetBumperCarsHungerSatisfaction() const;
-	virtual const int GetLogRideHungerSatisfaction() const;
-	virtual const int GetToiletHungerSatisfaction() const;
-	virtual const int GetExitHungerSatisfaction() const;
-	///////////////Visit Price Constants///////////////
-	virtual const int GetIceCreamShopVisitPrice() const;
-	virtual const int GetFoodCourtVisitPrice() const;
-	virtual const int GetCarouselVisitPrice() const;
-	virtual const int GetDumboRideVisitPrice() const;
-	virtual const int GetFerrisWheelVisitPrice() const;
-	virtual const int GetRollerCoasterVisitPrice() const;
-	virtual const int GetBumperCarsVisitPrice() const;
-	virtual const int GetLogRideVisitPrice() const;
-	virtual const int GetToiletVisitPrice() const;
-	virtual const int GetExitVisitPrice() const;
-	///////////////Entertainment Constants///////////////
-	virtual const int GetIceCreamShopEntertainmentValue() const;
-	virtual const int GetFoodCourtEntertainmentValue() const;
-	virtual const int GetCarouselEntertainmentValue() const;
-	virtual const int GetDumboRideEntertainmentValue() const;
-	virtual const int GetFerrisWheelEntertainmentValue() const;
-	virtual const int GetRollerCoasterEntertainmentValue() const;
-	virtual const int GetBumperCarsEntertainmentValue() const;
-	virtual const int GetLogRideEntertainmentValue() const;
-	virtual const int GetToiletEntertainmentValue() const;
-	virtual const int GetExitEntertainmentValue() const;
-	///////////////Is Building Exit Constants///////////////
-	virtual const int GetIceCreamShopIsExit() const;
-	virtual const int GetFoodCourtIsExit() const;
-	virtual const int GetCarouselIsExit() const;
-	virtual const int GetDumboRideIsExit() const;
-	virtual const int GetFerrisWheelIsExit() const;
-	virtual const int GetRollerCoasterIsExit() const;
-	virtual const int GetBumperCarsIsExit() const;
-	virtual const int GetLogRideIsExit() const;
-	virtual const int GetToiletIsExit() const;
-	virtual const int GetExitIsExit() const;
-	///////////////Max Visitors Constants///////////////
-	virtual const int GetIceCreamShopMaxVisitors() const;
-	virtual const int GetFoodCourtMaxVisitors() const;
-	virtual const int GetCarouselMaxVisitors() const;
-	virtual const int GetDumboRideMaxVisitors() const;
-	virtual const int GetFerrisWheelMaxVisitors() const;
-	virtual const int GetRollerCoasterMaxVisitors() const;
-	virtual const int GetBumperCarsMaxVisitors() const;
-	virtual const int GetLogRideMaxVisitors() const;
-	virtual const int GetToiletMaxVisitors() const;
-	virtual const int GetExitMaxVisitors() const;
-	///////////////Visit Time Constants///////////////
-	virtual const int GetIceCreamShopVisitTime() const;
-	virtual const int GetFoodCourtVisitTime() const;
-	virtual const int GetCarouselVisitTime() const;
-	virtual const int GetDumboRideVisitTime() const;
-	virtual const int GetFerrisWheelVisitTime() const;
-	virtual const int GetRollerCoasterVisitTime() const;
-	virtual const int GetBumperCarsVisitTime() const;
-	virtual const int GetLogRideVisitTime() const;
-	virtual const int GetToiletVisitTime() const;
-	virtual const int GetExitVisitTime() const;
 	///////////////Initialisation Coord Constants///////////////
 	virtual const PointCoord GetCameraInitialUpperLeft() const;
 	virtual const PointCoord GetPlayingFieldUpperLeft() const;
 	virtual const PointCoord GetInfoPanelUpperLeft() const;
 	virtual const PointCoord GetInitialSplashScreenUpperLeft() const;
 	virtual const PointCoord GetMainMenuUpperLeft() const;
-	///////////////Constructions's Icon Symbol Constants///////////////
-	virtual const wstring GetIceCreamShopIconSymbol() const;
-	virtual const wstring GetToiletIconSymbol() const;
-	virtual const wstring GetFoodCourtIconSymbol() const;
-	virtual const wstring GetCarouselIconSymbol() const;
-	virtual const wstring GetDumboRideIconSymbol() const;
-	virtual const wstring GetFerrisWheelIconSymbol() const;
-	virtual const wstring GetRollerCoasterIconSymbol() const;
-	virtual const wstring GetBumperCarsIconSymbol() const;
-	virtual const wstring GetLogRideIconSymbol() const;
-	virtual const wstring GetExitIconSymbol() const;
-	virtual const wstring GetRoadIconSymbol() const;
 	///////////////Color Constants///////////////
-	virtual color GetIceCreamShopForegroundColor() const;
-	virtual color GetIceCreamShopConnectedBackgroundColor() const;
-	virtual color GetIceCreamShopNotConnectedBackgroundColor() const;
-	virtual color GetIceCreamShopChosenBackgroundColor() const;
-	//
-	virtual color GetFoodCourtForegroundColor() const;
-	virtual color GetFoodCourtConnectedBackgroundColor() const;
-	virtual color GetFoodCourtNotConnectedBackgroundColor() const;
-	virtual color GetFoodCourtChosenBackgroundColor() const;
-	//
-	virtual color GetCarouselForegroundColor() const;
-	virtual color GetCarouselConnectedBackgroundColor() const;
-	virtual color GetCarouselNotConnectedBackgroundColor() const;
-	virtual color GetCarouselChosenBackgroundColor() const;
-	//
-	virtual color GetDumboRideForegroundColor() const;
-	virtual color GetDumboRideConnectedBackgroundColor() const;
-	virtual color GetDumboRideNotConnectedBackgroundColor() const;
-	virtual color GetDumboRideChosenBackgroundColor() const;
-	//
-	virtual color GetFerrisWheelForegroundColor() const;
-	virtual color GetFerrisWheelConnectedBackgroundColor() const;
-	virtual color GetFerrisWheelNotConnectedBackgroundColor() const;
-	virtual color GetFerrisWheelChosenBackgroundColor() const;
-	//
-	virtual color GetRollerCoasterForegroundColor() const;
-	virtual color GetRollerCoasterConnectedBackgroundColor() const;
-	virtual color GetRollerCoasterNotConnectedBackgroundColor() const;
-	virtual color GetRollerCoasterChosenBackgroundColor() const;
-	//
-	virtual color GetBumperCarsForegroundColor() const;
-	virtual color GetBumperCarsConnectedBackgroundColor() const;
-	virtual color GetBumperCarsNotConnectedBackgroundColor() const;
-	virtual color GetBumperCarsChosenBackgroundColor() const;
-	//
-	virtual color GetLogRideForegroundColor() const;
-	virtual color GetLogRideConnectedBackgroundColor() const;
-	virtual color GetLogRideNotConnectedBackgroundColor() const;
-	virtual color GetLogRideChosenBackgroundColor() const;
-	//
-	virtual color GetToiletForegroundColor() const;
-	virtual color GetToiletConnectedBackgroundColor() const;
-	virtual color GetToiletNotConnectedBackgroundColor() const;
-	virtual color GetToiletChosenBackgroundColor() const;
-	//
-	virtual color GetExitForegroundColor() const;
-	virtual color GetExitConnectedBackgroundColor() const;
-	virtual color GetExitNotConnectedBackgroundColor() const;
-	virtual color GetExitChosenBackgroundColor() const;
-	//
-	virtual color GetRoadForegroundColor() const;
-	virtual color GetRoadConnectedBackgroundColor() const;
-	virtual color GetRoadNotConnectedBackgroundColor() const;
-	virtual color GetRoadChosenBackgroundColor() const;
-	//
 	virtual color GetCursorBackgroundColor() const;
 	//
 	virtual color GetCameraBorderForegroundColor() const;

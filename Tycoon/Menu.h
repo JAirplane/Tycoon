@@ -64,7 +64,7 @@ public:
 			carousel
 			dumboRide
 			ferrisWheel
-			rollerCoster
+			rollerCoaster
 			bumperCars
 			logRide
 	*/

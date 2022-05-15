@@ -216,7 +216,7 @@
 		<visitTime>0</visitTime>
 		<iconSymbol>‖</iconSymbol>
 		<foregroundColor>green</foregroundColor>
-		<backgroundColorConnected>dark cyan</backgroundColorConnected>
+		<backgroundColorConnected>dark gray</backgroundColorConnected>
 		<backgroundColorDisconnected>black</backgroundColorDisconnected>
 		<backgroundColorChosen>red</backgroundColorChosen>
 	</construction>

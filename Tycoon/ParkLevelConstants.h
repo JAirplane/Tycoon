@@ -1,7 +1,6 @@
 #pragma once
 #include <vector>
-#include "pugixml.hpp"
-#include "StringToColor.h"
+#include "ConstructionConstantsDownloader.h"
 class Level
 {
 public:

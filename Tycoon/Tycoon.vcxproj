@@ -146,6 +146,8 @@
     <ClInclude Include="BuildingDescriptor.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Construction.h" />
+    <ClInclude Include="ConstructionConstantsDownloader.h" />
+    <ClInclude Include="ConstructionConstantsXMLDownload.h" />
     <ClInclude Include="ConstructionDescriptor.h" />
     <ClInclude Include="ConstructionInfoScreen.h" />
     <ClInclude Include="ConstructionManager.h" />
@@ -200,6 +202,8 @@
     <ClCompile Include="BuildingDescriptor.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Construction.cpp" />
+    <ClCompile Include="ConstructionConstantsDownloader.cpp" />
+    <ClCompile Include="ConstructionConstantsXMLDownload.cpp" />
     <ClCompile Include="ConstructionDescriptor.cpp" />
     <ClCompile Include="ConstructionInfoScreen.cpp" />
     <ClCompile Include="ConstructionManager.cpp" />
