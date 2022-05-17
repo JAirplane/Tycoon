@@ -19,7 +19,7 @@ public:
 	void ErasePartOfRectangle(int cameraLeftX, int cameraTopY, int cameraRightX, int cameraBottomY, int leftX, int topY, int rightX, int bottomY) const;
 	void DrawCursorPixel(int x, int y, color background = cBLACK) const;
 	void ErasePixel(int x, int y) const;
-	void DrawMenuElementContent(int leftX, int topY, int constructionCost, int dailySpend, const wstring iconSymbol,
+	void DrawMenuElementContent(int leftX, int topY, int constructionCost, int dailySpend, int visitPrice, const wstring iconSymbol,
 		string description, color foregroundIcon, color backgroundIcon) const;
 	void DrawVisitor(int xCoord, int yCoord, color foreground, color background, const wstring visitorSymbol) const;
 	void DrawConstruction(int leftX, int topY, int rightX, int bottomY, const wstring constructionSymbol, color foreground, const wstring entranceSymbol = L"",

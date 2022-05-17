@@ -9,11 +9,11 @@ private:
 	string description;
 	wstring iconSymbol;
 	color backgroundConnected;
-	color backgroundChoosen;
+	color backgroundChosen;
 	PointCoord menuElementLocation;
 public:
 	ConstructionDescriptor(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
-		color backgroundNotConnected, color backgroundChoosen, int dailyExpences = 0, int constructionHeightAddition = 0, int constructionWidthAddition = 0) :
+		color backgroundNotConnected, color backgroundChosen, int dailyExpences = 0, int constructionHeightAddition = 0, int constructionWidthAddition = 0) :
 		IngameObjectDescriptor(foreground, backgroundNotConnected, constructionHeightAddition, constructionWidthAddition)
 	{
 		this->menuElementLocation = menuElementLocation;
@@ -22,7 +22,17 @@ public:
 		this->description = description;
 		this->iconSymbol = iconSymbol;
 		this->backgroundConnected = backgroundConnected;
-		this->backgroundChoosen = backgroundChoosen;
+		this->backgroundChosen = backgroundChosen;
+	}
+	ConstructionDescriptor(PointCoord menuElementLocation, ConstructionConstantsXMLDownload* setOfConstants) : IngameObjectDescriptor(setOfConstants)
+	{
+		this->menuElementLocation = menuElementLocation;
+		this->constructionCost = setOfConstants->cost;
+		this->dailyExpences = setOfConstants->expences;
+		this->description = setOfConstants->textDescription;
+		this->iconSymbol = setOfConstants->constructionIconSymbol;
+		this->backgroundConnected = setOfConstants->constructionBackgroundConnectedColor;
+		this->backgroundChosen = setOfConstants->constructionBackgroundChosenColor;
 	}
 	virtual ~ConstructionDescriptor() {}
 	int GetConstructionCost() const;

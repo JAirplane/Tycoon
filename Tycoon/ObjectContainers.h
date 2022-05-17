@@ -86,4 +86,6 @@ public:
 	vector<Visitor*> AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr, GameStats* statistics, int lowestEntertainmentPrice);
 	void VisitorsFoodCapacityReduction();
 	void VisitorsToiletNeedReduction();
+	//
+	void PayDailyExpences(GameStats* statistics);
 };

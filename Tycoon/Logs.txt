@@ -1,0 +1,6 @@
+bad allocation
+bad allocation
+bad allocation
+bad allocation
+GameManagement::Arrows_Menu() incorrect direction.
+GameManagement::Arrows_Menu() incorrect direction.

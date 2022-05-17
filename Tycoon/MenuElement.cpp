@@ -13,8 +13,8 @@ void MenuElement::Draw() const
 	this->DrawBorder();
 	this->GetIcon()->DrawBorder();
 	this->GetDrawPointer()->DrawMenuElementContent(icon_ptr->GetUpperLeft().Get_x() + 1, icon_ptr->GetUpperLeft().Get_y() + 1, manager_ptr->GetDescriptor()->GetConstructionCost(),
-		manager_ptr->GetDescriptor()->GetDailyExpences(), manager_ptr->GetDescriptor()->GetIconSymbol(), manager_ptr->GetDescriptor()->GetDescription(),
-		manager_ptr->GetDescriptor()->GetForegroundColor(), manager_ptr->GetDescriptor()->GetConnectedBackgroundColor());
+		manager_ptr->GetDescriptor()->GetDailyExpences(), manager_ptr->GetDescriptor()->GetVisitPrice(), manager_ptr->GetDescriptor()->GetIconSymbol(),
+		manager_ptr->GetDescriptor()->GetDescription(), manager_ptr->GetDescriptor()->GetForegroundColor(), manager_ptr->GetDescriptor()->GetConnectedBackgroundColor());
 }
 void MenuElement::Shift(IconsPosition upperOrLower)
 {

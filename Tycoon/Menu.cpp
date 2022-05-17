@@ -18,6 +18,21 @@ ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int con
 		return new BuildingManager(buildingDesc_ptr);
 	}
 }
+ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, ConstructionConstantsXMLDownload* setOfConstants)
+{
+	if (setOfConstants->constructionHasToilet == 0 && setOfConstants->constructionSatisfiesHunger == 0 && setOfConstants->constructionIsEntertainment == 0 &&
+		setOfConstants->constructionIsExit == 0 && setOfConstants->constructionVisitTime == 0)
+	{
+		ConstructionDescriptor* roadDesc_ptr = new RoadDescriptor(menuElementLocation, setOfConstants);
+		return new RoadManager(roadDesc_ptr);
+	}
+	else
+	{
+		ConstructionDescriptor* buildingDesc_ptr = new BuildingDescriptor(menuElementLocation, setOfConstants);
+		return new BuildingManager(buildingDesc_ptr);
+	}
+}
+//
 void Menu::CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
 	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int restoreToiletNeed, int satisfactionOfHunger, int visitPrice, int entertainmentValue,
 	int isExit, int maxVisitors, int visitTime, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
@@ -49,6 +64,33 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 		menuElementShadingColor, menuIcon_ptr, manager_ptr);
 	menuItems.push_back(element_ptr);
 }
+void Menu::CreateMenuElement(ConstructionConstantsXMLDownload* setOfConstants)
+{
+	BorderAppearance* elementBorder_ptr = CreateElementBorder();
+	color menuElementLetterColor = ConstructionOptions::GetAllOptions()->GetMenuElementLetterColor();
+	color menuElementShadingColor = ConstructionOptions::GetAllOptions()->GetMenuElementShadingColor();
+	PointCoord elementLocation(0, 0);
+	if (menuItems.empty())
+	{
+		if (gameStats_ptr == nullptr)
+		{
+			delete elementBorder_ptr;
+			throw MyException("Menu::CreateMenuElement(args...) tried to create menu element with gameStats == nullptr");
+		}
+		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, gameStats_ptr->GetUpperLeft().Get_y() + gameStats_ptr->GetHeightAddition() + 1);
+	}
+	else
+	{
+		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, menuItems.back()->GetUpperLeft().Get_y() + menuItems.back()->GetHeightAddition() + 1);
+	}
+	int elementHeightAdd = ConstructionOptions::GetAllOptions()->GetMenuElementHeightAdd();
+	int elementWidthAdd = GetWidthAddition() - 4;
+	MyRectangle* menuIcon_ptr = CreateIcon(elementLocation);
+	ConstructionManager* manager_ptr = CreateManager(elementLocation, setOfConstants);
+	MenuElement* element_ptr = new MenuElement(GetDrawPointer(), GetCursor(), elementLocation, elementHeightAdd, elementWidthAdd, elementBorder_ptr, menuElementLetterColor,
+		menuElementShadingColor, menuIcon_ptr, manager_ptr);
+	menuItems.push_back(element_ptr);
+}
 void Menu::CreateMenuElementConstructionTypeChoice(string constructionType)
 {
 	pugi::xml_document doc;
@@ -66,15 +108,9 @@ void Menu::CreateMenuElementConstructionTypeChoice(string constructionType)
 	{
 		if (construction.attribute("name").as_string() == constructionType)
 		{
-			this->CreateMenuElement(atoi(construction.child_value("cost")), construction.child_value("description"), converter.from_bytes(construction.child_value("iconSymbol")),
-				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("foregroundColor")),
-				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("backgroundColorConnected")),
-				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("backgroundColorDisconnected")),
-				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("backgroundColorChosen")),
-				converter.from_bytes(construction.child_value("drawingSymbol")), atoi(construction.child_value("hasToilet")), atoi(construction.child_value("satisfiesHunger")),
-				atoi(construction.child_value("visitPrice")), atoi(construction.child_value("entertainmentValue")), atoi(construction.child_value("isExit")),
-				atoi(construction.child_value("maxVisitors")), atoi(construction.child_value("visitTime")), atoi(construction.child_value("dailyExpences")),
-				atoi(construction.child_value("heightAdd")), atoi(construction.child_value("widthAdd")));
+			ConstructionConstantsXMLDownload* setOfConstants = ConstructionConstantsDownloader::GetDownloader()->DownloadConstants(constructionType);
+			this->CreateMenuElement(setOfConstants);
+			delete setOfConstants;
 			return;
 		}
 	}

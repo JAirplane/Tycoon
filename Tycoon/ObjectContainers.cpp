@@ -541,11 +541,15 @@ vector<Visitor*> AllObjects::AllVisitorsStep(const Camera* camera_ptr, const Pla
 {
 	if (camera_ptr == nullptr)
 	{
-		throw MyException("AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) camera is nullptr");
+		throw MyException("AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr, GameStats* statistics, int lowestEntertainmentPrice) camera is nullptr");
 	}
 	if (field_ptr == nullptr)
 	{
-		throw MyException("AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr) playingfield is nullptr");
+		throw MyException("AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr, GameStats* statistics, int lowestEntertainmentPrice) playingfield is nullptr");
+	}
+	if (statistics == nullptr)
+	{
+		throw MyException("AllObjects::AllVisitorsStep(const Camera* camera_ptr, const PlayingField* field_ptr, GameStats* statistics, int lowestEntertainmentPrice) statistics is nullptr");
 	}
 	vector<Visitor*> forDeleting;
 	for (auto visitor : visitors)
@@ -567,6 +571,7 @@ vector<Visitor*> AllObjects::AllVisitorsStep(const Camera* camera_ptr, const Pla
 				{
 					throw MyException("Visitor::GetNextPathIndex(const list<Road*>& allRoads) no road on visitor's point");
 				}
+				++currentRoad->allTimeVisited;
 				int nextRoadIndex = visitor->GetNextPathIndex(roads, currentRoad);
 				if (nextRoadIndex == -1)
 				{
@@ -628,4 +633,17 @@ void AllObjects::VisitorsToiletNeedReduction()
 			everyVisitor->toiletNeed -= rand() % 2 + 1;
 		}
 	}
+}
+void AllObjects::PayDailyExpences(GameStats* statistics)
+{
+	if (statistics == nullptr)
+	{
+		throw MyException("AllObjects::PayDailyExpences(GameStats* statistics) statistics is nullptr");
+	}
+	int overallExpences = 0;
+	for (auto everyBuilding : buildings)
+	{
+		overallExpences += everyBuilding->GetDescriptor()->GetDailyExpences();
+	}
+	statistics->amountOfMoney -= overallExpences;
 }

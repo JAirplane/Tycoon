@@ -73,6 +73,7 @@ public:
 	void VisitorCreationCycle(chrono::milliseconds& lastLaunch);
 	void VisitorStepCycle(chrono::milliseconds& lastLaunch);
 	void VisitorStatusReductionCycle(chrono::milliseconds& lastLaunch);
+	void PayDailyExpencesCycle(chrono::milliseconds& lastLaunch);
 	void GameProcess();
 	//
 	void H_Key();

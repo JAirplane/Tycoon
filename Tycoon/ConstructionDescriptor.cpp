@@ -22,7 +22,7 @@ color ConstructionDescriptor::GetConnectedBackgroundColor() const
 }
 color ConstructionDescriptor::GetChosenBackgroundColor() const
 {
-	return backgroundChoosen;
+	return backgroundChosen;
 }
 PointCoord ConstructionDescriptor::GetMenuElementLocation() const
 {

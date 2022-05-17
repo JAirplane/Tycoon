@@ -1,73 +1,73 @@
 #include "ConstructionConstantsXMLDownload.h"
-int ConstrictionConstantsXMLDownload::GetHeightAdd() const
+int ConstructionConstantsXMLDownload::GetHeightAdd() const
 {
 	return heightAdd;
 }
-int ConstrictionConstantsXMLDownload::GetWidthAdd() const
+int ConstructionConstantsXMLDownload::GetWidthAdd() const
 {
 	return widthAdd;
 }
-int ConstrictionConstantsXMLDownload::GetConstructionCost() const
+int ConstructionConstantsXMLDownload::GetConstructionCost() const
 {
 	return constructionCost;
 }
-int ConstrictionConstantsXMLDownload::GetDailyExpences() const
+int ConstructionConstantsXMLDownload::GetDailyExpences() const
 {
 	return dailyExpences;
 }
-string ConstrictionConstantsXMLDownload::GetDescription() const
+string ConstructionConstantsXMLDownload::GetDescription() const
 {
 	return description;
 }
-wstring ConstrictionConstantsXMLDownload::GetDrawingSymbol() const
+wstring ConstructionConstantsXMLDownload::GetDrawingSymbol() const
 {
 	return drawingSymbol;
 }
-wstring ConstrictionConstantsXMLDownload::GetIconSymbol() const
+wstring ConstructionConstantsXMLDownload::GetIconSymbol() const
 {
 	return iconSymbol;
 }
-int ConstrictionConstantsXMLDownload::GetHasToilet() const
+int ConstructionConstantsXMLDownload::GetHasToilet() const
 {
 	return hasToilet;
 }
-int ConstrictionConstantsXMLDownload::GetSatisfiesHunger() const
+int ConstructionConstantsXMLDownload::GetSatisfiesHunger() const
 {
 	return satisfiesHunger;
 }
-int ConstrictionConstantsXMLDownload::GetVisitPrice() const
+int ConstructionConstantsXMLDownload::GetVisitPrice() const
 {
 	return visitPrice;
 }
-int ConstrictionConstantsXMLDownload::GetEntertainmentValue() const
+int ConstructionConstantsXMLDownload::GetEntertainmentValue() const
 {
 	return entertainmentValue;
 }
-int ConstrictionConstantsXMLDownload::GetIsExit() const
+int ConstructionConstantsXMLDownload::GetIsExit() const
 {
 	return isExit;
 }
-int ConstrictionConstantsXMLDownload::GetMaxVisitors() const
+int ConstructionConstantsXMLDownload::GetMaxVisitors() const
 {
 	return maxVisitors;
 }
-int ConstrictionConstantsXMLDownload::GetVisitTime() const
+int ConstructionConstantsXMLDownload::GetVisitTime() const
 {
 	return visitTime;
 }
-color ConstrictionConstantsXMLDownload::GetForegroundColor() const
+color ConstructionConstantsXMLDownload::GetForegroundColor() const
 {
 	return foreground;
 }
-color ConstrictionConstantsXMLDownload::GetBackgroundConnectedColor() const
+color ConstructionConstantsXMLDownload::GetBackgroundConnectedColor() const
 {
 	return backgroundConnected;
 }
-color ConstrictionConstantsXMLDownload::GetBackgroundDisconnectedColor() const
+color ConstructionConstantsXMLDownload::GetBackgroundDisconnectedColor() const
 {
 	return backgroundDisconnected;
 }
-color ConstrictionConstantsXMLDownload::GetBackgroundChosenColor() const
+color ConstructionConstantsXMLDownload::GetBackgroundChosenColor() const
 {
 	return backgroundChosen;
 }

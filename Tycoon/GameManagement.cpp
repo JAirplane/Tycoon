@@ -350,6 +350,11 @@ void GameManagement::VisitorStatusReductionCycle(chrono::milliseconds& lastLaunc
 	allObjects_ptr->VisitorsFoodCapacityReduction();
 	allObjects_ptr->VisitorsToiletNeedReduction();
 }
+void GameManagement::PayDailyExpencesCycle(chrono::milliseconds& lastLaunch)
+{
+	lastLaunch = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch());
+	allObjects_ptr->PayDailyExpences(menu_ptr->GetGameStats());
+}
 void GameManagement::GameProcess()
 {
 	srand(static_cast<unsigned int>(time(0)));
@@ -362,6 +367,8 @@ void GameManagement::GameProcess()
 	chrono::milliseconds visitorsStepLastLaunch = chrono::milliseconds(0);
 	chrono::milliseconds visitorsStatusReductionDelay = chrono::milliseconds(2000);
 	chrono::milliseconds visitorsStatusReductionLastLaunch = chrono::milliseconds(0);
+	chrono::milliseconds payDailyExpencesDelay = chrono::milliseconds(40000);
+	chrono::milliseconds payDailyExpencesLastLaunch = chrono::milliseconds(0);
 	chrono::milliseconds allCycleLastEnding = chrono::milliseconds(17);
 	while (true)
 	{
@@ -383,6 +390,10 @@ void GameManagement::GameProcess()
 			if (allCycleLastEnding - visitorsStatusReductionLastLaunch > visitorsStatusReductionDelay)
 			{
 				VisitorStatusReductionCycle(visitorsStatusReductionLastLaunch);
+			}
+			if (allCycleLastEnding - payDailyExpencesLastLaunch > payDailyExpencesDelay)
+			{
+				PayDailyExpencesCycle(payDailyExpencesLastLaunch);
 			}
 		}
 		catch (MyException& somethingOccured)

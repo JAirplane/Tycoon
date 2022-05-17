@@ -7,7 +7,7 @@ ConstructionConstantsDownloader* ConstructionConstantsDownloader::GetDownloader(
 {
 	return constructionConstantsDownload;
 }
-ConstrictionConstantsXMLDownload ConstructionConstantsDownloader::DownloadConstants(string constructionType)
+ConstructionConstantsXMLDownload* ConstructionConstantsDownloader::DownloadConstants(string constructionType)
 {
 	pugi::xml_document doc;
 	pugi::xml_parse_result result = doc.load_file("ConstructionConstants.xml");
@@ -24,12 +24,13 @@ ConstrictionConstantsXMLDownload ConstructionConstantsDownloader::DownloadConsta
 	{
 		if (construction.attribute("name").as_string() == constructionType)
 		{
-			ConstrictionConstantsXMLDownload constructionConstants(atoi(construction.child_value("heightAdd")), atoi(construction.child_value("widthAdd")),
-				atoi(construction.child_value("cost")), atoi(construction.child_value("dailyExpences")), construction.child_value("description"),
-				converter.from_bytes(construction.child_value("drawingSymbol")), converter.from_bytes(construction.child_value("iconSymbol")),
-				atoi(construction.child_value("hasToilet")), atoi(construction.child_value("satisfiesHunger")), atoi(construction.child_value("visitPrice")),
-				atoi(construction.child_value("entertainmentValue")), atoi(construction.child_value("isExit")), atoi(construction.child_value("maxVisitors")),
-				atoi(construction.child_value("visitTime")), StringToColor::GetStringToColorConverter()->Convert(construction.child_value("foregroundColor")),
+			ConstructionConstantsXMLDownload* constructionConstants = new ConstructionConstantsXMLDownload(atoi(construction.child_value("heightAdd")),
+				atoi(construction.child_value("widthAdd")), atoi(construction.child_value("cost")), atoi(construction.child_value("dailyExpences")),
+				construction.child_value("description"), converter.from_bytes(construction.child_value("drawingSymbol")),
+				converter.from_bytes(construction.child_value("iconSymbol")), atoi(construction.child_value("hasToilet")), atoi(construction.child_value("satisfiesHunger")),
+				atoi(construction.child_value("visitPrice")), atoi(construction.child_value("entertainmentValue")), atoi(construction.child_value("isExit")),
+				atoi(construction.child_value("maxVisitors")), atoi(construction.child_value("visitTime")),
+				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("foregroundColor")),
 				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("backgroundColorConnected")),
 				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("backgroundColorDisconnected")),
 				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("backgroundColorChosen")));
@@ -38,3 +39,4 @@ ConstrictionConstantsXMLDownload ConstructionConstantsDownloader::DownloadConsta
 	}
 	throw MyException("ConstructionConstantsDownloader::DownloadConstants(string constructionType) failed to find constants in XML");
 }
+ConstructionConstantsDownloader* ConstructionConstantsDownloader::constructionConstantsDownload = ConstructionConstantsDownloader::CreateConstructionConstantsDownloader();

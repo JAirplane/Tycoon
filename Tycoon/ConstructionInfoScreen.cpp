@@ -14,7 +14,7 @@ void ConstructionInfoScreen::CreateDeconstructButton()
 	int buttonHeightAdd = ConstructionOptions::GetAllOptions()->GetConstructionInfoButtonHeightAdd();
 	int rightXScreen = GetUpperLeft().Get_x() + GetWidthAddition();
 	int topYButton = GetUpperLeft().Get_y() + 2;
-	int leftXButton = rightXScreen - buttonWidthAdd - 2;
+	int leftXButton = rightXScreen - buttonWidthAdd - 1;
 	deconstruct_ptr = new Button(PointCoord(leftXButton, topYButton), buttonHeightAdd, buttonWidthAdd, constructionInfoButtonBorder_ptr, buttonLetterColor, buttonShadingColor,
 		ConstructionOptions::GetAllOptions()->GetDeconstructButtonTitle(), GetDrawPointer(), GetCursor());
 }
@@ -93,15 +93,40 @@ void ConstructionInfoScreen::ClearChosenConstructionStatistic()
 }
 void ConstructionInfoScreen::ShowChosenConstructionStatistic()
 {
-	set_cursor_pos(constructionIcon_ptr->GetUpperLeft().Get_x() + constructionIcon_ptr->GetWidthAddition() + 2, constructionIcon_ptr->GetUpperLeft().Get_y() + 1);
+	int messageXCoord = constructionIcon_ptr->GetUpperLeft().Get_x() + constructionIcon_ptr->GetWidthAddition() + 2;
+	int messageYCoord = constructionIcon_ptr->GetUpperLeft().Get_y();
+	set_cursor_pos(messageXCoord, messageYCoord);
 	set_color(GetTextColor(), GetShadingColor());
-	cout << "Visitors: " << chosen_ptr->allTimeVisited;
-	int profit = chosen_ptr->overallRevenue;
-	if (profit != -1)
+	cout << "Visitors all the time: " << chosen_ptr->allTimeVisited;
+	++messageYCoord;
+	if (chosen_ptr->overallRevenue != -1)
 	{
-		set_cursor_pos(constructionIcon_ptr->GetUpperLeft().Get_x() + constructionIcon_ptr->GetWidthAddition() + 2, constructionIcon_ptr->GetUpperLeft().Get_y() + 2);
+		set_cursor_pos(messageXCoord, messageYCoord);
 		cout << "Overall profit: " << chosen_ptr->overallRevenue;
+		++messageYCoord;
 	}
+	set_cursor_pos(messageXCoord, messageYCoord);
+	if (chosen_ptr->GetDescriptor()->GetMaxVisitors() == 0)
+	{
+		cout << "Maximum visitors: unlimited";
+	}
+	else
+	{
+		cout << "Maximum simultaneous visitors: " << chosen_ptr->GetDescriptor()->GetMaxVisitors();
+	}
+	++messageYCoord;
+	set_cursor_pos(messageXCoord, messageYCoord);
+	if (chosen_ptr->GetDescriptor()->GetEntertainmentValue() == 1)
+	{
+		cout << "It's an amusement construction";
+	}
+	else
+	{
+		cout << "Not an amusement construction";
+	}
+	++messageYCoord;
+	set_cursor_pos(messageXCoord, messageYCoord);
+	cout << "Visit time: " << chosen_ptr->GetDescriptor()->GetVisitTime();
 }
 void ConstructionInfoScreen::DisplayConstructionInfo()
 {

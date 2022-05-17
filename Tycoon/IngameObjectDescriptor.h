@@ -15,6 +15,13 @@ public:
 		this->foreground = foreground;
 		this->background = background;
 	}
+	IngameObjectDescriptor(ConstructionConstantsXMLDownload* setOfConstants)
+	{
+		this->heightAddition = setOfConstants->heightAddition;
+		this->widthAddition = setOfConstants->widthAddition;
+		this->foreground = setOfConstants->constructionForegroundColor;
+		this->background = setOfConstants->constructionBackgroundDisconnectedColor;
+	}
 	virtual ~IngameObjectDescriptor() {}
 	int GetHeightAdd() const;
 	int GetWidthAdd() const;

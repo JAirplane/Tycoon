@@ -13,7 +13,7 @@ public:
 	}
 	static ConstructionConstantsDownloader* CreateConstructionConstantsDownloader();
 	static ConstructionConstantsDownloader* GetDownloader();
-	virtual ConstrictionConstantsXMLDownload DownloadConstants(string constructionType);
+	virtual ConstructionConstantsXMLDownload* DownloadConstants(string constructionType);
 	/*	suitable types:
 			road
 			toilet

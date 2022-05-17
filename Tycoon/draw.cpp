@@ -233,21 +233,34 @@ void Visualisation::EraseConstruction(int leftX, int topY, int rightX, int botto
 		}
 	}
 }
-void Visualisation::DrawMenuElementContent(int leftX, int topY, int constructionCost, int dailySpend, const wstring iconSymbol,
+void Visualisation::DrawMenuElementContent(int leftX, int topY, int constructionCost, int dailySpend, int visitPrice, const wstring iconSymbol,
 	string description, color foregroundIcon, color backgroundIcon) const//icon border
 {
 	DrawConstruction(leftX, topY, leftX + 1, topY + 1, iconSymbol, foregroundIcon, backgroundIcon);
-	set_cursor_pos(leftX + 3, topY);
+	set_cursor_pos(leftX + 3, topY - 1);
 	set_color(cLIGHT_GRAY);
 	cout << description;
-	set_cursor_pos(leftX + 3, topY + 1);
+	set_cursor_pos(leftX + 3, topY);
 	cout << "Construction Cost: " << constructionCost;
-	set_cursor_pos(leftX + 3, topY + 2);
+	set_cursor_pos(leftX + 3, topY + 1);
 	if (dailySpend != 0)
 	{
 		cout << "Service will cost you " << dailySpend << " per day.";
 	}
-	set_color(cYELLOW);
+	else
+	{
+		cout << "Has no service cost";
+	}
+	set_cursor_pos(leftX + 3, topY + 2);
+	if (visitPrice == 0)
+	{
+		cout << "Visiting is free";
+	}
+	else
+	{
+		cout << "Visit price: " << visitPrice;
+	}
+	set_color(cBLACK);
 }
 void Visualisation::WriteMessage(int initialX, int initialY, string message, color letterColor, color background) const
 {
