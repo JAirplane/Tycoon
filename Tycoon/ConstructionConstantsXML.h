@@ -2,8 +2,7 @@
 #include <string>
 #include "pugixml.hpp"
 #include "StringToColor.h"
-using namespace std;
-class ConstructionConstantsXMLDownload
+class ConstructionConstantsXML
 {
 private:
 	int heightAdd;
@@ -25,7 +24,7 @@ private:
 	color backgroundDisconnected;
 	color backgroundChosen;
 public:
-	ConstructionConstantsXMLDownload(int heightAdd, int widthAdd, int constructionCost, int dailyExpences, string description, wstring drawingSymbol, wstring iconSymbol,
+	ConstructionConstantsXML(int heightAdd, int widthAdd, int constructionCost, int dailyExpences, string description, wstring drawingSymbol, wstring iconSymbol,
 		int hasToilet, int satisfiesHunger, int visitPrice, int entertainmentValue, int isExit, int maxVisitors, int visitTime, color foreground, color backgroundConnected,
 		color backgroundDisconnected, color backgroundChosen)
 	{
@@ -48,7 +47,7 @@ public:
 		this->backgroundDisconnected = backgroundDisconnected;
 		this->backgroundChosen = backgroundChosen;
 	}
-	virtual ~ConstructionConstantsXMLDownload() {}
+	virtual ~ConstructionConstantsXML() {}
 	int GetHeightAdd() const;
 	__declspec(property(get = GetHeightAdd)) int heightAddition;
 	int GetWidthAdd() const;

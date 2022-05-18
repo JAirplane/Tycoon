@@ -18,6 +18,12 @@ public:
 		icon_ptr = nullptr;
 		manager_ptr = nullptr;
 	}
+	MenuElement(MyRectangle* menuElementRectangle, MyRectangle* icn_ptr, ConstructionManager* manage_ptr) :
+		MyRectangle(menuElementRectangle)
+	{
+		icon_ptr = icn_ptr;
+		manager_ptr = manage_ptr;
+	}
 	virtual ~MenuElement()
 	{
 		delete icon_ptr;

@@ -15,7 +15,7 @@ public:
 		this->foreground = foreground;
 		this->background = background;
 	}
-	IngameObjectDescriptor(ConstructionConstantsXMLDownload* setOfConstants)
+	IngameObjectDescriptor(ConstructionConstantsXML* setOfConstants)
 	{
 		this->heightAddition = setOfConstants->heightAddition;
 		this->widthAddition = setOfConstants->widthAddition;

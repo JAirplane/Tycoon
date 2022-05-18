@@ -168,10 +168,13 @@
     <ClInclude Include="StringToColor.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="ConstructionConstantsXMLDownload.h">
+    <ClInclude Include="ConstructionConstantsXML.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="ConstructionConstantsDownloader.h">
+    <ClInclude Include="XMLDownloader.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="RectangleConstantsXML.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -323,10 +326,13 @@
     <ClCompile Include="StringToColor.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
-    <ClCompile Include="ConstructionConstantsXMLDownload.cpp">
+    <ClCompile Include="ConstructionConstantsXML.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
-    <ClCompile Include="ConstructionConstantsDownloader.cpp">
+    <ClCompile Include="XMLDownloader.cpp">
+      <Filter>Файлы ресурсов</Filter>
+    </ClCompile>
+    <ClCompile Include="RectangleConstantsXML.cpp">
       <Filter>Файлы ресурсов</Filter>
     </ClCompile>
   </ItemGroup>

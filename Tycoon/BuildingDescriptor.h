@@ -27,7 +27,7 @@ public:
 		this->maxVisitors = maxVisitors;
 		this->visitTime = visitTime;
 	}
-	BuildingDescriptor(PointCoord menuElementLocation, ConstructionConstantsXMLDownload* setOfConstants) :
+	BuildingDescriptor(PointCoord menuElementLocation, ConstructionConstantsXML* setOfConstants) :
 		ConstructionDescriptor(menuElementLocation, setOfConstants)
 	{
 		this->buildingSymbol = setOfConstants->constructionSymbol;

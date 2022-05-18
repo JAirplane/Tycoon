@@ -17,6 +17,14 @@ void Construction::SetOverallVisitors(int overallVisitors)
 {
 	this->overallVisitors = overallVisitors;
 }
+int Construction::GetPreviousOverallVisitors() const
+{
+	return previousOverallVisitors;
+}
+void Construction::SetPreviousOverallVisitors(int overallVisitorsOld)
+{
+	previousOverallVisitors = overallVisitorsOld;
+}
 bool Construction::GetRoadConnectionStatus() const
 {
 	return connectedToRoad;

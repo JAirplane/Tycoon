@@ -9,6 +9,7 @@ private:
 	const ConstructionDescriptor* describe_ptr;
 	bool connectedToRoad;
 	bool isChosen;
+	int previousOverallVisitors;
 	int overallVisitors;
 public:
 	Construction(PointCoord upperLeft, const ConstructionDescriptor* description_ptr, const Visualisation* paint_ptr) : IngameObject(upperLeft, paint_ptr)
@@ -18,6 +19,7 @@ public:
 		SetWidthAddition(describe_ptr->GetWidthAdd());
 		connectedToRoad = false;
 		isChosen = false;
+		previousOverallVisitors = 0;
 		overallVisitors = 0;
 	}
 	virtual ~Construction()
@@ -40,9 +42,14 @@ public:
 	void SetOverallVisitors(int overallVisitors);
 	__declspec(property(get = GetOverallVisitors, put = SetOverallVisitors)) int allTimeVisited;
 	//
+	int GetPreviousOverallVisitors() const;
+	void SetPreviousOverallVisitors(int overallVisitorsOld);
+	__declspec(property(get = GetPreviousOverallVisitors, put = SetPreviousOverallVisitors)) int allTimeVisitedOld;
+	//
 	virtual int GetProfit() const = 0;
 	virtual void SetProfit(int profit) = 0;
 	__declspec(property(get = GetProfit, put = SetProfit)) int overallRevenue;
+	//
 	virtual PointCoord GetEntrancePoint() const = 0;
 	virtual PointCoord GetRedrawNeighboursPoint() const = 0;
 	virtual Direction GetExitDirection() const = 0;

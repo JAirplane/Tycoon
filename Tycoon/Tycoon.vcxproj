@@ -146,8 +146,8 @@
     <ClInclude Include="BuildingDescriptor.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Construction.h" />
-    <ClInclude Include="ConstructionConstantsDownloader.h" />
-    <ClInclude Include="ConstructionConstantsXMLDownload.h" />
+    <ClInclude Include="XMLDownloader.h" />
+    <ClInclude Include="ConstructionConstantsXML.h" />
     <ClInclude Include="ConstructionDescriptor.h" />
     <ClInclude Include="ConstructionInfoScreen.h" />
     <ClInclude Include="ConstructionManager.h" />
@@ -168,6 +168,7 @@
     <ClInclude Include="IngameObjectDescriptor.h" />
     <ClInclude Include="IngameObjectManager.h" />
     <ClInclude Include="MainMenu.h" />
+    <ClInclude Include="RectangleConstantsXML.h" />
     <ClInclude Include="StartScreen.h" />
     <ClInclude Include="ManagersDerived.h" />
     <ClInclude Include="GlobalObject.h" />
@@ -202,8 +203,8 @@
     <ClCompile Include="BuildingDescriptor.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Construction.cpp" />
-    <ClCompile Include="ConstructionConstantsDownloader.cpp" />
-    <ClCompile Include="ConstructionConstantsXMLDownload.cpp" />
+    <ClCompile Include="XMLDownloader.cpp" />
+    <ClCompile Include="ConstructionConstantsXML.cpp" />
     <ClCompile Include="ConstructionDescriptor.cpp" />
     <ClCompile Include="ConstructionInfoScreen.cpp" />
     <ClCompile Include="ConstructionManager.cpp" />
@@ -221,6 +222,7 @@
     <ClCompile Include="IngameObject.cpp" />
     <ClCompile Include="IngameObjectDescriptor.cpp" />
     <ClCompile Include="MainMenu.cpp" />
+    <ClCompile Include="RectangleConstantsXML.cpp" />
     <ClCompile Include="StartScreen.cpp" />
     <ClCompile Include="ManagersDerived.cpp" />
     <ClCompile Include="GlobalObject.cpp" />

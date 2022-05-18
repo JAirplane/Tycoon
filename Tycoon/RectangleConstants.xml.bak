@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--Width or height equals -1 means that this parameter depends on some other value-->
+<!--
+List of text versions of color to convert to color type:
+   black
+   dark blue
+   dark green
+   dark cyan
+   dark red
+   dark magenta
+   brown
+   light gray
+   dark gray
+   blue
+   green
+   cyan
+   red
+   magenta
+   yellow
+   white
+-->
+<rectangleConstants>
+	<rectangle name="camera">
+		<heightAdd>35</heightAdd>
+		<widthAdd>69</widthAdd>
+		<borderForegroundColor>blue</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>white</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>║</verticalBorderSymbol>
+		<horizontalBorderSymbol>═</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>╔</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>╗</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>╚</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>╝</bottomRightBorderSymbol>
+	</rectangle>
+	<rectangle name="sideMenuElement">
+		<heightAdd>5</heightAdd>
+		<widthAdd>-1</widthAdd>
+		<borderForegroundColor>yellow</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>dark gray</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>║</verticalBorderSymbol>
+		<horizontalBorderSymbol>═</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>╔</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>╗</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>╚</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>╝</bottomRightBorderSymbol>
+	</rectangle>
+	<rectangle name="sideMenuIcon">
+		<heightAdd>3</heightAdd>
+		<widthAdd>3</widthAdd>
+		<borderForegroundColor>green</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>white</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>║</verticalBorderSymbol>
+		<horizontalBorderSymbol>═</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>╔</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>╗</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>╚</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>╝</bottomRightBorderSymbol>
+	</rectangle>
+	<rectangle name="sideMenuGameStats">
+		<heightAdd>3</heightAdd>
+		<widthAdd>-1</widthAdd>
+		<borderForegroundColor>cyan</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>blue</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>║</verticalBorderSymbol>
+		<horizontalBorderSymbol>═</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>╔</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>╗</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>╚</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>╝</bottomRightBorderSymbol>
+	</rectangle>
+	<rectangle name="sideMenu">
+		<heightAdd>-1</heightAdd>
+		<widthAdd>45</widthAdd>
+		<borderForegroundColor>blue</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>white</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>║</verticalBorderSymbol>
+		<horizontalBorderSymbol>═</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>╔</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>╗</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>╚</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>╝</bottomRightBorderSymbol>
+	</rectangle>
+	<rectangle name="playingField">
+		<heightAdd>62</heightAdd>
+		<widthAdd>129</widthAdd>
+		<borderForegroundColor>dark gray</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>white</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>┃</verticalBorderSymbol>
+		<horizontalBorderSymbol>━</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>┏</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>┓</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>┗</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>┛</bottomRightBorderSymbol>
+	</rectangle>
+	<rectangle name="infoPanel">
+		<heightAdd>10</heightAdd>
+		<widthAdd>-1</widthAdd>
+		<borderForegroundColor>blue</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>cyan</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>║</verticalBorderSymbol>
+		<horizontalBorderSymbol>═</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>╔</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>╗</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>╚</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>╝</bottomRightBorderSymbol>
+	</rectangle>
+	<rectangle name="deconstructButton">
+		<heightAdd>2</heightAdd>
+		<widthAdd>12</widthAdd>
+		<borderForegroundColor>yellow</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>red</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>║</verticalBorderSymbol>
+		<horizontalBorderSymbol>═</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>╔</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>╗</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>╚</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>╝</bottomRightBorderSymbol>
+	</rectangle>
+	<rectangle name="pressAnyKey">
+		<heightAdd>2</heightAdd>
+		<widthAdd>14</widthAdd>
+		<borderForegroundColor>white</borderForegroundColor>
+		<borderBackgroundColor>red</borderBackgroundColor>
+		<letterColor>blue</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>*</verticalBorderSymbol>
+		<horizontalBorderSymbol>*</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>*</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>*</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>*</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>*</bottomRightBorderSymbol>
+	</rectangle>
+	<rectangle name="newGameButton">
+		<heightAdd>4</heightAdd>
+		<widthAdd>20</widthAdd>
+		<borderForegroundColor>white</borderForegroundColor>
+		<borderBackgroundColor>brown</borderBackgroundColor>
+		<letterColor>white</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>#</verticalBorderSymbol>
+		<horizontalBorderSymbol>#</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>#</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>#</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
+	</rectangle>
+	<rectangle name="continueButton">
+		<heightAdd>4</heightAdd>
+		<widthAdd>20</widthAdd>
+		<borderForegroundColor>white</borderForegroundColor>
+		<borderBackgroundColor>brown</borderBackgroundColor>
+		<letterColor>white</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>#</verticalBorderSymbol>
+		<horizontalBorderSymbol>#</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>#</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>#</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
+	</rectangle>
+	<rectangle name="exitButton">
+		<heightAdd>4</heightAdd>
+		<widthAdd>20</widthAdd>
+		<borderForegroundColor>white</borderForegroundColor>
+		<borderBackgroundColor>brown</borderBackgroundColor>
+		<letterColor>white</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>#</verticalBorderSymbol>
+		<horizontalBorderSymbol>#</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>#</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>#</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
+	</rectangle>
+	<rectangle name="infoPanelButton">
+		<heightAdd>-1</heightAdd>
+		<widthAdd>30</widthAdd>
+		<borderForegroundColor>yellow</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>black</letterColor>
+		<shadingColor>dark cyan</shadingColor>
+		<verticalBorderSymbol>#</verticalBorderSymbol>
+		<horizontalBorderSymbol>#</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>#</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>#</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
+	</rectangle>
+</rectangleConstants>

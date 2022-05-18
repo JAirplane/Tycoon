@@ -24,7 +24,7 @@ public:
 		this->backgroundConnected = backgroundConnected;
 		this->backgroundChosen = backgroundChosen;
 	}
-	ConstructionDescriptor(PointCoord menuElementLocation, ConstructionConstantsXMLDownload* setOfConstants) : IngameObjectDescriptor(setOfConstants)
+	ConstructionDescriptor(PointCoord menuElementLocation, ConstructionConstantsXML* setOfConstants) : IngameObjectDescriptor(setOfConstants)
 	{
 		this->menuElementLocation = menuElementLocation;
 		this->constructionCost = setOfConstants->cost;

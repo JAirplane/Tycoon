@@ -37,12 +37,7 @@ void GameManagement::CreateCamera()
 		throw MyException("GameManagement::CreateCamera() cursor_ptr is nullptr");
 	}
 	MyRectangle* cameraRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetCameraInitialUpperLeft(),
-		ConstructionOptions::GetAllOptions()->GetCameraHeightAdd(), ConstructionOptions::GetAllOptions()->GetCameraWidthAdd(),
-		ConstructionOptions::GetAllOptions()->GetCameraVerticalSymbol(), ConstructionOptions::GetAllOptions()->GetCameraHorizontalSymbol(),
-		ConstructionOptions::GetAllOptions()->GetCameraUpperLeftSymbol(), ConstructionOptions::GetAllOptions()->GetCameraUpperRightSymbol(),
-		ConstructionOptions::GetAllOptions()->GetCameraBottomLeftSymbol(), ConstructionOptions::GetAllOptions()->GetCameraBottomRightSymbol(),
-		ConstructionOptions::GetAllOptions()->GetCameraBorderForegroundColor(), ConstructionOptions::GetAllOptions()->GetCameraBorderBackgroundColor(),
-		ConstructionOptions::GetAllOptions()->GetCameraLetterColor(), ConstructionOptions::GetAllOptions()->GetCameraShadingColor(), draw_ptr, cursor_ptr);
+		XMLDownloader::GetDownloader()->DownloadRectangleConstants("camera"), draw_ptr, cursor_ptr);
 	camera_ptr = new Camera(cameraRectangle);
 	delete cameraRectangle;
 }
@@ -57,12 +52,7 @@ void GameManagement::CreatePlayingField()
 		throw MyException("GameManagement::CreatePlayingField() cursor_ptr is nullptr");
 	}
 	MyRectangle* playingFieldRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetPlayingFieldUpperLeft(),
-		ConstructionOptions::GetAllOptions()->GetPlayingFieldHeightAdd(), ConstructionOptions::GetAllOptions()->GetPlayingFieldWidthAdd(),
-		ConstructionOptions::GetAllOptions()->GetVerticalPlayingField(), ConstructionOptions::GetAllOptions()->GetHorizontalPlayingField(),
-		ConstructionOptions::GetAllOptions()->GetUpperLeftPlayingField(), ConstructionOptions::GetAllOptions()->GetUpperRightPlayingField(),
-		ConstructionOptions::GetAllOptions()->GetBottomLeftPlayingField(), ConstructionOptions::GetAllOptions()->GetBottomRightPlayingField(),
-		ConstructionOptions::GetAllOptions()->GetPlayingFieldBorderForegroundColor(), ConstructionOptions::GetAllOptions()->GetPlayingFieldBorderBackgroundColor(),
-		ConstructionOptions::GetAllOptions()->GetPlayingFieldLetterColor(), ConstructionOptions::GetAllOptions()->GetPlayingFieldShadingColor(), draw_ptr, cursor_ptr);
+		XMLDownloader::GetDownloader()->DownloadRectangleConstants("playingField"), draw_ptr, cursor_ptr);
 	field_ptr = new PlayingField(playingFieldRectangle);
 	delete playingFieldRectangle;
 }
@@ -81,12 +71,9 @@ void GameManagement::CreateMenuAndElements()
 		throw MyException("GameManagement::CreateMenuAndElements() camera_ptr is nullptr");
 	}
 	PointCoord menuUpperLeft(camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition() + 1, camera_ptr->GetUpperLeft().Get_y());
-	MyRectangle* menuRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(menuUpperLeft, ConstructionOptions::GetAllOptions()->GetMenuHeightAdd(),
-		ConstructionOptions::GetAllOptions()->GetMenuWidthAdd(), ConstructionOptions::GetAllOptions()->GetMenuVerticalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuHorizontalSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMenuUpperLeftSymbol(), ConstructionOptions::GetAllOptions()->GetMenuUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuBottomLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMenuBottomRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuBorderForegroundColor(),
-		ConstructionOptions::GetAllOptions()->GetMenuBorderBackgroundColor(), ConstructionOptions::GetAllOptions()->GetMenuLetterColor(),
-		ConstructionOptions::GetAllOptions()->GetMenuShadingColor(), draw_ptr, cursor_ptr);
+	MyRectangle* menuRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(menuUpperLeft,
+		XMLDownloader::GetDownloader()->DownloadRectangleConstants("sideMenu"), draw_ptr, cursor_ptr);
+	menuRectangle->SetHeightAddition(camera_ptr->GetHeightAddition());
 	menu_ptr = new Menu(menuRectangle);
 	delete menuRectangle;
 	menu_ptr->CreateGameStats();

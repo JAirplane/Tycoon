@@ -198,8 +198,12 @@ void InfoPanel::ShowMessagesScreen()
 }
 void InfoPanel::UpdateConstructionInfo() const
 {
-	if (currentScreen == InfoPanelContentType::SystemMessagesAndConstructionInfo && messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetChosenConstruction() != nullptr)
+	if (currentScreen == InfoPanelContentType::SystemMessagesAndConstructionInfo && messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetChosenConstruction() != nullptr &&
+		messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetChosenConstruction()->allTimeVisited !=
+		messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetChosenConstruction()->allTimeVisitedOld)
 	{
+		messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetChosenConstruction()->allTimeVisitedOld =
+			messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetChosenConstruction()->allTimeVisited;
 		messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->ClearChosenConstructionStatistic();
 		messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->ShowChosenConstructionStatistic();
 	}

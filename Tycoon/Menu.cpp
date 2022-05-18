@@ -18,7 +18,7 @@ ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int con
 		return new BuildingManager(buildingDesc_ptr);
 	}
 }
-ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, ConstructionConstantsXMLDownload* setOfConstants)
+ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, ConstructionConstantsXML* setOfConstants)
 {
 	if (setOfConstants->constructionHasToilet == 0 && setOfConstants->constructionSatisfiesHunger == 0 && setOfConstants->constructionIsEntertainment == 0 &&
 		setOfConstants->constructionIsExit == 0 && setOfConstants->constructionVisitTime == 0)
@@ -64,17 +64,13 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 		menuElementShadingColor, menuIcon_ptr, manager_ptr);
 	menuItems.push_back(element_ptr);
 }
-void Menu::CreateMenuElement(ConstructionConstantsXMLDownload* setOfConstants)
+void Menu::CreateMenuElement(ConstructionConstantsXML* setOfConstants)
 {
-	BorderAppearance* elementBorder_ptr = CreateElementBorder();
-	color menuElementLetterColor = ConstructionOptions::GetAllOptions()->GetMenuElementLetterColor();
-	color menuElementShadingColor = ConstructionOptions::GetAllOptions()->GetMenuElementShadingColor();
 	PointCoord elementLocation(0, 0);
 	if (menuItems.empty())
 	{
 		if (gameStats_ptr == nullptr)
 		{
-			delete elementBorder_ptr;
 			throw MyException("Menu::CreateMenuElement(args...) tried to create menu element with gameStats == nullptr");
 		}
 		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, gameStats_ptr->GetUpperLeft().Get_y() + gameStats_ptr->GetHeightAddition() + 1);
@@ -83,38 +79,21 @@ void Menu::CreateMenuElement(ConstructionConstantsXMLDownload* setOfConstants)
 	{
 		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, menuItems.back()->GetUpperLeft().Get_y() + menuItems.back()->GetHeightAddition() + 1);
 	}
-	int elementHeightAdd = ConstructionOptions::GetAllOptions()->GetMenuElementHeightAdd();
-	int elementWidthAdd = GetWidthAddition() - 4;
+	MyRectangle* menuElementRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(elementLocation,
+		XMLDownloader::GetDownloader()->DownloadRectangleConstants("sideMenuElement"), GetDrawPointer(), GetCursor());
+	menuElementRectangle->SetWidthAddition(this->GetWidthAddition() - 4);
 	MyRectangle* menuIcon_ptr = CreateIcon(elementLocation);
 	ConstructionManager* manager_ptr = CreateManager(elementLocation, setOfConstants);
-	MenuElement* element_ptr = new MenuElement(GetDrawPointer(), GetCursor(), elementLocation, elementHeightAdd, elementWidthAdd, elementBorder_ptr, menuElementLetterColor,
-		menuElementShadingColor, menuIcon_ptr, manager_ptr);
+	MenuElement* element_ptr = new MenuElement(menuElementRectangle, menuIcon_ptr, manager_ptr);
 	menuItems.push_back(element_ptr);
+	delete menuElementRectangle;
 }
 void Menu::CreateMenuElementConstructionTypeChoice(string constructionType)
 {
-	pugi::xml_document doc;
-	pugi::xml_parse_result result = doc.load_file("ConstructionConstants.xml");
-	if (!result)
-	{
-		string msg = "XML [ParkLevelConstants.xml] parsed with errors. ";
-		msg.append("Error description: ");
-		msg.append(result.description());
-		throw MyException(msg);
-	}
-	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-	pugi::xml_node constructionConstants = doc.child("constructionConstants");
-	for (pugi::xml_node construction = constructionConstants.child("construction"); construction; construction = construction.next_sibling("construction"))
-	{
-		if (construction.attribute("name").as_string() == constructionType)
-		{
-			ConstructionConstantsXMLDownload* setOfConstants = ConstructionConstantsDownloader::GetDownloader()->DownloadConstants(constructionType);
-			this->CreateMenuElement(setOfConstants);
-			delete setOfConstants;
-			return;
-		}
-	}
-	throw MyException("Menu::CreateMenuElementConstructionTypeChoice(string constructionType) failed to create menu element");
+	ConstructionConstantsXML* setOfConstants = XMLDownloader::GetDownloader()->DownloadConstructionConstants(constructionType);
+	this->CreateMenuElement(setOfConstants);
+	delete setOfConstants;
+	return;
 }
 BorderAppearance* Menu::CreateElementBorder()
 {
@@ -129,22 +108,11 @@ BorderAppearance* Menu::CreateElementBorder()
 }
 MyRectangle* Menu::CreateIcon(PointCoord elementLocation)
 {
-	RectangleSymbols* iconSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMenuIconVerticalSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMenuIconHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuIconUpperLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMenuIconUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuIconBottomLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMenuIconBottomRightSymbol());
-	color menuIconBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetMenuIconForegroundColor();
-	color menuIconBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetMenuIconBackgroundColor();
-	BorderAppearance* menuIconBorder = new BorderAppearance(iconSymbols_ptr, menuIconBorderForegroundColor, menuIconBorderBackgroundColor);
-	color menuIconLetterColor = ConstructionOptions::GetAllOptions()->GetMenuIconLetterColor();
-	color menuIconShadingColor = ConstructionOptions::GetAllOptions()->GetMenuIconShadingColor();
-	//
-	PointCoord firstIconLocation = PointCoord(elementLocation.Get_x() + 1, elementLocation.Get_y() + 1);
-	int iconHeightAdd = ConstructionOptions::GetAllOptions()->GetMenuIconHeightAdd();
-	int iconWidthAdd = ConstructionOptions::GetAllOptions()->GetMenuIconWidthAdd();
-	MyRectangle* menuIcon_ptr = new MyRectangle(firstIconLocation, iconHeightAdd, iconWidthAdd, menuIconBorder,
-		menuIconLetterColor, menuIconShadingColor, GetDrawPointer(), GetCursor());
-	return menuIcon_ptr;
+	PointCoord iconLocation = PointCoord(elementLocation.Get_x() + 1, elementLocation.Get_y() + 1);
+	MyRectangle* iconRectangle = XMLDownloader::GetDownloader()->DownloadRectangleConstants("menuElementIcon");
+
+	return RectangleCreator::GetRectangleFactory()->CreateRectangle(iconLocation, XMLDownloader::GetDownloader()->DownloadRectangleConstants("menuElementIcon"),
+		this->GetDrawPointer(), this->GetCursor());
 }
 //
 void Menu::CreateExit(const PlayingField* playingField_ptr, const Visualisation* draw_ptr, AllObjects* container)
@@ -218,20 +186,12 @@ void Menu::CreateParkEntrance(const PlayingField* playingField_ptr, const Visual
 //
 void Menu::CreateGameStats()
 {
-	RectangleSymbols* gameStatsSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetGameStatsVerticalSymbol(),
-		ConstructionOptions::GetAllOptions()->GetGameStatsHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetGameStatsUpperLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetGameStatsUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetGameStatsBottomLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetGameStatsBottomRightSymbol());
-	color gameStatsBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetGameStatsBorderForegroundColor();
-	color gameStatsBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetGameStatsBorderBackgroundColor();
-	BorderAppearance* gameStatsBorder = new BorderAppearance(gameStatsSymbols_ptr, gameStatsBorderForegroundColor, gameStatsBorderBackgroundColor);
-	color gameStatsLetterColor = ConstructionOptions::GetAllOptions()->GetGameStatsLetterColor();
-	color gameStatsShadingColor = ConstructionOptions::GetAllOptions()->GetGameStatsShadingColor();
-	PointCoord gameStatsLocation = PointCoord(GetUpperLeft().Get_x() + 1, GetUpperLeft().Get_y() + 1);
-	int gameStatsHeightAdd = ConstructionOptions::GetAllOptions()->GetGameStatsHeightAdd();
-	int gameStatsWidthAdd = GetWidthAddition() - 2;
-	gameStats_ptr = new GameStats(gameStatsLocation, gameStatsHeightAdd, gameStatsWidthAdd, gameStatsBorder,
-		gameStatsLetterColor, gameStatsShadingColor, GetDrawPointer(), GetCursor());
+	PointCoord gameStatsLocation = PointCoord(this->GetUpperLeft().Get_x() + 1, this->GetUpperLeft().Get_y() + 1);
+	MyRectangle* gameStatsRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(gameStatsLocation,
+		XMLDownloader::GetDownloader()->DownloadRectangleConstants("sideMenuGameStats"), this->GetDrawPointer(), this->GetCursor());
+	gameStatsRectangle->SetWidthAddition(this->GetWidthAddition() - 2);
+	gameStats_ptr = new GameStats(gameStatsRectangle);
+	delete gameStatsRectangle;
 }
 void Menu::CreateVisitorManager()
 {

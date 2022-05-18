@@ -7,7 +7,7 @@ public:
 		color backgroundNotConnected, color backgroundChoosen) :
 		ConstructionDescriptor(managerLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected, backgroundNotConnected, backgroundChoosen)
 	{}
-	RoadDescriptor(PointCoord managerLocation, ConstructionConstantsXMLDownload* setOfConstants) : ConstructionDescriptor(managerLocation, setOfConstants)
+	RoadDescriptor(PointCoord managerLocation, ConstructionConstantsXML* setOfConstants) : ConstructionDescriptor(managerLocation, setOfConstants)
 	{}
 	virtual ~RoadDescriptor() {}
 	wstring GetConstructionSymbol(int mask = 0) const override;
