@@ -27,17 +27,17 @@ public:
 		this->maxVisitors = maxVisitors;
 		this->visitTime = visitTime;
 	}
-	BuildingDescriptor(PointCoord menuElementLocation, ConstructionConstantsXML* setOfConstants) :
+	BuildingDescriptor(PointCoord menuElementLocation, ConstructionConstantsXML setOfConstants) :
 		ConstructionDescriptor(menuElementLocation, setOfConstants)
 	{
-		this->buildingSymbol = setOfConstants->constructionSymbol;
-		this->restoreToiletNeed = setOfConstants->constructionHasToilet;
-		this->satisfactionOfHunger = setOfConstants->constructionSatisfiesHunger;
-		this->visitPrice = setOfConstants->constructionVisitPrice;
-		this->entertainmentValue = setOfConstants->constructionIsEntertainment;
-		this->isExit = setOfConstants->constructionIsExit;
-		this->maxVisitors = setOfConstants->constructionMaxVisitors;
-		this->visitTime = setOfConstants->constructionVisitTime;
+		this->buildingSymbol = setOfConstants.constructionSymbol;
+		this->restoreToiletNeed = setOfConstants.constructionHasToilet;
+		this->satisfactionOfHunger = setOfConstants.constructionSatisfiesHunger;
+		this->visitPrice = setOfConstants.constructionVisitPrice;
+		this->entertainmentValue = setOfConstants.constructionIsEntertainment;
+		this->isExit = setOfConstants.constructionIsExit;
+		this->maxVisitors = setOfConstants.constructionMaxVisitors;
+		this->visitTime = setOfConstants.constructionVisitTime;
 	}
 	virtual ~BuildingDescriptor() {}
 	wstring GetConstructionSymbol(int mask = 0) const override;

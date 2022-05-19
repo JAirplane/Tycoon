@@ -77,16 +77,16 @@ void GameManagement::CreateMenuAndElements()
 	menu_ptr = new Menu(menuRectangle);
 	delete menuRectangle;
 	menu_ptr->CreateGameStats();
-	menu_ptr->CreateMenuElementConstructionTypeChoice("road");
-	menu_ptr->CreateMenuElementConstructionTypeChoice("toilet");
-	menu_ptr->CreateMenuElementConstructionTypeChoice("iceCreamShop");
-	menu_ptr->CreateMenuElementConstructionTypeChoice("foodCourt");
-	menu_ptr->CreateMenuElementConstructionTypeChoice("carousel");
-	menu_ptr->CreateMenuElementConstructionTypeChoice("dumboRide");
-	menu_ptr->CreateMenuElementConstructionTypeChoice("ferrisWheel");
-	menu_ptr->CreateMenuElementConstructionTypeChoice("rollerCoaster");
-	menu_ptr->CreateMenuElementConstructionTypeChoice("bumperCars");
-	menu_ptr->CreateMenuElementConstructionTypeChoice("logRide");
+	menu_ptr->CreateMenuElement("road");
+	menu_ptr->CreateMenuElement("toilet");
+	menu_ptr->CreateMenuElement("iceCreamShop");
+	menu_ptr->CreateMenuElement("foodCourt");
+	menu_ptr->CreateMenuElement("carousel");
+	menu_ptr->CreateMenuElement("dumboRide");
+	menu_ptr->CreateMenuElement("ferrisWheel");
+	menu_ptr->CreateMenuElement("rollerCoaster");
+	menu_ptr->CreateMenuElement("bumperCars");
+	menu_ptr->CreateMenuElement("logRide");
 	//
 	menu_ptr->CreateVisitorManager();
 }
@@ -94,19 +94,23 @@ void GameManagement::CreateInfoPanel()
 {
 	if (draw_ptr == nullptr)
 	{
-		throw MyException("GameManagement::CreateMenuAndElements() draw_ptr is nullptr");
+		throw MyException("GameManagement::CreateInfoPanel() draw_ptr is nullptr");
 	}
 	if (cursor_ptr == nullptr)
 	{
-		throw MyException("GameManagement::CreateMenuAndElements() cursor_ptr is nullptr");
+		throw MyException("GameManagement::CreateInfoPanel() cursor_ptr is nullptr");
+	}
+	if (camera_ptr == nullptr)
+	{
+		throw MyException("GameManagement::CreateInfoPanel() camera_ptr is nullptr");
+	}
+	if (menu_ptr == nullptr)
+	{
+		throw MyException("GameManagement::CreateInfoPanel() menu_ptr is nullptr");
 	}
 	MyRectangle* infoPanelRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetInfoPanelUpperLeft(),
-		ConstructionOptions::GetAllOptions()->GetInfoPanelHeightAdd(), ConstructionOptions::GetAllOptions()->GetInfoPanelWidthAdd(),
-		ConstructionOptions::GetAllOptions()->GetInfoPanelVerticalSymbol(), ConstructionOptions::GetAllOptions()->GetInfoPanelHorizontalSymbol(),
-		ConstructionOptions::GetAllOptions()->GetInfoPanelUpperLeftSymbol(), ConstructionOptions::GetAllOptions()->GetInfoPanelUpperRightSymbol(),
-		ConstructionOptions::GetAllOptions()->GetInfoPanelBottomLeftSymbol(), ConstructionOptions::GetAllOptions()->GetInfoPanelBottomRightSymbol(),
-		ConstructionOptions::GetAllOptions()->GetInfoPanelBorderForegroundColor(), ConstructionOptions::GetAllOptions()->GetInfoPanelBorderBackgroundColor(),
-		ConstructionOptions::GetAllOptions()->GetInfoPanelTextColor(), ConstructionOptions::GetAllOptions()->GetInfoPanelShadingColor(), draw_ptr, cursor_ptr);
+		XMLDownloader::GetDownloader()->DownloadRectangleConstants("infoPanel"), draw_ptr, cursor_ptr);
+	infoPanelRectangle->SetWidthAddition(camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition() + 1);
 	infoPanel_ptr = new InfoPanel(infoPanelRectangle);
 	delete infoPanelRectangle;
 	infoPanel_ptr->CreateMenuScreen();
@@ -138,12 +142,9 @@ void GameManagement::CreateStartScreen()
 		throw MyException("GameManagement::CreateStartScreen() menu_ptr is nullptr");
 	}
 	MyRectangle* startScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetInitialSplashScreenUpperLeft(),
-		camera_ptr->GetHeightAddition() + infoPanel_ptr->GetHeightAddition(), camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition(),
-		ConstructionOptions::GetAllOptions()->GetInitialSplashScreenVerticalSymbol(), ConstructionOptions::GetAllOptions()->GetInitialSplashScreenHorizontalSymbol(),
-		ConstructionOptions::GetAllOptions()->GetInitialSplashScreenUpperLeftSymbol(), ConstructionOptions::GetAllOptions()->GetInitialSplashScreenUpperRightSymbol(),
-		ConstructionOptions::GetAllOptions()->GetInitialSplashScreenBottomLeftSymbol(), ConstructionOptions::GetAllOptions()->GetInitialSplashScreenBottomRightSymbol(),
-		ConstructionOptions::GetAllOptions()->GetInitialSplashScreenBorderForegroundColor(), ConstructionOptions::GetAllOptions()->GetInitialSplashScreenBorderBackgroundColor(),
-		ConstructionOptions::GetAllOptions()->GetInitialSplashScreenLetterColor(), ConstructionOptions::GetAllOptions()->GetInitialSplashScreenShadingColor(), draw_ptr, cursor_ptr);
+		XMLDownloader::GetDownloader()->DownloadRectangleConstants("startScreen"), draw_ptr, cursor_ptr);
+	startScreenRectangle->SetHeightAddition(camera_ptr->GetHeightAddition() + infoPanel_ptr->GetHeightAddition() + 1);
+	startScreenRectangle->SetWidthAddition(camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition() + 1);
 	startScreen_ptr = new InitialScreen(startScreenRectangle);
 	delete startScreenRectangle;
 	startScreen_ptr->CreatePressAnyKey();
@@ -172,12 +173,9 @@ void GameManagement::CreateMainMenu()
 		throw MyException("GameManagement::CreateMainMenu() menu_ptr is nullptr");
 	}
 	MyRectangle* mainMenuRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetMainMenuUpperLeft(),
-		camera_ptr->GetHeightAddition() + infoPanel_ptr->GetHeightAddition(), camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition(),
-		ConstructionOptions::GetAllOptions()->GetMainMenuVerticalSymbol(), ConstructionOptions::GetAllOptions()->GetMainMenuHorizontalSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMainMenuUpperLeftSymbol(), ConstructionOptions::GetAllOptions()->GetMainMenuUpperRightSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMainMenuBottomLeftSymbol(), ConstructionOptions::GetAllOptions()->GetMainMenuBottomRightSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMainMenuBorderForegroundColor(), ConstructionOptions::GetAllOptions()->GetMainMenuBorderBackgroundColor(),
-		ConstructionOptions::GetAllOptions()->GetMainMenuLetterColor(), ConstructionOptions::GetAllOptions()->GetMainMenuShadingColor(), draw_ptr, cursor_ptr);
+		XMLDownloader::GetDownloader()->DownloadRectangleConstants("mainMenuScreen"), draw_ptr, cursor_ptr);
+	mainMenuRectangle->SetHeightAddition(camera_ptr->GetHeightAddition() + infoPanel_ptr->GetHeightAddition());
+	mainMenuRectangle->SetWidthAddition(camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition());
 	mainMenu_ptr = new MainMenu(mainMenuRectangle);
 	delete mainMenuRectangle;
 	mainMenu_ptr->CreateButtons();

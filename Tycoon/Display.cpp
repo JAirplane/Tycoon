@@ -61,7 +61,7 @@ void Display::DisplayPlayingField(const Menu* menu_ptr, Cursor* cursor_ptr, cons
 		field_ptr->GetBorder()->GetBorderSymbols()->GetVerticalSymbol(), field_ptr->GetBorder()->GetBorderSymbols()->GetHorizontalSymbol(),
 		field_ptr->GetBorder()->GetBorderSymbols()->GetUpperLeftSymbol(), field_ptr->GetBorder()->GetBorderSymbols()->GetUpperRightSymbol(),
 		field_ptr->GetBorder()->GetBorderSymbols()->GetBottomLeftSymbol(), field_ptr->GetBorder()->GetBorderSymbols()->GetBottomRightSymbol(),
-		ConstructionOptions::GetAllOptions()->GetPlayingFieldBorderForegroundColor());
+		field_ptr->GetBorder()->GetBorderForegroundColor());
 	cursor_ptr->ReturnToCamera(camera_ptr, menu_ptr, infoPanel_ptr);
 	DrawCursor(cursor_ptr, container_ptr, field_ptr);
 }
@@ -84,8 +84,7 @@ void Display::DisplayInfoPanel(const Menu* menu_ptr, Cursor* cursor_ptr, const C
 	const AllObjects* container_ptr, const PlayingField* field_ptr) const
 {
 	infoPanel_ptr->DrawBorder();
-	infoPanel_ptr->ShowSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(),
-		ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
+	infoPanel_ptr->ShowSplashScreen(infoPanel_ptr->GetTextColor(), infoPanel_ptr->GetShadingColor());
 	cursor_ptr->ReturnToCamera(camera_ptr, menu_ptr, infoPanel_ptr);
 	DrawCursor(cursor_ptr, container_ptr, field_ptr);
 }

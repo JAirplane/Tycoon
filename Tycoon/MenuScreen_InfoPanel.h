@@ -12,11 +12,17 @@ public:
 		messagesAndInfoButton_ptr = nullptr;
 		controlsButton_ptr = nullptr;
 	}
+	MenuScreen(MyRectangle* someRectange) : MyRectangle(someRectange)
+	{
+		messagesAndInfoButton_ptr = nullptr;
+		controlsButton_ptr = nullptr;
+	}
 	virtual ~MenuScreen()
 	{
 		delete messagesAndInfoButton_ptr;
 		delete controlsButton_ptr;
 	}
+	virtual Button* CreateButton(PointCoord upperLeft, string buttonTitle);
 	virtual void CreateButtons();
 	Button* GetMessagesButton() const;
 	Button* GetControlsButton() const;

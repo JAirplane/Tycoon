@@ -1,27 +1,21 @@
 #include "MessagesAndInfoScreen_InfoPanel.h"
 void MessagesAndInfoScreen::CreateMessagesScreen()
 {
-	RectangleSymbols* messagesScreenSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol(),
-		ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol(), ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol(),
-		ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol(), ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol(),
-		ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol());
-	BorderAppearance* messagesScreenBorder_ptr = new BorderAppearance(messagesScreenSymbols_ptr, cBLACK, cBLACK);
-	color messagesScreenLetterColor = ConstructionOptions::GetAllOptions()->GetMessagesPartScreenLetterColor();
-	color messagesScreenShadingColor = ConstructionOptions::GetAllOptions()->GetMessagesPartScreenShadingColor();
-	messagesScreen_ptr = new MyRectangle(PointCoord(GetHalfXAxis() + 1, GetUpperLeft().Get_y()), GetHeightAddition(), GetWidthAddition() / 2, messagesScreenBorder_ptr,
-		messagesScreenLetterColor, messagesScreenShadingColor, GetDrawPointer(), GetCursor());
+	MyRectangle* messagesScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(PointCoord(this->GetHalfXAxis() + 1, this->GetUpperLeft().Get_y()),
+		XMLDownloader::GetDownloader()->DownloadRectangleConstants("infoPanelMessagesScreen"), this->GetDrawPointer(), this->GetCursor());
+	messagesScreenRectangle->SetHeightAddition(this->GetHeightAddition());
+	messagesScreenRectangle->SetWidthAddition(this->GetWidthAddition() / 2);
+	messagesScreen_ptr = new MyRectangle(messagesScreenRectangle);
+	delete messagesScreenRectangle;
 }
 void MessagesAndInfoScreen::CreateConstructionInfoScreen()
 {
-	RectangleSymbols* constructionInfoScreenSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol(),
-		ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol(), ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol(),
-		ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol(), ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol(),
-		ConstructionOptions::GetAllOptions()->GetEmptyRectangleBorderSymbol());
-	BorderAppearance* constructionInfoScreenBorder_ptr = new BorderAppearance(constructionInfoScreenSymbols_ptr, cBLACK, cBLACK);
-	color constructionInfoScreenLetterColor = ConstructionOptions::GetAllOptions()->GetInfoPartScreenLetterColor();
-	color constructionInfoScreenShadingColor = ConstructionOptions::GetAllOptions()->GetInfoPartScreenShadingColor();
-	constructionInfo_ptr = new ConstructionInfoScreen(GetUpperLeft(), GetHeightAddition(), GetWidthAddition() / 2 - 1, constructionInfoScreenBorder_ptr,
-		constructionInfoScreenLetterColor, constructionInfoScreenShadingColor, GetDrawPointer(), GetCursor());
+	MyRectangle* constructionInfoScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(this->GetUpperLeft(),
+		XMLDownloader::GetDownloader()->DownloadRectangleConstants("infoPanelConstructionInfoScreen"), this->GetDrawPointer(), this->GetCursor());
+	constructionInfoScreenRectangle->SetHeightAddition(this->GetHeightAddition());
+	constructionInfoScreenRectangle->SetWidthAddition(this->GetWidthAddition() / 2 - 1);
+	constructionInfo_ptr = new ConstructionInfoScreen(constructionInfoScreenRectangle);
+	delete constructionInfoScreenRectangle;
 	constructionInfo_ptr->CreateDeconstructButton();
 	constructionInfo_ptr->CreateConstructionIcon();
 }

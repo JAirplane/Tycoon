@@ -3,57 +3,35 @@
 // create Screens
 void InfoPanel::CreateMenuScreen()
 {
-	RectangleSymbols* menuScreenBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMenuScreenVerticalSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMenuScreenHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuScreenUpperLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMenuScreenUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuScreenBottomLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMenuScreenBottomRightSymbol());
-	color menuScreenBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetMenuScreenBorderForegroundColor();
-	color menuScreenBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetMenuScreenBorderBackgroundColor();
-	BorderAppearance* menuScreenBorder = new BorderAppearance(menuScreenBorderSymbols_ptr, menuScreenBorderForegroundColor, menuScreenBorderBackgroundColor);
-	color menuLetterColor = ConstructionOptions::GetAllOptions()->GetMenuScreenTextColor();
-	color menuShadingColor = ConstructionOptions::GetAllOptions()->GetMenuScreenShadingColor();
-	PointCoord menuScreenUpperLeft = PointCoord(GetUpperLeft().Get_x() + 2, GetUpperLeft().Get_y() + 2);
-	int menuScreenHeightAdd = GetHeightAddition() - 4;
-	int menuScreenWidthAdd = GetWidthAddition() - 4;
-	mainScreen_ptr = new MenuScreen(menuScreenUpperLeft, menuScreenHeightAdd, menuScreenWidthAdd, menuScreenBorder,
-		menuLetterColor, menuShadingColor, GetDrawPointer(), GetCursor());
+	PointCoord menuScreenUpperLeft = PointCoord(this->GetUpperLeft().Get_x() + 2, this->GetUpperLeft().Get_y() + 2);
+	MyRectangle* menuScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(menuScreenUpperLeft,
+		XMLDownloader::GetDownloader()->DownloadRectangleConstants("infoPanelMenuScreen"), this->GetDrawPointer(), this->GetCursor());
+	menuScreenRectangle->SetHeightAddition(this->GetHeightAddition() - 4);
+	menuScreenRectangle->SetWidthAddition(this->GetWidthAddition() - 4);
+	mainScreen_ptr = new MenuScreen(menuScreenRectangle);
+	delete menuScreenRectangle;
 	mainScreen_ptr->CreateButtons();
 }
 void InfoPanel::CreateControlsScreen()
 {
-	RectangleSymbols* controlsBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetControlsVerticalSymbol(),
-		ConstructionOptions::GetAllOptions()->GetControlsHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetControlsUpperLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetControlsUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetControlsBottomLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetControlsBottomRightSymbol());
-	color controlsScreenBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetControlsScreenBorderForegroundColor();
-	color controlsScreenBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetControlsScreenBorderBackgroundColor();
-	BorderAppearance* controlsBorderVisual_ptr = new BorderAppearance(controlsBorderSymbols_ptr, controlsScreenBorderForegroundColor, controlsScreenBorderBackgroundColor);
-	color controlsLetterColor = ConstructionOptions::GetAllOptions()->GetControlsScreenLetterColor();
-	color controlsShadingColor = ConstructionOptions::GetAllOptions()->GetControlsScreenShadingColor();
-	PointCoord controlsScreenUpperLeft = PointCoord(GetUpperLeft().Get_x() + 2, GetUpperLeft().Get_y() + 2);
-	int controlsScreenHeightAdd = GetHeightAddition() - 4;
-	int controlsScreenWidthAdd = GetWidthAddition() - 4;
-	gameControlInfo_ptr = new ControlsScreen(controlsScreenUpperLeft, controlsScreenHeightAdd, controlsScreenWidthAdd,
-		controlsBorderVisual_ptr, controlsLetterColor, controlsShadingColor, GetDrawPointer(), GetCursor());
+	PointCoord controlsScreenUpperLeft = PointCoord(this->GetUpperLeft().Get_x() + 2, this->GetUpperLeft().Get_y() + 2);
+	MyRectangle* controlsScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(controlsScreenUpperLeft,
+		XMLDownloader::GetDownloader()->DownloadRectangleConstants("infoPanelControlsScreen"), this->GetDrawPointer(), this->GetCursor());
+	controlsScreenRectangle->SetHeightAddition(this->GetHeightAddition() - 4);
+	controlsScreenRectangle->SetWidthAddition(this->GetWidthAddition() - 4);
+	gameControlInfo_ptr = new ControlsScreen(controlsScreenRectangle);
+	delete controlsScreenRectangle;
 	gameControlInfo_ptr->FillControlsDescriptions();
 }
 void InfoPanel::CreateGameMessagesScreen()
 {
-	RectangleSymbols* messagesAndInfoBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMessagesAndInfoVerticalSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMessagesAndInfoHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMessagesAndInfoUpperLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMessagesAndInfoUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMessagesAndInfoBottomLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMessagesAndInfoBottomRightSymbol());
-	color messagesAndInfoScreenBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetMessagesAndInfoScreenBorderForegroundColor();
-	color messagesAndInfoScreenBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetMessagesAndInfoScreenBorderBackgroundColor();
-	BorderAppearance* messagesAndInfoBorderVisual_ptr = new BorderAppearance(messagesAndInfoBorderSymbols_ptr,
-		messagesAndInfoScreenBorderForegroundColor, messagesAndInfoScreenBorderBackgroundColor);
-	color messagesAndInfoLetterColor = ConstructionOptions::GetAllOptions()->GetMessagesAndInfoScreenLetterColor();
-	color messagesAndInfoShadingColor = ConstructionOptions::GetAllOptions()->GetMessagesAndInfoScreenShadingColor();
 	PointCoord messagesAndInfoScreenUpperLeft = PointCoord(GetUpperLeft().Get_x() + 2, GetUpperLeft().Get_y() + 2);
-	int messagesAndInfoScreenHeightAdd = GetHeightAddition() - 4;
-	int messagesAndInfoScreenWidthAdd = GetWidthAddition() - 4;
-	messagesAndInfoScreen_ptr = new MessagesAndInfoScreen(messagesAndInfoScreenUpperLeft, messagesAndInfoScreenHeightAdd, messagesAndInfoScreenWidthAdd,
-		messagesAndInfoBorderVisual_ptr, messagesAndInfoLetterColor, messagesAndInfoShadingColor, GetDrawPointer(), GetCursor());
+	MyRectangle* messagesAndInfoScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(messagesAndInfoScreenUpperLeft,
+		XMLDownloader::GetDownloader()->DownloadRectangleConstants("infoPanelMessagesAndInfoScreen"), this->GetDrawPointer(), this->GetCursor());
+	messagesAndInfoScreenRectangle->SetHeightAddition(this->GetHeightAddition() - 4);
+	messagesAndInfoScreenRectangle->SetWidthAddition(this->GetWidthAddition() - 4);
+	messagesAndInfoScreen_ptr = new MessagesAndInfoScreen(messagesAndInfoScreenRectangle);
+	delete messagesAndInfoScreenRectangle;
 	messagesAndInfoScreen_ptr->CreateConstructionInfoScreen();
 	messagesAndInfoScreen_ptr->CreateMessagesScreen();
 }
@@ -61,7 +39,7 @@ void InfoPanel::CreateGameMessagesScreen()
 void InfoPanel::ChosenConstructionUpdate(Construction* choice_ptr)
 {
 	SetChosenConstruction(choice_ptr); //already throws exception, if receives nullptr
-	if(currentScreen != InfoPanelContentType::SystemMessagesAndConstructionInfo)
+	if (currentScreen != InfoPanelContentType::SystemMessagesAndConstructionInfo)
 	{
 		SwitchContent(InfoPanelContentType::SystemMessagesAndConstructionInfo);
 	}
@@ -76,13 +54,13 @@ void InfoPanel::ChosenConstructionUpdate(Construction* choice_ptr)
 // when receive user message from GameManagement
 void InfoPanel::UserMessageUpdate(const string message)
 {
-	if(message.empty())
+	if (message.empty())
 	{
 		throw MyException("InfoPanel::UserMessageUpdate(const string message) received empty string.");
 	}
 	messagesAndInfoScreen_ptr->AddMessage(message);
 	messagesAndInfoScreen_ptr->DeleteOldMessages();
-	if(currentScreen != InfoPanelContentType::SystemMessagesAndConstructionInfo)
+	if (currentScreen != InfoPanelContentType::SystemMessagesAndConstructionInfo)
 	{
 		SwitchContent(InfoPanelContentType::SystemMessagesAndConstructionInfo);
 	}
@@ -215,7 +193,7 @@ void InfoPanel::SwitchContent(InfoPanelContentType choosenContent)
 	{
 	case InfoPanelContentType::SplashScreen:
 	{
-		ShowSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
+		ShowSplashScreen(this->GetTextColor(), this->GetShadingColor());
 		return;
 	}
 	case InfoPanelContentType::MenuScreen:
@@ -233,91 +211,91 @@ void InfoPanel::SwitchContent(InfoPanelContentType choosenContent)
 		ShowMessagesScreen();
 		return;
 	}
-	default: {throw MyException("InfoPanel::SwitchContent(InfoPanelContentType choosenContent) got unknown content type.");} //exception
+	default: {throw MyException("InfoPanel::SwitchContent(InfoPanelContentType choosenContent) got unknown content type."); } //exception
 	}
 }
 void InfoPanel::GetToInfoPanelDisplayRule()
 {
-	switch(currentScreen)
+	switch (currentScreen)
 	{
-		case InfoPanelContentType::SplashScreen:
+	case InfoPanelContentType::SplashScreen:
+	{
+		SwitchContent(InfoPanelContentType::MenuScreen);
+		return;
+	}
+	case InfoPanelContentType::MenuScreen:
+	{
+		mainScreen_ptr->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor());
+		mainScreen_ptr->GetMessagesButton()->DrawBorder();
+		GetCursor()->CursorMovement(PointCoord(mainScreen_ptr->GetMessagesButton()->GetHalfXAxis(), mainScreen_ptr->GetMessagesButton()->GetUpperLeft().Get_y()));
+		return;
+	}
+	case InfoPanelContentType::Controls:
+	{
+		SwitchContent(InfoPanelContentType::MenuScreen);
+		return;
+	}
+	case InfoPanelContentType::SystemMessagesAndConstructionInfo:
+	{
+		if (messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetChosenConstruction() != nullptr)
 		{
-			SwitchContent(InfoPanelContentType::MenuScreen);
-			return;
+			messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->
+				SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor());
+			messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->DrawBorder();
+			EraseInfoPanelMessage();
+			DisplayInfoPanelMessage("Press 'enter' to deconstruct chosen one");
+			GetCursor()->CursorMovement(PointCoord(messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetHalfXAxis(),
+				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetUpperLeft().Get_y()));
 		}
-		case InfoPanelContentType::MenuScreen:
+		else
 		{
-			mainScreen_ptr->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor());
-			mainScreen_ptr->GetMessagesButton()->DrawBorder();
-			GetCursor()->CursorMovement(PointCoord(mainScreen_ptr->GetMessagesButton()->GetHalfXAxis(), mainScreen_ptr->GetMessagesButton()->GetUpperLeft().Get_y()));
-			return;
+			EraseInfoPanelMessage();
+			DisplayInfoPanelMessage("Press 'esc' to get to the previous screen");
+			GetCursor()->CursorMovement(PointCoord(messagesAndInfoScreen_ptr->GetHalfXAxis(), messagesAndInfoScreen_ptr->GetUpperLeft().Get_y()));
 		}
-		case InfoPanelContentType::Controls:
-		{
-			SwitchContent(InfoPanelContentType::MenuScreen);
-			return;
-		}
-		case InfoPanelContentType::SystemMessagesAndConstructionInfo:
-		{
-			if (messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetChosenConstruction() != nullptr)
-			{
-				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->
-					SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor());
-				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->DrawBorder();
-				EraseInfoPanelMessage();
-				DisplayInfoPanelMessage("Press 'enter' to deconstruct chosen one");
-				GetCursor()->CursorMovement(PointCoord(messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetHalfXAxis(),
-					messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetUpperLeft().Get_y()));
-			}
-			else
-			{
-				EraseInfoPanelMessage();
-				DisplayInfoPanelMessage("Press 'esc' to get to the previous screen");
-				GetCursor()->CursorMovement(PointCoord(messagesAndInfoScreen_ptr->GetHalfXAxis(), messagesAndInfoScreen_ptr->GetUpperLeft().Get_y()));
-			}
-			return;
-		}
-		default:
-		{
-			ShowSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
-			throw MyException("InfoPanel::GetToInfoPanelDisplayRule() currentScreen is undefined.");
-		}
+		return;
+	}
+	default:
+	{
+		ShowSplashScreen(this->GetTextColor(), this->GetShadingColor());
+		throw MyException("InfoPanel::GetToInfoPanelDisplayRule() currentScreen is undefined.");
+	}
 	}
 }
 void InfoPanel::EndInteractionDisplayRule()
 {
-	switch(currentScreen)
+	switch (currentScreen)
 	{
-		case InfoPanelContentType::SplashScreen: {return;}
-		case InfoPanelContentType::MenuScreen:
+	case InfoPanelContentType::SplashScreen: {return; }
+	case InfoPanelContentType::MenuScreen:
+	{
+		mainScreen_ptr->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+		mainScreen_ptr->GetControlsButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+		SwitchContent(InfoPanelContentType::SplashScreen);
+		return;
+	}
+	case InfoPanelContentType::Controls: {return; }
+	case InfoPanelContentType::SystemMessagesAndConstructionInfo:
+	{
+		EraseInfoPanelMessage();
+		DisplayInfoPanelMessage("Press 'i' to get to the InfoPanel");
+		if (messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetChosenConstruction() != nullptr)
 		{
-			mainScreen_ptr->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
-			mainScreen_ptr->GetControlsButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
-			SwitchContent(InfoPanelContentType::SplashScreen);
-			return;
+			messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->
+				SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+			messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->DrawBorder();
 		}
-		case InfoPanelContentType::Controls: {return;}
-		case InfoPanelContentType::SystemMessagesAndConstructionInfo:
+		else
 		{
-			EraseInfoPanelMessage();
-			DisplayInfoPanelMessage("Press 'i' to get to the InfoPanel");
-			if (messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetChosenConstruction() != nullptr)
-			{
-				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->
-					SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
-				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->DrawBorder();
-			}
-			else
-			{
-				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->DisplayConstructionInfo();
-			}
-			return;
+			messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->DisplayConstructionInfo();
 		}
-		default:
-		{
-			ShowSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
-			throw MyException("InfoPanel::EndInteractionDisplayRule() currentScreen is undefined."); //exception
-		}
+		return;
+	}
+	default:
+	{
+		ShowSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
+		throw MyException("InfoPanel::EndInteractionDisplayRule() currentScreen is undefined."); //exception
+	}
 	}
 }
 void InfoPanel::SetChosenConstruction(Construction* choice_ptr)

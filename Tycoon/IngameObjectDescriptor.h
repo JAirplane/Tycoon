@@ -15,12 +15,12 @@ public:
 		this->foreground = foreground;
 		this->background = background;
 	}
-	IngameObjectDescriptor(ConstructionConstantsXML* setOfConstants)
+	IngameObjectDescriptor(ConstructionConstantsXML setOfConstants)
 	{
-		this->heightAddition = setOfConstants->heightAddition;
-		this->widthAddition = setOfConstants->widthAddition;
-		this->foreground = setOfConstants->constructionForegroundColor;
-		this->background = setOfConstants->constructionBackgroundDisconnectedColor;
+		this->heightAddition = setOfConstants.heightAddition;
+		this->widthAddition = setOfConstants.widthAddition;
+		this->foreground = setOfConstants.constructionForegroundColor;
+		this->background = setOfConstants.constructionBackgroundDisconnectedColor;
 	}
 	virtual ~IngameObjectDescriptor() {}
 	int GetHeightAdd() const;

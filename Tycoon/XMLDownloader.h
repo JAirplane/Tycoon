@@ -15,7 +15,7 @@ public:
 	}
 	static XMLDownloader* CreateConstructionConstantsDownloader();
 	static XMLDownloader* GetDownloader();
-	virtual ConstructionConstantsXML* DownloadConstructionConstants(string constructionType);
+	virtual ConstructionConstantsXML DownloadConstructionConstants(string constructionType);
 	/*	suitable types:
 			road
 			toilet
@@ -29,7 +29,7 @@ public:
 			logRide
 			exit
 	*/
-	virtual RectangleConstantsXML* DownloadRectangleConstants(string constructionType);
+	virtual RectangleConstantsXML DownloadRectangleConstants(string constructionType);
 	/*	suitable rectangle names:
 			camera
 			playingField
@@ -37,5 +37,20 @@ public:
 			sideMenuGameStats
 			sideMenuElement
 			menuElementIcon
+			infoPanel
+			infoPanelMenuScreen
+			infoPanelMenuScreenButton
+			infoPanelControlsScreen
+			infoPanelMessagesAndInfoScreen
+			infoPanelConstructionInfoScreen
+			constructionInfoScreenDeconstructButton
+			constructionInfoScreenConstructionIcon
+			infoPanelMessagesScreen
+			startScreen
+			pressAnyKey
+			mainMenuScreen
+			newGameButton
+			continueButton
+			exitButton
 	*/
 };

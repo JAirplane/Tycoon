@@ -23,7 +23,7 @@ pugi::xml_document XMLDownloader::CreateDocument(string docName)
 		return doc;
 	}
 }
-ConstructionConstantsXML* XMLDownloader::DownloadConstructionConstants(string constructionType)
+ConstructionConstantsXML XMLDownloader::DownloadConstructionConstants(string constructionType)
 {
 	pugi::xml_document doc = CreateDocument("ConstructionConstants.xml");
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
@@ -32,7 +32,7 @@ ConstructionConstantsXML* XMLDownloader::DownloadConstructionConstants(string co
 	{
 		if (construction.attribute("name").as_string() == constructionType)
 		{
-			ConstructionConstantsXML* constructionConstants = new ConstructionConstantsXML(atoi(construction.child_value("heightAdd")),
+			ConstructionConstantsXML constructionConstants = ConstructionConstantsXML(atoi(construction.child_value("heightAdd")),
 				atoi(construction.child_value("widthAdd")), atoi(construction.child_value("cost")), atoi(construction.child_value("dailyExpences")),
 				construction.child_value("description"), converter.from_bytes(construction.child_value("drawingSymbol")),
 				converter.from_bytes(construction.child_value("iconSymbol")), atoi(construction.child_value("hasToilet")), atoi(construction.child_value("satisfiesHunger")),
@@ -47,7 +47,7 @@ ConstructionConstantsXML* XMLDownloader::DownloadConstructionConstants(string co
 	}
 	throw MyException("XMLDownloader::DownloadConstructionConstants(string constructionType) failed to find constants in XML");
 }
-RectangleConstantsXML* XMLDownloader::DownloadRectangleConstants(string rectangleName)
+RectangleConstantsXML XMLDownloader::DownloadRectangleConstants(string rectangleName)
 {
 	pugi::xml_document doc = CreateDocument("RectangleConstants.xml");
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
@@ -56,13 +56,13 @@ RectangleConstantsXML* XMLDownloader::DownloadRectangleConstants(string rectangl
 	{
 		if (rectangle.attribute("name").as_string() == rectangleName)
 		{
-			RectangleConstantsXML* rectangleConstants = new RectangleConstantsXML(atoi(rectangle.child_value("heightAdd")), atoi(rectangle.child_value("widthAdd")),
+			RectangleConstantsXML rectangleConstants = RectangleConstantsXML(atoi(rectangle.child_value("heightAdd")), atoi(rectangle.child_value("widthAdd")),
 				StringToColor::GetStringToColorConverter()->Convert(rectangle.child_value("borderForegroundColor")),
 				StringToColor::GetStringToColorConverter()->Convert(rectangle.child_value("borderBackgroundColor")),
 				StringToColor::GetStringToColorConverter()->Convert(rectangle.child_value("letterColor")),
 				StringToColor::GetStringToColorConverter()->Convert(rectangle.child_value("shadingColor")), converter.from_bytes(rectangle.child_value("verticalBorderSymbol")),
-				converter.from_bytes(rectangle.child_value("horizontalBorderSymbol")), converter.from_bytes(rectangle.child_value("upperLeftBorderSymbol")), 
-				converter.from_bytes(rectangle.child_value("upperRightBorderSymbol")), converter.from_bytes(rectangle.child_value("bottomLeftBorderSymbol")), 
+				converter.from_bytes(rectangle.child_value("horizontalBorderSymbol")), converter.from_bytes(rectangle.child_value("upperLeftBorderSymbol")),
+				converter.from_bytes(rectangle.child_value("upperRightBorderSymbol")), converter.from_bytes(rectangle.child_value("bottomLeftBorderSymbol")),
 				converter.from_bytes(rectangle.child_value("bottomRightBorderSymbol")));
 			return rectangleConstants;
 		}

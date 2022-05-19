@@ -18,10 +18,10 @@ ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int con
 		return new BuildingManager(buildingDesc_ptr);
 	}
 }
-ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, ConstructionConstantsXML* setOfConstants)
+ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, ConstructionConstantsXML setOfConstants)
 {
-	if (setOfConstants->constructionHasToilet == 0 && setOfConstants->constructionSatisfiesHunger == 0 && setOfConstants->constructionIsEntertainment == 0 &&
-		setOfConstants->constructionIsExit == 0 && setOfConstants->constructionVisitTime == 0)
+	if (setOfConstants.constructionHasToilet == 0 && setOfConstants.constructionSatisfiesHunger == 0 && setOfConstants.constructionIsEntertainment == 0 &&
+		setOfConstants.constructionIsExit == 0 && setOfConstants.constructionVisitTime == 0)
 	{
 		ConstructionDescriptor* roadDesc_ptr = new RoadDescriptor(menuElementLocation, setOfConstants);
 		return new RoadManager(roadDesc_ptr);
@@ -36,35 +36,6 @@ ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, Constru
 void Menu::CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
 	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int restoreToiletNeed, int satisfactionOfHunger, int visitPrice, int entertainmentValue,
 	int isExit, int maxVisitors, int visitTime, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
-{
-	BorderAppearance* elementBorder_ptr = CreateElementBorder();
-	color menuElementLetterColor = ConstructionOptions::GetAllOptions()->GetMenuElementLetterColor();
-	color menuElementShadingColor = ConstructionOptions::GetAllOptions()->GetMenuElementShadingColor();
-	PointCoord elementLocation(0, 0);
-	if (menuItems.empty())
-	{
-		if (gameStats_ptr == nullptr)
-		{
-			delete elementBorder_ptr;
-			throw MyException("Menu::CreateMenuElement(args...) tried to create menu element with gameStats == nullptr");
-		}
-		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, gameStats_ptr->GetUpperLeft().Get_y() + gameStats_ptr->GetHeightAddition() + 1);
-	}
-	else
-	{
-		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, menuItems.back()->GetUpperLeft().Get_y() + menuItems.back()->GetHeightAddition() + 1);
-	}
-	int elementHeightAdd = ConstructionOptions::GetAllOptions()->GetMenuElementHeightAdd();
-	int elementWidthAdd = GetWidthAddition() - 4;
-	MyRectangle* menuIcon_ptr = CreateIcon(elementLocation);
-	ConstructionManager* manager_ptr = CreateManager(elementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected, backgroundNotConnected,
-		backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, entertainmentValue, isExit, maxVisitors, visitTime,
-		dailyExpences, constructionHeightAdd, constructionWidthAdd);
-	MenuElement* element_ptr = new MenuElement(GetDrawPointer(), GetCursor(), elementLocation, elementHeightAdd, elementWidthAdd, elementBorder_ptr, menuElementLetterColor,
-		menuElementShadingColor, menuIcon_ptr, manager_ptr);
-	menuItems.push_back(element_ptr);
-}
-void Menu::CreateMenuElement(ConstructionConstantsXML* setOfConstants)
 {
 	PointCoord elementLocation(0, 0);
 	if (menuItems.empty())
@@ -83,34 +54,40 @@ void Menu::CreateMenuElement(ConstructionConstantsXML* setOfConstants)
 		XMLDownloader::GetDownloader()->DownloadRectangleConstants("sideMenuElement"), GetDrawPointer(), GetCursor());
 	menuElementRectangle->SetWidthAddition(this->GetWidthAddition() - 4);
 	MyRectangle* menuIcon_ptr = CreateIcon(elementLocation);
-	ConstructionManager* manager_ptr = CreateManager(elementLocation, setOfConstants);
+	ConstructionManager* manager_ptr = CreateManager(elementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected, backgroundNotConnected,
+		backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, entertainmentValue, isExit, maxVisitors, visitTime,
+		dailyExpences, constructionHeightAdd, constructionWidthAdd);
 	MenuElement* element_ptr = new MenuElement(menuElementRectangle, menuIcon_ptr, manager_ptr);
 	menuItems.push_back(element_ptr);
 	delete menuElementRectangle;
 }
-void Menu::CreateMenuElementConstructionTypeChoice(string constructionType)
+void Menu::CreateMenuElement(string constructionType)
 {
-	ConstructionConstantsXML* setOfConstants = XMLDownloader::GetDownloader()->DownloadConstructionConstants(constructionType);
-	this->CreateMenuElement(setOfConstants);
-	delete setOfConstants;
-	return;
-}
-BorderAppearance* Menu::CreateElementBorder()
-{
-	RectangleSymbols* elementSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMenuItemVerticalSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMenuItemHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuItemUpperLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMenuItemUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuItemBottomLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMenuItemBottomRightSymbol());
-	color menuElementBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor();
-	color menuElementBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetMenuElementBackgroundColor();
-	BorderAppearance* menuElementBorder_ptr = new BorderAppearance(elementSymbols_ptr, menuElementBorderForegroundColor, menuElementBorderBackgroundColor);
-	return menuElementBorder_ptr;
+	PointCoord elementLocation(0, 0);
+	if (menuItems.empty())
+	{
+		if (gameStats_ptr == nullptr)
+		{
+			throw MyException("Menu::CreateMenuElement(args...) tried to create menu element with gameStats == nullptr");
+		}
+		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, gameStats_ptr->GetUpperLeft().Get_y() + gameStats_ptr->GetHeightAddition() + 1);
+	}
+	else
+	{
+		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, menuItems.back()->GetUpperLeft().Get_y() + menuItems.back()->GetHeightAddition() + 1);
+	}
+	MyRectangle* menuElementRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(elementLocation,
+		XMLDownloader::GetDownloader()->DownloadRectangleConstants("sideMenuElement"), GetDrawPointer(), GetCursor());
+	menuElementRectangle->SetWidthAddition(this->GetWidthAddition() - 4);
+	MyRectangle* menuIcon_ptr = CreateIcon(elementLocation);
+	ConstructionManager* manager_ptr = CreateManager(elementLocation, XMLDownloader::GetDownloader()->DownloadConstructionConstants(constructionType));
+	MenuElement* element_ptr = new MenuElement(menuElementRectangle, menuIcon_ptr, manager_ptr);
+	menuItems.push_back(element_ptr);
+	delete menuElementRectangle;
 }
 MyRectangle* Menu::CreateIcon(PointCoord elementLocation)
 {
 	PointCoord iconLocation = PointCoord(elementLocation.Get_x() + 1, elementLocation.Get_y() + 1);
-	MyRectangle* iconRectangle = XMLDownloader::GetDownloader()->DownloadRectangleConstants("menuElementIcon");
-
 	return RectangleCreator::GetRectangleFactory()->CreateRectangle(iconLocation, XMLDownloader::GetDownloader()->DownloadRectangleConstants("menuElementIcon"),
 		this->GetDrawPointer(), this->GetCursor());
 }

@@ -43,13 +43,13 @@ private:
 	bool enabled;
 public:
 	ActivatedByConditionButton(PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* externalBorder, color letterColor, color shadingColor, string buttonTitle,
-		bool enabled, Visualisation* vis_ptr, Cursor* cur_ptr) : Button(upperLeft, heightAdd, widthAdd, externalBorder, letterColor, shadingColor, buttonTitle, vis_ptr, cur_ptr)
+		Visualisation* vis_ptr, Cursor* cur_ptr) : Button(upperLeft, heightAdd, widthAdd, externalBorder, letterColor, shadingColor, buttonTitle, vis_ptr, cur_ptr)
 	{
-		this->enabled = enabled;
+		this->enabled = false;
 	}
-	ActivatedByConditionButton(MyRectangle* someRectangle, string buttonTitle, bool enabled) : Button(someRectangle, buttonTitle)
+	ActivatedByConditionButton(MyRectangle* someRectangle, string buttonTitle) : Button(someRectangle, buttonTitle)
 	{
-		this->enabled = enabled;
+		this->enabled = false;
 	}
 	virtual ~ActivatedByConditionButton() {}
 	void Display(function<bool()> enableButton) override;

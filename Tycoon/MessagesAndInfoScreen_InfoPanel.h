@@ -13,6 +13,11 @@ public:
 		messagesScreen_ptr = nullptr;
 		constructionInfo_ptr = nullptr;
 	}
+	MessagesAndInfoScreen(MyRectangle* someRectangle) : SplitScreen(someRectangle)
+	{
+		messagesScreen_ptr = nullptr;
+		constructionInfo_ptr = nullptr;
+	}
 	virtual ~MessagesAndInfoScreen()
 	{
 		delete messagesScreen_ptr;

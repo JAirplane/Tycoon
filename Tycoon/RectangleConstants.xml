@@ -118,12 +118,124 @@ List of text versions of color to convert to color type:
 		<bottomLeftBorderSymbol>╚</bottomLeftBorderSymbol>
 		<bottomRightBorderSymbol>╝</bottomRightBorderSymbol>
 	</rectangle>
-	<rectangle name="deconstructButton">
+	<rectangle name="infoPanelMenuScreen">
+		<heightAdd>-1</heightAdd>
+		<widthAdd>-1</widthAdd>
+		<borderForegroundColor>white</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>white</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>#</verticalBorderSymbol>
+		<horizontalBorderSymbol>#</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>#</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>#</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
+	</rectangle>
+	<rectangle name="infoPanelMenuScreenButton">
+		<heightAdd>-1</heightAdd>
+		<widthAdd>30</widthAdd>
+		<borderForegroundColor>yellow</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>black</letterColor>
+		<shadingColor>dark cyan</shadingColor>
+		<verticalBorderSymbol>#</verticalBorderSymbol>
+		<horizontalBorderSymbol>#</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>#</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>#</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
+	</rectangle>
+	<rectangle name="infoPanelControlsScreen">
+		<heightAdd>-1</heightAdd>
+		<widthAdd>-1</widthAdd>
+		<borderForegroundColor>white</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>dark green</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>#</verticalBorderSymbol>
+		<horizontalBorderSymbol>#</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>#</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>#</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
+	</rectangle>
+	<rectangle name="infoPanelMessagesAndInfoScreen">
+		<heightAdd>-1</heightAdd>
+		<widthAdd>-1</widthAdd>
+		<borderForegroundColor>white</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>dark green</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>@</verticalBorderSymbol>
+		<horizontalBorderSymbol>@</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>@</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>@</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>@</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>@</bottomRightBorderSymbol>
+	</rectangle>
+	<rectangle name="infoPanelConstructionInfoScreen">
+		<heightAdd>-1</heightAdd>
+		<widthAdd>-1</widthAdd>
+		<borderForegroundColor>black</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>green</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol> </verticalBorderSymbol>
+		<horizontalBorderSymbol> </horizontalBorderSymbol>
+		<upperLeftBorderSymbol> </upperLeftBorderSymbol>
+		<upperRightBorderSymbol> </upperRightBorderSymbol>
+		<bottomLeftBorderSymbol> </bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol> </bottomRightBorderSymbol>
+	</rectangle>
+	<rectangle name="constructionInfoScreenDeconstructButton">
 		<heightAdd>2</heightAdd>
 		<widthAdd>12</widthAdd>
 		<borderForegroundColor>yellow</borderForegroundColor>
 		<borderBackgroundColor>black</borderBackgroundColor>
 		<letterColor>red</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>║</verticalBorderSymbol>
+		<horizontalBorderSymbol>═</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>╔</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>╗</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>╚</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>╝</bottomRightBorderSymbol>
+	</rectangle>
+	<rectangle name="constructionInfoScreenConstructionIcon">
+		<heightAdd>3</heightAdd>
+		<widthAdd>3</widthAdd>
+		<borderForegroundColor>yellow</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>black</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>§</verticalBorderSymbol>
+		<horizontalBorderSymbol>§</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>§</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>§</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>§</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>§</bottomRightBorderSymbol>
+	</rectangle>
+	<rectangle name="infoPanelMessagesScreen">
+		<heightAdd>-1</heightAdd>
+		<widthAdd>-1</widthAdd>
+		<borderForegroundColor>black</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>green</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol> </verticalBorderSymbol>
+		<horizontalBorderSymbol> </horizontalBorderSymbol>
+		<upperLeftBorderSymbol> </upperLeftBorderSymbol>
+		<upperRightBorderSymbol> </upperRightBorderSymbol>
+		<bottomLeftBorderSymbol> </bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol> </bottomRightBorderSymbol>
+	</rectangle>
+	<rectangle name="startScreen">
+		<heightAdd>-1</heightAdd>
+		<widthAdd>-1</widthAdd>
+		<borderForegroundColor>blue</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>blue</letterColor>
 		<shadingColor>black</shadingColor>
 		<verticalBorderSymbol>║</verticalBorderSymbol>
 		<horizontalBorderSymbol>═</horizontalBorderSymbol>
@@ -146,11 +258,25 @@ List of text versions of color to convert to color type:
 		<bottomLeftBorderSymbol>*</bottomLeftBorderSymbol>
 		<bottomRightBorderSymbol>*</bottomRightBorderSymbol>
 	</rectangle>
+	<rectangle name="mainMenuScreen">
+		<heightAdd>-1</heightAdd>
+		<widthAdd>-1</widthAdd>
+		<borderForegroundColor>blue</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>green</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>║</verticalBorderSymbol>
+		<horizontalBorderSymbol>═</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>╔</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>╗</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>╚</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>╝</bottomRightBorderSymbol>
+	</rectangle>
 	<rectangle name="newGameButton">
 		<heightAdd>4</heightAdd>
 		<widthAdd>20</widthAdd>
-		<borderForegroundColor>white</borderForegroundColor>
-		<borderBackgroundColor>brown</borderBackgroundColor>
+		<borderForegroundColor>blue</borderForegroundColor>
+		<borderBackgroundColor>yellow</borderBackgroundColor>
 		<letterColor>white</letterColor>
 		<shadingColor>black</shadingColor>
 		<verticalBorderSymbol>#</verticalBorderSymbol>
@@ -163,8 +289,8 @@ List of text versions of color to convert to color type:
 	<rectangle name="continueButton">
 		<heightAdd>4</heightAdd>
 		<widthAdd>20</widthAdd>
-		<borderForegroundColor>white</borderForegroundColor>
-		<borderBackgroundColor>brown</borderBackgroundColor>
+		<borderForegroundColor>blue</borderForegroundColor>
+		<borderBackgroundColor>yellow</borderBackgroundColor>
 		<letterColor>white</letterColor>
 		<shadingColor>black</shadingColor>
 		<verticalBorderSymbol>#</verticalBorderSymbol>
@@ -177,24 +303,10 @@ List of text versions of color to convert to color type:
 	<rectangle name="exitButton">
 		<heightAdd>4</heightAdd>
 		<widthAdd>20</widthAdd>
-		<borderForegroundColor>white</borderForegroundColor>
-		<borderBackgroundColor>brown</borderBackgroundColor>
+		<borderForegroundColor>blue</borderForegroundColor>
+		<borderBackgroundColor>yellow</borderBackgroundColor>
 		<letterColor>white</letterColor>
 		<shadingColor>black</shadingColor>
-		<verticalBorderSymbol>#</verticalBorderSymbol>
-		<horizontalBorderSymbol>#</horizontalBorderSymbol>
-		<upperLeftBorderSymbol>#</upperLeftBorderSymbol>
-		<upperRightBorderSymbol>#</upperRightBorderSymbol>
-		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
-		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
-	</rectangle>
-	<rectangle name="infoPanelButton">
-		<heightAdd>-1</heightAdd>
-		<widthAdd>30</widthAdd>
-		<borderForegroundColor>yellow</borderForegroundColor>
-		<borderBackgroundColor>black</borderBackgroundColor>
-		<letterColor>black</letterColor>
-		<shadingColor>dark cyan</shadingColor>
 		<verticalBorderSymbol>#</verticalBorderSymbol>
 		<horizontalBorderSymbol>#</horizontalBorderSymbol>
 		<upperLeftBorderSymbol>#</upperLeftBorderSymbol>

@@ -1,16 +1,15 @@
 #include "MenuScreen_InfoPanel.h"
+Button* MenuScreen::CreateButton(PointCoord upperLeft, string buttonTitle)
+{
+	MyRectangle* buttonRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(upperLeft,
+		XMLDownloader::GetDownloader()->DownloadRectangleConstants("infoPanelMenuScreenButton"), this->GetDrawPointer(), this->GetCursor());
+	buttonRectangle->SetHeightAddition(this->GetHeightAddition() - 2);
+	Button* created = new Button(buttonRectangle, buttonTitle);
+	delete buttonRectangle;
+	return created;
+}
 void MenuScreen::CreateButtons()
 {
-	RectangleSymbols* infoScreenButtonBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetMenuScreenButtonVerticalSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMenuScreenButtonHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetMenuScreenButtonUpperLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMenuScreenButtonUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetMenuScreenButtonBottomLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetMenuScreenButtonBottomRightSymbol());
-	color borderForegroundColor = ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor();
-	color borderBackgroundColor = ConstructionOptions::GetAllOptions()->GetButtonBorderBackgroundColor();
-	BorderAppearance* borderVisual_ptr = new BorderAppearance(infoScreenButtonBorderSymbols_ptr, borderForegroundColor, borderBackgroundColor);
-	BorderAppearance* controlsButtonBorderVisual_ptr = new BorderAppearance(*borderVisual_ptr);
-	color buttonLetterColor = ConstructionOptions::GetAllOptions()->GetButtonContentForegroundColor();
-	color buttonShadingColor = ConstructionOptions::GetAllOptions()->GetButtonContentBackgroundColor();
 	int buttonWidthAdd = ConstructionOptions::GetAllOptions()->GetInfoPanelButtonWidthAdd();
 	int buttonHeightAdd = GetHeightAddition() - 2;
 	int leftXMenuScreen = GetUpperLeft().Get_x();
@@ -20,10 +19,8 @@ void MenuScreen::CreateButtons()
 	int leftXControlsButton = rightXMenuScreen / 2 + rightXMenuScreen / 10;
 	PointCoord leftButtonUpperLeft = PointCoord(leftXInfoScreenButton, topYButtons);
 	PointCoord rightButtonUpperLeft = PointCoord(leftXControlsButton, topYButtons);
-	messagesAndInfoButton_ptr = new Button(leftButtonUpperLeft, buttonHeightAdd, buttonWidthAdd, borderVisual_ptr, buttonLetterColor, buttonShadingColor,
-		ConstructionOptions::GetAllOptions()->GetInfoScreenButtonTitle(), GetDrawPointer(), GetCursor());
-	controlsButton_ptr = new Button(rightButtonUpperLeft, buttonHeightAdd, buttonWidthAdd, controlsButtonBorderVisual_ptr, buttonLetterColor, buttonShadingColor,
-		ConstructionOptions::GetAllOptions()->GetControlsButtonTitle(), GetDrawPointer(), GetCursor());
+	messagesAndInfoButton_ptr = this->CreateButton(leftButtonUpperLeft, ConstructionOptions::GetAllOptions()->GetInfoScreenButtonTitle());
+	controlsButton_ptr = this->CreateButton(rightButtonUpperLeft, ConstructionOptions::GetAllOptions()->GetControlsButtonTitle());
 }
 Button* MenuScreen::GetMessagesButton() const
 {

@@ -1,39 +1,22 @@
 #include "ConstructionInfoScreen.h"
 void ConstructionInfoScreen::CreateDeconstructButton()
 {
-	RectangleSymbols* constrictionInfoButtonBorderSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetConstructionInfoButtonVerticalSymbol(),
-		ConstructionOptions::GetAllOptions()->GetConstructionInfoButtonHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetConstructionInfoButtonUpperLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetConstructionInfoButtonUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetConstructionInfoButtonBottomLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetConstructionInfoButtonBottomRightSymbol());
-	color borderForegroundColor = ConstructionOptions::GetAllOptions()->GetConstructionInfoButtonBorderForegroundColor();
-	color borderBackgroundColor = ConstructionOptions::GetAllOptions()->GetConstructionInfoButtonBorderBackgroundColor();
-	BorderAppearance* constructionInfoButtonBorder_ptr = new BorderAppearance(constrictionInfoButtonBorderSymbols_ptr, borderForegroundColor, borderBackgroundColor);
-	color buttonLetterColor = ConstructionOptions::GetAllOptions()->GetConstructionInfoButtonLetterColor();
-	color buttonShadingColor = ConstructionOptions::GetAllOptions()->GetConstructionInfoButtonShadingColor();
-	int buttonWidthAdd = ConstructionOptions::GetAllOptions()->GetConstructionInfoButtonWidthAdd();
-	int buttonHeightAdd = ConstructionOptions::GetAllOptions()->GetConstructionInfoButtonHeightAdd();
-	int rightXScreen = GetUpperLeft().Get_x() + GetWidthAddition();
-	int topYButton = GetUpperLeft().Get_y() + 2;
-	int leftXButton = rightXScreen - buttonWidthAdd - 1;
-	deconstruct_ptr = new Button(PointCoord(leftXButton, topYButton), buttonHeightAdd, buttonWidthAdd, constructionInfoButtonBorder_ptr, buttonLetterColor, buttonShadingColor,
-		ConstructionOptions::GetAllOptions()->GetDeconstructButtonTitle(), GetDrawPointer(), GetCursor());
+	RectangleConstantsXML deconstructButtonConstants = XMLDownloader::GetDownloader()->DownloadRectangleConstants("constructionInfoScreenDeconstructButton");
+	int rightXScreen = this->GetUpperLeft().Get_x() + this->GetWidthAddition();
+	int topYButton = this->GetUpperLeft().Get_y() + 2;
+	int leftXButton = rightXScreen - deconstructButtonConstants.widthAddition - 1;
+	MyRectangle* deconstructButtonRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(PointCoord(leftXButton, topYButton),
+		deconstructButtonConstants, this->GetDrawPointer(), this->GetCursor());
+	deconstruct_ptr = new Button(deconstructButtonRectangle, ConstructionOptions::GetAllOptions()->GetDeconstructButtonTitle());
+	delete deconstructButtonRectangle;
 }
 void ConstructionInfoScreen::CreateConstructionIcon()
 {
-	RectangleSymbols* iconSymbols_ptr = new RectangleSymbols(ConstructionOptions::GetAllOptions()->GetConstructionInfoScreenIconVerticalSymbol(),
-		ConstructionOptions::GetAllOptions()->GetConstructionInfoScreenIconHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetConstructionInfoScreenIconUpperLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetConstructionInfoScreenIconUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetConstructionInfoScreenIconBottomLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetConstructionInfoScreenIconBottomRightSymbol());
-	color iconBorderForegroundColor = ConstructionOptions::GetAllOptions()->GetConstructionInfoScreenIconBorderForegroundColor();
-	color iconBorderBackgroundColor = ConstructionOptions::GetAllOptions()->GetConstructionInfoScreenIconBorderBackgroundColor();
-	BorderAppearance* iconBorder = new BorderAppearance(iconSymbols_ptr, iconBorderForegroundColor, iconBorderBackgroundColor);
-	color iconLetterColor = ConstructionOptions::GetAllOptions()->GetConstructionInfoScreenIconLetterColor();
-	color iconShadingColor = ConstructionOptions::GetAllOptions()->GetConstructionInfoScreenIconShadingColor();
-	//
 	PointCoord iconLocation = PointCoord(GetUpperLeft().Get_x() + 2, GetUpperLeft().Get_y() + 1);
-	int iconHeightAdd = ConstructionOptions::GetAllOptions()->GetMenuIconHeightAdd();	//always equal to menu icon
-	int iconWidthAdd = ConstructionOptions::GetAllOptions()->GetMenuIconWidthAdd();	//always equal to menu icon
-	constructionIcon_ptr = new MyRectangle(iconLocation, iconHeightAdd, iconWidthAdd, iconBorder, iconLetterColor, iconShadingColor, GetDrawPointer(), GetCursor());
+	MyRectangle* constructionIconRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(iconLocation,
+		XMLDownloader::GetDownloader()->DownloadRectangleConstants("constructionInfoScreenConstructionIcon"), this->GetDrawPointer(), this->GetCursor());
+	constructionIcon_ptr = new MyRectangle(constructionIconRectangle);
+	delete constructionIconRectangle;
 }
 //
 Button* ConstructionInfoScreen::GetDeconstructButton()

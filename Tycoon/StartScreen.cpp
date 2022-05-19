@@ -1,15 +1,12 @@
 #include "StartScreen.h"
 void InitialScreen::CreatePressAnyKey()
 {
-	PointCoord pressAnyKeyUpperLeft = PointCoord(GetHalfXAxis() - (ConstructionOptions::GetAllOptions()->GetPressAnyKeyWidthAdd() + 1) / 2,
-		GetUpperLeft().Get_y() + 20);
-	pressAnyKey = RectangleCreator::GetRectangleFactory()->CreateRectangle(pressAnyKeyUpperLeft, ConstructionOptions::GetAllOptions()->GetPressAnyKeyHeightAdd(),
-		ConstructionOptions::GetAllOptions()->GetPressAnyKeyWidthAdd(), ConstructionOptions::GetAllOptions()->GetPressAnyKeyVerticalSymbol(),
-		ConstructionOptions::GetAllOptions()->GetPressAnyKeyHorizontalSymbol(), ConstructionOptions::GetAllOptions()->GetPressAnyKeyUpperLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetPressAnyKeyUpperRightSymbol(), ConstructionOptions::GetAllOptions()->GetPressAnyKeyBottomLeftSymbol(),
-		ConstructionOptions::GetAllOptions()->GetPressAnyKeyBottomRightSymbol(), ConstructionOptions::GetAllOptions()->GetPressAnyKeyBorderForegroundColor(),
-		ConstructionOptions::GetAllOptions()->GetPressAnyKeyBorderBackgroundColor(), ConstructionOptions::GetAllOptions()->GetPressAnyKeyLetterColor(),
-		ConstructionOptions::GetAllOptions()->GetPressAnyKeyShadingColor(), GetDrawPointer(), GetCursor());
+	RectangleConstantsXML pressAnyKeyConstants = XMLDownloader::GetDownloader()->DownloadRectangleConstants("pressAnyKey");
+	PointCoord pressAnyKeyUpperLeft = PointCoord(GetHalfXAxis() - (pressAnyKeyConstants.widthAddition + 1) / 2, GetUpperLeft().Get_y() + 20);
+	MyRectangle* pressAnyKeyRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(pressAnyKeyUpperLeft,
+		pressAnyKeyConstants, this->GetDrawPointer(), this->GetCursor());
+	pressAnyKey = new MyRectangle(pressAnyKeyRectangle);
+	delete pressAnyKeyRectangle;
 }
 const MyRectangle* InitialScreen::GetPressAnyKey() const
 {

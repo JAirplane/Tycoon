@@ -14,6 +14,12 @@ public:
 		constructionIcon_ptr = nullptr;
 		chosen_ptr = nullptr;
 	}
+	ConstructionInfoScreen(MyRectangle* someRectangle) : MyRectangle(someRectangle)
+	{
+		deconstruct_ptr = nullptr;
+		constructionIcon_ptr = nullptr;
+		chosen_ptr = nullptr;
+	}
 	virtual ~ConstructionInfoScreen()
 	{
 		delete deconstruct_ptr;

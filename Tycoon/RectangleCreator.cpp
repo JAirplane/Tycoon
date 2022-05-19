@@ -25,13 +25,13 @@ MyRectangle* RectangleCreator::CreateRectangle(PointCoord upperLeft, int heightA
 	BorderAppearance* border = CreateBorderAppearance(borderSymbols, borderForegroundColor, borderBackgroundColor);
 	return new MyRectangle(upperLeft, heightAdd, widthAdd, border, letterColor, shadingColor, draw_ptr, cursor_ptr);
 }
-MyRectangle* RectangleCreator::CreateRectangle(PointCoord upperLeft, RectangleConstantsXML* downloadedConstants, Visualisation* draw_ptr, Cursor* cursor_ptr) const
+MyRectangle* RectangleCreator::CreateRectangle(PointCoord upperLeft, RectangleConstantsXML downloadedConstants, Visualisation* draw_ptr, Cursor* cursor_ptr) const
 {
-	RectangleSymbols* borderSymbols = CreateRectangleSymbols(downloadedConstants->borderSymbolVertical, downloadedConstants->borderSymbolHorizontal,
-		downloadedConstants->borderSymbolUpperLeft, downloadedConstants->borderSymbolUpperRight, downloadedConstants->borderSymbolBottomLeft,
-		downloadedConstants->borderSymbolBottomRight);
-	BorderAppearance* border = CreateBorderAppearance(borderSymbols, downloadedConstants->foregroundBorderColor, downloadedConstants->backgroundBorderColor);
-	return new MyRectangle(upperLeft, downloadedConstants->heightAddition, downloadedConstants->widthAddition, border, downloadedConstants->foregroundContentColor,
-		downloadedConstants->backgroundContentColor, draw_ptr, cursor_ptr);
+	RectangleSymbols* borderSymbols = CreateRectangleSymbols(downloadedConstants.borderSymbolVertical, downloadedConstants.borderSymbolHorizontal,
+		downloadedConstants.borderSymbolUpperLeft, downloadedConstants.borderSymbolUpperRight, downloadedConstants.borderSymbolBottomLeft,
+		downloadedConstants.borderSymbolBottomRight);
+	BorderAppearance* border = CreateBorderAppearance(borderSymbols, downloadedConstants.foregroundBorderColor, downloadedConstants.backgroundBorderColor);
+	return new MyRectangle(upperLeft, downloadedConstants.heightAddition, downloadedConstants.widthAddition, border, downloadedConstants.foregroundContentColor,
+		downloadedConstants.backgroundContentColor, draw_ptr, cursor_ptr);
 }
 RectangleCreator* RectangleCreator::rectangleFactory = RectangleCreator::CreateRectangleFactory();

@@ -24,15 +24,15 @@ public:
 		this->backgroundConnected = backgroundConnected;
 		this->backgroundChosen = backgroundChosen;
 	}
-	ConstructionDescriptor(PointCoord menuElementLocation, ConstructionConstantsXML* setOfConstants) : IngameObjectDescriptor(setOfConstants)
+	ConstructionDescriptor(PointCoord menuElementLocation, ConstructionConstantsXML setOfConstants) : IngameObjectDescriptor(setOfConstants)
 	{
 		this->menuElementLocation = menuElementLocation;
-		this->constructionCost = setOfConstants->cost;
-		this->dailyExpences = setOfConstants->expences;
-		this->description = setOfConstants->textDescription;
-		this->iconSymbol = setOfConstants->constructionIconSymbol;
-		this->backgroundConnected = setOfConstants->constructionBackgroundConnectedColor;
-		this->backgroundChosen = setOfConstants->constructionBackgroundChosenColor;
+		this->constructionCost = setOfConstants.cost;
+		this->dailyExpences = setOfConstants.expences;
+		this->description = setOfConstants.textDescription;
+		this->iconSymbol = setOfConstants.constructionIconSymbol;
+		this->backgroundConnected = setOfConstants.constructionBackgroundConnectedColor;
+		this->backgroundChosen = setOfConstants.constructionBackgroundChosenColor;
 	}
 	virtual ~ConstructionDescriptor() {}
 	int GetConstructionCost() const;
