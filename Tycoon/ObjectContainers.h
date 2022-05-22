@@ -1,6 +1,5 @@
 #pragma once
 #include <typeinfo>
-#include <functional>
 #include "GameStats.h"
 /////////////Containers of All Objects in the Game/////////////
 class AllObjects

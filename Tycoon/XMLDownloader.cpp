@@ -69,4 +69,28 @@ RectangleConstantsXML XMLDownloader::DownloadRectangleConstants(string rectangle
 	}
 	throw MyException("XMLDownloader::DownloadRectangleConstants(string rectangleName) failed to find constants in XML");
 }
+ButtonConstantsXML XMLDownloader::DownloadButtonConstants(string buttonType)
+{
+	pugi::xml_document doc = CreateDocument("RectangleConstants.xml");
+	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
+	pugi::xml_node buttonConstants = doc.child("buttonConstants");
+	for (pugi::xml_node button = buttonConstants.child("button"); button; button = button.next_sibling("button"))
+	{
+		if (button.attribute("name").as_string() == buttonType)
+		{
+			ButtonConstantsXML buttonConstants = ButtonConstantsXML(atoi(button.child_value("heightAdd")), atoi(button.child_value("widthAdd")),
+				StringToColor::GetStringToColorConverter()->Convert(button.child_value("borderForegroundColor")),
+				StringToColor::GetStringToColorConverter()->Convert(button.child_value("borderBackgroundColor")),
+				StringToColor::GetStringToColorConverter()->Convert(button.child_value("letterColor")),
+				StringToColor::GetStringToColorConverter()->Convert(button.child_value("shadingColor")), converter.from_bytes(button.child_value("verticalBorderSymbol")),
+				converter.from_bytes(button.child_value("horizontalBorderSymbol")), converter.from_bytes(button.child_value("upperLeftBorderSymbol")),
+				converter.from_bytes(button.child_value("upperRightBorderSymbol")), converter.from_bytes(button.child_value("bottomLeftBorderSymbol")),
+				converter.from_bytes(button.child_value("bottomRightBorderSymbol")), button.child_value("title"),
+				StringToColor::GetStringToColorConverter()->Convert(button.child_value("activeColor")),
+				StringToColor::GetStringToColorConverter()->Convert(button.child_value("pressedButtonColor")));
+			return buttonConstants;
+		}
+	}
+	throw MyException("XMLDownloader::DownloadButtonConstants(string buttonType) failed to find constants in XML");
+}
 XMLDownloader* XMLDownloader::constructionConstantsDownload = XMLDownloader::CreateConstructionConstantsDownloader();

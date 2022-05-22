@@ -30,7 +30,7 @@ public:
 		visibleOutsideCameraRoadManager = nullptr;
 		unbreakableRoadManager = nullptr;
 	}
-	Menu(MyRectangle* someRectangle) : MyRectangle(someRectangle)
+	Menu(MyRectangle& someRectangle) : MyRectangle(someRectangle)
 	{
 		gameStats_ptr = nullptr;
 		visitorsCreator_ptr = nullptr;

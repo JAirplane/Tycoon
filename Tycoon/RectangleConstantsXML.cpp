@@ -47,3 +47,16 @@ wstring RectangleConstantsXML::GetBottomRightBorderSymbol() const
 {
 	return bottomRightBorderSymbol;
 }
+//ButtonConstantsXML//
+string ButtonConstantsXML::GetTitle() const
+{
+	return title;
+}
+color ButtonConstantsXML::GetActiveButtonColor() const
+{
+	return active;
+}
+color ButtonConstantsXML::GetPressedButtonColor() const
+{
+	return pressed;
+}

@@ -45,6 +45,9 @@ public:
 	//
 	virtual color GetVisitorForegroundColor() const;
 	virtual color GetVisitorBackgroundColor() const;
+	//
+	virtual color GetSplashScreenForegroundColor() const;
+	virtual color GetSplashScreenBackgroundColor() const;
 	//Empty Border Rectangle Symbol
 	virtual const wstring GetEmptyRectangleBorderSymbol() const;
 	//

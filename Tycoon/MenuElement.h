@@ -18,7 +18,7 @@ public:
 		icon_ptr = nullptr;
 		manager_ptr = nullptr;
 	}
-	MenuElement(MyRectangle* menuElementRectangle, MyRectangle* icn_ptr, ConstructionManager* manage_ptr) :
+	MenuElement(MyRectangle& menuElementRectangle, MyRectangle* icn_ptr, ConstructionManager* manage_ptr) :
 		MyRectangle(menuElementRectangle)
 	{
 		icon_ptr = icn_ptr;

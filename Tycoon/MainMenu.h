@@ -3,7 +3,7 @@
 class MainMenu : public MyRectangle
 {
 public:
-	MainMenu(MyRectangle* anotherRectangle) : MyRectangle(anotherRectangle)
+	MainMenu(MyRectangle& anotherRectangle) : MyRectangle(anotherRectangle)
 	{
 		continueGame = nullptr;
 		newGame = nullptr;
@@ -17,7 +17,7 @@ public:
 	}
 	Button* CreateButton(PointCoord upperLeft, int heightAdd, int widthAdd, wstring verticalSymbol, wstring horizontalSymbol,
 		wstring upperLeftSymbol, wstring upperRightSymbol, wstring bottomLeftSymbol, wstring bottomRightSymbol, color borderForegroundColor,
-		color borderBackgroundColor, color letterColor, color shadingColor, string buttonTitle, bool createActivated) const;
+		color borderBackgroundColor, color letterColor, color shadingColor, string buttonTitle, color activeColor, color pressedButtonColor, bool createActivated) const;
 	Button* CreateButton(PointCoord upperLeft, string buttonTitleXML, string buttonTitle, bool createActivated) const;
 	void CreateButtons();
 	void DrawTitle(color titleColor) const;

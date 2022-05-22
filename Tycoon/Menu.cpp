@@ -50,16 +50,15 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 	{
 		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, menuItems.back()->GetUpperLeft().Get_y() + menuItems.back()->GetHeightAddition() + 1);
 	}
-	MyRectangle* menuElementRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(elementLocation,
+	MyRectangle menuElementRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(elementLocation,
 		XMLDownloader::GetDownloader()->DownloadRectangleConstants("sideMenuElement"), GetDrawPointer(), GetCursor());
-	menuElementRectangle->SetWidthAddition(this->GetWidthAddition() - 4);
+	menuElementRectangle.SetWidthAddition(this->GetWidthAddition() - 4);
 	MyRectangle* menuIcon_ptr = CreateIcon(elementLocation);
 	ConstructionManager* manager_ptr = CreateManager(elementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected, backgroundNotConnected,
 		backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, entertainmentValue, isExit, maxVisitors, visitTime,
 		dailyExpences, constructionHeightAdd, constructionWidthAdd);
 	MenuElement* element_ptr = new MenuElement(menuElementRectangle, menuIcon_ptr, manager_ptr);
 	menuItems.push_back(element_ptr);
-	delete menuElementRectangle;
 }
 void Menu::CreateMenuElement(string constructionType)
 {
@@ -76,20 +75,20 @@ void Menu::CreateMenuElement(string constructionType)
 	{
 		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, menuItems.back()->GetUpperLeft().Get_y() + menuItems.back()->GetHeightAddition() + 1);
 	}
-	MyRectangle* menuElementRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(elementLocation,
+	MyRectangle menuElementRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(elementLocation,
 		XMLDownloader::GetDownloader()->DownloadRectangleConstants("sideMenuElement"), GetDrawPointer(), GetCursor());
-	menuElementRectangle->SetWidthAddition(this->GetWidthAddition() - 4);
+	menuElementRectangle.SetWidthAddition(this->GetWidthAddition() - 4);
 	MyRectangle* menuIcon_ptr = CreateIcon(elementLocation);
 	ConstructionManager* manager_ptr = CreateManager(elementLocation, XMLDownloader::GetDownloader()->DownloadConstructionConstants(constructionType));
 	MenuElement* element_ptr = new MenuElement(menuElementRectangle, menuIcon_ptr, manager_ptr);
 	menuItems.push_back(element_ptr);
-	delete menuElementRectangle;
 }
 MyRectangle* Menu::CreateIcon(PointCoord elementLocation)
 {
 	PointCoord iconLocation = PointCoord(elementLocation.Get_x() + 1, elementLocation.Get_y() + 1);
-	return RectangleCreator::GetRectangleFactory()->CreateRectangle(iconLocation, XMLDownloader::GetDownloader()->DownloadRectangleConstants("menuElementIcon"),
-		this->GetDrawPointer(), this->GetCursor());
+	MyRectangle* newIcon = new MyRectangle(RectangleCreator::GetRectangleFactory()->CreateRectangle(iconLocation,
+		XMLDownloader::GetDownloader()->DownloadRectangleConstants("menuElementIcon"), this->GetDrawPointer(), this->GetCursor()));
+	return newIcon;
 }
 //
 void Menu::CreateExit(const PlayingField* playingField_ptr, const Visualisation* draw_ptr, AllObjects* container)
@@ -164,11 +163,10 @@ void Menu::CreateParkEntrance(const PlayingField* playingField_ptr, const Visual
 void Menu::CreateGameStats()
 {
 	PointCoord gameStatsLocation = PointCoord(this->GetUpperLeft().Get_x() + 1, this->GetUpperLeft().Get_y() + 1);
-	MyRectangle* gameStatsRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(gameStatsLocation,
+	MyRectangle gameStatsRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(gameStatsLocation,
 		XMLDownloader::GetDownloader()->DownloadRectangleConstants("sideMenuGameStats"), this->GetDrawPointer(), this->GetCursor());
-	gameStatsRectangle->SetWidthAddition(this->GetWidthAddition() - 2);
+	gameStatsRectangle.SetWidthAddition(this->GetWidthAddition() - 2);
 	gameStats_ptr = new GameStats(gameStatsRectangle);
-	delete gameStatsRectangle;
 }
 void Menu::CreateVisitorManager()
 {
@@ -249,7 +247,7 @@ Direction Menu::ChangeMenuSide(Camera* camera_ptr)
 		(*menuElementIter)->SetUpperLeft(PointCoord(_x, _y));
 		(*menuElementIter)->GetIcon()->SetUpperLeft(PointCoord(_x + 1, _y + 1));
 		(*menuElementIter)->GetManager()->GetDescriptor()->SetMenuElementLocation(PointCoord(_x, _y));
-		_y += ConstructionOptions::GetAllOptions()->GetMenuElementHeightAdd() + 1;
+		_y += (*menuElementIter)->GetHeightAddition() + 1;
 	}
 	return shiftDirection;
 }

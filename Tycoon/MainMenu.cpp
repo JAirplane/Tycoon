@@ -1,36 +1,34 @@
 #include "MainMenu.h"
 Button* MainMenu::CreateButton(PointCoord upperLeft, int heightAdd, int widthAdd, wstring verticalSymbol, wstring horizontalSymbol,
 	wstring upperLeftSymbol, wstring upperRightSymbol, wstring bottomLeftSymbol, wstring bottomRightSymbol, color borderForegroundColor,
-	color borderBackgroundColor, color letterColor, color shadingColor, string buttonTitle, bool createActivated) const
+	color borderBackgroundColor, color letterColor, color shadingColor, string buttonTitle, color activeColor, color pressedButtonColor, bool createActivated) const
 {
 	Button* newButton = nullptr;
-	MyRectangle* newButtonRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(upperLeft, heightAdd, widthAdd, verticalSymbol, horizontalSymbol, upperLeftSymbol,
+	MyRectangle newButtonRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(upperLeft, heightAdd, widthAdd, verticalSymbol, horizontalSymbol, upperLeftSymbol,
 		upperRightSymbol, bottomLeftSymbol, bottomRightSymbol, borderForegroundColor, borderBackgroundColor, letterColor, shadingColor, GetDrawPointer(), GetCursor());
 	if (createActivated)
 	{
-		newButton = new ActivatedByConditionButton(newButtonRectangle, buttonTitle);
+		newButton = new ActivatedByConditionButton(newButtonRectangle, buttonTitle, activeColor, pressedButtonColor);
 	}
 	else
 	{
-		newButton = new Button(newButtonRectangle, buttonTitle);
+		newButton = new Button(newButtonRectangle, buttonTitle, activeColor, pressedButtonColor);
 	}
-	delete newButtonRectangle;
 	return newButton;
 }
 Button* MainMenu::CreateButton(PointCoord upperLeft, string buttonTitleXML, string buttonTitle, bool createActivated) const
 {
 	Button* newButton = nullptr;
-	MyRectangle* newButtonRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(upperLeft,
-		XMLDownloader::GetDownloader()->DownloadRectangleConstants(buttonTitleXML), this->GetDrawPointer(), this->GetCursor());
+	Button someButton = RectangleCreator::GetRectangleFactory()->CreateButton(upperLeft,
+		XMLDownloader::GetDownloader()->DownloadButtonConstants(buttonTitleXML), this->GetDrawPointer(), this->GetCursor());
 	if (createActivated)
 	{
-		newButton = new ActivatedByConditionButton(newButtonRectangle, buttonTitle);
+		newButton = new ActivatedByConditionButton(someButton);
 	}
 	else
 	{
-		newButton = new Button(newButtonRectangle, buttonTitle);
+		newButton = new Button(someButton);
 	}
-	delete newButtonRectangle;
 	return newButton;
 }
 void MainMenu::CreateButtons()

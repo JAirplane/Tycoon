@@ -132,20 +132,6 @@ List of text versions of color to convert to color type:
 		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
 		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
 	</rectangle>
-	<rectangle name="infoPanelMenuScreenButton">
-		<heightAdd>-1</heightAdd>
-		<widthAdd>30</widthAdd>
-		<borderForegroundColor>yellow</borderForegroundColor>
-		<borderBackgroundColor>black</borderBackgroundColor>
-		<letterColor>black</letterColor>
-		<shadingColor>dark cyan</shadingColor>
-		<verticalBorderSymbol>#</verticalBorderSymbol>
-		<horizontalBorderSymbol>#</horizontalBorderSymbol>
-		<upperLeftBorderSymbol>#</upperLeftBorderSymbol>
-		<upperRightBorderSymbol>#</upperRightBorderSymbol>
-		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
-		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
-	</rectangle>
 	<rectangle name="infoPanelControlsScreen">
 		<heightAdd>-1</heightAdd>
 		<widthAdd>-1</widthAdd>
@@ -187,20 +173,6 @@ List of text versions of color to convert to color type:
 		<upperRightBorderSymbol> </upperRightBorderSymbol>
 		<bottomLeftBorderSymbol> </bottomLeftBorderSymbol>
 		<bottomRightBorderSymbol> </bottomRightBorderSymbol>
-	</rectangle>
-	<rectangle name="constructionInfoScreenDeconstructButton">
-		<heightAdd>2</heightAdd>
-		<widthAdd>12</widthAdd>
-		<borderForegroundColor>yellow</borderForegroundColor>
-		<borderBackgroundColor>black</borderBackgroundColor>
-		<letterColor>red</letterColor>
-		<shadingColor>black</shadingColor>
-		<verticalBorderSymbol>║</verticalBorderSymbol>
-		<horizontalBorderSymbol>═</horizontalBorderSymbol>
-		<upperLeftBorderSymbol>╔</upperLeftBorderSymbol>
-		<upperRightBorderSymbol>╗</upperRightBorderSymbol>
-		<bottomLeftBorderSymbol>╚</bottomLeftBorderSymbol>
-		<bottomRightBorderSymbol>╝</bottomRightBorderSymbol>
 	</rectangle>
 	<rectangle name="constructionInfoScreenConstructionIcon">
 		<heightAdd>3</heightAdd>
@@ -244,20 +216,6 @@ List of text versions of color to convert to color type:
 		<bottomLeftBorderSymbol>╚</bottomLeftBorderSymbol>
 		<bottomRightBorderSymbol>╝</bottomRightBorderSymbol>
 	</rectangle>
-	<rectangle name="pressAnyKey">
-		<heightAdd>2</heightAdd>
-		<widthAdd>14</widthAdd>
-		<borderForegroundColor>white</borderForegroundColor>
-		<borderBackgroundColor>red</borderBackgroundColor>
-		<letterColor>blue</letterColor>
-		<shadingColor>black</shadingColor>
-		<verticalBorderSymbol>*</verticalBorderSymbol>
-		<horizontalBorderSymbol>*</horizontalBorderSymbol>
-		<upperLeftBorderSymbol>*</upperLeftBorderSymbol>
-		<upperRightBorderSymbol>*</upperRightBorderSymbol>
-		<bottomLeftBorderSymbol>*</bottomLeftBorderSymbol>
-		<bottomRightBorderSymbol>*</bottomRightBorderSymbol>
-	</rectangle>
 	<rectangle name="mainMenuScreen">
 		<heightAdd>-1</heightAdd>
 		<widthAdd>-1</widthAdd>
@@ -272,46 +230,118 @@ List of text versions of color to convert to color type:
 		<bottomLeftBorderSymbol>╚</bottomLeftBorderSymbol>
 		<bottomRightBorderSymbol>╝</bottomRightBorderSymbol>
 	</rectangle>
-	<rectangle name="newGameButton">
-		<heightAdd>4</heightAdd>
-		<widthAdd>20</widthAdd>
-		<borderForegroundColor>yellow</borderForegroundColor>
-		<borderBackgroundColor>white</borderBackgroundColor>
-		<letterColor>white</letterColor>
-		<shadingColor>black</shadingColor>
-		<verticalBorderSymbol>#</verticalBorderSymbol>
-		<horizontalBorderSymbol>#</horizontalBorderSymbol>
-		<upperLeftBorderSymbol>#</upperLeftBorderSymbol>
-		<upperRightBorderSymbol>#</upperRightBorderSymbol>
-		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
-		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
-	</rectangle>
-	<rectangle name="continueButton">
-		<heightAdd>4</heightAdd>
-		<widthAdd>20</widthAdd>
-		<borderForegroundColor>yellow</borderForegroundColor>
-		<borderBackgroundColor>white</borderBackgroundColor>
-		<letterColor>white</letterColor>
-		<shadingColor>black</shadingColor>
-		<verticalBorderSymbol>#</verticalBorderSymbol>
-		<horizontalBorderSymbol>#</horizontalBorderSymbol>
-		<upperLeftBorderSymbol>#</upperLeftBorderSymbol>
-		<upperRightBorderSymbol>#</upperRightBorderSymbol>
-		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
-		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
-	</rectangle>
-	<rectangle name="exitButton">
-		<heightAdd>4</heightAdd>
-		<widthAdd>20</widthAdd>
-		<borderForegroundColor>yellow</borderForegroundColor>
-		<borderBackgroundColor>white</borderBackgroundColor>
-		<letterColor>white</letterColor>
-		<shadingColor>black</shadingColor>
-		<verticalBorderSymbol>#</verticalBorderSymbol>
-		<horizontalBorderSymbol>#</horizontalBorderSymbol>
-		<upperLeftBorderSymbol>#</upperLeftBorderSymbol>
-		<upperRightBorderSymbol>#</upperRightBorderSymbol>
-		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
-		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
-	</rectangle>
 </rectangleConstants>
+<buttonConstants>
+	<button name="infoPanelMenuScreenControlsButton">
+		<heightAdd>-1</heightAdd>
+		<widthAdd>30</widthAdd>
+		<borderForegroundColor>yellow</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>black</letterColor>
+		<shadingColor>dark cyan</shadingColor>
+		<verticalBorderSymbol>#</verticalBorderSymbol>
+		<horizontalBorderSymbol>#</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>#</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>#</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
+		<title>CONTROLS</title>
+		<activeColor>green</activeColor>
+	</button>
+	<button name="infoPanelMenuScreenMessagesAndInfoButton">
+		<heightAdd>-1</heightAdd>
+		<widthAdd>30</widthAdd>
+		<borderForegroundColor>yellow</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>black</letterColor>
+		<shadingColor>dark cyan</shadingColor>
+		<verticalBorderSymbol>#</verticalBorderSymbol>
+		<horizontalBorderSymbol>#</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>#</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>#</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
+		<title>MESSAGES AND INFO</title>
+		<activeColor>green</activeColor>
+	</button>
+	<button name="constructionInfoScreenDeconstructButton">
+		<heightAdd>2</heightAdd>
+		<widthAdd>12</widthAdd>
+		<borderForegroundColor>yellow</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>red</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>║</verticalBorderSymbol>
+		<horizontalBorderSymbol>═</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>╔</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>╗</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>╚</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>╝</bottomRightBorderSymbol>
+		<title>Deconstruct</title>
+		<activeColor>red</activeColor>
+	</button>
+	<button name="pressAnyKeyButton">
+		<heightAdd>2</heightAdd>
+		<widthAdd>14</widthAdd>
+		<borderForegroundColor>white</borderForegroundColor>
+		<borderBackgroundColor>red</borderBackgroundColor>
+		<letterColor>blue</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>*</verticalBorderSymbol>
+		<horizontalBorderSymbol>*</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>*</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>*</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>*</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>*</bottomRightBorderSymbol>
+		<title>Press Any Key</title>
+		<activeColor>green</activeColor>
+	</button>
+	<button name="newGameButton">
+		<heightAdd>4</heightAdd>
+		<widthAdd>20</widthAdd>
+		<borderForegroundColor>blue</borderForegroundColor>
+		<borderBackgroundColor>yellow</borderBackgroundColor>
+		<letterColor>white</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>#</verticalBorderSymbol>
+		<horizontalBorderSymbol>#</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>#</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>#</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
+		<title>New Game</title>
+		<activeColor>green</activeColor>
+	</button>
+	<button name="continueButton">
+		<heightAdd>4</heightAdd>
+		<widthAdd>20</widthAdd>
+		<borderForegroundColor>blue</borderForegroundColor>
+		<borderBackgroundColor>yellow</borderBackgroundColor>
+		<letterColor>white</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>#</verticalBorderSymbol>
+		<horizontalBorderSymbol>#</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>#</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>#</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
+		<title>Continue</title>
+		<activeColor>green</activeColor>
+	</button>
+	<button name="exitButton">
+		<heightAdd>4</heightAdd>
+		<widthAdd>20</widthAdd>
+		<borderForegroundColor>blue</borderForegroundColor>
+		<borderBackgroundColor>yellow</borderBackgroundColor>
+		<letterColor>white</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>#</verticalBorderSymbol>
+		<horizontalBorderSymbol>#</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>#</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>#</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
+		<title>Exit</title>
+		<activeColor>green</activeColor>
+	</button>
+</buttonConstants>

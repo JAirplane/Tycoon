@@ -8,9 +8,8 @@ private:
 	string author;
 	string pressAnyKeyInscrition;
 public:
-	InitialScreen(MyRectangle* anotherRectangle) : MyRectangle(anotherRectangle)
+	InitialScreen(MyRectangle& anotherRectangle) : MyRectangle(anotherRectangle)
 	{
-		pressAnyKey = nullptr;
 		author = "By Eugene Shevchenko";
 		pressAnyKeyInscrition = "Press Any Key";
 	}

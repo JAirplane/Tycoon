@@ -1,5 +1,5 @@
 #pragma once
-#include "Button.h"
+#include "Menu.h"
 class MenuScreen : public MyRectangle
 {
 private:
@@ -12,7 +12,7 @@ public:
 		messagesAndInfoButton_ptr = nullptr;
 		controlsButton_ptr = nullptr;
 	}
-	MenuScreen(MyRectangle* someRectange) : MyRectangle(someRectange)
+	MenuScreen(MyRectangle& someRectange) : MyRectangle(someRectange)
 	{
 		messagesAndInfoButton_ptr = nullptr;
 		controlsButton_ptr = nullptr;

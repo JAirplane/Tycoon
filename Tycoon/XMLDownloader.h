@@ -32,23 +32,27 @@ public:
 	virtual RectangleConstantsXML DownloadRectangleConstants(string constructionType);
 	/*	suitable rectangle names:
 			camera
-			playingField
-			sideMenu
-			sideMenuGameStats
 			sideMenuElement
 			menuElementIcon
+			sideMenuGameStats
+			sideMenu
+			playingField
 			infoPanel
 			infoPanelMenuScreen
-			infoPanelMenuScreenButton
 			infoPanelControlsScreen
 			infoPanelMessagesAndInfoScreen
 			infoPanelConstructionInfoScreen
-			constructionInfoScreenDeconstructButton
 			constructionInfoScreenConstructionIcon
 			infoPanelMessagesScreen
 			startScreen
-			pressAnyKey
 			mainMenuScreen
+	*/
+	virtual ButtonConstantsXML DownloadButtonConstants(string buttonType);
+	/*	suitable button names:
+			infoPanelMenuScreenControlsButton
+			infoPanelMenuScreenMessagesAndInfoButton
+			constructionInfoScreenDeconstructButton
+			pressAnyKeyButton
 			newGameButton
 			continueButton
 			exitButton

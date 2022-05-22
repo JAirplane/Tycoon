@@ -1,5 +1,4 @@
 #pragma once
-#include <functional>
 #include "IngameObject.h"
 /////////////Parent Class of Every Construction Type/////////////
 class Visitor;

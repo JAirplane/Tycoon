@@ -1,22 +1,20 @@
 #include "ConstructionInfoScreen.h"
 void ConstructionInfoScreen::CreateDeconstructButton()
 {
-	RectangleConstantsXML deconstructButtonConstants = XMLDownloader::GetDownloader()->DownloadRectangleConstants("constructionInfoScreenDeconstructButton");
+	ButtonConstantsXML deconstructButtonConstants = XMLDownloader::GetDownloader()->DownloadButtonConstants("constructionInfoScreenDeconstructButton");
 	int rightXScreen = this->GetUpperLeft().Get_x() + this->GetWidthAddition();
 	int topYButton = this->GetUpperLeft().Get_y() + 2;
 	int leftXButton = rightXScreen - deconstructButtonConstants.widthAddition - 1;
-	MyRectangle* deconstructButtonRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(PointCoord(leftXButton, topYButton),
+	Button deconstructButton = RectangleCreator::GetRectangleFactory()->CreateButton(PointCoord(leftXButton, topYButton),
 		deconstructButtonConstants, this->GetDrawPointer(), this->GetCursor());
-	deconstruct_ptr = new Button(deconstructButtonRectangle, ConstructionOptions::GetAllOptions()->GetDeconstructButtonTitle());
-	delete deconstructButtonRectangle;
+	deconstruct_ptr = new Button(deconstructButton);
 }
 void ConstructionInfoScreen::CreateConstructionIcon()
 {
 	PointCoord iconLocation = PointCoord(GetUpperLeft().Get_x() + 2, GetUpperLeft().Get_y() + 1);
-	MyRectangle* constructionIconRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(iconLocation,
+	MyRectangle constructionIconRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(iconLocation,
 		XMLDownloader::GetDownloader()->DownloadRectangleConstants("constructionInfoScreenConstructionIcon"), this->GetDrawPointer(), this->GetCursor());
 	constructionIcon_ptr = new MyRectangle(constructionIconRectangle);
-	delete constructionIconRectangle;
 }
 //
 Button* ConstructionInfoScreen::GetDeconstructButton()

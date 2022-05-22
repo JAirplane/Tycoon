@@ -16,9 +16,9 @@ private:
 	wstring bottomLeftBorderSymbol;
 	wstring bottomRightBorderSymbol;
 public:
-	RectangleConstantsXML(int heightAdd, int widthAdd, color borderForeground, color borderBackground, color contentForeground, color contentBackground, 
-		wstring verticalBorderSymbol, wstring horizontalBorderSymbol, wstring upperLeftBorderSymbol, wstring upperRightBorderSymbol, 
-		wstring bottomLeftBorderSymbol, wstring bottomRightBorderSymbol) 
+	RectangleConstantsXML(int heightAdd, int widthAdd, color borderForeground, color borderBackground, color contentForeground, color contentBackground,
+		wstring verticalBorderSymbol, wstring horizontalBorderSymbol, wstring upperLeftBorderSymbol, wstring upperRightBorderSymbol,
+		wstring bottomLeftBorderSymbol, wstring bottomRightBorderSymbol)
 	{
 		this->heightAdd = heightAdd;
 		this->widthAdd = widthAdd;
@@ -58,4 +58,29 @@ public:
 	__declspec(property(get = GetBottomLeftBorderSymbol)) wstring borderSymbolBottomLeft;
 	wstring GetBottomRightBorderSymbol() const;
 	__declspec(property(get = GetBottomRightBorderSymbol)) wstring borderSymbolBottomRight;
+};
+class ButtonConstantsXML : public RectangleConstantsXML
+{
+private:
+	string title;
+	color active;
+	color pressed;
+public:
+	ButtonConstantsXML(int heightAdd, int widthAdd, color borderForeground, color borderBackground, color contentForeground, color contentBackground,
+		wstring verticalBorderSymbol, wstring horizontalBorderSymbol, wstring upperLeftBorderSymbol, wstring upperRightBorderSymbol,
+		wstring bottomLeftBorderSymbol, wstring bottomRightBorderSymbol, string title, color activeColor, color pressedButtonColor) :
+		RectangleConstantsXML(heightAdd, widthAdd, borderForeground, borderBackground, contentForeground, contentBackground, verticalBorderSymbol,
+			horizontalBorderSymbol, upperLeftBorderSymbol, upperRightBorderSymbol, bottomLeftBorderSymbol, bottomRightBorderSymbol)
+	{
+		this->title = title;
+		active = activeColor;
+		pressed = pressedButtonColor;
+	}
+	virtual ~ButtonConstantsXML() {}
+	string GetTitle() const;
+	__declspec(property(get = GetTitle)) string buttonTitle;
+	color GetActiveButtonColor() const;
+	__declspec(property(get = GetActiveButtonColor)) color activeButtonColor;
+	color GetPressedButtonColor() const;
+	__declspec(property(get = GetPressedButtonColor)) color pressedColor;
 };

@@ -1,21 +1,19 @@
 #include "MessagesAndInfoScreen_InfoPanel.h"
 void MessagesAndInfoScreen::CreateMessagesScreen()
 {
-	MyRectangle* messagesScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(PointCoord(this->GetHalfXAxis() + 1, this->GetUpperLeft().Get_y()),
+	MyRectangle messagesScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(PointCoord(this->GetHalfXAxis() + 1, this->GetUpperLeft().Get_y()),
 		XMLDownloader::GetDownloader()->DownloadRectangleConstants("infoPanelMessagesScreen"), this->GetDrawPointer(), this->GetCursor());
-	messagesScreenRectangle->SetHeightAddition(this->GetHeightAddition());
-	messagesScreenRectangle->SetWidthAddition(this->GetWidthAddition() / 2);
+	messagesScreenRectangle.SetHeightAddition(this->GetHeightAddition());
+	messagesScreenRectangle.SetWidthAddition(this->GetWidthAddition() / 2);
 	messagesScreen_ptr = new MyRectangle(messagesScreenRectangle);
-	delete messagesScreenRectangle;
 }
 void MessagesAndInfoScreen::CreateConstructionInfoScreen()
 {
-	MyRectangle* constructionInfoScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(this->GetUpperLeft(),
+	MyRectangle constructionInfoScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(this->GetUpperLeft(),
 		XMLDownloader::GetDownloader()->DownloadRectangleConstants("infoPanelConstructionInfoScreen"), this->GetDrawPointer(), this->GetCursor());
-	constructionInfoScreenRectangle->SetHeightAddition(this->GetHeightAddition());
-	constructionInfoScreenRectangle->SetWidthAddition(this->GetWidthAddition() / 2 - 1);
+	constructionInfoScreenRectangle.SetHeightAddition(this->GetHeightAddition());
+	constructionInfoScreenRectangle.SetWidthAddition(this->GetWidthAddition() / 2 - 1);
 	constructionInfo_ptr = new ConstructionInfoScreen(constructionInfoScreenRectangle);
-	delete constructionInfoScreenRectangle;
 	constructionInfo_ptr->CreateDeconstructButton();
 	constructionInfo_ptr->CreateConstructionIcon();
 }

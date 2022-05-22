@@ -93,6 +93,15 @@ color ConstructionOptions::GetVisitorBackgroundColor() const
 	return cBLACK;
 }
 //
+color ConstructionOptions::GetSplashScreenForegroundColor() const
+{
+	return cBLACK;
+}
+color ConstructionOptions::GetSplashScreenBackgroundColor() const
+{
+	return cCYAN;
+}
+//
 const string ConstructionOptions::GetControlsButtonTitle() const
 {
 	return "CONTROLS";

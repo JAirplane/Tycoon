@@ -4,10 +4,24 @@ string Button::GetButtonTitle() const
 {
 	return title;
 }
+bool Button::GetEnabled() const
+{
+	return true;
+}
+void Button::SetEnabled(bool newCondition)
+{}
+color Button::GetActiveColor() const
+{
+	return activeColor;
+}
+color Button::GetPressedButtonColor() const
+{
+	return pressedButtonColor;
+}
 void Button::Display(function<bool()> enableButton)
 {
 	DrawBorder();
-	if(title.empty())
+	if (title.empty())
 	{
 		throw MyException("Button::Display() button has an empty title string.");
 	}
@@ -18,13 +32,19 @@ void Button::Display(function<bool()> enableButton)
 	cout << title;
 }
 ///////////////Activated By Condition Button///////////////
+bool ActivatedByConditionButton::GetEnabled() const
+{
+	return enabled;
+}
+void ActivatedByConditionButton::SetEnabled(bool newCondition)
+{
+	enabled = newCondition;
+}
 void ActivatedByConditionButton::Display(function<bool()> enableButton)
 {
-	pugi::xml_document doc;
-	pugi::xml_parse_result result = doc.load_file("SavedTycoon.xml");
 	if (enabled)
 	{
-		if (!result)
+		if (!enableButton)
 		{
 			this->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonDisabledColor());
 			this->GetBorder()->SetBorderBackgroundColor(ConstructionOptions::GetAllOptions()->GetButtonDisabledColor());
@@ -33,10 +53,10 @@ void ActivatedByConditionButton::Display(function<bool()> enableButton)
 	}
 	else
 	{
-		if (result)
+		if (enableButton)
 		{
-			this->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
-			this->GetBorder()->SetBorderBackgroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderBackgroundColor());
+			this->GetBorder()->SetBorderForegroundColor(this->GetBorder()->GetBorderForegroundColor());
+			this->GetBorder()->SetBorderBackgroundColor(this->GetBorder()->GetBorderBackgroundColor());
 			this->SetTextColor(ConstructionOptions::GetAllOptions()->GetButtonContentForegroundColor());
 		}
 	}

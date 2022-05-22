@@ -1,16 +1,16 @@
 #include "MenuScreen_InfoPanel.h"
 Button* MenuScreen::CreateButton(PointCoord upperLeft, string buttonTitle)
 {
-	MyRectangle* buttonRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(upperLeft,
-		XMLDownloader::GetDownloader()->DownloadRectangleConstants("infoPanelMenuScreenButton"), this->GetDrawPointer(), this->GetCursor());
-	buttonRectangle->SetHeightAddition(this->GetHeightAddition() - 2);
-	Button* created = new Button(buttonRectangle, buttonTitle);
-	delete buttonRectangle;
+	Button buttonRectangle = RectangleCreator::GetRectangleFactory()->CreateButton(upperLeft,
+		XMLDownloader::GetDownloader()->DownloadButtonConstants(buttonTitle), this->GetDrawPointer(), this->GetCursor());
+	buttonRectangle.SetHeightAddition(this->GetHeightAddition() - 2);
+	Button* created = new Button(buttonRectangle);
 	return created;
 }
 void MenuScreen::CreateButtons()
 {
-	int buttonWidthAdd = ConstructionOptions::GetAllOptions()->GetInfoPanelButtonWidthAdd();
+	ButtonConstantsXML infoPanelMenuScreenMessagesAndInfoButtonConstants = XMLDownloader::GetDownloader()->DownloadButtonConstants("infoPanelMenuScreenMessagesAndInfoButton");
+	int buttonWidthAdd = infoPanelMenuScreenMessagesAndInfoButtonConstants.widthAddition;
 	int buttonHeightAdd = GetHeightAddition() - 2;
 	int leftXMenuScreen = GetUpperLeft().Get_x();
 	int rightXMenuScreen = leftXMenuScreen + GetWidthAddition();

@@ -13,7 +13,7 @@ public:
 		messagesScreen_ptr = nullptr;
 		constructionInfo_ptr = nullptr;
 	}
-	MessagesAndInfoScreen(MyRectangle* someRectangle) : SplitScreen(someRectangle)
+	MessagesAndInfoScreen(MyRectangle& someRectangle) : SplitScreen(someRectangle)
 	{
 		messagesScreen_ptr = nullptr;
 		constructionInfo_ptr = nullptr;

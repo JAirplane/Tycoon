@@ -25,13 +25,13 @@ public:
 		textColor = cBLACK;
 		shadingColor = cBLACK;
 	}
-	MyRectangle(MyRectangle* anotherRectangle) : GlobalObject(anotherRectangle->GetUpperLeft(), anotherRectangle->GetHeightAddition(), anotherRectangle->GetWidthAddition())
+	MyRectangle(MyRectangle& anotherRectangle) : GlobalObject(anotherRectangle.GetUpperLeft(), anotherRectangle.GetHeightAddition(), anotherRectangle.GetWidthAddition())
 	{
-		border_ptr = new BorderAppearance(anotherRectangle->GetBorder());
-		textColor = anotherRectangle->GetTextColor();
-		shadingColor = anotherRectangle->GetShadingColor();
-		draw_ptr = anotherRectangle->GetDrawPointer();
-		cursor_ptr = anotherRectangle->GetCursor();
+		border_ptr = new BorderAppearance(anotherRectangle.GetBorder());
+		textColor = anotherRectangle.GetTextColor();
+		shadingColor = anotherRectangle.GetShadingColor();
+		draw_ptr = anotherRectangle.GetDrawPointer();
+		cursor_ptr = anotherRectangle.GetCursor();
 	}
 	virtual ~MyRectangle()
 	{

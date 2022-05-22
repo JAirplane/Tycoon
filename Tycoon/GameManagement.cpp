@@ -36,10 +36,9 @@ void GameManagement::CreateCamera()
 	{
 		throw MyException("GameManagement::CreateCamera() cursor_ptr is nullptr");
 	}
-	MyRectangle* cameraRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetCameraInitialUpperLeft(),
+	MyRectangle cameraRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetCameraInitialUpperLeft(),
 		XMLDownloader::GetDownloader()->DownloadRectangleConstants("camera"), draw_ptr, cursor_ptr);
 	camera_ptr = new Camera(cameraRectangle);
-	delete cameraRectangle;
 }
 void GameManagement::CreatePlayingField()
 {
@@ -51,10 +50,9 @@ void GameManagement::CreatePlayingField()
 	{
 		throw MyException("GameManagement::CreatePlayingField() cursor_ptr is nullptr");
 	}
-	MyRectangle* playingFieldRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetPlayingFieldUpperLeft(),
+	MyRectangle playingFieldRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetPlayingFieldUpperLeft(),
 		XMLDownloader::GetDownloader()->DownloadRectangleConstants("playingField"), draw_ptr, cursor_ptr);
 	field_ptr = new PlayingField(playingFieldRectangle);
-	delete playingFieldRectangle;
 }
 void GameManagement::CreateMenuAndElements()
 {
@@ -71,11 +69,10 @@ void GameManagement::CreateMenuAndElements()
 		throw MyException("GameManagement::CreateMenuAndElements() camera_ptr is nullptr");
 	}
 	PointCoord menuUpperLeft(camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition() + 1, camera_ptr->GetUpperLeft().Get_y());
-	MyRectangle* menuRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(menuUpperLeft,
+	MyRectangle menuRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(menuUpperLeft,
 		XMLDownloader::GetDownloader()->DownloadRectangleConstants("sideMenu"), draw_ptr, cursor_ptr);
-	menuRectangle->SetHeightAddition(camera_ptr->GetHeightAddition());
+	menuRectangle.SetHeightAddition(camera_ptr->GetHeightAddition());
 	menu_ptr = new Menu(menuRectangle);
-	delete menuRectangle;
 	menu_ptr->CreateGameStats();
 	menu_ptr->CreateMenuElement("road");
 	menu_ptr->CreateMenuElement("toilet");
@@ -108,11 +105,10 @@ void GameManagement::CreateInfoPanel()
 	{
 		throw MyException("GameManagement::CreateInfoPanel() menu_ptr is nullptr");
 	}
-	MyRectangle* infoPanelRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetInfoPanelUpperLeft(),
+	MyRectangle infoPanelRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetInfoPanelUpperLeft(),
 		XMLDownloader::GetDownloader()->DownloadRectangleConstants("infoPanel"), draw_ptr, cursor_ptr);
-	infoPanelRectangle->SetWidthAddition(camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition() + 1);
+	infoPanelRectangle.SetWidthAddition(camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition() + 1);
 	infoPanel_ptr = new InfoPanel(infoPanelRectangle);
-	delete infoPanelRectangle;
 	infoPanel_ptr->CreateMenuScreen();
 	infoPanel_ptr->CreateControlsScreen();
 	infoPanel_ptr->CreateGameMessagesScreen();
@@ -141,12 +137,11 @@ void GameManagement::CreateStartScreen()
 	{
 		throw MyException("GameManagement::CreateStartScreen() menu_ptr is nullptr");
 	}
-	MyRectangle* startScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetInitialSplashScreenUpperLeft(),
+	MyRectangle startScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetInitialSplashScreenUpperLeft(),
 		XMLDownloader::GetDownloader()->DownloadRectangleConstants("startScreen"), draw_ptr, cursor_ptr);
-	startScreenRectangle->SetHeightAddition(camera_ptr->GetHeightAddition() + infoPanel_ptr->GetHeightAddition() + 1);
-	startScreenRectangle->SetWidthAddition(camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition() + 1);
+	startScreenRectangle.SetHeightAddition(camera_ptr->GetHeightAddition() + infoPanel_ptr->GetHeightAddition() + 1);
+	startScreenRectangle.SetWidthAddition(camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition() + 1);
 	startScreen_ptr = new InitialScreen(startScreenRectangle);
-	delete startScreenRectangle;
 	startScreen_ptr->CreatePressAnyKey();
 }
 //
@@ -172,12 +167,11 @@ void GameManagement::CreateMainMenu()
 	{
 		throw MyException("GameManagement::CreateMainMenu() menu_ptr is nullptr");
 	}
-	MyRectangle* mainMenuRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetMainMenuUpperLeft(),
+	MyRectangle mainMenuRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetMainMenuUpperLeft(),
 		XMLDownloader::GetDownloader()->DownloadRectangleConstants("mainMenuScreen"), draw_ptr, cursor_ptr);
-	mainMenuRectangle->SetHeightAddition(camera_ptr->GetHeightAddition() + infoPanel_ptr->GetHeightAddition());
-	mainMenuRectangle->SetWidthAddition(camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition());
+	mainMenuRectangle.SetHeightAddition(camera_ptr->GetHeightAddition() + infoPanel_ptr->GetHeightAddition());
+	mainMenuRectangle.SetWidthAddition(camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition());
 	mainMenu_ptr = new MainMenu(mainMenuRectangle);
-	delete mainMenuRectangle;
 	mainMenu_ptr->CreateButtons();
 }
 //

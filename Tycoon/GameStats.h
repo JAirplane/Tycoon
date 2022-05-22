@@ -18,7 +18,7 @@ public:
 		moneyAmount = 2000;
 		currentParkLevel = 0;
 	}
-	GameStats(MyRectangle* someRectangle) : MyRectangle(someRectangle)
+	GameStats(MyRectangle& someRectangle) : MyRectangle(someRectangle)
 	{
 		previousVisitorsNumber = 0;
 		currentVisitorsNumber = 0;

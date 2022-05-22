@@ -3,10 +3,9 @@ void InitialScreen::CreatePressAnyKey()
 {
 	RectangleConstantsXML pressAnyKeyConstants = XMLDownloader::GetDownloader()->DownloadRectangleConstants("pressAnyKey");
 	PointCoord pressAnyKeyUpperLeft = PointCoord(GetHalfXAxis() - (pressAnyKeyConstants.widthAddition + 1) / 2, GetUpperLeft().Get_y() + 20);
-	MyRectangle* pressAnyKeyRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(pressAnyKeyUpperLeft,
+	MyRectangle pressAnyKeyRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(pressAnyKeyUpperLeft,
 		pressAnyKeyConstants, this->GetDrawPointer(), this->GetCursor());
 	pressAnyKey = new MyRectangle(pressAnyKeyRectangle);
-	delete pressAnyKeyRectangle;
 }
 const MyRectangle* InitialScreen::GetPressAnyKey() const
 {

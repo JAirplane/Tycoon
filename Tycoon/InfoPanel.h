@@ -2,7 +2,6 @@
 #include <fcntl.h>
 #include <io.h>
 #include "MessagesAndInfoScreen_InfoPanel.h"
-#include "ObserverInterface.h"
 class InfoPanel : public MyRectangle, public MessageObserverInterface, public ConstructionInfoObserverInterface
 {
 private:
@@ -19,7 +18,7 @@ public:
 		messagesAndInfoScreen_ptr = nullptr;
 		currentScreen = InfoPanelContentType::None;
 	}
-	InfoPanel(MyRectangle* infoPanelRectangle) : MyRectangle(infoPanelRectangle)
+	InfoPanel(MyRectangle& infoPanelRectangle) : MyRectangle(infoPanelRectangle)
 	{
 		mainScreen_ptr = nullptr;
 		gameControlInfo_ptr = nullptr;
