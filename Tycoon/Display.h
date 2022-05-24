@@ -9,7 +9,7 @@ public:
 	}
 	virtual ~Display() {}
 	void DisplayInitialScreen(const InitialScreen* startScreen);
-	void DisplayMainMenu(MainMenu* mainMenu_ptr);
+	void DisplayMainMenu(MainMenu* mainMenu_ptr, Cursor* cursor_ptr);
 	void DrawCursor(const Cursor* cursor_ptr, const AllObjects* container_ptr, const PlayingField* field_ptr) const;
 	// display / erase main game elements
 	void DisplayMenu(const Menu* menu_ptr, Cursor* cursor_ptr, const Camera* camera_ptr, const InfoPanel* infoPanel_ptr,

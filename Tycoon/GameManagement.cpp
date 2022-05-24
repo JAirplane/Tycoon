@@ -37,7 +37,7 @@ void GameManagement::CreateCamera()
 		throw MyException("GameManagement::CreateCamera() cursor_ptr is nullptr");
 	}
 	MyRectangle cameraRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetCameraInitialUpperLeft(),
-		XMLDownloader::GetDownloader()->DownloadRectangleConstants("camera"), draw_ptr, cursor_ptr);
+		DTOCollector::GetCollector()->GetCameraConstants(), draw_ptr, cursor_ptr);
 	camera_ptr = new Camera(cameraRectangle);
 }
 void GameManagement::CreatePlayingField()
@@ -51,7 +51,7 @@ void GameManagement::CreatePlayingField()
 		throw MyException("GameManagement::CreatePlayingField() cursor_ptr is nullptr");
 	}
 	MyRectangle playingFieldRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetPlayingFieldUpperLeft(),
-		XMLDownloader::GetDownloader()->DownloadRectangleConstants("playingField"), draw_ptr, cursor_ptr);
+		DTOCollector::GetCollector()->GetPlayingFieldConstants(), draw_ptr, cursor_ptr);
 	field_ptr = new PlayingField(playingFieldRectangle);
 }
 void GameManagement::CreateMenuAndElements()
@@ -70,7 +70,7 @@ void GameManagement::CreateMenuAndElements()
 	}
 	PointCoord menuUpperLeft(camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition() + 1, camera_ptr->GetUpperLeft().Get_y());
 	MyRectangle menuRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(menuUpperLeft,
-		XMLDownloader::GetDownloader()->DownloadRectangleConstants("sideMenu"), draw_ptr, cursor_ptr);
+		DTOCollector::GetCollector()->GetSideMenuConstants(), draw_ptr, cursor_ptr);
 	menuRectangle.SetHeightAddition(camera_ptr->GetHeightAddition());
 	menu_ptr = new Menu(menuRectangle);
 	menu_ptr->CreateGameStats();
@@ -106,7 +106,7 @@ void GameManagement::CreateInfoPanel()
 		throw MyException("GameManagement::CreateInfoPanel() menu_ptr is nullptr");
 	}
 	MyRectangle infoPanelRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetInfoPanelUpperLeft(),
-		XMLDownloader::GetDownloader()->DownloadRectangleConstants("infoPanel"), draw_ptr, cursor_ptr);
+		DTOCollector::GetCollector()->GetInfoPanelConstants(), draw_ptr, cursor_ptr);
 	infoPanelRectangle.SetWidthAddition(camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition() + 1);
 	infoPanel_ptr = new InfoPanel(infoPanelRectangle);
 	infoPanel_ptr->CreateMenuScreen();
@@ -138,7 +138,7 @@ void GameManagement::CreateStartScreen()
 		throw MyException("GameManagement::CreateStartScreen() menu_ptr is nullptr");
 	}
 	MyRectangle startScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetInitialSplashScreenUpperLeft(),
-		XMLDownloader::GetDownloader()->DownloadRectangleConstants("startScreen"), draw_ptr, cursor_ptr);
+		DTOCollector::GetCollector()->GetStartScreenConstants(), draw_ptr, cursor_ptr);
 	startScreenRectangle.SetHeightAddition(camera_ptr->GetHeightAddition() + infoPanel_ptr->GetHeightAddition() + 1);
 	startScreenRectangle.SetWidthAddition(camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition() + 1);
 	startScreen_ptr = new InitialScreen(startScreenRectangle);
@@ -168,7 +168,7 @@ void GameManagement::CreateMainMenu()
 		throw MyException("GameManagement::CreateMainMenu() menu_ptr is nullptr");
 	}
 	MyRectangle mainMenuRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetMainMenuUpperLeft(),
-		XMLDownloader::GetDownloader()->DownloadRectangleConstants("mainMenuScreen"), draw_ptr, cursor_ptr);
+		DTOCollector::GetCollector()->GetMainMenuScreenConstants(), draw_ptr, cursor_ptr);
 	mainMenuRectangle.SetHeightAddition(camera_ptr->GetHeightAddition() + infoPanel_ptr->GetHeightAddition());
 	mainMenuRectangle.SetWidthAddition(camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition());
 	mainMenu_ptr = new MainMenu(mainMenuRectangle);
@@ -180,7 +180,7 @@ void GameManagement::InitialDisplay() const
 	gameElementsDrawer->DisplayInitialScreen(startScreen_ptr);
 	gameElementsDrawer->EraseScreen();
 	//
-	gameElementsDrawer->DisplayMainMenu(mainMenu_ptr);
+	gameElementsDrawer->DisplayMainMenu(mainMenu_ptr, cursor_ptr);
 	gameElementsDrawer->EraseScreen();
 	//
 	gameElementsDrawer->DisplayCamera(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);

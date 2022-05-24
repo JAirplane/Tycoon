@@ -45,6 +45,7 @@ public:
 			constructionInfoScreenConstructionIcon
 			infoPanelMessagesScreen
 			startScreen
+			pressAnyKey
 			mainMenuScreen
 	*/
 	virtual ButtonConstantsXML DownloadButtonConstants(string buttonType);
@@ -52,7 +53,6 @@ public:
 			infoPanelMenuScreenControlsButton
 			infoPanelMenuScreenMessagesAndInfoButton
 			constructionInfoScreenDeconstructButton
-			pressAnyKeyButton
 			newGameButton
 			continueButton
 			exitButton

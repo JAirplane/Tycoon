@@ -216,6 +216,20 @@ List of text versions of color to convert to color type:
 		<bottomLeftBorderSymbol>╚</bottomLeftBorderSymbol>
 		<bottomRightBorderSymbol>╝</bottomRightBorderSymbol>
 	</rectangle>
+	<rectangle name="pressAnyKey">
+		<heightAdd>2</heightAdd>
+		<widthAdd>14</widthAdd>
+		<borderForegroundColor>white</borderForegroundColor>
+		<borderBackgroundColor>red</borderBackgroundColor>
+		<letterColor>blue</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>*</verticalBorderSymbol>
+		<horizontalBorderSymbol>*</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>*</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>*</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>*</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>*</bottomRightBorderSymbol>
+	</rectangle>
 	<rectangle name="mainMenuScreen">
 		<heightAdd>-1</heightAdd>
 		<widthAdd>-1</widthAdd>
@@ -281,23 +295,6 @@ List of text versions of color to convert to color type:
 		<bottomRightBorderSymbol>╝</bottomRightBorderSymbol>
 		<title>Deconstruct</title>
 		<activeColor>red</activeColor>
-		<pressedButtonColor>red</pressedButtonColor>
-	</button>
-	<button name="pressAnyKeyButton">
-		<heightAdd>2</heightAdd>
-		<widthAdd>14</widthAdd>
-		<borderForegroundColor>white</borderForegroundColor>
-		<borderBackgroundColor>red</borderBackgroundColor>
-		<letterColor>blue</letterColor>
-		<shadingColor>black</shadingColor>
-		<verticalBorderSymbol>*</verticalBorderSymbol>
-		<horizontalBorderSymbol>*</horizontalBorderSymbol>
-		<upperLeftBorderSymbol>*</upperLeftBorderSymbol>
-		<upperRightBorderSymbol>*</upperRightBorderSymbol>
-		<bottomLeftBorderSymbol>*</bottomLeftBorderSymbol>
-		<bottomRightBorderSymbol>*</bottomRightBorderSymbol>
-		<title>Press Any Key</title>
-		<activeColor>green</activeColor>
 		<pressedButtonColor>red</pressedButtonColor>
 	</button>
 	<button name="newGameButton">

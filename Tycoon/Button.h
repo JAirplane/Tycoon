@@ -5,52 +5,38 @@ class Button : public MyRectangle
 {
 private:
 	string title;
-	color activeColor;
-	color pressedButtonColor;
 public:
-	Button(PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* externalBorder, color letterColor, color shadingColor, string buttonTitle, color activeColor,
-		color pressedButtonColor, Visualisation* vis_ptr, Cursor* cur_ptr) : MyRectangle(upperLeft, heightAdd, widthAdd, externalBorder, letterColor, shadingColor, vis_ptr, cur_ptr)
+	Button(PointCoord upperLeft, RectangleConstantsXML* initial, Visualisation* vis_ptr, Cursor* cur_ptr) : MyRectangle(upperLeft, initial, vis_ptr, cur_ptr)
 	{
+		string buttonTitle = initial->buttonTitle;
 		int length = (int)buttonTitle.length();
-		if (length > widthAdd - 1)
+		if (length > initial->widthAddition - 1)
 		{
-			string truncatedTitle = buttonTitle.substr(0, (size_t)(widthAdd - 1));
+			string truncatedTitle = buttonTitle.substr(0, (size_t)(initial->widthAddition - 1));
 			title = truncatedTitle;
 		}
 		else
 		{
 			title = buttonTitle;
 		}
-		this->activeColor = activeColor;
-		this->pressedButtonColor = pressedButtonColor;
 	}
-	Button(MyRectangle& someRectangle, string buttonTitle, color activeColor, color pressedButtonColor) : MyRectangle(someRectangle)
+	Button(Button& anotherButton) : MyRectangle(anotherButton)
 	{
+		string buttonTitle = anotherButton.GetButtonTitle();
 		int length = (int)buttonTitle.length();
-		if (length > someRectangle.GetWidthAddition() - 1)
+		if (length > anotherButton.GetWidthAddition() - 1)
 		{
-			string truncatedTitle = buttonTitle.substr(0, (size_t)(someRectangle.GetWidthAddition() - 1));
+			string truncatedTitle = buttonTitle.substr(0, (size_t)(anotherButton.GetWidthAddition() - 1));
 			title = truncatedTitle;
 		}
 		else
 		{
 			title = buttonTitle;
 		}
-		this->activeColor = activeColor;
-		this->pressedButtonColor = pressedButtonColor;
-	}
-	Button(Button& anotherButton) : MyRectangle(anotherButton.GetUpperLeft(), anotherButton.GetHeightAddition(), anotherButton.GetWidthAddition(), anotherButton.GetBorder(),
-		anotherButton.GetTextColor(), anotherButton.GetShadingColor(), anotherButton.GetDrawPointer(), anotherButton.GetCursor())
-	{
-		title = anotherButton.GetButtonTitle();
-		activeColor = anotherButton.GetActiveColor();
-		pressedButtonColor = anotherButton.GetPressedButtonColor();
 	}
 	virtual ~Button()
 	{}
 	string GetButtonTitle() const;
-	color GetActiveColor() const;
-	color GetPressedButtonColor() const;
 	virtual bool GetEnabled() const;
 	virtual void SetEnabled(bool newCondition);
 	virtual void Display(function<bool()> enableButton = nullptr);
@@ -60,14 +46,7 @@ class ActivatedByConditionButton : public Button
 private:
 	bool enabled;
 public:
-	ActivatedByConditionButton(PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* externalBorder, color letterColor, color shadingColor,
-		string buttonTitle, color activeColor, color pressedButtonColor, Visualisation* vis_ptr, Cursor* cur_ptr) :
-		Button(upperLeft, heightAdd, widthAdd, externalBorder, letterColor, shadingColor, buttonTitle, activeColor, pressedButtonColor, vis_ptr, cur_ptr)
-	{
-		this->enabled = false;
-	}
-	ActivatedByConditionButton(MyRectangle& someRectangle, string buttonTitle, color activeColor, color pressedButtonColor) :
-		Button(someRectangle, buttonTitle, activeColor, pressedButtonColor)
+	ActivatedByConditionButton(PointCoord upperLeft, RectangleConstantsXML* initial, Visualisation* vis_ptr, Cursor* cur_ptr) : Button(upperLeft, initial, vis_ptr, cur_ptr)
 	{
 		this->enabled = false;
 	}

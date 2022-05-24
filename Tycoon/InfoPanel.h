@@ -10,8 +10,7 @@ private:
 	MessagesAndInfoScreen* messagesAndInfoScreen_ptr;
 	InfoPanelContentType currentScreen;
 public:
-	InfoPanel(PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* externalBorder, color letterColor, color shadingColor, Visualisation* vis_ptr,
-		Cursor* cur_ptr) : MyRectangle(upperLeft, heightAdd, widthAdd, externalBorder, letterColor, shadingColor, vis_ptr, cur_ptr)
+	InfoPanel(PointCoord upperLeft, RectangleConstantsXML* initial, Visualisation* vis_ptr, Cursor* cur_ptr) : MyRectangle(upperLeft, initial, vis_ptr, cur_ptr)
 	{
 		mainScreen_ptr = nullptr;
 		gameControlInfo_ptr = nullptr;

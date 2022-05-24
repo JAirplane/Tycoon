@@ -13,7 +13,7 @@ void ConstructionInfoScreen::CreateConstructionIcon()
 {
 	PointCoord iconLocation = PointCoord(GetUpperLeft().Get_x() + 2, GetUpperLeft().Get_y() + 1);
 	MyRectangle constructionIconRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(iconLocation,
-		XMLDownloader::GetDownloader()->DownloadRectangleConstants("constructionInfoScreenConstructionIcon"), this->GetDrawPointer(), this->GetCursor());
+		DTOCollector::GetCollector()->GetConstructionInfoScreenConstructionIconConstants(), this->GetDrawPointer(), this->GetCursor());
 	constructionIcon_ptr = new MyRectangle(constructionIconRectangle);
 }
 //
@@ -27,7 +27,7 @@ Construction* ConstructionInfoScreen::GetChosenConstruction() const
 }
 void ConstructionInfoScreen::SetChosenConstruction(Construction* choice_ptr)
 {
-	if(choice_ptr == nullptr)
+	if (choice_ptr == nullptr)
 	{
 		throw MyException("ConstructionInfoScreen::SetChosenConstruction(Construction* choice_ptr) argument is nullptr.");
 	}

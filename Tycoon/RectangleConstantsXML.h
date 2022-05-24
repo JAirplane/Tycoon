@@ -16,6 +16,21 @@ private:
 	wstring bottomLeftBorderSymbol;
 	wstring bottomRightBorderSymbol;
 public:
+	RectangleConstantsXML()
+	{
+		heightAdd = 0;
+		widthAdd = 0;
+		borderForeground = color::cBLACK;
+		borderBackground = color::cBLACK;
+		contentForeground = color::cBLACK;
+		contentBackground = color::cBLACK;
+		verticalBorderSymbol = L"";
+		horizontalBorderSymbol = L"";
+		upperLeftBorderSymbol = L"";
+		upperRightBorderSymbol = L"";
+		bottomLeftBorderSymbol = L"";
+		bottomRightBorderSymbol = L"";
+	}
 	RectangleConstantsXML(int heightAdd, int widthAdd, color borderForeground, color borderBackground, color contentForeground, color contentBackground,
 		wstring verticalBorderSymbol, wstring horizontalBorderSymbol, wstring upperLeftBorderSymbol, wstring upperRightBorderSymbol,
 		wstring bottomLeftBorderSymbol, wstring bottomRightBorderSymbol)
@@ -58,6 +73,13 @@ public:
 	__declspec(property(get = GetBottomLeftBorderSymbol)) wstring borderSymbolBottomLeft;
 	wstring GetBottomRightBorderSymbol() const;
 	__declspec(property(get = GetBottomRightBorderSymbol)) wstring borderSymbolBottomRight;
+	//
+	virtual string GetTitle() const;
+	__declspec(property(get = GetTitle)) string buttonTitle;
+	virtual color GetActiveButtonColor() const;
+	__declspec(property(get = GetActiveButtonColor)) color activeButtonColor;
+	virtual color GetPressedButtonColor() const;
+	__declspec(property(get = GetPressedButtonColor)) color pressedColor;
 };
 class ButtonConstantsXML : public RectangleConstantsXML
 {
@@ -66,6 +88,12 @@ private:
 	color active;
 	color pressed;
 public:
+	ButtonConstantsXML()
+	{
+		title = "";
+		active = color::cBLACK;
+		pressed = color::cBLACK;
+	}
 	ButtonConstantsXML(int heightAdd, int widthAdd, color borderForeground, color borderBackground, color contentForeground, color contentBackground,
 		wstring verticalBorderSymbol, wstring horizontalBorderSymbol, wstring upperLeftBorderSymbol, wstring upperRightBorderSymbol,
 		wstring bottomLeftBorderSymbol, wstring bottomRightBorderSymbol, string title, color activeColor, color pressedButtonColor) :
@@ -77,10 +105,10 @@ public:
 		pressed = pressedButtonColor;
 	}
 	virtual ~ButtonConstantsXML() {}
-	string GetTitle() const;
+	string GetTitle() const override;
 	__declspec(property(get = GetTitle)) string buttonTitle;
-	color GetActiveButtonColor() const;
+	color GetActiveButtonColor() const override;
 	__declspec(property(get = GetActiveButtonColor)) color activeButtonColor;
-	color GetPressedButtonColor() const;
+	color GetPressedButtonColor() const override;
 	__declspec(property(get = GetPressedButtonColor)) color pressedColor;
 };

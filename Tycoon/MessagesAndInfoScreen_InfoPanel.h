@@ -7,8 +7,7 @@ private:
 	ConstructionInfoScreen* constructionInfo_ptr;
 	list<string> messages;
 public:
-	MessagesAndInfoScreen(PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* borderApp_ptr, color letterColor, color backgroundColor, Visualisation* vis_ptr,
-		Cursor* cur_ptr) : SplitScreen(upperLeft, heightAdd, widthAdd, borderApp_ptr, letterColor, backgroundColor, vis_ptr, cur_ptr)
+	MessagesAndInfoScreen(PointCoord upperLeft, RectangleConstantsXML* initial, Visualisation* vis_ptr, Cursor* cur_ptr) : SplitScreen(upperLeft, initial, vis_ptr, cur_ptr)
 	{
 		messagesScreen_ptr = nullptr;
 		constructionInfo_ptr = nullptr;

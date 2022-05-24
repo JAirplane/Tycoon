@@ -15,13 +15,18 @@ public:
 		delete newGame;
 		delete exit;
 	}
-	Button* CreateButton(PointCoord upperLeft, int heightAdd, int widthAdd, wstring verticalSymbol, wstring horizontalSymbol,
-		wstring upperLeftSymbol, wstring upperRightSymbol, wstring bottomLeftSymbol, wstring bottomRightSymbol, color borderForegroundColor,
-		color borderBackgroundColor, color letterColor, color shadingColor, string buttonTitle, color activeColor, color pressedButtonColor, bool createActivated) const;
-	Button* CreateButton(PointCoord upperLeft, string buttonTitleXML, string buttonTitle, bool createActivated) const;
+	Button* CreateButton(PointCoord upperLeft, RectangleConstantsXML* initial, bool createActivated) const;
+	Button* CreateButton(PointCoord upperLeft, string buttonTitleXML, bool createActivated) const;
 	void CreateButtons();
+	Button* GetNewGameButton() const;
+	Button* GetContinueButton() const;
+	Button* GetExitButton() const;
 	void DrawTitle(color titleColor) const;
 	void Display(color titleColor);
+	Button* GetCurrentActiveButton(const Cursor* cursor_ptr) const;
+	void ActiveButtonUp(Cursor* cursor_ptr);
+	void ActiveButtonDown(Cursor* cursor_ptr);
+	void ChangeActiveButton();
 private:
 	Button* newGame;
 	Button* continueGame;

@@ -6,8 +6,7 @@ private:
 	Button* messagesAndInfoButton_ptr;
 	Button* controlsButton_ptr;
 public:
-	MenuScreen(PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* borderApp_ptr, color letterColor, color backgroundColor, Visualisation* vis_ptr,
-		Cursor* cur_ptr) : MyRectangle(upperLeft, heightAdd, widthAdd, borderApp_ptr, letterColor, backgroundColor, vis_ptr, cur_ptr)
+	MenuScreen(PointCoord upperLeft, RectangleConstantsXML* initial, Visualisation* vis_ptr, Cursor* cur_ptr) : MyRectangle(upperLeft, initial, vis_ptr, cur_ptr)
 	{
 		messagesAndInfoButton_ptr = nullptr;
 		controlsButton_ptr = nullptr;

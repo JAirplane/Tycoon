@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "XMLDownloader.h"
+#include "DTOCollector.h"
 class Level
 {
 public:

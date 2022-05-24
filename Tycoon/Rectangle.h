@@ -9,13 +9,17 @@ private:
 	BorderAppearance* border_ptr;
 	color textColor;
 	color shadingColor;
+	RectangleConstantsXML* initialCondition;
 public:
-	MyRectangle(PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* borderApp_ptr, color letterColor, color backgroundColor,
-		Visualisation* vis_ptr, Cursor* cur_ptr) : GlobalObject(upperLeft, heightAdd, widthAdd), draw_ptr(vis_ptr), cursor_ptr(cur_ptr)
+	MyRectangle(PointCoord upperLeft, RectangleConstantsXML* initial, Visualisation* vis_ptr, Cursor* cur_ptr) :
+		GlobalObject(upperLeft, initial->heightAddition, initial->widthAddition), draw_ptr(vis_ptr), cursor_ptr(cur_ptr)
 	{
-		border_ptr = borderApp_ptr;
-		textColor = letterColor;
-		shadingColor = backgroundColor;
+		RectangleSymbols* borderSymbols = new RectangleSymbols(initial->borderSymbolVertical, initial->borderSymbolHorizontal, initial->borderSymbolUpperLeft,
+			initial->borderSymbolUpperRight, initial->borderSymbolBottomLeft, initial->borderSymbolBottomRight);
+		border_ptr = new BorderAppearance(borderSymbols, initial->foregroundBorderColor, initial->backgroundBorderColor);
+		textColor = initial->foregroundContentColor;
+		shadingColor = initial->backgroundContentColor;
+		initialCondition = initial;
 	}
 	MyRectangle()
 	{
@@ -24,6 +28,7 @@ public:
 		border_ptr = nullptr;
 		textColor = cBLACK;
 		shadingColor = cBLACK;
+		initialCondition = nullptr;
 	}
 	MyRectangle(MyRectangle& anotherRectangle) : GlobalObject(anotherRectangle.GetUpperLeft(), anotherRectangle.GetHeightAddition(), anotherRectangle.GetWidthAddition())
 	{
@@ -32,12 +37,14 @@ public:
 		shadingColor = anotherRectangle.GetShadingColor();
 		draw_ptr = anotherRectangle.GetDrawPointer();
 		cursor_ptr = anotherRectangle.GetCursor();
+		initialCondition = anotherRectangle.GetInitialCondition();
 	}
 	virtual ~MyRectangle()
 	{
 		delete border_ptr;
 	}
 	BorderAppearance* GetBorder() const;
+	RectangleConstantsXML* GetInitialCondition() const;
 	color GetTextColor() const;
 	color GetShadingColor() const;
 	Visualisation* GetDrawPointer() const;

@@ -7,8 +7,7 @@ private:
 	MyRectangle* constructionIcon_ptr;
 	Construction* chosen_ptr;
 public:
-	ConstructionInfoScreen(PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* borderApp_ptr, color letterColor, color backgroundColor, Visualisation* vis_ptr,
-		Cursor* cur_ptr) : MyRectangle(upperLeft, heightAdd, widthAdd, borderApp_ptr, letterColor, backgroundColor, vis_ptr, cur_ptr)
+	ConstructionInfoScreen(PointCoord upperLeft, RectangleConstantsXML* initial, Visualisation* vis_ptr, Cursor* cur_ptr) : MyRectangle(upperLeft, initial, vis_ptr, cur_ptr)
 	{
 		deconstruct_ptr = nullptr;
 		constructionIcon_ptr = nullptr;

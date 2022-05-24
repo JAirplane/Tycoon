@@ -51,7 +51,7 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, menuItems.back()->GetUpperLeft().Get_y() + menuItems.back()->GetHeightAddition() + 1);
 	}
 	MyRectangle menuElementRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(elementLocation,
-		XMLDownloader::GetDownloader()->DownloadRectangleConstants("sideMenuElement"), GetDrawPointer(), GetCursor());
+		DTOCollector::GetCollector()->GetSideMenuElementConstants(), GetDrawPointer(), GetCursor());
 	menuElementRectangle.SetWidthAddition(this->GetWidthAddition() - 4);
 	MyRectangle* menuIcon_ptr = CreateIcon(elementLocation);
 	ConstructionManager* manager_ptr = CreateManager(elementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected, backgroundNotConnected,
@@ -76,7 +76,7 @@ void Menu::CreateMenuElement(string constructionType)
 		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, menuItems.back()->GetUpperLeft().Get_y() + menuItems.back()->GetHeightAddition() + 1);
 	}
 	MyRectangle menuElementRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(elementLocation,
-		XMLDownloader::GetDownloader()->DownloadRectangleConstants("sideMenuElement"), GetDrawPointer(), GetCursor());
+		DTOCollector::GetCollector()->GetSideMenuElementConstants(), GetDrawPointer(), GetCursor());
 	menuElementRectangle.SetWidthAddition(this->GetWidthAddition() - 4);
 	MyRectangle* menuIcon_ptr = CreateIcon(elementLocation);
 	ConstructionManager* manager_ptr = CreateManager(elementLocation, XMLDownloader::GetDownloader()->DownloadConstructionConstants(constructionType));
@@ -87,7 +87,7 @@ MyRectangle* Menu::CreateIcon(PointCoord elementLocation)
 {
 	PointCoord iconLocation = PointCoord(elementLocation.Get_x() + 1, elementLocation.Get_y() + 1);
 	MyRectangle* newIcon = new MyRectangle(RectangleCreator::GetRectangleFactory()->CreateRectangle(iconLocation,
-		XMLDownloader::GetDownloader()->DownloadRectangleConstants("menuElementIcon"), this->GetDrawPointer(), this->GetCursor()));
+		DTOCollector::GetCollector()->GetMenuElementIconConstants(), this->GetDrawPointer(), this->GetCursor()));
 	return newIcon;
 }
 //
@@ -164,7 +164,7 @@ void Menu::CreateGameStats()
 {
 	PointCoord gameStatsLocation = PointCoord(this->GetUpperLeft().Get_x() + 1, this->GetUpperLeft().Get_y() + 1);
 	MyRectangle gameStatsRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(gameStatsLocation,
-		XMLDownloader::GetDownloader()->DownloadRectangleConstants("sideMenuGameStats"), this->GetDrawPointer(), this->GetCursor());
+		DTOCollector::GetCollector()->GetSideMenuGameStatsConstants(), this->GetDrawPointer(), this->GetCursor());
 	gameStatsRectangle.SetWidthAddition(this->GetWidthAddition() - 2);
 	gameStats_ptr = new GameStats(gameStatsRectangle);
 }
@@ -389,8 +389,8 @@ MenuElement* Menu::MenuNavigation(MenuElement* currentElement, IconsPosition upp
 	}
 	else
 	{
-		currentElement->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor());
-		nearest->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementActiveColor());
+		currentElement->GetBorder()->SetBorderForegroundColor(currentElement->GetInitialCondition()->foregroundBorderColor);
+		nearest->GetBorder()->SetBorderForegroundColor(nearest->GetInitialCondition()->activeButtonColor);
 		if (nearest->GetUpperLeft().Get_y() + nearest->GetHeightAddition() >= GetUpperLeft().Get_y() + GetHeightAddition() ||
 			nearest->GetUpperLeft().Get_y() <= gameStats_ptr->GetUpperLeft().Get_y() + gameStats_ptr->GetHeightAddition())
 		{

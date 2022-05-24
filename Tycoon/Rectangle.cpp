@@ -8,6 +8,10 @@ BorderAppearance* MyRectangle::GetBorder() const
 	}
 	return border_ptr;
 }
+RectangleConstantsXML* MyRectangle::GetInitialCondition() const
+{
+	return initialCondition;
+}
 color MyRectangle::GetTextColor() const
 {
 	return textColor;

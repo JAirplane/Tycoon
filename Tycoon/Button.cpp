@@ -10,14 +10,6 @@ bool Button::GetEnabled() const
 }
 void Button::SetEnabled(bool newCondition)
 {}
-color Button::GetActiveColor() const
-{
-	return activeColor;
-}
-color Button::GetPressedButtonColor() const
-{
-	return pressedButtonColor;
-}
 void Button::Display(function<bool()> enableButton)
 {
 	DrawBorder();
@@ -44,20 +36,20 @@ void ActivatedByConditionButton::Display(function<bool()> enableButton)
 {
 	if (enabled)
 	{
-		if (!enableButton)
+		if (!enableButton())
 		{
-			this->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonDisabledColor());
 			this->GetBorder()->SetBorderBackgroundColor(ConstructionOptions::GetAllOptions()->GetButtonDisabledColor());
 			this->SetTextColor(ConstructionOptions::GetAllOptions()->GetButtonDisabledColor());
+			enabled = false;
 		}
 	}
 	else
 	{
-		if (enableButton)
+		if (enableButton())
 		{
-			this->GetBorder()->SetBorderForegroundColor(this->GetBorder()->GetBorderForegroundColor());
-			this->GetBorder()->SetBorderBackgroundColor(this->GetBorder()->GetBorderBackgroundColor());
-			this->SetTextColor(ConstructionOptions::GetAllOptions()->GetButtonContentForegroundColor());
+			this->GetBorder()->SetBorderBackgroundColor(this->GetInitialCondition()->backgroundBorderColor);
+			this->SetTextColor(this->GetInitialCondition()->foregroundContentColor);
+			enabled = true;
 		}
 	}
 	this->Button::Display();

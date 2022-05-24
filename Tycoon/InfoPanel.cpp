@@ -5,7 +5,7 @@ void InfoPanel::CreateMenuScreen()
 {
 	PointCoord menuScreenUpperLeft = PointCoord(this->GetUpperLeft().Get_x() + 2, this->GetUpperLeft().Get_y() + 2);
 	MyRectangle menuScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(menuScreenUpperLeft,
-		XMLDownloader::GetDownloader()->DownloadRectangleConstants("infoPanelMenuScreen"), this->GetDrawPointer(), this->GetCursor());
+		DTOCollector::GetCollector()->GetInfoPanelMenuScreenConstants(), this->GetDrawPointer(), this->GetCursor());
 	menuScreenRectangle.SetHeightAddition(this->GetHeightAddition() - 4);
 	menuScreenRectangle.SetWidthAddition(this->GetWidthAddition() - 4);
 	mainScreen_ptr = new MenuScreen(menuScreenRectangle);
@@ -15,7 +15,7 @@ void InfoPanel::CreateControlsScreen()
 {
 	PointCoord controlsScreenUpperLeft = PointCoord(this->GetUpperLeft().Get_x() + 2, this->GetUpperLeft().Get_y() + 2);
 	MyRectangle controlsScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(controlsScreenUpperLeft,
-		XMLDownloader::GetDownloader()->DownloadRectangleConstants("infoPanelControlsScreen"), this->GetDrawPointer(), this->GetCursor());
+		DTOCollector::GetCollector()->GetInfoPanelControlsScreenConstants(), this->GetDrawPointer(), this->GetCursor());
 	controlsScreenRectangle.SetHeightAddition(this->GetHeightAddition() - 4);
 	controlsScreenRectangle.SetWidthAddition(this->GetWidthAddition() - 4);
 	gameControlInfo_ptr = new ControlsScreen(controlsScreenRectangle);
@@ -25,7 +25,7 @@ void InfoPanel::CreateGameMessagesScreen()
 {
 	PointCoord messagesAndInfoScreenUpperLeft = PointCoord(GetUpperLeft().Get_x() + 2, GetUpperLeft().Get_y() + 2);
 	MyRectangle messagesAndInfoScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(messagesAndInfoScreenUpperLeft,
-		XMLDownloader::GetDownloader()->DownloadRectangleConstants("infoPanelMessagesAndInfoScreen"), this->GetDrawPointer(), this->GetCursor());
+		DTOCollector::GetCollector()->GetInfoPanelMessagesAndInfoScreenConstants(), this->GetDrawPointer(), this->GetCursor());
 	messagesAndInfoScreenRectangle.SetHeightAddition(this->GetHeightAddition() - 4);
 	messagesAndInfoScreenRectangle.SetWidthAddition(this->GetWidthAddition() - 4);
 	messagesAndInfoScreen_ptr = new MessagesAndInfoScreen(messagesAndInfoScreenRectangle);
@@ -141,8 +141,8 @@ void InfoPanel::ShowMenuScreen()
 {
 	currentScreen = InfoPanelContentType::MenuScreen;
 	mainScreen_ptr->DrawBorder();
-	mainScreen_ptr->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(mainScreen_ptr->GetMessagesButton()->GetActiveColor());
-	mainScreen_ptr->GetControlsButton()->GetBorder()->SetBorderForegroundColor(mainScreen_ptr->GetControlsButton()->GetBorder()->GetBorderForegroundColor());
+	mainScreen_ptr->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(mainScreen_ptr->GetMessagesButton()->GetInitialCondition()->activeButtonColor);
+	mainScreen_ptr->GetControlsButton()->GetBorder()->SetBorderForegroundColor(mainScreen_ptr->GetControlsButton()->GetInitialCondition()->foregroundBorderColor);
 	mainScreen_ptr->DrawMenuScreenButton(mainScreen_ptr->GetMessagesButton());
 	mainScreen_ptr->DrawMenuScreenButton(mainScreen_ptr->GetControlsButton());
 	DisplayInfoPanelMessage("Press 'i' to return to the camera");

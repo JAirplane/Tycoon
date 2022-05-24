@@ -146,6 +146,7 @@
     <ClInclude Include="BuildingDescriptor.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Construction.h" />
+    <ClInclude Include="DTOCollector.h" />
     <ClInclude Include="XMLDownloader.h" />
     <ClInclude Include="ConstructionConstantsXML.h" />
     <ClInclude Include="ConstructionDescriptor.h" />
@@ -203,6 +204,7 @@
     <ClCompile Include="BuildingDescriptor.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Construction.cpp" />
+    <ClCompile Include="DTOCollector.cpp" />
     <ClCompile Include="XMLDownloader.cpp" />
     <ClCompile Include="ConstructionConstantsXML.cpp" />
     <ClCompile Include="ConstructionDescriptor.cpp" />

@@ -19,8 +19,7 @@ private:
 		int enetrtainmentValue = 0, int isExit = 0, int maxVisitors = 0, int visitTime = 0, int dailyExpences = 0, int constructionHeightAdd = 0, int constructionWidthAdd = 0);
 	ConstructionManager* CreateManager(PointCoord menuElementLocation, ConstructionConstantsXML setOfConstants);
 public:
-	Menu(Visualisation* draw_ptr, Cursor* cursor_ptr, PointCoord upperLeft, int heightAdd, int widthAdd, BorderAppearance* menuBorbder_ptr,
-		color letterColor, color shadingColor) : MyRectangle(upperLeft, heightAdd, widthAdd, menuBorbder_ptr, letterColor, shadingColor, draw_ptr, cursor_ptr)
+	Menu(Visualisation* draw_ptr, Cursor* cursor_ptr, PointCoord upperLeft, RectangleConstantsXML* initial) : MyRectangle(upperLeft, initial, draw_ptr, cursor_ptr)
 	{
 		gameStats_ptr = nullptr;
 		visitorsCreator_ptr = nullptr;

@@ -47,6 +47,19 @@ wstring RectangleConstantsXML::GetBottomRightBorderSymbol() const
 {
 	return bottomRightBorderSymbol;
 }
+//
+string RectangleConstantsXML::GetTitle() const
+{
+	return "";
+}
+color RectangleConstantsXML::GetActiveButtonColor() const
+{
+	return cBLACK;
+}
+color RectangleConstantsXML::GetPressedButtonColor() const
+{
+	return cBLACK;
+}
 //ButtonConstantsXML//
 string ButtonConstantsXML::GetTitle() const
 {

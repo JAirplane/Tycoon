@@ -8,11 +8,22 @@ void Display::DisplayInitialScreen(const InitialScreen* startScreen)
 	startScreen->GetPressAnyKey()->DrawBorder();
 	startScreen->PressAnyKeyAnimation();
 }
-void Display::DisplayMainMenu(MainMenu* mainMenu_ptr)
+void Display::DisplayMainMenu(MainMenu* mainMenu_ptr, Cursor* cursor_ptr)
 {
 	mainMenu_ptr->DrawBorder();
 	mainMenu_ptr->Display(mainMenu_ptr->GetTextColor());
-	system("pause");
+	if (mainMenu_ptr->GetContinueButton()->GetEnabled())
+	{
+		mainMenu_ptr->GetContinueButton()->GetBorder()->SetBorderBackgroundColor(DTOCollector::GetCollector()->GetContinueButtonConstants().GetActiveButtonColor());
+		mainMenu_ptr->GetContinueButton()->DrawBorder();
+		cursor_ptr->CursorMovement(PointCoord(mainMenu_ptr->GetContinueButton()->GetHalfXAxis(), mainMenu_ptr->GetContinueButton()->GetUpperLeft().Get_y()));
+	}
+	else
+	{
+		mainMenu_ptr->GetNewGameButton()->GetBorder()->SetBorderBackgroundColor(DTOCollector::GetCollector()->GetNewGameButtonConstants().GetActiveButtonColor());
+		mainMenu_ptr->GetNewGameButton()->DrawBorder();
+		cursor_ptr->CursorMovement(PointCoord(mainMenu_ptr->GetNewGameButton()->GetHalfXAxis(), mainMenu_ptr->GetNewGameButton()->GetUpperLeft().Get_y()));
+	}
 }
 void Display::DrawCursor(const Cursor* cursor_ptr, const AllObjects* container_ptr, const PlayingField* field_ptr) const
 {
