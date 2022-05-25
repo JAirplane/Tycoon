@@ -17,6 +17,6 @@ public:
 	void operator=(const RectangleCreator&) = delete;
 	static RectangleCreator* CreateRectangleFactory();
 	static RectangleCreator* GetRectangleFactory();
-	MyRectangle& CreateRectangle(PointCoord upperLeft, RectangleConstantsXML downloadedConstants, Visualisation* draw_ptr, Cursor* cursor_ptr) const;
-	Button& CreateButton(PointCoord upperLeft, RectangleConstantsXML downloadedConstants, Visualisation* draw_ptr, Cursor* cursor_ptr) const;
+	MyRectangle* CreateRectangle(PointCoord upperLeft, RectangleConstantsXML downloadedConstants, Visualisation* draw_ptr, Cursor* cursor_ptr) const;
+	Button* CreateButton(PointCoord upperLeft, RectangleConstantsXML downloadedConstants, Visualisation* draw_ptr, Cursor* cursor_ptr) const;
 };

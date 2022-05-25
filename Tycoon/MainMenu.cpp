@@ -2,35 +2,37 @@
 Button* MainMenu::CreateButton(PointCoord upperLeft, RectangleConstantsXML* initial, bool createActivated) const
 {
 	Button* newButton = nullptr;
-	Button intermediary = RectangleCreator::GetRectangleFactory()->CreateButton(upperLeft, *initial, GetDrawPointer(), GetCursor());
+	Button* intermediary = RectangleCreator::GetRectangleFactory()->CreateButton(upperLeft, *initial, GetDrawPointer(), GetCursor());
 	if (createActivated)
 	{
-		newButton = new ActivatedByConditionButton(intermediary);
+		newButton = new ActivatedByConditionButton(*intermediary);
 	}
 	else
 	{
-		newButton = new Button(intermediary);
+		newButton = new Button(*intermediary);
 	}
+	delete intermediary;
 	return newButton;
 }
 Button* MainMenu::CreateButton(PointCoord upperLeft, string buttonTitleXML, bool createActivated) const
 {
 	Button* newButton = nullptr;
-	Button intermediary = RectangleCreator::GetRectangleFactory()->CreateButton(upperLeft,
+	Button* intermediary = RectangleCreator::GetRectangleFactory()->CreateButton(upperLeft,
 		XMLDownloader::GetDownloader()->DownloadButtonConstants(buttonTitleXML), this->GetDrawPointer(), this->GetCursor());
 	if (createActivated)
 	{
-		newButton = new ActivatedByConditionButton(intermediary);
+		newButton = new ActivatedByConditionButton(*intermediary);
 	}
 	else
 	{
-		newButton = new Button(intermediary);
+		newButton = new Button(*intermediary);
 	}
+	delete intermediary;
 	return newButton;
 }
 void MainMenu::CreateButtons()
 {
-	RectangleConstantsXML continueButtonConstants = XMLDownloader::GetDownloader()->DownloadRectangleConstants("continueButton");
+	ButtonConstantsXML continueButtonConstants = XMLDownloader::GetDownloader()->DownloadButtonConstants("continueButton");
 	PointCoord continueButtonUpperLeft = PointCoord(this->GetHalfXAxis() - continueButtonConstants.widthAddition / 2, this->GetUpperLeft().Get_y() + this->GetHeightAddition() / 3);
 	continueGame = this->CreateButton(continueButtonUpperLeft, "continueButton", true);
 	PointCoord newGameButtonUpperLeft = PointCoord(continueGame->GetUpperLeft().Get_x(), continueGame->GetUpperLeft().Get_y() + continueGame->GetHeightAddition() + 2);
@@ -113,10 +115,8 @@ void MainMenu::ActiveButtonUp(Cursor* cursor_ptr)
 	{
 		if (continueGame->GetEnabled())
 		{
-			currentActive->GetBorder()->SetBorderBackgroundColor(DTOCollector::GetCollector()->GetNewGameButtonConstants().GetBorderBackgroundColor());
-			currentActive->DrawBorder();
-			continueGame->GetBorder()->SetBorderBackgroundColor(DTOCollector::GetCollector()->GetNewGameButtonConstants().GetActiveButtonColor());
-			continueGame->DrawBorder();
+			currentActive->RedrawBorder(currentActive->GetInitialCondition()->foregroundBorderColor, currentActive->GetInitialCondition()->backgroundBorderColor);
+			continueGame->RedrawBorder(continueGame->GetInitialCondition()->foregroundBorderColor, continueGame->GetInitialCondition()->activeButtonColor);
 			cursor_ptr->CursorMovement(PointCoord(continueGame->GetHalfXAxis(), continueGame->GetUpperLeft().Get_y()));
 		}
 		else
@@ -126,10 +126,8 @@ void MainMenu::ActiveButtonUp(Cursor* cursor_ptr)
 	}
 	else if (currentActive == exit)
 	{
-		currentActive->GetBorder()->SetBorderBackgroundColor(DTOCollector::GetCollector()->GetNewGameButtonConstants().GetBorderBackgroundColor());
-		currentActive->DrawBorder();
-		newGame->GetBorder()->SetBorderBackgroundColor(DTOCollector::GetCollector()->GetNewGameButtonConstants().GetActiveButtonColor());
-		newGame->DrawBorder();
+		currentActive->RedrawBorder(currentActive->GetInitialCondition()->foregroundBorderColor, currentActive->GetInitialCondition()->backgroundBorderColor);
+		newGame->RedrawBorder(newGame->GetInitialCondition()->foregroundBorderColor, newGame->GetInitialCondition()->activeButtonColor);
 		cursor_ptr->CursorMovement(PointCoord(newGame->GetHalfXAxis(), newGame->GetUpperLeft().Get_y()));
 	}
 	else
@@ -142,22 +140,39 @@ void MainMenu::ActiveButtonDown(Cursor* cursor_ptr)
 	Button* currentActive = GetCurrentActiveButton(cursor_ptr);
 	if (currentActive == continueGame)
 	{
-		currentActive->GetBorder()->SetBorderBackgroundColor(DTOCollector::GetCollector()->GetNewGameButtonConstants().GetBorderBackgroundColor());
-		currentActive->DrawBorder();
-		newGame->GetBorder()->SetBorderBackgroundColor(DTOCollector::GetCollector()->GetNewGameButtonConstants().GetActiveButtonColor());
-		newGame->DrawBorder();
+		currentActive->RedrawBorder(currentActive->GetInitialCondition()->foregroundBorderColor, currentActive->GetInitialCondition()->backgroundBorderColor);
+		newGame->RedrawBorder(newGame->GetInitialCondition()->foregroundBorderColor, newGame->GetInitialCondition()->activeButtonColor);
 		cursor_ptr->CursorMovement(PointCoord(newGame->GetHalfXAxis(), newGame->GetUpperLeft().Get_y()));
 	}
 	else if (currentActive == newGame)
 	{
-		currentActive->GetBorder()->SetBorderBackgroundColor(DTOCollector::GetCollector()->GetNewGameButtonConstants().GetBorderBackgroundColor());
-		currentActive->DrawBorder();
-		exit->GetBorder()->SetBorderBackgroundColor(DTOCollector::GetCollector()->GetNewGameButtonConstants().GetActiveButtonColor());
-		exit->DrawBorder();
+		currentActive->RedrawBorder(currentActive->GetInitialCondition()->foregroundBorderColor, currentActive->GetInitialCondition()->backgroundBorderColor);
+		exit->RedrawBorder(exit->GetInitialCondition()->foregroundBorderColor, exit->GetInitialCondition()->activeButtonColor);
+		cursor_ptr->CursorMovement(PointCoord(exit->GetHalfXAxis(), exit->GetUpperLeft().Get_y()));
 	}
 	else if (currentActive == exit)
 	{
 		return;
+	}
+	else
+	{
+		throw MyException("MainMenu::ActiveButtonDown(Cursor* cursor_ptr) bad current active button");
+	}
+}
+int MainMenu::PressButton(Cursor* cursor_ptr)
+{
+	Button* currentActive = GetCurrentActiveButton(cursor_ptr);
+	if (currentActive == continueGame)
+	{
+		return 3;
+	}
+	else if (currentActive == newGame)
+	{
+		return 2;
+	}
+	else if (currentActive == exit)
+	{
+		return 1;
 	}
 	else
 	{

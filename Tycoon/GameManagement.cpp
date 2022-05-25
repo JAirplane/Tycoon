@@ -36,9 +36,10 @@ void GameManagement::CreateCamera()
 	{
 		throw MyException("GameManagement::CreateCamera() cursor_ptr is nullptr");
 	}
-	MyRectangle cameraRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetCameraInitialUpperLeft(),
+	MyRectangle* cameraRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetCameraInitialUpperLeft(),
 		DTOCollector::GetCollector()->GetCameraConstants(), draw_ptr, cursor_ptr);
-	camera_ptr = new Camera(cameraRectangle);
+	camera_ptr = new Camera(*cameraRectangle);
+	delete cameraRectangle;
 }
 void GameManagement::CreatePlayingField()
 {
@@ -50,9 +51,10 @@ void GameManagement::CreatePlayingField()
 	{
 		throw MyException("GameManagement::CreatePlayingField() cursor_ptr is nullptr");
 	}
-	MyRectangle playingFieldRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetPlayingFieldUpperLeft(),
+	MyRectangle* playingFieldRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetPlayingFieldUpperLeft(),
 		DTOCollector::GetCollector()->GetPlayingFieldConstants(), draw_ptr, cursor_ptr);
-	field_ptr = new PlayingField(playingFieldRectangle);
+	field_ptr = new PlayingField(*playingFieldRectangle);
+	delete playingFieldRectangle;
 }
 void GameManagement::CreateMenuAndElements()
 {
@@ -69,10 +71,11 @@ void GameManagement::CreateMenuAndElements()
 		throw MyException("GameManagement::CreateMenuAndElements() camera_ptr is nullptr");
 	}
 	PointCoord menuUpperLeft(camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition() + 1, camera_ptr->GetUpperLeft().Get_y());
-	MyRectangle menuRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(menuUpperLeft,
+	MyRectangle* menuRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(menuUpperLeft,
 		DTOCollector::GetCollector()->GetSideMenuConstants(), draw_ptr, cursor_ptr);
-	menuRectangle.SetHeightAddition(camera_ptr->GetHeightAddition());
-	menu_ptr = new Menu(menuRectangle);
+	menuRectangle->SetHeightAddition(camera_ptr->GetHeightAddition());
+	menu_ptr = new Menu(*menuRectangle);
+	delete menuRectangle;
 	menu_ptr->CreateGameStats();
 	menu_ptr->CreateMenuElement("road");
 	menu_ptr->CreateMenuElement("toilet");
@@ -105,10 +108,11 @@ void GameManagement::CreateInfoPanel()
 	{
 		throw MyException("GameManagement::CreateInfoPanel() menu_ptr is nullptr");
 	}
-	MyRectangle infoPanelRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetInfoPanelUpperLeft(),
+	MyRectangle* infoPanelRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetInfoPanelUpperLeft(),
 		DTOCollector::GetCollector()->GetInfoPanelConstants(), draw_ptr, cursor_ptr);
-	infoPanelRectangle.SetWidthAddition(camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition() + 1);
-	infoPanel_ptr = new InfoPanel(infoPanelRectangle);
+	infoPanelRectangle->SetWidthAddition(camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition() + 1);
+	infoPanel_ptr = new InfoPanel(*infoPanelRectangle);
+	delete infoPanelRectangle;
 	infoPanel_ptr->CreateMenuScreen();
 	infoPanel_ptr->CreateControlsScreen();
 	infoPanel_ptr->CreateGameMessagesScreen();
@@ -137,11 +141,12 @@ void GameManagement::CreateStartScreen()
 	{
 		throw MyException("GameManagement::CreateStartScreen() menu_ptr is nullptr");
 	}
-	MyRectangle startScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetInitialSplashScreenUpperLeft(),
+	MyRectangle* startScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetInitialSplashScreenUpperLeft(),
 		DTOCollector::GetCollector()->GetStartScreenConstants(), draw_ptr, cursor_ptr);
-	startScreenRectangle.SetHeightAddition(camera_ptr->GetHeightAddition() + infoPanel_ptr->GetHeightAddition() + 1);
-	startScreenRectangle.SetWidthAddition(camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition() + 1);
-	startScreen_ptr = new InitialScreen(startScreenRectangle);
+	startScreenRectangle->SetHeightAddition(camera_ptr->GetHeightAddition() + infoPanel_ptr->GetHeightAddition() + 1);
+	startScreenRectangle->SetWidthAddition(camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition() + 1);
+	startScreen_ptr = new InitialScreen(*startScreenRectangle);
+	delete startScreenRectangle;
 	startScreen_ptr->CreatePressAnyKey();
 }
 //
@@ -167,20 +172,64 @@ void GameManagement::CreateMainMenu()
 	{
 		throw MyException("GameManagement::CreateMainMenu() menu_ptr is nullptr");
 	}
-	MyRectangle mainMenuRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetMainMenuUpperLeft(),
+	MyRectangle* mainMenuRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetMainMenuUpperLeft(),
 		DTOCollector::GetCollector()->GetMainMenuScreenConstants(), draw_ptr, cursor_ptr);
-	mainMenuRectangle.SetHeightAddition(camera_ptr->GetHeightAddition() + infoPanel_ptr->GetHeightAddition());
-	mainMenuRectangle.SetWidthAddition(camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition());
-	mainMenu_ptr = new MainMenu(mainMenuRectangle);
+	mainMenuRectangle->SetHeightAddition(camera_ptr->GetHeightAddition() + infoPanel_ptr->GetHeightAddition());
+	mainMenuRectangle->SetWidthAddition(camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition());
+	mainMenu_ptr = new MainMenu(*mainMenuRectangle);
+	delete mainMenuRectangle;
 	mainMenu_ptr->CreateButtons();
 }
 //
-void GameManagement::InitialDisplay() const
+int GameManagement::GetPressedKey() const
+{
+	int key = _getch();
+	if (key == 0 || key == 224)
+	{
+		key = _getch();
+	}
+	return key;
+}
+int GameManagement::MainMenuUserActions(int key)
+{
+	switch (key)
+	{
+	case 72: { Arrows_MainMenu(Direction::Up); return 0; }		//up arrow 
+	case 80: { Arrows_MainMenu(Direction::Down); return 0; }	//down arrow 
+	case 13: { return EnterKey_MainMenu(); }	//enter key
+	case 27: { Esc_Key(); return 1; }	//esc in main menu is equal to effect of pressing exit button
+	default: {return 0; }
+	}
+}
+int GameManagement::MainMenuInteraction()
+{
+	while (true)
+	{
+		if (_kbhit() != 0)
+		{
+			int response = this->MainMenuUserActions(this->GetPressedKey());
+			if (response == 0)
+			{
+				continue;
+			}
+			else
+			{
+				return response;
+			}
+		}
+	}
+}
+int GameManagement::InitialDisplay()
 {
 	gameElementsDrawer->DisplayInitialScreen(startScreen_ptr);
 	gameElementsDrawer->EraseScreen();
 	//
 	gameElementsDrawer->DisplayMainMenu(mainMenu_ptr, cursor_ptr);
+	int response = this->MainMenuInteraction();
+	if (response == 1)
+	{
+		return response;
+	}
 	gameElementsDrawer->EraseScreen();
 	//
 	gameElementsDrawer->DisplayCamera(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
@@ -188,6 +237,7 @@ void GameManagement::InitialDisplay() const
 	gameElementsDrawer->DisplayInfoPanel(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 	gameElementsDrawer->DisplayPlayingField(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 	gameElementsDrawer->DisplayAllObjects(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
+	return 0;
 }
 // notifies InfoPanel if user choose some construction on the playing field
 void GameManagement::ChosenConstructionAttach(ConstructionInfoObserverInterface* observer)
@@ -246,8 +296,7 @@ void GameManagement::ErasePreliminaryElementAndMenuRedraw()
 	Construction* preliminary_ptr = allObjects_ptr->GetPreliminaryElement();
 	if (preliminary_ptr != nullptr)
 	{
-		menu_ptr->MenuElementRedrawBorder(preliminary_ptr->GetDescriptor()->GetMenuElementLocation().Get_y(),
-			ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor());
+		menu_ptr->MenuElementRedrawBorder(preliminary_ptr->GetDescriptor()->GetMenuElementLocation().Get_y(), "inactive");
 		allObjects_ptr->ErasePreliminaryElement(camera_ptr, field_ptr);
 	}
 }
@@ -260,7 +309,7 @@ void GameManagement::ClearChosenElementAndInfoPanelRedraw()
 		if (infoPanel_ptr->GetCurrentContent() == InfoPanelContentType::SystemMessagesAndConstructionInfo)
 		{
 			infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->
-				SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+				SetBorderForegroundColor(infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetDeconstructButton()->GetInitialCondition()->foregroundBorderColor);
 			infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->ClearContent();
 			infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->DisplayConstructionInfo();
 		}
@@ -273,13 +322,7 @@ void GameManagement::UserActionsCycle(chrono::milliseconds& lastLaunch)
 	lastLaunch = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch());
 	if (_kbhit() != 0)
 	{
-		int key = _getch();
-		if (key == 0 || key == 224)
-		{
-			key = _getch();
-		}
-		//cout << key;
-		UserActions(key);
+		UserActions(this->GetPressedKey());
 	}
 	Direction shiftDirection = camera_ptr->CursorIsOnCameraBorder();
 	bool shifting = camera_ptr->IsShift(field_ptr, shiftDirection);
@@ -398,7 +441,7 @@ void GameManagement::H_Key()
 		case CursorLocation::Menu:
 		{
 			MenuElement* current_ptr = menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y());
-			current_ptr->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor());
+			current_ptr->GetBorder()->SetBorderForegroundColor(current_ptr->GetInitialCondition()->foregroundBorderColor);
 			break;
 		}
 		case CursorLocation::InfoPanel:
@@ -553,7 +596,7 @@ void GameManagement::IKey_Camera()
 void GameManagement::IKey_Menu()
 {
 	MenuElement* currentActiveElement_ptr = menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y());
-	currentActiveElement_ptr->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor());
+	currentActiveElement_ptr->GetBorder()->SetBorderForegroundColor(currentActiveElement_ptr->GetInitialCondition()->foregroundBorderColor);
 	currentActiveElement_ptr->DrawBorder();
 	infoPanel_ptr->GetToInfoPanelDisplayRule();
 }
@@ -605,7 +648,7 @@ void GameManagement::TabKey_Camera()
 	else
 	{
 		MenuElement* elementOfPreliminary = menu_ptr->GetMenuElement(allObjects_ptr->GetPreliminaryElement()->GetDescriptor()->GetMenuElementLocation().Get_y());
-		elementOfPreliminary->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor());
+		elementOfPreliminary->GetBorder()->SetBorderForegroundColor(elementOfPreliminary->GetInitialCondition()->foregroundBorderColor);
 		elementOfPreliminary->DrawBorder();
 		allObjects_ptr->ErasePreliminaryElement(camera_ptr, field_ptr);
 	}
@@ -617,7 +660,7 @@ void GameManagement::TabKey_Camera()
 void GameManagement::TabKey_Menu()
 {
 	MenuElement* currentElement = menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y());
-	currentElement->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementInactiveColor());
+	currentElement->GetBorder()->SetBorderForegroundColor(currentElement->GetInitialCondition()->foregroundBorderColor);
 	currentElement->DrawBorder();
 	cursor_ptr->ReturnToCamera(camera_ptr, menu_ptr, infoPanel_ptr);
 	gameElementsDrawer->DrawCursor(cursor_ptr, allObjects_ptr, field_ptr);
@@ -725,8 +768,7 @@ void GameManagement::EnterKey_Menu()
 		infoPanel_ptr->EraseInfoPanelMessage();
 		infoPanel_ptr->DisplayInfoPanelMessage("Press 'i' to get to the InfoPanel");
 	}
-	menu_ptr->MenuElementRedrawBorder(menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y())->GetUpperLeft().Get_y(),
-		ConstructionOptions::GetAllOptions()->GetMenuElementUnderConstructionColor());
+	menu_ptr->MenuElementRedrawBorder(cursor_ptr->GetCursorConsoleLocation().Get_y(), "pressed");
 	Construction* preliminary_ptr = menu_ptr->CreatePreliminaryObject(allObjects_ptr, camera_ptr);
 	cursor_ptr->CursorMovement(PointCoord(camera_ptr->GetHalfXAxis(), camera_ptr->GetHalfYAxis()));
 	preliminary_ptr->SetUpperLeft(cursor_ptr->GetCursorConsoleLocation());
@@ -746,7 +788,8 @@ void GameManagement::EnterKey_InfoPanel()
 	{
 		if (cursor_ptr->GetCursorConsoleLocation().Get_x() == infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetHalfXAxis())
 		{
-			infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+			infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetBorder()->
+				SetBorderForegroundColor(infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetInitialCondition()->foregroundBorderColor);
 			infoPanel_ptr->SwitchContent(InfoPanelContentType::SystemMessagesAndConstructionInfo);
 			infoPanel_ptr->EraseInfoPanelMessage();
 			infoPanel_ptr->DisplayInfoPanelMessage("Press 'esc' to get back to the previous screen");
@@ -754,7 +797,8 @@ void GameManagement::EnterKey_InfoPanel()
 		}
 		else if (cursor_ptr->GetCursorConsoleLocation().Get_x() == infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetHalfXAxis())
 		{
-			infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+			infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetBorder()->
+				SetBorderForegroundColor(infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetInitialCondition()->foregroundBorderColor);
 			infoPanel_ptr->SwitchContent(InfoPanelContentType::Controls);
 		}
 		else
@@ -783,8 +827,8 @@ void GameManagement::EnterKey_InfoPanel()
 					allObjects_ptr->DeleteConstruction(chosen_ptr, IsEqual, menu_ptr->GetGameStats());
 					infoPanel_ptr->ClearChoosenConstruction();
 					allObjects_ptr->RedrawNeighbours(redrawPoint, camera_ptr);
-					infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->
-						SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+					infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->SetBorderForegroundColor(
+						infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetDeconstructButton()->GetInitialCondition()->foregroundBorderColor);
 					infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->ClearContent();
 				}
 				else
@@ -829,7 +873,17 @@ void GameManagement::Enter_Key()
 	}
 	}
 }
-
+int GameManagement::EnterKey_MainMenu()
+{
+	int response = mainMenu_ptr->PressButton(cursor_ptr);
+	switch (response)
+	{
+	case 1: {return response; }
+	case 2: {return response; }
+	case 3: {return response; }
+	default: {throw MyException("GameManagement::EnterKey_MainMenu() bad response"); }
+	}
+}
 void GameManagement::EscKey_Camera()
 {
 	if (allObjects_ptr->GetPreliminaryElement() == nullptr && infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetChosenConstruction() == nullptr)
@@ -848,7 +902,7 @@ void GameManagement::EscKey_InfoPanel()
 		infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetChosenConstruction() != nullptr)
 	{
 		infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->
-			SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+			SetBorderForegroundColor(infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetDeconstructButton()->GetInitialCondition()->foregroundBorderColor);
 	}
 	if (infoPanel_ptr->GetCurrentContent() == InfoPanelContentType::Controls || infoPanel_ptr->GetCurrentContent() == InfoPanelContentType::SystemMessagesAndConstructionInfo)
 	{
@@ -955,9 +1009,11 @@ void GameManagement::Arrows_InfoPanel(Direction arrowDir)
 		if (cursor_ptr->GetCursorConsoleLocation() == PointCoord(infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetHalfXAxis(),
 			infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetUpperLeft().Get_y()) && arrowDir == Direction::Left)
 		{
-			infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+			infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetBorder()->
+				SetBorderForegroundColor(infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetInitialCondition()->foregroundBorderColor);
 			infoPanel_ptr->GetMenuScreen()->GetControlsButton()->DrawBorder();
-			infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor());
+			infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetBorder()->
+				SetBorderForegroundColor(infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetInitialCondition()->activeButtonColor);
 			infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->DrawBorder();
 			cursor_ptr->CursorMovement(PointCoord(infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetHalfXAxis(),
 				infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetUpperLeft().Get_y()));
@@ -965,9 +1021,11 @@ void GameManagement::Arrows_InfoPanel(Direction arrowDir)
 		if (cursor_ptr->GetCursorConsoleLocation() == PointCoord(infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetHalfXAxis(),
 			infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetUpperLeft().Get_y()) && arrowDir == Direction::Right)
 		{
-			infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderInactiveColor());
+			infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetBorder()->
+				SetBorderForegroundColor(infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetInitialCondition()->foregroundBorderColor);
 			infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->DrawBorder();
-			infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor());
+			infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetBorder()->
+				SetBorderForegroundColor(infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetInitialCondition()->activeButtonColor);
 			infoPanel_ptr->GetMenuScreen()->GetControlsButton()->DrawBorder();
 			cursor_ptr->CursorMovement(PointCoord(infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetHalfXAxis(),
 				infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetUpperLeft().Get_y()));
@@ -994,6 +1052,15 @@ void GameManagement::Arrows(Direction arrowDir)
 		return;
 	}
 	default: {return; }
+	}
+}
+void GameManagement::Arrows_MainMenu(Direction arrowDir)
+{
+	switch (arrowDir)
+	{
+	case Direction::Up: {mainMenu_ptr->ActiveButtonUp(cursor_ptr); return; }
+	case Direction::Down: {mainMenu_ptr->ActiveButtonDown(cursor_ptr); return; }
+	default: {throw MyException("GameManagement::Arrows_MainMenu(Direction arrowDir) bad direction"); }
 	}
 }
 void GameManagement::UserActions(int key)

@@ -56,7 +56,11 @@ public:
 	virtual void CreateInfoPanel();
 	virtual void CreateStartScreen();
 	virtual void CreateMainMenu();
-	void InitialDisplay() const;
+	//
+	int GetPressedKey() const;
+	int MainMenuUserActions(int key);
+	int MainMenuInteraction();
+	int InitialDisplay();
 	// notifies InfoPanel if user choose some construction on the playing field
 	void ChosenConstructionAttach(ConstructionInfoObserverInterface* observer) override;
 	void ChosenConstructionDetach(ConstructionInfoObserverInterface* observer) override;
@@ -96,6 +100,7 @@ public:
 	void EnterKey_Menu();
 	void EnterKey_InfoPanel();
 	void Enter_Key();
+	int EnterKey_MainMenu();
 	//
 	void EscKey_Camera();
 	void EscKey_InfoPanel();
@@ -105,6 +110,7 @@ public:
 	void Arrows_Menu(Direction arrowDir);
 	void Arrows_InfoPanel(Direction arrowDir);
 	void Arrows(Direction arrowDir);
+	void Arrows_MainMenu(Direction arrowDir);
 	//
 	void UserActions(int key);
 };

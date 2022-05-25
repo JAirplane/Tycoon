@@ -4,31 +4,34 @@
 void InfoPanel::CreateMenuScreen()
 {
 	PointCoord menuScreenUpperLeft = PointCoord(this->GetUpperLeft().Get_x() + 2, this->GetUpperLeft().Get_y() + 2);
-	MyRectangle menuScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(menuScreenUpperLeft,
+	MyRectangle* menuScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(menuScreenUpperLeft,
 		DTOCollector::GetCollector()->GetInfoPanelMenuScreenConstants(), this->GetDrawPointer(), this->GetCursor());
-	menuScreenRectangle.SetHeightAddition(this->GetHeightAddition() - 4);
-	menuScreenRectangle.SetWidthAddition(this->GetWidthAddition() - 4);
-	mainScreen_ptr = new MenuScreen(menuScreenRectangle);
+	menuScreenRectangle->SetHeightAddition(this->GetHeightAddition() - 4);
+	menuScreenRectangle->SetWidthAddition(this->GetWidthAddition() - 4);
+	mainScreen_ptr = new MenuScreen(*menuScreenRectangle);
+	delete menuScreenRectangle;
 	mainScreen_ptr->CreateButtons();
 }
 void InfoPanel::CreateControlsScreen()
 {
 	PointCoord controlsScreenUpperLeft = PointCoord(this->GetUpperLeft().Get_x() + 2, this->GetUpperLeft().Get_y() + 2);
-	MyRectangle controlsScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(controlsScreenUpperLeft,
+	MyRectangle* controlsScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(controlsScreenUpperLeft,
 		DTOCollector::GetCollector()->GetInfoPanelControlsScreenConstants(), this->GetDrawPointer(), this->GetCursor());
-	controlsScreenRectangle.SetHeightAddition(this->GetHeightAddition() - 4);
-	controlsScreenRectangle.SetWidthAddition(this->GetWidthAddition() - 4);
-	gameControlInfo_ptr = new ControlsScreen(controlsScreenRectangle);
+	controlsScreenRectangle->SetHeightAddition(this->GetHeightAddition() - 4);
+	controlsScreenRectangle->SetWidthAddition(this->GetWidthAddition() - 4);
+	gameControlInfo_ptr = new ControlsScreen(*controlsScreenRectangle);
+	delete controlsScreenRectangle;
 	gameControlInfo_ptr->FillControlsDescriptions();
 }
 void InfoPanel::CreateGameMessagesScreen()
 {
 	PointCoord messagesAndInfoScreenUpperLeft = PointCoord(GetUpperLeft().Get_x() + 2, GetUpperLeft().Get_y() + 2);
-	MyRectangle messagesAndInfoScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(messagesAndInfoScreenUpperLeft,
+	MyRectangle* messagesAndInfoScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(messagesAndInfoScreenUpperLeft,
 		DTOCollector::GetCollector()->GetInfoPanelMessagesAndInfoScreenConstants(), this->GetDrawPointer(), this->GetCursor());
-	messagesAndInfoScreenRectangle.SetHeightAddition(this->GetHeightAddition() - 4);
-	messagesAndInfoScreenRectangle.SetWidthAddition(this->GetWidthAddition() - 4);
-	messagesAndInfoScreen_ptr = new MessagesAndInfoScreen(messagesAndInfoScreenRectangle);
+	messagesAndInfoScreenRectangle->SetHeightAddition(this->GetHeightAddition() - 4);
+	messagesAndInfoScreenRectangle->SetWidthAddition(this->GetWidthAddition() - 4);
+	messagesAndInfoScreen_ptr = new MessagesAndInfoScreen(*messagesAndInfoScreenRectangle);
+	delete messagesAndInfoScreenRectangle;
 	messagesAndInfoScreen_ptr->CreateConstructionInfoScreen();
 	messagesAndInfoScreen_ptr->CreateMessagesScreen();
 }

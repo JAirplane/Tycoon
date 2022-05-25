@@ -50,14 +50,15 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 	{
 		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, menuItems.back()->GetUpperLeft().Get_y() + menuItems.back()->GetHeightAddition() + 1);
 	}
-	MyRectangle menuElementRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(elementLocation,
+	MyRectangle* menuElementRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(elementLocation,
 		DTOCollector::GetCollector()->GetSideMenuElementConstants(), GetDrawPointer(), GetCursor());
-	menuElementRectangle.SetWidthAddition(this->GetWidthAddition() - 4);
+	menuElementRectangle->SetWidthAddition(this->GetWidthAddition() - 4);
 	MyRectangle* menuIcon_ptr = CreateIcon(elementLocation);
 	ConstructionManager* manager_ptr = CreateManager(elementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected, backgroundNotConnected,
 		backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, entertainmentValue, isExit, maxVisitors, visitTime,
 		dailyExpences, constructionHeightAdd, constructionWidthAdd);
-	MenuElement* element_ptr = new MenuElement(menuElementRectangle, menuIcon_ptr, manager_ptr);
+	MenuElement* element_ptr = new MenuElement(*menuElementRectangle, menuIcon_ptr, manager_ptr);
+	delete menuElementRectangle;
 	menuItems.push_back(element_ptr);
 }
 void Menu::CreateMenuElement(string constructionType)
@@ -75,19 +76,20 @@ void Menu::CreateMenuElement(string constructionType)
 	{
 		elementLocation = PointCoord(GetUpperLeft().Get_x() + 2, menuItems.back()->GetUpperLeft().Get_y() + menuItems.back()->GetHeightAddition() + 1);
 	}
-	MyRectangle menuElementRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(elementLocation,
+	MyRectangle* menuElementRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(elementLocation,
 		DTOCollector::GetCollector()->GetSideMenuElementConstants(), GetDrawPointer(), GetCursor());
-	menuElementRectangle.SetWidthAddition(this->GetWidthAddition() - 4);
+	menuElementRectangle->SetWidthAddition(this->GetWidthAddition() - 4);
 	MyRectangle* menuIcon_ptr = CreateIcon(elementLocation);
 	ConstructionManager* manager_ptr = CreateManager(elementLocation, XMLDownloader::GetDownloader()->DownloadConstructionConstants(constructionType));
-	MenuElement* element_ptr = new MenuElement(menuElementRectangle, menuIcon_ptr, manager_ptr);
+	MenuElement* element_ptr = new MenuElement(*menuElementRectangle, menuIcon_ptr, manager_ptr);
+	delete menuElementRectangle;
 	menuItems.push_back(element_ptr);
 }
 MyRectangle* Menu::CreateIcon(PointCoord elementLocation)
 {
 	PointCoord iconLocation = PointCoord(elementLocation.Get_x() + 1, elementLocation.Get_y() + 1);
-	MyRectangle* newIcon = new MyRectangle(RectangleCreator::GetRectangleFactory()->CreateRectangle(iconLocation,
-		DTOCollector::GetCollector()->GetMenuElementIconConstants(), this->GetDrawPointer(), this->GetCursor()));
+	MyRectangle* newIcon = RectangleCreator::GetRectangleFactory()->CreateRectangle(iconLocation,
+		DTOCollector::GetCollector()->GetMenuElementIconConstants(), this->GetDrawPointer(), this->GetCursor());
 	return newIcon;
 }
 //
@@ -163,10 +165,11 @@ void Menu::CreateParkEntrance(const PlayingField* playingField_ptr, const Visual
 void Menu::CreateGameStats()
 {
 	PointCoord gameStatsLocation = PointCoord(this->GetUpperLeft().Get_x() + 1, this->GetUpperLeft().Get_y() + 1);
-	MyRectangle gameStatsRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(gameStatsLocation,
+	MyRectangle* gameStatsRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(gameStatsLocation,
 		DTOCollector::GetCollector()->GetSideMenuGameStatsConstants(), this->GetDrawPointer(), this->GetCursor());
-	gameStatsRectangle.SetWidthAddition(this->GetWidthAddition() - 2);
-	gameStats_ptr = new GameStats(gameStatsRectangle);
+	gameStatsRectangle->SetWidthAddition(this->GetWidthAddition() - 2);
+	gameStats_ptr = new GameStats(*gameStatsRectangle);
+	delete gameStatsRectangle;
 }
 void Menu::CreateVisitorManager()
 {
@@ -407,13 +410,46 @@ MenuElement* Menu::MenuNavigation(MenuElement* currentElement, IconsPosition upp
 		return nearest;
 	}
 }
-void Menu::MenuElementRedrawBorder(int elementTopY, color newColor)
+void Menu::MenuElementRedrawBorder(int elementTopY, string newCondition)
 {
 	MenuElement* element_ptr = GetMenuElement(elementTopY);
-	element_ptr->GetBorder()->SetBorderForegroundColor(newColor);
-	if (!hidden)
+	if (hidden)
 	{
-		element_ptr->DrawBorder();
+		if (newCondition == "active")
+		{
+			element_ptr->GetBorder()->SetBorderForegroundColor(element_ptr->GetInitialCondition()->activeButtonColor);
+		}
+		else if (newCondition == "inactive")
+		{
+			element_ptr->GetBorder()->SetBorderForegroundColor(element_ptr->GetInitialCondition()->foregroundBorderColor);
+		}
+		else if (newCondition == "chosen")
+		{
+			element_ptr->GetBorder()->SetBorderForegroundColor(element_ptr->GetInitialCondition()->pressedColor);
+		}
+		else
+		{
+			throw MyException("Menu::MenuElementRedrawBorder(int elementTopY, string newCondition) bad condition");
+		}
+	}
+	else
+	{
+		if (newCondition == "active")
+		{
+			element_ptr->RedrawBorder(element_ptr->GetInitialCondition()->activeButtonColor, element_ptr->GetInitialCondition()->backgroundBorderColor);
+		}
+		else if (newCondition == "inactive")
+		{
+			element_ptr->RedrawBorder(element_ptr->GetInitialCondition()->foregroundBorderColor, element_ptr->GetInitialCondition()->backgroundBorderColor);
+		}
+		else if (newCondition == "chosen")
+		{
+			element_ptr->RedrawBorder(element_ptr->GetInitialCondition()->pressedColor, element_ptr->GetInitialCondition()->backgroundBorderColor);
+		}
+		else
+		{
+			throw MyException("Menu::MenuElementRedrawBorder(int elementTopY, string newCondition) bad condition");
+		}
 	}
 }
 Construction* Menu::CreatePreliminaryObject(AllObjects* allObjects_ptr, Camera* camera_ptr) const

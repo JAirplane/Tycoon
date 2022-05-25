@@ -96,7 +96,7 @@ public:
 	Construction* CreatePreliminaryObject(AllObjects* allObjects_ptr, Camera* camera_ptr) const;
 	Visitor* CreateVisitor(const PlayingField* field_ptr, const Camera* camera_ptr, AllObjects* container_ptr) const;
 	void VisitorAddition(const PlayingField* field_ptr, const Camera* camera_ptr, AllObjects* container_ptr) const;
-	void MenuElementRedrawBorder(int elementTopY, color newColor);
+	void MenuElementRedrawBorder(int elementTopY, string newCondition);
 	MenuElement* MenuNavigation(MenuElement* currentElement, IconsPosition upperOrLower);
 	void ParkLevelCheck(const AllObjects* container_ptr);
 	int GetLowestEntertainmentVisitPrice() const;

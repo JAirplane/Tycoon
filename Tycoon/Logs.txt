@@ -1,10 +1,10 @@
+XMLDownloader::DownloadButtonConstants(string buttonType) failed to find constants in XML
 bad allocation
 bad allocation
 bad allocation
-bad allocation
-GameManagement::Arrows_Menu() incorrect direction.
-GameManagement::Arrows_Menu() incorrect direction.
-bad conversion
+XMLDownloader::DownloadButtonConstants(string buttonType) failed to find constants in XML
+XMLDownloader::DownloadButtonConstants(string buttonType) failed to find constants in XML
 XMLDownloader::DownloadRectangleConstants(string rectangleName) failed to find constants in XML
 XMLDownloader::DownloadRectangleConstants(string rectangleName) failed to find constants in XML
-XMLDownloader::DownloadRectangleConstants(string rectangleName) failed to find constants in XML
+Button::Display() button has an empty title string.
+Button::Display() button has an empty title string.

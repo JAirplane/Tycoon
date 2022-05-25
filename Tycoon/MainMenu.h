@@ -26,7 +26,7 @@ public:
 	Button* GetCurrentActiveButton(const Cursor* cursor_ptr) const;
 	void ActiveButtonUp(Cursor* cursor_ptr);
 	void ActiveButtonDown(Cursor* cursor_ptr);
-	void ChangeActiveButton();
+	int PressButton(Cursor* cursor_ptr);
 private:
 	Button* newGame;
 	Button* continueGame;

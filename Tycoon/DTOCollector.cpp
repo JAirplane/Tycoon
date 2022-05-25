@@ -23,7 +23,7 @@ void DTOCollector::DownloadAllData()
 	constructionInfoScreenConstructionIcon = XMLDownloader::GetDownloader()->DownloadRectangleConstants("constructionInfoScreenConstructionIcon");
 	infoPanelMessagesScreen = XMLDownloader::GetDownloader()->DownloadRectangleConstants("infoPanelMessagesScreen");
 	startScreen = XMLDownloader::GetDownloader()->DownloadRectangleConstants("startScreen");
-	pressAnyKey = XMLDownloader::GetDownloader()->DownloadButtonConstants("pressAnyKey");
+	pressAnyKey = XMLDownloader::GetDownloader()->DownloadRectangleConstants("pressAnyKey");
 	mainMenuScreen = XMLDownloader::GetDownloader()->DownloadRectangleConstants("mainMenuScreen");
 	//
 	infoPanelMenuScreenControlsButton = XMLDownloader::GetDownloader()->DownloadButtonConstants("infoPanelMenuScreenControlsButton");

@@ -53,6 +53,7 @@ public:
 	void SetShadingColor(color backgroundColor);
 	virtual void DrawBorder() const;
 	virtual void EraseBorder() const;
+	virtual void RedrawBorder(color newForeground, color newBackground);
 	void ClearContent() const;
 	bool IsLocationOnTheBorder(PointCoord location) const;
 	bool IsObjectInsideTheRectangle(const GlobalObject* object_ptr) const;

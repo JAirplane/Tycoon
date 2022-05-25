@@ -67,6 +67,12 @@ void MyRectangle::EraseBorder() const
 		draw_ptr->ErasePixel(leftX, topY + GetHeightAddition());
 	}
 }
+void MyRectangle::RedrawBorder(color newForeground, color newBackground)
+{
+	this->GetBorder()->SetBorderForegroundColor(newForeground);
+	this->GetBorder()->SetBorderBackgroundColor(newBackground);
+	this->DrawBorder();
+}
 void MyRectangle::ClearContent() const
 {
 	int leftX = GetUpperLeft().Get_x() + 1;

@@ -1,10 +1,9 @@
 #include "MenuScreen_InfoPanel.h"
 Button* MenuScreen::CreateButton(PointCoord upperLeft, string buttonTitle)
 {
-	Button buttonRectangle = RectangleCreator::GetRectangleFactory()->CreateButton(upperLeft,
+	Button* created = RectangleCreator::GetRectangleFactory()->CreateButton(upperLeft,
 		XMLDownloader::GetDownloader()->DownloadButtonConstants(buttonTitle), this->GetDrawPointer(), this->GetCursor());
-	buttonRectangle.SetHeightAddition(this->GetHeightAddition() - 2);
-	Button* created = new Button(buttonRectangle);
+	created->SetHeightAddition(this->GetHeightAddition() - 2);
 	return created;
 }
 void MenuScreen::CreateButtons()
@@ -19,8 +18,8 @@ void MenuScreen::CreateButtons()
 	int leftXControlsButton = rightXMenuScreen / 2 + rightXMenuScreen / 10;
 	PointCoord leftButtonUpperLeft = PointCoord(leftXInfoScreenButton, topYButtons);
 	PointCoord rightButtonUpperLeft = PointCoord(leftXControlsButton, topYButtons);
-	messagesAndInfoButton_ptr = this->CreateButton(leftButtonUpperLeft, ConstructionOptions::GetAllOptions()->GetInfoScreenButtonTitle());
-	controlsButton_ptr = this->CreateButton(rightButtonUpperLeft, ConstructionOptions::GetAllOptions()->GetControlsButtonTitle());
+	messagesAndInfoButton_ptr = this->CreateButton(leftButtonUpperLeft, "infoPanelMenuScreenMessagesAndInfoButton");
+	controlsButton_ptr = this->CreateButton(rightButtonUpperLeft, "infoPanelMenuScreenControlsButton");
 }
 Button* MenuScreen::GetMessagesButton() const
 {

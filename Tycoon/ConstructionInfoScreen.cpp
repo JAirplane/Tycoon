@@ -5,16 +5,14 @@ void ConstructionInfoScreen::CreateDeconstructButton()
 	int rightXScreen = this->GetUpperLeft().Get_x() + this->GetWidthAddition();
 	int topYButton = this->GetUpperLeft().Get_y() + 2;
 	int leftXButton = rightXScreen - deconstructButtonConstants.widthAddition - 1;
-	Button deconstructButton = RectangleCreator::GetRectangleFactory()->CreateButton(PointCoord(leftXButton, topYButton),
+	deconstruct_ptr = RectangleCreator::GetRectangleFactory()->CreateButton(PointCoord(leftXButton, topYButton),
 		deconstructButtonConstants, this->GetDrawPointer(), this->GetCursor());
-	deconstruct_ptr = new Button(deconstructButton);
 }
 void ConstructionInfoScreen::CreateConstructionIcon()
 {
 	PointCoord iconLocation = PointCoord(GetUpperLeft().Get_x() + 2, GetUpperLeft().Get_y() + 1);
-	MyRectangle constructionIconRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(iconLocation,
+	constructionIcon_ptr = RectangleCreator::GetRectangleFactory()->CreateRectangle(iconLocation,
 		DTOCollector::GetCollector()->GetConstructionInfoScreenConstructionIconConstants(), this->GetDrawPointer(), this->GetCursor());
-	constructionIcon_ptr = new MyRectangle(constructionIconRectangle);
 }
 //
 Button* ConstructionInfoScreen::GetDeconstructButton()

@@ -9,6 +9,7 @@ int main()
 	GameManagement GameMaster;
 	try
 	{
+		DTOCollector::GetCollector()->DownloadAllData();
 		GameMaster.CreateCursor();
 		GameMaster.CreateDrawPointer();
 		GameMaster.CreateGameElementsDrawer();
