@@ -1,6 +1,6 @@
 #pragma once
 #include <chrono>
-#include "Display.h"
+#include "SaveLoad.h"
 /////////////Game Management Class/////////////
 class GameManagement : public MessageSubjectInterface, public ConstructionInfoSubjectInterface
 {
@@ -60,6 +60,7 @@ public:
 	int GetPressedKey() const;
 	int MainMenuUserActions(int key);
 	int MainMenuInteraction();
+	void SaveAndExit();
 	int InitialDisplay();
 	// notifies InfoPanel if user choose some construction on the playing field
 	void ChosenConstructionAttach(ConstructionInfoObserverInterface* observer) override;

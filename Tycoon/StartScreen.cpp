@@ -1,8 +1,8 @@
 #include "StartScreen.h"
 void InitialScreen::CreatePressAnyKey()
 {
-	RectangleConstantsXML pressAnyKeyConstants = DTOCollector::GetCollector()->GetPressAnyKeyConstants();
-	PointCoord pressAnyKeyUpperLeft = PointCoord(GetHalfXAxis() - (pressAnyKeyConstants.widthAddition + 1) / 2, GetUpperLeft().Get_y() + 20);
+	RectangleConstantsXML* pressAnyKeyConstants = DTOCollector::GetCollector()->GetFigureConstants("pressAnyKey");
+	PointCoord pressAnyKeyUpperLeft = PointCoord(GetHalfXAxis() - (pressAnyKeyConstants->widthAddition + 1) / 2, GetUpperLeft().Get_y() + 20);
 	pressAnyKey = RectangleCreator::GetRectangleFactory()->CreateRectangle(pressAnyKeyUpperLeft,
 		pressAnyKeyConstants, this->GetDrawPointer(), this->GetCursor());
 }

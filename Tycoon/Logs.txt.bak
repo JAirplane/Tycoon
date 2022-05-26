@@ -1,2 +1,3 @@
 
-XMLDownloader::DownloadButtonConstants(string buttonType) failed to find constants in XML
+Menu::MenuElementRedrawBorder(int elementTopY, string newCondition) bad condition
+Menu::MenuElementRedrawBorder(int elementTopY, string newCondition) bad condition

@@ -37,7 +37,7 @@ void GameManagement::CreateCamera()
 		throw MyException("GameManagement::CreateCamera() cursor_ptr is nullptr");
 	}
 	MyRectangle* cameraRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetCameraInitialUpperLeft(),
-		DTOCollector::GetCollector()->GetCameraConstants(), draw_ptr, cursor_ptr);
+		DTOCollector::GetCollector()->GetFigureConstants("camera"), draw_ptr, cursor_ptr);
 	camera_ptr = new Camera(*cameraRectangle);
 	delete cameraRectangle;
 }
@@ -52,7 +52,7 @@ void GameManagement::CreatePlayingField()
 		throw MyException("GameManagement::CreatePlayingField() cursor_ptr is nullptr");
 	}
 	MyRectangle* playingFieldRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetPlayingFieldUpperLeft(),
-		DTOCollector::GetCollector()->GetPlayingFieldConstants(), draw_ptr, cursor_ptr);
+		DTOCollector::GetCollector()->GetFigureConstants("playingField"), draw_ptr, cursor_ptr);
 	field_ptr = new PlayingField(*playingFieldRectangle);
 	delete playingFieldRectangle;
 }
@@ -72,7 +72,7 @@ void GameManagement::CreateMenuAndElements()
 	}
 	PointCoord menuUpperLeft(camera_ptr->GetUpperLeft().Get_x() + camera_ptr->GetWidthAddition() + 1, camera_ptr->GetUpperLeft().Get_y());
 	MyRectangle* menuRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(menuUpperLeft,
-		DTOCollector::GetCollector()->GetSideMenuConstants(), draw_ptr, cursor_ptr);
+		DTOCollector::GetCollector()->GetFigureConstants("sideMenu"), draw_ptr, cursor_ptr);
 	menuRectangle->SetHeightAddition(camera_ptr->GetHeightAddition());
 	menu_ptr = new Menu(*menuRectangle);
 	delete menuRectangle;
@@ -109,7 +109,7 @@ void GameManagement::CreateInfoPanel()
 		throw MyException("GameManagement::CreateInfoPanel() menu_ptr is nullptr");
 	}
 	MyRectangle* infoPanelRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetInfoPanelUpperLeft(),
-		DTOCollector::GetCollector()->GetInfoPanelConstants(), draw_ptr, cursor_ptr);
+		DTOCollector::GetCollector()->GetFigureConstants("infoPanel"), draw_ptr, cursor_ptr);
 	infoPanelRectangle->SetWidthAddition(camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition() + 1);
 	infoPanel_ptr = new InfoPanel(*infoPanelRectangle);
 	delete infoPanelRectangle;
@@ -142,7 +142,7 @@ void GameManagement::CreateStartScreen()
 		throw MyException("GameManagement::CreateStartScreen() menu_ptr is nullptr");
 	}
 	MyRectangle* startScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetInitialSplashScreenUpperLeft(),
-		DTOCollector::GetCollector()->GetStartScreenConstants(), draw_ptr, cursor_ptr);
+		DTOCollector::GetCollector()->GetFigureConstants("startScreen"), draw_ptr, cursor_ptr);
 	startScreenRectangle->SetHeightAddition(camera_ptr->GetHeightAddition() + infoPanel_ptr->GetHeightAddition() + 1);
 	startScreenRectangle->SetWidthAddition(camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition() + 1);
 	startScreen_ptr = new InitialScreen(*startScreenRectangle);
@@ -173,7 +173,7 @@ void GameManagement::CreateMainMenu()
 		throw MyException("GameManagement::CreateMainMenu() menu_ptr is nullptr");
 	}
 	MyRectangle* mainMenuRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(ConstructionOptions::GetAllOptions()->GetMainMenuUpperLeft(),
-		DTOCollector::GetCollector()->GetMainMenuScreenConstants(), draw_ptr, cursor_ptr);
+		DTOCollector::GetCollector()->GetFigureConstants("mainMenuScreen"), draw_ptr, cursor_ptr);
 	mainMenuRectangle->SetHeightAddition(camera_ptr->GetHeightAddition() + infoPanel_ptr->GetHeightAddition());
 	mainMenuRectangle->SetWidthAddition(camera_ptr->GetWidthAddition() + menu_ptr->GetWidthAddition());
 	mainMenu_ptr = new MainMenu(*mainMenuRectangle);
@@ -197,7 +197,7 @@ int GameManagement::MainMenuUserActions(int key)
 	case 72: { Arrows_MainMenu(Direction::Up); return 0; }		//up arrow 
 	case 80: { Arrows_MainMenu(Direction::Down); return 0; }	//down arrow 
 	case 13: { return EnterKey_MainMenu(); }	//enter key
-	case 27: { Esc_Key(); return 1; }	//esc in main menu is equal to effect of pressing exit button
+	case 27: { exit(0); }	//esc in main menu is equal to effect of pressing exit button
 	default: {return 0; }
 	}
 }
@@ -218,6 +218,11 @@ int GameManagement::MainMenuInteraction()
 			}
 		}
 	}
+}
+void GameManagement::SaveAndExit()
+{
+	
+
 }
 int GameManagement::InitialDisplay()
 {
@@ -488,8 +493,8 @@ void GameManagement::S_Key()
 	gameElementsDrawer->EraseScreen();
 	gameElementsDrawer->DisplayCamera(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 	gameElementsDrawer->DisplayMenu(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
-	gameElementsDrawer->DisplayAllObjects(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 	gameElementsDrawer->DisplayPlayingField(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
+	gameElementsDrawer->DisplayAllObjects(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 	gameElementsDrawer->DisplayInfoPanel(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 }
 void GameManagement::R_Key()
@@ -768,7 +773,7 @@ void GameManagement::EnterKey_Menu()
 		infoPanel_ptr->EraseInfoPanelMessage();
 		infoPanel_ptr->DisplayInfoPanelMessage("Press 'i' to get to the InfoPanel");
 	}
-	menu_ptr->MenuElementRedrawBorder(cursor_ptr->GetCursorConsoleLocation().Get_y(), "pressed");
+	menu_ptr->MenuElementRedrawBorder(cursor_ptr->GetCursorConsoleLocation().Get_y(), "chosen");
 	Construction* preliminary_ptr = menu_ptr->CreatePreliminaryObject(allObjects_ptr, camera_ptr);
 	cursor_ptr->CursorMovement(PointCoord(camera_ptr->GetHalfXAxis(), camera_ptr->GetHalfYAxis()));
 	preliminary_ptr->SetUpperLeft(cursor_ptr->GetCursorConsoleLocation());
@@ -876,12 +881,13 @@ void GameManagement::Enter_Key()
 int GameManagement::EnterKey_MainMenu()
 {
 	int response = mainMenu_ptr->PressButton(cursor_ptr);
-	switch (response)
+	if (response == 1)
 	{
-	case 1: {return response; }
-	case 2: {return response; }
-	case 3: {return response; }
-	default: {throw MyException("GameManagement::EnterKey_MainMenu() bad response"); }
+		exit(0);
+	}
+	else
+	{
+		return response;
 	}
 }
 void GameManagement::EscKey_Camera()

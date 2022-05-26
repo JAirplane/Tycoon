@@ -16,22 +16,22 @@ BorderAppearance* RectangleCreator::CreateBorderAppearance(RectangleSymbols* bor
 {
 	return new BorderAppearance(borderSymbols, borderForegroundColor, borderBackgroundColor);
 }
-MyRectangle* RectangleCreator::CreateRectangle(PointCoord upperLeft, RectangleConstantsXML downloadedConstants, Visualisation* draw_ptr, Cursor* cursor_ptr) const
+MyRectangle* RectangleCreator::CreateRectangle(PointCoord upperLeft, RectangleConstantsXML* downloadedConstants, Visualisation* draw_ptr, Cursor* cursor_ptr) const
 {
-	RectangleSymbols* borderSymbols = CreateRectangleSymbols(downloadedConstants.borderSymbolVertical, downloadedConstants.borderSymbolHorizontal,
-		downloadedConstants.borderSymbolUpperLeft, downloadedConstants.borderSymbolUpperRight, downloadedConstants.borderSymbolBottomLeft,
-		downloadedConstants.borderSymbolBottomRight);
-	BorderAppearance* border = CreateBorderAppearance(borderSymbols, downloadedConstants.foregroundBorderColor, downloadedConstants.backgroundBorderColor);
-	MyRectangle* created = new MyRectangle(upperLeft, &downloadedConstants, draw_ptr, cursor_ptr);
+	RectangleSymbols* borderSymbols = CreateRectangleSymbols(downloadedConstants->borderSymbolVertical, downloadedConstants->borderSymbolHorizontal,
+		downloadedConstants->borderSymbolUpperLeft, downloadedConstants->borderSymbolUpperRight, downloadedConstants->borderSymbolBottomLeft,
+		downloadedConstants->borderSymbolBottomRight);
+	BorderAppearance* border = CreateBorderAppearance(borderSymbols, downloadedConstants->foregroundBorderColor, downloadedConstants->backgroundBorderColor);
+	MyRectangle* created = new MyRectangle(upperLeft, downloadedConstants, draw_ptr, cursor_ptr);
 	return created;
 }
-Button* RectangleCreator::CreateButton(PointCoord upperLeft, RectangleConstantsXML downloadedConstants, Visualisation* draw_ptr, Cursor* cursor_ptr) const
+Button* RectangleCreator::CreateButton(PointCoord upperLeft, RectangleConstantsXML* downloadedConstants, Visualisation* draw_ptr, Cursor* cursor_ptr) const
 {
-	RectangleSymbols* borderSymbols = CreateRectangleSymbols(downloadedConstants.borderSymbolVertical, downloadedConstants.borderSymbolHorizontal,
-		downloadedConstants.borderSymbolUpperLeft, downloadedConstants.borderSymbolUpperRight, downloadedConstants.borderSymbolBottomLeft,
-		downloadedConstants.borderSymbolBottomRight);
-	BorderAppearance* border = CreateBorderAppearance(borderSymbols, downloadedConstants.foregroundBorderColor, downloadedConstants.backgroundBorderColor);
-	Button* created = new Button(upperLeft, &downloadedConstants, draw_ptr, cursor_ptr);
+	RectangleSymbols* borderSymbols = CreateRectangleSymbols(downloadedConstants->borderSymbolVertical, downloadedConstants->borderSymbolHorizontal,
+		downloadedConstants->borderSymbolUpperLeft, downloadedConstants->borderSymbolUpperRight, downloadedConstants->borderSymbolBottomLeft,
+		downloadedConstants->borderSymbolBottomRight);
+	BorderAppearance* border = CreateBorderAppearance(borderSymbols, downloadedConstants->foregroundBorderColor, downloadedConstants->backgroundBorderColor);
+	Button* created = new Button(upperLeft, downloadedConstants, draw_ptr, cursor_ptr);
 	return created;
 }
 RectangleCreator* RectangleCreator::rectangleFactory = RectangleCreator::CreateRectangleFactory();

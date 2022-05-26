@@ -29,7 +29,7 @@ public:
 			logRide
 			exit
 	*/
-	virtual RectangleConstantsXML DownloadRectangleConstants(string constructionType);
+	virtual RectangleConstantsXML* DownloadRectangleConstants(string constructionType);
 	/*	suitable rectangle names:
 			camera
 			sideMenuElement
@@ -48,7 +48,7 @@ public:
 			pressAnyKey
 			mainMenuScreen
 	*/
-	virtual ButtonConstantsXML DownloadButtonConstants(string buttonType);
+	virtual RectangleConstantsXML* DownloadButtonConstants(string buttonType);
 	/*	suitable button names:
 			infoPanelMenuScreenControlsButton
 			infoPanelMenuScreenMessagesAndInfoButton
@@ -57,4 +57,5 @@ public:
 			continueButton
 			exitButton
 	*/
+	virtual RectangleConstantsXML* DownloadFigureConstants(string figureName);
 };

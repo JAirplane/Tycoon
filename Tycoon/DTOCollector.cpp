@@ -9,117 +9,41 @@ DTOCollector* DTOCollector::GetCollector()
 }
 void DTOCollector::DownloadAllData()
 {
-	camera = XMLDownloader::GetDownloader()->DownloadRectangleConstants("camera");
-	sideMenuElement = XMLDownloader::GetDownloader()->DownloadRectangleConstants("sideMenuElement");
-	menuElementIcon = XMLDownloader::GetDownloader()->DownloadRectangleConstants("menuElementIcon");
-	sideMenuGameStats = XMLDownloader::GetDownloader()->DownloadRectangleConstants("sideMenuGameStats");
-	sideMenu = XMLDownloader::GetDownloader()->DownloadRectangleConstants("sideMenu");
-	playingField = XMLDownloader::GetDownloader()->DownloadRectangleConstants("playingField");
-	infoPanel = XMLDownloader::GetDownloader()->DownloadRectangleConstants("infoPanel");
-	infoPanelMenuScreen = XMLDownloader::GetDownloader()->DownloadRectangleConstants("infoPanelMenuScreen");
-	infoPanelControlsScreen = XMLDownloader::GetDownloader()->DownloadRectangleConstants("infoPanelControlsScreen");
-	infoPanelMessagesAndInfoScreen = XMLDownloader::GetDownloader()->DownloadRectangleConstants("infoPanelMessagesAndInfoScreen");
-	infoPanelConstructionInfoScreen = XMLDownloader::GetDownloader()->DownloadRectangleConstants("infoPanelConstructionInfoScreen");
-	constructionInfoScreenConstructionIcon = XMLDownloader::GetDownloader()->DownloadRectangleConstants("constructionInfoScreenConstructionIcon");
-	infoPanelMessagesScreen = XMLDownloader::GetDownloader()->DownloadRectangleConstants("infoPanelMessagesScreen");
-	startScreen = XMLDownloader::GetDownloader()->DownloadRectangleConstants("startScreen");
-	pressAnyKey = XMLDownloader::GetDownloader()->DownloadRectangleConstants("pressAnyKey");
-	mainMenuScreen = XMLDownloader::GetDownloader()->DownloadRectangleConstants("mainMenuScreen");
+	figureDTOCollection.insert(make_pair("camera", XMLDownloader::GetDownloader()->DownloadFigureConstants("camera")));
+	figureDTOCollection.insert(make_pair("sideMenuElement", XMLDownloader::GetDownloader()->DownloadFigureConstants("sideMenuElement")));
+	figureDTOCollection.insert(make_pair("menuElementIcon", XMLDownloader::GetDownloader()->DownloadFigureConstants("menuElementIcon")));
+	figureDTOCollection.insert(make_pair("sideMenuGameStats", XMLDownloader::GetDownloader()->DownloadFigureConstants("sideMenuGameStats")));
+	figureDTOCollection.insert(make_pair("sideMenu", XMLDownloader::GetDownloader()->DownloadFigureConstants("sideMenu")));
+	figureDTOCollection.insert(make_pair("playingField", XMLDownloader::GetDownloader()->DownloadFigureConstants("playingField")));
+	figureDTOCollection.insert(make_pair("infoPanel", XMLDownloader::GetDownloader()->DownloadFigureConstants("infoPanel")));
+	figureDTOCollection.insert(make_pair("infoPanelMenuScreen", XMLDownloader::GetDownloader()->DownloadFigureConstants("infoPanelMenuScreen")));
+	figureDTOCollection.insert(make_pair("infoPanelControlsScreen", XMLDownloader::GetDownloader()->DownloadFigureConstants("infoPanelControlsScreen")));
+	figureDTOCollection.insert(make_pair("infoPanelMessagesAndInfoScreen", XMLDownloader::GetDownloader()->DownloadFigureConstants("infoPanelMessagesAndInfoScreen")));
+	figureDTOCollection.insert(make_pair("infoPanelConstructionInfoScreen", XMLDownloader::GetDownloader()->DownloadFigureConstants("infoPanelConstructionInfoScreen")));
+	figureDTOCollection.insert(make_pair("constructionInfoScreenConstructionIcon", XMLDownloader::GetDownloader()->DownloadFigureConstants("constructionInfoScreenConstructionIcon")));
+	figureDTOCollection.insert(make_pair("infoPanelMessagesScreen", XMLDownloader::GetDownloader()->DownloadFigureConstants("infoPanelMessagesScreen")));
+	figureDTOCollection.insert(make_pair("startScreen", XMLDownloader::GetDownloader()->DownloadFigureConstants("startScreen")));
+	figureDTOCollection.insert(make_pair("pressAnyKey", XMLDownloader::GetDownloader()->DownloadFigureConstants("pressAnyKey")));
+	figureDTOCollection.insert(make_pair("mainMenuScreen", XMLDownloader::GetDownloader()->DownloadFigureConstants("mainMenuScreen")));
 	//
-	infoPanelMenuScreenControlsButton = XMLDownloader::GetDownloader()->DownloadButtonConstants("infoPanelMenuScreenControlsButton");
-	infoPanelMenuScreenMessagesAndInfoButton = XMLDownloader::GetDownloader()->DownloadButtonConstants("infoPanelMenuScreenMessagesAndInfoButton");
-	constructionInfoScreenDeconstructButton = XMLDownloader::GetDownloader()->DownloadButtonConstants("constructionInfoScreenDeconstructButton");
-	newGameButton = XMLDownloader::GetDownloader()->DownloadButtonConstants("newGameButton");
-	continueButton = XMLDownloader::GetDownloader()->DownloadButtonConstants("continueButton");
-	exitButton = XMLDownloader::GetDownloader()->DownloadButtonConstants("exitButton");
+	figureDTOCollection.insert(make_pair("infoPanelMenuScreenControlsButton", XMLDownloader::GetDownloader()->DownloadFigureConstants("infoPanelMenuScreenControlsButton")));
+	figureDTOCollection.insert(make_pair("infoPanelMenuScreenMessagesAndInfoButton", XMLDownloader::GetDownloader()->DownloadFigureConstants("infoPanelMenuScreenMessagesAndInfoButton")));
+	figureDTOCollection.insert(make_pair("constructionInfoScreenDeconstructButton", XMLDownloader::GetDownloader()->DownloadFigureConstants("constructionInfoScreenDeconstructButton")));
+	figureDTOCollection.insert(make_pair("newGameButton", XMLDownloader::GetDownloader()->DownloadFigureConstants("newGameButton")));
+	figureDTOCollection.insert(make_pair("continueButton", XMLDownloader::GetDownloader()->DownloadFigureConstants("continueButton")));
+	figureDTOCollection.insert(make_pair("exitButton", XMLDownloader::GetDownloader()->DownloadFigureConstants("exitButton")));
 }
-RectangleConstantsXML DTOCollector::GetCameraConstants() const
+RectangleConstantsXML* DTOCollector::GetFigureConstants(string figureName) const
 {
-	return camera;
-}
-RectangleConstantsXML DTOCollector::GetSideMenuElementConstants() const
-{
-	return sideMenuElement;
-}
-RectangleConstantsXML DTOCollector::GetMenuElementIconConstants() const
-{
-	return menuElementIcon;
-}
-RectangleConstantsXML DTOCollector::GetSideMenuGameStatsConstants() const
-{
-	return sideMenuGameStats;
-}
-RectangleConstantsXML DTOCollector::GetSideMenuConstants() const
-{
-	return sideMenu;
-}
-RectangleConstantsXML DTOCollector::GetPlayingFieldConstants() const
-{
-	return playingField;
-}
-RectangleConstantsXML DTOCollector::GetInfoPanelConstants() const
-{
-	return infoPanel;
-}
-RectangleConstantsXML DTOCollector::GetInfoPanelMenuScreenConstants() const
-{
-	return infoPanelMenuScreen;
-}
-RectangleConstantsXML DTOCollector::GetInfoPanelControlsScreenConstants() const
-{
-	return infoPanelControlsScreen;
-}
-RectangleConstantsXML DTOCollector::GetInfoPanelMessagesAndInfoScreenConstants() const
-{
-	return infoPanelMessagesAndInfoScreen;
-}
-RectangleConstantsXML DTOCollector::GetInfoPanelConstructionInfoScreenConstants() const
-{
-	return infoPanelConstructionInfoScreen;
-}
-RectangleConstantsXML DTOCollector::GetConstructionInfoScreenConstructionIconConstants() const
-{
-	return constructionInfoScreenConstructionIcon;
-}
-RectangleConstantsXML DTOCollector::GetInfoPanelMessagesScreenConstants() const
-{
-	return infoPanelMessagesScreen;
-}
-RectangleConstantsXML DTOCollector::GetStartScreenConstants() const
-{
-	return startScreen;
-}
-RectangleConstantsXML DTOCollector::GetPressAnyKeyConstants() const
-{
-	return pressAnyKey;
-}
-RectangleConstantsXML DTOCollector::GetMainMenuScreenConstants() const
-{
-	return mainMenuScreen;
-}
-//
-ButtonConstantsXML DTOCollector::GetInfoPanelMenuScreenControlsButtonConstants() const
-{
-	return infoPanelMenuScreenControlsButton;
-}
-ButtonConstantsXML DTOCollector::GetInfoPanelMenuScreenMessagesAndInfoButtonConstants() const
-{
-	return infoPanelMenuScreenMessagesAndInfoButton;
-}
-ButtonConstantsXML DTOCollector::GetConstructionInfoScreenDeconstructButtonConstants() const
-{
-	return constructionInfoScreenDeconstructButton;
-}
-ButtonConstantsXML DTOCollector::GetNewGameButtonConstants() const
-{
-	return newGameButton;
-}
-ButtonConstantsXML DTOCollector::GetContinueButtonConstants() const
-{
-	return continueButton;
-}
-ButtonConstantsXML DTOCollector::GetExitButtonConstants() const
-{
-	return exitButton;
+	map<string, RectangleConstantsXML*>::const_iterator constantsIter;
+	constantsIter = figureDTOCollection.find(figureName);
+	if (constantsIter == figureDTOCollection.end())
+	{
+		throw MyException("DTOCollector::GetFigureConstants(string figureName) const figureName was not found in map");
+	}
+	else
+	{
+		return constantsIter->second;
+	}
 }
 DTOCollector* DTOCollector::dataCollector = DTOCollector::CreateCollector();

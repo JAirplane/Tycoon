@@ -1,10 +1,10 @@
 #include "ConstructionInfoScreen.h"
 void ConstructionInfoScreen::CreateDeconstructButton()
 {
-	ButtonConstantsXML deconstructButtonConstants = XMLDownloader::GetDownloader()->DownloadButtonConstants("constructionInfoScreenDeconstructButton");
+	RectangleConstantsXML* deconstructButtonConstants = DTOCollector::GetCollector()->GetFigureConstants("constructionInfoScreenDeconstructButton");
 	int rightXScreen = this->GetUpperLeft().Get_x() + this->GetWidthAddition();
 	int topYButton = this->GetUpperLeft().Get_y() + 2;
-	int leftXButton = rightXScreen - deconstructButtonConstants.widthAddition - 1;
+	int leftXButton = rightXScreen - deconstructButtonConstants->widthAddition - 1;
 	deconstruct_ptr = RectangleCreator::GetRectangleFactory()->CreateButton(PointCoord(leftXButton, topYButton),
 		deconstructButtonConstants, this->GetDrawPointer(), this->GetCursor());
 }
@@ -12,7 +12,7 @@ void ConstructionInfoScreen::CreateConstructionIcon()
 {
 	PointCoord iconLocation = PointCoord(GetUpperLeft().Get_x() + 2, GetUpperLeft().Get_y() + 1);
 	constructionIcon_ptr = RectangleCreator::GetRectangleFactory()->CreateRectangle(iconLocation,
-		DTOCollector::GetCollector()->GetConstructionInfoScreenConstructionIconConstants(), this->GetDrawPointer(), this->GetCursor());
+		DTOCollector::GetCollector()->GetFigureConstants("constructionInfoScreenConstructionIcon"), this->GetDrawPointer(), this->GetCursor());
 }
 //
 Button* ConstructionInfoScreen::GetDeconstructButton()

@@ -47,7 +47,7 @@ ConstructionConstantsXML XMLDownloader::DownloadConstructionConstants(string con
 	}
 	throw MyException("XMLDownloader::DownloadConstructionConstants(string constructionType) failed to find constants in XML");
 }
-RectangleConstantsXML XMLDownloader::DownloadRectangleConstants(string rectangleName)
+RectangleConstantsXML* XMLDownloader::DownloadRectangleConstants(string rectangleName)
 {
 	pugi::xml_document doc = CreateDocument("RectangleConstants.xml");
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
@@ -56,7 +56,7 @@ RectangleConstantsXML XMLDownloader::DownloadRectangleConstants(string rectangle
 	{
 		if (rectangle.attribute("name").as_string() == rectangleName)
 		{
-			RectangleConstantsXML rectangleConstants = RectangleConstantsXML(atoi(rectangle.child_value("heightAdd")), atoi(rectangle.child_value("widthAdd")),
+			RectangleConstantsXML* rectangleConstants = new RectangleConstantsXML(atoi(rectangle.child_value("heightAdd")), atoi(rectangle.child_value("widthAdd")),
 				StringToColor::GetStringToColorConverter()->Convert(rectangle.child_value("borderForegroundColor")),
 				StringToColor::GetStringToColorConverter()->Convert(rectangle.child_value("borderBackgroundColor")),
 				StringToColor::GetStringToColorConverter()->Convert(rectangle.child_value("letterColor")),
@@ -67,9 +67,9 @@ RectangleConstantsXML XMLDownloader::DownloadRectangleConstants(string rectangle
 			return rectangleConstants;
 		}
 	}
-	throw MyException("XMLDownloader::DownloadRectangleConstants(string rectangleName) failed to find constants in XML");
+	return nullptr;
 }
-ButtonConstantsXML XMLDownloader::DownloadButtonConstants(string buttonType)
+RectangleConstantsXML* XMLDownloader::DownloadButtonConstants(string buttonType)
 {
 	pugi::xml_document doc = CreateDocument("RectangleConstants.xml");
 	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
@@ -78,7 +78,7 @@ ButtonConstantsXML XMLDownloader::DownloadButtonConstants(string buttonType)
 	{
 		if (button.attribute("name").as_string() == buttonType)
 		{
-			ButtonConstantsXML buttonConstants = ButtonConstantsXML(atoi(button.child_value("heightAdd")), atoi(button.child_value("widthAdd")),
+			RectangleConstantsXML* buttonConstants = new ButtonConstantsXML(atoi(button.child_value("heightAdd")), atoi(button.child_value("widthAdd")),
 				StringToColor::GetStringToColorConverter()->Convert(button.child_value("borderForegroundColor")),
 				StringToColor::GetStringToColorConverter()->Convert(button.child_value("borderBackgroundColor")),
 				StringToColor::GetStringToColorConverter()->Convert(button.child_value("letterColor")),
@@ -91,6 +91,23 @@ ButtonConstantsXML XMLDownloader::DownloadButtonConstants(string buttonType)
 			return buttonConstants;
 		}
 	}
-	throw MyException("XMLDownloader::DownloadButtonConstants(string buttonType) failed to find constants in XML");
+	return nullptr;
+}
+RectangleConstantsXML* XMLDownloader::DownloadFigureConstants(string figureName)
+{
+	RectangleConstantsXML* dto = nullptr;
+	dto = DownloadRectangleConstants(figureName);
+	if (dto == nullptr)
+	{
+		dto = DownloadButtonConstants(figureName);
+	}
+	if (dto == nullptr)
+	{
+		throw MyException("XMLDownloader::DownloadFigureConstants(string figureName) failed to find data in XML");
+	}
+	else
+	{
+		return dto;
+	}
 }
 XMLDownloader* XMLDownloader::constructionConstantsDownload = XMLDownloader::CreateConstructionConstantsDownloader();

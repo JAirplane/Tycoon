@@ -2,14 +2,14 @@
 Button* MenuScreen::CreateButton(PointCoord upperLeft, string buttonTitle)
 {
 	Button* created = RectangleCreator::GetRectangleFactory()->CreateButton(upperLeft,
-		XMLDownloader::GetDownloader()->DownloadButtonConstants(buttonTitle), this->GetDrawPointer(), this->GetCursor());
+		DTOCollector::GetCollector()->GetFigureConstants(buttonTitle), this->GetDrawPointer(), this->GetCursor());
 	created->SetHeightAddition(this->GetHeightAddition() - 2);
 	return created;
 }
 void MenuScreen::CreateButtons()
 {
-	ButtonConstantsXML infoPanelMenuScreenMessagesAndInfoButtonConstants = XMLDownloader::GetDownloader()->DownloadButtonConstants("infoPanelMenuScreenMessagesAndInfoButton");
-	int buttonWidthAdd = infoPanelMenuScreenMessagesAndInfoButtonConstants.widthAddition;
+	RectangleConstantsXML* infoPanelMenuScreenMessagesAndInfoButtonConstants = DTOCollector::GetCollector()->GetFigureConstants("infoPanelMenuScreenMessagesAndInfoButton");
+	int buttonWidthAdd = infoPanelMenuScreenMessagesAndInfoButtonConstants->widthAddition;
 	int buttonHeightAdd = GetHeightAddition() - 2;
 	int leftXMenuScreen = GetUpperLeft().Get_x();
 	int rightXMenuScreen = leftXMenuScreen + GetWidthAddition();

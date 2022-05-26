@@ -2,7 +2,7 @@
 Button* MainMenu::CreateButton(PointCoord upperLeft, RectangleConstantsXML* initial, bool createActivated) const
 {
 	Button* newButton = nullptr;
-	Button* intermediary = RectangleCreator::GetRectangleFactory()->CreateButton(upperLeft, *initial, GetDrawPointer(), GetCursor());
+	Button* intermediary = RectangleCreator::GetRectangleFactory()->CreateButton(upperLeft, initial, GetDrawPointer(), GetCursor());
 	if (createActivated)
 	{
 		newButton = new ActivatedByConditionButton(*intermediary);
@@ -18,7 +18,7 @@ Button* MainMenu::CreateButton(PointCoord upperLeft, string buttonTitleXML, bool
 {
 	Button* newButton = nullptr;
 	Button* intermediary = RectangleCreator::GetRectangleFactory()->CreateButton(upperLeft,
-		XMLDownloader::GetDownloader()->DownloadButtonConstants(buttonTitleXML), this->GetDrawPointer(), this->GetCursor());
+		DTOCollector::GetCollector()->GetFigureConstants(buttonTitleXML), this->GetDrawPointer(), this->GetCursor());
 	if (createActivated)
 	{
 		newButton = new ActivatedByConditionButton(*intermediary);
@@ -32,8 +32,8 @@ Button* MainMenu::CreateButton(PointCoord upperLeft, string buttonTitleXML, bool
 }
 void MainMenu::CreateButtons()
 {
-	ButtonConstantsXML continueButtonConstants = XMLDownloader::GetDownloader()->DownloadButtonConstants("continueButton");
-	PointCoord continueButtonUpperLeft = PointCoord(this->GetHalfXAxis() - continueButtonConstants.widthAddition / 2, this->GetUpperLeft().Get_y() + this->GetHeightAddition() / 3);
+	RectangleConstantsXML* continueButtonConstants = DTOCollector::GetCollector()->GetFigureConstants("continueButton");
+	PointCoord continueButtonUpperLeft = PointCoord(this->GetHalfXAxis() - continueButtonConstants->widthAddition / 2, this->GetUpperLeft().Get_y() + this->GetHeightAddition() / 3);
 	continueGame = this->CreateButton(continueButtonUpperLeft, "continueButton", true);
 	PointCoord newGameButtonUpperLeft = PointCoord(continueGame->GetUpperLeft().Get_x(), continueGame->GetUpperLeft().Get_y() + continueGame->GetHeightAddition() + 2);
 	newGame = this->CreateButton(newGameButtonUpperLeft, "newGameButton", false);
