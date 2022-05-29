@@ -301,7 +301,8 @@ void GameManagement::ErasePreliminaryElementAndMenuRedraw()
 	Construction* preliminary_ptr = allObjects_ptr->GetPreliminaryElement();
 	if (preliminary_ptr != nullptr)
 	{
-		menu_ptr->MenuElementRedrawBorder(preliminary_ptr->GetDescriptor()->GetMenuElementLocation().Get_y(), "inactive");
+		MenuElement* elementOfPreliminary = menu_ptr->GetMenuElementByDescriptorId(preliminary_ptr->GetDescriptor()->uniqueId);
+		menu_ptr->MenuElementRedrawBorder(elementOfPreliminary, "inactive");
 		allObjects_ptr->ErasePreliminaryElement(camera_ptr, field_ptr);
 	}
 }
@@ -652,14 +653,12 @@ void GameManagement::TabKey_Camera()
 	}
 	else
 	{
-		MenuElement* elementOfPreliminary = menu_ptr->GetMenuElement(allObjects_ptr->GetPreliminaryElement()->GetDescriptor()->GetMenuElementLocation().Get_y());
-		elementOfPreliminary->GetBorder()->SetBorderForegroundColor(elementOfPreliminary->GetInitialCondition()->foregroundBorderColor);
-		elementOfPreliminary->DrawBorder();
+		MenuElement* ElementIfPreliminary = menu_ptr->GetMenuElementByDescriptorId(allObjects_ptr->GetPreliminaryElement()->GetDescriptor()->uniqueId);
+		menu_ptr->MenuElementRedrawBorder(ElementIfPreliminary, "inactive");
 		allObjects_ptr->ErasePreliminaryElement(camera_ptr, field_ptr);
 	}
 	MenuElement* upperVisibleElement = menu_ptr->GetUpperVisibleMenuElement();
-	upperVisibleElement->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetMenuElementActiveColor());
-	upperVisibleElement->DrawBorder();
+	menu_ptr->MenuElementRedrawBorder(upperVisibleElement, "active");
 	cursor_ptr->CursorMovement(PointCoord(upperVisibleElement->GetHalfXAxis(), upperVisibleElement->GetUpperLeft().Get_y()));
 }
 void GameManagement::TabKey_Menu()
@@ -714,7 +713,7 @@ void GameManagement::EnterKey_Camera()
 				menu_ptr->GetGameStats()->amountOfMoney -= preliminary_ptr->GetDescriptor()->GetConstructionCost();
 				menu_ptr->GetGameStats()->ClearContent();
 				menu_ptr->GetGameStats()->DrawContent();
-				MenuElement* elementOfPreliminary = menu_ptr->GetMenuElement(preliminary_ptr->GetDescriptor()->GetMenuElementLocation().Get_y());
+				MenuElement* elementOfPreliminary = menu_ptr->GetMenuElementByDescriptorId(preliminary_ptr->GetDescriptor()->uniqueId);
 				Construction* realObject_ptr = elementOfPreliminary->GetManager()->CreateConstruction(cursor_ptr->GetCursorConsoleLocation(), draw_ptr, allObjects_ptr);
 				realObject_ptr->CopyRotationProperties(preliminary_ptr);
 				menu_ptr->ParkLevelCheck(allObjects_ptr);
@@ -773,7 +772,7 @@ void GameManagement::EnterKey_Menu()
 		infoPanel_ptr->EraseInfoPanelMessage();
 		infoPanel_ptr->DisplayInfoPanelMessage("Press 'i' to get to the InfoPanel");
 	}
-	menu_ptr->MenuElementRedrawBorder(cursor_ptr->GetCursorConsoleLocation().Get_y(), "chosen");
+	menu_ptr->MenuElementRedrawBorder(menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y()), "chosen");
 	Construction* preliminary_ptr = menu_ptr->CreatePreliminaryObject(allObjects_ptr, camera_ptr);
 	cursor_ptr->CursorMovement(PointCoord(camera_ptr->GetHalfXAxis(), camera_ptr->GetHalfYAxis()));
 	preliminary_ptr->SetUpperLeft(cursor_ptr->GetCursorConsoleLocation());

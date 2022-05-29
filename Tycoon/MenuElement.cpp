@@ -28,5 +28,4 @@ void MenuElement::Shift(IconsPosition upperOrLower)
 		default: {throw MyException("MenuElement::Shift(IconsPosition upperOrLower) bad IconsPosition argument."); }
 	}
 	icon_ptr->SetUpperLeft(PointCoord(currentLocation.Get_x() + 1, this->GetUpperLeft().Get_y() + 1));
-	manager_ptr->GetDescriptor()->SetMenuElementLocation(this->GetUpperLeft());
 }

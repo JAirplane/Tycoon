@@ -1,5 +1,9 @@
 #include "ConstructionDescriptor.h"
 /////////////ConstructionDescriptor Class contains all necessary data about Constructions/////////////
+int ConstructionDescriptor::GetDescriptorId() const
+{
+	return id;
+}
 int ConstructionDescriptor::GetConstructionCost() const
 {
 	return constructionCost;
@@ -23,14 +27,6 @@ color ConstructionDescriptor::GetConnectedBackgroundColor() const
 color ConstructionDescriptor::GetChosenBackgroundColor() const
 {
 	return backgroundChosen;
-}
-PointCoord ConstructionDescriptor::GetMenuElementLocation() const
-{
-	return menuElementLocation;
-}
-void ConstructionDescriptor::SetMenuElementLocation(PointCoord Location)
-{
-	menuElementLocation = Location;
 }
 int ConstructionDescriptor::GetRestorationOfToiletNeed() const
 {

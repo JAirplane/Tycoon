@@ -1,4 +1,8 @@
 #include "ConstructionConstantsXML.h"
+int ConstructionConstantsXML::GetDescriptorId() const
+{
+	return descriptorId;
+}
 int ConstructionConstantsXML::GetHeightAdd() const
 {
 	return heightAdd;

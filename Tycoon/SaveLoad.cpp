@@ -15,12 +15,23 @@ void SaveLoad::FillGlobalObjectNodePart(GlobalObject* gameObject, pugi::xml_node
 	xCoord.set_value(to_string(gameObject->GetUpperLeft().Get_x()).c_str());
 	pugi::xml_node yCoord = objectNode.append_child("yCoord");
 	yCoord.set_value(to_string(gameObject->GetUpperLeft().Get_y()).c_str());
-	pugi::xml_node heightAdd = objectNode.append_child("heightAdd");
-	heightAdd.set_value(to_string(gameObject->GetHeightAddition()).c_str());
-	pugi::xml_node widthAdd = objectNode.append_child("widthAdd");
-	widthAdd.set_value(to_string(gameObject->GetWidthAddition()).c_str());
 }
-void SaveLoad::AddBuildingNode(Construction* buildingForSave, pugi::xml_node &buildings)
+void SaveLoad::FillConstructionNodePart(Construction* gameObject, pugi::xml_node& objectNode)
+{
+	pugi::xml_node overallVisitors = objectNode.append_child("overallVisitors");
+	overallVisitors.set_value(to_string(gameObject->allTimeVisited).c_str());
+	pugi::xml_node descriptorId = objectNode.append_child("descriptorId");
+	descriptorId.set_value(to_string(gameObject->GetDescriptor()->uniqueId).c_str());
+}
+void SaveLoad::FillBuildingNodePart(Construction* gameObject, pugi::xml_node& objectNode)
+{
+	pugi::xml_node entranceHeightAdd = objectNode.append_child("entranceHeightAdd");
+	entranceHeightAdd.set_value(to_string(gameObject->GetEntranceHeightAdd()).c_str());
+	pugi::xml_node entranceWidthAdd = objectNode.append_child("entranceWidthAdd");
+	entranceWidthAdd.set_value(to_string(gameObject->GetEntranceWidthAdd()).c_str());
+
+}
+void SaveLoad::AddBuildingNode(Construction* buildingForSave, pugi::xml_node& buildings)
 {
 	pugi::xml_node building = buildings.append_child("building");
 	this->FillGlobalObjectNodePart(buildingForSave, building);

@@ -3,11 +3,11 @@
 class RoadDescriptor : public ConstructionDescriptor
 {
 public:
-	RoadDescriptor(PointCoord managerLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
+	RoadDescriptor(int uniqueId, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
 		color backgroundNotConnected, color backgroundChoosen) :
-		ConstructionDescriptor(managerLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected, backgroundNotConnected, backgroundChoosen)
+		ConstructionDescriptor(uniqueId, constructionCost, description, iconSymbol, foreground, backgroundConnected, backgroundNotConnected, backgroundChoosen)
 	{}
-	RoadDescriptor(PointCoord managerLocation, ConstructionConstantsXML setOfConstants) : ConstructionDescriptor(managerLocation, setOfConstants)
+	RoadDescriptor(ConstructionConstantsXML setOfConstants) : ConstructionDescriptor(setOfConstants)
 	{}
 	virtual ~RoadDescriptor() {}
 	wstring GetConstructionSymbol(int mask = 0) const override;

@@ -14,10 +14,11 @@ private:
 	ConstructionManager* visibleOutsideCameraRoadManager;
 	ConstructionManager* unbreakableRoadManager;
 	//
-	ConstructionManager* CreateManager(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
+	bool IdIsUnique(int newId) const;
+	ConstructionManager* CreateManager(int uniqueId, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
 		color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol = L" ", int restoreToiletNeed = 0, int satisfactionOfHunger = 0, int visitPrice = 0,
 		int enetrtainmentValue = 0, int isExit = 0, int maxVisitors = 0, int visitTime = 0, int dailyExpences = 0, int constructionHeightAdd = 0, int constructionWidthAdd = 0);
-	ConstructionManager* CreateManager(PointCoord menuElementLocation, ConstructionConstantsXML setOfConstants);
+	ConstructionManager* CreateManager(ConstructionConstantsXML setOfConstants);
 public:
 	Menu(Visualisation* draw_ptr, Cursor* cursor_ptr, PointCoord upperLeft, RectangleConstantsXML* initial) : MyRectangle(upperLeft, initial, draw_ptr, cursor_ptr)
 	{
@@ -52,7 +53,7 @@ public:
 		delete visibleOutsideCameraRoadManager;
 		delete unbreakableRoadManager;
 	}
-	void CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
+	void CreateMenuElement(int uniqueId, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
 		color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol = L" ", int restoreToiletNeed = 0, int satisfactionOfHunger = 0, int visitPrice = 0,
 		int entertainmentValue = 0, int isExit = 0, int maxVisitors = 0, int visitTime = 0, int dailyExpences = 0, int constructionHeightAdd = 0, int constructionWidthAdd = 0);
 	void CreateMenuElement(string constructionType);
@@ -90,13 +91,14 @@ public:
 	void UpdateStatsDisplay();
 	void ShowMenuItems() const;
 	MenuElement* GetMenuElement(int yCoord) const;
+	MenuElement* GetMenuElementByDescriptorId(int uniqueID) const;
 	MenuElement* GetUpperVisibleMenuElement() const;
 	MenuElement* GetNextMenuElement(MenuElement* currentElement, IconsPosition upperOrLower) const;
 	void MenuElementsShift(IconsPosition upperOrLower);
 	Construction* CreatePreliminaryObject(AllObjects* allObjects_ptr, Camera* camera_ptr) const;
 	Visitor* CreateVisitor(const PlayingField* field_ptr, const Camera* camera_ptr, AllObjects* container_ptr) const;
 	void VisitorAddition(const PlayingField* field_ptr, const Camera* camera_ptr, AllObjects* container_ptr) const;
-	void MenuElementRedrawBorder(int elementTopY, string newCondition);
+	void MenuElementRedrawBorder(MenuElement* element_ptr, string newCondition);
 	MenuElement* MenuNavigation(MenuElement* currentElement, IconsPosition upperOrLower);
 	void ParkLevelCheck(const AllObjects* container_ptr);
 	int GetLowestEntertainmentVisitPrice() const;

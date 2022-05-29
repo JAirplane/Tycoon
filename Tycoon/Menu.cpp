@@ -1,39 +1,65 @@
 #include "Menu.h"
 /////////////Side Menu Class/////////////
-ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
+bool Menu::IdIsUnique(int newId) const
+{
+	for (auto everyElement : menuItems)
+	{
+		if (newId == everyElement->GetManager()->GetDescriptor()->uniqueId)
+		{
+			return false;
+		}
+	}
+	return true;
+}
+ConstructionManager* Menu::CreateManager(int descriptorId, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
 	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int restoreToiletNeed, int satisfactionOfHunger, int visitPrice,
 	int enetrtainmentValue, int isExit, int maxVisitors, int visitTime, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
 {
-	if (restoreToiletNeed == 0 && satisfactionOfHunger == 0 && enetrtainmentValue == 0 && isExit == 0 && visitTime == 0)
+	if (IdIsUnique(descriptorId))
 	{
-		ConstructionDescriptor* roadDesc_ptr = new RoadDescriptor(menuElementLocation, constructionCost, description, iconSymbol,
-			foreground, backgroundConnected, backgroundNotConnected, backgroundChosen);
-		return new RoadManager(roadDesc_ptr);
+		if (restoreToiletNeed == 0 && satisfactionOfHunger == 0 && enetrtainmentValue == 0 && isExit == 0 && visitTime == 0)
+		{
+			ConstructionDescriptor* roadDesc_ptr = new RoadDescriptor(descriptorId, constructionCost, description, iconSymbol,
+				foreground, backgroundConnected, backgroundNotConnected, backgroundChosen);
+			return new RoadManager(roadDesc_ptr);
+		}
+		else
+		{
+			ConstructionDescriptor* buildingDesc_ptr = new BuildingDescriptor(descriptorId, constructionCost, description, iconSymbol, foreground, backgroundConnected,
+				backgroundNotConnected, backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, enetrtainmentValue, isExit, maxVisitors, visitTime,
+				dailyExpences, constructionHeightAdd, constructionWidthAdd);
+			return new BuildingManager(buildingDesc_ptr);
+		}
 	}
 	else
 	{
-		ConstructionDescriptor* buildingDesc_ptr = new BuildingDescriptor(menuElementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected,
-			backgroundNotConnected, backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, enetrtainmentValue, isExit, maxVisitors, visitTime,
-			dailyExpences, constructionHeightAdd, constructionWidthAdd);
-		return new BuildingManager(buildingDesc_ptr);
+		throw MyException("Menu::CreateManager(int descriptorId, int constructionCost, args... descriptorId isn't unique");
 	}
+
 }
-ConstructionManager* Menu::CreateManager(PointCoord menuElementLocation, ConstructionConstantsXML setOfConstants)
+ConstructionManager* Menu::CreateManager(ConstructionConstantsXML setOfConstants)
 {
-	if (setOfConstants.constructionHasToilet == 0 && setOfConstants.constructionSatisfiesHunger == 0 && setOfConstants.constructionIsEntertainment == 0 &&
-		setOfConstants.constructionIsExit == 0 && setOfConstants.constructionVisitTime == 0)
+	if (IdIsUnique(setOfConstants.uniqueId))
 	{
-		ConstructionDescriptor* roadDesc_ptr = new RoadDescriptor(menuElementLocation, setOfConstants);
-		return new RoadManager(roadDesc_ptr);
+		if (setOfConstants.constructionHasToilet == 0 && setOfConstants.constructionSatisfiesHunger == 0 && setOfConstants.constructionIsEntertainment == 0 &&
+			setOfConstants.constructionIsExit == 0 && setOfConstants.constructionVisitTime == 0)
+		{
+			ConstructionDescriptor* roadDesc_ptr = new RoadDescriptor(setOfConstants);
+			return new RoadManager(roadDesc_ptr);
+		}
+		else
+		{
+			ConstructionDescriptor* buildingDesc_ptr = new BuildingDescriptor(setOfConstants);
+			return new BuildingManager(buildingDesc_ptr);
+		}
 	}
 	else
 	{
-		ConstructionDescriptor* buildingDesc_ptr = new BuildingDescriptor(menuElementLocation, setOfConstants);
-		return new BuildingManager(buildingDesc_ptr);
+		throw MyException("Menu::CreateManager(ConstructionConstantsXML setOfConstants) descriptorId isn't unique");
 	}
 }
 //
-void Menu::CreateMenuElement(int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
+void Menu::CreateMenuElement(int uniqueId, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
 	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int restoreToiletNeed, int satisfactionOfHunger, int visitPrice, int entertainmentValue,
 	int isExit, int maxVisitors, int visitTime, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
 {
@@ -54,7 +80,7 @@ void Menu::CreateMenuElement(int constructionCost, string description, wstring i
 		DTOCollector::GetCollector()->GetFigureConstants("sideMenuElement"), GetDrawPointer(), GetCursor());
 	menuElementRectangle->SetWidthAddition(this->GetWidthAddition() - 4);
 	MyRectangle* menuIcon_ptr = CreateIcon(elementLocation);
-	ConstructionManager* manager_ptr = CreateManager(elementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected, backgroundNotConnected,
+	ConstructionManager* manager_ptr = CreateManager(uniqueId, constructionCost, description, iconSymbol, foreground, backgroundConnected, backgroundNotConnected,
 		backgroundChosen, buildingSymbol, restoreToiletNeed, satisfactionOfHunger, visitPrice, entertainmentValue, isExit, maxVisitors, visitTime,
 		dailyExpences, constructionHeightAdd, constructionWidthAdd);
 	MenuElement* element_ptr = new MenuElement(*menuElementRectangle, menuIcon_ptr, manager_ptr);
@@ -80,7 +106,7 @@ void Menu::CreateMenuElement(string constructionType)
 		DTOCollector::GetCollector()->GetFigureConstants("sideMenuElement"), GetDrawPointer(), GetCursor());
 	menuElementRectangle->SetWidthAddition(this->GetWidthAddition() - 4);
 	MyRectangle* menuIcon_ptr = CreateIcon(elementLocation);
-	ConstructionManager* manager_ptr = CreateManager(elementLocation, XMLDownloader::GetDownloader()->DownloadConstructionConstants(constructionType));
+	ConstructionManager* manager_ptr = CreateManager(XMLDownloader::GetDownloader()->DownloadConstructionConstants(constructionType));
 	MenuElement* element_ptr = new MenuElement(*menuElementRectangle, menuIcon_ptr, manager_ptr);
 	delete menuElementRectangle;
 	menuItems.push_back(element_ptr);
@@ -95,34 +121,7 @@ MyRectangle* Menu::CreateIcon(PointCoord elementLocation)
 //
 void Menu::CreateExit(const PlayingField* playingField_ptr, const Visualisation* draw_ptr, AllObjects* container)
 {
-	pugi::xml_document doc;
-	pugi::xml_parse_result result = doc.load_file("ConstructionConstants.xml");
-	if (!result)
-	{
-		string msg = "XML [ParkLevelConstants.xml] parsed with errors. ";
-		msg.append("Error description: ");
-		msg.append(result.description());
-		throw MyException(msg);
-	}
-	std::wstring_convert<std::codecvt_utf8_utf16<wchar_t>> converter;
-	pugi::xml_node constructionConstants = doc.child("constructionConstants");
-	for (pugi::xml_node construction = constructionConstants.child("construction"); construction; construction = construction.next_sibling("construction"))
-	{
-		if (construction.attribute("name").as_string() == string("exit"))
-		{
-			exitManager = this->CreateManager(PointCoord(numeric_limits<int>::max(), numeric_limits<int>::max()), atoi(construction.child_value("cost")),
-				construction.child_value("description"), converter.from_bytes(construction.child_value("iconSymbol")),
-				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("foregroundColor")),
-				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("backgroundColorConnected")),
-				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("backgroundColorDisconnected")),
-				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("backgroundColorChosen")),
-				converter.from_bytes(construction.child_value("drawingSymbol")), atoi(construction.child_value("hasToilet")), atoi(construction.child_value("satisfiesHunger")),
-				atoi(construction.child_value("visitPrice")), atoi(construction.child_value("entertainmentValue")), atoi(construction.child_value("isExit")),
-				atoi(construction.child_value("maxVisitors")), atoi(construction.child_value("visitTime")), atoi(construction.child_value("dailyExpences")),
-				atoi(construction.child_value("heightAdd")), atoi(construction.child_value("widthAdd")));
-			break;
-		}
-	}
+	exitManager = this->CreateManager(XMLDownloader::GetDownloader()->DownloadConstructionConstants("exit"));
 	Construction* exit1 = exitManager->CreateConstruction(PointCoord(playingField_ptr->GetHalfXAxis(),
 		playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() + 4), draw_ptr, container);
 	exit1->SetExitDirection(Direction::Up);
@@ -247,7 +246,6 @@ Direction Menu::ChangeMenuSide(Camera* camera_ptr)
 	{
 		(*menuElementIter)->SetUpperLeft(PointCoord(_x, _y));
 		(*menuElementIter)->GetIcon()->SetUpperLeft(PointCoord(_x + 1, _y + 1));
-		(*menuElementIter)->GetManager()->GetDescriptor()->SetMenuElementLocation(PointCoord(_x, _y));
 		_y += (*menuElementIter)->GetHeightAddition() + 1;
 	}
 	return shiftDirection;
@@ -299,6 +297,21 @@ MenuElement* Menu::GetMenuElement(int yCoord) const
 		}
 	}
 	throw MyException("Menu::GetMenuElement(int yCoord) no menu element at this location.");
+}
+MenuElement* Menu::GetMenuElementByDescriptorId(int uniqueID) const
+{
+	if (menuItems.empty())
+	{
+		throw MyException("Menu::GetMenuElementByDescriptorId(int uniqueID) const menu elements container is empty.");
+	}
+	for (auto menuElement : menuItems)
+	{
+		if (menuElement->GetManager()->GetDescriptor()->uniqueId == uniqueID)
+		{
+			return menuElement;
+		}
+	}
+	throw MyException("Menu::GetMenuElementByDescriptorId(int uniqueID) const bad ID.");
 }
 MenuElement* Menu::GetUpperVisibleMenuElement() const
 {
@@ -408,9 +421,8 @@ MenuElement* Menu::MenuNavigation(MenuElement* currentElement, IconsPosition upp
 		return nearest;
 	}
 }
-void Menu::MenuElementRedrawBorder(int elementTopY, string newCondition)
+void Menu::MenuElementRedrawBorder(MenuElement* element_ptr, string newCondition)
 {
-	MenuElement* element_ptr = GetMenuElement(elementTopY);
 	if (hidden)
 	{
 		if (newCondition == "active")

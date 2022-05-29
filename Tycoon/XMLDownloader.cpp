@@ -32,7 +32,7 @@ ConstructionConstantsXML XMLDownloader::DownloadConstructionConstants(string con
 	{
 		if (construction.attribute("name").as_string() == constructionType)
 		{
-			ConstructionConstantsXML constructionConstants = ConstructionConstantsXML(atoi(construction.child_value("heightAdd")),
+			ConstructionConstantsXML constructionConstants = ConstructionConstantsXML(atoi(construction.child_value("descriptorId")), atoi(construction.child_value("heightAdd")),
 				atoi(construction.child_value("widthAdd")), atoi(construction.child_value("cost")), atoi(construction.child_value("dailyExpences")),
 				construction.child_value("description"), converter.from_bytes(construction.child_value("drawingSymbol")),
 				converter.from_bytes(construction.child_value("iconSymbol")), atoi(construction.child_value("hasToilet")), atoi(construction.child_value("satisfiesHunger")),

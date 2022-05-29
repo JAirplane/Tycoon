@@ -5,6 +5,7 @@
 class ConstructionConstantsXML
 {
 private:
+	int descriptorId;
 	int heightAdd;
 	int widthAdd;
 	int constructionCost;
@@ -24,10 +25,11 @@ private:
 	color backgroundDisconnected;
 	color backgroundChosen;
 public:
-	ConstructionConstantsXML(int heightAdd, int widthAdd, int constructionCost, int dailyExpences, string description, wstring drawingSymbol, wstring iconSymbol,
+	ConstructionConstantsXML(int descriptorId, int heightAdd, int widthAdd, int constructionCost, int dailyExpences, string description, wstring drawingSymbol, wstring iconSymbol,
 		int hasToilet, int satisfiesHunger, int visitPrice, int entertainmentValue, int isExit, int maxVisitors, int visitTime, color foreground, color backgroundConnected,
 		color backgroundDisconnected, color backgroundChosen)
 	{
+		this->descriptorId = descriptorId;
 		this->heightAdd = heightAdd;
 		this->widthAdd = widthAdd;
 		this->constructionCost = constructionCost;
@@ -48,6 +50,8 @@ public:
 		this->backgroundChosen = backgroundChosen;
 	}
 	virtual ~ConstructionConstantsXML() {}
+	int GetDescriptorId() const;
+	__declspec(property(get = GetDescriptorId)) int uniqueId;
 	int GetHeightAdd() const;
 	__declspec(property(get = GetHeightAdd)) int heightAddition;
 	int GetWidthAdd() const;

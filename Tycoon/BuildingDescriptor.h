@@ -12,10 +12,10 @@ private:
 	int maxVisitors;
 	int visitTime;
 public:
-	BuildingDescriptor(PointCoord menuElementLocation, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
+	BuildingDescriptor(int uniqueId, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
 		color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int restoreToiletNeed, int satisfactionOfHunger, int visitPrice, int entertainmentValue,
 		int isExit, int maxVisitors, int visitTime, int dailyExpences = 0, int constructionHeightAdd = 0, int constructionWidthAdd = 0) :
-		ConstructionDescriptor(menuElementLocation, constructionCost, description, iconSymbol, foreground, backgroundConnected,
+		ConstructionDescriptor(uniqueId, constructionCost, description, iconSymbol, foreground, backgroundConnected,
 			backgroundNotConnected, backgroundChosen, dailyExpences, constructionHeightAdd, constructionWidthAdd)
 	{
 		this->buildingSymbol = buildingSymbol;
@@ -27,8 +27,7 @@ public:
 		this->maxVisitors = maxVisitors;
 		this->visitTime = visitTime;
 	}
-	BuildingDescriptor(PointCoord menuElementLocation, ConstructionConstantsXML setOfConstants) :
-		ConstructionDescriptor(menuElementLocation, setOfConstants)
+	BuildingDescriptor(ConstructionConstantsXML setOfConstants) : ConstructionDescriptor(setOfConstants)
 	{
 		this->buildingSymbol = setOfConstants.constructionSymbol;
 		this->restoreToiletNeed = setOfConstants.constructionHasToilet;

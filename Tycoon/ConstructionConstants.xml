@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <constructionConstants>
 	<construction name="iceCreamShop">
+		<descriptorId>1</descriptorId>
 		<heightAdd>1</heightAdd>
 		<widthAdd>1</widthAdd>
 		<cost>150</cost>
@@ -21,6 +22,7 @@
 		<backgroundColorChosen>red</backgroundColorChosen>
 	</construction>
 	<construction name="toilet">
+		<descriptorId>2</descriptorId>
 		<heightAdd>0</heightAdd>
 		<widthAdd>1</widthAdd>
 		<cost>50</cost>
@@ -41,6 +43,7 @@
 		<backgroundColorChosen>red</backgroundColorChosen>
 	</construction>
 	<construction name="foodCourt">
+		<descriptorId>3</descriptorId>
 		<heightAdd>1</heightAdd>
 		<widthAdd>3</widthAdd>
 		<cost>200</cost>
@@ -61,6 +64,7 @@
 		<backgroundColorChosen>red</backgroundColorChosen>
 	</construction>
 	<construction name="carousel">
+		<descriptorId>4</descriptorId>
 		<heightAdd>2</heightAdd>
 		<widthAdd>2</widthAdd>
 		<cost>300</cost>
@@ -81,6 +85,7 @@
 		<backgroundColorChosen>red</backgroundColorChosen>
 	</construction>
 	<construction name="dumboRide">
+		<descriptorId>5</descriptorId>
 		<heightAdd>2</heightAdd>
 		<widthAdd>2</widthAdd>
 		<cost>200</cost>
@@ -101,6 +106,7 @@
 		<backgroundColorChosen>red</backgroundColorChosen>
 	</construction>
 	<construction name="ferrisWheel">
+		<descriptorId>6</descriptorId>
 		<heightAdd>1</heightAdd>
 		<widthAdd>2</widthAdd>
 		<cost>700</cost>
@@ -121,6 +127,7 @@
 		<backgroundColorChosen>red</backgroundColorChosen>
 	</construction>
 	<construction name="rollerCoaster">
+		<descriptorId>7</descriptorId>
 		<heightAdd>3</heightAdd>
 		<widthAdd>5</widthAdd>
 		<cost>1500</cost>
@@ -141,6 +148,7 @@
 		<backgroundColorChosen>red</backgroundColorChosen>
 	</construction>
 	<construction name="bumperCars">
+		<descriptorId>8</descriptorId>
 		<heightAdd>3</heightAdd>
 		<widthAdd>4</widthAdd>
 		<cost>500</cost>
@@ -161,6 +169,7 @@
 		<backgroundColorChosen>red</backgroundColorChosen>
 	</construction>
 	<construction name="logRide">
+		<descriptorId>9</descriptorId>
 		<heightAdd>2</heightAdd>
 		<widthAdd>3</widthAdd>
 		<cost>1000</cost>
@@ -181,6 +190,7 @@
 		<backgroundColorChosen>red</backgroundColorChosen>
 	</construction>
 	<construction name="exit">
+		<descriptorId>10</descriptorId>
 		<heightAdd>0</heightAdd>
 		<widthAdd>0</widthAdd>
 		<cost>0</cost>
@@ -201,6 +211,7 @@
 		<backgroundColorChosen>black</backgroundColorChosen>
 	</construction>
 	<construction name="road">
+		<descriptorId>11</descriptorId>
 		<heightAdd>0</heightAdd>
 		<widthAdd>0</widthAdd>
 		<cost>10</cost>
