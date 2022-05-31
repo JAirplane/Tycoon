@@ -160,6 +160,20 @@ List of text versions of color to convert to color type:
 		<bottomLeftBorderSymbol>@</bottomLeftBorderSymbol>
 		<bottomRightBorderSymbol>@</bottomRightBorderSymbol>
 	</rectangle>
+	<rectangle name="infoPanelSaveAndExitScreen">
+		<heightAdd>-1</heightAdd>
+		<widthAdd>-1</widthAdd>
+		<borderForegroundColor>white</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>dark green</letterColor>
+		<shadingColor>black</shadingColor>
+		<verticalBorderSymbol>#</verticalBorderSymbol>
+		<horizontalBorderSymbol>#</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>#</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>#</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
+	</rectangle>
 	<rectangle name="infoPanelConstructionInfoScreen">
 		<heightAdd>-1</heightAdd>
 		<widthAdd>-1</widthAdd>
@@ -277,6 +291,57 @@ List of text versions of color to convert to color type:
 		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
 		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
 		<title>MESSAGES AND INFO</title>
+		<activeColor>green</activeColor>
+		<pressedButtonColor>red</pressedButtonColor>
+	</button>
+	<button name="infoPanelMenuScreenSaveAndExitButton">
+		<heightAdd>-1</heightAdd>
+		<widthAdd>30</widthAdd>
+		<borderForegroundColor>yellow</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>black</letterColor>
+		<shadingColor>dark cyan</shadingColor>
+		<verticalBorderSymbol>#</verticalBorderSymbol>
+		<horizontalBorderSymbol>#</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>#</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>#</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
+		<title>Save &amp; Exit</title>
+		<activeColor>green</activeColor>
+		<pressedButtonColor>red</pressedButtonColor>
+	</button>
+	<button name="infoPanelSaveAndExitExitButton">
+		<heightAdd>-1</heightAdd>
+		<widthAdd>30</widthAdd>
+		<borderForegroundColor>yellow</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>black</letterColor>
+		<shadingColor>dark cyan</shadingColor>
+		<verticalBorderSymbol>#</verticalBorderSymbol>
+		<horizontalBorderSymbol>#</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>#</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>#</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
+		<title>Save &amp; Exit</title>
+		<activeColor>green</activeColor>
+		<pressedButtonColor>red</pressedButtonColor>
+	</button>
+	<button name="infoPanelSaveAndExitCancelButton">
+		<heightAdd>-1</heightAdd>
+		<widthAdd>30</widthAdd>
+		<borderForegroundColor>yellow</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>black</letterColor>
+		<shadingColor>dark cyan</shadingColor>
+		<verticalBorderSymbol>#</verticalBorderSymbol>
+		<horizontalBorderSymbol>#</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>#</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>#</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
+		<title>Cancel</title>
 		<activeColor>green</activeColor>
 		<pressedButtonColor>red</pressedButtonColor>
 	</button>

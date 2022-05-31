@@ -1,39 +1,43 @@
 #include "InfoPanel.h"
 ///////////////InfoPanel///////////////
 // create Screens
+MyRectangle* InfoPanel::CreateScreenRectangle(string screenTitle)
+{
+	PointCoord screenUpperLeft = PointCoord(this->GetUpperLeft().Get_x() + 2, this->GetUpperLeft().Get_y() + 2);
+	MyRectangle* screenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(screenUpperLeft,
+		DTOCollector::GetCollector()->GetFigureConstants(screenTitle), this->GetDrawPointer(), this->GetCursor());
+	screenRectangle->SetHeightAddition(this->GetHeightAddition() - 4);
+	screenRectangle->SetWidthAddition(this->GetWidthAddition() - 4);
+	return screenRectangle;
+}
 void InfoPanel::CreateMenuScreen()
 {
-	PointCoord menuScreenUpperLeft = PointCoord(this->GetUpperLeft().Get_x() + 2, this->GetUpperLeft().Get_y() + 2);
-	MyRectangle* menuScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(menuScreenUpperLeft,
-		DTOCollector::GetCollector()->GetFigureConstants("infoPanelMenuScreen"), this->GetDrawPointer(), this->GetCursor());
-	menuScreenRectangle->SetHeightAddition(this->GetHeightAddition() - 4);
-	menuScreenRectangle->SetWidthAddition(this->GetWidthAddition() - 4);
+	MyRectangle* menuScreenRectangle = this->CreateScreenRectangle("infoPanelMenuScreen");
 	mainScreen_ptr = new MenuScreen(*menuScreenRectangle);
 	delete menuScreenRectangle;
 	mainScreen_ptr->CreateButtons();
 }
 void InfoPanel::CreateControlsScreen()
 {
-	PointCoord controlsScreenUpperLeft = PointCoord(this->GetUpperLeft().Get_x() + 2, this->GetUpperLeft().Get_y() + 2);
-	MyRectangle* controlsScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(controlsScreenUpperLeft,
-		DTOCollector::GetCollector()->GetFigureConstants("infoPanelControlsScreen"), this->GetDrawPointer(), this->GetCursor());
-	controlsScreenRectangle->SetHeightAddition(this->GetHeightAddition() - 4);
-	controlsScreenRectangle->SetWidthAddition(this->GetWidthAddition() - 4);
+	MyRectangle* controlsScreenRectangle = this->CreateScreenRectangle("infoPanelControlsScreen");
 	gameControlInfo_ptr = new ControlsScreen(*controlsScreenRectangle);
 	delete controlsScreenRectangle;
 	gameControlInfo_ptr->FillControlsDescriptions();
 }
 void InfoPanel::CreateGameMessagesScreen()
 {
-	PointCoord messagesAndInfoScreenUpperLeft = PointCoord(GetUpperLeft().Get_x() + 2, GetUpperLeft().Get_y() + 2);
-	MyRectangle* messagesAndInfoScreenRectangle = RectangleCreator::GetRectangleFactory()->CreateRectangle(messagesAndInfoScreenUpperLeft,
-		DTOCollector::GetCollector()->GetFigureConstants("infoPanelMessagesAndInfoScreen"), this->GetDrawPointer(), this->GetCursor());
-	messagesAndInfoScreenRectangle->SetHeightAddition(this->GetHeightAddition() - 4);
-	messagesAndInfoScreenRectangle->SetWidthAddition(this->GetWidthAddition() - 4);
+	MyRectangle* messagesAndInfoScreenRectangle = this->CreateScreenRectangle("infoPanelMessagesAndInfoScreen");
 	messagesAndInfoScreen_ptr = new MessagesAndInfoScreen(*messagesAndInfoScreenRectangle);
 	delete messagesAndInfoScreenRectangle;
 	messagesAndInfoScreen_ptr->CreateConstructionInfoScreen();
 	messagesAndInfoScreen_ptr->CreateMessagesScreen();
+}
+void InfoPanel::CreateSaveAndExitScreen()
+{
+	MyRectangle* saveAndExitScreenRectangle = this->CreateScreenRectangle("infoPanelSaveAndExitScreen");
+	leaveOrStay_ptr = new SaveAndExitScreen(*saveAndExitScreenRectangle);
+	delete saveAndExitScreenRectangle;
+	leaveOrStay_ptr->CreateButtons();
 }
 // when receive notification from GameManagement that user choose some construction on the playing field
 void InfoPanel::ChosenConstructionUpdate(Construction* choice_ptr)
@@ -72,17 +76,21 @@ void InfoPanel::UserMessageUpdate(const string message)
 	GetCursor()->CursorMovement(GetCursor()->GetCursorConsoleLocation());
 }
 //
-const MenuScreen* InfoPanel::GetMenuScreen()
+const MenuScreen* InfoPanel::GetMenuScreen() const
 {
 	return mainScreen_ptr;
 }
-const ControlsScreen* InfoPanel::GetControlsScreen()
+const ControlsScreen* InfoPanel::GetControlsScreen() const
 {
 	return gameControlInfo_ptr;
 }
-MessagesAndInfoScreen* InfoPanel::GetMessagesScreen()
+MessagesAndInfoScreen* InfoPanel::GetMessagesScreen() const
 {
 	return messagesAndInfoScreen_ptr;
+}
+const SaveAndExitScreen* InfoPanel::GetSaveAndExitScreen() const
+{
+	return leaveOrStay_ptr;
 }
 InfoPanelContentType InfoPanel::GetCurrentContent() const
 {
@@ -146,8 +154,10 @@ void InfoPanel::ShowMenuScreen()
 	mainScreen_ptr->DrawBorder();
 	mainScreen_ptr->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(mainScreen_ptr->GetMessagesButton()->GetInitialCondition()->activeButtonColor);
 	mainScreen_ptr->GetControlsButton()->GetBorder()->SetBorderForegroundColor(mainScreen_ptr->GetControlsButton()->GetInitialCondition()->foregroundBorderColor);
+	mainScreen_ptr->GetControlsButton()->GetBorder()->SetBorderForegroundColor(mainScreen_ptr->GetSaveAndExitButton()->GetInitialCondition()->foregroundBorderColor);
 	mainScreen_ptr->DrawMenuScreenButton(mainScreen_ptr->GetMessagesButton());
 	mainScreen_ptr->DrawMenuScreenButton(mainScreen_ptr->GetControlsButton());
+	mainScreen_ptr->DrawMenuScreenButton(mainScreen_ptr->GetSaveAndExitButton());
 	DisplayInfoPanelMessage("Press 'i' to return to the camera");
 	GetCursor()->CursorMovement(PointCoord(mainScreen_ptr->GetMessagesButton()->GetHalfXAxis(),
 		mainScreen_ptr->GetMessagesButton()->GetUpperLeft().Get_y()));
@@ -173,6 +183,22 @@ void InfoPanel::ShowMessagesScreen()
 		messagesAndInfoScreen_ptr->DisplayMessage(GetHalfXAxis() + 2, messagesAndInfoScreen_ptr->GetUpperLeft().Get_y() + 1, "No messages");
 	}
 	messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->DisplayConstructionInfo();
+}
+void InfoPanel::ShowSaveAndExitScreen()
+{
+	if (leaveOrStay_ptr == nullptr)
+	{
+		throw MyException("void InfoPanel::ShowSaveAndExitScreen() saveAndExit button is nullptr");
+	}
+	currentScreen = InfoPanelContentType::SaveAndExit;
+	leaveOrStay_ptr->DrawBorder();
+	leaveOrStay_ptr->GetExitButton()->GetBorder()->SetBorderForegroundColor(leaveOrStay_ptr->GetExitButton()->GetInitialCondition()->activeButtonColor);
+	leaveOrStay_ptr->GetExitButton()->Display();
+	leaveOrStay_ptr->GetCancelButton()->GetBorder()->SetBorderForegroundColor(leaveOrStay_ptr->GetCancelButton()->GetInitialCondition()->foregroundBorderColor);
+	leaveOrStay_ptr->GetCancelButton()->Display();
+	DisplayInfoPanelMessage("Press 'i' to return to the camera");
+	GetCursor()->CursorMovement(PointCoord(leaveOrStay_ptr->GetExitButton()->GetHalfXAxis(),
+		leaveOrStay_ptr->GetExitButton()->GetUpperLeft().Get_y()));
 }
 void InfoPanel::UpdateConstructionInfo() const
 {
@@ -211,7 +237,12 @@ void InfoPanel::SwitchContent(InfoPanelContentType choosenContent)
 		ShowMessagesScreen();
 		return;
 	}
-	default: {throw MyException("InfoPanel::SwitchContent(InfoPanelContentType choosenContent) got unknown content type."); } //exception
+	case InfoPanelContentType::SaveAndExit:
+	{
+		ShowSaveAndExitScreen();
+		return;
+	}
+	default: {throw MyException("InfoPanel::SwitchContent(InfoPanelContentType choosenContent) got unknown content type."); }
 	}
 }
 void InfoPanel::GetToInfoPanelDisplayRule()
@@ -225,8 +256,8 @@ void InfoPanel::GetToInfoPanelDisplayRule()
 	}
 	case InfoPanelContentType::MenuScreen:
 	{
-		mainScreen_ptr->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor());
-		mainScreen_ptr->GetMessagesButton()->DrawBorder();
+		mainScreen_ptr->GetMessagesButton()->RedrawBorder(mainScreen_ptr->GetMessagesButton()->GetInitialCondition()->activeButtonColor,
+			mainScreen_ptr->GetMessagesButton()->GetInitialCondition()->backgroundBorderColor);
 		GetCursor()->CursorMovement(PointCoord(mainScreen_ptr->GetMessagesButton()->GetHalfXAxis(), mainScreen_ptr->GetMessagesButton()->GetUpperLeft().Get_y()));
 		return;
 	}
@@ -239,9 +270,9 @@ void InfoPanel::GetToInfoPanelDisplayRule()
 	{
 		if (messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetChosenConstruction() != nullptr)
 		{
-			messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->
-				SetBorderForegroundColor(ConstructionOptions::GetAllOptions()->GetButtonBorderActiveColor());
-			messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->DrawBorder();
+			messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->RedrawBorder(
+				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetInitialCondition()->activeButtonColor,
+				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetInitialCondition()->backgroundBorderColor);
 			EraseInfoPanelMessage();
 			DisplayInfoPanelMessage("Press 'enter' to deconstruct chosen one");
 			GetCursor()->CursorMovement(PointCoord(messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetHalfXAxis(),
@@ -253,6 +284,11 @@ void InfoPanel::GetToInfoPanelDisplayRule()
 			DisplayInfoPanelMessage("Press 'esc' to get to the previous screen");
 			GetCursor()->CursorMovement(PointCoord(messagesAndInfoScreen_ptr->GetHalfXAxis(), messagesAndInfoScreen_ptr->GetUpperLeft().Get_y()));
 		}
+		return;
+	}
+	case InfoPanelContentType::SaveAndExit:
+	{
+		SwitchContent(InfoPanelContentType::MenuScreen);
 		return;
 	}
 	default:
@@ -269,8 +305,9 @@ void InfoPanel::EndInteractionDisplayRule()
 	case InfoPanelContentType::SplashScreen: {return; }
 	case InfoPanelContentType::MenuScreen:
 	{
-		mainScreen_ptr->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(mainScreen_ptr->GetMessagesButton()->GetBorder()->GetBorderForegroundColor());
-		mainScreen_ptr->GetControlsButton()->GetBorder()->SetBorderForegroundColor(mainScreen_ptr->GetControlsButton()->GetBorder()->GetBorderForegroundColor());
+		mainScreen_ptr->GetMessagesButton()->GetBorder()->SetBorderForegroundColor(mainScreen_ptr->GetMessagesButton()->GetInitialCondition()->foregroundBorderColor);
+		mainScreen_ptr->GetControlsButton()->GetBorder()->SetBorderForegroundColor(mainScreen_ptr->GetControlsButton()->GetInitialCondition()->foregroundBorderColor);
+		mainScreen_ptr->GetSaveAndExitButton()->GetBorder()->SetBorderForegroundColor(mainScreen_ptr->GetControlsButton()->GetInitialCondition()->foregroundBorderColor);
 		SwitchContent(InfoPanelContentType::SplashScreen);
 		return;
 	}
@@ -281,9 +318,9 @@ void InfoPanel::EndInteractionDisplayRule()
 		DisplayInfoPanelMessage("Press 'i' to get to the InfoPanel");
 		if (messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetChosenConstruction() != nullptr)
 		{
-			messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->
-				SetBorderForegroundColor(messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->GetBorderForegroundColor());
-			messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->DrawBorder();
+			messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->RedrawBorder(
+				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetInitialCondition()->foregroundBorderColor,
+				messagesAndInfoScreen_ptr->GetConstructionInfoScreen()->GetDeconstructButton()->GetInitialCondition()->backgroundBorderColor);
 		}
 		else
 		{
@@ -291,10 +328,17 @@ void InfoPanel::EndInteractionDisplayRule()
 		}
 		return;
 	}
+	case InfoPanelContentType::SaveAndExit:
+	{
+		leaveOrStay_ptr->GetExitButton()->GetBorder()->SetBorderForegroundColor(leaveOrStay_ptr->GetExitButton()->GetInitialCondition()->foregroundBorderColor);
+		leaveOrStay_ptr->GetCancelButton()->GetBorder()->SetBorderForegroundColor(leaveOrStay_ptr->GetCancelButton()->GetInitialCondition()->foregroundBorderColor);
+		SwitchContent(InfoPanelContentType::SplashScreen);
+		return;
+	}
 	default:
 	{
 		ShowSplashScreen(ConstructionOptions::GetAllOptions()->GetSplashScreenForegroundColor(), ConstructionOptions::GetAllOptions()->GetSplashScreenBackgroundColor());
-		throw MyException("InfoPanel::EndInteractionDisplayRule() currentScreen is undefined."); //exception
+		throw MyException("InfoPanel::EndInteractionDisplayRule() currentScreen is undefined.");
 	}
 	}
 }

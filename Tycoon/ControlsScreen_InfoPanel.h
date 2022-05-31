@@ -1,5 +1,5 @@
 #pragma once
-#include "SplitScreen.h"
+#include "SaveAndExit_InfoPanel.h"
 class ControlsScreen : public SplitScreen
 {
 private:

@@ -32,6 +32,7 @@ public:
 			infoPanelMenuScreen
 			infoPanelControlsScreen
 			infoPanelMessagesAndInfoScreen
+			infoPanelSaveAndExitScreen
 			infoPanelConstructionInfoScreen
 			constructionInfoScreenConstructionIcon
 			infoPanelMessagesScreen
@@ -41,6 +42,9 @@ public:
 			//
 			infoPanelMenuScreenControlsButton
 			infoPanelMenuScreenMessagesAndInfoButton
+			infoPanelMenuScreenSaveAndExitButton
+			infoPanelSaveAndExitExitButton
+			infoPanelSaveAndExitCancelButton
 			constructionInfoScreenDeconstructButton
 			newGameButton
 			continueButton

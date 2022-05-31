@@ -38,10 +38,10 @@ ConstructionConstantsXML XMLDownloader::DownloadConstructionConstants(string con
 				converter.from_bytes(construction.child_value("iconSymbol")), atoi(construction.child_value("hasToilet")), atoi(construction.child_value("satisfiesHunger")),
 				atoi(construction.child_value("visitPrice")), atoi(construction.child_value("entertainmentValue")), atoi(construction.child_value("isExit")),
 				atoi(construction.child_value("maxVisitors")), atoi(construction.child_value("visitTime")),
-				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("foregroundColor")),
-				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("backgroundColorConnected")),
-				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("backgroundColorDisconnected")),
-				StringToColor::GetStringToColorConverter()->Convert(construction.child_value("backgroundColorChosen")));
+				EnumStringConverter::GetStringToColorConverter()->Convert(construction.child_value("foregroundColor")),
+				EnumStringConverter::GetStringToColorConverter()->Convert(construction.child_value("backgroundColorConnected")),
+				EnumStringConverter::GetStringToColorConverter()->Convert(construction.child_value("backgroundColorDisconnected")),
+				EnumStringConverter::GetStringToColorConverter()->Convert(construction.child_value("backgroundColorChosen")));
 			return constructionConstants;
 		}
 	}
@@ -57,10 +57,10 @@ RectangleConstantsXML* XMLDownloader::DownloadRectangleConstants(string rectangl
 		if (rectangle.attribute("name").as_string() == rectangleName)
 		{
 			RectangleConstantsXML* rectangleConstants = new RectangleConstantsXML(atoi(rectangle.child_value("heightAdd")), atoi(rectangle.child_value("widthAdd")),
-				StringToColor::GetStringToColorConverter()->Convert(rectangle.child_value("borderForegroundColor")),
-				StringToColor::GetStringToColorConverter()->Convert(rectangle.child_value("borderBackgroundColor")),
-				StringToColor::GetStringToColorConverter()->Convert(rectangle.child_value("letterColor")),
-				StringToColor::GetStringToColorConverter()->Convert(rectangle.child_value("shadingColor")), converter.from_bytes(rectangle.child_value("verticalBorderSymbol")),
+				EnumStringConverter::GetStringToColorConverter()->Convert(rectangle.child_value("borderForegroundColor")),
+				EnumStringConverter::GetStringToColorConverter()->Convert(rectangle.child_value("borderBackgroundColor")),
+				EnumStringConverter::GetStringToColorConverter()->Convert(rectangle.child_value("letterColor")),
+				EnumStringConverter::GetStringToColorConverter()->Convert(rectangle.child_value("shadingColor")), converter.from_bytes(rectangle.child_value("verticalBorderSymbol")),
 				converter.from_bytes(rectangle.child_value("horizontalBorderSymbol")), converter.from_bytes(rectangle.child_value("upperLeftBorderSymbol")),
 				converter.from_bytes(rectangle.child_value("upperRightBorderSymbol")), converter.from_bytes(rectangle.child_value("bottomLeftBorderSymbol")),
 				converter.from_bytes(rectangle.child_value("bottomRightBorderSymbol")));
@@ -79,15 +79,15 @@ RectangleConstantsXML* XMLDownloader::DownloadButtonConstants(string buttonType)
 		if (button.attribute("name").as_string() == buttonType)
 		{
 			RectangleConstantsXML* buttonConstants = new ButtonConstantsXML(atoi(button.child_value("heightAdd")), atoi(button.child_value("widthAdd")),
-				StringToColor::GetStringToColorConverter()->Convert(button.child_value("borderForegroundColor")),
-				StringToColor::GetStringToColorConverter()->Convert(button.child_value("borderBackgroundColor")),
-				StringToColor::GetStringToColorConverter()->Convert(button.child_value("letterColor")),
-				StringToColor::GetStringToColorConverter()->Convert(button.child_value("shadingColor")), converter.from_bytes(button.child_value("verticalBorderSymbol")),
+				EnumStringConverter::GetStringToColorConverter()->Convert(button.child_value("borderForegroundColor")),
+				EnumStringConverter::GetStringToColorConverter()->Convert(button.child_value("borderBackgroundColor")),
+				EnumStringConverter::GetStringToColorConverter()->Convert(button.child_value("letterColor")),
+				EnumStringConverter::GetStringToColorConverter()->Convert(button.child_value("shadingColor")), converter.from_bytes(button.child_value("verticalBorderSymbol")),
 				converter.from_bytes(button.child_value("horizontalBorderSymbol")), converter.from_bytes(button.child_value("upperLeftBorderSymbol")),
 				converter.from_bytes(button.child_value("upperRightBorderSymbol")), converter.from_bytes(button.child_value("bottomLeftBorderSymbol")),
 				converter.from_bytes(button.child_value("bottomRightBorderSymbol")), button.child_value("title"),
-				StringToColor::GetStringToColorConverter()->Convert(button.child_value("activeColor")),
-				StringToColor::GetStringToColorConverter()->Convert(button.child_value("pressedButtonColor")));
+				EnumStringConverter::GetStringToColorConverter()->Convert(button.child_value("activeColor")),
+				EnumStringConverter::GetStringToColorConverter()->Convert(button.child_value("pressedButtonColor")));
 			return buttonConstants;
 		}
 	}

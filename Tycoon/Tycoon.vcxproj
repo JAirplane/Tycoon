@@ -147,6 +147,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="Construction.h" />
     <ClInclude Include="DTOCollector.h" />
+    <ClInclude Include="SaveAndExit_InfoPanel.h" />
     <ClInclude Include="SaveLoad.h" />
     <ClInclude Include="XMLDownloader.h" />
     <ClInclude Include="ConstructionConstantsXML.h" />
@@ -193,7 +194,7 @@
     <ClInclude Include="Menu.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="SplitScreen.h" />
-    <ClInclude Include="StringToColor.h" />
+    <ClInclude Include="EnumStringConverter.h" />
     <ClInclude Include="Visitor.h" />
     <ClInclude Include="VisitorDescriptor.h" />
     <ClInclude Include="VisitorManager.h" />
@@ -206,6 +207,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Construction.cpp" />
     <ClCompile Include="DTOCollector.cpp" />
+    <ClCompile Include="SaveAndExit_InfoPanel.cpp" />
     <ClCompile Include="SaveLoad.cpp" />
     <ClCompile Include="XMLDownloader.cpp" />
     <ClCompile Include="ConstructionConstantsXML.cpp" />
@@ -249,7 +251,7 @@
     <ClCompile Include="Menu.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="SplitScreen.cpp" />
-    <ClCompile Include="StringToColor.cpp" />
+    <ClCompile Include="EnumStringConverter.cpp" />
     <ClCompile Include="Visitor.cpp" />
     <ClCompile Include="VisitorDescriptor.cpp" />
     <ClCompile Include="VisitorManager.cpp" />

@@ -1,5 +1,5 @@
 #pragma once
-#include "ParkLevelConstants.h"
+#include "MyException.h"
 using namespace std;
 ///////////////Enum ShiftDirection///////////////
 enum class Direction { None, Up, Right, Down, Left };
@@ -32,6 +32,7 @@ enum class InfoPanelContentType
 	MenuScreen,
 	Controls,
 	SystemMessagesAndConstructionInfo,
+	SaveAndExit,
 };
 /////////////Interface zones/////////////
 enum class CursorLocation

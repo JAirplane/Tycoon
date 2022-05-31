@@ -115,6 +115,7 @@ void GameManagement::CreateInfoPanel()
 	delete infoPanelRectangle;
 	infoPanel_ptr->CreateMenuScreen();
 	infoPanel_ptr->CreateControlsScreen();
+	infoPanel_ptr->CreateSaveAndExitScreen();
 	infoPanel_ptr->CreateGameMessagesScreen();
 	ChosenConstructionAttach(infoPanel_ptr);
 	UserMessageAttach(infoPanel_ptr);
@@ -221,7 +222,7 @@ int GameManagement::MainMenuInteraction()
 }
 void GameManagement::SaveAndExit()
 {
-	
+
 
 }
 int GameManagement::InitialDisplay()
@@ -805,6 +806,12 @@ void GameManagement::EnterKey_InfoPanel()
 				SetBorderForegroundColor(infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetInitialCondition()->foregroundBorderColor);
 			infoPanel_ptr->SwitchContent(InfoPanelContentType::Controls);
 		}
+		else if (cursor_ptr->GetCursorConsoleLocation().Get_x() == infoPanel_ptr->GetMenuScreen()->GetSaveAndExitButton()->GetHalfXAxis())
+		{
+			infoPanel_ptr->GetMenuScreen()->GetSaveAndExitButton()->GetBorder()->SetBorderForegroundColor(
+				infoPanel_ptr->GetMenuScreen()->GetSaveAndExitButton()->GetInitialCondition()->foregroundBorderColor);
+			infoPanel_ptr->SwitchContent(InfoPanelContentType::SaveAndExit);
+		}
 		else
 		{
 			throw MyException("GameManagement::EnterKey_InfoPanel() cursor is out of buttons.");
@@ -844,6 +851,17 @@ void GameManagement::EnterKey_InfoPanel()
 				cursor_ptr->ReturnToCamera(camera_ptr, menu_ptr, infoPanel_ptr);
 				gameElementsDrawer->DrawCursor(cursor_ptr, allObjects_ptr, field_ptr);
 			}
+		}
+	}
+	else if (infoPanel_ptr->GetCurrentContent() == InfoPanelContentType::SaveAndExit)
+	{
+		if (cursor_ptr->GetCursorConsoleLocation().Get_x() == infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->GetHalfXAxis())
+		{
+			//TODO save game and exit
+		}
+		else
+		{
+			infoPanel_ptr->SwitchContent(InfoPanelContentType::MenuScreen);
 		}
 	}
 	else
@@ -909,7 +927,8 @@ void GameManagement::EscKey_InfoPanel()
 		infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetDeconstructButton()->GetBorder()->
 			SetBorderForegroundColor(infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetDeconstructButton()->GetInitialCondition()->foregroundBorderColor);
 	}
-	if (infoPanel_ptr->GetCurrentContent() == InfoPanelContentType::Controls || infoPanel_ptr->GetCurrentContent() == InfoPanelContentType::SystemMessagesAndConstructionInfo)
+	if (infoPanel_ptr->GetCurrentContent() == InfoPanelContentType::Controls || infoPanel_ptr->GetCurrentContent() == InfoPanelContentType::SystemMessagesAndConstructionInfo ||
+		infoPanel_ptr->GetCurrentContent() == InfoPanelContentType::SaveAndExit)
 	{
 
 		infoPanel_ptr->SwitchContent(InfoPanelContentType::MenuScreen);
@@ -1009,32 +1028,99 @@ void GameManagement::Arrows_Menu(Direction arrowDir)
 }
 void GameManagement::Arrows_InfoPanel(Direction arrowDir)
 {
+	if (arrowDir != Direction::Left && arrowDir != Direction::Right)
+	{
+		return;
+	}
 	if (infoPanel_ptr->GetCurrentContent() == InfoPanelContentType::MenuScreen)
 	{
 		if (cursor_ptr->GetCursorConsoleLocation() == PointCoord(infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetHalfXAxis(),
-			infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetUpperLeft().Get_y()) && arrowDir == Direction::Left)
+			infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetUpperLeft().Get_y()))
 		{
-			infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetBorder()->
-				SetBorderForegroundColor(infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetInitialCondition()->foregroundBorderColor);
-			infoPanel_ptr->GetMenuScreen()->GetControlsButton()->DrawBorder();
-			infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetBorder()->
-				SetBorderForegroundColor(infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetInitialCondition()->activeButtonColor);
-			infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->DrawBorder();
-			cursor_ptr->CursorMovement(PointCoord(infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetHalfXAxis(),
-				infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetUpperLeft().Get_y()));
+			infoPanel_ptr->GetMenuScreen()->GetControlsButton()->RedrawBorder(infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetInitialCondition()->foregroundBorderColor,
+				infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetInitialCondition()->backgroundBorderColor);
+			if (arrowDir == Direction::Left)
+			{
+				infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->RedrawBorder(infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetInitialCondition()->activeButtonColor,
+					infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetInitialCondition()->backgroundBorderColor);
+				cursor_ptr->CursorMovement(PointCoord(infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetHalfXAxis(),
+					infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetUpperLeft().Get_y()));
+			}
+			if (arrowDir == Direction::Right)
+			{
+				infoPanel_ptr->GetMenuScreen()->GetSaveAndExitButton()->RedrawBorder(infoPanel_ptr->GetMenuScreen()->GetSaveAndExitButton()->GetInitialCondition()->activeButtonColor,
+					infoPanel_ptr->GetMenuScreen()->GetSaveAndExitButton()->GetInitialCondition()->backgroundBorderColor);
+				cursor_ptr->CursorMovement(PointCoord(infoPanel_ptr->GetMenuScreen()->GetSaveAndExitButton()->GetHalfXAxis(),
+					infoPanel_ptr->GetMenuScreen()->GetSaveAndExitButton()->GetUpperLeft().Get_y()));
+			}
 		}
-		if (cursor_ptr->GetCursorConsoleLocation() == PointCoord(infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetHalfXAxis(),
-			infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetUpperLeft().Get_y()) && arrowDir == Direction::Right)
+		else if (cursor_ptr->GetCursorConsoleLocation() == PointCoord(infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetHalfXAxis(),
+			infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetUpperLeft().Get_y()))
 		{
-			infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetBorder()->
-				SetBorderForegroundColor(infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetInitialCondition()->foregroundBorderColor);
-			infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->DrawBorder();
-			infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetBorder()->
-				SetBorderForegroundColor(infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetInitialCondition()->activeButtonColor);
-			infoPanel_ptr->GetMenuScreen()->GetControlsButton()->DrawBorder();
-			cursor_ptr->CursorMovement(PointCoord(infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetHalfXAxis(),
-				infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetUpperLeft().Get_y()));
+			if (arrowDir == Direction::Right)
+			{
+				infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->RedrawBorder(infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetInitialCondition()->foregroundBorderColor,
+					infoPanel_ptr->GetMenuScreen()->GetMessagesButton()->GetInitialCondition()->backgroundBorderColor);
+				infoPanel_ptr->GetMenuScreen()->GetControlsButton()->RedrawBorder(infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetInitialCondition()->activeButtonColor,
+					infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetInitialCondition()->backgroundBorderColor);
+				cursor_ptr->CursorMovement(PointCoord(infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetHalfXAxis(),
+					infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetUpperLeft().Get_y()));
+			}
 		}
+		else if (cursor_ptr->GetCursorConsoleLocation() == PointCoord(infoPanel_ptr->GetMenuScreen()->GetSaveAndExitButton()->GetHalfXAxis(),
+			infoPanel_ptr->GetMenuScreen()->GetSaveAndExitButton()->GetUpperLeft().Get_y()))
+		{
+			if (arrowDir == Direction::Left)
+			{
+				infoPanel_ptr->GetMenuScreen()->GetSaveAndExitButton()->RedrawBorder(infoPanel_ptr->GetMenuScreen()->GetSaveAndExitButton()->GetInitialCondition()->foregroundBorderColor,
+					infoPanel_ptr->GetMenuScreen()->GetSaveAndExitButton()->GetInitialCondition()->backgroundBorderColor);
+				infoPanel_ptr->GetMenuScreen()->GetControlsButton()->RedrawBorder(infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetInitialCondition()->activeButtonColor,
+					infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetInitialCondition()->backgroundBorderColor);
+				cursor_ptr->CursorMovement(PointCoord(infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetHalfXAxis(),
+					infoPanel_ptr->GetMenuScreen()->GetControlsButton()->GetUpperLeft().Get_y()));
+			}
+		}
+		else
+		{
+			throw MyException("void GameManagement::Arrows_InfoPanel(Direction arrowDir) bad cursor location");
+		}
+	}
+	else if (infoPanel_ptr->GetCurrentContent() == InfoPanelContentType::SaveAndExit)
+	{
+		if (cursor_ptr->GetCursorConsoleLocation() == PointCoord(infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->GetHalfXAxis(),
+			infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->GetUpperLeft().Get_y()))
+		{
+			if (arrowDir == Direction::Right)
+			{
+				infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->RedrawBorder(infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->GetInitialCondition()->foregroundBorderColor,
+					infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->GetInitialCondition()->backgroundBorderColor);
+				infoPanel_ptr->GetSaveAndExitScreen()->GetCancelButton()->RedrawBorder(infoPanel_ptr->GetSaveAndExitScreen()->GetCancelButton()->GetInitialCondition()->activeButtonColor,
+					infoPanel_ptr->GetSaveAndExitScreen()->GetCancelButton()->GetInitialCondition()->backgroundBorderColor);
+				cursor_ptr->CursorMovement(PointCoord(infoPanel_ptr->GetSaveAndExitScreen()->GetCancelButton()->GetHalfXAxis(),
+					infoPanel_ptr->GetSaveAndExitScreen()->GetCancelButton()->GetUpperLeft().Get_y()));
+			}
+		}
+		else if (cursor_ptr->GetCursorConsoleLocation() == PointCoord(infoPanel_ptr->GetSaveAndExitScreen()->GetCancelButton()->GetHalfXAxis(),
+			infoPanel_ptr->GetSaveAndExitScreen()->GetCancelButton()->GetUpperLeft().Get_y()))
+		{
+			if (arrowDir == Direction::Left)
+			{
+				infoPanel_ptr->GetSaveAndExitScreen()->GetCancelButton()->RedrawBorder(infoPanel_ptr->GetSaveAndExitScreen()->GetCancelButton()->GetInitialCondition()->foregroundBorderColor,
+					infoPanel_ptr->GetSaveAndExitScreen()->GetCancelButton()->GetInitialCondition()->backgroundBorderColor);
+				infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->RedrawBorder(infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->GetInitialCondition()->activeButtonColor,
+					infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->GetInitialCondition()->backgroundBorderColor);
+				cursor_ptr->CursorMovement(PointCoord(infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->GetHalfXAxis(),
+					infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->GetUpperLeft().Get_y()));
+			}
+		}
+		else
+		{
+			throw MyException("GameManagement::Arrows_InfoPanel(Direction arrowDir) bad cursor position");
+		}
+	}
+	else
+	{
+		return;
 	}
 }
 void GameManagement::Arrows(Direction arrowDir)

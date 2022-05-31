@@ -21,6 +21,7 @@ void DTOCollector::DownloadAllData()
 	figureDTOCollection.insert(make_pair("infoPanelMessagesAndInfoScreen", XMLDownloader::GetDownloader()->DownloadFigureConstants("infoPanelMessagesAndInfoScreen")));
 	figureDTOCollection.insert(make_pair("infoPanelConstructionInfoScreen", XMLDownloader::GetDownloader()->DownloadFigureConstants("infoPanelConstructionInfoScreen")));
 	figureDTOCollection.insert(make_pair("constructionInfoScreenConstructionIcon", XMLDownloader::GetDownloader()->DownloadFigureConstants("constructionInfoScreenConstructionIcon")));
+	figureDTOCollection.insert(make_pair("infoPanelSaveAndExitScreen", XMLDownloader::GetDownloader()->DownloadFigureConstants("infoPanelSaveAndExitScreen")));
 	figureDTOCollection.insert(make_pair("infoPanelMessagesScreen", XMLDownloader::GetDownloader()->DownloadFigureConstants("infoPanelMessagesScreen")));
 	figureDTOCollection.insert(make_pair("startScreen", XMLDownloader::GetDownloader()->DownloadFigureConstants("startScreen")));
 	figureDTOCollection.insert(make_pair("pressAnyKey", XMLDownloader::GetDownloader()->DownloadFigureConstants("pressAnyKey")));
@@ -28,6 +29,9 @@ void DTOCollector::DownloadAllData()
 	//
 	figureDTOCollection.insert(make_pair("infoPanelMenuScreenControlsButton", XMLDownloader::GetDownloader()->DownloadFigureConstants("infoPanelMenuScreenControlsButton")));
 	figureDTOCollection.insert(make_pair("infoPanelMenuScreenMessagesAndInfoButton", XMLDownloader::GetDownloader()->DownloadFigureConstants("infoPanelMenuScreenMessagesAndInfoButton")));
+	figureDTOCollection.insert(make_pair("infoPanelMenuScreenSaveAndExitButton", XMLDownloader::GetDownloader()->DownloadFigureConstants("infoPanelMenuScreenSaveAndExitButton")));
+	figureDTOCollection.insert(make_pair("infoPanelSaveAndExitExitButton", XMLDownloader::GetDownloader()->DownloadFigureConstants("infoPanelSaveAndExitExitButton")));
+	figureDTOCollection.insert(make_pair("infoPanelSaveAndExitCancelButton", XMLDownloader::GetDownloader()->DownloadFigureConstants("infoPanelSaveAndExitCancelButton")));
 	figureDTOCollection.insert(make_pair("constructionInfoScreenDeconstructButton", XMLDownloader::GetDownloader()->DownloadFigureConstants("constructionInfoScreenDeconstructButton")));
 	figureDTOCollection.insert(make_pair("newGameButton", XMLDownloader::GetDownloader()->DownloadFigureConstants("newGameButton")));
 	figureDTOCollection.insert(make_pair("continueButton", XMLDownloader::GetDownloader()->DownloadFigureConstants("continueButton")));
@@ -39,7 +43,7 @@ RectangleConstantsXML* DTOCollector::GetFigureConstants(string figureName) const
 	constantsIter = figureDTOCollection.find(figureName);
 	if (constantsIter == figureDTOCollection.end())
 	{
-		throw MyException("DTOCollector::GetFigureConstants(string figureName) const figureName was not found in map");
+		throw MyException("DTOCollector::GetFigureConstants(string figureName) const figureName was not found in the collection");
 	}
 	else
 	{

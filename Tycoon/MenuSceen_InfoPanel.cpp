@@ -9,17 +9,20 @@ Button* MenuScreen::CreateButton(PointCoord upperLeft, string buttonTitle)
 void MenuScreen::CreateButtons()
 {
 	RectangleConstantsXML* infoPanelMenuScreenMessagesAndInfoButtonConstants = DTOCollector::GetCollector()->GetFigureConstants("infoPanelMenuScreenMessagesAndInfoButton");
-	int buttonWidthAdd = infoPanelMenuScreenMessagesAndInfoButtonConstants->widthAddition;
-	int buttonHeightAdd = GetHeightAddition() - 2;
-	int leftXMenuScreen = GetUpperLeft().Get_x();
-	int rightXMenuScreen = leftXMenuScreen + GetWidthAddition();
+	RectangleConstantsXML* infoPanelMenuScreenControlsButtonConstants = DTOCollector::GetCollector()->GetFigureConstants("infoPanelMenuScreenControlsButton");
+	RectangleConstantsXML* infoPanelMenuScreenSaveAndExitButtonConstants = DTOCollector::GetCollector()->GetFigureConstants("infoPanelMenuScreenSaveAndExitButton");
+	int controlsButtonWidthAdd = infoPanelMenuScreenControlsButtonConstants->widthAddition;
+	int leftXControlsButton = this->GetHalfXAxis() - controlsButtonWidthAdd / 2;
+	int rightXControlsButton = leftXControlsButton + controlsButtonWidthAdd;
+	int leftXMessagesAndInfoButton = leftXControlsButton - 2 - infoPanelMenuScreenMessagesAndInfoButtonConstants->widthAddition;
+	int leftXSaveAndExitButton = rightXControlsButton + 2;
 	int topYButtons = GetUpperLeft().Get_y() + 1;
-	int leftXInfoScreenButton = rightXMenuScreen / 2 - rightXMenuScreen / 10 - buttonWidthAdd;
-	int leftXControlsButton = rightXMenuScreen / 2 + rightXMenuScreen / 10;
-	PointCoord leftButtonUpperLeft = PointCoord(leftXInfoScreenButton, topYButtons);
-	PointCoord rightButtonUpperLeft = PointCoord(leftXControlsButton, topYButtons);
-	messagesAndInfoButton_ptr = this->CreateButton(leftButtonUpperLeft, "infoPanelMenuScreenMessagesAndInfoButton");
-	controlsButton_ptr = this->CreateButton(rightButtonUpperLeft, "infoPanelMenuScreenControlsButton");
+	PointCoord messagesAndInfoButtonUpperLeft = PointCoord(leftXMessagesAndInfoButton, topYButtons);
+	PointCoord controlsButtonUpperLeft = PointCoord(leftXControlsButton, topYButtons);
+	PointCoord saveAndExitButtonUpperLeft = PointCoord(leftXSaveAndExitButton, topYButtons);
+	messagesAndInfoButton_ptr = this->CreateButton(messagesAndInfoButtonUpperLeft, "infoPanelMenuScreenMessagesAndInfoButton");
+	controlsButton_ptr = this->CreateButton(controlsButtonUpperLeft, "infoPanelMenuScreenControlsButton");
+	saveAndExitButton_ptr = this->CreateButton(saveAndExitButtonUpperLeft, "infoPanelMenuScreenSaveAndExitButton");
 }
 Button* MenuScreen::GetMessagesButton() const
 {
@@ -28,6 +31,10 @@ Button* MenuScreen::GetMessagesButton() const
 Button* MenuScreen::GetControlsButton() const
 {
 	return controlsButton_ptr;
+}
+Button* MenuScreen::GetSaveAndExitButton() const
+{
+	return saveAndExitButton_ptr;
 }
 void MenuScreen::DrawMenuScreenButton(Button* button_ptr)
 {

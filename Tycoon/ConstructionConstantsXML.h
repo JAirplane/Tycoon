@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 #include "pugixml.hpp"
-#include "StringToColor.h"
+#include "EnumStringConverter.h"
 class ConstructionConstantsXML
 {
 private:
