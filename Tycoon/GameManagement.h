@@ -7,6 +7,7 @@ class GameManagement : public MessageSubjectInterface, public ConstructionInfoSu
 private:
 	Cursor* cursor_ptr;
 	Visualisation* draw_ptr;
+	SaveLoad* saverAndLoader_ptr;
 	Display* gameElementsDrawer;
 	AllObjects* allObjects_ptr;
 	Camera* camera_ptr;
@@ -23,6 +24,7 @@ public:
 	{
 		cursor_ptr = nullptr;
 		draw_ptr = nullptr;
+		saverAndLoader_ptr = nullptr;
 		gameElementsDrawer = nullptr;
 		allObjects_ptr = nullptr;
 		camera_ptr = nullptr;
@@ -36,6 +38,7 @@ public:
 	{
 		delete cursor_ptr;
 		delete draw_ptr;
+		delete saverAndLoader_ptr;
 		delete gameElementsDrawer;
 		delete allObjects_ptr;
 		delete camera_ptr;
@@ -48,6 +51,7 @@ public:
 	// create game elements
 	virtual void CreateCursor();
 	virtual void CreateDrawPointer();
+	virtual void CreateSaverLoader();
 	virtual void CreateGameElementsDrawer();
 	virtual void CreateAllObjects();
 	virtual void CreateCamera();
@@ -61,7 +65,7 @@ public:
 	int MainMenuUserActions(int key);
 	int MainMenuInteraction();
 	void SaveAndExit();
-	int InitialDisplay();
+	void InitialDisplay();
 	// notifies InfoPanel if user choose some construction on the playing field
 	void ChosenConstructionAttach(ConstructionInfoObserverInterface* observer) override;
 	void ChosenConstructionDetach(ConstructionInfoObserverInterface* observer) override;

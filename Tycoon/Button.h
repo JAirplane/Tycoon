@@ -49,10 +49,14 @@ public:
 	ActivatedByConditionButton(PointCoord upperLeft, RectangleConstantsXML* initial, Visualisation* vis_ptr, Cursor* cur_ptr) : Button(upperLeft, initial, vis_ptr, cur_ptr)
 	{
 		this->enabled = false;
+		this->GetBorder()->SetBorderBackgroundColor(ConstructionOptions::GetAllOptions()->GetButtonDisabledColor());
+		this->SetTextColor(ConstructionOptions::GetAllOptions()->GetButtonDisabledColor());
 	}
 	ActivatedByConditionButton(Button& someButton) : Button(someButton)
 	{
 		this->enabled = false;
+		this->GetBorder()->SetBorderBackgroundColor(ConstructionOptions::GetAllOptions()->GetButtonDisabledColor());
+		this->SetTextColor(ConstructionOptions::GetAllOptions()->GetButtonDisabledColor());
 	}
 	virtual ~ActivatedByConditionButton() {}
 	bool GetEnabled() const;

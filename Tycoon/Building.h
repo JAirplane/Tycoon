@@ -28,9 +28,9 @@ public:
 	void SetProfit(int profit) override;
 	__declspec(property(get = GetProfit, put = SetProfit)) int overallRevenue;
 	int GetEntranceHeightAdd() const override;
-	void SetEntranceHeightAdd(int heightAdd);
+	void SetEntranceHeightAdd(int heightAdd) override;
 	int GetEntranceWidthAdd() const override;
-	void SetEntranceWidthAdd(int widthAdd);
+	void SetEntranceWidthAdd(int widthAdd) override;
 	Direction GetExitDirection() const override;
 	void SetExitDirection(Direction exit);
 	PointCoord GetEntrancePoint() const override;

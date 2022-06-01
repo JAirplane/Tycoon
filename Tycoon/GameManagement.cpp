@@ -9,6 +9,10 @@ void GameManagement::CreateDrawPointer()
 {
 	draw_ptr = new Visualisation();
 }
+void GameManagement::CreateSaverLoader()
+{
+	saverAndLoader_ptr = new SaveLoad();
+}
 void GameManagement::CreateGameElementsDrawer()
 {
 	gameElementsDrawer = new Display(draw_ptr);
@@ -225,25 +229,24 @@ void GameManagement::SaveAndExit()
 
 
 }
-int GameManagement::InitialDisplay()
+void GameManagement::InitialDisplay()
 {
 	gameElementsDrawer->DisplayInitialScreen(startScreen_ptr);
 	gameElementsDrawer->EraseScreen();
 	//
 	gameElementsDrawer->DisplayMainMenu(mainMenu_ptr, cursor_ptr);
 	int response = this->MainMenuInteraction();
+	gameElementsDrawer->EraseScreen();
 	if (response == 1)
 	{
-		return response;
+		return;
 	}
-	gameElementsDrawer->EraseScreen();
 	//
 	gameElementsDrawer->DisplayCamera(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 	gameElementsDrawer->DisplayMenu(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 	gameElementsDrawer->DisplayInfoPanel(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 	gameElementsDrawer->DisplayPlayingField(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 	gameElementsDrawer->DisplayAllObjects(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
-	return 0;
 }
 // notifies InfoPanel if user choose some construction on the playing field
 void GameManagement::ChosenConstructionAttach(ConstructionInfoObserverInterface* observer)
@@ -857,7 +860,8 @@ void GameManagement::EnterKey_InfoPanel()
 	{
 		if (cursor_ptr->GetCursorConsoleLocation().Get_x() == infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->GetHalfXAxis())
 		{
-			//TODO save game and exit
+			saverAndLoader_ptr->SaveGame(menu_ptr->GetGameStats(), allObjects_ptr->GetAllBuildings(), allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllVisitors());
+			exit(0);
 		}
 		else
 		{

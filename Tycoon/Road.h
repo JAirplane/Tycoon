@@ -20,7 +20,9 @@ public:
 	void GraphStatusNotify(int roadIndex) override;
 	//
 	int GetEntranceHeightAdd() const override;
+	void SetEntranceHeightAdd(int entranceHeightAdd) override;
 	int GetEntranceWidthAdd() const override;
+	void SetEntranceWidthAdd(int entranceWidthAdd) override;
 	//
 	int GetVisitorsInside() const override;
 	void SetVisitorsInside(int visitorsValue) override;

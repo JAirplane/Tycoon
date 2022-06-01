@@ -12,6 +12,7 @@ int main()
 		DTOCollector::GetCollector()->DownloadAllData();
 		GameMaster.CreateCursor();
 		GameMaster.CreateDrawPointer();
+		GameMaster.CreateSaverLoader();
 		GameMaster.CreateGameElementsDrawer();
 		GameMaster.CreateCamera();
 		GameMaster.CreatePlayingField();

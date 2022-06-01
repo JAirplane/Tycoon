@@ -3,8 +3,6 @@
 #include "RectangleConstantsXML.h"
 class XMLDownloader
 {
-private:
-	pugi::xml_document CreateDocument(string docName); //format: docName.xml
 protected:
 	static XMLDownloader* constructionConstantsDownload;
 public:
@@ -15,6 +13,7 @@ public:
 	}
 	static XMLDownloader* CreateConstructionConstantsDownloader();
 	static XMLDownloader* GetDownloader();
+	pugi::xml_document CreateDocument(string docName); //format: docName.xml
 	virtual ConstructionConstantsXML DownloadConstructionConstants(string constructionType);
 	/*	suitable types:
 			road

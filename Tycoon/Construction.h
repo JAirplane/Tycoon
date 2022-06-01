@@ -31,7 +31,9 @@ public:
 	const ConstructionDescriptor* GetDescriptor() const; //no setter here
 	//
 	virtual int GetEntranceHeightAdd() const = 0;
+	virtual void SetEntranceHeightAdd(int entranceHeightAdd) = 0;
 	virtual int GetEntranceWidthAdd() const = 0;
+	virtual void SetEntranceWidthAdd(int entranceWidthAdd) = 0;
 	//
 	virtual int GetVisitorsInside() const = 0;
 	virtual void SetVisitorsInside(int visitorsValue) = 0;

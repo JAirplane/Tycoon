@@ -311,7 +311,7 @@ MenuElement* Menu::GetMenuElementByDescriptorId(int uniqueID) const
 			return menuElement;
 		}
 	}
-	throw MyException("Menu::GetMenuElementByDescriptorId(int uniqueID) const bad ID.");
+	return nullptr;
 }
 MenuElement* Menu::GetUpperVisibleMenuElement() const
 {

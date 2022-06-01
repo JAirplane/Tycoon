@@ -78,7 +78,7 @@ void MainMenu::Display(color titleColor)
 	function<bool()> enableButton = []()
 	{
 		pugi::xml_document doc;
-		pugi::xml_parse_result result = doc.load_file("SavedTycoon.xml");
+		pugi::xml_parse_result result = doc.load_file("Game_Save.xml");
 		return result;
 	};
 	continueGame->Display(enableButton);

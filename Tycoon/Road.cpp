@@ -35,10 +35,12 @@ int Road::GetEntranceHeightAdd() const
 {
 	return 0;
 }
+void Road::SetEntranceHeightAdd(int entranceHeightAdd) {}
 int Road::GetEntranceWidthAdd() const
 {
 	return 0;
 }
+void Road::SetEntranceWidthAdd(int entranceWidthAdd) {}
 //
 int Road::GetVisitorsInside() const
 {
