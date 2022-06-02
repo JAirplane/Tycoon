@@ -1,0 +1,227 @@
+<?xml version="1.0"?>
+<gameCondition>
+	<gameStats>
+		<moneyAmount>1780</moneyAmount>
+	</gameStats>
+	<ingameObjects>
+		<buildings>
+			<building>
+				<xCoord>34</xCoord>
+				<yCoord>36</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>10</descriptorId>
+				<entranceHeightAdd>0</entranceHeightAdd>
+				<entranceWidthAdd>0</entranceWidthAdd>
+				<exitDirection>up</exitDirection>
+				<overallProfit>0</overallProfit>
+				<visitorsInside>0</visitorsInside>
+			</building>
+			<building>
+				<xCoord>35</xCoord>
+				<yCoord>36</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>10</descriptorId>
+				<entranceHeightAdd>0</entranceHeightAdd>
+				<entranceWidthAdd>0</entranceWidthAdd>
+				<exitDirection>up</exitDirection>
+				<overallProfit>0</overallProfit>
+				<visitorsInside>0</visitorsInside>
+			</building>
+		</buildings>
+		<roads>
+			<road name="VisibleRoad">
+				<xCoord>34</xCoord>
+				<yCoord>35</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="VisibleRoad">
+				<xCoord>35</xCoord>
+				<yCoord>35</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="VisibleRoad">
+				<xCoord>34</xCoord>
+				<yCoord>34</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="VisibleRoad">
+				<xCoord>35</xCoord>
+				<yCoord>34</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="VisibleRoad">
+				<xCoord>34</xCoord>
+				<yCoord>33</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="VisibleRoad">
+				<xCoord>35</xCoord>
+				<yCoord>33</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="VisibleRoad">
+				<xCoord>34</xCoord>
+				<yCoord>32</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="VisibleRoad">
+				<xCoord>35</xCoord>
+				<yCoord>32</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="UnbreakableRoad">
+				<xCoord>34</xCoord>
+				<yCoord>31</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="UnbreakableRoad">
+				<xCoord>35</xCoord>
+				<yCoord>31</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="Road">
+				<xCoord>35</xCoord>
+				<yCoord>30</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="Road">
+				<xCoord>35</xCoord>
+				<yCoord>29</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="Road">
+				<xCoord>35</xCoord>
+				<yCoord>28</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="Road">
+				<xCoord>35</xCoord>
+				<yCoord>27</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="Road">
+				<xCoord>35</xCoord>
+				<yCoord>26</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="Road">
+				<xCoord>35</xCoord>
+				<yCoord>25</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="Road">
+				<xCoord>35</xCoord>
+				<yCoord>24</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="Road">
+				<xCoord>35</xCoord>
+				<yCoord>23</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="Road">
+				<xCoord>35</xCoord>
+				<yCoord>22</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="Road">
+				<xCoord>35</xCoord>
+				<yCoord>21</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="Road">
+				<xCoord>36</xCoord>
+				<yCoord>21</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="Road">
+				<xCoord>37</xCoord>
+				<yCoord>21</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="Road">
+				<xCoord>38</xCoord>
+				<yCoord>21</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="Road">
+				<xCoord>39</xCoord>
+				<yCoord>21</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="Road">
+				<xCoord>40</xCoord>
+				<yCoord>21</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="Road">
+				<xCoord>41</xCoord>
+				<yCoord>21</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="Road">
+				<xCoord>42</xCoord>
+				<yCoord>21</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="Road">
+				<xCoord>43</xCoord>
+				<yCoord>21</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="Road">
+				<xCoord>44</xCoord>
+				<yCoord>21</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="Road">
+				<xCoord>45</xCoord>
+				<yCoord>21</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="Road">
+				<xCoord>46</xCoord>
+				<yCoord>21</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="Road">
+				<xCoord>47</xCoord>
+				<yCoord>21</yCoord>
+				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+		</roads>
+		<visitors />
+	</ingameObjects>
+</gameCondition>

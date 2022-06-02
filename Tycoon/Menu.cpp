@@ -59,7 +59,7 @@ ConstructionManager* Menu::CreateManager(ConstructionConstantsXML setOfConstants
 	}
 }
 //
-void Menu::CreateMenuElement(int uniqueId, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
+MenuElement* Menu::CreateMenuElement(int uniqueId, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
 	color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol, int restoreToiletNeed, int satisfactionOfHunger, int visitPrice, int entertainmentValue,
 	int isExit, int maxVisitors, int visitTime, int dailyExpences, int constructionHeightAdd, int constructionWidthAdd)
 {
@@ -87,7 +87,7 @@ void Menu::CreateMenuElement(int uniqueId, int constructionCost, string descript
 	delete menuElementRectangle;
 	menuItems.push_back(element_ptr);
 }
-void Menu::CreateMenuElement(string constructionType)
+MenuElement* Menu::CreateMenuElement(string constructionType)
 {
 	PointCoord elementLocation(0, 0);
 	if (menuItems.empty())
@@ -110,6 +110,7 @@ void Menu::CreateMenuElement(string constructionType)
 	MenuElement* element_ptr = new MenuElement(*menuElementRectangle, menuIcon_ptr, manager_ptr);
 	delete menuElementRectangle;
 	menuItems.push_back(element_ptr);
+	return element_ptr;
 }
 MyRectangle* Menu::CreateIcon(PointCoord elementLocation)
 {
@@ -121,7 +122,6 @@ MyRectangle* Menu::CreateIcon(PointCoord elementLocation)
 //
 void Menu::CreateExit(const PlayingField* playingField_ptr, const Visualisation* draw_ptr, AllObjects* container)
 {
-	exitManager = this->CreateManager(XMLDownloader::GetDownloader()->DownloadConstructionConstants("exit"));
 	Construction* exit1 = exitManager->CreateConstruction(PointCoord(playingField_ptr->GetHalfXAxis(),
 		playingField_ptr->GetUpperLeft().Get_y() + playingField_ptr->GetHeightAddition() + 4), draw_ptr, container);
 	exit1->SetExitDirection(Direction::Up);
@@ -142,7 +142,6 @@ void Menu::CreateParkEntrance(const PlayingField* playingField_ptr, const Visual
 		throw MyException("CreateParkEntrance(const PlayingField* playingField_ptr, ConstructionDescriptor* descriptor_ptr, Visualisation* draw_ptr, AllObjects* container) draw_ptr is nullptr");
 	}
 	this->CreateExit(playingField_ptr, draw_ptr, container);
-	visibleOutsideCameraRoadManager = new VisibleOutsideRoadManager(descriptor_ptr);
 	for (int yAdd = 3; yAdd >= 0; yAdd--)
 	{
 		for (int xAdd = 0; xAdd <= 1; xAdd++)
@@ -152,7 +151,6 @@ void Menu::CreateParkEntrance(const PlayingField* playingField_ptr, const Visual
 			visibleOutsideCameraRoad->SetRoadConnectionStatus(true);
 		}
 	}
-	unbreakableRoadManager = new UnbreakableRoadManager(descriptor_ptr);
 	for (int xAdd = 0; xAdd <= 1; xAdd++)
 	{
 		Construction* undestructableRoad = unbreakableRoadManager->CreateConstruction(PointCoord(playingField_ptr->GetHalfXAxis() + xAdd,
@@ -169,6 +167,18 @@ void Menu::CreateGameStats()
 	gameStatsRectangle->SetWidthAddition(this->GetWidthAddition() - 2);
 	gameStats_ptr = new GameStats(*gameStatsRectangle);
 	delete gameStatsRectangle;
+}
+void Menu::CreateExitManager()
+{
+	exitManager = this->CreateManager(XMLDownloader::GetDownloader()->DownloadConstructionConstants("exit"));
+}
+void Menu::CreateVisibleOutsideRoadManager(ConstructionDescriptor* descriptor_ptr)
+{
+	visibleOutsideCameraRoadManager = new VisibleOutsideRoadManager(descriptor_ptr);
+}
+void Menu::CreateUnbreakableRoadManager(ConstructionDescriptor* descriptor_ptr)
+{
+	unbreakableRoadManager = new UnbreakableRoadManager(descriptor_ptr);
 }
 void Menu::CreateVisitorManager()
 {

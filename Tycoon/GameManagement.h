@@ -54,6 +54,7 @@ public:
 	virtual void CreateSaverLoader();
 	virtual void CreateGameElementsDrawer();
 	virtual void CreateAllObjects();
+	virtual void NewGameObjectsCreation();
 	virtual void CreateCamera();
 	virtual void CreatePlayingField();
 	virtual void CreateMenuAndElements();
@@ -63,9 +64,10 @@ public:
 	//
 	int GetPressedKey() const;
 	int MainMenuUserActions(int key);
-	int MainMenuInteraction();
-	void SaveAndExit();
-	void InitialDisplay();
+	void MainMenuInteraction();
+	void InitialSplashScreenPlay();
+	void BeforeGameStartDrawing();
+	void MainMenuPlay();
 	// notifies InfoPanel if user choose some construction on the playing field
 	void ChosenConstructionAttach(ConstructionInfoObserverInterface* observer) override;
 	void ChosenConstructionDetach(ConstructionInfoObserverInterface* observer) override;

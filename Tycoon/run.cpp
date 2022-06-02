@@ -22,7 +22,10 @@ int main()
 		GameMaster.CreateStartScreen();
 		GameMaster.CreateMainMenu();
 		//
-		GameMaster.InitialDisplay();
+		GameMaster.InitialSplashScreenPlay();
+		GameMaster.MainMenuPlay();
+		GameMaster.BeforeGameStartDrawing();
+		GameMaster.GameProcess();
 	}
 	catch (MyException& somethingOccured)
 	{
@@ -34,7 +37,6 @@ int main()
 		logFile.open("Logs.txt", ios_base::out | ios_base::app);
 		logFile << standardException.what() << endl;
 	}
-	GameMaster.GameProcess();
 	set_cursor_pos(1, 40);
 	return 0;
 }

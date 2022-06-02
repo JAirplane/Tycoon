@@ -78,15 +78,15 @@ void SaveLoad::AddRoadNode(Construction* roadForSave, pugi::xml_node& roads)
 	pugi::xml_node road = roads.append_child("road");
 	if (roadForSave->VisibleOutsidePlayingfield())
 	{
-		road.append_attribute("name") = "VisibleRoad";
+		road.append_attribute("name") = "visibleRoad";
 	}
 	else if (!roadForSave->IsBreakable())
 	{
-		road.append_attribute("name") = "UnbreakableRoad";
+		road.append_attribute("name") = "unbreakableRoad";
 	}
 	else
 	{
-		road.append_attribute("name") = "Road";
+		road.append_attribute("name") = "road";
 	}
 	this->FillGlobalObjectNodePart(roadForSave, road);
 	this->FillConstructionNodePart(roadForSave, road);
@@ -98,27 +98,27 @@ void SaveLoad::AddVisitorNode(Visitor* visitorForSave, pugi::xml_node& visitors)
 	this->FillVisitorNodePart(visitorForSave, visitor);
 }
 //
-void SaveLoad::LoadGame(GameStats* stats, AllObjects* allObjects_ptr, Menu* menu_ptr)
+void SaveLoad::LoadGame(AllObjects* allObjects_ptr, Menu* menu_ptr)
 {
 	pugi::xml_document loadedGameCondition = XMLDownloader::GetDownloader()->CreateDocument("Game_Save.xml");
 	pugi::xml_node gameCondition = loadedGameCondition.child("gameCondition");
 	pugi::xml_node gameStats = gameCondition.child("gameStats");
-	this->LoadGameStatsData(stats, gameStats);
+	this->LoadGameStatsData(menu_ptr->GetGameStats(), gameStats);
 	pugi::xml_node ingameObjects = gameCondition.child("ingameObjects");
 	pugi::xml_node buildings = ingameObjects.child("buildings");
-	for (pugi::xml_node building = buildings.first_child(); building; building.next_sibling())
+	for (pugi::xml_node building = buildings.first_child(); building; building = building.next_sibling())
 	{
 		this->LoadBuildingData(menu_ptr, allObjects_ptr, building);
 	}
 	pugi::xml_node roads = ingameObjects.child("roads");
-	for (pugi::xml_node building = roads.first_child(); building; building.next_sibling())
+	for (pugi::xml_node road = roads.first_child(); road; road = road.next_sibling())
 	{
-		this->LoadRoadData(menu_ptr, allObjects_ptr, building);
+		this->LoadRoadData(menu_ptr, allObjects_ptr, road);
 	}
 	pugi::xml_node visitors = ingameObjects.child("visitors");
-	for (pugi::xml_node building = visitors.first_child(); building; building.next_sibling())
+	for (pugi::xml_node visitor = visitors.first_child(); visitor; visitor = visitor.next_sibling())
 	{
-		this->LoadVisitorData(menu_ptr, allObjects_ptr, building);
+		this->LoadVisitorData(menu_ptr, allObjects_ptr, visitor);
 	}
 }
 void SaveLoad::LoadGameStatsData(GameStats* stats, pugi::xml_node gameStats)
@@ -139,7 +139,7 @@ void SaveLoad::LoadBuildingData(Menu* menu_ptr, AllObjects* allObjects_ptr, pugi
 	MenuElement* desiredElement = menu_ptr->GetMenuElementByDescriptorId(this->DownloadDescriptorId(objectNode));
 	if (desiredElement == nullptr)
 	{
-		if (menu_ptr->GetExitManager()->GetDescriptor()->uniqueId != this->DownloadDescriptorId(objectNode))
+		if (menu_ptr->GetExitManager()->GetDescriptor()->uniqueId == this->DownloadDescriptorId(objectNode))
 		{
 			desiredBuildingManager = menu_ptr->GetExitManager();
 		}
@@ -156,14 +156,15 @@ void SaveLoad::LoadBuildingData(Menu* menu_ptr, AllObjects* allObjects_ptr, pugi
 	loadedBuilding->allTimeVisited = stoi(objectNode.child_value("overallVisitors"));
 	loadedBuilding->SetEntranceHeightAdd(stoi(objectNode.child_value("entranceHeightAdd")));
 	loadedBuilding->SetEntranceWidthAdd(stoi(objectNode.child_value("entranceWidthAdd")));
-	loadedBuilding->SetExitDirection(EnumStringConverter::GetStringToColorConverter()->Convert_StringToDirection(objectNode.child_value("entranceWidthAdd")));
+	loadedBuilding->SetExitDirection(EnumStringConverter::GetStringToColorConverter()->Convert_StringToDirection(objectNode.child_value("exitDirection")));
 	loadedBuilding->overallRevenue = stoi(objectNode.child_value("overallProfit"));
 	loadedBuilding->visitorsCounter = stoi(objectNode.child_value("visitorsInside"));
 }
 void SaveLoad::LoadRoadData(Menu* menu_ptr, AllObjects* allObjects_ptr, pugi::xml_node objectNode)
 {
 	Construction* loadedRoad = nullptr;
-	if (objectNode.attribute("name").as_string() == "Road")
+	pugi::xml_attribute name = objectNode.first_attribute();
+	if (name.value() == string("road"))
 	{
 		MenuElement* desiredElement = menu_ptr->GetMenuElementByDescriptorId(this->DownloadDescriptorId(objectNode));
 		if (desiredElement == nullptr)
@@ -172,11 +173,11 @@ void SaveLoad::LoadRoadData(Menu* menu_ptr, AllObjects* allObjects_ptr, pugi::xm
 		}
 		loadedRoad = desiredElement->GetManager()->CreateConstruction(this->DownloadUpperLeft(objectNode), menu_ptr->GetDrawPointer(), allObjects_ptr);
 	}
-	else if (objectNode.attribute("name").as_string() == "UnbreakableRoad")
+	else if (name.as_string() == string("unbreakableRoad"))
 	{
 		loadedRoad = menu_ptr->GetUnbreakableRoadManager()->CreateConstruction(this->DownloadUpperLeft(objectNode), menu_ptr->GetDrawPointer(), allObjects_ptr);
 	}
-	else if (objectNode.attribute("name").as_string() == "VisibleRoad")
+	else if (name.as_string() == string("visibleRoad"))
 	{
 		loadedRoad = menu_ptr->GetVisibleOutsideCameraRoadManager()->CreateConstruction(this->DownloadUpperLeft(objectNode), menu_ptr->GetDrawPointer(), allObjects_ptr);
 	}

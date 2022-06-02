@@ -16,7 +16,7 @@ public:
 	void AddRoadNode(Construction* roadForSave, pugi::xml_node& roads);
 	void AddVisitorNode(Visitor* visitorForSave, pugi::xml_node& visitors);
 	//
-	void LoadGame(GameStats* stats, AllObjects* allObjects_ptr, Menu* menu_ptr);
+	void LoadGame(AllObjects* allObjects_ptr, Menu* menu_ptr);
 	void LoadGameStatsData(GameStats* stats, pugi::xml_node objectNode);
 	PointCoord DownloadUpperLeft(pugi::xml_node objectNode);
 	int DownloadDescriptorId(pugi::xml_node objectNode);

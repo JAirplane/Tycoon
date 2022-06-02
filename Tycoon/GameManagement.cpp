@@ -20,6 +20,9 @@ void GameManagement::CreateGameElementsDrawer()
 void GameManagement::CreateAllObjects()
 {
 	allObjects_ptr = new AllObjects(cursor_ptr, draw_ptr);
+}
+void GameManagement::NewGameObjectsCreation()
+{
 	for (auto menuItem : menu_ptr->GetMenuItems())
 	{
 		if (dynamic_cast<RoadManager*>(menuItem->GetManager()) != nullptr)
@@ -81,7 +84,7 @@ void GameManagement::CreateMenuAndElements()
 	menu_ptr = new Menu(*menuRectangle);
 	delete menuRectangle;
 	menu_ptr->CreateGameStats();
-	menu_ptr->CreateMenuElement("road");
+	MenuElement* roadElement = menu_ptr->CreateMenuElement("road");
 	menu_ptr->CreateMenuElement("toilet");
 	menu_ptr->CreateMenuElement("iceCreamShop");
 	menu_ptr->CreateMenuElement("foodCourt");
@@ -91,6 +94,9 @@ void GameManagement::CreateMenuAndElements()
 	menu_ptr->CreateMenuElement("rollerCoaster");
 	menu_ptr->CreateMenuElement("bumperCars");
 	menu_ptr->CreateMenuElement("logRide");
+	menu_ptr->CreateExitManager();
+	menu_ptr->CreateVisibleOutsideRoadManager(roadElement->GetManager()->GetDescriptor());
+	menu_ptr->CreateUnbreakableRoadManager(roadElement->GetManager()->GetDescriptor());
 	//
 	menu_ptr->CreateVisitorManager();
 }
@@ -206,47 +212,46 @@ int GameManagement::MainMenuUserActions(int key)
 	default: {return 0; }
 	}
 }
-int GameManagement::MainMenuInteraction()
+void GameManagement::MainMenuInteraction()
 {
 	while (true)
 	{
 		if (_kbhit() != 0)
 		{
 			int response = this->MainMenuUserActions(this->GetPressedKey());
-			if (response == 0)
+			switch (response)
 			{
-				continue;
-			}
-			else
-			{
-				return response;
+			case 0: {continue; }
+			case 1: {exit(0); }
+			case 2: {this->NewGameObjectsCreation(); return; }
+			case 3: 
+				{
+					saverAndLoader_ptr->LoadGame(allObjects_ptr, menu_ptr);
+					allObjects_ptr->CheckAllConnections();
+					return;
+				}
 			}
 		}
 	}
 }
-void GameManagement::SaveAndExit()
-{
-
-
-}
-void GameManagement::InitialDisplay()
+void GameManagement::InitialSplashScreenPlay()
 {
 	gameElementsDrawer->DisplayInitialScreen(startScreen_ptr);
 	gameElementsDrawer->EraseScreen();
-	//
-	gameElementsDrawer->DisplayMainMenu(mainMenu_ptr, cursor_ptr);
-	int response = this->MainMenuInteraction();
-	gameElementsDrawer->EraseScreen();
-	if (response == 1)
-	{
-		return;
-	}
-	//
+}
+void GameManagement::BeforeGameStartDrawing()
+{
 	gameElementsDrawer->DisplayCamera(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 	gameElementsDrawer->DisplayMenu(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 	gameElementsDrawer->DisplayInfoPanel(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 	gameElementsDrawer->DisplayPlayingField(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
 	gameElementsDrawer->DisplayAllObjects(menu_ptr, cursor_ptr, camera_ptr, infoPanel_ptr, allObjects_ptr, field_ptr);
+}
+void GameManagement::MainMenuPlay()
+{
+	gameElementsDrawer->DisplayMainMenu(mainMenu_ptr, cursor_ptr);
+	this->MainMenuInteraction();
+	gameElementsDrawer->EraseScreen();
 }
 // notifies InfoPanel if user choose some construction on the playing field
 void GameManagement::ChosenConstructionAttach(ConstructionInfoObserverInterface* observer)

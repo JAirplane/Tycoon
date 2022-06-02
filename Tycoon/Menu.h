@@ -53,10 +53,10 @@ public:
 		delete visibleOutsideCameraRoadManager;
 		delete unbreakableRoadManager;
 	}
-	void CreateMenuElement(int uniqueId, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
+	MenuElement* CreateMenuElement(int uniqueId, int constructionCost, string description, wstring iconSymbol, color foreground, color backgroundConnected,
 		color backgroundNotConnected, color backgroundChosen, wstring buildingSymbol = L" ", int restoreToiletNeed = 0, int satisfactionOfHunger = 0, int visitPrice = 0,
 		int entertainmentValue = 0, int isExit = 0, int maxVisitors = 0, int visitTime = 0, int dailyExpences = 0, int constructionHeightAdd = 0, int constructionWidthAdd = 0);
-	void CreateMenuElement(string constructionType);
+	MenuElement* CreateMenuElement(string constructionType);
 	/*	suitable types:
 			road
 			toilet
@@ -71,6 +71,9 @@ public:
 	*/
 	// create game stats
 	virtual void CreateGameStats();
+	virtual void CreateExitManager();
+	virtual void CreateVisibleOutsideRoadManager(ConstructionDescriptor* descriptor_ptr);
+	virtual void CreateUnbreakableRoadManager(ConstructionDescriptor* descriptor_ptr);
 	virtual void CreateVisitorManager();
 	MyRectangle* CreateIcon(PointCoord elementLocation);
 	//

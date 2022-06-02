@@ -362,6 +362,18 @@ void AllObjects::DisplayRoads(const Camera* camera_ptr, const PlayingField* fiel
 	}
 }
 //
+void AllObjects::CheckAllConnections()
+{
+	for (auto building : buildings)
+	{
+		building->Connected(roads, buildings, preliminaryConstruction_ptr);
+	}
+	for (auto road : roads)
+	{
+		road->Connected(roads, buildings, preliminaryConstruction_ptr);
+	}
+}
+//
 void AllObjects::RedrawNeighbours(PointCoord centralPoint, const Camera* camera_ptr)
 {
 	vector<Construction*> neighbours;

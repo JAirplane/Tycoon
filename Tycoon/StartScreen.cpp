@@ -98,7 +98,15 @@ void InitialScreen::PressAnyKeyAnimation() const
 		for (auto letter : pressAnyKeyInscrition)
 		{
 			this->DrawPressAnyKeyLetter(letter, PointCoord(letterPositionXCoord, letterPositionYCoord), inscriptionColor);
-			if (_kbhit()) { return; }
+			if (_kbhit()) 
+			{ 
+				int key = _getch();
+				if (key == 0 || key == 224)
+				{
+					key = _getch();
+				}
+				return;
+			}
 			++letterPositionXCoord;
 			wait(100);
 		}

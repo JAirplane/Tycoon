@@ -68,6 +68,8 @@ public:
 	void DisplayVisitors(const Camera* camera_ptr) const;
 	void DisplayRoads(const Camera* camera_ptr, const PlayingField* field_ptr) const;
 	//
+	void CheckAllConnections();
+	//
 	void RedrawNeighbours(PointCoord centralPoint, const Camera* camera_ptr);
 	void RedrawNeighbours(const Construction* centralConstruction, const Camera* camera_ptr);
 	//
