@@ -163,7 +163,7 @@
 		<maxVisitors>8</maxVisitors>
 		<visitTime>30</visitTime>
 		<iconSymbol>Χ</iconSymbol>
-		<foregroundColor>dark green</foregroundColor>
+		<foregroundColor>brown</foregroundColor>
 		<backgroundColorConnected>dark cyan</backgroundColorConnected>
 		<backgroundColorDisconnected>black</backgroundColorDisconnected>
 		<backgroundColorChosen>red</backgroundColorChosen>

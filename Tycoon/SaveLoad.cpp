@@ -1,8 +1,11 @@
 #include "SaveLoad.h"
-void SaveLoad::SaveGame(const GameStats* stats, const list<Construction*>& allBuildings, const list<Construction*>& allRoads, const list<Visitor*>& allVisitors)
+void SaveLoad::SaveGame(const GameStats* stats, const PlayingField* field, const list<Construction*>& allBuildings, const list<Construction*>& allRoads,
+	const list<Visitor*>& allVisitors)
 {
 	pugi::xml_document savedGameCondition;
 	pugi::xml_node gameCondition = savedGameCondition.append_child("gameCondition");
+	pugi::xml_node playingField = gameCondition.append_child("playingField");
+	this->FillGlobalObjectNodePart(field, playingField);
 	pugi::xml_node gameStats = gameCondition.append_child("gameStats");
 	pugi::xml_node moneyAmount = gameStats.append_child("moneyAmount");
 	moneyAmount.text().set(to_string(stats->amountOfMoney).c_str());
@@ -28,21 +31,25 @@ void SaveLoad::SaveGame(const GameStats* stats, const list<Construction*>& allBu
 		throw MyException("SaveLoad::SaveGame(const GameStats* stats, vector<Construction*> allBuildings, vector<Construction*> allRoads, vector<Visitor*> allVisitors) saving failed");
 	}
 }
-void SaveLoad::FillGlobalObjectNodePart(GlobalObject* gameObject, pugi::xml_node& objectNode)
+void SaveLoad::FillGlobalObjectNodePart(const GlobalObject* gameObject, pugi::xml_node& objectNode)
 {
 	pugi::xml_node xCoord = objectNode.append_child("xCoord");
 	xCoord.text().set(to_string(gameObject->GetUpperLeft().Get_x()).c_str());
 	pugi::xml_node yCoord = objectNode.append_child("yCoord");
 	yCoord.text().set(to_string(gameObject->GetUpperLeft().Get_y()).c_str());
+	pugi::xml_node heightAdd = objectNode.append_child("heightAdd");
+	heightAdd.text().set(to_string(gameObject->GetHeightAddition()).c_str());
+	pugi::xml_node widthAdd = objectNode.append_child("widthAdd");
+	widthAdd.text().set(to_string(gameObject->GetWidthAddition()).c_str());
 }
-void SaveLoad::FillConstructionNodePart(Construction* gameObject, pugi::xml_node& objectNode)
+void SaveLoad::FillConstructionNodePart(const Construction* gameObject, pugi::xml_node& objectNode)
 {
 	pugi::xml_node overallVisitors = objectNode.append_child("overallVisitors");
 	overallVisitors.text().set(to_string(gameObject->allTimeVisited).c_str());
 	pugi::xml_node descriptorId = objectNode.append_child("descriptorId");
 	descriptorId.text().set(to_string(gameObject->GetDescriptor()->uniqueId).c_str());
 }
-void SaveLoad::FillBuildingNodePart(Construction* gameObject, pugi::xml_node& objectNode)
+void SaveLoad::FillBuildingNodePart(const Construction* gameObject, pugi::xml_node& objectNode)
 {
 	pugi::xml_node entranceHeightAdd = objectNode.append_child("entranceHeightAdd");
 	entranceHeightAdd.text().set(to_string(gameObject->GetEntranceHeightAdd()).c_str());
@@ -55,7 +62,7 @@ void SaveLoad::FillBuildingNodePart(Construction* gameObject, pugi::xml_node& ob
 	pugi::xml_node visitorsInside = objectNode.append_child("visitorsInside");
 	visitorsInside.text().set(to_string(gameObject->visitorsCounter).c_str());
 }
-void SaveLoad::FillVisitorNodePart(Visitor* person, pugi::xml_node& objectNode)
+void SaveLoad::FillVisitorNodePart(const Visitor* person, pugi::xml_node& objectNode)
 {
 	pugi::xml_node insideBuilding = objectNode.append_child("insideBuilding");
 	insideBuilding.text().set(to_string(person->buildingVisiting).c_str());
@@ -98,10 +105,12 @@ void SaveLoad::AddVisitorNode(Visitor* visitorForSave, pugi::xml_node& visitors)
 	this->FillVisitorNodePart(visitorForSave, visitor);
 }
 //
-void SaveLoad::LoadGame(AllObjects* allObjects_ptr, Menu* menu_ptr)
+void SaveLoad::LoadGame(AllObjects* allObjects_ptr, Menu* menu_ptr, PlayingField* field_ptr)
 {
 	pugi::xml_document loadedGameCondition = XMLDownloader::GetDownloader()->CreateDocument("Game_Save.xml");
 	pugi::xml_node gameCondition = loadedGameCondition.child("gameCondition");
+	pugi::xml_node playingField = gameCondition.child("playingField");
+	field_ptr->SetUpperLeft(this->DownloadUpperLeft(playingField));
 	pugi::xml_node gameStats = gameCondition.child("gameStats");
 	this->LoadGameStatsData(menu_ptr->GetGameStats(), gameStats);
 	pugi::xml_node ingameObjects = gameCondition.child("ingameObjects");
@@ -153,6 +162,8 @@ void SaveLoad::LoadBuildingData(Menu* menu_ptr, AllObjects* allObjects_ptr, pugi
 		throw MyException("SaveLoad::LoadBuildingData(Menu* menu_ptr, AllObjects* allObjects_ptr, pugi::xml_node objectNode) bad ID");
 	}
 	Construction* loadedBuilding = desiredBuildingManager->CreateConstruction(this->DownloadUpperLeft(objectNode), menu_ptr->GetDrawPointer(), allObjects_ptr);
+	loadedBuilding->SetHeightAddition(stoi(objectNode.child_value("heightAdd")));
+	loadedBuilding->SetWidthAddition(stoi(objectNode.child_value("widthAdd")));
 	loadedBuilding->allTimeVisited = stoi(objectNode.child_value("overallVisitors"));
 	loadedBuilding->SetEntranceHeightAdd(stoi(objectNode.child_value("entranceHeightAdd")));
 	loadedBuilding->SetEntranceWidthAdd(stoi(objectNode.child_value("entranceWidthAdd")));
@@ -185,6 +196,8 @@ void SaveLoad::LoadRoadData(Menu* menu_ptr, AllObjects* allObjects_ptr, pugi::xm
 	{
 		throw MyException("SaveLoad::LoadRoadData(Menu* menu_ptr, AllObjects* allObjects_ptr, pugi::xml_node objectNode) bad atrribute name");
 	}
+	loadedRoad->SetHeightAddition(stoi(objectNode.child_value("heightAdd")));
+	loadedRoad->SetWidthAddition(stoi(objectNode.child_value("widthAdd")));
 	loadedRoad->allTimeVisited = stoi(objectNode.child_value("overallVisitors"));
 }
 void SaveLoad::LoadVisitorData(Menu* menu_ptr, AllObjects* allObjects_ptr, pugi::xml_node objectNode)

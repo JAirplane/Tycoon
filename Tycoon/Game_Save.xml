@@ -1,14 +1,22 @@
 <?xml version="1.0"?>
 <gameCondition>
+	<playingField>
+		<xCoord>-5</xCoord>
+		<yCoord>-30</yCoord>
+		<heightAdd>62</heightAdd>
+		<widthAdd>129</widthAdd>
+	</playingField>
 	<gameStats>
-		<moneyAmount>1156</moneyAmount>
+		<moneyAmount>470</moneyAmount>
 	</gameStats>
 	<ingameObjects>
 		<buildings>
 			<building>
-				<xCoord>34</xCoord>
+				<xCoord>59</xCoord>
 				<yCoord>36</yCoord>
-				<overallVisitors>0</overallVisitors>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>2</overallVisitors>
 				<descriptorId>10</descriptorId>
 				<entranceHeightAdd>0</entranceHeightAdd>
 				<entranceWidthAdd>0</entranceWidthAdd>
@@ -17,276 +25,803 @@
 				<visitorsInside>0</visitorsInside>
 			</building>
 			<building>
-				<xCoord>35</xCoord>
+				<xCoord>60</xCoord>
 				<yCoord>36</yCoord>
-				<overallVisitors>0</overallVisitors>
-				<descriptorId>10</descriptorId>
-				<entranceHeightAdd>0</entranceHeightAdd>
-				<entranceWidthAdd>0</entranceWidthAdd>
-				<exitDirection>up</exitDirection>
-				<overallProfit>0</overallProfit>
-				<visitorsInside>0</visitorsInside>
-			</building>
-			<building>
-				<xCoord>37</xCoord>
-				<yCoord>19</yCoord>
-				<overallVisitors>0</overallVisitors>
-				<descriptorId>1</descriptorId>
-				<entranceHeightAdd>1</entranceHeightAdd>
-				<entranceWidthAdd>0</entranceWidthAdd>
-				<exitDirection>down</exitDirection>
-				<overallProfit>0</overallProfit>
-				<visitorsInside>0</visitorsInside>
-			</building>
-			<building>
-				<xCoord>32</xCoord>
-				<yCoord>22</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
 				<overallVisitors>3</overallVisitors>
-				<descriptorId>4</descriptorId>
-				<entranceHeightAdd>1</entranceHeightAdd>
-				<entranceWidthAdd>2</entranceWidthAdd>
-				<exitDirection>right</exitDirection>
-				<overallProfit>36</overallProfit>
-				<visitorsInside>3</visitorsInside>
+				<descriptorId>10</descriptorId>
+				<entranceHeightAdd>0</entranceHeightAdd>
+				<entranceWidthAdd>0</entranceWidthAdd>
+				<exitDirection>up</exitDirection>
+				<overallProfit>0</overallProfit>
+				<visitorsInside>0</visitorsInside>
 			</building>
 			<building>
-				<xCoord>36</xCoord>
-				<yCoord>26</yCoord>
-				<overallVisitors>0</overallVisitors>
+				<xCoord>70</xCoord>
+				<yCoord>24</yCoord>
+				<heightAdd>2</heightAdd>
+				<widthAdd>2</widthAdd>
+				<overallVisitors>29</overallVisitors>
+				<descriptorId>4</descriptorId>
+				<entranceHeightAdd>2</entranceHeightAdd>
+				<entranceWidthAdd>1</entranceWidthAdd>
+				<exitDirection>down</exitDirection>
+				<overallProfit>348</overallProfit>
+				<visitorsInside>2</visitorsInside>
+			</building>
+			<building>
+				<xCoord>66</xCoord>
+				<yCoord>24</yCoord>
+				<heightAdd>2</heightAdd>
+				<widthAdd>2</widthAdd>
+				<overallVisitors>29</overallVisitors>
 				<descriptorId>5</descriptorId>
-				<entranceHeightAdd>1</entranceHeightAdd>
+				<entranceHeightAdd>2</entranceHeightAdd>
+				<entranceWidthAdd>1</entranceWidthAdd>
+				<exitDirection>down</exitDirection>
+				<overallProfit>290</overallProfit>
+				<visitorsInside>2</visitorsInside>
+			</building>
+			<building>
+				<xCoord>61</xCoord>
+				<yCoord>28</yCoord>
+				<heightAdd>1</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>7</overallVisitors>
+				<descriptorId>2</descriptorId>
+				<entranceHeightAdd>0</entranceHeightAdd>
 				<entranceWidthAdd>0</entranceWidthAdd>
 				<exitDirection>left</exitDirection>
-				<overallProfit>0</overallProfit>
+				<overallProfit>21</overallProfit>
 				<visitorsInside>0</visitorsInside>
+			</building>
+			<building>
+				<xCoord>57</xCoord>
+				<yCoord>28</yCoord>
+				<heightAdd>1</heightAdd>
+				<widthAdd>1</widthAdd>
+				<overallVisitors>5</overallVisitors>
+				<descriptorId>1</descriptorId>
+				<entranceHeightAdd>1</entranceHeightAdd>
+				<entranceWidthAdd>1</entranceWidthAdd>
+				<exitDirection>right</exitDirection>
+				<overallProfit>25</overallProfit>
+				<visitorsInside>1</visitorsInside>
+			</building>
+			<building>
+				<xCoord>47</xCoord>
+				<yCoord>24</yCoord>
+				<heightAdd>2</heightAdd>
+				<widthAdd>2</widthAdd>
+				<overallVisitors>28</overallVisitors>
+				<descriptorId>4</descriptorId>
+				<entranceHeightAdd>2</entranceHeightAdd>
+				<entranceWidthAdd>1</entranceWidthAdd>
+				<exitDirection>down</exitDirection>
+				<overallProfit>336</overallProfit>
+				<visitorsInside>1</visitorsInside>
+			</building>
+			<building>
+				<xCoord>60</xCoord>
+				<yCoord>18</yCoord>
+				<heightAdd>3</heightAdd>
+				<widthAdd>4</widthAdd>
+				<overallVisitors>10</overallVisitors>
+				<descriptorId>8</descriptorId>
+				<entranceHeightAdd>3</entranceHeightAdd>
+				<entranceWidthAdd>2</entranceWidthAdd>
+				<exitDirection>down</exitDirection>
+				<overallProfit>100</overallProfit>
+				<visitorsInside>1</visitorsInside>
 			</building>
 		</buildings>
 		<roads>
 			<road name="visibleRoad">
-				<xCoord>34</xCoord>
+				<xCoord>59</xCoord>
 				<yCoord>35</yCoord>
-				<overallVisitors>3</overallVisitors>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>13</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="visibleRoad">
-				<xCoord>35</xCoord>
+				<xCoord>60</xCoord>
 				<yCoord>35</yCoord>
-				<overallVisitors>1</overallVisitors>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>16</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="visibleRoad">
-				<xCoord>34</xCoord>
+				<xCoord>59</xCoord>
 				<yCoord>34</yCoord>
-				<overallVisitors>3</overallVisitors>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>13</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="visibleRoad">
-				<xCoord>35</xCoord>
+				<xCoord>60</xCoord>
 				<yCoord>34</yCoord>
-				<overallVisitors>1</overallVisitors>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>13</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="visibleRoad">
-				<xCoord>34</xCoord>
+				<xCoord>59</xCoord>
 				<yCoord>33</yCoord>
-				<overallVisitors>3</overallVisitors>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>13</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="visibleRoad">
-				<xCoord>35</xCoord>
+				<xCoord>60</xCoord>
 				<yCoord>33</yCoord>
-				<overallVisitors>1</overallVisitors>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>13</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="visibleRoad">
-				<xCoord>34</xCoord>
+				<xCoord>59</xCoord>
 				<yCoord>32</yCoord>
-				<overallVisitors>3</overallVisitors>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>13</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="visibleRoad">
-				<xCoord>35</xCoord>
+				<xCoord>60</xCoord>
 				<yCoord>32</yCoord>
-				<overallVisitors>1</overallVisitors>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>13</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="unbreakableRoad">
-				<xCoord>34</xCoord>
+				<xCoord>59</xCoord>
 				<yCoord>31</yCoord>
-				<overallVisitors>3</overallVisitors>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>13</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="unbreakableRoad">
-				<xCoord>35</xCoord>
+				<xCoord>60</xCoord>
 				<yCoord>31</yCoord>
-				<overallVisitors>4</overallVisitors>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>13</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="road">
-				<xCoord>35</xCoord>
+				<xCoord>59</xCoord>
 				<yCoord>30</yCoord>
-				<overallVisitors>4</overallVisitors>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>12</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="road">
-				<xCoord>35</xCoord>
+				<xCoord>60</xCoord>
+				<yCoord>30</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>13</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>59</xCoord>
 				<yCoord>29</yCoord>
-				<overallVisitors>3</overallVisitors>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>21</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="road">
-				<xCoord>35</xCoord>
+				<xCoord>60</xCoord>
+				<yCoord>29</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>13</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>59</xCoord>
 				<yCoord>28</yCoord>
-				<overallVisitors>3</overallVisitors>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>28</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="road">
-				<xCoord>35</xCoord>
+				<xCoord>60</xCoord>
+				<yCoord>28</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>27</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>60</xCoord>
 				<yCoord>27</yCoord>
-				<overallVisitors>3</overallVisitors>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>77</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="road">
-				<xCoord>35</xCoord>
-				<yCoord>26</yCoord>
-				<overallVisitors>3</overallVisitors>
+				<xCoord>59</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>79</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="road">
-				<xCoord>35</xCoord>
-				<yCoord>25</yCoord>
-				<overallVisitors>3</overallVisitors>
+				<xCoord>61</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>76</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="road">
-				<xCoord>35</xCoord>
-				<yCoord>24</yCoord>
-				<overallVisitors>3</overallVisitors>
+				<xCoord>62</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>75</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="road">
-				<xCoord>35</xCoord>
-				<yCoord>23</yCoord>
-				<overallVisitors>3</overallVisitors>
+				<xCoord>63</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>75</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="road">
-				<xCoord>35</xCoord>
-				<yCoord>22</yCoord>
-				<overallVisitors>0</overallVisitors>
+				<xCoord>64</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>75</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="road">
-				<xCoord>35</xCoord>
-				<yCoord>21</yCoord>
-				<overallVisitors>0</overallVisitors>
+				<xCoord>65</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>75</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="road">
-				<xCoord>36</xCoord>
-				<yCoord>21</yCoord>
-				<overallVisitors>0</overallVisitors>
+				<xCoord>66</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>75</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="road">
-				<xCoord>37</xCoord>
-				<yCoord>21</yCoord>
-				<overallVisitors>0</overallVisitors>
+				<xCoord>67</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>90</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="road">
-				<xCoord>38</xCoord>
-				<yCoord>21</yCoord>
-				<overallVisitors>0</overallVisitors>
+				<xCoord>68</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>49</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="road">
-				<xCoord>39</xCoord>
-				<yCoord>21</yCoord>
-				<overallVisitors>0</overallVisitors>
+				<xCoord>69</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>49</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="road">
-				<xCoord>40</xCoord>
-				<yCoord>21</yCoord>
-				<overallVisitors>0</overallVisitors>
+				<xCoord>70</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>49</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="road">
-				<xCoord>41</xCoord>
-				<yCoord>21</yCoord>
-				<overallVisitors>0</overallVisitors>
+				<xCoord>71</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>55</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="road">
-				<xCoord>42</xCoord>
-				<yCoord>21</yCoord>
-				<overallVisitors>0</overallVisitors>
+				<xCoord>72</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>7</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="road">
-				<xCoord>43</xCoord>
-				<yCoord>21</yCoord>
-				<overallVisitors>0</overallVisitors>
-				<descriptorId>11</descriptorId>
-			</road>
-			<road name="road">
-				<xCoord>44</xCoord>
-				<yCoord>21</yCoord>
-				<overallVisitors>0</overallVisitors>
+				<xCoord>73</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>7</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="road">
 				<xCoord>45</xCoord>
-				<yCoord>21</yCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
 				<overallVisitors>0</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="road">
 				<xCoord>46</xCoord>
-				<yCoord>21</yCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
 				<overallVisitors>0</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 			<road name="road">
 				<xCoord>47</xCoord>
-				<yCoord>21</yCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
 				<overallVisitors>0</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>48</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>56</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>49</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>56</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>50</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>56</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>51</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>57</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>52</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>57</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>53</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>57</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>54</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>57</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>55</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>58</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>56</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>58</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>57</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>58</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>58</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>59</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>59</xCoord>
+				<yCoord>26</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>13</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>59</xCoord>
+				<yCoord>25</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>12</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>59</xCoord>
+				<yCoord>24</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>12</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>59</xCoord>
+				<yCoord>23</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>12</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>59</xCoord>
+				<yCoord>22</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>13</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>60</xCoord>
+				<yCoord>22</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>13</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>61</xCoord>
+				<yCoord>22</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>13</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>62</xCoord>
+				<yCoord>22</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>19</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>63</xCoord>
+				<yCoord>22</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>6</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>64</xCoord>
+				<yCoord>22</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>6</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>65</xCoord>
+				<yCoord>22</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>6</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>66</xCoord>
+				<yCoord>22</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>6</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>67</xCoord>
+				<yCoord>22</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>6</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>68</xCoord>
+				<yCoord>22</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>6</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>69</xCoord>
+				<yCoord>22</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>6</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>70</xCoord>
+				<yCoord>22</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>6</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>71</xCoord>
+				<yCoord>22</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>6</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>72</xCoord>
+				<yCoord>22</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>7</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>73</xCoord>
+				<yCoord>22</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>7</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>73</xCoord>
+				<yCoord>23</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>7</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>73</xCoord>
+				<yCoord>24</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>7</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>73</xCoord>
+				<yCoord>25</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>7</overallVisitors>
+				<descriptorId>11</descriptorId>
+			</road>
+			<road name="road">
+				<xCoord>73</xCoord>
+				<yCoord>26</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<overallVisitors>7</overallVisitors>
 				<descriptorId>11</descriptorId>
 			</road>
 		</roads>
 		<visitors>
 			<visitor>
-				<xCoord>32</xCoord>
-				<yCoord>22</yCoord>
-				<insideBuilding>6</insideBuilding>
-				<foodCapacity>74</foodCapacity>
-				<toiletNeed>66</toiletNeed>
-				<moneyAmount>51</moneyAmount>
-			</visitor>
-			<visitor>
-				<xCoord>32</xCoord>
-				<yCoord>22</yCoord>
-				<insideBuilding>5</insideBuilding>
-				<foodCapacity>90</foodCapacity>
-				<toiletNeed>80</toiletNeed>
-				<moneyAmount>72</moneyAmount>
-			</visitor>
-			<visitor>
-				<xCoord>32</xCoord>
-				<yCoord>22</yCoord>
+				<xCoord>57</xCoord>
+				<yCoord>28</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
 				<insideBuilding>7</insideBuilding>
-				<foodCapacity>94</foodCapacity>
-				<toiletNeed>91</toiletNeed>
-				<moneyAmount>63</moneyAmount>
+				<foodCapacity>31</foodCapacity>
+				<toiletNeed>40</toiletNeed>
+				<moneyAmount>17</moneyAmount>
 			</visitor>
 			<visitor>
-				<xCoord>35</xCoord>
-				<yCoord>29</yCoord>
+				<xCoord>59</xCoord>
+				<yCoord>25</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
 				<insideBuilding>0</insideBuilding>
-				<foodCapacity>95</foodCapacity>
-				<toiletNeed>94</toiletNeed>
-				<moneyAmount>73</moneyAmount>
+				<foodCapacity>27</foodCapacity>
+				<toiletNeed>43</toiletNeed>
+				<moneyAmount>14</moneyAmount>
+			</visitor>
+			<visitor>
+				<xCoord>66</xCoord>
+				<yCoord>24</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<insideBuilding>10</insideBuilding>
+				<foodCapacity>31</foodCapacity>
+				<toiletNeed>33</toiletNeed>
+				<moneyAmount>18</moneyAmount>
+			</visitor>
+			<visitor>
+				<xCoord>49</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<insideBuilding>0</insideBuilding>
+				<foodCapacity>54</foodCapacity>
+				<toiletNeed>31</toiletNeed>
+				<moneyAmount>68</moneyAmount>
+			</visitor>
+			<visitor>
+				<xCoord>66</xCoord>
+				<yCoord>24</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<insideBuilding>9</insideBuilding>
+				<foodCapacity>74</foodCapacity>
+				<toiletNeed>46</toiletNeed>
+				<moneyAmount>66</moneyAmount>
+			</visitor>
+			<visitor>
+				<xCoord>71</xCoord>
+				<yCoord>22</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<insideBuilding>0</insideBuilding>
+				<foodCapacity>67</foodCapacity>
+				<toiletNeed>45</toiletNeed>
+				<moneyAmount>190</moneyAmount>
+			</visitor>
+			<visitor>
+				<xCoord>56</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<insideBuilding>0</insideBuilding>
+				<foodCapacity>69</foodCapacity>
+				<toiletNeed>49</toiletNeed>
+				<moneyAmount>176</moneyAmount>
+			</visitor>
+			<visitor>
+				<xCoord>47</xCoord>
+				<yCoord>24</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<insideBuilding>1</insideBuilding>
+				<foodCapacity>79</foodCapacity>
+				<toiletNeed>62</toiletNeed>
+				<moneyAmount>138</moneyAmount>
+			</visitor>
+			<visitor>
+				<xCoord>70</xCoord>
+				<yCoord>24</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<insideBuilding>5</insideBuilding>
+				<foodCapacity>62</foodCapacity>
+				<toiletNeed>45</toiletNeed>
+				<moneyAmount>176</moneyAmount>
+			</visitor>
+			<visitor>
+				<xCoord>50</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<insideBuilding>0</insideBuilding>
+				<foodCapacity>76</foodCapacity>
+				<toiletNeed>59</toiletNeed>
+				<moneyAmount>188</moneyAmount>
+			</visitor>
+			<visitor>
+				<xCoord>59</xCoord>
+				<yCoord>23</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<insideBuilding>0</insideBuilding>
+				<foodCapacity>77</foodCapacity>
+				<toiletNeed>69</toiletNeed>
+				<moneyAmount>151</moneyAmount>
+			</visitor>
+			<visitor>
+				<xCoord>70</xCoord>
+				<yCoord>24</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<insideBuilding>2</insideBuilding>
+				<foodCapacity>76</foodCapacity>
+				<toiletNeed>69</toiletNeed>
+				<moneyAmount>162</moneyAmount>
+			</visitor>
+			<visitor>
+				<xCoord>60</xCoord>
+				<yCoord>18</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<insideBuilding>22</insideBuilding>
+				<foodCapacity>79</foodCapacity>
+				<toiletNeed>68</toiletNeed>
+				<moneyAmount>212</moneyAmount>
+			</visitor>
+			<visitor>
+				<xCoord>71</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<insideBuilding>0</insideBuilding>
+				<foodCapacity>86</foodCapacity>
+				<toiletNeed>66</toiletNeed>
+				<moneyAmount>116</moneyAmount>
+			</visitor>
+			<visitor>
+				<xCoord>71</xCoord>
+				<yCoord>27</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<insideBuilding>0</insideBuilding>
+				<foodCapacity>84</foodCapacity>
+				<toiletNeed>86</toiletNeed>
+				<moneyAmount>134</moneyAmount>
+			</visitor>
+			<visitor>
+				<xCoord>59</xCoord>
+				<yCoord>30</yCoord>
+				<heightAdd>0</heightAdd>
+				<widthAdd>0</widthAdd>
+				<insideBuilding>0</insideBuilding>
+				<foodCapacity>98</foodCapacity>
+				<toiletNeed>95</toiletNeed>
+				<moneyAmount>168</moneyAmount>
 			</visitor>
 		</visitors>
 	</ingameObjects>

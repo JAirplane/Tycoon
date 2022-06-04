@@ -226,8 +226,11 @@ void GameManagement::MainMenuInteraction()
 			case 2: {this->NewGameObjectsCreation(); return; }
 			case 3: 
 				{
-					saverAndLoader_ptr->LoadGame(allObjects_ptr, menu_ptr);
+					saverAndLoader_ptr->LoadGame(allObjects_ptr, menu_ptr, field_ptr);
 					allObjects_ptr->CheckAllConnections();
+					menu_ptr->ParkLevelCheck(allObjects_ptr);
+					menu_ptr->GetGameStats()->NumberOfVisitors = allObjects_ptr->GetAllVisitors().size();
+					allObjects_ptr->SetVisitorsDestinations(); //necessary to restore visited building if visitor already inside of it
 					return;
 				}
 			}
@@ -370,7 +373,6 @@ void GameManagement::VisitorCreationCycle(chrono::milliseconds& lastLaunch)
 		return;
 	}
 	menu_ptr->VisitorAddition(field_ptr, camera_ptr, allObjects_ptr);
-	menu_ptr->UpdateStatsDisplay();
 }
 void GameManagement::VisitorStepCycle(chrono::milliseconds& lastLaunch)
 {
@@ -378,7 +380,6 @@ void GameManagement::VisitorStepCycle(chrono::milliseconds& lastLaunch)
 	int lowestEntertainmentPrice = menu_ptr->GetLowestEntertainmentVisitPrice();
 	vector<Visitor*> forDeleting = allObjects_ptr->AllVisitorsStep(camera_ptr, field_ptr, menu_ptr->GetGameStats(), lowestEntertainmentPrice);
 	allObjects_ptr->DeleteVisitors(forDeleting, menu_ptr->GetGameStats());
-	menu_ptr->UpdateStatsDisplay();
 	infoPanel_ptr->UpdateConstructionInfo();
 }
 void GameManagement::VisitorStatusReductionCycle(chrono::milliseconds& lastLaunch)
@@ -404,7 +405,7 @@ void GameManagement::GameProcess()
 	chrono::milliseconds visitorsStepLastLaunch = chrono::milliseconds(0);
 	chrono::milliseconds visitorsStatusReductionDelay = chrono::milliseconds(2000);
 	chrono::milliseconds visitorsStatusReductionLastLaunch = chrono::milliseconds(0);
-	chrono::milliseconds payDailyExpencesDelay = chrono::milliseconds(40000);
+	chrono::milliseconds payDailyExpencesDelay = chrono::milliseconds(60000);
 	chrono::milliseconds payDailyExpencesLastLaunch = chrono::milliseconds(0);
 	chrono::milliseconds allCycleLastEnding = chrono::milliseconds(17);
 	while (true)
@@ -432,6 +433,7 @@ void GameManagement::GameProcess()
 			{
 				PayDailyExpencesCycle(payDailyExpencesLastLaunch);
 			}
+			menu_ptr->UpdateStatsDisplay();
 		}
 		catch (MyException& somethingOccured)
 		{
@@ -834,7 +836,8 @@ void GameManagement::EnterKey_InfoPanel()
 			Construction* chosen_ptr = infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetChosenConstruction();
 			if (chosen_ptr != nullptr)
 			{
-				if (chosen_ptr->IsBreakable())
+				Visitor* visitorOnConstruction = FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(allObjects_ptr->GetAllVisitors(), chosen_ptr->GetUpperLeft());
+				if (chosen_ptr->IsBreakable() && (visitorOnConstruction == nullptr || visitorOnConstruction->buildingVisiting != 0))
 				{
 					function<bool(Construction*)> IsEqual = [chosen_ptr](Construction* element)
 					{
@@ -865,7 +868,13 @@ void GameManagement::EnterKey_InfoPanel()
 	{
 		if (cursor_ptr->GetCursorConsoleLocation().Get_x() == infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->GetHalfXAxis())
 		{
-			saverAndLoader_ptr->SaveGame(menu_ptr->GetGameStats(), allObjects_ptr->GetAllBuildings(), allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllVisitors());
+			if (menu_ptr->GetCurrentSide() == MenuStatus::LEFT)
+			{
+				allObjects_ptr->ShiftBuildings(Direction::Left, menu_ptr->GetWidthAddition());
+				allObjects_ptr->ShiftRoads(Direction::Left, menu_ptr->GetWidthAddition());
+				allObjects_ptr->ShiftVisitors(Direction::Left, menu_ptr->GetWidthAddition());
+			}
+			saverAndLoader_ptr->SaveGame(menu_ptr->GetGameStats(), field_ptr, allObjects_ptr->GetAllBuildings(), allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllVisitors());
 			exit(0);
 		}
 		else
@@ -920,7 +929,8 @@ void GameManagement::EscKey_Camera()
 {
 	if (allObjects_ptr->GetPreliminaryElement() == nullptr && infoPanel_ptr->GetMessagesScreen()->GetConstructionInfoScreen()->GetChosenConstruction() == nullptr)
 	{
-		UserMessageNotify("No construction chosen");
+		draw_ptr->ErasePixel(cursor_ptr->GetCursorConsoleLocation().Get_x(), cursor_ptr->GetCursorConsoleLocation().Get_y());
+		infoPanel_ptr->SwitchContent(InfoPanelContentType::SaveAndExit);
 		return;
 	}
 	ErasePreliminaryElementAndMenuRedraw();
@@ -1025,9 +1035,9 @@ void GameManagement::Arrows_Menu(Direction arrowDir)
 	IconsPosition upperOrLower = IconsPosition::NONE;
 	switch (arrowDir)
 	{
-	case Direction::Up: {upperOrLower = IconsPosition::UPPER; break; }
-	case Direction::Down: {upperOrLower = IconsPosition::LOWER; break; }
-	default: {throw MyException("GameManagement::Arrows_Menu() incorrect direction."); }
+		case Direction::Up: {upperOrLower = IconsPosition::UPPER; break; }
+		case Direction::Down: {upperOrLower = IconsPosition::LOWER; break; }
+		default: {return; }
 	}
 	MenuElement* nearest = menu_ptr->MenuNavigation(menu_ptr->GetMenuElement(cursor_ptr->GetCursorConsoleLocation().Get_y()), upperOrLower);
 	if (nearest != nullptr)

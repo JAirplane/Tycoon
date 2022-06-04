@@ -69,6 +69,7 @@ public:
 	void DisplayRoads(const Camera* camera_ptr, const PlayingField* field_ptr) const;
 	//
 	void CheckAllConnections();
+	void SetVisitorsDestinations(); //sets up visitors destinations after game load
 	//
 	void RedrawNeighbours(PointCoord centralPoint, const Camera* camera_ptr);
 	void RedrawNeighbours(const Construction* centralConstruction, const Camera* camera_ptr);

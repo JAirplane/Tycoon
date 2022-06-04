@@ -3,31 +3,31 @@
 	<level lvlNumber="0">
 		<maxBuildingsQuantity>7</maxBuildingsQuantity>
 		<maxVisitorsQuantity>8</maxVisitorsQuantity>
-		<visitorMoneyFormulaConstant>50</visitorMoneyFormulaConstant>
+		<visitorMoneyFormulaConstant>70</visitorMoneyFormulaConstant>
 	</level>
 	<level lvlNumber="1">
 		<maxBuildingsQuantity>12</maxBuildingsQuantity>
 		<maxVisitorsQuantity>16</maxVisitorsQuantity>
-		<visitorMoneyFormulaConstant>100</visitorMoneyFormulaConstant>
+		<visitorMoneyFormulaConstant>120</visitorMoneyFormulaConstant>
 	</level>
 	<level lvlNumber="2">
 		<maxBuildingsQuantity>17</maxBuildingsQuantity>
 		<maxVisitorsQuantity>24</maxVisitorsQuantity>
-		<visitorMoneyFormulaConstant>150</visitorMoneyFormulaConstant>
+		<visitorMoneyFormulaConstant>170</visitorMoneyFormulaConstant>
 	</level>
 	<level lvlNumber="3">
 		<maxBuildingsQuantity>22</maxBuildingsQuantity>
 		<maxVisitorsQuantity>32</maxVisitorsQuantity>
-		<visitorMoneyFormulaConstant>200</visitorMoneyFormulaConstant>
+		<visitorMoneyFormulaConstant>240</visitorMoneyFormulaConstant>
 	</level>
 	<level lvlNumber="4">
 		<maxBuildingsQuantity>27</maxBuildingsQuantity>
 		<maxVisitorsQuantity>40</maxVisitorsQuantity>
-		<visitorMoneyFormulaConstant>250</visitorMoneyFormulaConstant>
+		<visitorMoneyFormulaConstant>310</visitorMoneyFormulaConstant>
 	</level>
 	<level lvlNumber="5">
 		<maxBuildingsQuantity>100</maxBuildingsQuantity>
 		<maxVisitorsQuantity>48</maxVisitorsQuantity>
-		<visitorMoneyFormulaConstant>300</visitorMoneyFormulaConstant>
+		<visitorMoneyFormulaConstant>380</visitorMoneyFormulaConstant>
 	</level>
 </parkLevels>

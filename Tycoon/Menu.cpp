@@ -267,7 +267,8 @@ void Menu::ShowStats() const
 }
 void Menu::UpdateStatsDisplay()
 {
-	if (gameStats_ptr->previousNumberOfVisitors != gameStats_ptr->NumberOfVisitors || gameStats_ptr->previousAmountOfMoney != gameStats_ptr->amountOfMoney)
+	if (gameStats_ptr->previousNumberOfVisitors != gameStats_ptr->NumberOfVisitors || gameStats_ptr->previousAmountOfMoney != gameStats_ptr->amountOfMoney &&
+		!this->GetHideMenuStatus())
 	{
 		gameStats_ptr->ClearContent();
 		gameStats_ptr->DrawContent();
@@ -518,7 +519,7 @@ Visitor* Menu::CreateVisitor(const PlayingField* field_ptr, const Camera* camera
 }
 void Menu::ParkLevelCheck(const AllObjects* container_ptr)
 {
-	int buildingsQuantity = static_cast<int>(container_ptr->GetAllBuildings().size());
+	size_t buildingsQuantity = container_ptr->GetAllBuildings().size();
 	if (buildingsQuantity <= ParkLevelConstants::GetConstantsPointer()->GetAllConstants().at(0)->maximumBuildings)
 	{
 		gameStats_ptr->parkLevel = 0;

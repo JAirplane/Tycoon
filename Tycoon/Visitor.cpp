@@ -153,7 +153,7 @@ Construction* Visitor::GetDestination() const
 {
 	return destination_ptr;
 }
-int Visitor::SetDestination(const list<Construction*>& allBuildings, const list<Construction*>& allRoads, vector<int> distances, int lowestEntertainmentPrice)
+int Visitor::ChooseBuildingForVisiting(const list<Construction*>& allBuildings, const list<Construction*>& allRoads, vector<int> distances, int lowestEntertainmentPrice)
 {
 	vector<Construction*> buildingsChoosenByProperty;
 	if (toiletNeed < 10 || foodCapacity < 10 || this->visitorCash < lowestEntertainmentPrice)
@@ -176,7 +176,7 @@ int Visitor::SetDestination(const list<Construction*>& allBuildings, const list<
 			Construction* chosen_ptr = buildingsChoosenByProperty.at(rand() % buildingsChoosenByProperty.size());
 			if (chosen_ptr == nullptr)
 			{
-				throw MyException("Visitor::SetDestination(const list<Construction*>& allBuildings, const list<Construction*>& allRoads, vector<int> distances, int lowestEntertainmentPrice) chosen buildings is nullptr");
+				throw MyException("Visitor::ChooseBuildingForVisiting(const list<Construction*>& allBuildings, const list<Construction*>& allRoads, vector<int> distances, int lowestEntertainmentPrice) chosen buildings is nullptr");
 			}
 			Construction* connectedToBuildingRoad = FindByPoint::GetElementSearcherByPoint()->GetElementByPoint(allRoads, chosen_ptr->GetPotentialConnectedRoadPoint());
 			int connectedToBuildingRoadIndex = ElementIndexSearcher::GetElementIndexSearcher()->GetElementIndex(allRoads, connectedToBuildingRoad);
@@ -214,12 +214,16 @@ pair<vector<int>, int> Visitor::ChooseDestination(const list<Construction*>& all
 		throw MyException("Visitor::ChooseDestination(const list<Construction*>& allBuildings, const list<Construction*>& allRoads, vector<vector<int> > weightMatrix, int lowestEntertainmentPrice) road is out of container");
 	}
 	vector<int> distances = DijkstraAlgorithm::dijkstra->GetDistances(weightMatrix, roadIndex);
-	int destinationRoadIndex = this->SetDestination(allBuildings, allRoads, distances, lowestEntertainmentPrice);
+	int destinationRoadIndex = this->ChooseBuildingForVisiting(allBuildings, allRoads, distances, lowestEntertainmentPrice);
 	return pair<vector<int>, int>(distances, destinationRoadIndex);
 }
 void Visitor::ClearDestination()
 {
 	destination_ptr = nullptr;
+}
+void Visitor::SetDestination(Construction* destination)
+{
+	destination_ptr = destination;
 }
 const vector<int> Visitor::GetPath() const
 {

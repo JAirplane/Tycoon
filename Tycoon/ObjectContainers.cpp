@@ -373,6 +373,17 @@ void AllObjects::CheckAllConnections()
 		road->Connected(roads, buildings, preliminaryConstruction_ptr);
 	}
 }
+void AllObjects::SetVisitorsDestinations()
+{
+	for (auto everyVisitor : visitors)
+	{
+		if (everyVisitor->buildingVisiting != 0)
+		{
+			Construction* currentVisitedBuilding = this->FindConstruction(everyVisitor->GetUpperLeft());
+			everyVisitor->SetDestination(currentVisitedBuilding);
+		}
+	}
+}
 //
 void AllObjects::RedrawNeighbours(PointCoord centralPoint, const Camera* camera_ptr)
 {
@@ -606,7 +617,7 @@ vector<Visitor*> AllObjects::AllVisitorsStep(const Camera* camera_ptr, const Pla
 			else
 			{
 				--visitor->buildingVisiting;
-				if (visitor->buildingVisiting == 0)
+				if (visitor->buildingVisiting <= 0)
 				{
 					bool noConnectedRoad = visitor->GoOutside(roads, visitors);
 					if (noConnectedRoad)

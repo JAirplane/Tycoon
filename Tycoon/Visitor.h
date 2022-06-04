@@ -64,12 +64,13 @@ public:
 	pair<Construction*, int> FindNearestDestination(const vector<Construction*>& allBuildings, const list<Construction*>& allRoads, vector<int> distances) const;
 	// returns destination building and destination road index
 	Construction* GetDestination() const;
-	int SetDestination(const list<Construction*>& allBuildings, const list<Construction*>& allRoads,
+	int ChooseBuildingForVisiting(const list<Construction*>& allBuildings, const list<Construction*>& allRoads,
 		vector<int> distances, int lowestEntertainmentPrice); // returns destination road index
 	pair<vector<int>, int> ChooseDestination(const list<Construction*>& allBuildings, const list<Construction*>& allRoads,
 		vector<vector<int> > weightMatrix, int lowestEntertainmentPrice);
 	// returns distances and destination road index
 	void ClearDestination();
+	void SetDestination(Construction* destination);
 	const vector<int> GetPath() const;
 	void SetPath(vector<int> newPath);
 	void ClearPath();
