@@ -192,33 +192,43 @@ void GameManagement::CreateMainMenu()
 	mainMenu_ptr->CreateButtons();
 }
 //
-int GameManagement::GetPressedKey() const
+void GameManagement::ClearInputBuffer()
 {
-	int key = _getch();
-	if (key == 0 || key == 224)
-	{
-		key = _getch();
-	}
-	return key;
+	FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
 }
-int GameManagement::MainMenuUserActions(int key)
+int GameManagement::MainMenuUserActions()
 {
-	switch (key)
+	int response = 0;
+	if (GetAsyncKeyState(VK_UP))
 	{
-	case 72: { Arrows_MainMenu(Direction::Up); return 0; }		//up arrow 
-	case 80: { Arrows_MainMenu(Direction::Down); return 0; }	//down arrow 
-	case 13: { return EnterKey_MainMenu(); }	//enter key
-	case 27: { exit(0); }	//esc in main menu is equal to effect of pressing exit button
-	default: {return 0; }
+		Arrows_MainMenu(Direction::Up);
 	}
+	else if (GetAsyncKeyState(VK_DOWN))
+	{
+		Arrows_MainMenu(Direction::Down);
+	}
+	else if (GetAsyncKeyState(VK_RETURN))
+	{
+		return EnterKey_MainMenu();
+	}
+	else if (GetAsyncKeyState(VK_ESCAPE))
+	{
+		exit(0);
+	}
+	else
+	{
+		// do nothing
+	}
+	ClearInputBuffer();
+	return response;
 }
 void GameManagement::MainMenuInteraction()
 {
 	while (true)
 	{
-		if (_kbhit() != 0)
+		if (_kbhit())
 		{
-			int response = this->MainMenuUserActions(this->GetPressedKey());
+			int response = this->MainMenuUserActions();
 			switch (response)
 			{
 			case 0: {continue; }
@@ -338,9 +348,9 @@ void GameManagement::ClearChosenElementAndInfoPanelRedraw()
 void GameManagement::UserActionsCycle(chrono::milliseconds& lastLaunch)
 {
 	lastLaunch = chrono::duration_cast<chrono::milliseconds>(chrono::system_clock::now().time_since_epoch());
-	if (_kbhit() != 0)
+	if (_kbhit())
 	{
-		UserActions(this->GetPressedKey());
+		UserActions();
 	}
 	Direction shiftDirection = camera_ptr->CursorIsOnCameraBorder();
 	bool shifting = camera_ptr->IsShift(field_ptr, shiftDirection);
@@ -553,39 +563,6 @@ void GameManagement::R_Key()
 	else
 	{
 		UserMessageNotify("'R' key do nothing here");
-	}
-}
-void GameManagement::Z_Key()
-{
-	int xCoord = menu_ptr->GetUpperLeft().Get_x() + menu_ptr->GetWidthAddition() + 1;
-	int yCoord = menu_ptr->GetUpperLeft().Get_y();
-	set_color(cBLACK);
-	set_cursor_pos(xCoord, yCoord);
-	for (yCoord; yCoord < menu_ptr->GetUpperLeft().Get_y() + 20; yCoord++)
-	{
-		for (xCoord; xCoord < menu_ptr->GetUpperLeft().Get_x() + menu_ptr->GetWidthAddition() + 1 + 20; xCoord++)
-		{
-			cout << " ";
-		}
-		xCoord = menu_ptr->GetUpperLeft().Get_x() + menu_ptr->GetWidthAddition() + 1;
-		set_cursor_pos(xCoord, yCoord);
-	}
-	vector<vector<int> > matrix = allObjects_ptr->GetGraph()->GetWeightMatrix();
-	xCoord = menu_ptr->GetUpperLeft().Get_x() + menu_ptr->GetWidthAddition() + 1;
-	yCoord = menu_ptr->GetUpperLeft().Get_y();
-	int xIndex = 0;
-	int yIndex = 0;
-	set_color(cWHITE);
-	set_cursor_pos(xCoord, yCoord);
-	for (yIndex; yIndex < matrix.size(); yIndex++)
-	{
-		for (xIndex; xIndex < matrix.size(); xIndex++)
-		{
-			cout << matrix.at(yIndex)[xIndex] << " ";
-		}
-		++yCoord;
-		set_cursor_pos(xCoord, yCoord);
-		xIndex = 0;
 	}
 }
 void GameManagement::IKey_Camera()
@@ -877,6 +854,10 @@ void GameManagement::EnterKey_InfoPanel()
 			saverAndLoader_ptr->SaveGame(menu_ptr->GetGameStats(), field_ptr, allObjects_ptr->GetAllBuildings(), allObjects_ptr->GetAllRoads(), allObjects_ptr->GetAllVisitors());
 			exit(0);
 		}
+		else if (cursor_ptr->GetCursorConsoleLocation().Get_x() == infoPanel_ptr->GetSaveAndExitScreen()->GetUnsavedExitButton()->GetHalfXAxis())
+		{
+			exit(0);
+		}
 		else
 		{
 			infoPanel_ptr->SwitchContent(InfoPanelContentType::MenuScreen);
@@ -1113,7 +1094,30 @@ void GameManagement::Arrows_InfoPanel(Direction arrowDir)
 			{
 				infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->RedrawBorder(infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->GetInitialCondition()->foregroundBorderColor,
 					infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->GetInitialCondition()->backgroundBorderColor);
-				infoPanel_ptr->GetSaveAndExitScreen()->GetCancelButton()->RedrawBorder(infoPanel_ptr->GetSaveAndExitScreen()->GetCancelButton()->GetInitialCondition()->activeButtonColor,
+				infoPanel_ptr->GetSaveAndExitScreen()->GetUnsavedExitButton()->RedrawBorder(
+					infoPanel_ptr->GetSaveAndExitScreen()->GetUnsavedExitButton()->GetInitialCondition()->activeButtonColor,
+					infoPanel_ptr->GetSaveAndExitScreen()->GetUnsavedExitButton()->GetInitialCondition()->backgroundBorderColor);
+				cursor_ptr->CursorMovement(PointCoord(infoPanel_ptr->GetSaveAndExitScreen()->GetUnsavedExitButton()->GetHalfXAxis(),
+					infoPanel_ptr->GetSaveAndExitScreen()->GetUnsavedExitButton()->GetUpperLeft().Get_y()));
+			}
+		}
+		else if (cursor_ptr->GetCursorConsoleLocation() == PointCoord(infoPanel_ptr->GetSaveAndExitScreen()->GetUnsavedExitButton()->GetHalfXAxis(),
+			infoPanel_ptr->GetSaveAndExitScreen()->GetUnsavedExitButton()->GetUpperLeft().Get_y()))
+		{
+			infoPanel_ptr->GetSaveAndExitScreen()->GetUnsavedExitButton()->RedrawBorder(
+				infoPanel_ptr->GetSaveAndExitScreen()->GetUnsavedExitButton()->GetInitialCondition()->foregroundBorderColor,
+				infoPanel_ptr->GetSaveAndExitScreen()->GetUnsavedExitButton()->GetInitialCondition()->backgroundBorderColor);
+			if (arrowDir == Direction::Left)
+			{
+				infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->RedrawBorder(infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->GetInitialCondition()->activeButtonColor,
+					infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->GetInitialCondition()->backgroundBorderColor);
+				cursor_ptr->CursorMovement(PointCoord(infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->GetHalfXAxis(),
+					infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->GetUpperLeft().Get_y()));
+			}
+			if (arrowDir == Direction::Right)
+			{
+				infoPanel_ptr->GetSaveAndExitScreen()->GetCancelButton()->RedrawBorder(
+					infoPanel_ptr->GetSaveAndExitScreen()->GetCancelButton()->GetInitialCondition()->activeButtonColor,
 					infoPanel_ptr->GetSaveAndExitScreen()->GetCancelButton()->GetInitialCondition()->backgroundBorderColor);
 				cursor_ptr->CursorMovement(PointCoord(infoPanel_ptr->GetSaveAndExitScreen()->GetCancelButton()->GetHalfXAxis(),
 					infoPanel_ptr->GetSaveAndExitScreen()->GetCancelButton()->GetUpperLeft().Get_y()));
@@ -1126,10 +1130,11 @@ void GameManagement::Arrows_InfoPanel(Direction arrowDir)
 			{
 				infoPanel_ptr->GetSaveAndExitScreen()->GetCancelButton()->RedrawBorder(infoPanel_ptr->GetSaveAndExitScreen()->GetCancelButton()->GetInitialCondition()->foregroundBorderColor,
 					infoPanel_ptr->GetSaveAndExitScreen()->GetCancelButton()->GetInitialCondition()->backgroundBorderColor);
-				infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->RedrawBorder(infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->GetInitialCondition()->activeButtonColor,
-					infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->GetInitialCondition()->backgroundBorderColor);
-				cursor_ptr->CursorMovement(PointCoord(infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->GetHalfXAxis(),
-					infoPanel_ptr->GetSaveAndExitScreen()->GetExitButton()->GetUpperLeft().Get_y()));
+				infoPanel_ptr->GetSaveAndExitScreen()->GetUnsavedExitButton()->RedrawBorder(
+					infoPanel_ptr->GetSaveAndExitScreen()->GetUnsavedExitButton()->GetInitialCondition()->activeButtonColor,
+					infoPanel_ptr->GetSaveAndExitScreen()->GetUnsavedExitButton()->GetInitialCondition()->backgroundBorderColor);
+				cursor_ptr->CursorMovement(PointCoord(infoPanel_ptr->GetSaveAndExitScreen()->GetUnsavedExitButton()->GetHalfXAxis(),
+					infoPanel_ptr->GetSaveAndExitScreen()->GetUnsavedExitButton()->GetUpperLeft().Get_y()));
 			}
 		}
 		else
@@ -1173,22 +1178,55 @@ void GameManagement::Arrows_MainMenu(Direction arrowDir)
 	default: {throw MyException("GameManagement::Arrows_MainMenu(Direction arrowDir) bad direction"); }
 	}
 }
-void GameManagement::UserActions(int key)
+void GameManagement::UserActions()
 {
-	switch (key)
+	if (GetAsyncKeyState(0x48))
 	{
-	case 104: { H_Key(); return; }	//'h' key hides or display Menu
-	case 115: { S_Key(); return; }	//'s' key changes placement of menu from right to left and vice versa
-	case 114: { R_Key(); return; }	//'r' key rotates preliminary building
-	case 105: { I_Key(); return; }	//'i' key used to navigate to the info panel and vice versa
-	case 75: { Arrows(Direction::Left); return; }	//left arrow 
-	case 72: { Arrows(Direction::Up); return; }		//up arrow 
-	case 77: { Arrows(Direction::Right); return; }	//right arrow 
-	case 80: { Arrows(Direction::Down); return; }	//down arrow 
-	case 9: { Tab_Key(); return; }		//tab key used to navigate between interface elements
-	case 13: { Enter_Key(); return; }	//enter key: usual enter key functional
-	case 27: { Esc_Key(); return; }	//esc cancel choices, usual functional as well
-	case 122: {Z_Key(); return; }
-	default: {UserMessageNotify("Unknown command"); return; } //TODO another exception
+		H_Key();	//'h' key hides or display Menu
 	}
+	else if (GetAsyncKeyState(0x53))
+	{
+		S_Key();	//'s' key changes placement of menu from right to left and vice versa
+	}
+	else if (GetAsyncKeyState(0x52)) //'r' key rotates preliminary building
+	{
+		R_Key();
+	}
+	else if (GetAsyncKeyState(0x49))
+	{
+		I_Key();	//'i' key used to navigate to the info panel and vice versa
+	}
+	else if (GetAsyncKeyState(VK_LEFT))
+	{
+		Arrows(Direction::Left);	//left arrow
+	}
+	else if (GetAsyncKeyState(VK_UP))
+	{
+		Arrows(Direction::Up);	//up arrow
+	}
+	else if (GetAsyncKeyState(VK_RIGHT))
+	{
+		Arrows(Direction::Right);	//right arrow
+	}
+	else if (GetAsyncKeyState(VK_DOWN))
+	{
+		Arrows(Direction::Down);	//down arrow
+	}
+	else if (GetAsyncKeyState(VK_TAB))
+	{
+		Tab_Key();	//tab key used to navigate between interface elements
+	}
+	else if (GetAsyncKeyState(VK_RETURN))
+	{
+		Enter_Key();	//enter key: usual enter key functional
+	}
+	else if (GetAsyncKeyState(VK_ESCAPE))
+	{
+		Esc_Key();	//esc cancels choices, usual functional as well
+	}
+	else
+	{
+		UserMessageNotify("Unknown command");
+	}
+	ClearInputBuffer();
 }

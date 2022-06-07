@@ -62,8 +62,8 @@ public:
 	virtual void CreateStartScreen();
 	virtual void CreateMainMenu();
 	//
-	int GetPressedKey() const;
-	int MainMenuUserActions(int key);
+	void ClearInputBuffer();
+	int MainMenuUserActions();
 	void MainMenuInteraction();
 	void InitialSplashScreenPlay();
 	void BeforeGameStartDrawing();
@@ -91,8 +91,6 @@ public:
 	void S_Key();
 	void R_Key();
 	//
-	void Z_Key(); //display matrix
-	//
 	void IKey_Camera();
 	void IKey_Menu();
 	void IKey_InfoPanel();
@@ -119,5 +117,5 @@ public:
 	void Arrows(Direction arrowDir);
 	void Arrows_MainMenu(Direction arrowDir);
 	//
-	void UserActions(int key);
+	void UserActions();
 };

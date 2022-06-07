@@ -1,5 +1,5 @@
 #include "MenuScreen_InfoPanel.h"
-Button* MenuScreen::CreateButton(PointCoord upperLeft, string buttonTitle)
+Button* MenuScreen::CreateButton(PointCoord upperLeft, string buttonTitle) const
 {
 	Button* created = RectangleCreator::GetRectangleFactory()->CreateButton(upperLeft,
 		DTOCollector::GetCollector()->GetFigureConstants(buttonTitle), this->GetDrawPointer(), this->GetCursor());

@@ -31,6 +31,7 @@ void DTOCollector::DownloadAllData()
 	figureDTOCollection.insert(make_pair("infoPanelMenuScreenMessagesAndInfoButton", XMLDownloader::GetDownloader()->DownloadFigureConstants("infoPanelMenuScreenMessagesAndInfoButton")));
 	figureDTOCollection.insert(make_pair("infoPanelMenuScreenSaveAndExitButton", XMLDownloader::GetDownloader()->DownloadFigureConstants("infoPanelMenuScreenSaveAndExitButton")));
 	figureDTOCollection.insert(make_pair("infoPanelSaveAndExitExitButton", XMLDownloader::GetDownloader()->DownloadFigureConstants("infoPanelSaveAndExitExitButton")));
+	figureDTOCollection.insert(make_pair("infoPanelSaveAndExitUnsavedExitButton", XMLDownloader::GetDownloader()->DownloadFigureConstants("infoPanelSaveAndExitUnsavedExitButton")));
 	figureDTOCollection.insert(make_pair("infoPanelSaveAndExitCancelButton", XMLDownloader::GetDownloader()->DownloadFigureConstants("infoPanelSaveAndExitCancelButton")));
 	figureDTOCollection.insert(make_pair("constructionInfoScreenDeconstructButton", XMLDownloader::GetDownloader()->DownloadFigureConstants("constructionInfoScreenDeconstructButton")));
 	figureDTOCollection.insert(make_pair("newGameButton", XMLDownloader::GetDownloader()->DownloadFigureConstants("newGameButton")));

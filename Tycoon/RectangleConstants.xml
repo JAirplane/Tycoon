@@ -328,6 +328,23 @@ List of text versions of color to convert to color type:
 		<activeColor>green</activeColor>
 		<pressedButtonColor>red</pressedButtonColor>
 	</button>
+	<button name="infoPanelSaveAndExitUnsavedExitButton">
+		<heightAdd>-1</heightAdd>
+		<widthAdd>30</widthAdd>
+		<borderForegroundColor>yellow</borderForegroundColor>
+		<borderBackgroundColor>black</borderBackgroundColor>
+		<letterColor>black</letterColor>
+		<shadingColor>dark cyan</shadingColor>
+		<verticalBorderSymbol>#</verticalBorderSymbol>
+		<horizontalBorderSymbol>#</horizontalBorderSymbol>
+		<upperLeftBorderSymbol>#</upperLeftBorderSymbol>
+		<upperRightBorderSymbol>#</upperRightBorderSymbol>
+		<bottomLeftBorderSymbol>#</bottomLeftBorderSymbol>
+		<bottomRightBorderSymbol>#</bottomRightBorderSymbol>
+		<title>Unsaved Exit</title>
+		<activeColor>green</activeColor>
+		<pressedButtonColor>red</pressedButtonColor>
+	</button>
 	<button name="infoPanelSaveAndExitCancelButton">
 		<heightAdd>-1</heightAdd>
 		<widthAdd>30</widthAdd>

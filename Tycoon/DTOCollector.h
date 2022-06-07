@@ -44,6 +44,7 @@ public:
 			infoPanelMenuScreenMessagesAndInfoButton
 			infoPanelMenuScreenSaveAndExitButton
 			infoPanelSaveAndExitExitButton
+			infoPanelSaveAndExitUnsavedExitButton
 			infoPanelSaveAndExitCancelButton
 			constructionInfoScreenDeconstructButton
 			newGameButton

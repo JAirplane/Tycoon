@@ -147,6 +147,7 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="Construction.h" />
     <ClInclude Include="DTOCollector.h" />
+    <ClInclude Include="RectangleWithButtons.h" />
     <ClInclude Include="SaveAndExit_InfoPanel.h" />
     <ClInclude Include="SaveLoad.h" />
     <ClInclude Include="XMLDownloader.h" />

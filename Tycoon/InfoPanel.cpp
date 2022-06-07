@@ -194,6 +194,8 @@ void InfoPanel::ShowSaveAndExitScreen()
 	leaveOrStay_ptr->DrawBorder();
 	leaveOrStay_ptr->GetExitButton()->GetBorder()->SetBorderForegroundColor(leaveOrStay_ptr->GetExitButton()->GetInitialCondition()->activeButtonColor);
 	leaveOrStay_ptr->GetExitButton()->Display();
+	leaveOrStay_ptr->GetUnsavedExitButton()->GetBorder()->SetBorderForegroundColor(leaveOrStay_ptr->GetExitButton()->GetInitialCondition()->foregroundBorderColor);
+	leaveOrStay_ptr->GetUnsavedExitButton()->Display();
 	leaveOrStay_ptr->GetCancelButton()->GetBorder()->SetBorderForegroundColor(leaveOrStay_ptr->GetCancelButton()->GetInitialCondition()->foregroundBorderColor);
 	leaveOrStay_ptr->GetCancelButton()->Display();
 	DisplayInfoPanelMessage("Press 'i' to return to the camera");
